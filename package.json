@@ -1,0 +1,19 @@
+{
+  "name": "sensorium",
+  "version": "1.0.0",
+  "description": "makeblock mainboards protocol api",
+  "main": "app.js",
+  "directories": {
+    "doc": "docs",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://git.oschina.net/callblueday/msnail.git"
+  },
+  "author": "",
+  "license": "ISC"
+}
