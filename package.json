@@ -15,5 +15,7 @@
     "url": "https://git.oschina.net/callblueday/msnail.git"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+  }
 }
