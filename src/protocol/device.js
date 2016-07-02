@@ -1,5 +1,6 @@
 /**
  * @fileOverview all electronic module‘s type.
+ * 需要统下列名称，保证唯一性
  */
 
 var device = {

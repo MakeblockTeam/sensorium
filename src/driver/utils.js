@@ -1,3 +1,7 @@
+/**
+ * @fileOverview 工具类函数
+ */
+
 (function(that) {
     // 辅助函数：扩充对象
     that.extend =  function() {
