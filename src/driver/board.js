@@ -4,30 +4,30 @@
  * @author Hyman (hujinhong@makelbock.cc)
  */
 
-require
+var Auriga = require("../protocol/auriga.js");
+var Mbot = require("../protocol/mbot.js");
+var Orion = require("../protocol/orion.js");
+var Megapi = require("../protocol/megapi.js");
+var Utils = require("./utils.js");
+
+var actionList = Utils.extend(Auriga, Mbot, Orion, Megapi);
 
 function Board(type) {
+    var actions = actionList[type];
+    for(var i in actions) {
+        this[i] = actions[i];
+    }
     this.type = type;
     this.version = this._getVersion();
     this.mode = this._getMode();
 }
 
 Board.prototype._getVersion = function() {
-    var version = new Command(this.type).getVersion();
+    this.getVersion();
 };
 
 Board.prototype._getMode = function() {
-    var version = new Command(this.type).getVersion();
-};
-
-
-/**
- * Get voltage
- * @return {[type]} [description]
- */
-Board.prototype.getVoltage = function() {
 
 };
 
-
-module.exports = Command;
+module.exports = Board;

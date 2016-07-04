@@ -2,9 +2,9 @@
  * @fileOverview 工具类函数
  */
 
-(function(that) {
-    // 辅助函数：扩充对象
-    that.extend =  function() {
+
+var Utils = {
+    extend : function() {
         var args = arguments;
         if (args.length < 2) { return };
         var temp = args[0];
@@ -14,4 +14,8 @@
             }
         }
         return temp;
-})(window);
+    }
+}
+
+
+module.exports = Utils;
