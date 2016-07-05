@@ -4,11 +4,19 @@
  */
 
 function Data() {
-
+    this.blockStatusList = {
+        "boardType": "auriga",
+        "version": "0e.103.12"
+    };
 }
 
-Data.prototype.method_name = function() {
-    // body...
+/**
+ * Get block status
+ * @param  {string} type block's type.
+ * @return {float}      sensor's value.
+ */
+Data.prototype.getBlockStatus = function(type) {
+
 };
 
 module.exports = Data;

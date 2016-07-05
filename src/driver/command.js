@@ -15,10 +15,10 @@ Command.prototype.send = function(params) {
     this.doSend(params);
 };
 
-Command.prototype.doSend = function(str) {
-    var c = [].extend(protocol.COMMAND_HEAD);
+Command.prototype.doSend = function(params) {
+    console.log(params.join(" "));
 };
 
 
 
-module.exports = Command;
+module.exports = new Command();
