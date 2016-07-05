@@ -3,7 +3,6 @@
  *
  */
 
-var protocol = require('../protocol/protocol.js');
 var utils = require('./utils.js');
 
 

@@ -1,5 +1,3 @@
-var protocol = require("./protocol.js");
-
 var boardType = (function(ext) {
 
     ext.orion = {

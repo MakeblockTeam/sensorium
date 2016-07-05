@@ -2,7 +2,6 @@
  * @fileOverview 工具类函数
  */
 
-
 var Utils = {
     extend : function() {
         var args = arguments;

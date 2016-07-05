@@ -2,7 +2,7 @@
   "name": "sensorium",
   "version": "1.0.0",
   "description": "makeblock mainboards protocol api",
-  "main": "app.js",
+  "main": "src/driver/index.js",
   "directories": {
     "doc": "docs",
     "test": "test"

@@ -2,25 +2,39 @@
 <head>
     <script src="./sensorium.js"></script>
     <style>
-        .msg {
+        #msg {
             width: 100%;
             padding: 10px;
             background: #ccc;
             min-height: 50px;
+            font-family: 'arial', sans-serif;
         }
     </style>
 </head>
 <body>
-    <div class="msg"></div>
+    <div id="msg"></div>
 </body>
 
     <script>
-        // var board = new Board("auriga");
 
-        // board.setBlockStatus({
-        //     type: 'dcMotor',
-        //     port: 1,
-        //     speed: 255
-        // });
+        console.log = function(str) {
+            document.getElementById("msg").innerHTML += (str + '<br><br>');
+        };
+
+        var board = new Board("auriga");
+        board.setBlockStatus({
+            type: 'dcMotor',
+            port: 1,
+            speed: 255
+        });
+        board.setBlockStatus({
+            type: 'led',
+            port: 1,
+            slot: 2,
+            position: 0,
+            r: 255,
+            g: 255,
+            b: 255
+        });
     </script>
 </html>

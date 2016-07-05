@@ -14,7 +14,7 @@ var Utils = require("./utils.js");
 var actionList = Utils.extend(Auriga, Mbot, Orion, Megapi);
 
 function Board(type) {
-    console.log("【boardType】: " + type);
+    console.log("[BoardType]: " + type);
     var actions = actionList[type];
     for(var i in actions) {
         this[i] = actions[i];
@@ -35,6 +35,9 @@ Board.prototype._getMode = function() {
 
 };
 
+
+window.Board = Board;
+
 module.exports = Board;
 },{"../protocol/auriga.js":7,"../protocol/mbot.js":9,"../protocol/megapi.js":10,"../protocol/orion.js":11,"./utils.js":5}],2:[function(require,module,exports){
 /**
@@ -42,7 +45,6 @@ module.exports = Board;
  *
  */
 
-var protocol = require('../protocol/protocol.js');
 var utils = require('./utils.js');
 
 
@@ -63,7 +65,7 @@ Command.prototype.doSend = function(params) {
 
 
 module.exports = new Command();
-},{"../protocol/protocol.js":12,"./utils.js":5}],3:[function(require,module,exports){
+},{"./utils.js":5}],3:[function(require,module,exports){
 var PromiseList = {
     requestList: new Array(128),
     index: 1,
@@ -119,7 +121,6 @@ module.exports = settings;
 /**
  * @fileOverview 工具类函数
  */
-
 
 var Utils = {
     extend : function() {
@@ -421,8 +422,6 @@ var Device = {
 
 module.exports = Device;
 },{}],9:[function(require,module,exports){
-var protocol = require("./protocol.js");
-
 var boardType = (function(ext) {
 
     ext.mbot = {
@@ -444,9 +443,7 @@ var boardType = (function(ext) {
 
 
 module.exports = boardType;
-},{"./protocol.js":12}],10:[function(require,module,exports){
-var protocol = require("./protocol.js");
-
+},{}],10:[function(require,module,exports){
 var boardType = (function(ext) {
 
     ext.megapi = {
@@ -468,9 +465,7 @@ var boardType = (function(ext) {
 
 
 module.exports = boardType;
-},{"./protocol.js":12}],11:[function(require,module,exports){
-var protocol = require("./protocol.js");
-
+},{}],11:[function(require,module,exports){
 var boardType = (function(ext) {
 
     ext.orion = {
@@ -492,21 +487,4 @@ var boardType = (function(ext) {
 
 
 module.exports = boardType;
-},{"./protocol.js":12}],12:[function(require,module,exports){
-/**
- * @fileOverview 定义协议基本格式
- * 定义发送指令和接收指令的格式。
- */
-
-var protocol = {
-    // 数据发送与接收相关
-    COMMAND_HEAD: [0xff, 0x55],
-    COMMAND_END: [0x0d, 0x0a],
-    // 回复数据的index位置
-    READ_BYTES_INDEX: 2,
-    // 发送数据中表示“读”的值
-    READ_MODE: 1,
-    // 发送数据中表示“写”的值
-    WRITE_MODE: 2
-};
 },{}]},{},[1]);

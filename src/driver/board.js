@@ -13,7 +13,7 @@ var Utils = require("./utils.js");
 var actionList = Utils.extend(Auriga, Mbot, Orion, Megapi);
 
 function Board(type) {
-    console.log("【boardType】: " + type);
+    console.log("[BoardType]: " + type);
     var actions = actionList[type];
     for(var i in actions) {
         this[i] = actions[i];
@@ -35,3 +35,5 @@ Board.prototype._getMode = function() {
 };
 
 module.exports = Board;
+
+window.Board = Board;

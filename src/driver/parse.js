@@ -2,7 +2,6 @@
  * @fileOverview 只负解析指令的逻辑
  */
 
-var protocol = require('../protocol/protocol.js');
 var utils = require('./utils.js');
 
 
