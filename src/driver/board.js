@@ -13,17 +13,21 @@ var Utils = require("./utils.js");
 var actionList = Utils.extend(Auriga, Mbot, Orion, Megapi);
 
 function Board(type) {
+    console.log("【boardType】: " + type);
     var actions = actionList[type];
     for(var i in actions) {
         this[i] = actions[i];
     }
     this.type = type;
-    this.version = this._getVersion();
+    // this.version = this._getVersion();
     this.mode = this._getMode();
 }
 
 Board.prototype._getVersion = function() {
-    this.getVersion();
+    this.getVersion(function(val) {
+        this.version = val;
+        return val;
+    });
 };
 
 Board.prototype._getMode = function() {

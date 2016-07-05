@@ -16,7 +16,9 @@ Command.prototype.send = function(params) {
 };
 
 Command.prototype.doSend = function(params) {
-    console.log(params.join(" "));
+    // console.log(params);
+    var params = utils.intStrToHexStr(params);
+    console.log(params);
 };
 
 
