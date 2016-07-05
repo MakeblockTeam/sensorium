@@ -35,10 +35,9 @@ Board.prototype._getMode = function() {
 
 };
 
+module.exports = Board;
 
 window.Board = Board;
-
-module.exports = Board;
 },{"../protocol/auriga.js":7,"../protocol/mbot.js":9,"../protocol/megapi.js":10,"../protocol/orion.js":11,"./utils.js":5}],2:[function(require,module,exports){
 /**
  * @fileOverview 只负责发送指令的逻辑
