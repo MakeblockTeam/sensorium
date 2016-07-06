@@ -33,17 +33,60 @@ var boardType = (function(ext) {
             });
         },
 
+        setDcMotor: function(port, speed) {
+
+        },
+
+        setEncoderMotorBoard(slot, speed) {
+
+        },
+
         setBlockStatus: function(params) {
             var mode = this.setting.WRITE_MODE;
             var index = 0; // index 设置为0
             var cmdList = {
-                // 可选port口为：1，2，3，4
+                // 可选port口为：1，2，3，4, ff 55 06 00 02 0a 01 ff 00
                 "dcMotor": [
                     0xff, 0x55, 0x06, index, mode, Device[params.type],
                     params.port,
                     params.speed & 0xff,
                     (params.speed >> 8) & 0xff
                 ],
+                // 板载port固定为0, ff 55 07 00 02 3d 00 01 64 00
+                "encoderMotorBoard": [
+                    0xff, 0x55, 0x07, index, mode, Device[params.type],
+                    0,
+                    params.slot,
+                    params.speed & 0xff,
+                    (params.speed >> 8) & 0xff
+                ],
+                // ff 55 07 00 02 05 64 00 64 00
+                "virtualJoystick": [
+                    0xff, 0x55, 0x07, index, mode, Device[params.type],
+                    params.leftSpeed & 0xff,
+                    (params.leftSpeed >> 8) & 0xff,
+                    params.rightSpeed & 0xff,
+                    (params.rightSpeed >> 8) & 0xff
+                ],
+                // 板载port固定为0, ff 55 08 00 02 34 00 64 00 64 00
+                "virtualJoystickForBalance": [
+                    0xff, 0x55, 0x08, index, mode, Device[params.type],
+                    0,
+                    params.turnRange & 0xff,
+                    (params.turnRange >> 8) & 0xff,
+                    params.speed & 0xff,
+                    (params.speed >> 8) & 0xff
+                ],
+                // ff 55 0a 00 02 28 01 b8 0b e8 03 00 00, 速度范围0~3000
+                "stepperMotor": [
+                    0xff, 0x55, 0x0a, index, mode, Device[params.type],
+                    params.port,
+                    params.speed & 0xff,
+                    (params.speed >> 8) & 0xff,
+                    params.position & 0xff,
+                    (params.position >> 8) & 0xff
+                ],
+                // ff 55 09 00 02 08 06 02 00 ff 00 00
                 "led": [
                     0xff, 0x55, 0x09, index, mode, Device[params.type],
                     params.port,
@@ -52,7 +95,29 @@ var boardType = (function(ext) {
                     params.r,
                     params.g,
                     params.b
-                ]
+                ],
+                // 设置固件模式：ff 55 05 00 02 3c 11 00,
+                // 00 蓝牙, 01 自动避障, 02 平衡车, 03 红外, 04 巡线
+                "firmwareMode": [
+                    0xff, 0x55, 0x05, index, mode, Device[params.type],
+                    0x11,
+                    params.mode
+                ],
+                // ff 55 06 00 02 0b 06 01 5a
+                "servo": [
+                    0xff, 0x55, 0x06, index, mode, Device[params.type],
+                    params.port,
+                    params.slot,
+                    params.angle
+                ],
+                // 七位数码管， ff 55 08 00 02 09 06 00 00 c8 42
+                "sevenSegment": [
+                    0xff, 0x55, 0x08, index, mode, Device[params.type],
+                    params.port,
+                    params.slot,
+                    params.angle
+                ],
+
             };
             var cmd = cmdList[params.type];
             command.send(cmd);
@@ -71,8 +136,7 @@ var boardType = (function(ext) {
                         00
                     ],
                     "ultrasonic": [
-                        0xff,0x55,0x04, index, mode,
-                        Device[params.type],
+                        0xff, 0x55, 0x04, index, mode,Device[params.type],
                         params.port
                     ]
             };
