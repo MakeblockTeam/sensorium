@@ -11,14 +11,10 @@ var board = new Board("auriga");
 // board.setLedStripRgb(r,g,b,port,slot);
 // board.setDcMotor(port, leftSpeed, rightSpeed);
 
-// get sensor's value
-board.getSensorValue({
-    type: "ultrasonic",
-    port: 1,
-    slot: null,
-    callback: function(val) {
-        console.log("result: " + val);
-    }
+
+
+board.getSensorValue("ultrasonic", function(val) {
+    console.log(val);
 });
 
 // board.setBlockStatus({

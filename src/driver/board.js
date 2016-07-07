@@ -34,6 +34,7 @@ Board.prototype._getMode = function() {
 
 };
 
+if(window) {
+    window.Board = Board;
+}
 module.exports = Board;
-
-window.Board = Board;

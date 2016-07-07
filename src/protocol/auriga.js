@@ -3,12 +3,13 @@ var PromiseList = require("../driver/promise.js");
 var Device = require("./device.js");
 var ValueWrapper = require("../driver/valueWrapper.js");
 var Setting = require("../driver/setting.js");
+var utils = require("../driver/utils.js");
 
 
 var boardType = (function(ext) {
 
     ext.auriga = {
-        setting: {
+        SETTING: {
             // 数据发送与接收相关
             COMMAND_HEAD: [0xff, 0x55],
             COMMAND_END: [0x0d, 0x0a],
@@ -27,100 +28,289 @@ var boardType = (function(ext) {
         buffer : [],
 
         getVersion: function(callback) {
-            this.getSensorValue({
-                type: "version",
-                callback: callback
-            });
+
         },
 
+        /**
+         * Set dc motor speed.
+         * @param {number} port  port number, vailable is: 1,2,3,4
+         * @param {number} speed speed, the range is -255 ~ 255
+         * @example
+         *     ff 55 06 00 02 0a 01 ff 00
+         */
         setDcMotor: function(port, speed) {
+            var a = [
+                this.SETTING.COMMAND_HEAD[0],
+                this.SETTING.COMMAND_HEAD[1],
+                0x06, 0,
+                this.SETTING.WRITE_MODULE,
+                0x0a,
+                port,
+                speed & 0xff,
+                (speed >> 8) & 0xff
+            ];
+            command.send(a);
+        },
+
+        /**
+         * Set encoder motor speed.
+         * @param {number} slot  slot number, vailable is: 1,2
+         * @param {number} speed speed, the range is -255 ~ 255
+         * @example
+         *     ff 55 07 00 02 3d 00 01 64 00
+         */
+        setEncoderMotorBoard: function(slot, speed) {
+            var a = [
+                this.SETTING.COMMAND_HEAD[0],
+                this.SETTING.COMMAND_HEAD[1],
+                0x07, 0,
+                this.SETTING.WRITE_MODULE,
+                0x3d,
+                0,
+                slot,
+                speed & 0xff,
+                (speed >> 8) & 0xff
+            ];
+            command.send(a);
+        },
+
+        /**
+         * Set both left speed and right speed with one command.
+         * @param {number} leftSpeed  left speed, the range is -255 ~ 255
+         * @param {number} rightSpeed right speed, the range is -255 ~ 255
+         * @example
+         *     ff 55 07 00 02 05 64 00 64 00
+         */
+        setVirtualJoystick: function(leftSpeed, rightSpeed) {
+            var a = [
+                this.SETTING.COMMAND_HEAD[0],
+                this.SETTING.COMMAND_HEAD[1],
+                0x07, 0,
+                this.SETTING.WRITE_MODULE,
+                0x05,
+                leftSpeed & 0xff,
+                (leftSpeed >> 8) & 0xff,
+                rightSpeed & 0xff,
+                (rightSpeed >> 8) & 0xff
+            ];
+            command.send(a);
+        },
+
+        /**
+         * Set speed for balance mode.
+         * @param {number} port       port number, the port on board id default 0
+         * @param {number} turnDegree turn extend, -255 ~ 255
+         * @param {number} speed      speed, -255 ~ 255
+         * @example
+         *     ff 55 08 00 02 34 00 64 00 64 00
+         */
+        setVirtualJoystickForBalance: function(port, turnExtent, speed) {
+            var a = [
+                this.SETTING.COMMAND_HEAD[0],
+                this.SETTING.COMMAND_HEAD[1],
+                0x08, 0,
+                this.SETTING.WRITE_MODULE,
+                0x34,
+                turnExtent & 0xff,
+                (turnExtent >> 8) & 0xff,
+                speed & 0xff,
+                (speed >> 8) & 0xff
+            ];
+            command.send(a);
+        },
+
+        /**
+         * Set stepper motor speed.
+         * @param {[type]} port     port number, vailable is: 1,2,3,4
+         * @param {[type]} speed    speed, the range is 0 ~ 3000
+         * @param {[type]} distance distance, the range is -2147483648 ~ 2147483647
+         * @example
+         *     ff 55 0a 00 02 28 01 b8 0b e8 03 00 00
+         */
+        setStepperMotor: function(port, speed, distance) {
+            var a = [
+                this.SETTING.COMMAND_HEAD[0],
+                this.SETTING.COMMAND_HEAD[1],
+                0x08,0,
+                this.SETTING.WRITE_MODULE,
+                0x28,
+                port,
+                speed & 0xff,
+                (speed >> 8) & 0xff,
+                distance & 0xff,
+                (distance >> 8) & 0xff
+            ];
+            command.send(a);
+        },
+
+         /**
+          * Set RgbFourLed electronic module color.
+          * @param {number} port     port number, vailable is: 0(on board), 6,7,8,9,10
+          * @param {number} slot     slot number, vailable is: 1,2
+          * @param {number} position led position, 0 signify all leds.
+          * @param {number} r        red, the range is 0 ~ 255
+          * @param {number} g        green, the range is 0 ~ 255
+          * @param {number} b        blue, the range is 0 ~ 255
+          * @example
+          *     ff 55 09 00 02 08 06 02 00 ff 00 00
+          */
+        setLed: function(port, slot, position, r, g, b) {
+            var a = [
+                this.SETTING.COMMAND_HEAD[0],
+                this.SETTING.COMMAND_HEAD[1],
+                0x09,0,
+                this.SETTING.WRITE_MODULE,
+                0x08,
+                port,
+                slot,
+                position,red,green,blue
+            ];
+            command.send(a);
+        },
+
+        /**
+         * Set board mode.
+         * @param {number} mode board mode,
+         *     0: bluetooth mode
+         *     1: ultrasonic mode
+         *     2: balance mode
+         *     3: infrared mode
+         *     4: linefollow mode
+         * @example
+         *     ff 55 05 00 02 3c 11 00
+         */
+        setFirmwareMode: function(mode) {
+            var a = [
+                this.SETTING.COMMAND_HEAD[0],
+                this.SETTING.COMMAND_HEAD[1],
+                0x05,0,
+                this.SETTING.WRITE_MODULE,
+                0x3c,
+                0x11, // 0x11 means auriga
+                mode
+            ];
+            command.send(a);
+        },
+
+        /**
+         * Set Servo speed.
+         * @param {[type]} port   port number, vailable is 6,7,8,9,10
+         * @param {[type]} slot   slot number, vailable is 1,2
+         * @param {[type]} degree servo degree, the range is 0 ~ 180
+         */
+        setServoMotor: function(port, slot, degree) {
+            var a = [
+                this.SETTING.COMMAND_HEAD[0],
+                this.SETTING.COMMAND_HEAD[1],
+                0x06,0,
+                this.SETTING.WRITE_MODULE,
+                0x0b,
+                port,
+                slot,
+                degree
+            ];
+            command.send(a);
+        },
+
+        /**
+         * Set Seven-segment digital tube number.
+         * @param {number} port   port number, vailable is 6,7,8,9,10
+         * @param {float} number  the number to be displayed
+         * @exmpa
+         *     ff 55 08 00 02 09 06 00 00 c8 42
+         */
+        setSevenSegment: function(port, number) {
+            var byte4Array = utils.float32ToBytes(number);
+            var a = [
+                this.SETTING.COMMAND_HEAD[0],
+                this.SETTING.COMMAND_HEAD[1],
+                0x08,0,
+                this.SETTING.WRITE_MODULE,
+                0x09,
+                port,
+                parseInt(byte4Array[0], 16),
+                parseInt(byte4Array[1], 16),
+                parseInt(byte4Array[2], 16),
+                parseInt(byte4Array[3], 16)
+            ];
+            command.send(a);
+        },
+
+        /**
+         * Set led matrix chart.
+         * @param {number} port   port number, vailable is 6,7,8,9,10
+         * @param {number} xAxis  x position
+         * @param {number} yAxis  y position
+         * @param {number} length chart length
+         * @param {string} chart  chart
+         * @exmaple
+         *     ff 55 0a 00 02 29 06 01 00 07 02 48 69
+         */
+        setLedMatrixChart: function(port, xAxis, yAxis, length, chart) {
 
         },
 
-        setEncoderMotorBoard(slot, speed) {
+
+        /**
+         * Set led matrix emotion.
+         * @param {number} port   port number, vailable is 6,7,8,9,10
+         * @param {number} xAxis      x position
+         * @param {number} yAxis      y position
+         * @param {?} motionData emotion data to be displayed
+         * @example
+         *     ff 55 17 00 02 29 06 02 00 00 00 00 40 48 44 42 02 02 02 02 42 44 48 40 00 00
+         */
+        setLedMatrixEmotion: function(port, xAxis, yAxis, motionData) {
 
         },
 
-        setBlockStatus: function(params) {
-            var mode = this.setting.WRITE_MODE;
-            var index = 0; // index 设置为0
-            var cmdList = {
-                // 可选port口为：1，2，3，4, ff 55 06 00 02 0a 01 ff 00
-                "dcMotor": [
-                    0xff, 0x55, 0x06, index, mode, Device[params.type],
-                    params.port,
-                    params.speed & 0xff,
-                    (params.speed >> 8) & 0xff
-                ],
-                // 板载port固定为0, ff 55 07 00 02 3d 00 01 64 00
-                "encoderMotorBoard": [
-                    0xff, 0x55, 0x07, index, mode, Device[params.type],
-                    0,
-                    params.slot,
-                    params.speed & 0xff,
-                    (params.speed >> 8) & 0xff
-                ],
-                // ff 55 07 00 02 05 64 00 64 00
-                "virtualJoystick": [
-                    0xff, 0x55, 0x07, index, mode, Device[params.type],
-                    params.leftSpeed & 0xff,
-                    (params.leftSpeed >> 8) & 0xff,
-                    params.rightSpeed & 0xff,
-                    (params.rightSpeed >> 8) & 0xff
-                ],
-                // 板载port固定为0, ff 55 08 00 02 34 00 64 00 64 00
-                "virtualJoystickForBalance": [
-                    0xff, 0x55, 0x08, index, mode, Device[params.type],
-                    0,
-                    params.turnRange & 0xff,
-                    (params.turnRange >> 8) & 0xff,
-                    params.speed & 0xff,
-                    (params.speed >> 8) & 0xff
-                ],
-                // ff 55 0a 00 02 28 01 b8 0b e8 03 00 00, 速度范围0~3000
-                "stepperMotor": [
-                    0xff, 0x55, 0x0a, index, mode, Device[params.type],
-                    params.port,
-                    params.speed & 0xff,
-                    (params.speed >> 8) & 0xff,
-                    params.position & 0xff,
-                    (params.position >> 8) & 0xff
-                ],
-                // ff 55 09 00 02 08 06 02 00 ff 00 00
-                "led": [
-                    0xff, 0x55, 0x09, index, mode, Device[params.type],
-                    params.port,
-                    params.slot,
-                    params.position,
-                    params.r,
-                    params.g,
-                    params.b
-                ],
-                // 设置固件模式：ff 55 05 00 02 3c 11 00,
-                // 00 蓝牙, 01 自动避障, 02 平衡车, 03 红外, 04 巡线
-                "firmwareMode": [
-                    0xff, 0x55, 0x05, index, mode, Device[params.type],
-                    0x11,
-                    params.mode
-                ],
-                // ff 55 06 00 02 0b 06 01 5a
-                "servo": [
-                    0xff, 0x55, 0x06, index, mode, Device[params.type],
-                    params.port,
-                    params.slot,
-                    params.angle
-                ],
-                // 七位数码管， ff 55 08 00 02 09 06 00 00 c8 42
-                "sevenSegment": [
-                    0xff, 0x55, 0x08, index, mode, Device[params.type],
-                    params.port,
-                    params.slot,
-                    params.angle
-                ],
+        /**
+         * Set led matrix time.
+         * @param {number} separator time separator, 01 signify `:`, 02 signify ` `
+         * @param {number} hour      hour number
+         * @param {number} minute    minute number
+         * @example
+         *     ff 55 08 00 02 29 06 03 01 0a 14
+         */
+        setLedMatrixTime: function(separator, hour, minute) {
 
-            };
-            var cmd = cmdList[params.type];
-            command.send(cmd);
+        },
+
+        /**
+         * Set led matrix number.
+         * @param {number} port   port number, vailable is 6,7,8,9,10
+         * @param {float} number the number to be displayed
+         * @exmaple
+            ff 55 09 00 02 29 06 04 00 00 00 00
+         */
+        setLedMatrixNumber: function(port, number) {
+            var byte4Array = utils.float32ToBytes(number);
+            var a = [
+                this.SETTING.COMMAND_HEAD[0],
+                this.SETTING.COMMAND_HEAD[1],
+                0x09,0,
+                this.SETTING.WRITE_MODULE,
+                0x29,
+                port,
+                0x04,
+                parseInt(byte4Array[0], 16),
+                parseInt(byte4Array[1], 16),
+                parseInt(byte4Array[2], 16),
+                parseInt(byte4Array[3], 16)
+            ];
+            command.send(a);
+        },
+
+        readUltrasonic: function(index, port) {
+            var a = [
+                this.SETTING.COMMAND_HEAD[0],
+                this.SETTING.COMMAND_HEAD[1],
+                0x04,index,
+                this.SETTING.READ_MODULE,
+                0x01,
+                port
+            ];
+            command.send(a);
         },
 
         /**
@@ -128,25 +318,22 @@ var boardType = (function(ext) {
          * @param  {object} params command params.
          */
         _readBlockStatus: function(params) {
-            var mode = this.setting.READ_MODE;
+            var type = params.type;
             var index = params.index;
-            var cmdList = {
-                    "version": [
-                        0xff, 0x55, 0x03, index, mode,
-                        00
-                    ],
-                    "ultrasonic": [
-                        0xff, 0x55, 0x04, index, mode,Device[params.type],
-                        params.port
-                    ]
-            };
-            var cmd = cmdList[params.type];
-            command.send(cmd);
+            var port = params.port;
+            var slot = params.slot || null;
+            var funcName = 'this.read' + utils.upperCaseFirstLetter(type);
+            var paramsStr = '(' + index + ',' + port + ',' + slot + ')';
+            var func = funcName + paramsStr;
+            eval(func);
         },
 
-        getSensorValue: function(params) {
+        getSensorValue: function(type, callback) {
+            var params = {};
+            params.type = type;
+            params.callback = callback;
             var valueWrapper = new ValueWrapper();
-            var index = PromiseList.add(params.type, params.callback, valueWrapper);
+            var index = PromiseList.add(type, callback, valueWrapper);
             params.index = index;
 
             // 发送读取指令

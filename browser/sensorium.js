@@ -35,9 +35,11 @@ Board.prototype._getMode = function() {
 
 };
 
+if(window) {
+    window.Board = Board;
+}
 module.exports = Board;
 
-window.Board = Board;
 },{"../protocol/auriga.js":7,"../protocol/mbot.js":9,"../protocol/megapi.js":10,"../protocol/orion.js":11,"./utils.js":5}],2:[function(require,module,exports){
 /**
  * @fileOverview 只负责发送指令的逻辑
@@ -160,6 +162,79 @@ var Utils = {
         arr.reverse();
         console.log(arr);
         return arr;
+    },
+
+    /**
+     * Float to bytes.
+     * 现将float转成整形，再将整形转成字节表示
+     * @param  {float} float number
+     * @return {bytes}
+     */
+    float32ToBytes: function(value) {
+        // TOFIX: hack
+        if(value == 0) {
+            return [0,0,0,0];
+        }
+        var bytesInt = 0;
+        switch (value) {
+            case Number.POSITIVE_INFINITY: bytesInt = 0x7F800000; break;
+            case Number.NEGATIVE_INFINITY: bytesInt = 0xFF800000; break;
+            case +0.0: bytesInt = 0x40000000; break;
+            case -0.0: bytesInt = 0xC0000000; break;
+            default:
+                // if (Number.isNaN(value)) { bytesInt = 0x7FC00000; break; }
+
+                if (value <= -0.0) {
+                    bytesInt = 0x80000000;
+                    value = -value;
+                }
+
+                var exponent = Math.floor(Math.log(value) / Math.log(2));
+                var significand = ((value / Math.pow(2, exponent)) * 0x00800000) | 0;
+
+                exponent += 127;
+                if (exponent >= 0xFF) {
+                    exponent = 0xFF;
+                    significand = 0;
+                } else if (exponent < 0) exponent = 0;
+
+                bytesInt = bytesInt | (exponent << 23);
+                bytesInt = bytesInt | (significand & ~(-1 << 23));
+            break;
+        }
+        var bytesArray = this.int2BytesArray(bytesInt);
+        return bytesArray;
+    },
+
+    /**
+     * 整形转换成字节数组
+     * @param  {number} value 整形
+     * @return {array}  array数组
+     */
+    int2BytesArray: function(value) {
+        var bytesArray = [];
+        var b1 = (value & 0xff).toString(16);
+        var b2 = ((value >> 8) & 0xff).toString(16);
+        var b3 = ((value >> 16) & 0xff).toString(16);
+        var b4 = ((value >> 24) & 0xff).toString(16);
+        bytesArray.push(b1);
+        bytesArray.push(b2);
+        bytesArray.push(b3);
+        bytesArray.push(b4);
+        return bytesArray;
+    },
+
+    /**
+     * 将单词的第一个字母转成大写
+     * @param  {string} str string.
+     * @return {string}     target string.
+     */
+    upperCaseFirstLetter: function(str) {
+        var reg = /\b(\w)|\s(\w)/g;
+        str = str.toLowerCase();
+        return str.replace(reg, function(m){
+            return m.toUpperCase();
+        })
     }
 
 }
@@ -198,12 +273,13 @@ var PromiseList = require("../driver/promise.js");
 var Device = require("./device.js");
 var ValueWrapper = require("../driver/valueWrapper.js");
 var Setting = require("../driver/setting.js");
+var utils = require("../driver/utils.js");
 
 
 var boardType = (function(ext) {
 
     ext.auriga = {
-        setting: {
+        SETTING: {
             // 数据发送与接收相关
             COMMAND_HEAD: [0xff, 0x55],
             COMMAND_END: [0x0d, 0x0a],
@@ -222,35 +298,289 @@ var boardType = (function(ext) {
         buffer : [],
 
         getVersion: function(callback) {
-            this.getSensorValue({
-                type: "version",
-                callback: callback
-            });
+
         },
 
-        setBlockStatus: function(params) {
-            var mode = this.setting.WRITE_MODE;
-            var index = 0; // index 设置为0
-            var cmdList = {
-                // 可选port口为：1，2，3，4
-                "dcMotor": [
-                    0xff, 0x55, 0x06, index, mode, Device[params.type],
-                    params.port,
-                    params.speed & 0xff,
-                    (params.speed >> 8) & 0xff
-                ],
-                "led": [
-                    0xff, 0x55, 0x09, index, mode, Device[params.type],
-                    params.port,
-                    params.slot,
-                    params.position,
-                    params.r,
-                    params.g,
-                    params.b
-                ]
-            };
-            var cmd = cmdList[params.type];
-            command.send(cmd);
+        /**
+         * Set dc motor speed.
+         * @param {number} port  port number, vailable is: 1,2,3,4
+         * @param {number} speed speed, the range is -255 ~ 255
+         * @example
+         *     ff 55 06 00 02 0a 01 ff 00
+         */
+        setDcMotor: function(port, speed) {
+            var a = [
+                this.SETTING.COMMAND_HEAD[0],
+                this.SETTING.COMMAND_HEAD[1],
+                0x06, 0,
+                this.SETTING.WRITE_MODULE,
+                0x0a,
+                port,
+                speed & 0xff,
+                (speed >> 8) & 0xff
+            ];
+            command.send(a);
+        },
+
+        /**
+         * Set encoder motor speed.
+         * @param {number} slot  slot number, vailable is: 1,2
+         * @param {number} speed speed, the range is -255 ~ 255
+         * @example
+         *     ff 55 07 00 02 3d 00 01 64 00
+         */
+        setEncoderMotorBoard: function(slot, speed) {
+            var a = [
+                this.SETTING.COMMAND_HEAD[0],
+                this.SETTING.COMMAND_HEAD[1],
+                0x07, 0,
+                this.SETTING.WRITE_MODULE,
+                0x3d,
+                0,
+                slot,
+                speed & 0xff,
+                (speed >> 8) & 0xff
+            ];
+            command.send(a);
+        },
+
+        /**
+         * Set both left speed and right speed with one command.
+         * @param {number} leftSpeed  left speed, the range is -255 ~ 255
+         * @param {number} rightSpeed right speed, the range is -255 ~ 255
+         * @example
+         *     ff 55 07 00 02 05 64 00 64 00
+         */
+        setVirtualJoystick: function(leftSpeed, rightSpeed) {
+            var a = [
+                this.SETTING.COMMAND_HEAD[0],
+                this.SETTING.COMMAND_HEAD[1],
+                0x07, 0,
+                this.SETTING.WRITE_MODULE,
+                0x05,
+                leftSpeed & 0xff,
+                (leftSpeed >> 8) & 0xff,
+                rightSpeed & 0xff,
+                (rightSpeed >> 8) & 0xff
+            ];
+            command.send(a);
+        },
+
+        /**
+         * Set speed for balance mode.
+         * @param {number} port       port number, the port on board id default 0
+         * @param {number} turnDegree turn extend, -255 ~ 255
+         * @param {number} speed      speed, -255 ~ 255
+         * @example
+         *     ff 55 08 00 02 34 00 64 00 64 00
+         */
+        setVirtualJoystickForBalance: function(port, turnExtent, speed) {
+            var a = [
+                this.SETTING.COMMAND_HEAD[0],
+                this.SETTING.COMMAND_HEAD[1],
+                0x08, 0,
+                this.SETTING.WRITE_MODULE,
+                0x34,
+                turnExtent & 0xff,
+                (turnExtent >> 8) & 0xff,
+                speed & 0xff,
+                (speed >> 8) & 0xff
+            ];
+            command.send(a);
+        },
+
+        /**
+         * Set stepper motor speed.
+         * @param {[type]} port     port number, vailable is: 1,2,3,4
+         * @param {[type]} speed    speed, the range is 0 ~ 3000
+         * @param {[type]} distance distance, the range is -2147483648 ~ 2147483647
+         * @example
+         *     ff 55 0a 00 02 28 01 b8 0b e8 03 00 00
+         */
+        setStepperMotor: function(port, speed, distance) {
+            var a = [
+                this.SETTING.COMMAND_HEAD[0],
+                this.SETTING.COMMAND_HEAD[1],
+                0x08,0,
+                this.SETTING.WRITE_MODULE,
+                0x28,
+                port,
+                speed & 0xff,
+                (speed >> 8) & 0xff,
+                distance & 0xff,
+                (distance >> 8) & 0xff
+            ];
+            command.send(a);
+        },
+
+         /**
+          * Set RgbFourLed electronic module color.
+          * @param {number} port     port number, vailable is: 0(on board), 6,7,8,9,10
+          * @param {number} slot     slot number, vailable is: 1,2
+          * @param {number} position led position, 0 signify all leds.
+          * @param {number} r        red, the range is 0 ~ 255
+          * @param {number} g        green, the range is 0 ~ 255
+          * @param {number} b        blue, the range is 0 ~ 255
+          * @example
+          *     ff 55 09 00 02 08 06 02 00 ff 00 00
+          */
+        setLed: function(port, slot, position, r, g, b) {
+            var a = [
+                this.SETTING.COMMAND_HEAD[0],
+                this.SETTING.COMMAND_HEAD[1],
+                0x09,0,
+                this.SETTING.WRITE_MODULE,
+                0x08,
+                port,
+                slot,
+                position,red,green,blue
+            ];
+            command.send(a);
+        },
+
+        /**
+         * Set board mode.
+         * @param {number} mode board mode,
+         *     0: bluetooth mode
+         *     1: ultrasonic mode
+         *     2: balance mode
+         *     3: infrared mode
+         *     4: linefollow mode
+         * @example
+         *     ff 55 05 00 02 3c 11 00
+         */
+        setFirmwareMode: function(mode) {
+            var a = [
+                this.SETTING.COMMAND_HEAD[0],
+                this.SETTING.COMMAND_HEAD[1],
+                0x05,0,
+                this.SETTING.WRITE_MODULE,
+                0x3c,
+                0x11, // 0x11 means auriga
+                mode
+            ];
+            command.send(a);
+        },
+
+        /**
+         * Set Servo speed.
+         * @param {[type]} port   port number, vailable is 6,7,8,9,10
+         * @param {[type]} slot   slot number, vailable is 1,2
+         * @param {[type]} degree servo degree, the range is 0 ~ 180
+         */
+        setServoMotor: function(port, slot, degree) {
+            var a = [
+                this.SETTING.COMMAND_HEAD[0],
+                this.SETTING.COMMAND_HEAD[1],
+                0x06,0,
+                this.SETTING.WRITE_MODULE,
+                0x0b,
+                port,
+                slot,
+                degree
+            ];
+            command.send(a);
+        },
+
+        /**
+         * Set Seven-segment digital tube number.
+         * @param {number} port   port number, vailable is 6,7,8,9,10
+         * @param {float} number  the number to be displayed
+         * @exmpa
+         *     ff 55 08 00 02 09 06 00 00 c8 42
+         */
+        setSevenSegment: function(port, number) {
+            var byte4Array = utils.float32ToBytes(number);
+            var a = [
+                this.SETTING.COMMAND_HEAD[0],
+                this.SETTING.COMMAND_HEAD[1],
+                0x08,0,
+                this.SETTING.WRITE_MODULE,
+                0x09,
+                port,
+                parseInt(byte4Array[0], 16),
+                parseInt(byte4Array[1], 16),
+                parseInt(byte4Array[2], 16),
+                parseInt(byte4Array[3], 16)
+            ];
+            command.send(a);
+        },
+
+        /**
+         * Set led matrix chart.
+         * @param {number} port   port number, vailable is 6,7,8,9,10
+         * @param {number} xAxis  x position
+         * @param {number} yAxis  y position
+         * @param {number} length chart length
+         * @param {string} chart  chart
+         * @exmaple
+         *     ff 55 0a 00 02 29 06 01 00 07 02 48 69
+         */
+        setLedMatrixChart: function(port, xAxis, yAxis, length, chart) {
+
+        },
+
+
+        /**
+         * Set led matrix emotion.
+         * @param {number} port   port number, vailable is 6,7,8,9,10
+         * @param {number} xAxis      x position
+         * @param {number} yAxis      y position
+         * @param {?} motionData emotion data to be displayed
+         * @example
+         *     ff 55 17 00 02 29 06 02 00 00 00 00 40 48 44 42 02 02 02 02 42 44 48 40 00 00
+         */
+        setLedMatrixEmotion: function(port, xAxis, yAxis, motionData) {
+
+        },
+
+        /**
+         * Set led matrix time.
+         * @param {number} separator time separator, 01 signify `:`, 02 signify ` `
+         * @param {number} hour      hour number
+         * @param {number} minute    minute number
+         * @example
+         *     ff 55 08 00 02 29 06 03 01 0a 14
+         */
+        setLedMatrixTime: function(separator, hour, minute) {
+
+        },
+
+        /**
+         * Set led matrix number.
+         * @param {number} port   port number, vailable is 6,7,8,9,10
+         * @param {float} number the number to be displayed
+         * @exmaple
+            ff 55 09 00 02 29 06 04 00 00 00 00
+         */
+        setLedMatrixNumber: function(port, number) {
+            var byte4Array = utils.float32ToBytes(number);
+            var a = [
+                this.SETTING.COMMAND_HEAD[0],
+                this.SETTING.COMMAND_HEAD[1],
+                0x09,0,
+                this.SETTING.WRITE_MODULE,
+                0x29,
+                port,
+                0x04,
+                parseInt(byte4Array[0], 16),
+                parseInt(byte4Array[1], 16),
+                parseInt(byte4Array[2], 16),
+                parseInt(byte4Array[3], 16)
+            ];
+            command.send(a);
+        },
+
+        readUltrasonic: function(index, port) {
+            var a = [
+                this.SETTING.COMMAND_HEAD[0],
+                this.SETTING.COMMAND_HEAD[1],
+                0x04,index,
+                this.SETTING.READ_MODULE,
+                0x01,
+                port
+            ];
+            command.send(a);
         },
 
         /**
@@ -258,26 +588,22 @@ var boardType = (function(ext) {
          * @param  {object} params command params.
          */
         _readBlockStatus: function(params) {
-            var mode = this.setting.READ_MODE;
+            var type = params.type;
             var index = params.index;
-            var cmdList = {
-                    "version": [
-                        0xff, 0x55, 0x03, index, mode,
-                        00
-                    ],
-                    "ultrasonic": [
-                        0xff,0x55,0x04, index, mode,
-                        Device[params.type],
-                        params.port
-                    ]
-            };
-            var cmd = cmdList[params.type];
-            command.send(cmd);
+            var port = params.port;
+            var slot = params.slot || null;
+            var funcName = 'this.read' + utils.upperCaseFirstLetter(type);
+            var paramsStr = '(' + index + ',' + port + ',' + slot + ')';
+            var func = funcName + paramsStr;
+            eval(func);
         },
 
-        getSensorValue: function(params) {
+        getSensorValue: function(type, callback) {
+            var params = {};
+            params.type = type;
+            params.callback = callback;
             var valueWrapper = new ValueWrapper();
-            var index = PromiseList.add(params.type, params.callback, valueWrapper);
+            var index = PromiseList.add(type, callback, valueWrapper);
             params.index = index;
 
             // 发送读取指令
@@ -360,63 +686,63 @@ var boardType = (function(ext) {
 
 
 module.exports = boardType;
-},{"../driver/command.js":2,"../driver/promise.js":3,"../driver/setting.js":4,"../driver/valueWrapper.js":6,"./device.js":8}],8:[function(require,module,exports){
+},{"../driver/command.js":2,"../driver/promise.js":3,"../driver/setting.js":4,"../driver/utils.js":5,"../driver/valueWrapper.js":6,"./device.js":8}],8:[function(require,module,exports){
 /**
  * @fileOverview all electronic module‘s type.
  * 需要统下列名称，保证唯一性
  */
 
 var Device = {
-    "version":                0,
-    "ultrasonic":             1,
-    "temperature":            2,
-    "light":                  3,
-    "potentionmeter":         4,
-    "joystick":               5,
-    "gyro":                   6,
-    "sound":                  7,
-    "led":                    8,
-    "sevseg":                 9,
-    "dcMotor":                10,
-    "servo":                  11,
-    "encoder":                12,
-    "ir":                     13,
-    "pirmotion":              15,
-    "infrared":               16,
-    "lineFollower":           17,
-    "shutter":                20,
-    "limitSwitch":            21,
-    "button":                 22,
-    "humiture":               23,
-    "flame":                  24,
-    "gas":                    25,
-    "compass":                26,
-    "temperature_1":          27,
-    "digital":                30,
-    "analog":                 31,
-    "pwm":                    32,
-    "servoPin":               33,
-    "tone":                   34,
-    "buttonInner":            35,
-    "ultrasonicArduino":      36,
-    "pulsein":                37,
-    "stepperMotor":           40,
-    "ledMatrix":              41,
-    "timer":                  50,
-    "touch":                  51,
-    "joystickMove":           52,
-    "commonCmd":              60,
+    "version":                          0,
+    "ultrasonic":                       1,
+    "temperature":                      2,
+    "light":                            3,
+    "potentionmeter":                   4,
+    "virtualJoystick":                  5,
+    "gyro":                             6,
+    "sound":                            7,
+    "led":                              8,
+    "sevenSegment":                     9,
+    "dcMotor":                          10,
+    "servo":                            11,
+    "encoder":                          12,
+    "ir":                               13,
+    "pirmotion":                        15,
+    "infrared":                         16,
+    "lineFollower":                     17,
+    "shutter":                          20,
+    "limitSwitch":                      21,
+    "button":                           22,
+    "humiture":                         23,
+    "flame":                            24,
+    "gas":                              25,
+    "compass":                          26,
+    "temperature_1":                    27,
+    "digital":                          30,
+    "analog":                           31,
+    "pwm":                              32,
+    "servoPin":                         33,
+    "tone":                             34,
+    "buttonInner":                      35,
+    "ultrasonicArduino":                36,
+    "pulsein":                          37,
+    "stepperMotor":                     40,
+    "ledMatrix":                        41,
+    "timer":                            50,
+    "touch":                            51,
+    "virtualJoystickForBalance":        52,
+    "firmwareMode":                     60,
       //Secondary command
-      "setStarterMode":     0x10,
-      "setAurigaMode":      0x11,
-      "setMegapiMode":      0x12,
-      "getBatteryPower":    0x70,
-      "getAurigaMode":      0x71,
-      "getMegapiMode":      0x72,
-    "encoderBoard":           61,
+      "setStarterMode":                 0x10,
+      "setAurigaMode":                  0x11,
+      "setMegapiMode":                  0x12,
+      "getBatteryPower":                0x70,
+      "getAurigaMode":                  0x71,
+      "getMegapiMode":                  0x72,
+    "encoderMotorBoard":                61,
       //Read type
-      "encoderBoardPos":    0x01,
-      "encoderBoardSpeed":  0x02
+      "encoderMotorBoardPos":           0x01,
+      "encoderMotorBoardSpeed":         0x02
 };
 
 module.exports = Device;
