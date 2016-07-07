@@ -21,8 +21,14 @@
             document.getElementById("msg").innerHTML += (str + '<br><br>');
         };
 
-        var board = new Board("auriga");
-        board.getSensorValue("ultrasonic", function(val) {
+        var auriga = new Auriga({
+            driver: 'makeblockhd'
+        });
+
+        auriga.getSensorValue("ultrasonic", {
+            port:6,
+            slot:1
+        }, function(val) {
             console.log(val);
         });
 

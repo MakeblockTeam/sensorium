@@ -10,7 +10,7 @@ var DEFAULT_CONF = {
     driver: 'makeblockhd'
 };
 
-function Orion(conf) {
+function Mcore(conf) {
     this._config = _.extend(DEFAULT_CONF, conf || {});
     var board = new Board(this._config);
 
@@ -391,7 +391,7 @@ function Orion(conf) {
 }
 
 if (typeof window !== "undefined") {
-    window.Orion = Orion;
+    window.Mcore = Mcore;
 }
 
-module.exports = Orion;
+module.exports = Mcore;

@@ -52,24 +52,43 @@
 ### 程序结构
 - docs/ 文档
 - src/ 主要源码部分
+    - core/ 实现核心逻辑部分
+    - driver/ 针对不同类型应用的接口实现
+                - 设备连接
+                - 发数据
+                - 收数据
+        - index.js 负责不同应用对应接口实现的选择， 根据初始化选择应用类型进行筛选
+        - driver.js 基类，定义接、发数据接口
+        - makeblockHd.js makeblock应用
+        - serial.js 基于node-serialport的串口通信，nodejs实现
+        - electron.js electron实现
     - protocol/ 各主控板协议定义
-        - common/ 各平台都一致的模块
-        - mcore/
-        - orion/
-        - auriga/
-        - megaPi/
-    - driver/ 各平台api驱动逻辑
+        - mcore
+        - orion
+        - auriga
+        - megaPi
 - browser/ 存放浏览器引擎文件
 - test/ 测试相关
 - package.json
 - README.md
 
-协议部分中使用文件夹在组织模块，是为了使程序结构更小单元。
+
+发送协议
+auriga -> board -> driver -> makeblokhd -> 机器
+
+
+接收数据 (todo)
+机器 -> makelbockhd -> parse
+
+
+promiseType
+
 
 ## 步骤
 - []构建文件结构
 - []定义基本类
-- []nodejs事件的写法
+- [x]nodejs事件的写法
+    this.on(event, callback)
 
 ### 第一步：实现数据协议发送，确定接口名称
 - [x]基于已有的程序结构实现
@@ -81,8 +100,12 @@
 - [x]利用browerify生成浏览器可以以后用的代码，命名为sensorium.js，进行测试
     - 需要把主类通过window对象export出去
 - []定义接口名称
-- []定义发送主机对接接口
+    - [x]auriga 部分
+    - []mcore
+    - []orion
+    - []megapi
 - []增加协议发送的单元测试
+- []定义不同应用的接口
 
 
 ### 第二步：实现数据接管
@@ -241,3 +264,7 @@ board.sendCommand({
 1. 触发command中的send
 2. 从protocol + electronic 组织成具体的协议
 3. 调用command中的doSend 进行发送
+
+
+
+#### note

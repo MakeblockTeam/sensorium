@@ -1,36 +1,38 @@
 /**
- * Test files.
+ * package driver implements a variety of communicate drivers, eg serial, bluetooth ...
  */
+var MakeBlockHD = require('./makeblockHd');
+// var CordovaBle = require('./cordova');
+var logger = require('../log/log4js').logger;
+/**
+ * [create the the driver factory method]
+ * @param  {[string]} type [the driver type, 'serial', 'bluetooth', 'mock'] ('mock is only used for test')
+ * @return {[driver object]}      [the driver object]
+ */
+function create(type) {
+  'use strict';
 
-var Board = require("./board.js");
+  var driver = null;
 
-// demo
-var board = new Board("auriga");
-// board.setLedRgb();
-// board.setLedRgb(r,g,b,port);
-// board.setLedStripRgb(r,g,b,port,slot);
-// board.setDcMotor(port, leftSpeed, rightSpeed);
+  switch (type) {
+    case 'serial':
+      driver = new Serial();
+      break;
+    case 'makeblockhd':
+      driver = new MakeBlockHD();
+      break;
+    case 'cordovable':
+      driver = new CordovaBle();
+      break;
+    default:
+      logger.warn('unsupported driver: ', type);
+      break;
+  }
+  if (driver._init) {
+    driver._init();
+  }
 
+  return driver;
+}
 
-
-board.getSensorValue("ultrasonic", function(val) {
-    console.log(val);
-});
-
-// board.setBlockStatus({
-//     type: 'dcMotor',
-//     port: 1,
-//     speed: 255
-// });
-
-// board.setBlockStatus({
-//     type: 'led',
-//     port: 1,
-//     slot: 2,
-//     position: 0,
-//     r: 255,
-//     g: 255,
-//     b: 255
-// });
-
-// board.setLedRgb();
+exports.create = create;

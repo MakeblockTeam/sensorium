@@ -3,7 +3,7 @@
  * 取值数据全部从这里获取。
  */
 
-function Data() {
+function Cache() {
     this.blockStatusList = {
         "boardType": "auriga",
         "version": "0e.103.12"
@@ -15,8 +15,8 @@ function Data() {
  * @param  {string} type block's type.
  * @return {float}      sensor's value.
  */
-Data.prototype.getBlockStatus = function(type) {
+Cache.prototype.getBlockStatus = function(type) {
 
 };
 
-module.exports = Data;
+module.exports = Cache;
