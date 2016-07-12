@@ -14,22 +14,14 @@
 ## 技术路线
 - nodejs书写
 - webpack
-- restful api
+
 
 ## 功能部分
 - 连接部分
     - 蓝牙连接
     - 2.4G连接
     - wifi连接
-- 主板部分
 - 协议部分
-- 发送指令
-    - send
-    - 重试
-- 解析指令
-    - parse asciima
-    - parseGcode
-    - 结果
 
 ## 类的划分
 - Command
@@ -59,7 +51,7 @@
                 - 收数据
         - index.js 负责不同应用对应接口实现的选择， 根据初始化选择应用类型进行筛选
         - driver.js 基类，定义接、发数据接口
-        - makeblockHd.js makeblock应用
+        - makeblock_hd.js makeblock应用
         - serial.js 基于node-serialport的串口通信，nodejs实现
         - electron.js electron实现
     - protocol/ 各主控板协议定义
@@ -76,19 +68,41 @@
 发送协议
 auriga -> board -> driver -> makeblokhd -> 机器
 
+接收数据
+机器 -> makelbockhd -> parse -> board -> user 调用
 
-接收数据 (todo)
-机器 -> makelbockhd -> parse
+
+不同类型的主板        -> board (行为实现)
+  -> 定义读的方法        -> setDriver (选择数据收发平台)
+  -> 定义写的方法        -> send
+                        -> parse                                        -> PromiseList（作为数据分发引擎）
+                        -> sensorCallback
+                        -> driver.on('data', function(data) {}) 定义收到数据的回调函数
 
 
-promiseType
+driver -> this.on = function(event, callback) 定义事件注册框架
+makeblock_hd -> receiveData -> parse ->  收到数据后调用定义的回调函数
+
+
+利用board作为通信类。
+
+
+事件机制：
+1. 用户对获取传感器进行取值函数定义
+2. driver中定义事件框架
+3. board中定义事件实体
+4. parse中执行定义的事件，将值返回给PromiseList
+5. PromiseList 拿到值执行用户定义的取值函数
 
 
 ## 步骤
 - []构建文件结构
-- []定义基本类
+- [x]定义基本类
+    - [x]主板类
+    - [x]发送数据的接口类
 - [x]nodejs事件的写法
-    this.on(event, callback)
+    - 定义this.on(event, callback)
+    - 通过callback进行调用
 
 ### 第一步：实现数据协议发送，确定接口名称
 - [x]基于已有的程序结构实现
@@ -104,8 +118,9 @@ promiseType
     - []mcore
     - []orion
     - []megapi
-- []增加协议发送的单元测试
-- []定义不同应用的接口
+- [x]定义不同平台发送数据的接口
+- []返回接口的实体数据测试， hd作为测试工具
+- []增加协议发送的单元测试，mocha
 
 
 ### 第二步：实现数据接管
@@ -172,99 +187,3 @@ promiseType
 
 ### 参考资源
 - [api 书写格式](http://johnny-five.io/examples/sensor/)
-
-
-基本方法：
-constructor
-get set
-
-变成配置，好处就是处理方法可用集中化。
-
-类，方法和属性
-
-var board = new Board("auriga");
-
-board.version // "v0e.1.102", 版本号
-board.modeList // 可用的模式列表，[巡线，超声波，蓝牙，红外，自平衡]
-board.mode // 当前模式
-
-
--------- 实现1 --------
-优点：结构比较清晰
------------------------
-board.getVoltage() 获取电压
-board.Led.setColor(port,r,g,b) // 基本模式
-         .turnOff()
-         .blink()
-board.Tone.playTone(buzzer, beat) // 基本模式
-
-board.Sensor.getStatus(
-{
-    "type": "ultrasonic", // 对应到device中的序号
-    "port": 3,
-    "slot": 1
-
-}, function(val) {
-    // use val.
-});
-
--------- 实现2 -------------------------------
-优点：对外接口比较统一，做为底层基础协议，使用该思路
-----------------------------------------------
-通用的方法
-board.getVoltage() 获取电压
-
-board.getBlockStatus({
-    "type": "ultrasonic", // 对应到device中的序号
-    "port": 3,
-    "slot": 1
-}, function(val) {
-    // use val.
-})
-
-board.sendCommand({
-    type: "led_matrix",
-    port: 3,
-    slot: 1,
-    color: [r,g,b]
-});
-
-
-### 数据层
-数据全部交到引擎，引擎提供给上位机，而不是由固件直接提供给上位机。需要一个数据层，用来
-提供数据给使用者。每次路径是：
-
-获取传感器的值：
-应用层发送获取指令-> 引擎接收到发送请求-> 发送给接口层 -> 接口发送给硬件 -> 硬件返回数据给接口 ->
-
-接口通道返回给引擎 -> 引擎处理数据 -> 提交到数据层 -> 数据层上报给应用层。
-
-拆分的好处是，每个环节都可以解耦合，对于应用，只需要发送数据，接收数据。
-
-所有的行为都是异步的，因此采用中间数据层来提供数据管理员角色，所有数据由硬件传递到该层，
-更新该层的数据模型。所有的上层从该层取数据，引擎负责定时更新该层数据。
-上层不直接参与到与底层硬件的数据对接。
-
-涉及到上报模式。
-1. 用户发送一条传感器的读值请求
-2. 注册该读值请求定时器
-3. 数据层注册该传感器数值索引
-4. 启动定时器，定时更新数据层中对应索引的数值
-5. 返回该数值
-
-
-### 其他
-实例化主板，主板下会加载对应模块的协议。
-
-先写一个完整的主线，然后从该代码结构中拆分各模块，形成其他模块。
-
-发应该和收放在同一个类中（这是主线）
-
-发送一条指令过程：
-1. 触发command中的send
-2. 从protocol + electronic 组织成具体的协议
-3. 调用command中的doSend 进行发送
-
-
-
-#### note

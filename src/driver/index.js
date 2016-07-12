@@ -1,7 +1,7 @@
 /**
  * package driver implements a variety of communicate drivers, eg serial, bluetooth ...
  */
-var MakeBlockHD = require('./makeblockHd');
+var MakeBlockHD = require('./makeblock_hd');
 // var CordovaBle = require('./cordova');
 var logger = require('../log/log4js').logger;
 /**

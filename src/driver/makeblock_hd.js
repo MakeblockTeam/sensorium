@@ -35,9 +35,8 @@ function MakeblockHD() {
     if (window) {
       window.receiveBluetoothData = function(str) {
         var data = string2buffer(str);
-
         // parse buffer data
-        parse.doParse(data);
+        parse.doParse(data, driver);
       };
     }
   };
@@ -48,10 +47,10 @@ function MakeblockHD() {
    * @return {[integer]}     [the actual byte length sent. -1 if send fails.]
    */
   this._send = function(buf) {
-    // 发送数据
-    console.log(buf);
-    // var tempBuf = new Buffer(buf.byteLength + 3);
-    // return TellNative.sendViaBluetooth(buffer2string(tempBuf));
+
+    if(typeof TellNative != "undefined") {
+        return TellNative.sendViaBluetooth(buffer2string(tempBuf));
+    }
   };
 
 

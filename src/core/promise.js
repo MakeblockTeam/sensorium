@@ -1,5 +1,10 @@
+/**
+ * @fileOverview PromiveList is sensor data's transfer station.
+ * 用于处理传感器数据分发
+ */
+
 var PromiseList = {
-    requestList: new Array(128),
+    requestList: new Array(255),
     index: 1,
 
     add: function(type, callback, valueWrapper) {
@@ -31,7 +36,7 @@ var PromiseList = {
         if(this.requestList[index]) {
             return this.requestList[index].type;
         } else {
-            console.log("返回字节的索引值无法匹配");
+            logger.debug("返回字节的索引值无法匹配");
             return 0;
         }
     }

@@ -1,6 +1,6 @@
 /**
- * @fileOverview all electronic module‘s type.
- * 需要统下列名称，保证唯一性
+ * @fileOverview all electronic module‘s type name and device id.
+ * 需要统下列电子模块名称，保证唯一性
  */
 
 var Device = {
@@ -28,7 +28,7 @@ var Device = {
     "flame":                            24,
     "gas":                              25,
     "compass":                          26,
-    "temperature_1":                    27,
+    "temperatureOnBoard":               27,
     "digital":                          30,
     "analog":                           31,
     "pwm":                              32,

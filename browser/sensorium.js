@@ -5451,22 +5451,34 @@ function hasOwnProperty(obj, prop) {
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{"./support/isBuffer":16,"_process":13,"inherits":4}],18:[function(require,module,exports){
 /**
- * @fileOverview board用做通信类，被其他几大主板调用, 例如 orion, mcore, auriga, megaPi.
+ * @fileOverview board用做通信基类，被其他几大主板继承, 例如 orion, mcore, auriga, megaPi.
  * @author Hyman (hujinhong@makelbock.cc)
  */
 
 var createDriver = require("../driver/index.js").create;
-var _driver = null;
+var CONFIG = require("./config");
+var ValueWrapper = require("../core/value_wrapper");
+var PromiseList = require("../core/promise");
+var logger = require('../log/log4js').logger;
+var utils = require("../core/utils");
 
-function Board(conf) {
-    this.setDriver(conf.driver);
+
+function Board() {
+
 }
 
+Board.prototype.init = function(conf) {
+    this.setDriver(conf.driver);
+    logger.warn("Driver: " + conf.driver);
+};
+
 Board.prototype.setDriver = function(driver) {
+    var that = this;
     this.driver = createDriver(driver);
-    this.driver.on('data', function(buffer) {
-        // 拿到数据
-        this._processData();
+
+    // get data from parse.
+    this.driver.on('data', function(index, result) {
+        that.sensorCallback(index, result);
     });
 
     this.driver.on('error', function(err) {
@@ -5474,50 +5486,252 @@ Board.prototype.setDriver = function(driver) {
     });
 };
 
-module.exports = Board;
+/**
+ * Get sensor's value.
+ * @param  {String}   deviceType the sensor's type.
+ * @param  {Object}   options    config options, such as port, slot etc.
+ * @param  {Function} callback   the function to be excuted.
+ */
+Board.prototype.getSensorValue = function(deviceType, options, callback) {
+    var params = {};
+    params.deviceType = deviceType;
+    params.callback = callback;
+    params.port = options.port;
+    params.slot = options.slot;
+    var valueWrapper = new ValueWrapper();
+    var index = PromiseList.add(deviceType, callback, valueWrapper);
+    params.index = index;
 
-},{"../driver/index.js":25}],19:[function(require,module,exports){
+    // 发送读取指令
+    this._doGetSensorValue(params);
+
+    if(CONFIG.OPEN_RESNET_MODE) {
+        // 执行超时检测
+        this._handlerCommandSendTimeout(params);
+    }
+    return valueWrapper;
+};
+
+Board.prototype._doGetSensorValue = function(params) {
+    var that = this;
+    this._readBlockStatus(params);
+
+    // 模拟回复指令
+    setTimeout(function() {
+        var result = 1000;
+        that.sensorCallback(params.index, result);
+    }, 200);
+};
+
+/**
+ * Read module's value.
+ * @param  {object} params command params.
+ */
+Board.prototype._readBlockStatus = function(params) {
+    var deviceType = params.deviceType;
+    var index = params.index;
+    var port = params.port;
+    var slot = params.slot || null;
+    var funcName = 'this.read' + utils.upperCaseFirstLetter(deviceType);
+    var paramsStr = '(' + index + ',' + port + ',' + slot + ')';
+    var func = funcName + paramsStr;
+    eval(func);
+};
+
+/**
+ * Command sending timeout handler.
+ * @param  {Object} params params.
+ */
+Board.prototype._handlerCommandSendTimeout = function(params) {
+    var that = this;
+    var promiseItem = PromiseList.requestList[params.index];
+    setTimeout(function() {
+        if(promiseItem.hasReceivedValue) {
+            // 成功拿到数据，不进行处理
+            return;
+        } else {
+            // 超过规定的时间，还没有拿到数据，需要进行超时重发处理
+            if(promiseItem.resentCount >= CONFIG.RESENT_COUNT) {
+                // 如果重发的次数大于规定次数,则终止重发
+                console.log("【resend ends】");
+                return;
+            } else {
+                console.log('【resend】:' + params.index);
+                promiseItem.resentCount  = promiseItem.resentCount || 0;
+                promiseItem.resentCount++;
+                that._doGetSensorValue(params);
+                that._handlerCommandSendTimeout(params);
+            }
+        }
+    }, CONFIG.COMMAND_SEND_TIMEOUT);
+};
+
+/**
+ * Send sensor's data.
+ * @param  {[type]} command [description]
+ */
+Board.prototype.send = function(command) {
+    console.log(utils.intStrToHexStr(command));
+    this.driver.send(command);
+};
+
+/**
+ * Get value form sensor and put the value to user's callback.
+ * @param  {Number} index  the index of sensor's request command in promiseList
+ * @param  {Number} result the value of sensor.
+ */
+Board.prototype.sensorCallback = function(index, result) {
+    var deviceType = PromiseList.getType(index);
+    logger.warn(deviceType + ": " + result);
+    PromiseList.receiveValue(index, result);
+};
+
+
+module.exports = Board;
+},{"../core/promise":21,"../core/utils":22,"../core/value_wrapper":23,"../driver/index.js":25,"../log/log4js":27,"./config":19}],19:[function(require,module,exports){
+var Config = {
+    // whether open console.log
+    OPEN_LOG: false,
+    // 开启超时重发
+    OPEN_RESNET_MODE: false,
+    // 超时重发的次数
+    RESENT_COUNT : 3,
+    // 读值指令超时的设定
+    COMMAND_SEND_TIMEOUT : 2000,
+};
+
+module.exports = Config;
+},{}],20:[function(require,module,exports){
 /**
  * @fileOverview 负责实际的数据解析
  */
 
+var SETTINGS = require("../protocol/settings");
+var PromiseList = require("./promise");
+var logger = require('../log/log4js').logger;
+
 function Parse() {
+    this.buffer = [];
 
     // 解析从硬件传递过来的数据
-    this.doParse = function(data, callback) {
-        this._data = data;
-        console.log(data);
+    this.doParse = function(data, driver) {
+        logger.debug('【parse data】:' + data);
 
+        var bytes = data.split(" ");
+        for (var i = 0; i < bytes.length; i++) {
+            this.buffer.push(bytes[i]);
+            var length = this.buffer.length;
+            // 过滤无效数据
+            if (length > 1 && this.buffer[length - 2] == SETTINGS.COMMAND_HEAD[0] && this.buffer[length - 1] == SETTINGS.COMMAND_HEAD[1]) {
+                if (this.buffer.length != 10) {
+                    this.buffer = [];
+                } else {
+                    /* 以下为有效数据 */
 
-        // var bytes = data.split(" ");
-        // for (var i = 0; i < bytes.length; i++) {
-        //     this.buffer.push(bytes[i]);
-        //     var length = this.buffer.length;
-        //     // 过滤无效数据
-        //     if (length > 1 && this.buffer[length - 2] == this.SETTING.READ_CHUNK_SUFFIX[0] && this.buffer[length - 1] == this.SETTING.READ_CHUNK_SUFFIX[1]) {
-        //         if (this.buffer.length != 10) {
-        //             this.buffer = [];
-        //         } else {
-        //             // 以下为有效数据, 获取返回字节流中的索引位
-        //             var dataIndex = this.buffer[this.SETTING.READ_BYTES_INDEX];
-        //             console.log('【dataIndex】：' + dataIndex);
-        //             if(MBlockly.Control.PromiseList.getType(dataIndex) || MBlockly.Control.PromiseList.getType(dataIndex) == 0) {
-        //                 var promiseType = MBlockly.Control.PromiseList.getType(dataIndex);
-        //                 // 计算对应传感器的返回值
-        //                 this.sensor_callback(promiseType);
-        //             }
-        //             this.buffer = [];
-        //         }
-        //     }
-        // }
-    }
+                    // 获取返回字节流中的索引位
+                    var dataIndex = this.buffer[SETTINGS.READ_BYTES_INDEX];
+                    var result = this.getResult(this.buffer);
 
+                    // 接收到数据后，启用回调
+                    if (driver._on_data) {
+                        driver._on_data(dataIndex, result);
+                    } else {
+                        logger.warn("driver data callback not found!");
+                    }
+                    this.buffer = [];
+                }
+            }
+        }
+    };
+
+    /**
+     * Get result from buffer data.
+     * @param  {Array} bufArray buffer data
+     * @return {Float}         value of sensor's callback
+     * 回复数据数值解析, 从左到右第四位数据：
+     *     1: 单字符(1 byte)
+     *     2： float(4 byte)
+     *     3： short(2 byte)，16个长度
+     *     4： 字符串
+     *     5： double(4 byte)
+     *     6: long(4 byte)
+     */
+    this.getResult = function(bufArray) {
+        var value = null;
+        var len = bufArray.length;
+        var dataType = bufArray[3];
+
+        if(bufArray[len - 1] == SETTINGS.COMMAND_END[1] && (bufArray[len - 2] == SETTINGS.COMMAND_END[0])) {
+
+            if(dataType == 3) {
+                // 2byte
+                var a = bufArray.slice(len - 4, len - 2).join(" ");
+                value = this.calculate(a);
+            } else if(dataType == 1) {
+                // 1byte
+                var a = bufArray.slice(len - 3, len - 2).join(" ");
+                value = this.calculate(a);
+            } else if( dataType == 4) {
+                // chart
+                value = bufArray.join(" ");
+            } else {
+                // 4byte
+                var a = bufArray.slice(len - 6, len - 2).join(" ");
+                value = this.calculate(a);
+            }
+        }
+        return value;
+    };
+
+    /**
+     * Calcute result form buffer segment.
+     * @param  {[type]} bufferPart [description]
+     * @return {float}            [description]
+     */
+    this.calculate = function(bufSegment) {
+        var result = this.intArray2float(bufSegment);
+        return result;
+    };
+
+     /**
+     * Transfer short type data to float number.
+     * @param  {array} intArray decimal array
+     * @return {float} the calculate result
+     */
+    this.intArray2float = function(intArray) {
+        // FIXME: n个byte转成int值
+        var bytesToInt = function(intArray) {
+            var val = 0;
+            for(var i = intArray.length - 1; i >= 0; i--) {
+                val += (intArray[intArray.length - i - 1] << (i * 8) );
+            }
+            return val;
+        };
+        // FIXME: int字节转浮点型
+        var intBitsToFloat = function(num) {
+            /* s 为符号（sign）；e 为指数（exponent）；m 为有效位数（mantissa）*/
+            s = (num >> 31) == 0 ? 1 : -1,
+                e = (num >> 23) & 0xff,
+                m = (e == 0) ?
+                (num & 0x7fffff) << 1 :
+                (num & 0x7fffff) | 0x800000;
+            return s * m * Math.pow(2, e - 150);
+        };
+        var intValue = bytesToInt(intArray);
+        var result = parseFloat(intBitsToFloat(intValue).toFixed(2));
+        return result;
+    };
 }
 
 module.exports = Parse;
-},{}],20:[function(require,module,exports){
+},{"../log/log4js":27,"../protocol/settings":33,"./promise":21}],21:[function(require,module,exports){
+/**
+ * @fileOverview PromiveList is sensor data's transfer station.
+ * 用于处理传感器数据分发
+ */
+
 var PromiseList = {
-    requestList: new Array(128),
+    requestList: new Array(255),
     index: 1,
 
     add: function(type, callback, valueWrapper) {
@@ -5549,7 +5763,7 @@ var PromiseList = {
         if(this.requestList[index]) {
             return this.requestList[index].type;
         } else {
-            console.log("返回字节的索引值无法匹配");
+            logger.debug("返回字节的索引值无法匹配");
             return 0;
         }
     }
@@ -5557,34 +5771,12 @@ var PromiseList = {
 
 
 module.exports = PromiseList;
-},{}],21:[function(require,module,exports){
-var settings = {
-    // whether open console.log
-    OPEN_LOG: false,
-
-    // 开启超时重发
-    OPEN_RESNET_MODE: false
-};
-
-module.exports = settings;
 },{}],22:[function(require,module,exports){
 /**
  * @fileOverview 工具类函数
  */
 
 var Utils = {
-    extend : function() {
-        var args = arguments;
-        if (args.length < 2) { return };
-        var temp = args[0];
-        for (var n = 1; n < args.length; n++) {
-            for (var i in args[n]) {
-                temp[i] = args[n][i];
-            }
-        }
-        return temp;
-    },
-
     // 将十进制字符串数组转为16进制
     intStrToHexStr: function(data) {
         var temp = [];
@@ -5718,7 +5910,8 @@ ValueWrapper.prototype.setValue = function(value) {
 module.exports = ValueWrapper;
 },{}],24:[function(require,module,exports){
 /**
- * the driver base class
+ * @fileOverview The driver base class.
+ * 用于数据通信
  */
 var logger = require('../log/log4js').logger;
 
@@ -5739,6 +5932,11 @@ function Driver() {
     }
   };
 
+  /**
+   * [event register]
+   * @param  {String}   event    event type
+   * @param  {Function} callback functino to be excuted.
+   */
   this.on = function(event, callback) {
     switch (event) {
       case 'data':
@@ -5760,7 +5958,7 @@ module.exports = Driver;
 /**
  * package driver implements a variety of communicate drivers, eg serial, bluetooth ...
  */
-var MakeBlockHD = require('./makeblockHd');
+var MakeBlockHD = require('./makeblock_hd');
 // var CordovaBle = require('./cordova');
 var logger = require('../log/log4js').logger;
 /**
@@ -5796,7 +5994,7 @@ function create(type) {
 
 exports.create = create;
 
-},{"../log/log4js":27,"./makeblockHd":26}],26:[function(require,module,exports){
+},{"../log/log4js":27,"./makeblock_hd":26}],26:[function(require,module,exports){
 /**
  * driver for makeblockHD APP( js bridge)
  */
@@ -5834,9 +6032,8 @@ function MakeblockHD() {
     if (window) {
       window.receiveBluetoothData = function(str) {
         var data = string2buffer(str);
-
         // parse buffer data
-        parse.doParse(data);
+        parse.doParse(data, driver);
       };
     }
   };
@@ -5847,10 +6044,10 @@ function MakeblockHD() {
    * @return {[integer]}     [the actual byte length sent. -1 if send fails.]
    */
   this._send = function(buf) {
-    // 发送数据
-    console.log(buf);
-    // var tempBuf = new Buffer(buf.byteLength + 3);
-    // return TellNative.sendViaBluetooth(buffer2string(tempBuf));
+
+    if(typeof TellNative != "undefined") {
+        return TellNative.sendViaBluetooth(buffer2string(tempBuf));
+    }
   };
 
 
@@ -5860,13 +6057,15 @@ MakeblockHD.prototype = driver;
 
 module.exports = MakeblockHD;
 
-},{"../core/parse":19,"./driver":24}],27:[function(require,module,exports){
+},{"../core/parse":20,"./driver":24}],27:[function(require,module,exports){
 var log4js = require('log4js');
+
+
 log4js.configure({
   appenders: [
     { type: 'console' } //控制台输出
-  ],
-  replaceConsole: true
+    ],
+    replaceConsole: true
 });
 
 var logger = log4js.getLogger('engineLog');
@@ -5874,43 +6073,21 @@ var logger = log4js.getLogger('engineLog');
 function setLoglevel(level){
   logger.setLevel(level);
 }
+
 exports.setLoglevel = setLoglevel;
 exports.logger = logger;
 
 },{"log4js":10}],28:[function(require,module,exports){
 var Board = require("../core/board");
-var PromiseList = require("../core/promise.js");
-var Device = require("./device.js");
-var ValueWrapper = require("../core/valueWrapper.js");
-var Setting = require("../core/setting.js");
-var utils = require("../core/utils.js");
+var utils = require("../core/utils");
+var SETTINGS = require("./settings");
 var _ = require('underscore');
 
-var DEFAULT_CONF = {
-    driver: 'makeblockhd'
-};
+var board = new Board();
 
 function Auriga(conf) {
-    this._config = _.extend(DEFAULT_CONF, conf || {});
-    var board = new Board(this._config);
-
-    this.SETTING = {
-        // 数据发送与接收相关
-        COMMAND_HEAD: [0xff, 0x55],
-        COMMAND_END: [0x0d, 0x0a],
-        // 回复数据的index位置
-        READ_BYTES_INDEX: 2,
-        // 发送数据中表示“读”的值
-        READ_MODE: 1,
-        // 发送数据中表示“写”的值
-        WRITE_MODE: 2,
-        // 超时重发的次数
-        RESENT_COUNT : 3,
-        // 读值指令超时的设定
-        COMMAND_SEND_TIMEOUT : 2000,
-    };
-
-    this.buffer = [];
+    this._config = _.extend(SETTINGS.DEFAULT_CONF, conf || {});
+    board.init(this._config);
 
     /**
      * Set dc motor speed.
@@ -5921,16 +6098,16 @@ function Auriga(conf) {
      */
     this.setDcMotor = function(port, speed) {
         var a = [
-            this.SETTING.COMMAND_HEAD[0],
-            this.SETTING.COMMAND_HEAD[1],
+            SETTINGS.COMMAND_HEAD[0],
+            SETTINGS.COMMAND_HEAD[1],
             0x06, 0,
-            this.SETTING.WRITE_MODULE,
+            SETTINGS.WRITE_MODE,
             0x0a,
             port,
             speed & 0xff,
             (speed >> 8) & 0xff
         ];
-        board.driver.send(a);
+        board.send(a);
     },
 
     /**
@@ -5942,18 +6119,18 @@ function Auriga(conf) {
      */
     this.setEncoderMotorBoard = function(slot, speed) {
         var a = [
-            this.SETTING.COMMAND_HEAD[0],
-            this.SETTING.COMMAND_HEAD[1],
+            SETTINGS.COMMAND_HEAD[0],
+            SETTINGS.COMMAND_HEAD[1],
             0x07, 0,
-            this.SETTING.WRITE_MODULE,
+            SETTINGS.WRITE_MODE,
             0x3d,
             0,
             slot,
             speed & 0xff,
             (speed >> 8) & 0xff
         ];
-        board.driver.send(a);
-    },
+        board.send(a);
+    };
 
     /**
      * Set both left speed and right speed with one command.
@@ -5964,18 +6141,18 @@ function Auriga(conf) {
      */
     this.setVirtualJoystick = function(leftSpeed, rightSpeed) {
         var a = [
-            this.SETTING.COMMAND_HEAD[0],
-            this.SETTING.COMMAND_HEAD[1],
+            SETTINGS.COMMAND_HEAD[0],
+            SETTINGS.COMMAND_HEAD[1],
             0x07, 0,
-            this.SETTING.WRITE_MODULE,
+            SETTINGS.WRITE_MODE,
             0x05,
             leftSpeed & 0xff,
             (leftSpeed >> 8) & 0xff,
             rightSpeed & 0xff,
             (rightSpeed >> 8) & 0xff
         ];
-        board.driver.send(a);
-    },
+        board.send(a);
+    };
 
     /**
      * Set speed for balance mode.
@@ -5987,18 +6164,18 @@ function Auriga(conf) {
      */
     this.setVirtualJoystickForBalance = function(port, turnExtent, speed) {
         var a = [
-            this.SETTING.COMMAND_HEAD[0],
-            this.SETTING.COMMAND_HEAD[1],
+            SETTINGS.COMMAND_HEAD[0],
+            SETTINGS.COMMAND_HEAD[1],
             0x08, 0,
-            this.SETTING.WRITE_MODULE,
+            SETTINGS.WRITE_MODE,
             0x34,
             turnExtent & 0xff,
             (turnExtent >> 8) & 0xff,
             speed & 0xff,
             (speed >> 8) & 0xff
         ];
-        board.driver.send(a);
-    },
+        board.send(a);
+    };
 
     /**
      * Set stepper motor speed.
@@ -6010,10 +6187,10 @@ function Auriga(conf) {
      */
     this.setStepperMotor = function(port, speed, distance) {
         var a = [
-            this.SETTING.COMMAND_HEAD[0],
-            this.SETTING.COMMAND_HEAD[1],
+            SETTINGS.COMMAND_HEAD[0],
+            SETTINGS.COMMAND_HEAD[1],
             0x08,0,
-            this.SETTING.WRITE_MODULE,
+            SETTINGS.WRITE_MODE,
             0x28,
             port,
             speed & 0xff,
@@ -6021,8 +6198,8 @@ function Auriga(conf) {
             distance & 0xff,
             (distance >> 8) & 0xff
         ];
-        board.driver.send(a);
-    },
+        board.send(a);
+    };
 
      /**
       * Set RgbFourLed electronic module color.
@@ -6037,17 +6214,17 @@ function Auriga(conf) {
       */
     this.setLed = function(port, slot, position, r, g, b) {
         var a = [
-            this.SETTING.COMMAND_HEAD[0],
-            this.SETTING.COMMAND_HEAD[1],
+            SETTINGS.COMMAND_HEAD[0],
+            SETTINGS.COMMAND_HEAD[1],
             0x09,0,
-            this.SETTING.WRITE_MODULE,
+            SETTINGS.WRITE_MODE,
             0x08,
             port,
             slot,
             position,red,green,blue
         ];
-        board.driver.send(a);
-    },
+        board.send(a);
+    };
 
     /**
      * Set board mode.
@@ -6062,16 +6239,16 @@ function Auriga(conf) {
      */
     this.setFirmwareMode = function(mode) {
         var a = [
-            this.SETTING.COMMAND_HEAD[0],
-            this.SETTING.COMMAND_HEAD[1],
+            SETTINGS.COMMAND_HEAD[0],
+            SETTINGS.COMMAND_HEAD[1],
             0x05,0,
-            this.SETTING.WRITE_MODULE,
+            SETTINGS.WRITE_MODE,
             0x3c,
             0x11, // 0x11 means auriga
             mode
         ];
-        board.driver.send(a);
-    },
+        board.send(a);
+    };
 
     /**
      * Set Servo speed.
@@ -6081,17 +6258,17 @@ function Auriga(conf) {
      */
     this.setServoMotor = function(port, slot, degree) {
         var a = [
-            this.SETTING.COMMAND_HEAD[0],
-            this.SETTING.COMMAND_HEAD[1],
+            SETTINGS.COMMAND_HEAD[0],
+            SETTINGS.COMMAND_HEAD[1],
             0x06,0,
-            this.SETTING.WRITE_MODULE,
+            SETTINGS.WRITE_MODE,
             0x0b,
             port,
             slot,
             degree
         ];
-        board.driver.send(a);
-    },
+        board.send(a);
+    };
 
     /**
      * Set Seven-segment digital tube number.
@@ -6103,10 +6280,10 @@ function Auriga(conf) {
     this.setSevenSegment = function(port, number) {
         var byte4Array = utils.float32ToBytes(number);
         var a = [
-            this.SETTING.COMMAND_HEAD[0],
-            this.SETTING.COMMAND_HEAD[1],
+            SETTINGS.COMMAND_HEAD[0],
+            SETTINGS.COMMAND_HEAD[1],
             0x08,0,
-            this.SETTING.WRITE_MODULE,
+            SETTINGS.WRITE_MODE,
             0x09,
             port,
             parseInt(byte4Array[0], 16),
@@ -6114,8 +6291,8 @@ function Auriga(conf) {
             parseInt(byte4Array[2], 16),
             parseInt(byte4Array[3], 16)
         ];
-        board.driver.send(a);
-    },
+        board.send(a);
+    };
 
     /**
      * Set led matrix chart.
@@ -6129,7 +6306,7 @@ function Auriga(conf) {
      */
     this.setLedMatrixChart = function(port, xAxis, yAxis, length, chart) {
 
-    },
+    };
 
 
     /**
@@ -6143,7 +6320,7 @@ function Auriga(conf) {
      */
     this.setLedMatrixEmotion = function(port, xAxis, yAxis, motionData) {
 
-    },
+    };
 
     /**
      * Set led matrix time.
@@ -6155,7 +6332,7 @@ function Auriga(conf) {
      */
     this.setLedMatrixTime = function(separator, hour, minute) {
 
-    },
+    };
 
     /**
      * Set led matrix number.
@@ -6167,10 +6344,10 @@ function Auriga(conf) {
     this.setLedMatrixNumber = function(port, number) {
         var byte4Array = utils.float32ToBytes(number);
         var a = [
-            this.SETTING.COMMAND_HEAD[0],
-            this.SETTING.COMMAND_HEAD[1],
+            SETTINGS.COMMAND_HEAD[0],
+            SETTINGS.COMMAND_HEAD[1],
             0x09,0,
-            this.SETTING.WRITE_MODULE,
+            SETTINGS.WRITE_MODE,
             0x29,
             port,
             0x04,
@@ -6179,163 +6356,32 @@ function Auriga(conf) {
             parseInt(byte4Array[2], 16),
             parseInt(byte4Array[3], 16)
         ];
-        board.driver.send(a);
-    },
+        board.send(a);
+    };
 
     this.readUltrasonic = function(index, port) {
         var a = [
-            this.SETTING.COMMAND_HEAD[0],
-            this.SETTING.COMMAND_HEAD[1],
+            SETTINGS.COMMAND_HEAD[0],
+            SETTINGS.COMMAND_HEAD[1],
             0x04,index,
-            this.SETTING.READ_MODE,
+            SETTINGS.READ_MODE,
             0x01,
             port
         ];
-        board.driver.send(a);
-    },
-
-    /**
-     * Read module's value.
-     * @param  {object} params command params.
-     */
-    this._readBlockStatus = function(params) {
-        var type = params.type;
-        var index = params.index;
-        var port = params.port;
-        var slot = params.slot || null;
-        var funcName = 'this.read' + utils.upperCaseFirstLetter(type);
-        var paramsStr = '(' + index + ',' + port + ',' + slot + ')';
-        var func = funcName + paramsStr;
-        eval(func);
-    },
-
-    this.getSensorValue = function(type, options, callback) {
-        var params = {};
-        params.type = type;
-        params.callback = callback;
-        params.port = options.port;
-        params.slot = options.slot;
-        var valueWrapper = new ValueWrapper();
-        var index = PromiseList.add(type, callback, valueWrapper);
-        params.index = index;
-
-        // 发送读取指令
-        this._doGetSensorValue(params);
-
-        if(Setting.OPEN_RESNET_MODE) {
-            // 执行超时检测
-            this._handlerCommandSendTimeout(params);
-        }
-        return valueWrapper;
-    },
-
-    this._doGetSensorValue = function(params) {
-        var that = this;
-        this._readBlockStatus(params);
-        // 模拟回复指令
-        setTimeout(function() {
-            that.sensor_callback(params.type, params.index);
-        }, 200);
-    },
-
-    // 处理指令发出后的超时问题，超时后会进行重发
-    this._handlerCommandSendTimeout = function(params) {
-        var that = this;
-        var promiseItem = PromiseList.requestList[params.index];
-        setTimeout(function() {
-            if(promiseItem.hasReceivedValue) {
-                // 成功拿到数据，不进行处理
-                return;
-            } else {
-                // 超过规定的时间，还没有拿到数据，需要进行超时重发处理
-                if(promiseItem.resentCount >= that.setting.RESENT_COUNT) {
-                    // 如果重发的次数大于规定次数,则终止重发
-                    console.log("【resend ends】");
-                    return;
-                } else {
-                    console.log('【resend】:' + params.index);
-                    promiseItem.resentCount  = promiseItem.resentCount || 0;
-                    promiseItem.resentCount++;
-                    that._doGetSensorValue(params);
-                    that._handlerCommandSendTimeout(params);
-                }
-            }
-        }, that.setting.COMMAND_SEND_TIMEOUT);
-    },
-
-    // Todo:
-    this.sensor_callback = function(type, index) {
-        var result = 100;
-        PromiseList.receiveValue(index, result);
-    }
+        board.send(a);
+    };
 }
+
+
+// clone method and attributes from board to Auriga.
+Auriga.prototype = board;
 
 if (typeof window !== "undefined") {
     window.Auriga = Auriga;
 }
 
 module.exports = Auriga;
-},{"../core/board":18,"../core/promise.js":20,"../core/setting.js":21,"../core/utils.js":22,"../core/valueWrapper.js":23,"./device.js":29,"underscore":15}],29:[function(require,module,exports){
-/**
- * @fileOverview all electronic module‘s type.
- * 需要统下列名称，保证唯一性
- */
-
-var Device = {
-    "version":                          0,
-    "ultrasonic":                       1,
-    "temperature":                      2,
-    "light":                            3,
-    "potentionmeter":                   4,
-    "virtualJoystick":                  5,
-    "gyro":                             6,
-    "sound":                            7,
-    "led":                              8,
-    "sevenSegment":                     9,
-    "dcMotor":                          10,
-    "servo":                            11,
-    "encoder":                          12,
-    "ir":                               13,
-    "pirmotion":                        15,
-    "infrared":                         16,
-    "lineFollower":                     17,
-    "shutter":                          20,
-    "limitSwitch":                      21,
-    "button":                           22,
-    "humiture":                         23,
-    "flame":                            24,
-    "gas":                              25,
-    "compass":                          26,
-    "temperature_1":                    27,
-    "digital":                          30,
-    "analog":                           31,
-    "pwm":                              32,
-    "servoPin":                         33,
-    "tone":                             34,
-    "buttonInner":                      35,
-    "ultrasonicArduino":                36,
-    "pulsein":                          37,
-    "stepperMotor":                     40,
-    "ledMatrix":                        41,
-    "timer":                            50,
-    "touch":                            51,
-    "virtualJoystickForBalance":        52,
-    "firmwareMode":                     60,
-      //Secondary command
-      "setStarterMode":                 0x10,
-      "setAurigaMode":                  0x11,
-      "setMegapiMode":                  0x12,
-      "getBatteryPower":                0x70,
-      "getAurigaMode":                  0x71,
-      "getMegapiMode":                  0x72,
-    "encoderMotorBoard":                61,
-      //Read type
-      "encoderMotorBoardPos":           0x01,
-      "encoderMotorBoardSpeed":         0x02
-};
-
-module.exports = Device;
-},{}],30:[function(require,module,exports){
+},{"../core/board":18,"../core/utils":22,"./settings":33,"underscore":15}],29:[function(require,module,exports){
 var Auriga = require("./auriga");
 var Mcore = require("./mcore");
 var Orion = require("./orion");
@@ -6345,40 +6391,17 @@ window.Auriga = Auriga;
 window.Mcore = Mcore;
 window.Orion = Orion;
 window.MegaPi = MegaPi;
-},{"./auriga":28,"./mcore":31,"./megapi":32,"./orion":33}],31:[function(require,module,exports){
+},{"./auriga":28,"./mcore":30,"./megapi":31,"./orion":32}],30:[function(require,module,exports){
 var Board = require("../core/board");
-var PromiseList = require("../core/promise.js");
-var Device = require("./device.js");
-var ValueWrapper = require("../core/valueWrapper.js");
-var Setting = require("../core/setting.js");
-var utils = require("../core/utils.js");
+var utils = require("../core/utils");
+var SETTINGS = require("./settings");
 var _ = require('underscore');
 
-var DEFAULT_CONF = {
-    driver: 'makeblockhd'
-};
+var board = new Board();
 
 function Mcore(conf) {
-    this._config = _.extend(DEFAULT_CONF, conf || {});
-    var board = new Board(this._config);
-
-    this.SETTING = {
-        // 数据发送与接收相关
-        COMMAND_HEAD: [0xff, 0x55],
-        COMMAND_END: [0x0d, 0x0a],
-        // 回复数据的index位置
-        READ_BYTES_INDEX: 2,
-        // 发送数据中表示“读”的值
-        READ_MODE: 1,
-        // 发送数据中表示“写”的值
-        WRITE_MODE: 2,
-        // 超时重发的次数
-        RESENT_COUNT : 3,
-        // 读值指令超时的设定
-        COMMAND_SEND_TIMEOUT : 2000,
-    };
-
-    this.buffer = [];
+    this._config = _.extend(SETTINGS.DEFAULT_CONF, conf || {});
+    board.init(this._config);
 
     /**
      * Set dc motor speed.
@@ -6389,16 +6412,16 @@ function Mcore(conf) {
      */
     this.setDcMotor = function(port, speed) {
         var a = [
-            this.SETTING.COMMAND_HEAD[0],
-            this.SETTING.COMMAND_HEAD[1],
+            SETTINGS.COMMAND_HEAD[0],
+            SETTINGS.COMMAND_HEAD[1],
             0x06, 0,
-            this.SETTING.WRITE_MODULE,
+            SETTINGS.WRITE_MODE,
             0x0a,
             port,
             speed & 0xff,
             (speed >> 8) & 0xff
         ];
-        board.driver.send(a);
+        board.send(a);
     },
 
     /**
@@ -6410,18 +6433,18 @@ function Mcore(conf) {
      */
     this.setEncoderMotorBoard = function(slot, speed) {
         var a = [
-            this.SETTING.COMMAND_HEAD[0],
-            this.SETTING.COMMAND_HEAD[1],
+            SETTINGS.COMMAND_HEAD[0],
+            SETTINGS.COMMAND_HEAD[1],
             0x07, 0,
-            this.SETTING.WRITE_MODULE,
+            SETTINGS.WRITE_MODE,
             0x3d,
             0,
             slot,
             speed & 0xff,
             (speed >> 8) & 0xff
         ];
-        board.driver.send(a);
-    },
+        board.send(a);
+    };
 
     /**
      * Set both left speed and right speed with one command.
@@ -6432,18 +6455,18 @@ function Mcore(conf) {
      */
     this.setVirtualJoystick = function(leftSpeed, rightSpeed) {
         var a = [
-            this.SETTING.COMMAND_HEAD[0],
-            this.SETTING.COMMAND_HEAD[1],
+            SETTINGS.COMMAND_HEAD[0],
+            SETTINGS.COMMAND_HEAD[1],
             0x07, 0,
-            this.SETTING.WRITE_MODULE,
+            SETTINGS.WRITE_MODE,
             0x05,
             leftSpeed & 0xff,
             (leftSpeed >> 8) & 0xff,
             rightSpeed & 0xff,
             (rightSpeed >> 8) & 0xff
         ];
-        board.driver.send(a);
-    },
+        board.send(a);
+    };
 
     /**
      * Set speed for balance mode.
@@ -6455,18 +6478,18 @@ function Mcore(conf) {
      */
     this.setVirtualJoystickForBalance = function(port, turnExtent, speed) {
         var a = [
-            this.SETTING.COMMAND_HEAD[0],
-            this.SETTING.COMMAND_HEAD[1],
+            SETTINGS.COMMAND_HEAD[0],
+            SETTINGS.COMMAND_HEAD[1],
             0x08, 0,
-            this.SETTING.WRITE_MODULE,
+            SETTINGS.WRITE_MODE,
             0x34,
             turnExtent & 0xff,
             (turnExtent >> 8) & 0xff,
             speed & 0xff,
             (speed >> 8) & 0xff
         ];
-        board.driver.send(a);
-    },
+        board.send(a);
+    };
 
     /**
      * Set stepper motor speed.
@@ -6478,10 +6501,10 @@ function Mcore(conf) {
      */
     this.setStepperMotor = function(port, speed, distance) {
         var a = [
-            this.SETTING.COMMAND_HEAD[0],
-            this.SETTING.COMMAND_HEAD[1],
+            SETTINGS.COMMAND_HEAD[0],
+            SETTINGS.COMMAND_HEAD[1],
             0x08,0,
-            this.SETTING.WRITE_MODULE,
+            SETTINGS.WRITE_MODE,
             0x28,
             port,
             speed & 0xff,
@@ -6489,8 +6512,8 @@ function Mcore(conf) {
             distance & 0xff,
             (distance >> 8) & 0xff
         ];
-        board.driver.send(a);
-    },
+        board.send(a);
+    };
 
      /**
       * Set RgbFourLed electronic module color.
@@ -6505,17 +6528,17 @@ function Mcore(conf) {
       */
     this.setLed = function(port, slot, position, r, g, b) {
         var a = [
-            this.SETTING.COMMAND_HEAD[0],
-            this.SETTING.COMMAND_HEAD[1],
+            SETTINGS.COMMAND_HEAD[0],
+            SETTINGS.COMMAND_HEAD[1],
             0x09,0,
-            this.SETTING.WRITE_MODULE,
+            SETTINGS.WRITE_MODE,
             0x08,
             port,
             slot,
             position,red,green,blue
         ];
-        board.driver.send(a);
-    },
+        board.send(a);
+    };
 
     /**
      * Set board mode.
@@ -6530,16 +6553,16 @@ function Mcore(conf) {
      */
     this.setFirmwareMode = function(mode) {
         var a = [
-            this.SETTING.COMMAND_HEAD[0],
-            this.SETTING.COMMAND_HEAD[1],
+            SETTINGS.COMMAND_HEAD[0],
+            SETTINGS.COMMAND_HEAD[1],
             0x05,0,
-            this.SETTING.WRITE_MODULE,
+            SETTINGS.WRITE_MODE,
             0x3c,
             0x11, // 0x11 means auriga
             mode
         ];
-        board.driver.send(a);
-    },
+        board.send(a);
+    };
 
     /**
      * Set Servo speed.
@@ -6549,17 +6572,17 @@ function Mcore(conf) {
      */
     this.setServoMotor = function(port, slot, degree) {
         var a = [
-            this.SETTING.COMMAND_HEAD[0],
-            this.SETTING.COMMAND_HEAD[1],
+            SETTINGS.COMMAND_HEAD[0],
+            SETTINGS.COMMAND_HEAD[1],
             0x06,0,
-            this.SETTING.WRITE_MODULE,
+            SETTINGS.WRITE_MODE,
             0x0b,
             port,
             slot,
             degree
         ];
-        board.driver.send(a);
-    },
+        board.send(a);
+    };
 
     /**
      * Set Seven-segment digital tube number.
@@ -6571,10 +6594,10 @@ function Mcore(conf) {
     this.setSevenSegment = function(port, number) {
         var byte4Array = utils.float32ToBytes(number);
         var a = [
-            this.SETTING.COMMAND_HEAD[0],
-            this.SETTING.COMMAND_HEAD[1],
+            SETTINGS.COMMAND_HEAD[0],
+            SETTINGS.COMMAND_HEAD[1],
             0x08,0,
-            this.SETTING.WRITE_MODULE,
+            SETTINGS.WRITE_MODE,
             0x09,
             port,
             parseInt(byte4Array[0], 16),
@@ -6582,8 +6605,8 @@ function Mcore(conf) {
             parseInt(byte4Array[2], 16),
             parseInt(byte4Array[3], 16)
         ];
-        board.driver.send(a);
-    },
+        board.send(a);
+    };
 
     /**
      * Set led matrix chart.
@@ -6597,7 +6620,7 @@ function Mcore(conf) {
      */
     this.setLedMatrixChart = function(port, xAxis, yAxis, length, chart) {
 
-    },
+    };
 
 
     /**
@@ -6611,7 +6634,7 @@ function Mcore(conf) {
      */
     this.setLedMatrixEmotion = function(port, xAxis, yAxis, motionData) {
 
-    },
+    };
 
     /**
      * Set led matrix time.
@@ -6623,7 +6646,7 @@ function Mcore(conf) {
      */
     this.setLedMatrixTime = function(separator, hour, minute) {
 
-    },
+    };
 
     /**
      * Set led matrix number.
@@ -6635,10 +6658,10 @@ function Mcore(conf) {
     this.setLedMatrixNumber = function(port, number) {
         var byte4Array = utils.float32ToBytes(number);
         var a = [
-            this.SETTING.COMMAND_HEAD[0],
-            this.SETTING.COMMAND_HEAD[1],
+            SETTINGS.COMMAND_HEAD[0],
+            SETTINGS.COMMAND_HEAD[1],
             0x09,0,
-            this.SETTING.WRITE_MODULE,
+            SETTINGS.WRITE_MODE,
             0x29,
             port,
             0x04,
@@ -6647,136 +6670,42 @@ function Mcore(conf) {
             parseInt(byte4Array[2], 16),
             parseInt(byte4Array[3], 16)
         ];
-        board.driver.send(a);
-    },
+        board.send(a);
+    };
 
     this.readUltrasonic = function(index, port) {
         var a = [
-            this.SETTING.COMMAND_HEAD[0],
-            this.SETTING.COMMAND_HEAD[1],
+            SETTINGS.COMMAND_HEAD[0],
+            SETTINGS.COMMAND_HEAD[1],
             0x04,index,
-            this.SETTING.READ_MODE,
+            SETTINGS.READ_MODE,
             0x01,
             port
         ];
-        board.driver.send(a);
-    },
-
-    /**
-     * Read module's value.
-     * @param  {object} params command params.
-     */
-    this._readBlockStatus = function(params) {
-        var type = params.type;
-        var index = params.index;
-        var port = params.port;
-        var slot = params.slot || null;
-        var funcName = 'this.read' + utils.upperCaseFirstLetter(type);
-        var paramsStr = '(' + index + ',' + port + ',' + slot + ')';
-        var func = funcName + paramsStr;
-        eval(func);
-    },
-
-    this.getSensorValue = function(type, options, callback) {
-        var params = {};
-        params.type = type;
-        params.callback = callback;
-        params.port = options.port;
-        params.slot = options.slot;
-        var valueWrapper = new ValueWrapper();
-        var index = PromiseList.add(type, callback, valueWrapper);
-        params.index = index;
-
-        // 发送读取指令
-        this._doGetSensorValue(params);
-
-        if(Setting.OPEN_RESNET_MODE) {
-            // 执行超时检测
-            this._handlerCommandSendTimeout(params);
-        }
-        return valueWrapper;
-    },
-
-    this._doGetSensorValue = function(params) {
-        var that = this;
-        this._readBlockStatus(params);
-        // 模拟回复指令
-        setTimeout(function() {
-            that.sensor_callback(params.type, params.index);
-        }, 200);
-    },
-
-    // 处理指令发出后的超时问题，超时后会进行重发
-    this._handlerCommandSendTimeout = function(params) {
-        var that = this;
-        var promiseItem = PromiseList.requestList[params.index];
-        setTimeout(function() {
-            if(promiseItem.hasReceivedValue) {
-                // 成功拿到数据，不进行处理
-                return;
-            } else {
-                // 超过规定的时间，还没有拿到数据，需要进行超时重发处理
-                if(promiseItem.resentCount >= that.setting.RESENT_COUNT) {
-                    // 如果重发的次数大于规定次数,则终止重发
-                    console.log("【resend ends】");
-                    return;
-                } else {
-                    console.log('【resend】:' + params.index);
-                    promiseItem.resentCount  = promiseItem.resentCount || 0;
-                    promiseItem.resentCount++;
-                    that._doGetSensorValue(params);
-                    that._handlerCommandSendTimeout(params);
-                }
-            }
-        }, that.setting.COMMAND_SEND_TIMEOUT);
-    },
-
-    // Todo:
-    this.sensor_callback = function(type, index) {
-        var result = 100;
-        PromiseList.receiveValue(index, result);
-    }
+        board.send(a);
+    };
 }
+
+
+// clone method and attributes from board to Mcore.
+Mcore.prototype = board;
 
 if (typeof window !== "undefined") {
     window.Mcore = Mcore;
 }
 
 module.exports = Mcore;
-},{"../core/board":18,"../core/promise.js":20,"../core/setting.js":21,"../core/utils.js":22,"../core/valueWrapper.js":23,"./device.js":29,"underscore":15}],32:[function(require,module,exports){
+},{"../core/board":18,"../core/utils":22,"./settings":33,"underscore":15}],31:[function(require,module,exports){
 var Board = require("../core/board");
-var PromiseList = require("../core/promise.js");
-var Device = require("./device.js");
-var ValueWrapper = require("../core/valueWrapper.js");
-var Setting = require("../core/setting.js");
-var utils = require("../core/utils.js");
+var utils = require("../core/utils");
+var SETTINGS = require("./settings");
 var _ = require('underscore');
 
-var DEFAULT_CONF = {
-    driver: 'makeblockhd'
-};
+var board = new Board();
 
 function MegaPi(conf) {
-    this._config = _.extend(DEFAULT_CONF, conf || {});
-    var board = new Board(this._config);
-
-    this.SETTING = {
-        // 数据发送与接收相关
-        COMMAND_HEAD: [0xff, 0x55],
-        COMMAND_END: [0x0d, 0x0a],
-        // 回复数据的index位置
-        READ_BYTES_INDEX: 2,
-        // 发送数据中表示“读”的值
-        READ_MODE: 1,
-        // 发送数据中表示“写”的值
-        WRITE_MODE: 2,
-        // 超时重发的次数
-        RESENT_COUNT : 3,
-        // 读值指令超时的设定
-        COMMAND_SEND_TIMEOUT : 2000,
-    };
-
-    this.buffer = [];
+    this._config = _.extend(SETTINGS.DEFAULT_CONF, conf || {});
+    board.init(this._config);
 
     /**
      * Set dc motor speed.
@@ -6787,16 +6716,16 @@ function MegaPi(conf) {
      */
     this.setDcMotor = function(port, speed) {
         var a = [
-            this.SETTING.COMMAND_HEAD[0],
-            this.SETTING.COMMAND_HEAD[1],
+            SETTINGS.COMMAND_HEAD[0],
+            SETTINGS.COMMAND_HEAD[1],
             0x06, 0,
-            this.SETTING.WRITE_MODULE,
+            SETTINGS.WRITE_MODE,
             0x0a,
             port,
             speed & 0xff,
             (speed >> 8) & 0xff
         ];
-        board.driver.send(a);
+        board.send(a);
     },
 
     /**
@@ -6808,18 +6737,18 @@ function MegaPi(conf) {
      */
     this.setEncoderMotorBoard = function(slot, speed) {
         var a = [
-            this.SETTING.COMMAND_HEAD[0],
-            this.SETTING.COMMAND_HEAD[1],
+            SETTINGS.COMMAND_HEAD[0],
+            SETTINGS.COMMAND_HEAD[1],
             0x07, 0,
-            this.SETTING.WRITE_MODULE,
+            SETTINGS.WRITE_MODE,
             0x3d,
             0,
             slot,
             speed & 0xff,
             (speed >> 8) & 0xff
         ];
-        board.driver.send(a);
-    },
+        board.send(a);
+    };
 
     /**
      * Set both left speed and right speed with one command.
@@ -6830,18 +6759,18 @@ function MegaPi(conf) {
      */
     this.setVirtualJoystick = function(leftSpeed, rightSpeed) {
         var a = [
-            this.SETTING.COMMAND_HEAD[0],
-            this.SETTING.COMMAND_HEAD[1],
+            SETTINGS.COMMAND_HEAD[0],
+            SETTINGS.COMMAND_HEAD[1],
             0x07, 0,
-            this.SETTING.WRITE_MODULE,
+            SETTINGS.WRITE_MODE,
             0x05,
             leftSpeed & 0xff,
             (leftSpeed >> 8) & 0xff,
             rightSpeed & 0xff,
             (rightSpeed >> 8) & 0xff
         ];
-        board.driver.send(a);
-    },
+        board.send(a);
+    };
 
     /**
      * Set speed for balance mode.
@@ -6853,18 +6782,18 @@ function MegaPi(conf) {
      */
     this.setVirtualJoystickForBalance = function(port, turnExtent, speed) {
         var a = [
-            this.SETTING.COMMAND_HEAD[0],
-            this.SETTING.COMMAND_HEAD[1],
+            SETTINGS.COMMAND_HEAD[0],
+            SETTINGS.COMMAND_HEAD[1],
             0x08, 0,
-            this.SETTING.WRITE_MODULE,
+            SETTINGS.WRITE_MODE,
             0x34,
             turnExtent & 0xff,
             (turnExtent >> 8) & 0xff,
             speed & 0xff,
             (speed >> 8) & 0xff
         ];
-        board.driver.send(a);
-    },
+        board.send(a);
+    };
 
     /**
      * Set stepper motor speed.
@@ -6876,10 +6805,10 @@ function MegaPi(conf) {
      */
     this.setStepperMotor = function(port, speed, distance) {
         var a = [
-            this.SETTING.COMMAND_HEAD[0],
-            this.SETTING.COMMAND_HEAD[1],
+            SETTINGS.COMMAND_HEAD[0],
+            SETTINGS.COMMAND_HEAD[1],
             0x08,0,
-            this.SETTING.WRITE_MODULE,
+            SETTINGS.WRITE_MODE,
             0x28,
             port,
             speed & 0xff,
@@ -6887,8 +6816,8 @@ function MegaPi(conf) {
             distance & 0xff,
             (distance >> 8) & 0xff
         ];
-        board.driver.send(a);
-    },
+        board.send(a);
+    };
 
      /**
       * Set RgbFourLed electronic module color.
@@ -6903,17 +6832,17 @@ function MegaPi(conf) {
       */
     this.setLed = function(port, slot, position, r, g, b) {
         var a = [
-            this.SETTING.COMMAND_HEAD[0],
-            this.SETTING.COMMAND_HEAD[1],
+            SETTINGS.COMMAND_HEAD[0],
+            SETTINGS.COMMAND_HEAD[1],
             0x09,0,
-            this.SETTING.WRITE_MODULE,
+            SETTINGS.WRITE_MODE,
             0x08,
             port,
             slot,
             position,red,green,blue
         ];
-        board.driver.send(a);
-    },
+        board.send(a);
+    };
 
     /**
      * Set board mode.
@@ -6928,16 +6857,16 @@ function MegaPi(conf) {
      */
     this.setFirmwareMode = function(mode) {
         var a = [
-            this.SETTING.COMMAND_HEAD[0],
-            this.SETTING.COMMAND_HEAD[1],
+            SETTINGS.COMMAND_HEAD[0],
+            SETTINGS.COMMAND_HEAD[1],
             0x05,0,
-            this.SETTING.WRITE_MODULE,
+            SETTINGS.WRITE_MODE,
             0x3c,
             0x11, // 0x11 means auriga
             mode
         ];
-        board.driver.send(a);
-    },
+        board.send(a);
+    };
 
     /**
      * Set Servo speed.
@@ -6947,17 +6876,17 @@ function MegaPi(conf) {
      */
     this.setServoMotor = function(port, slot, degree) {
         var a = [
-            this.SETTING.COMMAND_HEAD[0],
-            this.SETTING.COMMAND_HEAD[1],
+            SETTINGS.COMMAND_HEAD[0],
+            SETTINGS.COMMAND_HEAD[1],
             0x06,0,
-            this.SETTING.WRITE_MODULE,
+            SETTINGS.WRITE_MODE,
             0x0b,
             port,
             slot,
             degree
         ];
-        board.driver.send(a);
-    },
+        board.send(a);
+    };
 
     /**
      * Set Seven-segment digital tube number.
@@ -6969,10 +6898,10 @@ function MegaPi(conf) {
     this.setSevenSegment = function(port, number) {
         var byte4Array = utils.float32ToBytes(number);
         var a = [
-            this.SETTING.COMMAND_HEAD[0],
-            this.SETTING.COMMAND_HEAD[1],
+            SETTINGS.COMMAND_HEAD[0],
+            SETTINGS.COMMAND_HEAD[1],
             0x08,0,
-            this.SETTING.WRITE_MODULE,
+            SETTINGS.WRITE_MODE,
             0x09,
             port,
             parseInt(byte4Array[0], 16),
@@ -6980,8 +6909,8 @@ function MegaPi(conf) {
             parseInt(byte4Array[2], 16),
             parseInt(byte4Array[3], 16)
         ];
-        board.driver.send(a);
-    },
+        board.send(a);
+    };
 
     /**
      * Set led matrix chart.
@@ -6995,7 +6924,7 @@ function MegaPi(conf) {
      */
     this.setLedMatrixChart = function(port, xAxis, yAxis, length, chart) {
 
-    },
+    };
 
 
     /**
@@ -7009,7 +6938,7 @@ function MegaPi(conf) {
      */
     this.setLedMatrixEmotion = function(port, xAxis, yAxis, motionData) {
 
-    },
+    };
 
     /**
      * Set led matrix time.
@@ -7021,7 +6950,7 @@ function MegaPi(conf) {
      */
     this.setLedMatrixTime = function(separator, hour, minute) {
 
-    },
+    };
 
     /**
      * Set led matrix number.
@@ -7033,10 +6962,10 @@ function MegaPi(conf) {
     this.setLedMatrixNumber = function(port, number) {
         var byte4Array = utils.float32ToBytes(number);
         var a = [
-            this.SETTING.COMMAND_HEAD[0],
-            this.SETTING.COMMAND_HEAD[1],
+            SETTINGS.COMMAND_HEAD[0],
+            SETTINGS.COMMAND_HEAD[1],
             0x09,0,
-            this.SETTING.WRITE_MODULE,
+            SETTINGS.WRITE_MODE,
             0x29,
             port,
             0x04,
@@ -7045,136 +6974,42 @@ function MegaPi(conf) {
             parseInt(byte4Array[2], 16),
             parseInt(byte4Array[3], 16)
         ];
-        board.driver.send(a);
-    },
+        board.send(a);
+    };
 
     this.readUltrasonic = function(index, port) {
         var a = [
-            this.SETTING.COMMAND_HEAD[0],
-            this.SETTING.COMMAND_HEAD[1],
+            SETTINGS.COMMAND_HEAD[0],
+            SETTINGS.COMMAND_HEAD[1],
             0x04,index,
-            this.SETTING.READ_MODE,
+            SETTINGS.READ_MODE,
             0x01,
             port
         ];
-        board.driver.send(a);
-    },
-
-    /**
-     * Read module's value.
-     * @param  {object} params command params.
-     */
-    this._readBlockStatus = function(params) {
-        var type = params.type;
-        var index = params.index;
-        var port = params.port;
-        var slot = params.slot || null;
-        var funcName = 'this.read' + utils.upperCaseFirstLetter(type);
-        var paramsStr = '(' + index + ',' + port + ',' + slot + ')';
-        var func = funcName + paramsStr;
-        eval(func);
-    },
-
-    this.getSensorValue = function(type, options, callback) {
-        var params = {};
-        params.type = type;
-        params.callback = callback;
-        params.port = options.port;
-        params.slot = options.slot;
-        var valueWrapper = new ValueWrapper();
-        var index = PromiseList.add(type, callback, valueWrapper);
-        params.index = index;
-
-        // 发送读取指令
-        this._doGetSensorValue(params);
-
-        if(Setting.OPEN_RESNET_MODE) {
-            // 执行超时检测
-            this._handlerCommandSendTimeout(params);
-        }
-        return valueWrapper;
-    },
-
-    this._doGetSensorValue = function(params) {
-        var that = this;
-        this._readBlockStatus(params);
-        // 模拟回复指令
-        setTimeout(function() {
-            that.sensor_callback(params.type, params.index);
-        }, 200);
-    },
-
-    // 处理指令发出后的超时问题，超时后会进行重发
-    this._handlerCommandSendTimeout = function(params) {
-        var that = this;
-        var promiseItem = PromiseList.requestList[params.index];
-        setTimeout(function() {
-            if(promiseItem.hasReceivedValue) {
-                // 成功拿到数据，不进行处理
-                return;
-            } else {
-                // 超过规定的时间，还没有拿到数据，需要进行超时重发处理
-                if(promiseItem.resentCount >= that.setting.RESENT_COUNT) {
-                    // 如果重发的次数大于规定次数,则终止重发
-                    console.log("【resend ends】");
-                    return;
-                } else {
-                    console.log('【resend】:' + params.index);
-                    promiseItem.resentCount  = promiseItem.resentCount || 0;
-                    promiseItem.resentCount++;
-                    that._doGetSensorValue(params);
-                    that._handlerCommandSendTimeout(params);
-                }
-            }
-        }, that.setting.COMMAND_SEND_TIMEOUT);
-    },
-
-    // Todo:
-    this.sensor_callback = function(type, index) {
-        var result = 100;
-        PromiseList.receiveValue(index, result);
-    }
+        board.send(a);
+    };
 }
+
+
+// clone method and attributes from board to MegaPi.
+MegaPi.prototype = board;
 
 if (typeof window !== "undefined") {
     window.MegaPi = MegaPi;
 }
 
 module.exports = MegaPi;
-},{"../core/board":18,"../core/promise.js":20,"../core/setting.js":21,"../core/utils.js":22,"../core/valueWrapper.js":23,"./device.js":29,"underscore":15}],33:[function(require,module,exports){
+},{"../core/board":18,"../core/utils":22,"./settings":33,"underscore":15}],32:[function(require,module,exports){
 var Board = require("../core/board");
-var PromiseList = require("../core/promise.js");
-var Device = require("./device.js");
-var ValueWrapper = require("../core/valueWrapper.js");
-var Setting = require("../core/setting.js");
-var utils = require("../core/utils.js");
+var utils = require("../core/utils");
+var SETTINGS = require("./settings");
 var _ = require('underscore');
 
-var DEFAULT_CONF = {
-    driver: 'makeblockhd'
-};
+var board = new Board();
 
 function Orion(conf) {
-    this._config = _.extend(DEFAULT_CONF, conf || {});
-    var board = new Board(this._config);
-
-    this.SETTING = {
-        // 数据发送与接收相关
-        COMMAND_HEAD: [0xff, 0x55],
-        COMMAND_END: [0x0d, 0x0a],
-        // 回复数据的index位置
-        READ_BYTES_INDEX: 2,
-        // 发送数据中表示“读”的值
-        READ_MODE: 1,
-        // 发送数据中表示“写”的值
-        WRITE_MODE: 2,
-        // 超时重发的次数
-        RESENT_COUNT : 3,
-        // 读值指令超时的设定
-        COMMAND_SEND_TIMEOUT : 2000,
-    };
-
-    this.buffer = [];
+    this._config = _.extend(SETTINGS.DEFAULT_CONF, conf || {});
+    board.init(this._config);
 
     /**
      * Set dc motor speed.
@@ -7185,16 +7020,16 @@ function Orion(conf) {
      */
     this.setDcMotor = function(port, speed) {
         var a = [
-            this.SETTING.COMMAND_HEAD[0],
-            this.SETTING.COMMAND_HEAD[1],
+            SETTINGS.COMMAND_HEAD[0],
+            SETTINGS.COMMAND_HEAD[1],
             0x06, 0,
-            this.SETTING.WRITE_MODULE,
+            SETTINGS.WRITE_MODE,
             0x0a,
             port,
             speed & 0xff,
             (speed >> 8) & 0xff
         ];
-        board.driver.send(a);
+        board.send(a);
     },
 
     /**
@@ -7206,18 +7041,18 @@ function Orion(conf) {
      */
     this.setEncoderMotorBoard = function(slot, speed) {
         var a = [
-            this.SETTING.COMMAND_HEAD[0],
-            this.SETTING.COMMAND_HEAD[1],
+            SETTINGS.COMMAND_HEAD[0],
+            SETTINGS.COMMAND_HEAD[1],
             0x07, 0,
-            this.SETTING.WRITE_MODULE,
+            SETTINGS.WRITE_MODE,
             0x3d,
             0,
             slot,
             speed & 0xff,
             (speed >> 8) & 0xff
         ];
-        board.driver.send(a);
-    },
+        board.send(a);
+    };
 
     /**
      * Set both left speed and right speed with one command.
@@ -7228,18 +7063,18 @@ function Orion(conf) {
      */
     this.setVirtualJoystick = function(leftSpeed, rightSpeed) {
         var a = [
-            this.SETTING.COMMAND_HEAD[0],
-            this.SETTING.COMMAND_HEAD[1],
+            SETTINGS.COMMAND_HEAD[0],
+            SETTINGS.COMMAND_HEAD[1],
             0x07, 0,
-            this.SETTING.WRITE_MODULE,
+            SETTINGS.WRITE_MODE,
             0x05,
             leftSpeed & 0xff,
             (leftSpeed >> 8) & 0xff,
             rightSpeed & 0xff,
             (rightSpeed >> 8) & 0xff
         ];
-        board.driver.send(a);
-    },
+        board.send(a);
+    };
 
     /**
      * Set speed for balance mode.
@@ -7251,18 +7086,18 @@ function Orion(conf) {
      */
     this.setVirtualJoystickForBalance = function(port, turnExtent, speed) {
         var a = [
-            this.SETTING.COMMAND_HEAD[0],
-            this.SETTING.COMMAND_HEAD[1],
+            SETTINGS.COMMAND_HEAD[0],
+            SETTINGS.COMMAND_HEAD[1],
             0x08, 0,
-            this.SETTING.WRITE_MODULE,
+            SETTINGS.WRITE_MODE,
             0x34,
             turnExtent & 0xff,
             (turnExtent >> 8) & 0xff,
             speed & 0xff,
             (speed >> 8) & 0xff
         ];
-        board.driver.send(a);
-    },
+        board.send(a);
+    };
 
     /**
      * Set stepper motor speed.
@@ -7274,10 +7109,10 @@ function Orion(conf) {
      */
     this.setStepperMotor = function(port, speed, distance) {
         var a = [
-            this.SETTING.COMMAND_HEAD[0],
-            this.SETTING.COMMAND_HEAD[1],
+            SETTINGS.COMMAND_HEAD[0],
+            SETTINGS.COMMAND_HEAD[1],
             0x08,0,
-            this.SETTING.WRITE_MODULE,
+            SETTINGS.WRITE_MODE,
             0x28,
             port,
             speed & 0xff,
@@ -7285,8 +7120,8 @@ function Orion(conf) {
             distance & 0xff,
             (distance >> 8) & 0xff
         ];
-        board.driver.send(a);
-    },
+        board.send(a);
+    };
 
      /**
       * Set RgbFourLed electronic module color.
@@ -7301,17 +7136,17 @@ function Orion(conf) {
       */
     this.setLed = function(port, slot, position, r, g, b) {
         var a = [
-            this.SETTING.COMMAND_HEAD[0],
-            this.SETTING.COMMAND_HEAD[1],
+            SETTINGS.COMMAND_HEAD[0],
+            SETTINGS.COMMAND_HEAD[1],
             0x09,0,
-            this.SETTING.WRITE_MODULE,
+            SETTINGS.WRITE_MODE,
             0x08,
             port,
             slot,
             position,red,green,blue
         ];
-        board.driver.send(a);
-    },
+        board.send(a);
+    };
 
     /**
      * Set board mode.
@@ -7326,16 +7161,16 @@ function Orion(conf) {
      */
     this.setFirmwareMode = function(mode) {
         var a = [
-            this.SETTING.COMMAND_HEAD[0],
-            this.SETTING.COMMAND_HEAD[1],
+            SETTINGS.COMMAND_HEAD[0],
+            SETTINGS.COMMAND_HEAD[1],
             0x05,0,
-            this.SETTING.WRITE_MODULE,
+            SETTINGS.WRITE_MODE,
             0x3c,
             0x11, // 0x11 means auriga
             mode
         ];
-        board.driver.send(a);
-    },
+        board.send(a);
+    };
 
     /**
      * Set Servo speed.
@@ -7345,17 +7180,17 @@ function Orion(conf) {
      */
     this.setServoMotor = function(port, slot, degree) {
         var a = [
-            this.SETTING.COMMAND_HEAD[0],
-            this.SETTING.COMMAND_HEAD[1],
+            SETTINGS.COMMAND_HEAD[0],
+            SETTINGS.COMMAND_HEAD[1],
             0x06,0,
-            this.SETTING.WRITE_MODULE,
+            SETTINGS.WRITE_MODE,
             0x0b,
             port,
             slot,
             degree
         ];
-        board.driver.send(a);
-    },
+        board.send(a);
+    };
 
     /**
      * Set Seven-segment digital tube number.
@@ -7367,10 +7202,10 @@ function Orion(conf) {
     this.setSevenSegment = function(port, number) {
         var byte4Array = utils.float32ToBytes(number);
         var a = [
-            this.SETTING.COMMAND_HEAD[0],
-            this.SETTING.COMMAND_HEAD[1],
+            SETTINGS.COMMAND_HEAD[0],
+            SETTINGS.COMMAND_HEAD[1],
             0x08,0,
-            this.SETTING.WRITE_MODULE,
+            SETTINGS.WRITE_MODE,
             0x09,
             port,
             parseInt(byte4Array[0], 16),
@@ -7378,8 +7213,8 @@ function Orion(conf) {
             parseInt(byte4Array[2], 16),
             parseInt(byte4Array[3], 16)
         ];
-        board.driver.send(a);
-    },
+        board.send(a);
+    };
 
     /**
      * Set led matrix chart.
@@ -7393,7 +7228,7 @@ function Orion(conf) {
      */
     this.setLedMatrixChart = function(port, xAxis, yAxis, length, chart) {
 
-    },
+    };
 
 
     /**
@@ -7407,7 +7242,7 @@ function Orion(conf) {
      */
     this.setLedMatrixEmotion = function(port, xAxis, yAxis, motionData) {
 
-    },
+    };
 
     /**
      * Set led matrix time.
@@ -7419,7 +7254,7 @@ function Orion(conf) {
      */
     this.setLedMatrixTime = function(separator, hour, minute) {
 
-    },
+    };
 
     /**
      * Set led matrix number.
@@ -7431,10 +7266,10 @@ function Orion(conf) {
     this.setLedMatrixNumber = function(port, number) {
         var byte4Array = utils.float32ToBytes(number);
         var a = [
-            this.SETTING.COMMAND_HEAD[0],
-            this.SETTING.COMMAND_HEAD[1],
+            SETTINGS.COMMAND_HEAD[0],
+            SETTINGS.COMMAND_HEAD[1],
             0x09,0,
-            this.SETTING.WRITE_MODULE,
+            SETTINGS.WRITE_MODE,
             0x29,
             port,
             0x04,
@@ -7443,100 +7278,49 @@ function Orion(conf) {
             parseInt(byte4Array[2], 16),
             parseInt(byte4Array[3], 16)
         ];
-        board.driver.send(a);
-    },
+        board.send(a);
+    };
 
     this.readUltrasonic = function(index, port) {
         var a = [
-            this.SETTING.COMMAND_HEAD[0],
-            this.SETTING.COMMAND_HEAD[1],
+            SETTINGS.COMMAND_HEAD[0],
+            SETTINGS.COMMAND_HEAD[1],
             0x04,index,
-            this.SETTING.READ_MODE,
+            SETTINGS.READ_MODE,
             0x01,
             port
         ];
-        board.driver.send(a);
-    },
-
-    /**
-     * Read module's value.
-     * @param  {object} params command params.
-     */
-    this._readBlockStatus = function(params) {
-        var type = params.type;
-        var index = params.index;
-        var port = params.port;
-        var slot = params.slot || null;
-        var funcName = 'this.read' + utils.upperCaseFirstLetter(type);
-        var paramsStr = '(' + index + ',' + port + ',' + slot + ')';
-        var func = funcName + paramsStr;
-        eval(func);
-    },
-
-    this.getSensorValue = function(type, options, callback) {
-        var params = {};
-        params.type = type;
-        params.callback = callback;
-        params.port = options.port;
-        params.slot = options.slot;
-        var valueWrapper = new ValueWrapper();
-        var index = PromiseList.add(type, callback, valueWrapper);
-        params.index = index;
-
-        // 发送读取指令
-        this._doGetSensorValue(params);
-
-        if(Setting.OPEN_RESNET_MODE) {
-            // 执行超时检测
-            this._handlerCommandSendTimeout(params);
-        }
-        return valueWrapper;
-    },
-
-    this._doGetSensorValue = function(params) {
-        var that = this;
-        this._readBlockStatus(params);
-        // 模拟回复指令
-        setTimeout(function() {
-            that.sensor_callback(params.type, params.index);
-        }, 200);
-    },
-
-    // 处理指令发出后的超时问题，超时后会进行重发
-    this._handlerCommandSendTimeout = function(params) {
-        var that = this;
-        var promiseItem = PromiseList.requestList[params.index];
-        setTimeout(function() {
-            if(promiseItem.hasReceivedValue) {
-                // 成功拿到数据，不进行处理
-                return;
-            } else {
-                // 超过规定的时间，还没有拿到数据，需要进行超时重发处理
-                if(promiseItem.resentCount >= that.setting.RESENT_COUNT) {
-                    // 如果重发的次数大于规定次数,则终止重发
-                    console.log("【resend ends】");
-                    return;
-                } else {
-                    console.log('【resend】:' + params.index);
-                    promiseItem.resentCount  = promiseItem.resentCount || 0;
-                    promiseItem.resentCount++;
-                    that._doGetSensorValue(params);
-                    that._handlerCommandSendTimeout(params);
-                }
-            }
-        }, that.setting.COMMAND_SEND_TIMEOUT);
-    },
-
-    // Todo:
-    this.sensor_callback = function(type, index) {
-        var result = 100;
-        PromiseList.receiveValue(index, result);
-    }
+        board.send(a);
+    };
 }
+
+
+// clone method and attributes from board to Orion.
+Orion.prototype = board;
 
 if (typeof window !== "undefined") {
     window.Orion = Orion;
 }
 
 module.exports = Orion;
-},{"../core/board":18,"../core/promise.js":20,"../core/setting.js":21,"../core/utils.js":22,"../core/valueWrapper.js":23,"./device.js":29,"underscore":15}]},{},[30]);
+},{"../core/board":18,"../core/utils":22,"./settings":33,"underscore":15}],33:[function(require,module,exports){
+var settings = {
+    // 数据发送与接收相关
+    COMMAND_HEAD: [0xff, 0x55],
+    COMMAND_END: [0x0d, 0x0a],
+    // 回复数据的index位置
+    READ_BYTES_INDEX: 2,
+    // 发送数据中表示“读”的值
+    READ_MODE: 1,
+    // 发送数据中表示“写”的值
+    WRITE_MODE: 2,
+    // 数据发送默认的驱动driver
+    DEFAULT_CONF : {
+        driver: 'makeblockhd'
+    }
+};
+
+module.exports = settings;
+
+
+},{}]},{},[29]);

@@ -1,5 +1,6 @@
 /**
- * the driver base class
+ * @fileOverview The driver base class.
+ * 用于数据通信
  */
 var logger = require('../log/log4js').logger;
 
@@ -20,6 +21,11 @@ function Driver() {
     }
   };
 
+  /**
+   * [event register]
+   * @param  {String}   event    event type
+   * @param  {Function} callback functino to be excuted.
+   */
   this.on = function(event, callback) {
     switch (event) {
       case 'data':
