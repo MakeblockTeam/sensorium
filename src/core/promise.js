@@ -3,13 +3,15 @@
  * 用于处理传感器数据分发
  */
 
+var logger = require('../log/log4js').logger;
+
 var PromiseList = {
     requestList: new Array(255),
     index: 1,
 
     add: function(type, callback, valueWrapper) {
         this.index++;
-        if (this.index > 127) {
+        if (this.index > 254) {
             this.index = 1;
         }
         this.requestList[this.index] = {

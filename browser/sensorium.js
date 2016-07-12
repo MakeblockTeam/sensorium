@@ -5517,10 +5517,10 @@ Board.prototype._doGetSensorValue = function(params) {
     this._readBlockStatus(params);
 
     // 模拟回复指令
-    setTimeout(function() {
-        var result = 1000;
-        that.sensorCallback(params.index, result);
-    }, 200);
+    // setTimeout(function() {
+    //     var result = 1000;
+    //     that.sensorCallback(params.index, result);
+    // }, 200);
 };
 
 /**
@@ -5614,15 +5614,15 @@ function Parse() {
     this.buffer = [];
 
     // 解析从硬件传递过来的数据
-    this.doParse = function(data, driver) {
-        logger.debug('【parse data】:' + data);
+    this.doParse = function(bufData, driver) {
+        logger.debug(bufData);
 
-        var bytes = data.split(" ");
+        var bytes = bufData;
         for (var i = 0; i < bytes.length; i++) {
             this.buffer.push(bytes[i]);
             var length = this.buffer.length;
             // 过滤无效数据
-            if (length > 1 && this.buffer[length - 2] == SETTINGS.COMMAND_HEAD[0] && this.buffer[length - 1] == SETTINGS.COMMAND_HEAD[1]) {
+            if (length > 1 && this.buffer[length - 2] == SETTINGS.COMMAND_END[0] && this.buffer[length - 1] == SETTINGS.COMMAND_END[1]) {
                 if (this.buffer.length != 10) {
                     this.buffer = [];
                 } else {
@@ -5730,13 +5730,15 @@ module.exports = Parse;
  * 用于处理传感器数据分发
  */
 
+var logger = require('../log/log4js').logger;
+
 var PromiseList = {
     requestList: new Array(255),
     index: 1,
 
     add: function(type, callback, valueWrapper) {
         this.index++;
-        if (this.index > 127) {
+        if (this.index > 254) {
             this.index = 1;
         }
         this.requestList[this.index] = {
@@ -5771,7 +5773,7 @@ var PromiseList = {
 
 
 module.exports = PromiseList;
-},{}],22:[function(require,module,exports){
+},{"../log/log4js":27}],22:[function(require,module,exports){
 /**
  * @fileOverview 工具类函数
  */
@@ -6000,8 +6002,10 @@ exports.create = create;
  */
 
 var Driver = require('./driver');
-var parse = require('../core/parse');
+var Parse = require('../core/parse');
 var driver = new Driver();
+
+var parse = new Parse();
 
 /**
  * [buffer2string converts array buffer to string format]
@@ -6046,7 +6050,7 @@ function MakeblockHD() {
   this._send = function(buf) {
 
     if(typeof TellNative != "undefined") {
-        return TellNative.sendViaBluetooth(buffer2string(tempBuf));
+        return TellNative.sendViaBluetooth(buffer2string(buf));
     }
   };
 
@@ -6673,6 +6677,13 @@ function Mcore(conf) {
         board.send(a);
     };
 
+    /**
+     * [read Ultrasonic  value]
+     * @param  {Number} index
+     * @param  {Number} port
+     * @example
+     *     ff 55 04 00 01 01 01
+     */
     this.readUltrasonic = function(index, port) {
         var a = [
             SETTINGS.COMMAND_HEAD[0],

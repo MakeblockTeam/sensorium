@@ -3,8 +3,10 @@
  */
 
 var Driver = require('./driver');
-var parse = require('../core/parse');
+var Parse = require('../core/parse');
 var driver = new Driver();
+
+var parse = new Parse();
 
 /**
  * [buffer2string converts array buffer to string format]
@@ -49,7 +51,7 @@ function MakeblockHD() {
   this._send = function(buf) {
 
     if(typeof TellNative != "undefined") {
-        return TellNative.sendViaBluetooth(buffer2string(tempBuf));
+        return TellNative.sendViaBluetooth(buffer2string(buf));
     }
   };
 

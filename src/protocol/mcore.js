@@ -279,6 +279,13 @@ function Mcore(conf) {
         board.send(a);
     };
 
+    /**
+     * [read Ultrasonic  value]
+     * @param  {Number} index
+     * @param  {Number} port
+     * @example
+     *     ff 55 04 00 01 01 01
+     */
     this.readUltrasonic = function(index, port) {
         var a = [
             SETTINGS.COMMAND_HEAD[0],

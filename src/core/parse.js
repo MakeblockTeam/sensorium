@@ -10,15 +10,15 @@ function Parse() {
     this.buffer = [];
 
     // 解析从硬件传递过来的数据
-    this.doParse = function(data, driver) {
-        logger.debug('【parse data】:' + data);
+    this.doParse = function(bufData, driver) {
+        logger.debug(bufData);
 
-        var bytes = data.split(" ");
+        var bytes = bufData;
         for (var i = 0; i < bytes.length; i++) {
             this.buffer.push(bytes[i]);
             var length = this.buffer.length;
             // 过滤无效数据
-            if (length > 1 && this.buffer[length - 2] == SETTINGS.COMMAND_HEAD[0] && this.buffer[length - 1] == SETTINGS.COMMAND_HEAD[1]) {
+            if (length > 1 && this.buffer[length - 2] == SETTINGS.COMMAND_END[0] && this.buffer[length - 1] == SETTINGS.COMMAND_END[1]) {
                 if (this.buffer.length != 10) {
                     this.buffer = [];
                 } else {

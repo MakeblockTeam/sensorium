@@ -65,10 +65,10 @@ Board.prototype._doGetSensorValue = function(params) {
     this._readBlockStatus(params);
 
     // 模拟回复指令
-    setTimeout(function() {
-        var result = 1000;
-        that.sensorCallback(params.index, result);
-    }, 200);
+    // setTimeout(function() {
+    //     var result = 1000;
+    //     that.sensorCallback(params.index, result);
+    // }, 200);
 };
 
 /**
