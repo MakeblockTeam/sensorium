@@ -11,7 +11,7 @@ function Mcore(conf) {
 
     /**
      * Set dc motor speed.
-     * @param {number} port  port number, vailable is: 1,2,3,4
+     * @param {number} port  port number, vailable is: 09, 10
      * @param {number} speed speed, the range is -255 ~ 255
      * @example
      *     ff 55 06 00 02 0a 01 ff 00

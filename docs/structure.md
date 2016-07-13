@@ -17,11 +17,15 @@
 
 
 ## 功能部分
-- 连接部分
-    - 蓝牙连接
-    - 2.4G连接
-    - wifi连接
+- 应用类型
+    - makeblockhd
+    - 串口
+    - 教育站
 - 协议部分
+    - auriga
+    - mcore
+    - orion
+    - megapi
 
 ## 类的划分
 - Command
@@ -32,14 +36,6 @@
         - doSend
         - parse
         - doParse
-- MainBoards
-有一个主板类，
-    - 方法：
-        - 获取固件版本号
-        - 获取主板名称
-- 定义每个电子模块的基本协议格式
-    - 名称
-    - 设备类型
 
 ### 程序结构
 - docs/ 文档
@@ -86,7 +82,6 @@ makeblock_hd -> receiveData -> parse ->  收到数据后调用定义的回调函
 
 利用board作为通信类。
 
-
 事件机制：
 1. 用户对获取传感器进行取值函数定义
 2. driver中定义事件框架
@@ -96,7 +91,7 @@ makeblock_hd -> receiveData -> parse ->  收到数据后调用定义的回调函
 
 
 ## 步骤
-- []构建文件结构
+- [x]构建文件结构
 - [x]定义基本类
     - [x]主板类
     - [x]发送数据的接口类
@@ -120,14 +115,15 @@ makeblock_hd -> receiveData -> parse ->  收到数据后调用定义的回调函
     - []megapi
 - [x]定义不同平台发送数据的接口
 - []返回接口的实体数据测试， hd作为测试工具
+- []node-serialport做测试
 - []增加协议发送的单元测试，mocha
 
-
 ### 第二步：实现数据接管
+- []在makeblockhd上进行测试
 - []定义数据层，接收并解析数据
 - []不同协议做版本区分
 - []跑通蓝牙部分
-- []在mblock上进行测试
+
 
 ## 协议列表
 ### 读命令
@@ -187,3 +183,6 @@ makeblock_hd -> receiveData -> parse ->  收到数据后调用定义的回调函
 
 ### 参考资源
 - [api 书写格式](http://johnny-five.io/examples/sensor/)
+- [mocha](http://mochajs.org)
+- [chaijs](http://chaijs.com/)
+(Chai 是一个针对 Node.js 和浏览器的行为驱动测试和测试驱动测试的诊断库，可与任何 JavaScript 测试框架集成。)
