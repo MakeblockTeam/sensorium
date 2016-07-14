@@ -5588,7 +5588,7 @@ Board.prototype.sensorCallback = function(index, result) {
 
 
 module.exports = Board;
-},{"../core/promise":21,"../core/utils":22,"../core/value_wrapper":23,"../driver/index.js":25,"../log/log4js":27,"./config":19}],19:[function(require,module,exports){
+},{"../core/promise":21,"../core/utils":22,"../core/value_wrapper":23,"../driver/index.js":26,"../log/log4js":28,"./config":19}],19:[function(require,module,exports){
 var Config = {
     // whether open console.log
     OPEN_LOG: false,
@@ -5724,7 +5724,7 @@ function Parse() {
 }
 
 module.exports = Parse;
-},{"../log/log4js":27,"../protocol/settings":33,"./promise":21}],21:[function(require,module,exports){
+},{"../log/log4js":28,"../protocol/settings":34,"./promise":21}],21:[function(require,module,exports){
 /**
  * @fileOverview PromiveList is sensor data's transfer station.
  * 用于处理传感器数据分发
@@ -5773,12 +5773,62 @@ var PromiseList = {
 
 
 module.exports = PromiseList;
-},{"../log/log4js":27}],22:[function(require,module,exports){
+},{"../log/log4js":28}],22:[function(require,module,exports){
 /**
  * @fileOverview 工具类函数
  */
 
 var Utils = {
+    /**
+     * Convert array of int to ArrayBuffer.
+     * @param  {[int]} data array of int
+     * @return {ArrayBuffer}      result array buffer
+     * @private
+     */
+    arrayBufferFromArray : function(data){
+      var buffer = new ArrayBuffer(data.length);
+      var result = new Int8Array(buffer);
+      for (var i=0; i < data.length; i++){
+        result[i] = data[i];
+      }
+      return buffer;
+    },
+
+    /**
+     * Convert ArrayBuffer from array of int
+     * @param  {ArrayBuffer} buffer the source arraybuffer
+     * @return {[int]}        int array as the result;
+     * @private
+     */
+    arrayFromArrayBuffer : function(buffer){
+        var dataView = new Uint8Array(buffer);
+        var result = [];
+        for(var i=0;i<dataView.length;i++){
+            result.push(dataView[i]);
+        }
+        return result;
+    },
+
+    /**
+     * [buffer2string converts array buffer to string format]
+     * @param  {ArrayBuffer} buf [the input array buffer]
+     * @return {String}     [the output string]
+     */
+    buffer2string: function(buf) {
+      var buffer = new Uint8Array(buf);
+      return Array.prototype.join.call(buffer, " ");
+    },
+
+    /**
+     * [string2buffer converts string to array buffer format]
+     * @param  {String} str [the input string]
+     * @return {Uint8Array}     [the output uint8 array buffer]
+     */
+    string2buffer: function(str) {
+      var buffer = new Uint8Array(str.split(" "));
+      return buffer;
+    },
+
     // 将十进制字符串数组转为16进制
     intStrToHexStr: function(data) {
         var temp = [];
@@ -5912,6 +5962,83 @@ ValueWrapper.prototype.setValue = function(value) {
 module.exports = ValueWrapper;
 },{}],24:[function(require,module,exports){
 /**
+ * driver for makeblockHD APP(cordova ble bridge)
+ */
+
+var Driver = require('./driver');
+var logger = require('../log/log4js').logger;
+
+var utils = require('../core/utils');
+var Parse = require('../core/parse');
+var parse = new Parse();
+
+var bufferToArrayBuffer = function(buffer) {
+  var ab = new ArrayBuffer(buffer.length);
+  var view = new Uint8Array(ab);
+  for (var i = 0; i < buffer.length; ++i) {
+    view[i] = buffer[i];
+  }
+  return ab;
+};
+
+var driver = new Driver();
+
+function CordovaBle() {
+  'use strict';
+
+  var self = this;
+  var isConnected = false;
+  var commServiceID = 'FFE1';
+  var writeCharacteristicID = 'FFE3';
+  var readCharacteristicID = 'FFE2';
+
+  this._init = function() {
+    if (ble && ble.connectedDeviceID) {
+      ble.startNotification(ble.connectedDeviceID, commServiceID, readCharacteristicID, function(data) {
+        var bufArray = utils.arrayFromArrayBuffer(data);
+        // read success
+        parse.doParse(bufArray, driver);
+
+      }, function(err) {
+        // read failure
+        logger.warn('read error, ', err);
+      });
+    } else {
+      // connection may lost
+    }
+  };
+
+  /**
+   * [_send sends array buffer to driver]
+   * @param  {[Array]} buf [the buffer to send]
+   * @return {[integer]}     [the actual byte length sent. -1 if send fails.]
+   */
+  this._send = function(buf) {
+
+    if (ble && ble.connectedDeviceID) {
+      ble.writeWithoutResponse(ble.connectedDeviceID, commServiceID,
+        writeCharacteristicID, utils.arrayBufferFromArray(buf),
+        function() {
+          if(!isConnected) {
+            self._init();
+          }
+          isConnected = true;
+        },
+        function(err) {
+          logger.warn('write error, ', err);
+          ble.stopNotification(ble.connectedDeviceID, commServiceID, readCharacteristicID);
+          isConnected = false;
+        }
+      );
+    }
+  };
+}
+
+CordovaBle.prototype = driver;
+
+module.exports = CordovaBle;
+},{"../core/parse":20,"../core/utils":22,"../log/log4js":28,"./driver":25}],25:[function(require,module,exports){
+/**
  * @fileOverview The driver base class.
  * 用于数据通信
  */
@@ -5956,12 +6083,12 @@ function Driver() {
 
 module.exports = Driver;
 
-},{"../log/log4js":27}],25:[function(require,module,exports){
+},{"../log/log4js":28}],26:[function(require,module,exports){
 /**
  * package driver implements a variety of communicate drivers, eg serial, bluetooth ...
  */
 var MakeBlockHD = require('./makeblock_hd');
-// var CordovaBle = require('./cordova');
+var CordovaBle = require('./cordova');
 var logger = require('../log/log4js').logger;
 /**
  * [create the the driver factory method]
@@ -5980,7 +6107,7 @@ function create(type) {
     case 'makeblockhd':
       driver = new MakeBlockHD();
       break;
-    case 'cordovable':
+    case 'cordova':
       driver = new CordovaBle();
       break;
     default:
@@ -5996,15 +6123,15 @@ function create(type) {
 
 exports.create = create;
 
-},{"../log/log4js":27,"./makeblock_hd":26}],26:[function(require,module,exports){
+},{"../log/log4js":28,"./cordova":24,"./makeblock_hd":27}],27:[function(require,module,exports){
 /**
  * driver for makeblockHD APP( js bridge)
  */
 
 var Driver = require('./driver');
-var Parse = require('../core/parse');
 var driver = new Driver();
 
+var Parse = require('../core/parse');
 var parse = new Parse();
 
 /**
@@ -6033,6 +6160,8 @@ function MakeblockHD() {
   var self = this;
 
   this._init = function() {
+
+    // Read data
     if (window) {
       window.receiveBluetoothData = function(str) {
         var data = string2buffer(str);
@@ -6048,7 +6177,7 @@ function MakeblockHD() {
    * @return {[integer]}     [the actual byte length sent. -1 if send fails.]
    */
   this._send = function(buf) {
-
+    // Send data
     if(typeof TellNative != "undefined") {
         return TellNative.sendViaBluetooth(buffer2string(buf));
     }
@@ -6061,7 +6190,7 @@ MakeblockHD.prototype = driver;
 
 module.exports = MakeblockHD;
 
-},{"../core/parse":20,"./driver":24}],27:[function(require,module,exports){
+},{"../core/parse":20,"./driver":25}],28:[function(require,module,exports){
 var log4js = require('log4js');
 
 
@@ -6081,7 +6210,7 @@ function setLoglevel(level){
 exports.setLoglevel = setLoglevel;
 exports.logger = logger;
 
-},{"log4js":10}],28:[function(require,module,exports){
+},{"log4js":10}],29:[function(require,module,exports){
 var Board = require("../core/board");
 var utils = require("../core/utils");
 var SETTINGS = require("./settings");
@@ -6385,7 +6514,7 @@ if (typeof window !== "undefined") {
 }
 
 module.exports = Auriga;
-},{"../core/board":18,"../core/utils":22,"./settings":33,"underscore":15}],29:[function(require,module,exports){
+},{"../core/board":18,"../core/utils":22,"./settings":34,"underscore":15}],30:[function(require,module,exports){
 var Auriga = require("./auriga");
 var Mcore = require("./mcore");
 var Orion = require("./orion");
@@ -6395,7 +6524,7 @@ window.Auriga = Auriga;
 window.Mcore = Mcore;
 window.Orion = Orion;
 window.MegaPi = MegaPi;
-},{"./auriga":28,"./mcore":30,"./megapi":31,"./orion":32}],30:[function(require,module,exports){
+},{"./auriga":29,"./mcore":31,"./megapi":32,"./orion":33}],31:[function(require,module,exports){
 var Board = require("../core/board");
 var utils = require("../core/utils");
 var SETTINGS = require("./settings");
@@ -6409,7 +6538,7 @@ function Mcore(conf) {
 
     /**
      * Set dc motor speed.
-     * @param {number} port  port number, vailable is: 1,2,3,4
+     * @param {number} port  port number, vailable is: 09, 10
      * @param {number} speed speed, the range is -255 ~ 255
      * @example
      *     ff 55 06 00 02 0a 01 ff 00
@@ -6706,7 +6835,7 @@ if (typeof window !== "undefined") {
 }
 
 module.exports = Mcore;
-},{"../core/board":18,"../core/utils":22,"./settings":33,"underscore":15}],31:[function(require,module,exports){
+},{"../core/board":18,"../core/utils":22,"./settings":34,"underscore":15}],32:[function(require,module,exports){
 var Board = require("../core/board");
 var utils = require("../core/utils");
 var SETTINGS = require("./settings");
@@ -7010,7 +7139,7 @@ if (typeof window !== "undefined") {
 }
 
 module.exports = MegaPi;
-},{"../core/board":18,"../core/utils":22,"./settings":33,"underscore":15}],32:[function(require,module,exports){
+},{"../core/board":18,"../core/utils":22,"./settings":34,"underscore":15}],33:[function(require,module,exports){
 var Board = require("../core/board");
 var utils = require("../core/utils");
 var SETTINGS = require("./settings");
@@ -7314,7 +7443,7 @@ if (typeof window !== "undefined") {
 }
 
 module.exports = Orion;
-},{"../core/board":18,"../core/utils":22,"./settings":33,"underscore":15}],33:[function(require,module,exports){
+},{"../core/board":18,"../core/utils":22,"./settings":34,"underscore":15}],34:[function(require,module,exports){
 var settings = {
     // 数据发送与接收相关
     COMMAND_HEAD: [0xff, 0x55],
@@ -7325,13 +7454,13 @@ var settings = {
     READ_MODE: 1,
     // 发送数据中表示“写”的值
     WRITE_MODE: 2,
-    // 数据发送默认的驱动driver
+    // 数据发送默认的驱动driver: makeblockhd, cordova
     DEFAULT_CONF : {
-        driver: 'makeblockhd'
+        driver: 'cordova'
     }
 };
 
 module.exports = settings;
 
 
-},{}]},{},[29]);
+},{}]},{},[30]);

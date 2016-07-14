@@ -8,9 +8,9 @@ var settings = {
     READ_MODE: 1,
     // 发送数据中表示“写”的值
     WRITE_MODE: 2,
-    // 数据发送默认的驱动driver
+    // 数据发送默认的驱动driver: makeblockhd, cordova
     DEFAULT_CONF : {
-        driver: 'makeblockhd'
+        driver: 'cordova'
     }
 };
 

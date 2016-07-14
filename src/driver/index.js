@@ -2,7 +2,7 @@
  * package driver implements a variety of communicate drivers, eg serial, bluetooth ...
  */
 var MakeBlockHD = require('./makeblock_hd');
-// var CordovaBle = require('./cordova');
+var CordovaBle = require('./cordova');
 var logger = require('../log/log4js').logger;
 /**
  * [create the the driver factory method]
@@ -21,7 +21,7 @@ function create(type) {
     case 'makeblockhd':
       driver = new MakeBlockHD();
       break;
-    case 'cordovable':
+    case 'cordova':
       driver = new CordovaBle();
       break;
     default:

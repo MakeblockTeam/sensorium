@@ -3,9 +3,9 @@
  */
 
 var Driver = require('./driver');
-var Parse = require('../core/parse');
 var driver = new Driver();
 
+var Parse = require('../core/parse');
 var parse = new Parse();
 
 /**
@@ -34,6 +34,8 @@ function MakeblockHD() {
   var self = this;
 
   this._init = function() {
+
+    // Read data
     if (window) {
       window.receiveBluetoothData = function(str) {
         var data = string2buffer(str);
@@ -49,7 +51,7 @@ function MakeblockHD() {
    * @return {[integer]}     [the actual byte length sent. -1 if send fails.]
    */
   this._send = function(buf) {
-
+    // Send data
     if(typeof TellNative != "undefined") {
         return TellNative.sendViaBluetooth(buffer2string(buf));
     }

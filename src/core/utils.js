@@ -3,6 +3,56 @@
  */
 
 var Utils = {
+    /**
+     * Convert array of int to ArrayBuffer.
+     * @param  {[int]} data array of int
+     * @return {ArrayBuffer}      result array buffer
+     * @private
+     */
+    arrayBufferFromArray : function(data){
+      var buffer = new ArrayBuffer(data.length);
+      var result = new Int8Array(buffer);
+      for (var i=0; i < data.length; i++){
+        result[i] = data[i];
+      }
+      return buffer;
+    },
+
+    /**
+     * Convert ArrayBuffer from array of int
+     * @param  {ArrayBuffer} buffer the source arraybuffer
+     * @return {[int]}        int array as the result;
+     * @private
+     */
+    arrayFromArrayBuffer : function(buffer){
+        var dataView = new Uint8Array(buffer);
+        var result = [];
+        for(var i=0;i<dataView.length;i++){
+            result.push(dataView[i]);
+        }
+        return result;
+    },
+
+    /**
+     * [buffer2string converts array buffer to string format]
+     * @param  {ArrayBuffer} buf [the input array buffer]
+     * @return {String}     [the output string]
+     */
+    buffer2string: function(buf) {
+      var buffer = new Uint8Array(buf);
+      return Array.prototype.join.call(buffer, " ");
+    },
+
+    /**
+     * [string2buffer converts string to array buffer format]
+     * @param  {String} str [the input string]
+     * @return {Uint8Array}     [the output uint8 array buffer]
+     */
+    string2buffer: function(str) {
+      var buffer = new Uint8Array(str.split(" "));
+      return buffer;
+    },
+
     // 将十进制字符串数组转为16进制
     intStrToHexStr: function(data) {
         var temp = [];

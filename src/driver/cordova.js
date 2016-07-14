@@ -5,6 +5,9 @@
 var Driver = require('./driver');
 var logger = require('../log/log4js').logger;
 
+var utils = require('../core/utils');
+var Parse = require('../core/parse');
+var parse = new Parse();
 
 var bufferToArrayBuffer = function(buffer) {
   var ab = new ArrayBuffer(buffer.length);
@@ -29,8 +32,10 @@ function CordovaBle() {
   this._init = function() {
     if (ble && ble.connectedDeviceID) {
       ble.startNotification(ble.connectedDeviceID, commServiceID, readCharacteristicID, function(data) {
+        var bufArray = utils.arrayFromArrayBuffer(data);
         // read success
-        //
+        parse.doParse(bufArray, driver);
+
       }, function(err) {
         // read failure
         logger.warn('read error, ', err);
@@ -42,15 +47,14 @@ function CordovaBle() {
 
   /**
    * [_send sends array buffer to driver]
-   * @param  {[ArrayBuffer]} buf [the buffer to send]
+   * @param  {[Array]} buf [the buffer to send]
    * @return {[integer]}     [the actual byte length sent. -1 if send fails.]
    */
   this._send = function(buf) {
-    var tempBuf = new Buffer(buf.byteLength + 3);
 
     if (ble && ble.connectedDeviceID) {
       ble.writeWithoutResponse(ble.connectedDeviceID, commServiceID,
-        writeCharacteristicID, bufferToArrayBuffer(tempBuf),
+        writeCharacteristicID, utils.arrayBufferFromArray(buf),
         function() {
           if(!isConnected) {
             self._init();
@@ -64,7 +68,6 @@ function CordovaBle() {
         }
       );
     }
-    return tempBuf.length;
   };
 }
 
