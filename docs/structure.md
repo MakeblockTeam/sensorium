@@ -114,7 +114,9 @@ makeblock_hd -> receiveData -> parse ->  收到数据后调用定义的回调函
     - []orion
     - []megapi
 - [x]定义不同平台发送数据的接口
-- []返回接口的实体数据测试， hd作为测试工具
+- [x]完成cordova蓝牙数据收发测试
+- []增加 `electron` 打包壳
+- []返回接口的实体数据测试，hd作为测试工具
 - []node-serialport做测试
 - []增加协议发送的单元测试，mocha
 
