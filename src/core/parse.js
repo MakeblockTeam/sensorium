@@ -27,6 +27,7 @@ function Parse() {
                     // 获取返回字节流中的索引位
                     var dataIndex = this.buffer[SETTINGS.READ_BYTES_INDEX];
                     var result = this.getResult(this.buffer);
+                    logger.debug(result);
 
                     // 接收到数据后，启用回调
                     if (driver._on_data) {
@@ -69,7 +70,9 @@ function Parse() {
                 value = this.calculate(a);
             } else if( dataType == 4) {
                 // chart
-                value = bufArray.join(" ");
+                var endIndex = 5 + parseInt(bufArray[4]);
+                value = bufArray.toString('utf8', 5, endIndex);
+
             } else {
                 // 4byte
                 var a = bufArray.slice(len - 6, len - 2).join(" ");

@@ -3,8 +3,10 @@
  */
 
 var Driver = require('./driver');
-var SerialPort = require("serialport").SerialPort;
+var SerialPort = require("serialport");
 var logger = require('../log/log4js').logger;
+var Parse = require('../core/parse');
+var parse = new Parse();
 var BAUDRATE = 115200;
 var driver = new Driver();
 var serialName = '';
@@ -24,22 +26,17 @@ function initSerial() {
   if (serialName === '') {
     // find serial available serial port
     require("serialport").list(function(err, ports) {
-      var hostname=os.hostname();
-      if(hostname == 'makeblock_linkit'){
-        //for linkit7688 by makeblock
-        serialName = '/dev/ttyS1';
-      }else{
-        //for PC and raspberry pi
-        ports.forEach(function(port) {
-          var name = port.comName;
-          var NAME = name.toUpperCase();
-          if (NAME.indexOf('USB') > 0 || NAME.indexOf('AMA') > 0) {
-            logger.debug('serial port found:', name);
-            serialName = name;
-            return;
-          }
-        });
-      }
+
+      //for PC and raspberry pi
+      ports.forEach(function(port) {
+        var name = port.comName;
+        var NAME = name.toUpperCase();
+        if (NAME.indexOf('USB') > 0 || NAME.indexOf('AMA') > 0) {
+          logger.debug('serial port found:', name);
+          serialName = name;
+          return;
+        }
+      });
 
       if (serialPort === null && serialName !== '') {
 
@@ -53,7 +50,7 @@ function initSerial() {
           serialPort.on('data', function(data) {
             logger.debug('serial data received: ' + data.length);
             // parse buffer data
-
+            parse.doParse(data);
           });
 
           serialPort.on('error', function(err) {
@@ -83,23 +80,19 @@ function Serial() {
    * @return {[integer]}     [the actual byte length sent. -1 if send fails.]
    */
    this._send = function(buf) {
+    logger.debug(buf);
     if (serialPort === null) {
       initSerial();
       return -1;
     }
 
-    logger.debug('try sending buffer: ', utils.hexBuf(buf));
-
-    var tempBuf = new Buffer(buf.byteLength + 3);
-
-    serialPort.write(tempBuf, function(err, results) {
+    serialPort.write(buf, function(err, results) {
       if (err) {
         logger.warn(err);
         checkConnection(err);
         return -1;
       }
     });
-    return buf.byteLength + 3;
   };
 }
 

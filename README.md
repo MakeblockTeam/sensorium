@@ -1,6 +1,13 @@
 #sensorium
 Sensorium is an api library for makeblock mainboards. It includes `mcore`, `orion`, `auriga` and  `megapi`.
 
+# Generate
+Generate `sensorium.js` width npm. The target file is `/browser`.
+
+```
+npm run build
+```
+
 # Usage
 
 ## browser
