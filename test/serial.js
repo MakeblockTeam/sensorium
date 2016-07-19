@@ -7,4 +7,4 @@ var mcore = new Mcore({
 
 setTimeout(function() {
     mcore.setDcMotor(9, 0);
-}, 4000)
+}, 4000);

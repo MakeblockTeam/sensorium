@@ -3,7 +3,7 @@
  */
 var MakeBlockHD = require('./makeblock_hd');
 var CordovaBle = require('./cordova');
-// var Serial = require('./serial');
+var Serial = require('./serial');
 var logger = require('../log/log4js').logger;
 /**
  * [create the the driver factory method]
