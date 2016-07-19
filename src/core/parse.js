@@ -11,7 +11,9 @@ function Parse() {
 
     // 解析从硬件传递过来的数据
     this.doParse = function(bufData, driver) {
-        logger.debug(bufData);
+        if(bufData.length > 16) {
+            logger.debug(bufData);
+        }
 
         var bytes = bufData;
         for (var i = 0; i < bytes.length; i++) {

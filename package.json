@@ -9,7 +9,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "browserify src/protocol/index.js > browser/sensorium.js"
+    "build": "browserify src/protocol/index.js > browser/sensorium.js",
+    "doc": "./node_modules/.bin/jsdoc src/protocol/mcore.js -d docs/api/ -r"
   },
   "repository": {
     "type": "git",

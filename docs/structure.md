@@ -110,15 +110,17 @@ makeblock_hd -> receiveData -> parse ->  收到数据后调用定义的回调函
     - 需要把主类通过window对象export出去
 - []定义接口名称
     - [x]auriga 部分
-    - []mcore
+    - [x]mcore
     - []orion
     - []megapi
 - [x]定义不同平台发送数据的接口
 - [x]完成cordova蓝牙数据收发测试
+- [x]利用 `blessed` 构建命令行界面工具
+- [x]增加协议发送的单元测试，mocha
+- []利用[jsdoc](http://usejsdoc.org/) 生成api文档
 - []增加 `electron` 打包壳
 - []返回接口的实体数据测试，hd作为测试工具
 - []node-serialport做测试
-- []增加协议发送的单元测试，mocha
 
 ### 第二步：实现数据接管
 - []在makeblockhd上进行测试

@@ -6,6 +6,7 @@ var Driver = require('./driver');
 var SerialPort = require("serialport");
 var logger = require('../log/log4js').logger;
 var Parse = require('../core/parse');
+var utils = require('../core/utils');
 var parse = new Parse();
 var BAUDRATE = 115200;
 var driver = new Driver();
@@ -30,6 +31,7 @@ function initSerial() {
       //for PC and raspberry pi
       ports.forEach(function(port) {
         var name = port.comName;
+        console.log(port.comName);
         var NAME = name.toUpperCase();
         if (NAME.indexOf('USB') > 0 || NAME.indexOf('AMA') > 0) {
           logger.debug('serial port found:', name);
@@ -48,7 +50,7 @@ function initSerial() {
           logger.info('serial opened: ', serialName);
 
           serialPort.on('data', function(data) {
-            logger.debug('serial data received: ' + data.length);
+            logger.debug('serial data received: ' + utils.buffer2string(data));
             // parse buffer data
             parse.doParse(data);
           });
@@ -80,7 +82,6 @@ function Serial() {
    * @return {[integer]}     [the actual byte length sent. -1 if send fails.]
    */
    this._send = function(buf) {
-    logger.debug(buf);
     if (serialPort === null) {
       initSerial();
       return -1;

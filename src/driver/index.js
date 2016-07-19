@@ -3,12 +3,14 @@
  */
 var MakeBlockHD = require('./makeblock_hd');
 var CordovaBle = require('./cordova');
-
-if(typeof exists != 'undefined') {
-  var Serial = require('./serial');
-}
 var Mtester = require('./mtester');
+var Mock = require('./mock');
+var Serial = function(){};
+if(typeof window == 'undefined') {
+  Serial = require('./serial');
+}
 var logger = require('../log/log4js').logger;
+
 /**
  * [create the the driver factory method]
  * @param  {[string]} type [the driver type, 'serial', 'bluetooth', 'mock'] ('mock is only used for test')
@@ -31,6 +33,9 @@ function create(type) {
       break;
     case 'cordova':
       driver = new CordovaBle();
+      break;
+    case 'mock':
+      driver = new Mock();
       break;
     default:
       logger.warn('unsupported driver: ', type);

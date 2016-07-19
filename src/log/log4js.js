@@ -5,7 +5,7 @@ log4js.configure({
   appenders: [
     { type: 'console' } //控制台输出
     ],
-    replaceConsole: true
+    replaceConsole: false
 });
 
 var logger = log4js.getLogger('engineLog');

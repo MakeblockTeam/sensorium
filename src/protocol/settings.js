@@ -10,7 +10,7 @@ var settings = {
     WRITE_MODE: 2,
     // 数据发送默认的驱动driver: makeblockhd, cordova
     DEFAULT_CONF : {
-        driver: 'cordova'
+        driver: 'mock'
     }
 };
 

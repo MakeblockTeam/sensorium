@@ -29,11 +29,27 @@ inclue the file `/browser/sensorium.js` in your project.
 
 ```
 
+## cli test
+connect your device to computer with usb, such as mbot.
+
+open the terminal and run cli tool
+
+```
+node cli.js
+```
+then input your method in the code area
+
+```
+mcore.setDcMotor(9, 200);
+```
+
 # Test
-In the project root folder
+[mocha](http://mochajs.org/) is used for unit test.In the project root folder, type the command.
 
 ```
 $ mocha
 ```
-
+# Api documention
+Use [jsdoc](http://usejsdoc.org/) for documention generation.
+open `docs/api/index.html` in browser.
 

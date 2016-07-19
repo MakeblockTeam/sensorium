@@ -8,7 +8,7 @@ var CONFIG = require("./config");
 var ValueWrapper = require("../core/value_wrapper");
 var PromiseList = require("../core/promise");
 var logger = require('../log/log4js').logger;
-var utils = require("../core/utils");
+var utils = require("./utils");
 
 
 function Board() {
