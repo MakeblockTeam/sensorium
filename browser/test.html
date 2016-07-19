@@ -21,17 +21,21 @@
             document.getElementById("msg").innerHTML += (str + '<br><br>');
         };
 
-        var auriga = new Auriga({
-            driver: 'makeblockhd'
-        });
+        // var auriga = new Auriga({
+        //     driver: 'makeblockhd'
+        // });
 
-        auriga.setFirmwareMode(1);
+        // auriga.setFirmwareMode(1);
 
-        auriga.getSensorValue("ultrasonic", {
-            port:6,
-            slot:1
-        }, function(val) {
-            console.log(val);
+        // auriga.getSensorValue("ultrasonic", {
+        //     port:6,
+        //     slot:1
+        // }, function(val) {
+        //     console.log(val);
+        // });
+
+        var mcore = new Mcore({
+            driver: 'serial'
         });
 
     </script>

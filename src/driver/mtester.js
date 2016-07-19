@@ -52,10 +52,9 @@ function Mtester() {
    */
   this._send = function(buf) {
     // Send data
-    if(Mtester && socket) {
-      var mtest = new Mtester(socket);
-      var bufStr = buffer2string(buf);
-      mtest._sendRequest(bufStr);
+    if(Tester && socket) {
+      var tester = new Tester(socket);
+      tester.sendSerialData(buf);
     }
   };
 

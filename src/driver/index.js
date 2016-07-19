@@ -3,7 +3,11 @@
  */
 var MakeBlockHD = require('./makeblock_hd');
 var CordovaBle = require('./cordova');
-var Serial = require('./serial');
+
+if(typeof exists != 'undefined') {
+  var Serial = require('./serial');
+}
+var Mtester = require('./mtester');
 var logger = require('../log/log4js').logger;
 /**
  * [create the the driver factory method]
@@ -16,6 +20,9 @@ function create(type) {
   var driver = null;
 
   switch (type) {
+    case 'mtester':
+      driver = new Mtester();
+      break;
     case 'serial':
       driver = new Serial();
       break;
