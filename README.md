@@ -30,7 +30,8 @@ inclue the file `/browser/sensorium.js` in your project.
 ```
 
 ## cli test tool
-connect your device to computer with usb, such as mbot.
+Use [blessed](https://github.com/chjj/blessed) for comandline tool.
+Connect your device to computer with usb, such as mbot.
 
 open the terminal and run cli tool
 
