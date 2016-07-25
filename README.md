@@ -1,6 +1,12 @@
 #sensorium
 Sensorium is an api library for makeblock mainboards. It includes `mcore`, `orion`, `auriga` and  `megapi`.
 
+# Install
+
+```
+npm install
+```
+
 # Generate library
 Generate `sensorium.js` width npm. The target file is `/browser`.
 
@@ -48,6 +54,7 @@ mcore.setDcMotor(9, 200);
 Use [mocha](http://mochajs.org/) for unit test.In the project root folder, type the command.
 
 ```
+$ npm install mocha -g
 $ mocha
 ```
 
