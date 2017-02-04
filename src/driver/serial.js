@@ -49,10 +49,17 @@ function initSerial() {
         serialPort.on('open', function() {
           logger.info('serial opened: ', serialName);
 
+          serialPort.on('ready', function() {
+            logger.info('ready');
+          });
+
+          // 接收硬件返回来的数据
           serialPort.on('data', function(data) {
-            logger.debug('serial data received: ' + utils.buffer2string(data));
+            // logger.debug('received: ' + utils.intStrToHexStr(utils.buffer2string(data).split(" ")));
             // parse buffer data
-            parse.doParse(data);
+
+            data = utils.arrayFromArrayBuffer(data);
+            parse.doParse(data, driver);
           });
 
           serialPort.on('error', function(err) {

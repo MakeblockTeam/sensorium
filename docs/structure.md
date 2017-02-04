@@ -7,6 +7,8 @@
 - 版本
 - 统一硬件协议调用接口，统一版本号，统一单元测试。为应用开发提供支持。
 
+## 优化之前的问题
+
 ## 实现思路
 - 文件内部功能单一化：一个文件一个类，实现一种功能，不把过多的功能聚合在一起，增加可读性和可维护性。使用node的require和export来维护文件依赖。
 - 好的代码应该是简洁的，单元功能独立，可读性强，用代码来解释文档
@@ -14,13 +16,14 @@
 ## 技术路线
 - nodejs书写
 - webpack
-- [blessed](https://github.com/chjj/blessed) :A high-level terminal interface library for node.js.
+- [blessed](https://github.com/chjj/blessed) :A high-level terminal interface library for node.js. 用于调试
 
 ## 功能部分
 - 应用类型
     - makeblockhd
     - 串口
     - 教育站
+    - M部落
 - 协议部分
     - auriga
     - mcore
@@ -117,10 +120,12 @@ makeblock_hd -> receiveData -> parse ->  收到数据后调用定义的回调函
 - [x]完成cordova蓝牙数据收发测试
 - [x]利用 `blessed` 构建命令行界面工具
 - [x]增加协议发送的单元测试，mocha
-- []利用[jsdoc](http://usejsdoc.org/) 生成api文档
+- [x]利用[jsdoc](http://usejsdoc.org/) 生成api文档
 - []增加 `electron` 打包壳
 - []返回接口的实体数据测试，hd作为测试工具
-- []node-serialport做测试
+- [x]node-serialport做测试
+- []增加 emit 和 on 的广播事件
+- 想实现的是一个可以在web上跑的应用，借助这些传感器，组合成应用工具
 
 ### 第二步：实现数据接管
 - []在makeblockhd上进行测试
@@ -180,7 +185,7 @@ makeblock_hd -> receiveData -> parse ->  收到数据后调用定义的回调函
 
 
 ### 代码规范
-- 4个空格代替tab
+- 2个空格代替tab
 - 注释采用jsDoc规范
 - 文件名称统一采用`_`连接
 

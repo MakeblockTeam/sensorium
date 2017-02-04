@@ -11,8 +11,9 @@ var settings = {
     // 数据发送默认的驱动driver: makeblockhd, cordova
     DEFAULT_CONF : {
         driver: 'mock'
-    }
+    },
+
+
 };
 
 module.exports = settings;
-

@@ -12630,7 +12630,7 @@ var CONFIG = require("./config");
 var ValueWrapper = require("../core/value_wrapper");
 var PromiseList = require("../core/promise");
 var logger = require('../log/log4js').logger;
-var utils = require("../core/utils");
+var utils = require("./utils");
 
 
 function Board() {
@@ -12758,7 +12758,7 @@ Board.prototype.sensorCallback = function(index, result) {
 
 
 module.exports = Board;
-},{"../core/promise":62,"../core/utils":63,"../core/value_wrapper":64,"../driver/index.js":67,"../log/log4js":71,"./config":60}],60:[function(require,module,exports){
+},{"../core/promise":62,"../core/value_wrapper":64,"../driver/index.js":67,"../log/log4js":72,"./config":60,"./utils":63}],60:[function(require,module,exports){
 var Config = {
     // whether open console.log
     OPEN_LOG: false,
@@ -12785,7 +12785,9 @@ function Parse() {
 
     // 解析从硬件传递过来的数据
     this.doParse = function(bufData, driver) {
-        logger.debug(bufData);
+        if(bufData.length > 16) {
+            logger.debug(bufData);
+        }
 
         var bytes = bufData;
         for (var i = 0; i < bytes.length; i++) {
@@ -12801,7 +12803,7 @@ function Parse() {
                     // 获取返回字节流中的索引位
                     var dataIndex = this.buffer[SETTINGS.READ_BYTES_INDEX];
                     var result = this.getResult(this.buffer);
-                    logger.debug(result);
+                    console.log("result: " + result);
 
                     // 接收到数据后，启用回调
                     if (driver._on_data) {
@@ -12826,6 +12828,8 @@ function Parse() {
      *     4： 字符串
      *     5： double(4 byte)
      *     6: long(4 byte)
+     *  @example
+     *  ff 55 02 02 7c 1a 81 41 0d 0a
      */
     this.getResult = function(bufArray) {
         var value = null;
@@ -12836,11 +12840,11 @@ function Parse() {
 
             if(dataType == 3) {
                 // 2byte
-                var a = bufArray.slice(len - 4, len - 2).join(" ");
+                var a = bufArray.slice(len - 4, len - 2);
                 value = this.calculate(a);
             } else if(dataType == 1) {
                 // 1byte
-                var a = bufArray.slice(len - 3, len - 2).join(" ");
+                var a = bufArray.slice(len - 3, len - 2);
                 value = this.calculate(a);
             } else if( dataType == 4) {
                 // chart
@@ -12849,7 +12853,7 @@ function Parse() {
 
             } else {
                 // 4byte
-                var a = bufArray.slice(len - 6, len - 2).join(" ");
+                var a = bufArray.slice(len - 6, len - 2);
                 value = this.calculate(a);
             }
         }
@@ -12896,8 +12900,9 @@ function Parse() {
     };
 }
 
+window.Parse = Parse;
 module.exports = Parse;
-},{"../log/log4js":71,"../protocol/settings":77,"./promise":62}],62:[function(require,module,exports){
+},{"../log/log4js":72,"../protocol/settings":78,"./promise":62}],62:[function(require,module,exports){
 /**
  * @fileOverview PromiveList is sensor data's transfer station.
  * 用于处理传感器数据分发
@@ -12946,7 +12951,7 @@ var PromiseList = {
 
 
 module.exports = PromiseList;
-},{"../log/log4js":71}],63:[function(require,module,exports){
+},{"../log/log4js":72}],63:[function(require,module,exports){
 /**
  * @fileOverview 工具类函数
  */
@@ -13210,7 +13215,7 @@ function CordovaBle() {
 CordovaBle.prototype = driver;
 
 module.exports = CordovaBle;
-},{"../core/parse":61,"../core/utils":63,"../log/log4js":71,"./driver":66}],66:[function(require,module,exports){
+},{"../core/parse":61,"../core/utils":63,"../log/log4js":72,"./driver":66}],66:[function(require,module,exports){
 /**
  * @fileOverview The driver base class.
  * 用于数据通信
@@ -13256,18 +13261,20 @@ function Driver() {
 
 module.exports = Driver;
 
-},{"../log/log4js":71}],67:[function(require,module,exports){
+},{"../log/log4js":72}],67:[function(require,module,exports){
 /**
  * package driver implements a variety of communicate drivers, eg serial, bluetooth ...
  */
 var MakeBlockHD = require('./makeblock_hd');
 var CordovaBle = require('./cordova');
-
-if(typeof exists != 'undefined') {
-  var Serial = require('./serial');
-}
 var Mtester = require('./mtester');
+var Mock = require('./mock');
+var Serial = function(){};
+if(typeof window == 'undefined') {
+  Serial = require('./serial');
+}
 var logger = require('../log/log4js').logger;
+
 /**
  * [create the the driver factory method]
  * @param  {[string]} type [the driver type, 'serial', 'bluetooth', 'mock'] ('mock is only used for test')
@@ -13291,6 +13298,9 @@ function create(type) {
     case 'cordova':
       driver = new CordovaBle();
       break;
+    case 'mock':
+      driver = new Mock();
+      break;
     default:
       logger.warn('unsupported driver: ', type);
       break;
@@ -13304,7 +13314,7 @@ function create(type) {
 
 exports.create = create;
 
-},{"../log/log4js":71,"./cordova":65,"./makeblock_hd":68,"./mtester":69,"./serial":70}],68:[function(require,module,exports){
+},{"../log/log4js":72,"./cordova":65,"./makeblock_hd":68,"./mock":69,"./mtester":70,"./serial":71}],68:[function(require,module,exports){
 /**
  * driver for makeblockHD APP( js bridge)
  */
@@ -13402,6 +13412,69 @@ function string2buffer(str) {
   return buffer;
 }
 
+function Mock() {
+  'use strict';
+
+  var self = this;
+
+  this._init = function() {
+    // Read data
+    // if (window) {
+    //   window.receiveBluetoothData = function(str) {
+    //     var data = string2buffer(str);
+    //     // parse buffer data
+    //     parse.doParse(data, driver);
+    //   };
+    // }
+  };
+
+  /**
+   * [_send sends array buffer to driver]
+   * @param  {[ArrayBuffer]} buf [the buffer to send]
+   * @return {[integer]}     [the actual byte length sent. -1 if send fails.]
+   */
+  this._send = function(buf) {
+    // Send data
+
+  };
+
+}
+
+Mock.prototype = driver;
+
+module.exports = Mock;
+
+},{"../core/parse":61,"./driver":66}],70:[function(require,module,exports){
+/**
+ * driver for makeblockHD APP( js bridge)
+ */
+
+var Driver = require('./driver');
+var driver = new Driver();
+
+var Parse = require('../core/parse');
+var parse = new Parse();
+
+/**
+ * [buffer2string converts array buffer to string format]
+ * @param  {ArrayBuffer} buf [the input array buffer]
+ * @return {String}     [the output string]
+ */
+function buffer2string(buf) {
+  var buffer = new Uint8Array(buf);
+  return Array.prototype.join.call(buffer, " ");
+}
+
+/**
+ * [string2buffer converts string to array buffer format]
+ * @param  {String} str [the input string]
+ * @return {Uint8Array}     [the output uint8 array buffer]
+ */
+function string2buffer(str) {
+  var buffer = new Uint8Array(str.split(" "));
+  return buffer;
+}
+
 function Mtester() {
   'use strict';
 
@@ -13438,7 +13511,7 @@ Mtester.prototype = driver;
 
 module.exports = Mtester;
 
-},{"../core/parse":61,"./driver":66}],70:[function(require,module,exports){
+},{"../core/parse":61,"./driver":66}],71:[function(require,module,exports){
 /**
  * [Serial Driver implementation. ONLY works in NodeJS]
  */
@@ -13447,6 +13520,7 @@ var Driver = require('./driver');
 var SerialPort = require("serialport");
 var logger = require('../log/log4js').logger;
 var Parse = require('../core/parse');
+var utils = require('../core/utils');
 var parse = new Parse();
 var BAUDRATE = 115200;
 var driver = new Driver();
@@ -13471,6 +13545,7 @@ function initSerial() {
       //for PC and raspberry pi
       ports.forEach(function(port) {
         var name = port.comName;
+        console.log(port.comName);
         var NAME = name.toUpperCase();
         if (NAME.indexOf('USB') > 0 || NAME.indexOf('AMA') > 0) {
           logger.debug('serial port found:', name);
@@ -13489,9 +13564,9 @@ function initSerial() {
           logger.info('serial opened: ', serialName);
 
           serialPort.on('data', function(data) {
-            logger.debug('serial data received: ' + data.length);
+            logger.debug('serial data received: ' + utils.intStrToHexStr(utils.buffer2string(data).split(" ")));
             // parse buffer data
-            parse.doParse(data);
+            parse.doParse(data, driver);
           });
 
           serialPort.on('error', function(err) {
@@ -13521,7 +13596,6 @@ function Serial() {
    * @return {[integer]}     [the actual byte length sent. -1 if send fails.]
    */
    this._send = function(buf) {
-    logger.debug(buf);
     if (serialPort === null) {
       initSerial();
       return -1;
@@ -13542,7 +13616,7 @@ Serial.prototype = driver;
 
 module.exports = Serial;
 
-},{"../core/parse":61,"../log/log4js":71,"./driver":66,"serialport":38}],71:[function(require,module,exports){
+},{"../core/parse":61,"../core/utils":63,"../log/log4js":72,"./driver":66,"serialport":38}],72:[function(require,module,exports){
 var log4js = require('log4js');
 
 
@@ -13550,7 +13624,7 @@ log4js.configure({
   appenders: [
     { type: 'console' } //控制台输出
     ],
-    replaceConsole: true
+    replaceConsole: false
 });
 
 var logger = log4js.getLogger('engineLog');
@@ -13562,7 +13636,7 @@ function setLoglevel(level){
 exports.setLoglevel = setLoglevel;
 exports.logger = logger;
 
-},{"log4js":19}],72:[function(require,module,exports){
+},{"log4js":19}],73:[function(require,module,exports){
 var Board = require("../core/board");
 var utils = require("../core/utils");
 var SETTINGS = require("./settings");
@@ -13866,7 +13940,7 @@ if (typeof window !== "undefined") {
 }
 
 module.exports = Auriga;
-},{"../core/board":59,"../core/utils":63,"./settings":77,"underscore":55}],73:[function(require,module,exports){
+},{"../core/board":59,"../core/utils":63,"./settings":78,"underscore":55}],74:[function(require,module,exports){
 var Auriga = require("./auriga");
 var Mcore = require("./mcore");
 var Orion = require("./orion");
@@ -13876,7 +13950,7 @@ window.Auriga = Auriga;
 window.Mcore = Mcore;
 window.Orion = Orion;
 window.MegaPi = MegaPi;
-},{"./auriga":72,"./mcore":74,"./megapi":75,"./orion":76}],74:[function(require,module,exports){
+},{"./auriga":73,"./mcore":75,"./megapi":76,"./orion":77}],75:[function(require,module,exports){
 var Board = require("../core/board");
 var utils = require("../core/utils");
 var SETTINGS = require("./settings");
@@ -13893,7 +13967,7 @@ function Mcore(conf) {
      * @param {number} port  port number, vailable is: 1,2,3,4
      * @param {number} speed speed, the range is -255 ~ 255
      * @example
-     *     ff 55 06 00 02 0a 01 ff 00
+     *     ff 55 06 00 02 0a 09 32 00
      */
     this.setDcMotor = function(port, speed) {
         var a = [
@@ -13906,19 +13980,20 @@ function Mcore(conf) {
             speed & 0xff,
             (speed >> 8) & 0xff
         ];
-        board.send(a);
+        var c = board.send(a);
+        return c;
     };
 
     /**
      * Set RgbFourLed electronic module color.
-     * @param {number} port     port number, vailable is: 0(on board), 6,7,8,9,10
+     * @param {number} port     port number, vailable is: 07(on board), 1,2,3,4
      * @param {number} slot     slot number, vailable is: 1,2
      * @param {number} position led position, 0 signify all leds.
      * @param {number} r        red, the range is 0 ~ 255
      * @param {number} g        green, the range is 0 ~ 255
      * @param {number} b        blue, the range is 0 ~ 255
      * @example
-     *     ff 55 09 00 02 08 06 02 00 ff 00 00
+     *     ff 55 09 00 02 08 07 02 00 ff 00 00
      */
     this.setLed = function(port, slot, position, r, g, b) {
         var a = [
@@ -13929,17 +14004,17 @@ function Mcore(conf) {
             0x08,
             port,
             slot,
-            position,red,green,blue
+            position,r,g,b
         ];
-        board.send(a);
+        var c = board.send(a);
+        return c;
     };
-
 
     /**
      * Set Servo speed.
-     * @param {[type]} port   port number, vailable is 6,7,8,9,10
-     * @param {[type]} slot   slot number, vailable is 1,2
-     * @param {[type]} degree servo degree, the range is 0 ~ 180
+     * @param {Number} port   port number, vailable is 6,7,8,9,10
+     * @param {Number} slot   slot number, vailable is 1,2
+     * @param {Number} degree servo degree, the range is 0 ~ 180
      */
     this.setServoMotor = function(port, slot, degree) {
         var a = [
@@ -13952,7 +14027,8 @@ function Mcore(conf) {
             slot,
             degree
         ];
-        board.send(a);
+        var c = board.send(a);
+        return c;
     };
 
     /**
@@ -13976,7 +14052,8 @@ function Mcore(conf) {
             parseInt(byte4Array[2], 16),
             parseInt(byte4Array[3], 16)
         ];
-        board.send(a);
+        var c = board.send(a);
+        return c;
     };
 
     /**
@@ -14041,12 +14118,14 @@ function Mcore(conf) {
             parseInt(byte4Array[2], 16),
             parseInt(byte4Array[3], 16)
         ];
-        board.send(a);
+        var c = board.send(a);
+        return c;
     };
+
     /**
      * set Shutter action.
-     * @param {[type]} port    number   vailable is 09
-     * @param {[type]} actionType number vailable is: Shutter down(00)
+     * @param {Number} port    number   vailable is 09
+     * @param {Number} actionType number vailable is: Shutter down(00)
         Shutter up(01)
         Begin to focus(02)
         stop focus(03)
@@ -14063,12 +14142,13 @@ function Mcore(conf) {
             port,
             actionType
         ];
-        board.send(a);
+        var c = board.send(a);
+        return c;
     };
     /**
      * set arduino Digital level.
-     * @param {[type]} port  number   vailable is 09
-     * @param {[type]} level number vailable is:low level(00)  high level(01)
+     * @param {Number} port  number   vailable is 09
+     * @param {Number} level number vailable is:low level(00)  high level(01)
      * @example
      *   ff 55 05 00 02 1e 09 01
      */
@@ -14082,13 +14162,14 @@ function Mcore(conf) {
             port,
             level
         ];
-        board.send(a);
+        var c = board.send(a);
+        return c;
     };
 
     /**
      * set arduino pwm output
-     * @param {[type]} port [description]
-     * @param {[type]} pwm  number vailable is:0 ~ 255
+     * @param {Number} port [description]
+     * @param {Number} pwm  number vailable is:0 ~ 255
      * @example
      *   ff 55 05 00 02 20 05 32
      */
@@ -14102,14 +14183,15 @@ function Mcore(conf) {
             port,
             pwm
         ];
-        board.send(a);
+        var c = board.send(a);
+        return c;
     };
 
     /**
      * set buzzer play.
-     * @param {[type]} port     vailable:  GPIO9
-     * @param {[type]} tone     vailable: C2(65) ~ D8(4699)
-     * @param {[type]} rhythmTime vailable:1/8(125)  ~  1/2(2000)
+     * @param {Number} port     vailable:  GPIO9
+     * @param {Number} tone     vailable: C2(65) ~ D8(4699)
+     * @param {Number} rhythmTime vailable:1/8(125)  ~  1/2(2000)
      * @example
      *  ff 55 08 00 02 22 09 41 00 f4 01
      */
@@ -14128,14 +14210,14 @@ function Mcore(conf) {
             byteRhythm[0],
             byteRhythm[1]
         ];
-        board.send(a);
+        var c = board.send(a);
+        return c;
     };
-
 
     /**
      * set Servo.
-     * @param {[type]} port  vailable:GPIO9
-     * @param {[type]} angle vailable:0 ~ 180
+     * @param {Number} port  vailable:GPIO9
+     * @param {Number} angle vailable:0 ~ 180
      * @example
      * ff 55 05 00 02 21 09 5a
      */
@@ -14149,8 +14231,10 @@ function Mcore(conf) {
             port,
             angle
         ];
-        board.send(a);
+        var c = board.send(a);
+        return c;
     };
+
     /**
      * reset firmware run time.
      */
@@ -14163,11 +14247,11 @@ function Mcore(conf) {
             0x50
         ];
     };
-    /*********************************************/
+
     /**
      * read firmware vresion.
-     * @param  {[type]} index [description]
-     * @return {[type]}       [description]
+     * @param  {Number} index [description]
+     * @return {Number}       [description]
      * @example
      * ff 55 03 00 01 00
      */
@@ -14179,17 +14263,19 @@ function Mcore(conf) {
             SETTINGS.READ_MODE,
             0x00
         ];
-        board.send(a);
+        var c = board.send(a);
+        return c;
     };
+
     /**
      * mainly used for distance measurement, the measurement range is 0 to 500 cm,
      * the execution of the command will have more than 100 milliseconds latency.
      * So the frequency of the host to send this instruction shoulds not be too high.
-     * @param  {[type]} index [description]
-     * @param  {[type]} port  vailable: 1,2,3,4
-     * @return {[type]}       [description]
+     * @param  {Number} index [description]
+     * @param  {Number} port  vailable: 1,2,3,4
+     * @return {Number}       [description]
      * @example
-     * ff 55 04 00 01 01 01
+     * ff 55 04 00 01 01 03
      */
     this.readUltrasonic = function(index, port) {
         var a = [
@@ -14200,16 +14286,16 @@ function Mcore(conf) {
             0x01,
             port
         ];
-        board.send(a);
+        var c = board.send(a);
+        return c;
     };
-
 
     /**
      * read temperature, Each port can connect two road temperature sensor.
-     * @param  {[type]} index [description]
-     * @param  {[type]} port  vailable: 1,2,3,4
-     * @param  {[type]} slot  vailable: slot1(1), slot2(2)
-     * @return {[type]}       [description]
+     * @param  {Number} index [description]
+     * @param  {Number} port  vailable: 1,2,3,4
+     * @param  {Number} slot  vailable: slot1(1), slot2(2)
+     * @return {Number}       [description]
      * @example
      * ff 55 05 00 01 02 01 02
      */
@@ -14223,14 +14309,15 @@ function Mcore(conf) {
             port,
             slot
         ];
-        board.send(a);
+        var c = board.send(a);
+        return c;
     };
 
     /**
      * The light sensor module or onboard (lamp) light sensors numerical reading.
-     * @param  {[type]} index [description]
-     * @param  {[type]} port  vailable: 3, 4, onbord(06)
-     * @return {[type]}       [description]
+     * @param  {Number} index [description]
+     * @param  {Number} port  vailable: 3, 4, onbord(06)
+     * @return {Number}       [description]
      * @example
      * ff 55 04 00 01 03 06
      */
@@ -14243,14 +14330,15 @@ function Mcore(conf) {
             0x03,
             port
         ];
-        board.send(a);
+        var c = board.send(a);
+        return c;
     };
 
     /**
      * read Potentionmeter
-     * @param  {[type]} index [description]
-     * @param  {[type]} port  vailable: 3,4
-     * @return {[type]}       [description]
+     * @param  {Number} index [description]
+     * @param  {Number} port  vailable: 3,4
+     * @return {Number}       [description]
      * @example
      * ff 55 04 00 01 04 03
      */
@@ -14263,16 +14351,17 @@ function Mcore(conf) {
             0x04,
             port
         ];
-        board.send(a);
+        var c = board.send(a);
+        return c;
     };
 
     /**
      * there are two axis, so the command has a parameter is used to
      * set need to get the value of the axial direction.
-     * @param  {[type]} index [description]
-     * @param  {[type]} port  vailable: 3,4
-     * @param  {[type]} axis  vailable: X-axis(01)  Y-axis(02)
-     * @return {[type]}       [description]
+     * @param  {Number} index [description]
+     * @param  {Number} port  vailable: 3,4
+     * @param  {Number} axis  vailable: X-axis(01)  Y-axis(02)
+     * @return {Number}       [description]
      * @example
      * ff 55 05 00 01 05 03 01
      */
@@ -14286,17 +14375,18 @@ function Mcore(conf) {
             port,
             axis
         ];
-        board.send(a);
+        var c = board.send(a);
+        return c;
     };
 
     /**
      * Mbot no onboard gyro, so attitude sensor can only use an external,
      * but don't need to choose the Port in the set parameters.
      * Attitude sensor using the I2C interface, so the sensor can be connected at any port of the 1, 2, 3, 4.
-     * @param  {[type]} index [description]
-     * @param  {[type]} port  vailable: 1,2,3,4
-     * @param  {[type]} axis  vailable: X-axis(01)  Y-axis(02)  Z-axis(03)
-     * @return {[type]}       [description]
+     * @param  {Number} index [description]
+     * @param  {Number} port  vailable: 1,2,3,4
+     * @param  {Number} axis  vailable: X-axis(01)  Y-axis(02)  Z-axis(03)
+     * @return {Number}       [description]
      * @example
      * ff 55 05 00 01 06 00 01
      */
@@ -14310,14 +14400,15 @@ function Mcore(conf) {
             port,
             axis
         ];
-        board.send(a);
+        var c = board.send(a);
+        return c;
     };
 
     /**
      * read volume testing MIC module parameters
-     * @param  {[type]} index [description]
-     * @param  {[type]} port  vailable: 03
-     * @return {[type]}       [description]
+     * @param  {Number} index [description]
+     * @param  {Number} port  vailable: 03
+     * @return {Number}       [description]
      * @example
      * ff 55 04 00 01 07 03
      */
@@ -14330,15 +14421,16 @@ function Mcore(conf) {
             0x07,
             port
         ];
-        board.send(a);
+        var c = board.send(a);
+        return c;
     };
 
     /**
      * read ir for send
-     * @param  {[type]} index [description]
-     * @param  {[type]} port  vailable: onboard(00)
-     * @param  {[type]} key   ASCII value,   example: `A`:45
-     * @return {[type]}       [description]
+     * @param  {Number} index [description]
+     * @param  {Number} port  vailable: onboard(00)
+     * @param  {Number} key   ASCII value,   example: `A`:45
+     * @return {Number}       [description]
      * @example
      * ff 55 05 00 01 0c 00 45
      */
@@ -14352,15 +14444,16 @@ function Mcore(conf) {
             port,
             key
         ];
-        board.send(a);
+        var c = board.send(a);
+        return c;
     };
 
     /**
      * read ir for receive
-     * @param  {[type]} index [description]
-     * @param  {[type]} port  vailable: 1,2,3,4，onbord(00)
-     * @param  {[type]} key   ASCII value,   example: `A`:45
-     * @return {[type]}       [description]
+     * @param  {Number} index [description]
+     * @param  {Number} port  vailable: 1,2,3,4，onbord(00)
+     * @param  {Number} key   ASCII value,   example: `A`:45
+     * @return {Number}       [description]
      * @example
      * ff 55 05 00 01 0e 00 45
      */
@@ -14374,14 +14467,15 @@ function Mcore(conf) {
             port,
             key
         ];
-        board.send(a);
+        var c = board.send(a);
+        return c;
     };
 
     /**
      * read pyroelectric infrared sensor
-     * @param  {[type]} index [description]
-     * @param  {[type]} port  vailable: 1,2,3,4
-     * @return {[type]}       [description]
+     * @param  {Number} index [description]
+     * @param  {Number} port  vailable: 1,2,3,4
+     * @return {Number}       [description]
      * @example
      * ff 55 04 00 01 0f 02
      */
@@ -14394,14 +14488,15 @@ function Mcore(conf) {
             0x0f,
             port
         ];
-        board.send(a);
+        var c = board.send(a);
+        return c;
     };
 
     /**
      * read LineFollower sensor
-     * @param  {[type]} index [description]
-     * @param  {[type]} port  vailable: 1,2,3,4
-     * @return {[type]} number,
+     * @param  {Number} index [description]
+     * @param  {Number} port  vailable: 1,2,3,4
+     * @return {Number} number,
      *  00   0
         01   1
         10   2
@@ -14419,15 +14514,16 @@ function Mcore(conf) {
             0x11,
             port
         ];
-        board.send(a);
+        var c = board.send(a);
+        return c;
     };
 
     /**
      * read limitSwitch
-     * @param  {[type]} index [description]
-     * @param  {[type]} port  vailable: 1,2,3,4
-     * @param  {[type]} slot  vailable: SLOT1(01)   SLOT2(02)
-     * @return {[type]}       [description]
+     * @param  {Number} index [description]
+     * @param  {Number} port  vailable: 1,2,3,4
+     * @param  {Number} slot  vailable: SLOT1(01)   SLOT2(02)
+     * @return {Number}       [description]
      * @example
      * ff 55 05 00 01 15 01 01
      */
@@ -14441,14 +14537,15 @@ function Mcore(conf) {
             port,
             slot
         ];
-        board.send(a);
+        var c = board.send(a);
+        return c;
     };
 
     /**
      * read compass.
-     * @param  {[type]} index [description]
-     * @param  {[type]} port  vailable: 1,2,3,4
-     * @return {[type]}       [description]
+     * @param  {Number} index [description]
+     * @param  {Number} port  vailable: 1,2,3,4
+     * @return {Number}       [description]
      * @example
      * ff 55 04 00 01 1a 01
      */
@@ -14461,14 +14558,15 @@ function Mcore(conf) {
             0x1a,
             port
         ];
-        board.send(a);
+        var c = board.send(a);
+        return c;
     };
 
     /**
      * read humiture
-     * @param  {[type]} index [description]
-     * @param  {[type]} port  vailable: 1,2,3,4
-     * @return {[type]}       [description]
+     * @param  {Number} index [description]
+     * @param  {Number} port  vailable: 1,2,3,4
+     * @return {Number}       [description]
      * @example
      * ff 55 05 00 01 17 01 00
      */
@@ -14481,14 +14579,15 @@ function Mcore(conf) {
             0x17,
             port
         ];
-        board.send(a);
+        var c = board.send(a);
+        return c;
     };
 
     /**
      * read flame
-     * @param  {[type]} index [description]
-     * @param  {[type]} port  vailable: 3,4
-     * @return {[type]}       [description]
+     * @param  {Number} index [description]
+     * @param  {Number} port  vailable: 3,4
+     * @return {Number}       [description]
      * @example
      * ff 55 04 00 01 18 03
      */
@@ -14501,14 +14600,15 @@ function Mcore(conf) {
             0x18,
             port
         ];
-        board.send(a);
+        var c = board.send(a);
+        return c;
     };
 
     /**
      * Used to get the harmful gas density
-     * @param  {[type]} index [description]
-     * @param  {[type]} port  vailable: 3,4
-     * @return {[type]}       [description]
+     * @param  {Number} index [description]
+     * @param  {Number} port  vailable: 3,4
+     * @return {Number}       [description]
      * @example
      * ff 55 04 00 01 19 03
      */
@@ -14521,15 +14621,16 @@ function Mcore(conf) {
             0x19,
             port
         ];
-        board.send(a);
+        var c = board.send(a);
+        return c;
     };
 
     /**
      * read the value of the digital tube feet
-     * @param  {[type]} index [description]
-     * @param  {[type]} port  vailable: GPIO  9
-     * @param  {[type]} level vailable: 00(low)、01(high)
-     * @return {[type]}       [description]
+     * @param  {Number} index [description]
+     * @param  {Number} port  vailable: GPIO  9
+     * @param  {Number} level vailable: 00(low)、01(high)
+     * @return {Number}       [description]
      * @example
      * ff 55 05 00 02 1e 09 01
      */
@@ -14543,14 +14644,15 @@ function Mcore(conf) {
             port,
             level
         ];
-        board.send(a);
+        var c = board.send(a);
+        return c;
     };
 
     /**
      * read the value of the analog tube feet
-     * @param  {[type]} index [description]
-     * @param  {[type]} port  GPIO A0
-     * @return {[type]}       [description]
+     * @param  {Number} index [description]
+     * @param  {Number} port  GPIO A0
+     * @return {Number}       [description]
      * @example
      * ff 55 04 00 01 1f 00
      */
@@ -14563,13 +14665,14 @@ function Mcore(conf) {
             0x1f,
             port
         ];
-        board.send(a);
+        var c = board.send(a);
+        return c;
     };
 
     /**
      * read the firmware running time, the unit is the second (s)
-     * @param  {[type]} index [description]
-     * @return {[type]}       [description]
+     * @param  {Number} index [description]
+     * @return {Number}       [description]
      * @example
      * ff 55 03 00 01 32
      */
@@ -14581,14 +14684,15 @@ function Mcore(conf) {
             SETTINGS.READ_MODE,
             0x32
         ];
-        board.send(a);
+        var c = board.send(a);
+        return c;
     };
 
     /**
      * read touch sensor
-     * @param  {[type]} index [description]
-     * @param  {[type]} port  vailable: 1,2,3,4
-     * @return {[type]}       [description]
+     * @param  {Number} index [description]
+     * @param  {Number} port  vailable: 1,2,3,4
+     * @return {Number}       [description]
      * @example
      * ff 55 04 00 01 33 06
      */
@@ -14601,17 +14705,18 @@ function Mcore(conf) {
             0x33,
             port
         ];
-        board.send(a);
+        var c = board.send(a);
+        return c;
     };
 
     /**
      * To determine whether onboard button is pressed.
-     * @param  {[type]} index     [description]
-     * @param  {[type]} port      vailable: 07
-     * @param  {[type]} keyStatus vailable: 01(release)
+     * @param  {Number} index     [description]
+     * @param  {Number} port      vailable: 07
+     * @param  {Number} keyStatus vailable: 01(release)
 00(press)
 
-     * @return {[type]}           [description]
+     * @return {Number}           [description]
      * @example
      * ff 55 05 00 01 23 07 00
      */
@@ -14625,15 +14730,16 @@ function Mcore(conf) {
             port,
             keyStatus
         ];
-        board.send(a);
+        var c = board.send(a);
+        return c;
     };
 
     /**
      * To determine whether the corresponding button is pressed.
-     * @param  {[type]} index [description]
-     * @param  {[type]} port  vailable: 1,2,3,4
-     * @param  {[type]} key   vailable:1,2,3,4
-     * @return {[type]}       [description]
+     * @param  {Number} index [description]
+     * @param  {Number} port  vailable: 1,2,3,4
+     * @param  {Number} key   vailable:1,2,3,4
+     * @return {Number}       [description]
      * @example
      * ff 55 05 00 01 16 03 01
      */
@@ -14647,7 +14753,8 @@ function Mcore(conf) {
             port,
             key
         ];
-        board.send(a);
+        var c = board.send(a);
+        return c;
     };
 }
 
@@ -14660,7 +14767,7 @@ if (typeof window !== "undefined") {
 }
 
 module.exports = Mcore;
-},{"../core/board":59,"../core/utils":63,"./settings":77,"underscore":55}],75:[function(require,module,exports){
+},{"../core/board":59,"../core/utils":63,"./settings":78,"underscore":55}],76:[function(require,module,exports){
 var Board = require("../core/board");
 var utils = require("../core/utils");
 var SETTINGS = require("./settings");
@@ -14964,7 +15071,7 @@ if (typeof window !== "undefined") {
 }
 
 module.exports = MegaPi;
-},{"../core/board":59,"../core/utils":63,"./settings":77,"underscore":55}],76:[function(require,module,exports){
+},{"../core/board":59,"../core/utils":63,"./settings":78,"underscore":55}],77:[function(require,module,exports){
 var Board = require("../core/board");
 var utils = require("../core/utils");
 var SETTINGS = require("./settings");
@@ -15268,7 +15375,7 @@ if (typeof window !== "undefined") {
 }
 
 module.exports = Orion;
-},{"../core/board":59,"../core/utils":63,"./settings":77,"underscore":55}],77:[function(require,module,exports){
+},{"../core/board":59,"../core/utils":63,"./settings":78,"underscore":55}],78:[function(require,module,exports){
 var settings = {
     // 数据发送与接收相关
     COMMAND_HEAD: [0xff, 0x55],
@@ -15281,11 +15388,11 @@ var settings = {
     WRITE_MODE: 2,
     // 数据发送默认的驱动driver: makeblockhd, cordova
     DEFAULT_CONF : {
-        driver: 'cordova'
+        driver: 'mock'
     }
 };
 
 module.exports = settings;
 
 
-},{}]},{},[73]);
+},{}]},{},[74]);

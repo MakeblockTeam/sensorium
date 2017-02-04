@@ -9,6 +9,7 @@ function Driver() {
 
   this._on_data = null;
   this._on_error = null;
+  this._on_ready = null;
 
   /**
    * [send interface]
@@ -33,6 +34,9 @@ function Driver() {
         break;
       case 'error':
         self._on_error = callback;
+        break;
+      case 'ready':
+        self._on_ready = callback;
         break;
       default:
         logger.warn('unsupported event: ', event);

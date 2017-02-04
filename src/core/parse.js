@@ -4,124 +4,180 @@
 
 var SETTINGS = require("../protocol/settings");
 var PromiseList = require("./promise");
+var utils = require('../core/utils');
 var logger = require('../log/log4js').logger;
 
+
 function Parse() {
+  this.buffer = [];
+
+  // 获取到的最大指令长度
+  this.REC_BUF_LENGTH = 40;
+
+  // 解析从硬件传递过来的数据
+  // 接收的消息队列并实现组包，例如：ff 55 3c 02 10  01 0d | 0a | ff 55 03 | 04 01 0d 0a 0a 32 | 0d 0a
+  // data : 当前处理的数据
+  // this.buffer: 历史缓存数据
+  // 记录数据和历史数据分开记录
+  this.doParse = function(bytes, driver) {
+    var data  = bytes;
+    // if (typeof(bytes) == 'string') {
+    //   data = bytes.split(" ");
+    // } else {
+    //   data = bytes;
+    // }
+
+    logger.debug('received: ' + utils.intStrToHexStr(utils.buffer2string(data).split(" ")));
+
+    data = this.buffer.concat(data);
     this.buffer = [];
 
-    // 解析从硬件传递过来的数据
-    this.doParse = function(bufData, driver) {
-        if(bufData.length > 16) {
-            logger.debug(bufData);
+    // parse buffer data
+    for (var i = 0; i < data.length; i++) {
+      this.buffer.push(parseInt(data[i]));
+      if (parseInt(data[i]) === 0x55 && parseInt(data[i - 1]) === 0xff) {
+        // start flag
+        this.recvLength = 0;
+        this.beginRecv = true;
+        this.tempBuf = [];
+      } else if (parseInt(data[i - 1]) === 0x0d && parseInt(data[i]) === 0x0a && this.tempBuf) {
+        // end flag
+        this.beginRecv = false;
+        var buf = this.tempBuf.slice(0, this.recvLength - 1);
+        // 解析正确的数据后，清空buffer
+        this.buffer = [];
+        if (buf.length == 0) {
+          // buf中没有数据
+          return false;
         }
 
-        var bytes = bufData;
-        for (var i = 0; i < bytes.length; i++) {
-            this.buffer.push(bytes[i]);
-            var length = this.buffer.length;
-            // 过滤无效数据
-            if (length > 1 && this.buffer[length - 2] == SETTINGS.COMMAND_END[0] && this.buffer[length - 1] == SETTINGS.COMMAND_END[1]) {
-                if (this.buffer.length != 10) {
-                    this.buffer = [];
-                } else {
-                    /* 以下为有效数据 */
-
-                    // 获取返回字节流中的索引位
-                    var dataIndex = this.buffer[SETTINGS.READ_BYTES_INDEX];
-                    var result = this.getResult(this.buffer);
-                    logger.debug(result);
-
-                    // 接收到数据后，启用回调
-                    if (driver._on_data) {
-                        driver._on_data(dataIndex, result);
-                    } else {
-                        logger.warn("driver data callback not found!");
-                    }
-                    this.buffer = [];
-                }
-            }
+        // 以下为有效数据, 获取返回字节流中的索引位
+        var dataIndex = buf[0];
+        var promiseType = PromiseList.getType(dataIndex);
+        if (promiseType || promiseType == 0) {
+          // 计算返回值
+          var result = this.getResult(buf, promiseType);
+          // 接收到数据后，启用回调
+          if (driver._on_data) {
+            driver._on_data(dataIndex, result);
+          } else {
+            logger.warn("driver data callback not found!");
+          }
         }
-    };
-
-    /**
-     * Get result from buffer data.
-     * @param  {Array} bufArray buffer data
-     * @return {Float}         value of sensor's callback
-     * 回复数据数值解析, 从左到右第四位数据：
-     *     1: 单字符(1 byte)
-     *     2： float(4 byte)
-     *     3： short(2 byte)，16个长度
-     *     4： 字符串
-     *     5： double(4 byte)
-     *     6: long(4 byte)
-     */
-    this.getResult = function(bufArray) {
-        var value = null;
-        var len = bufArray.length;
-        var dataType = bufArray[3];
-
-        if(bufArray[len - 1] == SETTINGS.COMMAND_END[1] && (bufArray[len - 2] == SETTINGS.COMMAND_END[0])) {
-
-            if(dataType == 3) {
-                // 2byte
-                var a = bufArray.slice(len - 4, len - 2).join(" ");
-                value = this.calculate(a);
-            } else if(dataType == 1) {
-                // 1byte
-                var a = bufArray.slice(len - 3, len - 2).join(" ");
-                value = this.calculate(a);
-            } else if( dataType == 4) {
-                // chart
-                var endIndex = 5 + parseInt(bufArray[4]);
-                value = bufArray.toString('utf8', 5, endIndex);
-
-            } else {
-                // 4byte
-                var a = bufArray.slice(len - 6, len - 2).join(" ");
-                value = this.calculate(a);
-            }
+      } else {
+        // normal
+        if (this.beginRecv) {
+          if (this.recvLength >= this.REC_BUF_LENGTH) {
+            console.log("receive buffer overflow!");
+          }
+          this.tempBuf[this.recvLength++] = parseInt(data[i]);
         }
-        return value;
-    };
+      }
+    }
+  };
 
-    /**
-     * Calcute result form buffer segment.
-     * @param  {[type]} bufferPart [description]
-     * @return {float}            [description]
-     */
-    this.calculate = function(bufSegment) {
-        var result = this.intArray2float(bufSegment);
-        return result;
-    };
+  /**
+   * Get result from buffer data.
+   * @param  {Array} bufArray buffer data
+   * @return {Float}         value of sensor's callback
+   * 回复数据数值解析, 从左到右第四位数据：
+   *     1: 单字符(1 byte)
+   *     2： float(4 byte)
+   *     3： short(2 byte)，16个长度
+   *     4： 字符串
+   *     5： double(4 byte)
+   *     6: long(4 byte)
+   *  @example
+   *  ff 55 02 02 7c 1a 81 41 0d 0a
+   */
+  this.getResult = function(buf, type) {
+    // 获取返回的数据类型
+    var dataType = buf[1];
+    var result = null;
+    switch (dataType) {
+      case "1":
+      case 1:
+        // 1byte
+        result = buf[2];
+        break;
+      case "3":
+      case 3:
+        // 2byte
+        result = this.calculateResponseValue([parseInt(buf[3]), parseInt(buf[2])]);
+        break;
+      case "4":
+      case 4:
+        // 字符串
+        result = this.bytesToString(buf);
+        break;
+      case "2":
+      case "5":
+      case "6":
+      case 2:
+      case 5:
+      case 6:
+        // long型或者float型的4byte处理
+        result = this.calculateResponseValue([parseInt(buf[5]), parseInt(buf[4]), parseInt(buf[3]), parseInt(buf[2])]);
+        break;
+      default:
+        break;
+    }
 
-     /**
-     * Transfer short type data to float number.
-     * @param  {array} intArray decimal array
-     * @return {float} the calculate result
-     */
-    this.intArray2float = function(intArray) {
-        // FIXME: n个byte转成int值
-        var bytesToInt = function(intArray) {
-            var val = 0;
-            for(var i = intArray.length - 1; i >= 0; i--) {
-                val += (intArray[intArray.length - i - 1] << (i * 8) );
-            }
-            return val;
-        };
-        // FIXME: int字节转浮点型
-        var intBitsToFloat = function(num) {
-            /* s 为符号（sign）；e 为指数（exponent）；m 为有效位数（mantissa）*/
-            s = (num >> 31) == 0 ? 1 : -1,
-                e = (num >> 23) & 0xff,
-                m = (e == 0) ?
-                (num & 0x7fffff) << 1 :
-                (num & 0x7fffff) | 0x800000;
-            return s * m * Math.pow(2, e - 150);
-        };
-        var intValue = bytesToInt(intArray);
-        var result = parseFloat(intBitsToFloat(intValue).toFixed(2));
-        return result;
+    // TOFIX: should not be placed here.
+    //  if (type == this.PromiseType.ENCODER_MOTER.index) {
+    //   result = Math.abs(result);
+    // }
+
+    return result;
+  };
+
+  /**
+   * calculate value from data received: bytes -> int -> float
+   * @param  {Array} intArray decimal array
+   * @return {Number}  result.
+   */
+  this.calculateResponseValue = function(intArray) {
+    var result = null;
+
+    // FIXME: int字节转浮点型
+    var intBitsToFloat = function(num) {
+      /* s 为符号（sign）；e 为指数（exponent）；m 为有效位数（mantissa）*/
+      var s = (num >> 31) == 0 ? 1 : -1,
+        e = (num >> 23) & 0xff,
+        m = (e == 0) ?
+        (num & 0x7fffff) << 1 :
+        (num & 0x7fffff) | 0x800000;
+      return s * m * Math.pow(2, e - 150);
     };
+    var intValue = this.bytesToInt(intArray);
+    // TOFIX
+    if (intValue < 100000 && intValue > 0) {
+      result = intValue;
+    } else {
+      result = parseFloat(intBitsToFloat(intValue).toFixed(2));
+    }
+    return result;
+  };
+
+  /**
+   * n个byte转成int值
+   * @param  {Array} bytes 传入的bytes数组
+   * @return {Number}          返回的int数值
+   */
+  this.bytesToInt = function(bytes) {
+    var val = 0;
+    for (var i = bytes.length - 1; i >= 0; i--) {
+      val += (bytes[bytes.length - i - 1] << (i * 8));
+    }
+    return val;
+  };
+
+  this.bytesToString = function(bytes) {
+    var endIndex = 5 + parseInt(bytes[4]);
+    var str = bytes.toString('utf8', 5, endIndex);
+    return str;
+  };
 }
 
+// window.Parse = Parse;
 module.exports = Parse;
