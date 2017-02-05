@@ -1,0 +1,49 @@
+var assert = require('chai').assert;
+var Board = require("../src/core/board");
+var utils = require("../src/core/utils");
+var Auriga = require("../src/protocol/auriga");
+var dataman = require("./dataman");
+
+Board.prototype.send = function(command) {
+    return utils.intStrToHexStr(command);
+};
+
+var mcore = new Mcore();
+
+describe('【Auriga Write】', function() {
+    describe('#setDcMotor(9,50)', function() {
+        var targetCmd = "ff 55 06 00 02 0a 09 32 00";
+        it(targetCmd + ' should be sent', function() {
+            var cmd = mcore.setDcMotor(9, 50);
+            assert.equal(targetCmd, cmd);
+        });
+    });
+
+    describe('#setLed(7, 2, 0, 255, 0, 0)', function() {
+        var targetCmd = "ff 55 09 00 02 08 07 02 00 ff 00 00";
+        it(targetCmd + ' should be sent', function() {
+            var cmd = mcore.setLed(7, 2, 0, 255, 0, 0);
+            assert.equal(targetCmd, cmd);
+        });
+    });
+});
+
+
+describe('【Auriga Read】', function() {
+    var index = 0;
+    describe('#readVersion()', function() {
+        var targetCmd = "ff 55 03 00 01 00";
+        it(targetCmd + ' should be sent', function() {
+            var cmd = mcore.readVersion(index);
+            assert.equal(targetCmd, cmd);
+        });
+    });
+
+    describe('#readUltrasonic(3)', function() {
+        var targetCmd = "ff 55 04 00 01 01 01";
+        it(targetCmd + ' should be sent', function() {
+            var cmd = mcore.readUltrasonic(index, 3);
+            assert.equal(targetCmd, cmd);
+        });
+    });
+});
