@@ -27,7 +27,8 @@ function Auriga(conf) {
             speed & 0xff,
             (speed >> 8) & 0xff
         ];
-        board.send(a);
+        var c = board.send(a);
+        return c;
     },
 
     /**
@@ -71,7 +72,8 @@ function Auriga(conf) {
             rightSpeed & 0xff,
             (rightSpeed >> 8) & 0xff
         ];
-        board.send(a);
+        var c = board.send(a);
+        return c;
     };
 
     /**
@@ -88,13 +90,14 @@ function Auriga(conf) {
             SETTINGS.COMMAND_HEAD[1],
             0x08, 0,
             SETTINGS.WRITE_MODE,
-            0x34,
+            0x34,0,
             turnExtent & 0xff,
             (turnExtent >> 8) & 0xff,
             speed & 0xff,
             (speed >> 8) & 0xff
         ];
-        board.send(a);
+        var c = board.send(a);
+        return c;
     };
 
     /**
@@ -276,9 +279,20 @@ function Auriga(conf) {
             parseInt(byte4Array[2], 16),
             parseInt(byte4Array[3], 16)
         ];
-        board.send(a);
+        var c = board.send(a);
+        return c;
     };
 
+    /**
+     * mainly used for distance measurement, the measurement range is 0 to 500 cm,
+     * the execution of the command will have more than 100 milliseconds latency.
+     * So the frequency of the host to send this instruction shoulds not be too high.
+     * @param  {Number} index [description]
+     * @param  {Number} port  vailable: 6，7，8，9，10
+     * @return {Number}       [description]
+     * @example
+     * ff 55 04 00 01 01 03
+     */
     this.readUltrasonic = function(index, port) {
         var a = [
             SETTINGS.COMMAND_HEAD[0],
@@ -288,9 +302,468 @@ function Auriga(conf) {
             0x01,
             port
         ];
-        board.send(a);
+        var c = board.send(a);
+        return c;
+    };
+
+    this.readVersion = function(index){
+          var a = [
+            SETTINGS.COMMAND_HEAD[0],
+            SETTINGS.COMMAND_HEAD[1],
+            0x03,index,
+            SETTINGS.READ_MODE,
+            0x00
+        ];
+        var c = board.send(a);
+        return c;
+    };
+
+    /**
+     * read temperature, Each port can connect two road temperature sensor.
+     * @param  {Number} index [description]
+     * @param  {Number} port  vailable: 6，7，8，9，10
+     * @param  {Number} slot  vailable: slot1(1), slot2(2)
+     * @return {Number}       [description]
+     * @example
+     * ff 55 05 00 01 02 01 02
+     */
+    this.readTemperature = function (index,port,slot){
+          var a = [
+            SETTINGS.COMMAND_HEAD[0],
+            SETTINGS.COMMAND_HEAD[1],
+            0x05,index,
+            SETTINGS.READ_MODE,
+            0x02,
+            port,
+            slot
+        ];
+        var c = board.send(a);
+        return c;
+    };
+
+    /**
+     * The light sensor module or onboard (lamp) light sensors numerical reading.
+     * @param  {Number} index [description]
+     * @param  {Number} port  vailable: 6,7,8,9,10, onbord(0c),onbord(0b)
+     * @return {Number}       [description]
+     * @example
+     * ff 55 04 00 01 03 07
+     */
+    this.readLight = function(index,port){
+        var a = [
+            SETTINGS.COMMAND_HEAD[0],
+            SETTINGS.COMMAND_HEAD[1],
+            0x04,index,
+            SETTINGS.READ_MODE,
+            0x03,
+            port
+        ];
+        var c = board.send(a);
+        return c;
+    };
+
+    /**
+     * read Potentionmeter
+     * @param  {Number} index [description]
+     * @param  {Number} port  vailable: 6，7，8，9，10
+     * @return {Number}       [description]
+     * @example
+     * ff 55 04 00 01 04 06
+     */
+    this.readPotentionmeter = function(index,port){
+        var a = [
+            SETTINGS.COMMAND_HEAD[0],
+            SETTINGS.COMMAND_HEAD[1],
+            0x04,index,
+            SETTINGS.READ_MODE,
+            0x04,
+            port
+        ];
+        var c = board.send(a);
+        return c;
+    };
+
+    /**
+     * read volume testing MIC module parameters
+     * @param  {Number} index [description]
+     * @param  {Number} port  vailable: 6，7，8，9，10，onboard(0x0e)
+     * @return {Number}       [description]
+     * @example
+     * ff 55 04 00 01 07 06
+     */
+    this.readSound = function(index,port){
+        var a = [
+            SETTINGS.COMMAND_HEAD[0],
+            SETTINGS.COMMAND_HEAD[1],
+            0x04,index,
+            SETTINGS.READ_MODE,
+            0x07,
+            port
+        ];
+        var c = board.send(a);
+        return c;
+    };
+
+    /**
+     * read temperature, Each port can connect two road temperature sensor.
+     * @param  {Number} index [description]
+     * @param  {Number} port  vailable: 6,7,8,9,10
+     * @param  {Number} slot  vailable: slot1(1), slot2(2)
+     * @return {Number}       [description]
+     * @example
+     * ff 55 05 00 01 02 01 02
+     */
+    this.readTemperature = function (index,port,slot){
+          var a = [
+            SETTINGS.COMMAND_HEAD[0],
+            SETTINGS.COMMAND_HEAD[1],
+            0x05,index,
+            SETTINGS.READ_MODE,
+            0x02,
+            port,
+            slot
+        ];
+        var c = board.send(a);
+        return c;
+    };
+
+    /**
+     * read temperature on board
+     * @param  {Number} index [description]
+     * @param  {Number} port  vailable: onboard(0d)
+     * @return {Number}       [description]
+     * @example
+     * ff 55 05 00 01 02 01 0d
+     */
+    this.readTemperatureOnboard = function (index,port){
+          var a = [
+            SETTINGS.COMMAND_HEAD[0],
+            SETTINGS.COMMAND_HEAD[1],
+            0x05,index,
+            SETTINGS.READ_MODE,
+            0x02,
+            port,
+        ];
+        var c = board.send(a);
+        return c;
+    };
+
+    /**
+     * read LineFollower sensor
+     * @param  {Number} index [description]
+     * @param  {Number} port  vailable: 6，7，8，9，10
+     * @return {Number} number,
+     *  00   0
+        01   1
+        10   2
+        11   3
+        when 0 said has a black line
+      * @example
+      * ff 55 04 00 01 11 02
+     */
+    this.readLineFollower = function(index,port){
+        var a = [
+            SETTINGS.COMMAND_HEAD[0],
+            SETTINGS.COMMAND_HEAD[1],
+            0x04,index,
+            SETTINGS.READ_MODE,
+            0x11,
+            port
+        ];
+        var c = board.send(a);
+        return c;
+    };
+
+    /**
+     * read pyroelectric infrared sensor
+     * @param  {Number} index [description]
+     * @param  {Number} port  vailable: 1,2,3,4
+     * @return {Number}       [description]
+     * @example
+     * ff 55 04 00 01 0f 06
+     */
+    this.readPirmotion = function(index,port){
+        var a = [
+            SETTINGS.COMMAND_HEAD[0],
+            SETTINGS.COMMAND_HEAD[1],
+            0x04,index,
+            SETTINGS.READ_MODE,
+            0x0f,
+            port
+        ];
+        var c = board.send(a);
+        return c;
+    };
+
+    /**
+     * read pyroelectric infrared sensor
+     * @param  {Number} index [description]
+     * @param  {Number} port  vailable: 6，7，8，9，10
+     * @return {Number}       [description]
+     * @example
+     * ff 55 05 00 01 15 06 02
+     */
+    this.readPirmotion = function(index,port){
+        var a = [
+            SETTINGS.COMMAND_HEAD[0],
+            SETTINGS.COMMAND_HEAD[1],
+            0x04,index,
+            SETTINGS.READ_MODE,
+            0x0f,
+            port
+        ];
+        var c = board.send(a);
+        return c;
+    };
+
+    /**
+     * read humiture
+     * @param  {Number} index [description]
+     * @param  {Number} port  vailable: 6，7，8，9，10
+     * @param  {Number} temperature(01) humidity (00)
+     * @return {Number}       [description]
+     * @example
+     * ff 55 05 00 01 17 06 00
+     */
+    this.readHumiture = function(index,port,type){
+        var a = [
+            SETTINGS.COMMAND_HEAD[0],
+            SETTINGS.COMMAND_HEAD[1],
+            0x05,index,
+            SETTINGS.READ_MODE,
+            0x17,
+            port,
+            type
+        ];
+        var c = board.send(a);
+        return c;
+    };
+
+    /**
+     * read compass.
+     * @param  {Number} index [description]
+     * @param  {Number} port  vailable: 6,7,8,9,10
+     * @return {Number}       [description]
+     * @example
+     * ff 55 04 00 01 1a 06
+     */
+    this.readCompass = function(index,port){
+        var a = [
+            SETTINGS.COMMAND_HEAD[0],
+            SETTINGS.COMMAND_HEAD[1],
+            0x04,index,
+            SETTINGS.READ_MODE,
+            0x1a,
+            port
+        ];
+        var c = board.send(a);
+        return c;
+    };
+
+    /**
+     * read flame
+     * @param  {Number} index [description]
+     * @param  {Number} port  vailable: 36,7,8,9,10
+     * @return {Number}       [description]
+     * @example
+     * ff 55 04 00 01 18 03
+     */
+    this.readFlame = function(index,port){
+        var a = [
+            SETTINGS.COMMAND_HEAD[0],
+            SETTINGS.COMMAND_HEAD[1],
+            0x04,index,
+            SETTINGS.READ_MODE,
+            0x18,
+            port
+        ];
+        var c = board.send(a);
+        return c;
+    };
+
+    /**
+     * Used to get the harmful gas density
+     * @param  {Number} index [description]
+     * @param  {Number} port  vailable: 6,7,8,9,10
+     * @return {Number}       [description]
+     * @example
+     * ff 55 04 00 01 19 06
+     */
+    this.readGas = function(index,port){
+        var a = [
+            SETTINGS.COMMAND_HEAD[0],
+            SETTINGS.COMMAND_HEAD[1],
+            0x04,index,
+            SETTINGS.READ_MODE,
+            0x19,
+            port
+        ];
+        var c = board.send(a);
+        return c;
+    };
+
+    /**
+     * read touch sensor
+     * @param  {Number} index [description]
+     * @param  {Number} port  vailable: 6,7,8,9,10
+     * @return {Number}       [description]
+     * @example
+     * ff 55 04 00 01 33 06
+     */
+    this.readTouch= function(index,port){
+        var a = [
+            SETTINGS.COMMAND_HEAD[0],
+            SETTINGS.COMMAND_HEAD[1],
+            0x04,index,
+            SETTINGS.READ_MODE,
+            0x33,
+            port
+        ];
+        var c = board.send(a);
+        return c;
+    };
+
+    /**
+     * To determine whether the corresponding button is pressed.
+     * @param  {Number} index [description]
+     * @param  {Number} port  vailable: 6,7,8,9,10
+     * @param  {Number} key   vailable:1,2,3,4
+     * @return {Number}       [description]
+     * @example
+     * ff 55 05 00 01 16 03 01
+     */
+    this.readButton= function(index,port,key){
+        var a = [
+            SETTINGS.COMMAND_HEAD[0],
+            SETTINGS.COMMAND_HEAD[1],
+            0x05,index,
+            SETTINGS.READ_MODE,
+            0x16,
+            port,
+            key
+        ];
+        var c = board.send(a);
+        return c;
+    };
+
+    /**
+     * @param  {Number} index [description]
+     * @param  {Number} port  vailable: digit GPOI port
+     * @return {Number}       [description]
+     * @example
+     * ff 55 04 00 01 1e 09 
+     */
+    this.readDigGPIO= function(index,port){
+        var a = [
+            SETTINGS.COMMAND_HEAD[0],
+            SETTINGS.COMMAND_HEAD[1],
+            0x04,index,
+            SETTINGS.READ_MODE,
+            0x1e,
+            port,
+        ];
+        var c = board.send(a);
+        return c;
+    };
+
+    /**
+     * @param  {Number} index [description]
+     * @param  {Number} port  vailable: analog GPIO port
+     * @return {Number}       [description]
+     * @example
+     * ff 55 04 00 01 1f 02
+     */
+    this.readAnalogGPIO= function(index,port){
+        var a = [
+            SETTINGS.COMMAND_HEAD[0],
+            SETTINGS.COMMAND_HEAD[1],
+            0x04,index,
+            SETTINGS.READ_MODE,
+            0x1f,
+            port,
+        ];
+        var c = board.send(a);
+        return c;
+    };
+
+    /**
+     * @param  {Number} index [description]
+     * @param  {Number} port  vailable: GPIO port
+     * @param  {Number} key   vailable: 0,1
+     * @return {Number}       [description]
+     * @example
+     * ff 55 05 00 01 25 0d 20 4e
+     */
+    this.readGPIOContinue= function(index,port,key){
+        var a = [
+            SETTINGS.COMMAND_HEAD[0],
+            SETTINGS.COMMAND_HEAD[1],
+            0x05,index,
+            SETTINGS.READ_MODE,
+            0x25,
+            port,
+            key,
+        ];
+        var c = board.send(a);
+        return c;
+    };
+
+    /**
+     * @param  {Number} index [description]
+     * @param  {Number} port  vailable: GPIO port
+     * @param  {Number} key   vailable: 0,1
+     * @return {Number}       [description]
+     * @example
+     * ff 55 05 00 01 24 45 40
+     */
+    this.readDoubleGPIO= function(index,port1,port2){
+        var a = [
+            SETTINGS.COMMAND_HEAD[0],
+            SETTINGS.COMMAND_HEAD[1],
+            0x05,index,
+            SETTINGS.READ_MODE,
+            0x24,
+            port1,
+            port2,
+        ];
+        var c = board.send(a);
+        return c;
+    };
+
+    /**
+     * @param  {Number} index [description]
+     * @param  {Number} port  vailable: analog GPIO port
+     * @param  {Number} key   vailable: 0,1
+     * @return {Number}       [description]
+     * @example
+     * ff 55 03 00 01 32
+     */
+    this.readRuntime= function(index){
+        var a = [
+            SETTINGS.COMMAND_HEAD[0],
+            SETTINGS.COMMAND_HEAD[1],
+            0x03,index,
+            SETTINGS.READ_MODE,
+            0x32,
+        ];
+        var c = board.send(a);
+        return c;
+    };
+
+    this.readOnboardButton= function(index){
+        var a = [
+            SETTINGS.COMMAND_HEAD[0],
+            SETTINGS.COMMAND_HEAD[1],
+            0x03,index,
+            SETTINGS.READ_MODE,
+            0x32,
+        ];
+        var c = board.send(a);
+        return c;
     };
 }
+
+
 
 
 // clone method and attributes from board to Auriga.
