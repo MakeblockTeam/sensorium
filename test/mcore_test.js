@@ -21,7 +21,8 @@ describe('【Mcore Write】', function() {
     describe('#setLed(7, 2, 0, 255, 0, 0)', function() {
         var targetCmd = "ff 55 09 00 02 08 07 02 00 ff 00 00";
         it(targetCmd + ' should be sent', function() {
-            var cmd = mcore.setLed(7, 2, 0, 255, 0, 0);
+            var cmd = mcore.setLed(0, 255, 0, 0);
+            console.log(cmd);
             assert.equal(targetCmd, cmd);
         });
     });
