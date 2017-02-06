@@ -39,7 +39,11 @@ var Device = {
   //"ultrasonicArduino":                36,  // 双管脚超声波传感器
   //"pulsein":                          37,  // 读取管脚的脉冲持续时间
   "stepperMotor":                     40,  // 步进电机
-  "ledMatrix":                        41,
+  "ledMatrix":                        41, // 表情面板
+    "ledMatrixChar":                  //表情面板-字符串
+    "ledMatrixChar":                  //表情面板-字符串
+    "ledMatrixChar":                  //表情面板-字符串
+    "ledMatrixChar":                  //表情面板-字符串
   //"timer":                            50,  // 固件运行时间
   "touch":                            51,  // 触摸传感器
   "virtualJoystickForBalance":        52,  // App 虚拟摇杆-平衡车模式
@@ -51,7 +55,7 @@ var Device = {
     "voltage":                        0x70,  // 读取电压
     "mode":                           0x71,  // 返回固件模式
     "getMegapiMode":                  0x72,
-  "encoderMotorBoard":                61,  // 编码电机（板载）
+  "encoderMotorOnBoard":                61,  // 编码电机（板载）
     //Read type
     "encoderMotorBoardPos":           0x01,
     "encoderMotorBoardSpeed":         0x02
