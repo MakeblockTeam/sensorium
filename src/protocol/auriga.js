@@ -1,3 +1,7 @@
+/**
+ * @fileOverview  Auriga api list
+ */
+
 var Board = require("../core/board");
 var utils = require("../core/utils");
 var SETTINGS = require("./settings");
