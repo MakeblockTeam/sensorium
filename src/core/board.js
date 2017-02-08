@@ -41,6 +41,7 @@ Board.prototype.setDriver = function(driver) {
  * @param  {Function} callback   the function to be excuted.
  */
 Board.prototype.getSensorValue = function(deviceType, options, callback) {
+  console.log(callback);
   var params = {};
   params.deviceType = deviceType;
   params.callback = callback;
@@ -65,10 +66,10 @@ Board.prototype._doGetSensorValue = function(params) {
   this._readBlockStatus(params);
 
   // 模拟回复指令
-  // setTimeout(function() {
-  //     var result = 1000;
-  //     that.sensorCallback(params.index, result);
-  // }, 200);
+  setTimeout(function() {
+      var result = 100;
+      that.sensorCallback(params.index, result);
+  }, 200);
 };
 
 /**
