@@ -20,7 +20,7 @@ var Dataman = {
       firmwareModeLineFollow: ["ff 55 05 00 02 3c 11 04", ""],
       servo: ["ff 55 06 00 02 0b 06 01 5a",""],
       sevenSegment: ["ff 55 08 00 02 09 06 00 00 c8 42",""],
-      ledMatrixChar: ["ff 55 0a 00 02 29 06 01 00 07 02 48 69",""],
+      ledMatrixChar: ["ff 55 0a 00 02 29 06 01 00 01 02 48 69",""],
       ledMatrixEmotion: ["ff 55 17 00 02 29 06 02 00 00 00 00 40 48 44 42 02 02 02 02 42 44 48 40 00 00", ""],
       ledMatrixTime: ["ff 55 08 00 02 29 06 03 01 0a 14", ""],
       ledMatrixNumber: ["ff 55 09 00 02 29 06 04 00 00 00 00",""],

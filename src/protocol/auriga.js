@@ -89,6 +89,7 @@ function Auriga(conf) {
       0x08, 0,
       SETTINGS.WRITE_MODE,
       0x34,
+      port,
       turnExtent & 0xff,
       (turnExtent >> 8) & 0xff,
       speed & 0xff,
@@ -99,23 +100,26 @@ function Auriga(conf) {
 
   /**
    * Set stepper motor speed.
-   * @param {[type]} port     port number, vailable is: 1,2,3,4
-   * @param {[type]} speed    speed, the range is 0 ~ 3000
-   * @param {[type]} distance distance, the range is -2147483648 ~ 2147483647
+   * @param {Number} port     port number, vailable is: 1,2,3,4
+   * @param {Number} speed    speed, the range is 0 ~ 3000
+   * @param {Long} distance distance, the range is -2147483648 ~ 2147483647
    * @example
    *     ff 55 0a 00 02 28 01 b8 0b e8 03 00 00
    */
   this.setStepperMotor = function(port, speed, distance) {
+    var distanceBytes = utils.longToBytes(distance);
     var a = [
       0xff,0x55,
-      0x08, 0,
+      0x0a, 0,
       SETTINGS.WRITE_MODE,
       0x28,
       port,
       speed & 0xff,
       (speed >> 8) & 0xff,
-      distance & 0xff,
-      (distance >> 8) & 0xff
+      distanceBytes[3],
+      distanceBytes[2],
+      distanceBytes[1],
+      distanceBytes[0]
     ];
     return board.send(a);
   };
@@ -139,7 +143,7 @@ function Auriga(conf) {
       0x08,
       port,
       slot,
-      position, red, green, blue
+      position, r, g, b
     ];
     return board.send(a);
   };
@@ -201,10 +205,10 @@ function Auriga(conf) {
       SETTINGS.WRITE_MODE,
       0x09,
       port,
-      parseInt(byte4Array[0], 16),
-      parseInt(byte4Array[1], 16),
-      parseInt(byte4Array[2], 16),
-      parseInt(byte4Array[3], 16)
+      byte4Array[0],
+      byte4Array[1],
+      byte4Array[2],
+      byte4Array[3]
     ];
     return board.send(a);
   };
@@ -216,7 +220,7 @@ function Auriga(conf) {
    * @param {number} yAxis  y position
    * @param {string} char  char, 例如 Hi 转换成ASCII的值 48 69
    * @exmaple
-   * ff 55 0a 00 02 29 06 01 00 07 02 48 69
+   * ff 55 0a 00 02 29 06 01 00 01 02 48 69
    */
   this.setLedMatrixChar = function(port, xAxis, yAxis, char) {
     var charAsciiArray = [];
@@ -226,7 +230,7 @@ function Auriga(conf) {
     var a = [
       0xff,0x55,
       0x0a,0,
-      that.SETTING.WRITEMODULE,
+      SETTINGS.WRITE_MODE,
       0x29,
       port,
       0x01,
@@ -252,7 +256,7 @@ function Auriga(conf) {
     var a = [
       0xff,0x55,
       0x17,0,
-      that.SETTING.WRITEMODULE,
+      SETTINGS.WRITE_MODE,
       0x29,
       port,
       0x02,
@@ -275,7 +279,7 @@ function Auriga(conf) {
     var a = [
       0xff,0x55,
       0x08,0,
-      that.SETTING.WRITEMODULE,
+      SETTINGS.WRITE_MODE,
       0x29,
       port,
       0x03,
@@ -321,7 +325,7 @@ function Auriga(conf) {
     var a = [
       0xff,0x55,
       0x05,0,
-      that.SETTING.WRITEMODULE,
+      SETTINGS.WRITE_MODE,
       0x14,
       port,
       action
@@ -340,47 +344,16 @@ function Auriga(conf) {
   };
 
   /**
-   * set buzzer play.
-   * @param {Number} tone     vailable: C2(65) ~ D8(4699)
-   * @param {Number} rhythmTime vailable:1/8(125)  ~  1/2(2000)
-   * @example
-   *  C4，quater beat：ff 55 07 00 02 22 06 01 fa 00
-   */
-  this._setBuzzer = function(tone, rhythmTime) {
-    var a = [
-      0xff, 0x55,
-      0x07, 0,
-      SETTINGS.WRITE_MODE,
-      0x22,
-      tone & 0xff,
-      (tone >> 8) & 0xff,
-      rhythmTime & 0xff,
-      (rhythmTime >> 8) & 0xff
-    ];
-
-    // TODO:
-    // 老版本的mbot固件
-    // if(this.getDeviceInfo().version == "1.2.103") {
-    //   a[2] = 5;
-    //   a[8] = 0;
-    //   a[9] = 0;
-    // }
-
-    var c = board.send(a);
-    return c;
-  };
-
-  /**
    * set buzzer.
    * @param {string} tone , "A2" ~ "D8"
    * @param {number} beat , 125: eight; 250: quater; 500: half; 1000: one; 2000: double
    * @example
-   * ff 55 08 00 02 22 09 41 00 f4 01
+   * C2，quater beat: ff 55 08 00 02 22 09 41 00 f4 01
    */
   this.setTone = function(tone, beat) {
     var TONE_HZ = {
       // 原始数据：D5: 587 "E5": 658,"F5": 698,"G5": 784,"A5": 880,"B5": 988,"C6": 1047
-      "A2": 110,"B2": 123,
+      "A2": 110,"B2": 123,"C2": 65,
       "C3": 131,"D3": 147,"E3": 165,"F3": 175,"G3": 196,"A3": 220,
       "B3": 247,"C4": 262,"D4": 294,"E4": 330,"F4": 349,"G4": 392,
       "A4": 440,"B4": 494,"C5": 523,"D5": 555,"E5": 640,"F5": 698,
@@ -388,7 +361,20 @@ function Auriga(conf) {
       "F6": 1397,"G6": 1568,"A6": 1760,"B6": 1976,"C7": 2093,"D7": 2349,
       "E7": 2637,"F7": 2794,"G7": 3136,"A7": 3520,"B7": 3951,"C8": 4186,"D8":4699
     };
-    this._setBuzzer(TONE_HZ[tone], beat);
+
+    var a = [
+      0xff, 0x55,
+      0x08, 0,
+      SETTINGS.WRITE_MODE,
+      0x22,
+      09,
+      TONE_HZ[tone] & 0xff,
+      (TONE_HZ[tone] >> 8) & 0xff,
+      beat & 0xff,
+      (beat >> 8) & 0xff
+    ];
+
+    return board.send(a);
   };
 
   /**
@@ -412,10 +398,10 @@ function Auriga(conf) {
       slot,
       speed & 0xff,
       (speed >> 8) & 0xff,
-      parseInt(byte4Array[0], 16),
-      parseInt(byte4Array[1], 16),
-      parseInt(byte4Array[2], 16),
-      parseInt(byte4Array[3], 16)
+      byte4Array[0],
+      byte4Array[1],
+      byte4Array[2],
+      byte4Array[3]
     ];
     return board.send(a);
   };

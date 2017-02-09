@@ -131,7 +131,7 @@ Board.prototype.send = function(command) {
  */
 Board.prototype.sensorCallback = function(index, result) {
   var deviceType = PromiseList.getType(index);
-  logger.warn(deviceType + ": " + result);
+  // logger.warn(deviceType + ": " + result);
   PromiseList.receiveValue(index, result);
 };
 
