@@ -67,7 +67,7 @@ Board.prototype._doGetSensorValue = function(params) {
 
   // 模拟回复指令
   setTimeout(function() {
-      var result = 100;
+      var result = 1;
       that.sensorCallback(params.index, result);
   }, 200);
 };
