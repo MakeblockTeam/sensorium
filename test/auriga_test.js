@@ -10,16 +10,25 @@ Board.prototype.send = function(command) {
 };
 
 var auriga = new Auriga({
-
+  "driver": "serial"
 });
 
 //test original_auriga
 
 //.......
 
-
 //test latest_auriga：09.01.012
 describe('【auriga_最新固件】', function() {
+  it('serialport is ready', function(done) {
+    setTimeout(function() {
+      assert.equal(1, 1);
+      doTest();
+      done();
+    }, 3000);
+  });
+});
+
+function doTest() {
   //执行命令：无返回的数据
   describe('#它的执行命令', function() {
     describe('直流电机：setDcMotor(1,255)', function() {
@@ -620,10 +629,10 @@ describe('【auriga_最新固件】', function() {
     });
 
 
-    describe('板载温度传感器：readTemperatureOnboard(0)', function() {
+    describe('板载温度传感器：readTemperatureOnBoard(0)', function() {
       var targetCmdOnboard = dataman.auriga.read.temperatureOnBoard[0];
       it(targetCmdOnboard + ' should be sent（板载）', function() {
-        var cmd = auriga.readTemperatureOnboard(0);
+        var cmd = auriga.readTemperatureOnBoard(0);
         //console.log(cmd + ' has been sent');
         assert.equal(targetCmdOnboard, cmd);
       });
@@ -841,4 +850,4 @@ describe('【auriga_最新固件】', function() {
       });
     });
   });
-});
+}
