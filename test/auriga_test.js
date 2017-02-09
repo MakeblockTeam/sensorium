@@ -262,6 +262,42 @@ describe('【auriga_最新固件】', function() {
 
     });
 
+    describe('表情面板', function() {
+
+      it("显示字符串： setLedMatrixChar(6, 0, 1, 'Hi')", function() {
+        var targetCmd = dataman.auriga.write.ledMatrixChar[0];
+        // console.log(targetCmd + ' should be sent');
+        var charData = "Hi";
+        var cmd = auriga.setLedMatrixChar(6, 0, 1, charData);
+        // console.log(cmd + ' has been received');
+        assert.equal(targetCmd, cmd);
+      });
+
+      it("显示表情： setLedMatrixEmotion(6, 0, 0, [00 ,00 ,0x40 ,0x48 ,0x44 ,0x42 ,0x02 ,0x02 ,0x02 ,0x02 ,0x42 ,0x44 ,0x48 ,0x40 ,0x00 ,0x00])", function() {
+        var targetCmd = dataman.auriga.write.ledMatrixEmotion[0];
+        // console.log(targetCmd + ' should be sent');
+        var emotionData = [00, 00, 0x40, 0x48, 0x44, 0x42, 0x02, 0x02, 0x02, 0x02, 0x42, 0x44, 0x48, 0x40, 0x00, 0x00];
+        var cmd = auriga.setLedMatrixEmotion(6, 0, 0, emotionData);
+        // console.log(cmd + ' has been received');
+        assert.equal(targetCmd, cmd);
+      });
+
+      it("显示时间：setLedMatrixTime(6, 1, 10, 20) ", function() {
+        var targetCmd = dataman.auriga.write.ledMatrixTime[0];
+        // console.log(targetCmd + ' should be sent');
+        var cmd = auriga.setLedMatrixTime(6, 1, 10, 20);
+        // console.log(cmd + ' has been received');
+        assert.equal(targetCmd, cmd);
+      });
+
+      it("显示数字：setLedMatrixNumber(6, 0) ", function() {
+        var targetCmd = dataman.auriga.write.ledMatrixNumber[0];
+        // console.log(targetCmd + ' should be sent');
+        var cmd = auriga.setLedMatrixNumber(6, 0);
+        // console.log(cmd + ' has been received');
+        assert.equal(targetCmd, cmd);
+      });
+    })
 
     describe('超声波传感器：readUltrasonic(0,10)', function() {
       var targetCmd = dataman.auriga.read.ultrasonic[0];
@@ -354,7 +390,7 @@ describe('【auriga_最新固件】', function() {
     describe('光线传感器：readLight(0,12)', function() {
       var targetCmd = dataman.auriga.read.light[0];
       it(targetCmd + ' should be sent', function() {
-        var cmd = auriga.readLight(0,12);
+        var cmd = auriga.readLight(0, 12);
         //console.log(cmd + ' has been sent');
         assert.equal(targetCmd, cmd);
       });
@@ -397,7 +433,7 @@ describe('【auriga_最新固件】', function() {
     describe('电位器传感器：readPotentionmeter(0,6)', function() {
       var targetCmd = dataman.auriga.read.potentionmeter[0];
       it(targetCmd + ' should be sent', function() {
-        var cmd = auriga.readPotentionmeter(0,6);
+        var cmd = auriga.readPotentionmeter(0, 6);
         //console.log(cmd + ' has been sent');
         assert.equal(targetCmd, cmd);
       });
@@ -441,7 +477,7 @@ describe('【auriga_最新固件】', function() {
     describe('摇杆传感器：readJoystick(0,6,1)', function() {
       var targetCmd = dataman.auriga.read.joystick[0];
       it(targetCmd + ' should be sent', function() {
-        var cmd = auriga.readJoystick(0,6,1);
+        var cmd = auriga.readJoystick(0, 6, 1);
         //console.log(cmd + ' has been sent');
         assert.equal(targetCmd, cmd);
       });
@@ -485,14 +521,14 @@ describe('【auriga_最新固件】', function() {
     describe('姿态传感器（陀螺仪）：readGyro(0,1,1)', function() {
       var targetCmdOnboard = dataman.auriga.read.gyro[0];
       it(targetCmdOnboard + ' should be sent（板载）', function() {
-        var cmd = auriga.readGyro(0,1,1);
+        var cmd = auriga.readGyro(0, 1, 1);
         //console.log(cmd + ' has been sent');
         assert.equal(targetCmdOnboard, cmd);
       });
 
       var targetCmdExternal = dataman.auriga.read.gyro[1];
       it(targetCmdExternal + ' should be sent（外接）', function() {
-        var cmd = auriga.readGyro(0,0,1);
+        var cmd = auriga.readGyro(0, 0, 1);
         //console.log(cmd + ' has been sent');
         assert.equal(targetCmdExternal, cmd);
       });
@@ -501,7 +537,7 @@ describe('【auriga_最新固件】', function() {
       it('it should be a number ', function(done) {
         var resultType;
         auriga.getSensorValue('gyro', {
-          "port": 1     //0表示外接；1表示板载
+          "port": 1 //0表示外接；1表示板载
         }, function(result) {
           //console.log(result + ' has been returned');
 
@@ -515,7 +551,7 @@ describe('【auriga_最新固件】', function() {
       it('it should between -360~360', function(done) {
         var resultRange;
         auriga.getSensorValue('gyro', {
-          "port": 1      //0表示外接；1表示板载
+          "port": 1 //0表示外接；1表示板载
         }, function(result) {
           //console.log(result + ' has been returned');
 
@@ -536,14 +572,14 @@ describe('【auriga_最新固件】', function() {
     describe('音量传感器：readSound(0,14)', function() {
       var targetCmdOnboard = dataman.auriga.read.sound[0];
       it(targetCmdOnboard + ' should be sent（板载）', function() {
-        var cmd = auriga.readSound(0,14);
+        var cmd = auriga.readSound(0, 14);
         //console.log(cmd + ' has been sent');
         assert.equal(targetCmdOnboard, cmd);
       });
 
       var targetCmdExternal = dataman.auriga.read.sound[1];
       it(targetCmdExternal + ' should be sent（外接）', function() {
-        var cmd = auriga.readSound(0,7);
+        var cmd = auriga.readSound(0, 7);
         //console.log(cmd + ' has been sent');
         assert.equal(targetCmdExternal, cmd);
       });
@@ -552,7 +588,7 @@ describe('【auriga_最新固件】', function() {
       it('it should be a number ', function(done) {
         var resultType;
         auriga.getSensorValue('sound', {
-          "port": 14     
+          "port": 14
         }, function(result) {
           //console.log(result + ' has been returned');
 
@@ -566,7 +602,7 @@ describe('【auriga_最新固件】', function() {
       it('it should between 0~500', function(done) {
         var resultRange;
         auriga.getSensorValue('sound', {
-          "port": 14      
+          "port": 14
         }, function(result) {
           //console.log(result + ' has been returned');
 
@@ -596,7 +632,7 @@ describe('【auriga_最新固件】', function() {
       it('it should be a number ', function(done) {
         var resultType;
         auriga.getSensorValue('temperature', {
-          "port": 13     
+          "port": 13
         }, function(result) {
           //console.log(result + ' has been returned');
 
@@ -610,7 +646,7 @@ describe('【auriga_最新固件】', function() {
       it('it should between -70~50', function(done) {
         var resultRange;
         auriga.getSensorValue('temperature', {
-          "port": 13      
+          "port": 13
         }, function(result) {
           //console.log(result + ' has been returned');
 
@@ -640,7 +676,7 @@ describe('【auriga_最新固件】', function() {
       it('it should be a number ', function(done) {
         var resultType;
         auriga.getSensorValue('pirmotion', {
-          "port": 6     
+          "port": 6
         }, function(result) {
           //console.log(result + ' has been returned');
 
@@ -654,7 +690,7 @@ describe('【auriga_最新固件】', function() {
       it('it should be 0 or 1 ', function(done) {
         var resultRange;
         auriga.getSensorValue('pirmotion', {
-          "port": 6      
+          "port": 6
         }, function(result) {
           //console.log(result + ' has been returned');
 
@@ -670,7 +706,7 @@ describe('【auriga_最新固件】', function() {
         });
       });
     });
-    
+
 
     describe('巡线传感器：readLineFollower(0, 6)', function() {
       var targetCmd = dataman.auriga.read.lineFollower[0];
@@ -684,7 +720,7 @@ describe('【auriga_最新固件】', function() {
       it('it should be a number ', function(done) {
         var resultType;
         auriga.getSensorValue('lineFollower', {
-          "port": 6     
+          "port": 6
         }, function(result) {
           //console.log(result + ' has been returned');
 
@@ -698,7 +734,7 @@ describe('【auriga_最新固件】', function() {
       it('it should be 0 or 1 or 2 or 3', function(done) {
         var resultRange;
         auriga.getSensorValue('lineFollower', {
-          "port": 6      
+          "port": 6
         }, function(result) {
           //console.log(result + ' has been returned');
 
@@ -729,7 +765,7 @@ describe('【auriga_最新固件】', function() {
         var resultType;
         auriga.getSensorValue('limitSwitch', {
           "port": 6,
-          "slot": 2     
+          "slot": 2
         }, function(result) {
           //console.log(result + ' has been returned');
 
@@ -744,7 +780,7 @@ describe('【auriga_最新固件】', function() {
         var resultRange;
         auriga.getSensorValue('limitSwitch', {
           "port": 6,
-          "slot": 2      
+          "slot": 2
         }, function(result) {
           //console.log(result + ' has been returned');
 
@@ -774,7 +810,7 @@ describe('【auriga_最新固件】', function() {
       it('it should be a number ', function(done) {
         var resultType;
         auriga.getSensorValue('compass', {
-          "port": 6   
+          "port": 6
         }, function(result) {
           //console.log(result + ' has been returned');
 
@@ -788,7 +824,7 @@ describe('【auriga_最新固件】', function() {
       it('it should between 0-500', function(done) {
         var resultRange;
         auriga.getSensorValue('compass', {
-          "port": 6     
+          "port": 6
         }, function(result) {
           //console.log(result + ' has been returned');
 
@@ -804,7 +840,5 @@ describe('【auriga_最新固件】', function() {
         });
       });
     });
-
-
   });
 });

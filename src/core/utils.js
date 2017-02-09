@@ -171,7 +171,7 @@ var Utils = {
    */
   upperCaseFirstLetter: function(str) {
     var reg = /\b(\w)|\s(\w)/g;
-    str = str.toLowerCase();
+    // str = str.toLowerCase();
     return str.replace(reg, function(m) {
       return m.toUpperCase();
     })
