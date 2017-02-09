@@ -149,6 +149,37 @@ function Auriga(conf) {
   };
 
   /**
+   * set four leds
+   * @param {number} port     port number, vailable is: 0(on board), 6,7,8,9,10
+   * @param {number} position led position, 0 signify all leds.
+   * @param {number} r        red, the range is 0 ~ 255
+   * @param {number} g        green, the range is 0 ~ 255
+   * @param {number} b        blue, the range is 0 ~ 255
+   */
+  this.setFourLeds = function(port, position, r, g, b) {
+    return this.setLed(port, 2, position, r, g, b);
+  };
+
+  /**
+   * set led panel on auriga board.
+   * @param {number} position led position, 0 signify all leds.
+   * @param {number} r        red, the range is 0 ~ 255
+   * @param {number} g        green, the range is 0 ~ 255
+   * @param {number} b        blue, the range is 0 ~ 255
+   */
+  this.setLedPanelOnBoard = function(position, r, g, b) {
+    return this.setLed(0, 2, position, r, g, b);
+  };
+
+  /**
+   * turn off led panel on board
+   * @param {number} position led position, 0 signify all leds.
+   */
+  this.turnOffLedPanelOnBoard = function(position) {
+    return this.setLed(0, 2, position, 0, 0, 0);
+  };
+
+  /**
    * Set board mode.
    * @param {number} mode board mode,
    *     0: bluetooth mode
@@ -567,7 +598,7 @@ function Auriga(conf) {
    * @example
    * ff 55 05 00 01 02 01 0d
    */
-  this.readTemperatureOnboard = function(index) {
+  this.readTemperatureOnBoard = function(index) {
     var port = 0x0d;
     var a = [
       0xff,0x55,

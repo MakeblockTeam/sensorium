@@ -2,6 +2,9 @@ var blessed = require('blessed');
 var fs = require('fs');
 var Log = require('log');
 var Mcore = require("./src/protocol/mcore");
+var Auriga = require("./src/protocol/auriga");
+var Orion = require("./src/protocol/orion");
+var MegaPi = require("./src/protocol/megapi");
 var logger = require('./src/log/log4js').logger;
 var log = new Log('debug', fs.createWriteStream('cli.log'));
 
@@ -101,7 +104,11 @@ var COLORS = ['red', 'green', 'blue', 'white', 'yellow'];
 //   blocksTable.setRows(rows);
 // }, 100);
 
-var mcore = new Mcore({
+// var mcore = new Mcore({
+//     "driver": "serial"
+// });
+
+var auriga = new Auriga({
     "driver": "serial"
 });
 
