@@ -159,7 +159,7 @@ describe('【auriga_最新固件】', function() {
                 assert.equal(targetCmd, cmd);
             });
 
-            it("显示表情： setLedMatrixEmotion(6, 0, 0, [00 00 40 48 44 42 02 02 02 02 42 44 48 40 00 00])", function() {
+            it("显示表情： setLedMatrixEmotion(6, 0, 0, [00 ,00 ,0x40 ,0x48 ,0x44 ,0x42 ,0x02 ,0x02 ,0x02 ,0x02 ,0x42 ,0x44 ,0x48 ,0x40 ,0x00 ,0x00])", function() {
                 var targetCmd = dataman.auriga.write.ledMatrixEmotion[0];
                 // console.log(targetCmd + ' should be sent');
                 var emotionData = [00 ,00 ,0x40 ,0x48 ,0x44 ,0x42 ,0x02 ,0x02 ,0x02 ,0x02 ,0x42 ,0x44 ,0x48 ,0x40 ,0x00 ,0x00];

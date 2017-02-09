@@ -161,6 +161,15 @@ function Auriga(conf) {
   };
 
   /**
+   * turn off four leds
+   * @param {number} port     port number, vailable is: 0(on board), 6,7,8,9,10
+   * @param {number} position led position, 0 signify all leds.
+   */
+  this.turnOffFourLeds = function(port, position) {
+    return this.setLed(port, 2, position, 0, 0, 0);
+  };
+
+  /**
    * set led panel on auriga board.
    * @param {number} position led position, 0 signify all leds.
    * @param {number} r        red, the range is 0 ~ 255
@@ -337,10 +346,10 @@ function Auriga(conf) {
       0x29,
       port,
       0x04,
-      parseInt(byte4Array[0], 16),
-      parseInt(byte4Array[1], 16),
-      parseInt(byte4Array[2], 16),
-      parseInt(byte4Array[3], 16)
+      byte4Array[0],
+      byte4Array[1],
+      byte4Array[2],
+      byte4Array[3]
     ];
     return board.send(a);
   };
