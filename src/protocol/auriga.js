@@ -605,37 +605,16 @@ function Auriga(conf) {
    * read temperature on board
    * @param  {Number} index [description]
    * @example
-   * ff 55 05 00 01 02 01 0d
+   * ff 55 04 00 01 1b 0d
    */
   this.readTemperatureOnBoard = function(index) {
     var port = 0x0d;
     var a = [
       0xff,0x55,
-      0x05, index,
+      0x04, index,
       SETTINGS.READ_MODE,
-      0x02,
+      0x1b,
       port,
-    ];
-    return board.send(a);
-  };
-
-  /**
-   * read temperature, Each port can connect two road temperature sensor.
-   * @param  {Number} index [description]
-   * @param  {Number} port  vailable: 6,7,8,9,10
-   * @param  {Number} slot  vailable: slot1(1), slot2(2)
-   * @return {Number}       [description]
-   * @example
-   * ff 55 05 00 01 02 01 02
-   */
-  this.readTemperature = function(index, port, slot) {
-    var a = [
-      0xff,0x55,
-      0x05, index,
-      SETTINGS.READ_MODE,
-      0x02,
-      port,
-      slot
     ];
     return board.send(a);
   };

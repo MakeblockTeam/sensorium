@@ -41,7 +41,10 @@ Board.prototype.setDriver = function(driver) {
  * @param  {Function} callback   the function to be excuted.
  */
 Board.prototype.getSensorValue = function(deviceType, options, callback) {
-  console.log(callback);
+  if(callback == undefined && typeof(options) == 'function') {
+    callback = options;
+    options = {};
+  }
   var params = {};
   params.deviceType = deviceType;
   params.callback = callback;

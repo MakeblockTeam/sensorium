@@ -10,16 +10,25 @@ Board.prototype.send = function(command) {
 };
 
 var auriga = new Auriga({
-
+  "driver": "serial"
 });
 
 //test original_auriga
 
 //.......
 
-
 //test latest_auriga：09.01.012
-describe('【auriga】', function() {
+describe('【auriga_最新固件】', function() {
+  it('serialport is ready', function(done) {
+    setTimeout(function() {
+      assert.equal(1, 1);
+      doTest();
+      done();
+    }, 3000);
+  });
+});
+
+function doTest() {
   //执行命令：无返回的数据
   describe('#它的执行命令', function() {
     describe('直流电机：setDcMotor(1／2/3/4,-255～255)', function() {
@@ -1263,4 +1272,4 @@ describe('【auriga】', function() {
     
     //智能舵机
   });
-});
+}
