@@ -64,7 +64,16 @@ Use [mocha](http://mochajs.org/) for unit test.In the project root folder, type 
 
 ```
 $ npm install mocha -g
+
+# 会自动搜寻 `test/` 目录下的 js 文件进行测试
 $ mocha
+
+# 测试某个文件
+$ mocha test/auriga_test.js
+
+# 测试某个文件中的某个用例
+$ mocha test/auriga_test.js -g "板载温度传感器"
+
 ```
 
 # Api documention (temp)

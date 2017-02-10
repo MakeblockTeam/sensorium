@@ -69,10 +69,10 @@ Board.prototype._doGetSensorValue = function(params) {
   this._readBlockStatus(params);
 
   // 模拟回复指令
-  setTimeout(function() {
-      var result = 1;
-      that.sensorCallback(params.index, result);
-  }, 200);
+  // setTimeout(function() {
+  //     var result = 1;
+  //     that.sensorCallback(params.index, result);
+  // }, 200);
 };
 
 /**
@@ -123,8 +123,9 @@ Board.prototype._handlerCommandSendTimeout = function(params) {
  * @param  {[type]} command [description]
  */
 Board.prototype.send = function(command) {
-  console.log('send: ' + utils.intStrToHexStr(command));
+  // logger.log('send: ' + utils.intStrToHexStr(command));
   this.driver.send(command);
+  return utils.intStrToHexStr(command);
 };
 
 /**
@@ -134,7 +135,7 @@ Board.prototype.send = function(command) {
  */
 Board.prototype.sensorCallback = function(index, result) {
   var deviceType = PromiseList.getType(index);
-  // logger.warn(deviceType + ": " + result);
+  logger.debug(deviceType + ": " + result);
   PromiseList.receiveValue(index, result);
 };
 

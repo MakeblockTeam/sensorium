@@ -418,9 +418,9 @@ function Auriga(conf) {
   };
 
   /**
-   *
+   * set encoder motor.
    * @param  {Number} index [description]
-   * @param  {Number} port  vailable: 6，7，8，9，10
+   * @param  {Number} port  vailable: 1,2,3,4
    * @param  {Number} slot  vailable: 1，2
    * @param  {Number} speed  0 ~ 300, 步/秒, 3600 步是一圈
    * @param  {Float} angle  相对位移

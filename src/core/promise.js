@@ -38,7 +38,7 @@ var PromiseList = {
         if(this.requestList[index]) {
             return this.requestList[index].type;
         } else {
-            logger.debug("返回字节的索引值无法匹配");
+            // logger.warn("返回字节的索引值无法匹配");
             return 0;
         }
     }

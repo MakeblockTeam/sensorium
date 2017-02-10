@@ -34,7 +34,7 @@ function initSerial() {
         console.log(port.comName);
         var NAME = name.toUpperCase();
         if (NAME.indexOf('USB') > 0 || NAME.indexOf('AMA') > 0) {
-          logger.debug('serial port found:', name);
+          logger.info('serial port found:', name);
           serialName = name;
           return;
         }

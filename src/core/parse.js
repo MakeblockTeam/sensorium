@@ -27,8 +27,6 @@ function Parse() {
     //   data = bytes;
     // }
 
-    logger.debug('received: ' + utils.intStrToHexStr(utils.buffer2string(data).split(" ")));
-
     data = this.buffer.concat(data);
     this.buffer = [];
 

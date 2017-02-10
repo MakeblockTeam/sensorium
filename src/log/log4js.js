@@ -8,7 +8,7 @@ log4js.configure({
     replaceConsole: false
 });
 
-var logger = log4js.getLogger('engineLog');
+var logger = log4js.getLogger('SLog');
 
 function setLoglevel(level){
   logger.setLevel(level);

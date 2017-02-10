@@ -1,41 +1,27 @@
+//test latest_auriga：09.01.012
+
 var assert = require('chai').assert;
-var Board = require("../src/core/board");
 var utils = require("../src/core/utils");
 var dataman = require('./dataman');
 
 var Auriga = require("../src/protocol/auriga");
-
-Board.prototype.send = function(command) {
-  return utils.intStrToHexStr(command);
-};
-
 var auriga = new Auriga({
   "driver": "serial"
 });
 
-//test original_auriga
-
-//.......
-
-//test latest_auriga：09.01.012
 describe('【auriga_最新固件】', function() {
-  it('serialport is ready', function(done) {
+  before(function(done) {
     setTimeout(function() {
-      assert.equal(1, 1);
-      doTest();
-      done();
-    }, 3000);
+      done()
+    }, 1000);
   });
-});
 
-function doTest() {
   //执行命令：无返回的数据
   describe('#它的执行命令', function() {
     describe('直流电机：setDcMotor(1／2/3/4,-255～255)', function() {
       it('设置直流电机端口1速度为255', function() {
         var targetCmd = dataman.auriga.write.dcMotor[0]; //"ff 55 06 00 02 0a 01 ff 00";
         var cmd = auriga.setDcMotor(1, 255);
-        // console.log(cmd + ' has been received');
         assert.equal(targetCmd, cmd);
       });
 
@@ -74,7 +60,6 @@ function doTest() {
       it('板载编码电机slot口1速度100', function() {
         var targetCmd = dataman.auriga.write.encoderMotorBoard[0]; //"ff 55 07 00 02 3d 00 01 64 00";
         var cmd = auriga.setEncoderMotorOnBoard(1, 100);
-        // console.log(cmd + ' has been received');
         assert.equal(targetCmd, cmd);
       });
 
@@ -113,7 +98,6 @@ function doTest() {
       it('外接编码电机slot1', function() {
          var targetCmd = dataman.auriga.write.encoder[0];
         var cmd = auriga.setEncoderMotor(8, 1, 150, 720);
-        // console.log(cmd + ' has been received');
         assert.equal(targetCmd, cmd);
       });
     });
@@ -122,7 +106,6 @@ function doTest() {
       it('app虚拟摇杆1左轮速度100右轮速度100', function() {
         var targetCmd = dataman.auriga.write.joystick[0] //"ff 55 07 00 02 05 64 00 64 00";
         var cmd = auriga.setJoystick(100, 100);
-        // console.log(cmd + ' has been received');
         assert.equal(targetCmd, cmd);
       });
 
@@ -174,7 +157,6 @@ function doTest() {
       var targetCmd = dataman.auriga.write.virtualJoystickForBalance[0]; //"ff 55 08 00 02 34 00 64 00 64 00";
       it(targetCmd + ' should be sent', function() {
         var cmd = auriga.setVirtualJoystickForBalance(0, 100, 100);
-        // console.log(cmd + ' has been received');
         assert.equal(targetCmd, cmd);
       });
     });
@@ -183,7 +165,6 @@ function doTest() {
       var targetCmd = dataman.auriga.write.stepperMotor[0]; //"ff 55 0a 00 02 28 01 b8 0b e8 03 00 00";
       it(targetCmd + ' should be sent', function() {
         var cmd = auriga.setStepperMotor(1, 3000, 1000);
-        // console.log(cmd + ' has been received');
         assert.equal(targetCmd, cmd);
       });
     });
@@ -192,7 +173,6 @@ function doTest() {
       var targetCmd = dataman.auriga.write.led[0];
       it(targetCmd + ' should be sent', function() {
         var cmd = auriga.setLed(6, 2, 0, 255, 0, 0);
-        // console.log(cmd + ' has been received');
         assert.equal(targetCmd, cmd);
       });
     });
@@ -203,7 +183,6 @@ function doTest() {
         var targetCmd = dataman.auriga.write.firmwareModeBlueTooth[0];
         // console.log(targetCmd + ' should be sent');
         var cmd = auriga.setFirmwareMode(0);
-        // console.log(cmd + ' has been received');
         assert.equal(targetCmd, cmd);
       });
 
@@ -211,7 +190,6 @@ function doTest() {
         var targetCmd = dataman.auriga.write.firmwareModeObstacle[0];
         // console.log(targetCmd + ' should be sent');
         var cmd = auriga.setFirmwareMode(1);
-        // console.log(cmd + ' has been received');
         assert.equal(targetCmd, cmd);
       });
 
@@ -219,7 +197,6 @@ function doTest() {
         var targetCmd = dataman.auriga.write.firmwareModeBalance[0];
         // console.log(targetCmd + ' should be sent');
         var cmd = auriga.setFirmwareMode(2);
-        // console.log(cmd + ' has been received');
         assert.equal(targetCmd, cmd);
       });
 
@@ -227,7 +204,6 @@ function doTest() {
         var targetCmd = dataman.auriga.write.firmwareModeInfrared[0];
         // console.log(targetCmd + ' should be sent');
         var cmd = auriga.setFirmwareMode(3);
-        // console.log(cmd + ' has been received');
         assert.equal(targetCmd, cmd);
       });
 
@@ -235,7 +211,6 @@ function doTest() {
         var targetCmd = dataman.auriga.write.firmwareModeLineFollow[0];
         // console.log(targetCmd + ' should be sent');
         var cmd = auriga.setFirmwareMode(4);
-        // console.log(cmd + ' has been received');
         assert.equal(targetCmd, cmd);
       });
 
@@ -245,7 +220,6 @@ function doTest() {
       var targetCmd = dataman.auriga.write.servo[0];
       it(targetCmd + ' should be sent', function() {
         var cmd = auriga.setServoMotor(6, 1, 90);
-        // console.log(cmd + ' has been received');
         assert.equal(targetCmd, cmd);
       });
     });
@@ -254,7 +228,6 @@ function doTest() {
       var targetCmd = dataman.auriga.write.sevenSegment[0];
       it(targetCmd + ' should be sent', function() {
         var cmd = auriga.setSevenSegment(6, 100);
-        // console.log(cmd + ' has been received');
         assert.equal(targetCmd, cmd);
       });
     });
@@ -266,7 +239,6 @@ function doTest() {
         // console.log(targetCmd + ' should be sent');
         var charData = "Hi";
         var cmd = auriga.setLedMatrixChar(6, 0, 1, charData);
-        // console.log(cmd + ' has been received');
         assert.equal(targetCmd, cmd);
       });
 
@@ -275,7 +247,6 @@ function doTest() {
         // console.log(targetCmd + ' should be sent');
         var emotionData = [00, 00, 0x40, 0x48, 0x44, 0x42, 0x02, 0x02, 0x02, 0x02, 0x42, 0x44, 0x48, 0x40, 0x00, 0x00];
         var cmd = auriga.setLedMatrixEmotion(6, 0, 0, emotionData);
-        // console.log(cmd + ' has been received');
         assert.equal(targetCmd, cmd);
       });
 
@@ -283,7 +254,6 @@ function doTest() {
         var targetCmd = dataman.auriga.write.ledMatrixTime[0];
         // console.log(targetCmd + ' should be sent');
         var cmd = auriga.setLedMatrixTime(6, 1, 10, 20);
-        // console.log(cmd + ' has been received');
         assert.equal(targetCmd, cmd);
       });
 
@@ -291,29 +261,24 @@ function doTest() {
         var targetCmd = dataman.auriga.write.ledMatrixNumber[0];
         // console.log(targetCmd + ' should be sent');
         var cmd = auriga.setLedMatrixNumber(6, 0);
-        // console.log(cmd + ' has been received');
         assert.equal(targetCmd, cmd);
       });
 
     });
-
 
     describe('快门线模块：setShutter(6, 2)', function() {
       var targetCmd = dataman.auriga.write.shutter[0];
       it(targetCmd + ' should be sent', function() {
         var cmd = auriga.setShutter(6, 2);
-        // console.log(cmd + ' has been received');
         assert.equal(targetCmd, cmd);
       });
     });
-
 
     describe('设置TONE输出：setTone("C2", 500)', function() {
       var targetCmd = dataman.auriga.write.tone[0];
       it(targetCmd + ' should be sent', function() {
         var toneData = "C2";
         var cmd = auriga.setTone(toneData, 500);
-        // console.log(cmd + ' has been received');
         assert.equal(targetCmd, cmd);
       });
     });
@@ -343,12 +308,10 @@ function doTest() {
       var targetCmd = dataman.auriga.write.reset[0];
       it(targetCmd + ' should be sent', function() {
         var cmd = auriga.reset();
-        // console.log(cmd + ' has been received');
         assert.equal(targetCmd, cmd);
       });
     });
   });
-
 
   //读指令:需要设备返回数据的指令
   describe('#它的读指令', function() {
@@ -356,7 +319,6 @@ function doTest() {
       var targetCmd = dataman.auriga.read.version[0];
       it(targetCmd + ' should be sent', function() {
         var cmd = auriga.readVersion(0);
-        // console.log(cmd + ' has been received');
         assert.equal(targetCmd, cmd);
       });
 
@@ -364,24 +326,19 @@ function doTest() {
       it(targetVersion + ' should be returned', function(done) {
         var resultVersion;
         auriga.getSensorValue('version', function(result) {
-          //console.log(result + ' has been returned');
-
           resultVersion = result;
           assert.equal(targetVersion, resultVersion);
           done();
         });
       });
-
     });
 
     describe('表情面板', function() {
-
       it("显示字符串： setLedMatrixChar(6, 0, 1, 'Hi')", function() {
         var targetCmd = dataman.auriga.write.ledMatrixChar[0];
         // console.log(targetCmd + ' should be sent');
         var charData = "Hi";
         var cmd = auriga.setLedMatrixChar(6, 0, 1, charData);
-        // console.log(cmd + ' has been received');
         assert.equal(targetCmd, cmd);
       });
 
@@ -390,7 +347,6 @@ function doTest() {
         // console.log(targetCmd + ' should be sent');
         var emotionData = [00, 00, 0x40, 0x48, 0x44, 0x42, 0x02, 0x02, 0x02, 0x02, 0x42, 0x44, 0x48, 0x40, 0x00, 0x00];
         var cmd = auriga.setLedMatrixEmotion(6, 0, 0, emotionData);
-        // console.log(cmd + ' has been received');
         assert.equal(targetCmd, cmd);
       });
 
@@ -398,7 +354,6 @@ function doTest() {
         var targetCmd = dataman.auriga.write.ledMatrixTime[0];
         // console.log(targetCmd + ' should be sent');
         var cmd = auriga.setLedMatrixTime(6, 1, 10, 20);
-        // console.log(cmd + ' has been received');
         assert.equal(targetCmd, cmd);
       });
 
@@ -406,7 +361,6 @@ function doTest() {
         var targetCmd = dataman.auriga.write.ledMatrixNumber[0];
         // console.log(targetCmd + ' should be sent');
         var cmd = auriga.setLedMatrixNumber(6, 0);
-        // console.log(cmd + ' has been received');
         assert.equal(targetCmd, cmd);
       });
     })
@@ -415,7 +369,6 @@ function doTest() {
       var targetCmd = dataman.auriga.read.ultrasonic[0];
       it(targetCmd + ' should be sent', function() {
         var cmd = auriga.readUltrasonic(0, 10);
-        // console.log(cmd + ' has been received');
         assert.equal(targetCmd, cmd);
       });
 
@@ -431,7 +384,6 @@ function doTest() {
           done();
         });
       });
-
 
       var targetRange = dataman.auriga.read.ultrasonic[2];
 
@@ -452,7 +404,6 @@ function doTest() {
         });
       });
     });
-
 
     describe('温度传感器：readTemperature(0,10,2)', function() {
       var targetCmd = dataman.auriga.read.temperature[0];
@@ -585,7 +536,6 @@ function doTest() {
       });
     });
 
-
     describe('摇杆传感器：readJoystick(0,6,1)', function() {
       var targetCmd = dataman.auriga.read.joystick[0];
       it(targetCmd + ' should be sent', function() {
@@ -628,7 +578,6 @@ function doTest() {
         });
       });
     });
-
 
     describe('姿态传感器（陀螺仪）：readGyro(0,1,1)', function() {
       var targetCmdOnboard = dataman.auriga.read.gyro[0];
@@ -680,7 +629,6 @@ function doTest() {
       });
     });
 
-
     describe('音量传感器：readSound(0,14)', function() {
       var targetCmdOnboard = dataman.auriga.read.sound[0];
       it(targetCmdOnboard + ' should be sent（板载）', function() {
@@ -731,25 +679,21 @@ function doTest() {
       });
     });
 
-
     describe('板载温度传感器：readTemperatureOnBoard(0)', function() {
       var targetCmdOnboard = dataman.auriga.read.temperatureOnBoard[0];
       it(targetCmdOnboard + ' should be sent（板载）', function() {
         var cmd = auriga.readTemperatureOnBoard(0);
-        //console.log(cmd + ' has been sent');
         assert.equal(targetCmdOnboard, cmd);
       });
 
       var targetType = dataman.auriga.read.temperatureOnBoard[1];
       it('it should be a number ', function(done) {
         var resultType;
-        auriga.getSensorValue('temperature', {
-          "port": 13
-        }, function(result) {
-          //console.log(result + ' has been returned');
-
-          resultType = typeof(result);
-          assert.equal(targetType, resultType);
+        auriga.getSensorValue('temperatureOnBoard', function(result) {
+          // console.log(result + ' has been returned');
+          // resultType = typeof(result);
+          // assert.equal(targetType, resultType);
+          assert.isNumber(result);
           done();
         });
       });
@@ -757,11 +701,8 @@ function doTest() {
       var targetRange = dataman.auriga.read.temperatureOnBoard[2];
       it('it should between -70~50', function(done) {
         var resultRange;
-        auriga.getSensorValue('temperature', {
-          "port": 13
-        }, function(result) {
+        auriga.getSensorValue('temperatureOnBoard', function(result) {
           //console.log(result + ' has been returned');
-
           resultRange = function(result) {
             if (result >= -70 && result <= 50) {
               return 1;
@@ -774,7 +715,6 @@ function doTest() {
         });
       });
     });
-
 
     describe('被动式红外传感器：readPirmotion(0, 6)', function() {
       var targetCmd = dataman.auriga.read.pirmotion[0];
@@ -908,7 +848,6 @@ function doTest() {
         });
       });
     });
-
 
     describe('电子罗盘传感器：readCompass(0, 6)', function() {
       var targetCmd = dataman.auriga.read.compass[0];
@@ -1272,4 +1211,4 @@ function doTest() {
     
     //智能舵机
   });
-}
+});
