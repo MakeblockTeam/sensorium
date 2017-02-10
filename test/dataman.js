@@ -6,10 +6,10 @@ var Dataman = {
   auriga: {
     // 21 个
     write: {
-      // 第一个参数是发送值，第二个参数是接收值
-      dcMotor: ["ff 55 06 00 02 0a 01 ff 00", "ff 55 0d 0a"],
-      encoderMotorBoard: ["ff 55 07 00 02 3d 00 01 64 00", "ff 55 0d 0a"],
-      joystick: ["ff 55 07 00 02 05 64 00 64 00", ""],
+      //执行指令 
+      dcMotor: ["ff 55 06 00 02 0a 01 ff 00", "ff 55 06 00 02 0a 02 01 ff", "ff 55 06 00 02 0a 03 64 00", "ff 55 06 00 02 0a 04 ff 00", "ff 55 06 00 02 0a 01 01 ff"],
+      encoderMotorBoard: ["ff 55 07 00 02 3d 00 01 64 00", "ff 55 07 00 02 3d 00 02 ff 00", "ff 55 07 00 02 3d 00 01 01 ff", "ff 55 07 00 02 3d 00 01 ff 00", "ff 55 07 00 02 3d 00 01 01 ff"],
+      joystick: ["ff 55 07 00 02 05 64 00 64 00", "ff 55 07 00 02 05 ff 00 ff 00", "ff 55 07 00 02 05 01 ff 01 ff", "ff 55 07 00 02 05 00 00 96 00", "ff 55 07 00 02 05 ?? ?? 64 00", "ff 55 07 00 02 05 ff 00 ff 00", "ff 55 07 00 02 05 01 ff 01 ff"],
       virtualJoystickForBalance: ["ff 55 08 00 02 34 00 64 00 64 00", ""],
       stepperMotor: ["ff 55 0a 00 02 28 01 b8 0b e8 03 00 00", ""],
       led: ["ff 55 09 00 02 08 06 02 00 ff 00 00", ""],
@@ -31,6 +31,7 @@ var Dataman = {
     },
     // 20 个
     read: {
+      //读指令 
       version: ["ff 55 03 00 01 00", "FF 55 00 04 09 30 39 2E 30 31 2E 30 30 32 0D 0A"],
       ultrasonic: ["ff 55 04 00 01 01 0a", "number", "1"],
       temperature: ["ff 55 05 00 01 02 0a 02", "number", "1"],
@@ -44,14 +45,14 @@ var Dataman = {
       lineFollower: ["ff 55 04 00 01 11 06", "number", "1"],
       limitSwitch: ["ff 55 05 00 01 15 06 02", "number", "1"],
       compass: ["ff 55 04 00 01 1a 06", "number", "1"],
-      humiture: [],
-      flame: [],
-      gas: [],
-      touch: [],
-      fourKeys: [],
-      encoderMotorBoard: [],
-      voltage: [],
-      mode: []
+      humiture: ["ff 55 05 00 01 17 06 01", "number", "1"],
+      flame: ["ff 55 04 00 01 18 06", "number", "1"],
+      gas: ["ff 55 04 00 01 19 06", "number", "1"],
+      touch: ["ff 55 04 00 01 33 06", "number", "1"],
+      fourKeys: ["ff 55 05 00 01 16 06 01", "number", "1"],
+      encoderMotorOnBoard: ["ff 55 06 00 01 3d 00 01 02", "number","1"],
+      voltage: ["ff 55 04 00 01 3c 70", "number", "1"],
+      mode: ["ff 55 04 00 01 3c 71", "number", "1"]
     }
   }
 };

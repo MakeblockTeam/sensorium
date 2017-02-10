@@ -824,7 +824,7 @@ function Auriga(conf) {
   };
 
   /**
-   * read encoder motor position or speed.
+   * read encoder motor position or speed on board.
    * @param  {Number} index [description]
    * @param  {Number} port vailable:1,2,3,4,5
    * @param  {Number} slot vailable:1,2
@@ -832,7 +832,7 @@ function Auriga(conf) {
    * @example
    * ff 55 06 00 01 3d 00 01 02
    */
-  this.readEncoderMotor = function(index, port, slot, type) {
+  this.readEncoderMotorOnBoard = function(index, port, slot, type) {
     var a = [
       0xff,0x55,
       0x06, index,
