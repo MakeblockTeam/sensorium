@@ -27,7 +27,7 @@ function Orion(conf) {
       speed & 0xff,
       (speed >> 8) & 0xff
     ];
-    board.send(a);
+    return board.send(a);
   },
 
   /**
@@ -35,13 +35,13 @@ function Orion(conf) {
    * @param {number} leftSpeed  left speed, the range is -255 ~ 255
    * @param {number} rightSpeed right speed, the range is -255 ~ 255
    * @example
-   *     ff 55 05 00 01 05 06 01
+   *     ff 55 07 00 02 05 64 00 64 00
    */
   this.setJoystick = function(leftSpeed, rightSpeed) { //setJoystick
     var a = [
       SETTINGS.COMMAND_HEAD[0],
       SETTINGS.COMMAND_HEAD[1],
-      0x05, 0,
+      0x07, 0,
       SETTINGS.WRITE_MODE,
       0x05,
       leftSpeed & 0xff,
@@ -49,7 +49,7 @@ function Orion(conf) {
       rightSpeed & 0xff,
       (rightSpeed >> 8) & 0xff
     ];
-    board.send(a);
+    return board.send(a);
   };
 
   /**
@@ -66,14 +66,14 @@ function Orion(conf) {
       SETTINGS.COMMAND_HEAD[1],
       0x08, 0,
       SETTINGS.WRITE_MODE,
-      28,
+      0x1c, //28
       port,
       speed & 0xff,
       (speed >> 8) & 0xff,
       distance & 0xff,
       (distance >> 8) & 0xff
     ];
-    board.send(a);
+    return board.send(a);
   };
 
   /**
@@ -98,7 +98,7 @@ function Orion(conf) {
       slot,
       position, r, g, b
     ];
-    board.send(a);
+    return board.send(a);
   };
 
   /**
@@ -123,7 +123,7 @@ function Orion(conf) {
       0x11, // 0x11 means auriga
       mode
     ];
-    board.send(a);
+    return board.send(a);
   };
 
   /**
@@ -145,7 +145,7 @@ function Orion(conf) {
       slot,
       degree
     ];
-    board.send(a);
+    return board.send(a);
   };
 
   /**
@@ -164,13 +164,13 @@ function Orion(conf) {
       SETTINGS.WRITE_MODE,
       0x09,
       port,
-      parseInt(byte4Array[0], 16),
-      parseInt(byte4Array[1], 16),
-      parseInt(byte4Array[2], 16),
-      parseInt(byte4Array[3], 16)
+      byte4Array[0],
+      byte4Array[1],
+      byte4Array[2],
+      byte4Array[3]
     ];
-    board.send(a);
-  };
+    return board.send(a);
+  }
 
   /**
    * Set led matrix chart.
@@ -234,7 +234,7 @@ function Orion(conf) {
       parseInt(byte4Array[2], 16),
       parseInt(byte4Array[3], 16)
     ];
-    board.send(a);
+    return board.send(a);
   };
 
   /**

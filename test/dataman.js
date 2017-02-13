@@ -61,9 +61,9 @@ var Dataman = {
       // 注释部分为暂不支持项
       dcMotor: ["ff 55 06 00 02 0a 01 ff 00", "ff 55 0d 0a"],
       // encoderMotor: ["ff 55 09 00 02 0c 08 01 96 00 34 44", "ff 55 0d 0a"],
-      joystick: ["ff 55 05 00 01 05 06 01", "ff 55 00 02 00 80 f5 43 0d 0a"],
+      joystick: ["ff 55 07 00 02 05 64 00 64 00", "ff 55 07 00 02 05 ff 00 ff 00", "ff 55 07 00 02 05 01 ff 01 ff", "ff 55 07 00 02 05 00 00 96 00", "ff 55 07 00 02 05 64 01 64 00", "ff 55 07 00 02 05 ff 00 ff 00", "ff 55 07 00 02 05 ff 01 ff 01"],
       // setVirtualJoystickForBalance: ["ff 55 08 00 02 34 00 64 00 64 00", "ff 55 00 02 00 80 f5 43 0d 0a"],
-      stepperMotor: ["ff 55 08 00 02 28 01 b8 0b e8 03", "ff 55 0d 0a"],
+      stepperMotor: ["ff 55 08 00 02 1c 01 b8 0b e8 03", "ff 55 0d 0a"],
       led: ["ff 55 09 00 02 08 06 02 00 ff 00 00", "ff 55 0d 0a"],
       firmwareModeBlueTooth: ["ff 55 05 00 02 3c 11 00", ""],
       firmwareModeObstacle: ["ff 55 05 00 02 3c 11 01", ""],
@@ -83,7 +83,7 @@ var Dataman = {
     read: {
       // 注释部分为暂不支持项
       version: ["ff 55 03 00 01 00", "ff 55 00 04 09 30 61 2e 30 31 2e 31 30 33 0d 0a"],
-      ultrasonic: ["ff 55 04 00 01 01 0a", "number", "1"],
+      ultrasonic: ["ff 55 04 00 01 01 03", "number", "1"],
       temperature: ["ff 55 05 00 01 02 03 01", "number", "1"],
       light: ["ff 55 04 00 01 03 06", "number", "1"],
       potentionmeter: ["ff 55 04 00 01 04 06", "number", "1"],

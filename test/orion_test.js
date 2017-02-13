@@ -51,13 +51,56 @@ describe('【orion_最新固件】', function() {
         //     });
         // });
 
-        describe('摇杆1：setJoystick(100,100)', function() {
-            var targetCmd = dataman.orion.write.joystick[0]    // "ff 55 05 00 01 05 06 01";
-            it(targetCmd + ' should be sent', function() {
-                var cmd = orion.setJoystick(100,100);
-                // console.log(cmd + ' has been received');
-                assert.equal(targetCmd, cmd);
-            });
+        //TODO: 缺文档
+        describe('摇杆1：setJoystick(leftSpeed, rightSpeed)', function() {
+          it('app虚拟摇杆1左轮速度100右轮速度100', function() {
+            var targetCmd = dataman.orion.write.joystick[0] //"ff 55 07 00 02 05 64 00 64 00";
+            var cmd = orion.setJoystick(100, 100);
+            assert.equal(targetCmd, cmd);
+          });
+
+          it('app虚拟摇杆1左轮速度255右轮速度255', function() {
+            var targetCmd = dataman.orion.write.joystick[1] //"ff 55 07 00 02 05 64 00 64 00";
+            var cmd = orion.setJoystick(255, 255);
+            // console.log(cmd + ' has been received');
+            assert.equal(targetCmd, cmd);
+          });
+
+          it('app虚拟摇杆1左轮速度-255右轮速度-255', function() {
+            var targetCmd = dataman.orion.write.joystick[2] //"ff 55 07 00 02 05 64 00 64 00";
+            var cmd = orion.setJoystick(-255, -255);
+            // console.log(cmd + ' has been received');
+            assert.equal(targetCmd, cmd);
+          });
+
+          it('app虚拟摇杆1左轮速度0右轮速度150', function() {
+            var targetCmd = dataman.orion.write.joystick[3] //"ff 55 07 00 02 05 64 00 64 00";
+            var cmd = orion.setJoystick(0, 150);
+            // console.log(cmd + ' has been received');
+            assert.equal(targetCmd, cmd);
+          });
+
+          it('app虚拟摇杆1左轮速度-100右轮速度100', function() {
+            var targetCmd = dataman.orion.write.joystick[4] //"ff 55 07 00 02 05 64 01 64 00";
+            var cmd = orion.setJoystick(-100, 100);
+            // console.log(cmd + ' has been received');
+            assert.equal(targetCmd, cmd);
+          });
+
+          it('app虚拟摇杆1左轮速度270右轮速度256', function() {
+            var targetCmd = dataman.orion.write.joystick[5] //"ff 55 07 00 02 05 ff 00 ff 00";
+            var cmd = orion.setJoystick(270, 256);
+            // console.log(cmd + ' has been received');
+            assert.equal(targetCmd, cmd);
+          });
+
+          it('app虚拟摇杆1左轮速度-256右轮速度-267', function() {
+            var targetCmd = dataman.orion.write.joystick[6] //"ff 55 07 00 02 05 ff 01 ff 01";
+            var cmd = orion.setJoystick(-256, -267);
+            // console.log(cmd + ' has been received');
+            assert.equal(targetCmd, cmd);
+          });
+
         });
 
         // describe('摇杆2：setVirtualJoystickForBalance(0,100,100)', function() {
@@ -144,7 +187,7 @@ describe('【orion_最新固件】', function() {
             var targetCmd = dataman.orion.write.sevenSegment[0];    // "ff 55 08 00 02 09 06 00 00 c8 42"
             it(targetCmd + ' should be sent', function() {
                 var cmd = orion.setSevenSegment(6,100);
-                // console.log(cmd + ' has been received');
+                console.log(cmd + ' has been received');
                 assert.equal(targetCmd, cmd);
             });
         });
@@ -255,19 +298,18 @@ describe('【orion_最新固件】', function() {
 
             var targetCmd2 = dataman.orion.read.version[1]; // ff 55 00 04 09 30 61 2e 30 31 2e 31 30 33 0d 0a
             it(targetCmd2 + ' should be returned', function() {
-                var cmd ;
                 orion.getSensorValue('version', function(val){
                     console.log(val + ' has been returned');
-                    cmd = val;
+                    var cmd = val;
+                    assert.equal(targetCmd2, cmd);
                 });
-                assert.equal(targetCmd2, cmd);
             });
 
         });
 
 
         describe('超声波传感器：readUltrasonic(0,3)',function(){
-            var targetCmd = dataman.orion.read.ultrasonic[0];    // ff 55 04 00 01 01 03
+            var targetCmd = dataman.orion.read.ultrasonic[0];    // ff 55 04 00 01 01 03 
             it(targetCmd + ' should be sent', function() {
                 var cmd = orion.readUltrasonic(0,3);
                 // console.log(cmd + ' has been received');
@@ -521,17 +563,17 @@ describe('【orion_最新固件】', function() {
 
         //接口文档缺失
         describe('被动式红外传感器：readPirmotion(0, 6)', function() {
-          var targetCmd = dataman.auriga.read.pirmotion[0];
+          var targetCmd = dataman.orion.read.pirmotion[0];
           it(targetCmd + ' should be sent', function() {
-            var cmd = auriga.readPirmotion(0, 6);
+            var cmd = orion.readPirmotion(0, 6);
             //console.log(cmd + ' has been sent');
             assert.equal(targetCmd, cmd);
           });
 
-          var targetType = dataman.auriga.read.pirmotion[1];
+          var targetType = dataman.orion.read.pirmotion[1];
           it('it should be a number ', function(done) {
             var resultType;
-            auriga.getSensorValue('pirmotion', {
+            orion.getSensorValue('pirmotion', {
               "port": 6
             }, function(result) {
               //console.log(result + ' has been returned');
@@ -542,10 +584,10 @@ describe('【orion_最新固件】', function() {
             });
           });
 
-          var targetRange = dataman.auriga.read.temperatureOnBoard[2];
+          var targetRange = dataman.orion.read.pirmotion[2];
           it('it should be 0 or 1 ', function(done) {
             var resultRange;
-            auriga.getSensorValue('pirmotion', {
+            orion.getSensorValue('pirmotion', {
               "port": 6
             }, function(result) {
               //console.log(result + ' has been returned');
@@ -564,17 +606,17 @@ describe('【orion_最新固件】', function() {
         });
 
         describe('巡线传感器：readLineFollower(0, 6)', function() {
-          var targetCmd = dataman.auriga.read.lineFollower[0];
+          var targetCmd = dataman.orion.read.lineFollower[0];
           it(targetCmd + ' should be sent', function() {
-            var cmd = auriga.readLineFollower(0, 6);
+            var cmd = orion.readLineFollower(0, 6);
             //console.log(cmd + ' has been sent');
             assert.equal(targetCmd, cmd);
           });
 
-          var targetType = dataman.auriga.read.lineFollower[1];
+          var targetType = dataman.orion.read.lineFollower[1];
           it('it should be a number ', function(done) {
             var resultType;
-            auriga.getSensorValue('lineFollower', {
+            orion.getSensorValue('lineFollower', {
               "port": 6
             }, function(result) {
               //console.log(result + ' has been returned');
@@ -585,10 +627,10 @@ describe('【orion_最新固件】', function() {
             });
           });
 
-          var targetRange = dataman.auriga.read.lineFollower[2];
+          var targetRange = dataman.orion.read.lineFollower[2];
           it('it should be 0 or 1 or 2 or 3', function(done) {
             var resultRange;
-            auriga.getSensorValue('lineFollower', {
+            orion.getSensorValue('lineFollower', {
               "port": 6
             }, function(result) {
               //console.log(result + ' has been returned');
@@ -607,17 +649,17 @@ describe('【orion_最新固件】', function() {
         });
 
         describe('限位传感器：readLimitSwitch(0, 6, 2)', function() {
-          var targetCmd = dataman.auriga.read.limitSwitch[0];
+          var targetCmd = dataman.orion.read.limitSwitch[0];
           it(targetCmd + ' should be sent', function() {
-            var cmd = auriga.readLimitSwitch(0, 6, 2);
+            var cmd = orion.readLimitSwitch(0, 6, 2);
             //console.log(cmd + ' has been sent');
             assert.equal(targetCmd, cmd);
           });
 
-          var targetType = dataman.auriga.read.limitSwitch[1];
+          var targetType = dataman.orion.read.limitSwitch[1];
           it('it should be a number ', function(done) {
             var resultType;
-            auriga.getSensorValue('limitSwitch', {
+            orion.getSensorValue('limitSwitch', {
               "port": 6,
               "slot": 2
             }, function(result) {
@@ -629,10 +671,10 @@ describe('【orion_最新固件】', function() {
             });
           });
 
-          var targetRange = dataman.auriga.read.limitSwitch[2];
+          var targetRange = dataman.orion.read.limitSwitch[2];
           it('it should be 0 or 1 or 2 or 3', function(done) {
             var resultRange;
-            auriga.getSensorValue('limitSwitch', {
+            orion.getSensorValue('limitSwitch', {
               "port": 6,
               "slot": 2
             }, function(result) {
@@ -652,17 +694,17 @@ describe('【orion_最新固件】', function() {
         });
 
         describe('温湿度传感器：readHumiture(0, 6, 1)', function() {
-          var targetCmd = dataman.auriga.read.humiture[0];
+          var targetCmd = dataman.orion.read.humiture[0];
           it(targetCmd + ' should be sent', function() {
-            var cmd = auriga.readHumiture(0, 6, 1);
+            var cmd = orion.readHumiture(0, 6, 1);
             //console.log(cmd + ' has been sent');
             assert.equal(targetCmd, cmd);
           });
 
-          var targetType = dataman.auriga.read.humiture[1];
+          var targetType = dataman.orion.read.humiture[1];
           it('it should be a number ', function(done) {
             var resultType;
-            auriga.getSensorValue('humiture', {
+            orion.getSensorValue('humiture', {
               "port": 6
             }, function(result) {
               //console.log(result + ' has been returned');
@@ -673,10 +715,10 @@ describe('【orion_最新固件】', function() {
             });
           });
 
-          var targetRange = dataman.auriga.read.humiture[2];
+          var targetRange = dataman.orion.read.humiture[2];
           it('it should between -70~50', function(done) {
             var resultRange;
-            auriga.getSensorValue('humiture', {
+            orion.getSensorValue('humiture', {
               "port": 6
             }, function(result) {
               //console.log(result + ' has been returned');
@@ -696,17 +738,17 @@ describe('【orion_最新固件】', function() {
 
 
         describe('火焰传感器：readFlame(0, 6)', function() {
-          var targetCmd = dataman.auriga.read.flame[0];
+          var targetCmd = dataman.orion.read.flame[0];
           it(targetCmd + ' should be sent', function() {
-            var cmd = auriga.readFlame(0, 6);
+            var cmd = orion.readFlame(0, 6);
             //console.log(cmd + ' has been sent');
             assert.equal(targetCmd, cmd);
           });
 
-          var targetType = dataman.auriga.read.flame[1];
+          var targetType = dataman.orion.read.flame[1];
           it('it should be a number ', function(done) {
             var resultType;
-            auriga.getSensorValue('flame', {
+            orion.getSensorValue('flame', {
               "port": 6
             }, function(result) {
               //console.log(result + ' has been returned');
@@ -717,10 +759,10 @@ describe('【orion_最新固件】', function() {
             });
           });
 
-          var targetRange = dataman.auriga.read.flame[2];
+          var targetRange = dataman.orion.read.flame[2];
           it('it should between 0~2000', function(done) {
             var resultRange;
-            auriga.getSensorValue('flame', {
+            orion.getSensorValue('flame', {
               "port": 6
             }, function(result) {
               //console.log(result + ' has been returned');
@@ -740,17 +782,17 @@ describe('【orion_最新固件】', function() {
 
 
         describe('气体传感器：readGas(0, 6)', function() {
-          var targetCmd = dataman.auriga.read.gas[0];
+          var targetCmd = dataman.orion.read.gas[0];
           it(targetCmd + ' should be sent', function() {
-            var cmd = auriga.readGas(0, 6);
+            var cmd = orion.readGas(0, 6);
             //console.log(cmd + ' has been sent');
             assert.equal(targetCmd, cmd);
           });
 
-          var targetType = dataman.auriga.read.gas[1];
+          var targetType = dataman.orion.read.gas[1];
           it('it should be a number ', function(done) {
             var resultType;
-            auriga.getSensorValue('gas', {
+            orion.getSensorValue('gas', {
               "port": 6
             }, function(result) {
               //console.log(result + ' has been returned');
@@ -761,10 +803,10 @@ describe('【orion_最新固件】', function() {
             });
           });
 
-          var targetRange = dataman.auriga.read.gas[2];
+          var targetRange = dataman.orion.read.gas[2];
           it('it should between 0~200', function(done) {
             var resultRange;
-            auriga.getSensorValue('gas', {
+            orion.getSensorValue('gas', {
               "port": 6
             }, function(result) {
               //console.log(result + ' has been returned');
@@ -784,17 +826,17 @@ describe('【orion_最新固件】', function() {
 
 
         describe('触摸传感器：readTouch(0, 6)', function() {
-          var targetCmd = dataman.auriga.read.touch[0];
+          var targetCmd = dataman.orion.read.touch[0];
           it(targetCmd + ' should be sent', function() {
-            var cmd = auriga.readTouch(0, 6);
+            var cmd = orion.readTouch(0, 6);
             //console.log(cmd + ' has been sent');
             assert.equal(targetCmd, cmd);
           });
 
-          var targetType = dataman.auriga.read.touch[1];
+          var targetType = dataman.orion.read.touch[1];
           it('it should be a number ', function(done) {
             var resultType;
-            auriga.getSensorValue('touch', {
+            orion.getSensorValue('touch', {
               "port": 6
             }, function(result) {
               //console.log(result + ' has been returned');
@@ -805,10 +847,10 @@ describe('【orion_最新固件】', function() {
             });
           });
 
-          var targetRange = dataman.auriga.read.touch[2];
+          var targetRange = dataman.orion.read.touch[2];
           it('it should between 0~200', function(done) {
             var resultRange;
-            auriga.getSensorValue('touch', {
+            orion.getSensorValue('touch', {
               "port": 6
             }, function(result) {
               //console.log(result + ' has been returned');
@@ -828,17 +870,17 @@ describe('【orion_最新固件】', function() {
 
 
         describe('按键传感器：readFourKeys(0, 6, 1)', function() { //测试的按键号是 1
-          var targetCmd = dataman.auriga.read.fourKeys[0];
+          var targetCmd = dataman.orion.read.fourKeys[0];
           it(targetCmd + ' should be sent', function() {
-            var cmd = auriga.readFourKeys(0, 6, 1);
+            var cmd = orion.readFourKeys(0, 6, 1);
             //console.log(cmd + ' has been sent');
             assert.equal(targetCmd, cmd);
           });
 
-          var targetType = dataman.auriga.read.fourKeys[1];
+          var targetType = dataman.orion.read.fourKeys[1];
           it('it should be a number ', function(done) {
             var resultType;
-            auriga.getSensorValue('fourKeys', {
+            orion.getSensorValue('fourKeys', {
               "port": 6
             }, function(result) {
               //console.log(result + ' has been returned');
@@ -849,10 +891,10 @@ describe('【orion_最新固件】', function() {
             });
           });
 
-          var targetRange = dataman.auriga.read.fourKeys[2];
+          var targetRange = dataman.orion.read.fourKeys[2];
           it('it should between 0~200', function(done) {
             var resultRange;
-            auriga.getSensorValue('fourKeys', {
+            orion.getSensorValue('fourKeys', {
               "port": 6
             }, function(result) {
               //console.log(result + ' has been returned');
