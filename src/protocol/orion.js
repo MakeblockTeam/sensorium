@@ -18,8 +18,7 @@ function Orion(conf) {
    */
   this.setDcMotor = function(port, speed) {
     var a = [
-      SETTINGS.COMMAND_HEAD[0],
-      SETTINGS.COMMAND_HEAD[1],
+      0xff,0x55,
       0x06, 0,
       SETTINGS.WRITE_MODE,
       0x0a,
@@ -39,8 +38,7 @@ function Orion(conf) {
    */
   this.setJoystick = function(leftSpeed, rightSpeed) { //setJoystick
     var a = [
-      SETTINGS.COMMAND_HEAD[0],
-      SETTINGS.COMMAND_HEAD[1],
+      0xff,0x55,
       0x07, 0,
       SETTINGS.WRITE_MODE,
       0x05,
@@ -62,8 +60,7 @@ function Orion(conf) {
    */
   this.setStepperMotor = function(port, speed, distance) {
     var a = [
-      SETTINGS.COMMAND_HEAD[0],
-      SETTINGS.COMMAND_HEAD[1],
+      0xff,0x55,
       0x08, 0,
       SETTINGS.WRITE_MODE,
       0x1c, //28
@@ -89,8 +86,7 @@ function Orion(conf) {
    */
   this.setLed = function(port, slot, position, r, g, b) {
     var a = [
-      SETTINGS.COMMAND_HEAD[0],
-      SETTINGS.COMMAND_HEAD[1],
+      0xff,0x55,
       0x09, 0,
       SETTINGS.WRITE_MODE,
       0x08,
@@ -99,6 +95,46 @@ function Orion(conf) {
       position, r, g, b
     ];
     return board.send(a);
+  };
+
+  /**
+   * set four leds
+   * @param {number} port     port number, vailable is: 0(on board), 6,7,8,9,10
+   * @param {number} position led position, 0 signify all leds.
+   * @param {number} r        red, the range is 0 ~ 255
+   * @param {number} g        green, the range is 0 ~ 255
+   * @param {number} b        blue, the range is 0 ~ 255
+   */
+  this.setFourLeds = function(port, position, r, g, b) {
+    return this.setLed(port, 2, position, r, g, b);
+  };
+
+  /**
+   * turn off four leds
+   * @param {number} port     port number, vailable is: 0(on board), 6,7,8,9,10
+   * @param {number} position led position, 0 signify all leds.
+   */
+  this.turnOffFourLeds = function(port, position) {
+    return this.setLed(port, 2, position, 0, 0, 0);
+  };
+
+  /**
+   * set led panel on auriga board.
+   * @param {number} position led position, 0 signify all leds.
+   * @param {number} r        red, the range is 0 ~ 255
+   * @param {number} g        green, the range is 0 ~ 255
+   * @param {number} b        blue, the range is 0 ~ 255
+   */
+  this.setLedPanelOnBoard = function(position, r, g, b) {
+    return this.setLed(0, 2, position, r, g, b);
+  };
+
+  /**
+   * turn off led panel on board
+   * @param {number} position led position, 0 signify all leds.
+   */
+  this.turnOffLedPanelOnBoard = function(position) {
+    return this.setLed(0, 2, position, 0, 0, 0);
   };
 
   /**
@@ -115,8 +151,7 @@ function Orion(conf) {
   // TODO: 暂缺文档
   this.setFirmwareMode = function(mode) {
     var a = [
-      SETTINGS.COMMAND_HEAD[0],
-      SETTINGS.COMMAND_HEAD[1],
+      0xff,0x55,
       0x05, 0,
       SETTINGS.WRITE_MODE,
       0x3c,
@@ -136,8 +171,7 @@ function Orion(conf) {
    */
   this.setServoMotor = function(port, slot, degree) {
     var a = [
-      SETTINGS.COMMAND_HEAD[0],
-      SETTINGS.COMMAND_HEAD[1],
+      0xff,0x55,
       0x06, 0,
       SETTINGS.WRITE_MODE,
       0x0b,
@@ -158,8 +192,7 @@ function Orion(conf) {
   this.setSevenSegment = function(port, number) {
     var byte4Array = utils.float32ToBytes(number);
     var a = [
-      SETTINGS.COMMAND_HEAD[0],
-      SETTINGS.COMMAND_HEAD[1],
+      0xff,0x55,
       0x08, 0,
       SETTINGS.WRITE_MODE,
       0x09,
@@ -222,8 +255,7 @@ function Orion(conf) {
   this.setLedMatrixNumber = function(port, number) {
     var byte4Array = utils.float32ToBytes(number);
     var a = [
-      SETTINGS.COMMAND_HEAD[0],
-      SETTINGS.COMMAND_HEAD[1],
+      0xff,0x55,
       0x09, 0,
       SETTINGS.WRITE_MODE,
       0x29,
@@ -246,8 +278,7 @@ function Orion(conf) {
    */
   this.setShutter = function(port, action) {
     var a = [
-      SETTINGS.COMMAND_HEAD[0],
-      SETTINGS.COMMAND_HEAD[1],
+      0xff,0x55,
       0x05,0,
       SETTINGS.WRITE_MODE,
       0x14,
@@ -275,8 +306,7 @@ function Orion(conf) {
    */
   this.readVersion = function(index) {
     var a = [
-      SETTINGS.COMMAND_HEAD[0],
-      SETTINGS.COMMAND_HEAD[1],
+      0xff,0x55,
       0x03, index,
       SETTINGS.READ_MODE,
       0x00
@@ -297,8 +327,7 @@ function Orion(conf) {
    */
   this.readUltrasonic = function(index, port) {
     var a = [
-      SETTINGS.COMMAND_HEAD[0],
-      SETTINGS.COMMAND_HEAD[1],
+      0xff,0x55,
       0x04, index,
       SETTINGS.READ_MODE,
       0x01,
@@ -318,8 +347,7 @@ function Orion(conf) {
    */
   this.readTemperature = function(index, port, slot) {
     var a = [
-      SETTINGS.COMMAND_HEAD[0],
-      SETTINGS.COMMAND_HEAD[1],
+      0xff,0x55,
       0x05, index,
       SETTINGS.READ_MODE,
       0x02,
@@ -339,8 +367,7 @@ function Orion(conf) {
    */
   this.readLight = function(index, port) {
     var a = [
-      SETTINGS.COMMAND_HEAD[0],
-      SETTINGS.COMMAND_HEAD[1],
+      0xff,0x55,
       0x04, index,
       SETTINGS.READ_MODE,
       0x03,
@@ -359,8 +386,7 @@ function Orion(conf) {
    */
   this.readPotentionmeter = function(index, port) {
     var a = [
-      SETTINGS.COMMAND_HEAD[0],
-      SETTINGS.COMMAND_HEAD[1],
+      0xff,0x55,
       0x04, index,
       SETTINGS.READ_MODE,
       0x04,
@@ -379,8 +405,7 @@ function Orion(conf) {
    */
   this.readJoystick = function(index, port, axis) {
     var a = [
-      SETTINGS.COMMAND_HEAD[0],
-      SETTINGS.COMMAND_HEAD[1],
+      0xff,0x55,
       0x05, index,
       SETTINGS.READ_MODE,
       0x05,
@@ -400,8 +425,7 @@ function Orion(conf) {
    */
   this.readSound = function(index, port) {
     var a = [
-      SETTINGS.COMMAND_HEAD[0],
-      SETTINGS.COMMAND_HEAD[1],
+      0xff,0x55,
       0x04, index,
       SETTINGS.READ_MODE,
       0x07,
@@ -421,8 +445,7 @@ function Orion(conf) {
   //TODO: 暂缺文档
   this.readPirmotion = function(index, port) {
     var a = [
-      SETTINGS.COMMAND_HEAD[0],
-      SETTINGS.COMMAND_HEAD[1],
+      0xff,0x55,
       0x04, index,
       SETTINGS.READ_MODE,
       0x0f,
@@ -446,8 +469,7 @@ function Orion(conf) {
    */
   this.readLineFollower = function(index, port) {
     var a = [
-      SETTINGS.COMMAND_HEAD[0],
-      SETTINGS.COMMAND_HEAD[1],
+      0xff,0x55,
       0x04, index,
       SETTINGS.READ_MODE,
       0x11,
@@ -467,8 +489,7 @@ function Orion(conf) {
    */
   this.readLimitSwitch = function(index, port, slot) {
     var a = [
-      SETTINGS.COMMAND_HEAD[0],
-      SETTINGS.COMMAND_HEAD[1],
+      0xff,0x55,
       0x05, index,
       SETTINGS.READ_MODE,
       0x15,
@@ -489,8 +510,7 @@ function Orion(conf) {
    */
   this.readHumiture = function(index, port, type) {
     var a = [
-      SETTINGS.COMMAND_HEAD[0],
-      SETTINGS.COMMAND_HEAD[1],
+      0xff,0x55,
       0x05, index,
       SETTINGS.READ_MODE,
       0x17,
@@ -510,8 +530,7 @@ function Orion(conf) {
    */
   this.readFlame = function(index, port) {
     var a = [
-      SETTINGS.COMMAND_HEAD[0],
-      SETTINGS.COMMAND_HEAD[1],
+      0xff,0x55,
       0x04, index,
       SETTINGS.READ_MODE,
       0x18,
@@ -530,8 +549,7 @@ function Orion(conf) {
    */
   this.readGas = function(index, port) {
     var a = [
-      SETTINGS.COMMAND_HEAD[0],
-      SETTINGS.COMMAND_HEAD[1],
+      0xff,0x55,
       0x04, index,
       SETTINGS.READ_MODE,
       0x19,
@@ -550,8 +568,7 @@ function Orion(conf) {
    */
   this.readTouch = function(index, port) {
     var a = [
-      SETTINGS.COMMAND_HEAD[0],
-      SETTINGS.COMMAND_HEAD[1],
+      0xff,0x55,
       0x04, index,
       SETTINGS.READ_MODE,
       0x33,
@@ -571,8 +588,7 @@ function Orion(conf) {
    */
   this.readFourKeys = function(index, port, key) {
     var a = [
-      SETTINGS.COMMAND_HEAD[0],
-      SETTINGS.COMMAND_HEAD[1],
+      0xff,0x55,
       0x05, index,
       SETTINGS.READ_MODE,
       0x16,
