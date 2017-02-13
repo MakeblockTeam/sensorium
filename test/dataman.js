@@ -60,7 +60,7 @@ var Dataman = {
       // 第一个参数是发送值，第二个参数是接收值
       // 注释部分为暂不支持项
       dcMotor: ["ff 55 06 00 02 0a 01 ff 00", "ff 55 0d 0a"],
-      encoderMotor: ["ff 55 09 00 02 0c 08 01 96 00 34 44", "ff 55 0d 0a"],
+      // encoderMotor: ["ff 55 09 00 02 0c 08 01 96 00 34 44", "ff 55 0d 0a"],
       joystick: ["ff 55 05 00 01 05 06 01", "ff 55 00 02 00 80 f5 43 0d 0a"],
       // setVirtualJoystickForBalance: ["ff 55 08 00 02 34 00 64 00 64 00", "ff 55 00 02 00 80 f5 43 0d 0a"],
       stepperMotor: ["ff 55 08 00 02 28 01 b8 0b e8 03", "ff 55 0d 0a"],
