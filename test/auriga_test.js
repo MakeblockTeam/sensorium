@@ -52,7 +52,7 @@ describe('【auriga_最新固件】', function() {
     });
 
     describe('板载编码电机：setEncoderMotorOnBoard(1/2,-255～255)', function() {
-      
+
       it('板载编码电机slot口1速度100', function() {
         var targetCmd = dataman.auriga.write.encoderMotorBoard[0];
         var cmd = auriga.setEncoderMotorOnBoard(1, 100);
@@ -90,7 +90,7 @@ describe('【auriga_最新固件】', function() {
     });
 
     describe('外接编码电机：setEncoderMotor(8, 1, 150, 720)', function() {
-     
+
       it('外接编码电机slot1', function() {
          var targetCmd = dataman.auriga.write.encoder[0];
         var cmd = auriga.setEncoderMotor(8, 1, 150, 720);
@@ -149,7 +149,7 @@ describe('【auriga_最新固件】', function() {
 
     });
 
-    describe('摇杆2：setVirtualJoystickForBalance(0,-255~255,-255~255)', function() {    
+    describe('摇杆2：setVirtualJoystickForBalance(0,-255~255,-255~255)', function() {
       it('app虚拟摇杆2左轮速度100右轮速度100', function() {
         var targetCmd = dataman.auriga.write.virtualJoystickForBalance[0];
         var cmd = auriga.setVirtualJoystickForBalance(0, 100, 100);
@@ -175,19 +175,19 @@ describe('【auriga_最新固件】', function() {
       });
 
       it('app虚拟摇杆2左轮速度-100右轮速度100', function() {
-        var targetCmd = dataman.auriga.write.virtualJoystickForBalance[4]; 
+        var targetCmd = dataman.auriga.write.virtualJoystickForBalance[4];
         var cmd = auriga.setVirtualJoystickForBalance(0, -100, 100);
         assert.equal(targetCmd, cmd);
       });
 
       it('app虚拟摇杆2左轮速度270右轮速度256', function() {
-        var targetCmd = dataman.auriga.write.virtualJoystickForBalance[5]; 
+        var targetCmd = dataman.auriga.write.virtualJoystickForBalance[5];
         var cmd = auriga.setVirtualJoystickForBalance(0, 270, 256);
         assert.equal(targetCmd, cmd);
       });
 
       it('app虚拟摇杆2左轮速度-256右轮速度-267', function() {
-        var targetCmd = dataman.auriga.write.virtualJoystickForBalance[6]; 
+        var targetCmd = dataman.auriga.write.virtualJoystickForBalance[6];
         var cmd = auriga.setVirtualJoystickForBalance(0, -256, -267);
         assert.equal(targetCmd, cmd);
       });
@@ -244,20 +244,20 @@ describe('【auriga_最新固件】', function() {
       });
 
       it('步进电机在端口3速度为3000位移为2147483648', function() {
-        var targetCmd = dataman.auriga.write.stepperMotor[8]; 
+        var targetCmd = dataman.auriga.write.stepperMotor[8];
         var cmd = auriga.setStepperMotor(3, 3000, 2147483648);
         assert.equal(targetCmd, cmd);
       });
 
       it('步进电机在端口3速度为3000位移为-2147483649', function() {
-        var targetCmd = dataman.auriga.write.stepperMotor[9]; 
+        var targetCmd = dataman.auriga.write.stepperMotor[9];
         var cmd = auriga.setStepperMotor(3, 3000, -2147483649);
         assert.equal(targetCmd, cmd);
       });
     });
 
     describe('RGB LED灯：setLed(6~10/0,1/2,0~12,0~255,0~255,0~255)', function() {
-      
+
       it('将端口号6 slot2的灯条／led的全部位置上亮起红色', function() {
         var targetCmd = dataman.auriga.write.led[0];
         var cmd = auriga.setLed(6, 2, 0, 255, 0, 0);
@@ -745,7 +745,7 @@ describe('【auriga_最新固件】', function() {
       });
     });
 
-    
+
     describe('温湿度传感器：readHumiture(0, 6, 1)', function() {
       var targetCmd = dataman.auriga.read.humiture[0];
       it(targetCmd + ' should be sent', function() {
@@ -919,7 +919,7 @@ describe('【auriga_最新固件】', function() {
         });
       });
     });
-    
+
     //智能舵机
   });
 });
