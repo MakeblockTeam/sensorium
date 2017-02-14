@@ -429,13 +429,13 @@ function Auriga(conf) {
    * @param  {Number} index [description]
    * @param  {Number} port  vailable: 1,2,3,4
    * @param  {Number} slot  vailable: 1，2
-   * @param  {Number} speed  0 ~ 3000, 步/秒, 3600 步是一圈
+   * @param  {Number} speed  0 ~ 300, 单位：rpm（每分钟转多少圈）
    * @param  {Float} angle  相对位移
    * @example
    * ff 55 0b 00 02 0c 08 01 96 00 00 00 34 44
    */
   this.setEncoderMotor = function(port, slot, speed, angle) {
-    speed = utils.limitSpeed(speed, [0, 3000]);
+    speed = utils.limitSpeed(speed, [0, 300]);
     var byte4Array = utils.float32ToBytes(angle);
     var a = [
       0xff,0x55,
