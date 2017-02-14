@@ -10,3 +10,5 @@ setInterval(function() { auriga.getSensorValue('temperatureOnBoard', {}, functio
 
 auriga.getSensorValue('temperatureOnBoard', function(val) { console.log(val);})
 
+auriga.getSensorValue('version', function(val) { console.log(val);})
+

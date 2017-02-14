@@ -73,12 +73,20 @@ var Utils = {
     return buffer;
   },
 
-  // 将十进制字符串数组转为16进制
-  intStrToHexStr: function(data) {
+  /**
+   * 将十进制字符串数组转为16进制
+   * @param  {Array}  data        to be transformed data, such as: ["01", "55", "12"]
+   * @param  {Boolean} isUpperCase whether need output upperCase string.
+   * @return {String} 16 进制字符串
+   */
+  intStrToHexStr: function(data, isUpperCase) {
     var temp = [];
     for (var i = 0; i < data.length; i++) {
       if (data[i] != null) {
         var item = parseInt(data[i]).toString(16);
+        if(isUpperCase) {
+          item = parseInt(data[i]).toString(16).toUpperCase();
+        }
         if (item.length == 1) {
           item = "0" + item;
         }

@@ -80,14 +80,13 @@ function Auriga(conf) {
   };
 
   /**
-   * Set speed for balance mode.
-   * @param {number} port       port number, the port on board id default 0
+   * Set speed for balance mode, the port is on board, value is 0.
    * @param {number} turnDegree turn extend, -255 ~ 255
    * @param {number} speed      speed, -255 ~ 255
    * @example
    *     ff 55 08 00 02 34 00 64 00 64 00
    */
-  this.setVirtualJoystickForBalance = function(port, turnExtent, speed) {
+  this.setVirtualJoystickForBalance = function(turnExtent, speed) {
     turnExtent = utils.limitSpeed(turnExtent);
     speed = utils.limitSpeed(speed);
     var a = [
@@ -95,7 +94,7 @@ function Auriga(conf) {
       0x08, 0,
       SETTINGS.WRITE_MODE,
       0x34,
-      port,
+      0,
       turnExtent & 0xff,
       (turnExtent >> 8) & 0xff,
       speed & 0xff,

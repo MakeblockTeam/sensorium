@@ -19,7 +19,7 @@ function Parse() {
   // data : 当前处理的数据
   // this.buffer: 历史缓存数据
   // 记录数据和历史数据分开记录
-  this.doParse = function(bytes, driver) {
+  this.doParse = function(bytes, driver, callback) {
     var data  = bytes;
     // if (typeof(bytes) == 'string') {
     //   data = bytes.split(" ");
@@ -55,8 +55,9 @@ function Parse() {
         if (promiseType || promiseType == 0) {
           // 计算返回值
           var result = this.getResult(buf, promiseType);
+          callback && callback(buf);
           // 接收到数据后，启用回调
-          if (driver._on_data) {
+          if (driver && driver._on_data) {
             driver._on_data(dataIndex, result);
           } else {
             logger.warn("driver data callback not found!");
@@ -76,7 +77,7 @@ function Parse() {
 
   /**
    * Get result from buffer data.
-   * @param  {Array} bufArray buffer data
+   * @param  {Array} buf array data.
    * @return {Float}         value of sensor's callback
    * 回复数据数值解析, 从左到右第四位数据：
    *     1: 单字符(1 byte)
@@ -171,8 +172,8 @@ function Parse() {
   };
 
   this.bytesToString = function(bytes) {
-    var endIndex = 5 + parseInt(bytes[4]);
-    var str = bytes.toString('utf8', 5, endIndex);
+    var endIndex = 3 + parseInt(bytes[4]);
+    var str = bytes.toString('utf8', 3, endIndex);
     return str;
   };
 }

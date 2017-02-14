@@ -1,4 +1,4 @@
-var utils = require("../../src/core/utils");
+var utils = require("../../../src/core/utils");
 var assert = require('chai').assert;
 
 describe('limitSpeed', function() {
@@ -48,6 +48,14 @@ describe('emotionArrayToBytes', function() {
     for(var i in targetResult) {
       assert.equal(targetResult[i], result[i]);
     }
+  });
+});
+
+describe('intStrToHexStr', function() {
+  var cmd = "0,4,9,48,57,46,48,49,46,48,49,50";
+  it('test intStrToHexStr(' + cmd + ', true)', function() {
+    var targetCmd = "00 04 09 30 39 2E 30 31 2E 30 30 32";
+    assert.equal(targetCmd, utils.intStrToHexStr(cmd.split(","), true));
   });
 });
 

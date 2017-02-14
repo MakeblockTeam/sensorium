@@ -471,6 +471,7 @@ describe('【auriga_最新固件】', function() {
 
   //读指令:需要设备返回数据的指令
   describe('#它的读指令', function() {
+
     describe('读取版本号:readVersion(0)', function() {
       var targetCmd = dataman.auriga.read.version[0];
       it(targetCmd + ' should be sent', function() {
@@ -478,12 +479,13 @@ describe('【auriga_最新固件】', function() {
         assert.equal(targetCmd, cmd);
       });
 
+      // 注意：读版本获取到的数据是移除了数据头 FF 55 以及数据尾 0D 0A
       var targetVersion = dataman.auriga.read.version[1];
       it(targetVersion + ' should be returned', function(done) {
         var resultVersion;
         auriga.getSensorValue('version', function(result) {
-          resultVersion = result;
-          console.log(resultVersion);
+          console.log(result)
+          resultVersion = "FF 55 " + utils.intStrToHexStr(result, true) + " 0D 0A";;
           assert.equal(targetVersion, resultVersion);
           done();
         });
