@@ -100,6 +100,7 @@ describe('【orion_最新固件】', function() {
 
     });
 
+    // orion 暂不支持
     // describe('摇杆2：setVirtualJoystickForBalance(0,100,100)', function() {
     //     var targetCmd = dataman.orion.write.virtualJoystickForBalance[0];        //"ff 55 08 00 02 34 00 64 00 64 00";
     //     it(targetCmd + ' should be sent', function() {
@@ -299,6 +300,7 @@ describe('【orion_最新固件】', function() {
           console.log(val + ' has been returned');
           var cmd = val;
           assert.equal(targetCmd2, cmd);
+          done();
         });
       });
 
@@ -862,44 +864,20 @@ describe('【orion_最新固件】', function() {
     });
 
 
-    describe('按键传感器：readFourKeys(0, 6, 1)', function() { //测试的按键号是 1
+    describe('按键传感器：readFourKeys(0, 6, 1)', function() {
       var targetCmd = dataman.orion.read.fourKeys[0];
       it(targetCmd + ' should be sent', function() {
         var cmd = orion.readFourKeys(0, 6, 1);
-        //console.log(cmd + ' has been sent');
         assert.equal(targetCmd, cmd);
       });
 
-      var targetType = dataman.orion.read.fourKeys[1];
-      it('it should be a number ', function(done) {
+      it('it should be 0 or 1 ', function(done) {
         var resultType;
         orion.getSensorValue('fourKeys', {
           "port": 6
         }, function(result) {
-          //console.log(result + ' has been returned');
-
-          resultType = typeof(result);
-          assert.equal(targetType, resultType);
-          done();
-        });
-      });
-
-      var targetRange = dataman.orion.read.fourKeys[2];
-      it('it should between 0~200', function(done) {
-        var resultRange;
-        orion.getSensorValue('fourKeys', {
-          "port": 6
-        }, function(result) {
-          //console.log(result + ' has been returned');
-
-          resultRange = function(result) {
-            if (result == 0 || result == 1) {
-              return 1;
-            } else {
-              return 0;
-            }
-          };
-          assert.equal(targetRange, resultRange(result));
+          assert.isNumber(result);      //result is a number
+          assert.oneOf(result,[0,1])    //result is 0 or 1
           done();
         });
       });
