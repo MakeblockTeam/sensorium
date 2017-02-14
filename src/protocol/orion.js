@@ -119,25 +119,6 @@ function Orion(conf) {
   };
 
   /**
-   * set led panel on auriga board.
-   * @param {number} position led position, 0 signify all leds.
-   * @param {number} r        red, the range is 0 ~ 255
-   * @param {number} g        green, the range is 0 ~ 255
-   * @param {number} b        blue, the range is 0 ~ 255
-   */
-  this.setLedPanelOnBoard = function(position, r, g, b) {
-    return this.setLed(0, 2, position, r, g, b);
-  };
-
-  /**
-   * turn off led panel on board
-   * @param {number} position led position, 0 signify all leds.
-   */
-  this.turnOffLedPanelOnBoard = function(position) {
-    return this.setLed(0, 2, position, 0, 0, 0);
-  };
-
-  /**
    * Set board mode.
    * @param {number} mode board mode,
    *     0: bluetooth mode
@@ -204,70 +185,6 @@ function Orion(conf) {
     ];
     return board.send(a);
   }
-
-  /**
-   * Set led matrix chart.
-   * @param {number} port   port number, vailable is 6,7,8,9,10
-   * @param {number} xAxis  x position
-   * @param {number} yAxis  y position
-   * @param {number} length chart length
-   * @param {string} chart  chart
-   * @exmaple
-   *     ff 55 0a 00 02 29 06 01 00 07 02 48 69
-   */
-  this.setLedMatrixChart = function(port, xAxis, yAxis, length, chart) {
-
-  };
-
-
-  /**
-   * Set led matrix emotion.
-   * @param {number} port   port number, vailable is 6,7,8,9,10
-   * @param {number} xAxis      x position
-   * @param {number} yAxis      y position
-   * @param {?} motionData emotion data to be displayed
-   * @example
-   *     ff 55 17 00 02 29 06 02 00 00 00 00 40 48 44 42 02 02 02 02 42 44 48 40 00 00
-   */
-  this.setLedMatrixEmotion = function(port, xAxis, yAxis, motionData) {
-
-  };
-
-  /**
-   * Set led matrix time.
-   * @param {number} separator time separator, 01 signify `:`, 02 signify ` `
-   * @param {number} hour      hour number
-   * @param {number} minute    minute number
-   * @example
-   *     ff 55 08 00 02 29 06 03 01 0a 14
-   */
-  this.setLedMatrixTime = function(separator, hour, minute) {
-
-  };
-
-  /**
-   * Set led matrix number.
-   * @param {number} port   port number, vailable is 6,7,8,9,10
-   * @param {float} number the number to be displayed
-   * @exmaple
-      ff 55 09 00 02 29 06 04 00 00 00 00
-   */
-  this.setLedMatrixNumber = function(port, number) {
-    var byte4Array = utils.float32ToBytes(number);
-    var a = [
-      0xff,0x55,
-      0x09, 0,
-      SETTINGS.WRITE_MODE,
-      0x29,
-      port,
-      0x04,
-      parseInt(byte4Array[0], 16),
-      parseInt(byte4Array[1], 16),
-      parseInt(byte4Array[2], 16),
-      parseInt(byte4Array[3], 16)
-    ];
-    return board.send(a);
-  };
 
   /**
    * Set shutter.
@@ -594,6 +511,25 @@ function Orion(conf) {
       0x16,
       port,
       key
+    ];
+    return board.send(a);
+  };
+
+  /**
+   * read firmware mode or voltage.
+   * @param  {Number} index [description]
+   * @param  {Number} type  0x70: 电压; 0x71: 模式
+   * @example
+   * ff 55 04 00 01 3c 70
+   */
+  //TODO: 暂缺文档
+  this.readFirmwareMode = function(index, type) {
+    var a = [
+      0xff,0x55,
+      0x04, index,
+      SETTINGS.READ_MODE,
+      0x3c,
+      type
     ];
     return board.send(a);
   };

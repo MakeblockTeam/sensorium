@@ -228,7 +228,7 @@ describe('【orion_最新固件】', function() {
 
     // });
 
-    describe('快门线模块：setShutter(6, 2)', function() { // 开始对焦(02) 
+    describe('快门模块：setShutter(6, 2)', function() { // 开始对焦(02) 
       var targetCmd = dataman.orion.write.shutter[0]; // "ff 55 05 00 02 14 06 02"
       it(targetCmd + ' should be sent', function() {
         var cmd = orion.setShutter(6, 2);
