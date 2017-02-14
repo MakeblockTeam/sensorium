@@ -3,6 +3,26 @@
  */
 
 var Utils = {
+
+  /**
+   * limit speed
+   * @param  {Number} speed
+   * @param  {Array} range  (optional) limit speed range, such as [-255, 255], [0, 3000], default is [-255, 255]
+   * @return {Number} newSpeed the result speed in limit.
+   */
+  limitSpeed: function(speed, range) {
+    var newSpeed = speed;
+    range = range || [-255, 255];
+    if(speed < range[0]) {
+      newSpeed = range[0];
+    }
+
+    if(speed > range[1]) {
+      newSpeed = range[1];
+    }
+    return newSpeed;
+  },
+
   /**
    * Convert array of int to ArrayBuffer.
    * @param  {[int]} data array of int
@@ -175,8 +195,37 @@ var Utils = {
     return str.replace(reg, function(m) {
       return m.toUpperCase();
     })
-  }
+  },
 
+  /**
+   * transform matrix array to bytes
+   * @param  {Array} matrixArray 8*16 led matrix array, such as:
+   *
+   * [
+   *    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+   *    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+   *    0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0,
+   *    0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0,
+   *    0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0,
+   *    0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0,
+   *    0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0,
+   *    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   * ]
+   * @return {Array} result 16 length bytes array, such as
+   *
+   * [0, 0, 0, 0, 28, 56, 28, 56, 28, 56, 3, 192, 3, 192, 0, 0]
+   */
+  emotionArrayToBytes: function(matrixArray) {
+    var result = [];
+    for (var i = 0; i < matrixArray.length; i++) {
+      if (((i+1) % 8) == 0 ) {
+        var byteString = matrixArray.slice(i - 7, i+1).join('');
+        var byte = parseInt(byteString, 2);
+        result.push(byte);
+      }
+    }
+    return result;
+  }
 }
 
 
