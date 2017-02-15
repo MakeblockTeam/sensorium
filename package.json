@@ -20,8 +20,8 @@
   "license": "ISC",
   "devDependencies": {
     "blessed": "^0.1.81",
-    "browserify": "^13.0.1",
     "chai": "^3.5.0",
+    "gulp-browserify": "^0.5.1",
     "log": "^1.4.0",
     "log4js": "^0.6.37",
     "mocha": "^2.5.3",

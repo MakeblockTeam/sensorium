@@ -1,6 +1,8 @@
 #sensorium
 Sensorium is an api library for makeblock mainboards. It includes `mcore`, `orion`, `auriga` and  `megapi`.
 
+You can use it in browser, node enviroment.
+
 # Install
 
 ```
@@ -11,7 +13,7 @@ npm install
 Generate `sensorium.js` width npm. The target file is `/browser`.
 
 ```
-npm run build
+gulp browserify
 ```
 
 # Usage
@@ -57,7 +59,7 @@ setInterval(function() { mcore.getSensorValue('ultrasonic', {"port": 3}, functio
 setInterval(function() { mcore.getSensorValue('linefollower', {"port": 2}, function(val) { }); }, 500)
 ```
 
-dobule `ESC` to close the cli tool.
+dobule click key `ESC` to close the cli tool.
 
 # Unit Test
 Use [mocha](http://mochajs.org/) for unit test.In the project root folder, type the command.

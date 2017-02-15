@@ -420,8 +420,8 @@ function Auriga(conf) {
       0x08, 0,
       SETTINGS.WRITE_MODE,
       0x22,
-      09,
-      TONE_HZ[tone] & 0xff,
+      0x09,
+      (TONE_HZ[tone] & 0xff),
       (TONE_HZ[tone] >> 8) & 0xff,
       beat & 0xff,
       (beat >> 8) & 0xff
@@ -448,7 +448,7 @@ function Auriga(conf) {
       0x0b, 0,
       SETTINGS.WRITE_MODE,
       0x0c,
-      08,
+      0x08,
       slot,
       speed & 0xff,
       (speed >> 8) & 0xff,
@@ -741,7 +741,7 @@ function Auriga(conf) {
   /**
    * read flame
    * @param  {Number} index [description]
-   * @param  {Number} port  vailable: 36,7,8,9,10
+   * @param  {Number} port  vailable: 6,7,8,9,10
    * @return {Number}       [description]
    * @example
    * ff 55 04 00 01 18 03
@@ -819,13 +819,12 @@ function Auriga(conf) {
   /**
    * read encoder motor position or speed on board.
    * @param  {Number} index [description]
-   * @param  {Number} port vailable:1,2,3,4,5
    * @param  {Number} slot vailable:1,2
    * @param  {Number} type  1: position; 2: speed
    * @example
    * ff 55 06 00 01 3d 00 01 02
    */
-  this.readEncoderMotorOnBoard = function(index, port, slot, type) {
+  this.readEncoderMotorOnBoard = function(index, slot, type) {
     var a = [
       0xff,0x55,
       0x06, index,
