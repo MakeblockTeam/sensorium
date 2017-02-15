@@ -8,6 +8,8 @@ for(var i = 0; i< 40; i++) {setTimeout((function(i) {auriga.setLedMatrixNumber(6
 
 setInterval(function() { auriga.getSensorValue('temperatureOnBoard', {}, function(val) { console.log(val);}); }, 1000)
 
+setInterval(function() { auriga.getSensorValue('ultrasonic', {"port": 10}, function(val) { console.log(val);}); }, 1000)
+
 auriga.getSensorValue('temperatureOnBoard', function(val) { console.log(val);})
 
 auriga.getSensorValue('version', function(val) { console.log(val);})

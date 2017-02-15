@@ -636,7 +636,7 @@ function Auriga(conf) {
   /**
    * read pyroelectric infrared sensor
    * @param  {Number} index [description]
-   * @param  {Number} port  vailable: 1,2,3,4
+   * @param  {Number} port  vailable: 6,7,8,9,10
    * @return {Number}       [description]
    * @example
    * ff 55 04 00 01 0f 06
