@@ -107,7 +107,8 @@ function Parse() {
       case "4":
       case 4:
         // 字符串
-        result = this.bytesToString(buf);
+        var bytes = buf.splice(3, buf[2]);
+        result = this.bytesToString(bytes);
         break;
       case "2":
       case "5":
@@ -172,8 +173,10 @@ function Parse() {
   };
 
   this.bytesToString = function(bytes) {
-    var endIndex = 3 + parseInt(bytes[4]);
-    var str = bytes.toString('utf8', 3, endIndex);
+    var str = "";
+    for(var i = 0; i < bytes.length; i++) {
+      str += String.fromCharCode(bytes[i]);
+    }
     return str;
   };
 }
