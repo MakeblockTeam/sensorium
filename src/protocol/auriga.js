@@ -243,11 +243,12 @@ function Auriga(conf) {
   /**
    * Set Seven-segment digital tube number.
    * @param {number} port   port number, vailable is 6,7,8,9,10
-   * @param {float} number  the number to be displayed
+   * @param {float} number  the number to be displayed, -999 ~ 9999
    * @exmpa
    *     ff 55 08 00 02 09 06 00 00 c8 42
    */
   this.setSevenSegment = function(port, number) {
+    number = utils.limitValue(number, [-999, 9999]);
     var byte4Array = utils.float32ToBytes(number);
     var a = [
       0xff,0x55,
