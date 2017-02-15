@@ -21,7 +21,7 @@ function Auriga(conf) {
    *     ff 55 06 00 02 0a 01 ff 00
    */
   this.setDcMotor = function(port, speed) {
-    speed = utils.limitSpeed(speed);
+    speed = utils.limitValue(speed);
     var a = [
       0xff,0x55,
       0x06, 0,
@@ -42,7 +42,7 @@ function Auriga(conf) {
    *     ff 55 07 00 02 3d 00 01 64 00
    */
   this.setEncoderMotorOnBoard = function(slot, speed) {
-    speed = utils.limitSpeed(speed);
+    speed = utils.limitValue(speed);
     var a = [
       0xff,0x55,
       0x07, 0,
@@ -64,8 +64,8 @@ function Auriga(conf) {
    *     ff 55 07 00 02 05 64 00 64 00
    */
   this.setJoystick = function(leftSpeed, rightSpeed) {
-    leftSpeed = utils.limitSpeed(leftSpeed);
-    rightSpeed = utils.limitSpeed(rightSpeed);
+    leftSpeed = utils.limitValue(leftSpeed);
+    rightSpeed = utils.limitValue(rightSpeed);
     var a = [
       0xff,0x55,
       0x07, 0,
@@ -87,8 +87,8 @@ function Auriga(conf) {
    *     ff 55 08 00 02 34 00 64 00 64 00
    */
   this.setVirtualJoystickForBalance = function(turnExtent, speed) {
-    turnExtent = utils.limitSpeed(turnExtent);
-    speed = utils.limitSpeed(speed);
+    turnExtent = utils.limitValue(turnExtent);
+    speed = utils.limitValue(speed);
     var a = [
       0xff,0x55,
       0x08, 0,
@@ -112,7 +112,7 @@ function Auriga(conf) {
    *     ff 55 0a 00 02 28 01 b8 0b e8 03 00 00
    */
   this.setStepperMotor = function(port, speed, distance) {
-    speed = utils.limitSpeed(speed, [0, 3000]);
+    speed = utils.limitValue(speed, [0, 3000]);
     var distanceBytes = utils.longToBytes(distance);
     var a = [
       0xff,0x55,
@@ -142,6 +142,9 @@ function Auriga(conf) {
    *     ff 55 09 00 02 08 06 02 00 ff 00 00
    */
   this.setLed = function(port, slot, position, r, g, b) {
+    r = utils.limitValue(r, [0, 255]);
+    g = utils.limitValue(g, [0, 255]);
+    b = utils.limitValue(b, [0, 255]);
     var a = [
       0xff,0x55,
       0x09, 0,
@@ -224,6 +227,7 @@ function Auriga(conf) {
    * @param {[type]} degree servo degree, the range is 0 ~ 180
    */
   this.setServoMotor = function(port, slot, degree) {
+    degree = utils.limitValue(degree, [0, 180]);
     var a = [
       0xff,0x55,
       0x06, 0,
@@ -316,12 +320,14 @@ function Auriga(conf) {
    * Set led matrix time.
    * @param {number} port   port number, vailable is 6,7,8,9,10
    * @param {number} separator time separator, 01 signify `:`, 02 signify ` `
-   * @param {number} hour      hour number
-   * @param {number} minute    minute number
+   * @param {number} hour      hour number, 0 ~ 23
+   * @param {number} minute    minute number, 0 ~ 59
    * @example
    *     ff 55 08 00 02 29 06 03 01 0a 14
    */
   this.setLedMatrixTime = function(port, separator, hour, minute) {
+    hour = utils.limitValue(hour, [0, 23]);
+    minute = utils.limitValue(minute, [0, 59]);
     var a = [
       0xff,0x55,
       0x08,0,
@@ -429,12 +435,12 @@ function Auriga(conf) {
    * @param  {Number} port  vailable: 1,2,3,4
    * @param  {Number} slot  vailable: 1，2
    * @param  {Number} speed  0 ~ 300, 单位：rpm（每分钟转多少圈）
-   * @param  {Float} angle  相对位移
+   * @param  {Float} angle  相对位移, -2147483648 ~ 2147483647
    * @example
    * ff 55 0b 00 02 0c 08 01 96 00 00 00 34 44
    */
   this.setEncoderMotor = function(port, slot, speed, angle) {
-    speed = utils.limitSpeed(speed, [0, 300]);
+    speed = utils.limitValue(speed, [0, 300]);
     var byte4Array = utils.float32ToBytes(angle);
     var a = [
       0xff,0x55,

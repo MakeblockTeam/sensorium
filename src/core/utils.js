@@ -5,22 +5,22 @@
 var Utils = {
 
   /**
-   * limit speed
-   * @param  {Number} speed
-   * @param  {Array} range  (optional) limit speed range, such as [-255, 255], [0, 3000], default is [-255, 255]
-   * @return {Number} newSpeed the result speed in limit.
+   * limit value
+   * @param  {Number} value
+   * @param  {Array} range  (optional) limit value range, such as [-255, 255], [0, 3000], default is [-255, 255]
+   * @return {Number} newSpeed the result value in limit.
    */
-  limitSpeed: function(speed, range) {
-    var newSpeed = speed;
+  limitValue: function(value, range) {
+    var newValue = value;
     range = range || [-255, 255];
-    if(speed < range[0]) {
-      newSpeed = range[0];
+    if(value < range[0]) {
+      newValue = range[0];
     }
 
-    if(speed > range[1]) {
-      newSpeed = range[1];
+    if(value > range[1]) {
+      newValue = range[1];
     }
-    return newSpeed;
+    return newValue;
   },
 
   /**

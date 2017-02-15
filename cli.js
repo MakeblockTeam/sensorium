@@ -104,13 +104,13 @@ var COLORS = ['red', 'green', 'blue', 'white', 'yellow'];
 //   blocksTable.setRows(rows);
 // }, 100);
 
-// var mcore = new Mcore({
-//     "driver": "serial"
-// });
+var mcore = new Mcore({
+    "driver": "serial"
+});
 
-// var auriga = new Auriga({
-//     "driver": "serial"
-// });
+var auriga = new Auriga({
+    "driver": "serial"
+});
 
 var orion = new Orion({
     "driver": "serial"

@@ -1,29 +1,29 @@
 var utils = require("../../../src/core/utils");
 var assert = require('chai').assert;
 
-describe('test limitSpeed', function() {
-  it('test limitSpeed(200)', function() {
-    assert.equal(utils.limitSpeed(200), 200);
+describe('test limitValue', function() {
+  it('test limitValue(200)', function() {
+    assert.equal(utils.limitValue(200), 200);
   });
 
-  it('test limitSpeed(256)', function() {
-    assert.equal(utils.limitSpeed(256), 255);
+  it('test limitValue(256)', function() {
+    assert.equal(utils.limitValue(256), 255);
   });
 
-  it('test limitSpeed(-100)', function() {
-    assert.equal(utils.limitSpeed(-100), -100);
+  it('test limitValue(-100)', function() {
+    assert.equal(utils.limitValue(-100), -100);
   });
 
-  it('test limitSpeed(-257)', function() {
-    assert.equal(utils.limitSpeed(-257), -255);
+  it('test limitValue(-257)', function() {
+    assert.equal(utils.limitValue(-257), -255);
   });
 
-  it('test limitSpeed(3400, [0, 3000])', function() {
-    assert.equal(utils.limitSpeed(3400, [0, 3000]), 3000);
+  it('test limitValue(3400, [0, 3000])', function() {
+    assert.equal(utils.limitValue(3400, [0, 3000]), 3000);
   });
 
-  it('test limitSpeed(-10, [0, 3000])', function() {
-    assert.equal(utils.limitSpeed(-10, [0, 3000]), 0);
+  it('test limitValue(-10, [0, 3000])', function() {
+    assert.equal(utils.limitValue(-10, [0, 3000]), 0);
   });
 });
 
