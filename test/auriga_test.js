@@ -48,11 +48,9 @@ describe('【auriga_最新固件】', function() {
         var cmd = auriga.setDcMotor(1, -256);
         assert.equal(targetCmd, cmd);
       });
-
     });
 
-    describe('板载编码电机：setEncoderMotorOnBoard(1/2,-255～255)', function() {
-
+    describe('板载编码电机：setEncoderMotorOnBoard(1/2,-255～255)', function() { 
       it('板载编码电机slot口1速度100', function() {
         var targetCmd = dataman.auriga.write.encoderMotorBoard[0];
         var cmd = auriga.setEncoderMotorOnBoard(1, 100);
@@ -86,19 +84,41 @@ describe('【auriga_最新固件】', function() {
         // console.log(cmd + ' has been received');
         assert.equal(targetCmd, cmd);
       });
-
     });
 
-    describe('外接编码电机：setEncoderMotor(8, 1, 150, 720)', function() {
+    describe('外接编码电机：setEncoderMotor(1～4, 1/2, 0～300, 720)', function() { 
+      it('外接编码电机port1 slot1 速度为150角度为720', function() {
+        var targetCmd = dataman.auriga.write.encoder[0];
+        var cmd = auriga.setEncoderMotor(1, 1, 150, 720);
+        assert.equal(targetCmd, cmd);
+      });
 
-      it('外接编码电机slot1', function() {
-         var targetCmd = dataman.auriga.write.encoder[0];
-        var cmd = auriga.setEncoderMotor(8, 1, 150, 720);
+      it('外接编码电机port1 slot2 速度为300角度为720', function() {
+        var targetCmd = dataman.auriga.write.encoder[0];
+        var cmd = auriga.setEncoderMotor(1, 2, 300, 720);
+        assert.equal(targetCmd, cmd);
+      });
+
+      it('外接编码电机port2 slot1 速度为0角度为720', function() {
+        var targetCmd = dataman.auriga.write.encoder[0];
+        var cmd = auriga.setEncoderMotor(2, 1, 0, 720);
+        assert.equal(targetCmd, cmd);
+      });
+
+      it('外接编码电机port3 slot1 速度为301角度为720', function() {
+        var targetCmd = dataman.auriga.write.encoder[0];
+        var cmd = auriga.setEncoderMotor(3, 1, 301, 720);
+        assert.equal(targetCmd, cmd);
+      });
+
+      it('外接编码电机port4 slot1 速度为-1角度为720', function() {
+        var targetCmd = dataman.auriga.write.encoder[0];
+        var cmd = auriga.setEncoderMotor(4, 1, -1, 720);
         assert.equal(targetCmd, cmd);
       });
     });
 
-    describe('摇杆1：setJoystick(100,100)', function() {
+    describe('摇杆1：setJoystick(-255～255,-255～255)', function() {
       it('app虚拟摇杆1左轮速度100右轮速度100', function() {
         var targetCmd = dataman.auriga.write.joystick[0];
         var cmd = auriga.setJoystick(100, 100);
@@ -146,7 +166,6 @@ describe('【auriga_最新固件】', function() {
         // console.log(cmd + ' has been received');
         assert.equal(targetCmd, cmd);
       });
-
     });
 
     describe('摇杆2：setVirtualJoystickForBalance(0,-255~255,-255~255)', function() {
@@ -191,7 +210,6 @@ describe('【auriga_最新固件】', function() {
         var cmd = auriga.setVirtualJoystickForBalance(0, -256, -267);
         assert.equal(targetCmd, cmd);
       });
-
     });
 
     describe('步进电机：setStepperMotor(1~4,0~3000,-2147483648~2147483647)', function() {
@@ -256,8 +274,7 @@ describe('【auriga_最新固件】', function() {
       });
     });
 
-    describe('RGB LED灯：setLed(6~10/0,1/2,0~12,0~255,0~255,0~255)', function() {
-
+    describe('RGB LED灯：setLed(6~10/0,1/2,0~12,0~255,0~255,0~255)', function() {      
       it('将端口号6 slot2的灯条／led的全部位置上亮起红色', function() {
         var targetCmd = dataman.auriga.write.led[0];
         var cmd = auriga.setLed(6, 2, 0, 255, 0, 0);
@@ -330,60 +347,196 @@ describe('【auriga_最新固件】', function() {
         var cmd = auriga.setLed(10, 2, 0, 0, 0, 0);
         assert.equal(targetCmd, cmd);
       });
-
     });
 
-    describe('主板通用命令：setFirmwareMode(0)', function() {
-
+    describe('主板通用命令：setFirmwareMode(0～4)', function() {
       it('主板通用命令-设置模式为蓝牙模式', function() {
         var targetCmd = dataman.auriga.write.firmwareModeBlueTooth[0];
-        // console.log(targetCmd + ' should be sent');
         var cmd = auriga.setFirmwareMode(0);
         assert.equal(targetCmd, cmd);
       });
 
       it("主板通用命令-设置模式为自动避障", function() {
         var targetCmd = dataman.auriga.write.firmwareModeObstacle[0];
-        // console.log(targetCmd + ' should be sent');
         var cmd = auriga.setFirmwareMode(1);
         assert.equal(targetCmd, cmd);
       });
 
       it("主板通用命令-设置模式为平衡车 ", function() {
         var targetCmd = dataman.auriga.write.firmwareModeBalance[0];
-        // console.log(targetCmd + ' should be sent');
         var cmd = auriga.setFirmwareMode(2);
         assert.equal(targetCmd, cmd);
       });
 
       it("主板通用命令-设置模式为红外线 ", function() {
         var targetCmd = dataman.auriga.write.firmwareModeInfrared[0];
-        // console.log(targetCmd + ' should be sent');
         var cmd = auriga.setFirmwareMode(3);
         assert.equal(targetCmd, cmd);
       });
 
       it("主板通用命令-设置模式为巡线 ", function() {
         var targetCmd = dataman.auriga.write.firmwareModeLineFollow[0];
-        // console.log(targetCmd + ' should be sent');
         var cmd = auriga.setFirmwareMode(4);
         assert.equal(targetCmd, cmd);
       });
 
-    });
+      it("主板通用命令-设置模式为5（错误模式参数） ", function() {
+        var targetCmd = dataman.auriga.write.firmwareModeWrong[0];
+        var cmd = auriga.setFirmwareMode(5);
+        assert.equal(targetCmd, cmd);
+      });
 
-    describe('数字舵机：setServoMotor(6,1,90)', function() {
-      var targetCmd = dataman.auriga.write.servo[0];
-      it(targetCmd + ' should be sent', function() {
-        var cmd = auriga.setServoMotor(6, 1, 90);
+      it("主板通用命令-设置模式为-1（错误模式参数） ", function() {
+        var targetCmd = dataman.auriga.write.firmwareModeWrong[1];
+        var cmd = auriga.setFirmwareMode(-1);
+        assert.equal(targetCmd, cmd);
+      });
+
+      it("主板通用命令-设置模式为3.5（错误模式参数） ", function() {
+        var targetCmd = dataman.auriga.write.firmwareModeWrong[2];
+        var cmd = auriga.setFirmwareMode(3.5);
         assert.equal(targetCmd, cmd);
       });
     });
 
-    describe('四位七段数码管：setSevenSegment(6，100)', function() {
-      var targetCmd = dataman.auriga.write.sevenSegment[0];
-      it(targetCmd + ' should be sent', function() {
+    describe('数字舵机：setServoMotor(6~10,1/2,0~180)', function() {
+      it('数字舵机在端口6 slot1 旋转角度90', function() {
+        var targetCmd = dataman.auriga.write.servo[0];
+        var cmd = auriga.setServoMotor(6, 1, 90);
+        assert.equal(targetCmd, cmd);
+      });
+
+      it('数字舵机在端口6 slot2 旋转角度90', function() {
+        var targetCmd = dataman.auriga.write.servo[1];
+        var cmd = auriga.setServoMotor(6, 2, 90);
+        assert.equal(targetCmd, cmd);
+      });
+
+      it('数字舵机在端口7 slot1 旋转角度90', function() {
+        var targetCmd = dataman.auriga.write.servo[2];
+        var cmd = auriga.setServoMotor(7, 1, 90);
+        assert.equal(targetCmd, cmd);
+      });
+
+      it('数字舵机在端口8 slot2 旋转角度90', function() {
+        var targetCmd = dataman.auriga.write.servo[3];
+        var cmd = auriga.setServoMotor(8, 2, 90);
+        assert.equal(targetCmd, cmd);
+      });
+
+      it('数字舵机在端口9 slot1 旋转角度90', function() {
+        var targetCmd = dataman.auriga.write.servo[4];
+        var cmd = auriga.setServoMotor(9, 1, 90);
+        assert.equal(targetCmd, cmd);
+      });
+
+      it('数字舵机在端口10 slot2 旋转角度90', function() {
+        var targetCmd = dataman.auriga.write.servo[5];
+        var cmd = auriga.setServoMotor(10, 2, 90);
+        assert.equal(targetCmd, cmd);
+      });
+
+      it('数字舵机在端口6 slot1 旋转角度0', function() {
+        var targetCmd = dataman.auriga.write.servo[6];
+        var cmd = auriga.setServoMotor(6, 1, 0);
+        assert.equal(targetCmd, cmd);
+      });
+
+      it('数字舵机在端口6 slot1 旋转角度180', function() {
+        var targetCmd = dataman.auriga.write.servo[7];
+        var cmd = auriga.setServoMotor(6, 1, 180);
+        assert.equal(targetCmd, cmd);
+      });
+
+      it('数字舵机在端口6 slot1 旋转角度181', function() {
+        var targetCmd = dataman.auriga.write.servo[8];
+        var cmd = auriga.setServoMotor(6, 1, 181);
+        assert.equal(targetCmd, cmd);
+      });
+
+      it('数字舵机在端口6 slot1 旋转角度-1', function() {
+        var targetCmd = dataman.auriga.write.servo[9];
+        var cmd = auriga.setServoMotor(6, 1, -1);
+        assert.equal(targetCmd, cmd);
+      });
+    });
+
+    describe('四位七段数码管：setSevenSegment(6～10，-2147483648～2147483647)', function() {
+      it('四位七段数码管在端口6 显示数值100', function() {
+        var targetCmd = dataman.auriga.write.sevenSegment[0];
         var cmd = auriga.setSevenSegment(6, 100);
+        assert.equal(targetCmd, cmd);
+      });
+
+      it('四位七段数码管在端口7 显示数值150', function() {
+        var targetCmd = dataman.auriga.write.sevenSegment[0];
+        var cmd = auriga.setSevenSegment(7, 150);
+        assert.equal(targetCmd, cmd);
+      });
+
+      it('四位七段数码管在端口8 显示数值200', function() {
+        var targetCmd = dataman.auriga.write.sevenSegment[0];
+        var cmd = auriga.setSevenSegment(8, 200);
+        assert.equal(targetCmd, cmd);
+      });
+
+      it('四位七段数码管在端口9 显示数值300', function() {
+        var targetCmd = dataman.auriga.write.sevenSegment[0];
+        var cmd = auriga.setSevenSegment(9, 300);
+        assert.equal(targetCmd, cmd);
+      });
+
+      it('四位七段数码管在端口10 显示数值400', function() {
+        var targetCmd = dataman.auriga.write.sevenSegment[0];
+        var cmd = auriga.setSevenSegment(10, 400);
+        assert.equal(targetCmd, cmd);
+      });
+
+      it('四位七段数码管在端口6 显示数值0', function() {
+        var targetCmd = dataman.auriga.write.sevenSegment[0];
+        var cmd = auriga.setSevenSegment(6, 0);
+        assert.equal(targetCmd, cmd);
+      });
+
+      it('四位七段数码管在端口6 显示数值-100', function() {
+        var targetCmd = dataman.auriga.write.sevenSegment[0];
+        var cmd = auriga.setSevenSegment(6, -100);
+        assert.equal(targetCmd, cmd);
+      });
+
+      it('四位七段数码管在端口6 显示数值2147483647', function() {
+        var targetCmd = dataman.auriga.write.sevenSegment[0];
+        var cmd = auriga.setSevenSegment(6, 2147483647);
+        assert.equal(targetCmd, cmd);
+      });
+
+      it('四位七段数码管在端口6 显示数值-2147483648', function() {
+        var targetCmd = dataman.auriga.write.sevenSegment[0];
+        var cmd = auriga.setSevenSegment(6, -2147483648);
+        assert.equal(targetCmd, cmd);
+      });
+
+      it('四位七段数码管在端口6 显示数值1.63', function() {
+        var targetCmd = dataman.auriga.write.sevenSegment[0];
+        var cmd = auriga.setSevenSegment(6, 1.63);
+        assert.equal(targetCmd, cmd);
+      });
+
+      it('四位七段数码管在端口6 显示数值10.678', function() {
+        var targetCmd = dataman.auriga.write.sevenSegment[0];
+        var cmd = auriga.setSevenSegment(6, 10.666);
+        assert.equal(targetCmd, cmd);
+      });
+
+      it('四位七段数码管在端口6 显示数值2147483648', function() {
+        var targetCmd = dataman.auriga.write.sevenSegment[0];
+        var cmd = auriga.setSevenSegment(6, 2147483648);
+        assert.equal(targetCmd, cmd);
+      });
+
+      it('四位七段数码管在端口6 显示数值-2147483649', function() {
+        var targetCmd = dataman.auriga.write.sevenSegment[0];
+        var cmd = auriga.setSevenSegment(6, -2147483649);
         assert.equal(targetCmd, cmd);
       });
     });
