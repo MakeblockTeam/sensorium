@@ -108,7 +108,7 @@ function Parse() {
       case 4:
         // 字符串
         var bytes = buf.splice(3, buf[2]);
-        result = this.bytesToString(bytes);
+        result = utils.bytesToString(bytes);
         break;
       case "2":
       case "5":
@@ -149,7 +149,7 @@ function Parse() {
         (num & 0x7fffff) | 0x800000;
       return s * m * Math.pow(2, e - 150);
     };
-    var intValue = this.bytesToInt(intArray);
+    var intValue = utils.bytesToInt(intArray);
     // TOFIX
     if (intValue < 100000 && intValue > 0) {
       result = intValue;
@@ -157,27 +157,6 @@ function Parse() {
       result = parseFloat(intBitsToFloat(intValue).toFixed(2));
     }
     return result;
-  };
-
-  /**
-   * n个byte转成int值
-   * @param  {Array} bytes 传入的bytes数组
-   * @return {Number}          返回的int数值
-   */
-  this.bytesToInt = function(bytes) {
-    var val = 0;
-    for (var i = bytes.length - 1; i >= 0; i--) {
-      val += (bytes[bytes.length - i - 1] << (i * 8));
-    }
-    return val;
-  };
-
-  this.bytesToString = function(bytes) {
-    var str = "";
-    for(var i = 0; i < bytes.length; i++) {
-      str += String.fromCharCode(bytes[i]);
-    }
-    return str;
   };
 }
 

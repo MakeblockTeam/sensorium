@@ -233,6 +233,32 @@ var Utils = {
       }
     }
     return result;
+  },
+
+  /**
+   * n个byte转成int值
+   * @param  {Array} bytes 传入的bytes数组
+   * @return {Number}          返回的int数值
+   */
+  bytesToInt: function(bytes) {
+    var val = 0;
+    for (var i = bytes.length - 1; i >= 0; i--) {
+      val += (bytes[bytes.length - i - 1] << (i * 8));
+    }
+    return val;
+  },
+
+  /**
+   * transform int to ascii
+   * @param  {Array} bytes int array
+   * @return {String} str string
+   */
+  bytesToString: function(bytes) {
+    var str = "";
+    for(var i = 0; i < bytes.length; i++) {
+      str += String.fromCharCode(bytes[i]);
+    }
+    return str;
   }
 }
 

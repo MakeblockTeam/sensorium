@@ -56,14 +56,6 @@ describe('test doParse', function() {
   });
 });
 
-describe('test bytesToString', function() {
-  it('should get value "09.01.002"', function() {
-    var data = [0x30, 0x39, 0x2E, 0x30, 0x31, 0x2E, 0x30, 0x30, 0x32];
-    var version = parse.bytesToString(data);
-    assert.equal(version, "09.01.002");
-  });
-});
-
 describe('test getResult', function() {
   it('should get value "09.01.002"', function() {
     var data = [0x00, 0x04, 0x09, 0x30, 0x39, 0x2E, 0x30, 0x31, 0x2E, 0x30, 0x30, 0x32];
