@@ -58,7 +58,7 @@ describe('test doParse', function() {
 
 describe('test getResult', function() {
   it('should get value "09.01.002"', function() {
-    var data = "00 04 09 30 39 2E 30 31 2E 30 30 32";
+    var data = [0x00, 0x04, 0x09, 0x30, 0x39, 0x2E, 0x30, 0x31, 0x2E, 0x30, 0x30, 0x32];
     var version = parse.getResult(data);
     assert.equal(version, "09.01.002");
   });

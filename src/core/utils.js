@@ -5,22 +5,22 @@
 var Utils = {
 
   /**
-   * limit speed
-   * @param  {Number} speed
-   * @param  {Array} range  (optional) limit speed range, such as [-255, 255], [0, 3000], default is [-255, 255]
-   * @return {Number} newSpeed the result speed in limit.
+   * limit value
+   * @param  {Number} value
+   * @param  {Array} range  (optional) limit value range, such as [-255, 255], [0, 3000], default is [-255, 255]
+   * @return {Number} newSpeed the result value in limit.
    */
-  limitSpeed: function(speed, range) {
-    var newSpeed = speed;
+  limitValue: function(value, range) {
+    var newValue = value;
     range = range || [-255, 255];
-    if(speed < range[0]) {
-      newSpeed = range[0];
+    if(value < range[0]) {
+      newValue = range[0];
     }
 
-    if(speed > range[1]) {
-      newSpeed = range[1];
+    if(value > range[1]) {
+      newValue = range[1];
     }
-    return newSpeed;
+    return newValue;
   },
 
   /**
@@ -233,6 +233,32 @@ var Utils = {
       }
     }
     return result;
+  },
+
+  /**
+   * n个byte转成int值
+   * @param  {Array} bytes 传入的bytes数组
+   * @return {Number}          返回的int数值
+   */
+  bytesToInt: function(bytes) {
+    var val = 0;
+    for (var i = bytes.length - 1; i >= 0; i--) {
+      val += (bytes[bytes.length - i - 1] << (i * 8));
+    }
+    return val;
+  },
+
+  /**
+   * transform int to ascii
+   * @param  {Array} bytes int array
+   * @return {String} str string
+   */
+  bytesToString: function(bytes) {
+    var str = "";
+    for(var i = 0; i < bytes.length; i++) {
+      str += String.fromCharCode(bytes[i]);
+    }
+    return str;
   }
 }
 

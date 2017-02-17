@@ -74,7 +74,7 @@ describe('【auriga_最新固件】', function() {
       });
     });
 
-    describe('板载编码电机：setEncoderMotorOnBoard(1/2,-255～255)', function() { 
+    describe('板载编码电机：setEncoderMotorOnBoard(1/2,-255～255)', function() {
       it('板载编码电机slot口1速度100', function() {
         var targetCmd = dataman.auriga.write.encoderMotorBoard[0];
         var cmd = auriga.setEncoderMotorOnBoard(1, 100);
@@ -118,7 +118,7 @@ describe('【auriga_最新固件】', function() {
       });
     });
 
-    describe('外接编码电机：setEncoderMotor(1～4, 1/2, 0～300, 720)', function() { 
+    describe('外接编码电机：setEncoderMotor(1～4, 1/2, 0～300, 720)', function() {
       it('外接编码电机port1 slot1 速度为150角度为720', function() {
         var targetCmd = dataman.auriga.write.encoder[0];
         var cmd = auriga.setEncoderMotor(1, 1, 150, 720);
@@ -1370,14 +1370,10 @@ describe('【auriga_最新固件】', function() {
         assert.equal(targetCmd, cmd);
       });
 
-      // 注意：读版本获取到的数据是移除了数据头 FF 55 以及数据尾 0D 0A
       var targetVersion = dataman.auriga.read.version[1];
       it(targetVersion + ' should be returned', function(done) {
-        var resultVersion;
         auriga.getSensorValue('version', function(result) {
-          console.log(result)
-          resultVersion = "FF 55 " + utils.intStrToHexStr(result, true) + " 0D 0A";;
-          assert.equal(targetVersion, resultVersion);
+          assert.equal(targetVersion, result);
           done();
         });
       });

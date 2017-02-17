@@ -63,7 +63,7 @@ function Orion(conf) {
       0xff,0x55,
       0x08, 0,
       SETTINGS.WRITE_MODE,
-      0x1c, //28
+      0x28,
       port,
       speed & 0xff,
       (speed >> 8) & 0xff,

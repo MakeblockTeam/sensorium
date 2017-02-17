@@ -281,7 +281,7 @@ var Dataman = {
     read: {
       // 注释部分为暂不支持项
       version: ["ff 55 03 00 01 00", "ff 55 00 04 09 30 61 2e 30 31 2e 31 30 33 0d 0a"],
-      ultrasonic: ["ff 55 04 00 01 01 0a", "number", "1"],
+      ultrasonic: ["ff 55 04 00 01 01 03", "number", "1"],
       temperature: ["ff 55 05 00 01 02 03 01", "number", "1"],
       light: ["ff 55 04 00 01 03 06", "number", "1"],
       potentionmeter: ["ff 55 04 00 01 04 06", "number", "1"],
@@ -298,9 +298,9 @@ var Dataman = {
       gas: ["ff 55 04 00 01 19 06", "number", "1"],
       touch: ["ff 55 04 00 01 33 06", "number", "1"],
       fourKeys: ["ff 55 05 00 01 16 06 01", "number", "1"],
-      encoderMotorOnBoard: ["ff 55 06 00 01 3d 00 01 02", "number","1"],
+      // encoderMotorOnBoard: ["ff 55 06 00 01 3d 00 01 02", "number","1"],
       voltage: ["ff 55 04 00 01 3c 70", "number", "1"],
-      mode: ["ff 55 04 00 01 3c 71", "number", "1"]
+      // mode: ["ff 55 04 00 01 3c 71", "number", "1"]
     }
   }
 };
