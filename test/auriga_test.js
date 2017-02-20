@@ -749,31 +749,31 @@ describe('【auriga_最新固件】', function() {
       });
 
       it('数字舵机在端口7 slot1 旋转角度90', function() {
-        var targetCmd = dataman.auriga.write.servo[0];
+        var targetCmd = dataman.auriga.write.servo[1];
         var cmd = auriga.setServoMotor(7, 1, 90);
         assert.equal(targetCmd, cmd);
       });
 
       it('数字舵机在端口8 slot1 旋转角度90', function() {
-        var targetCmd = dataman.auriga.write.servo[0];
+        var targetCmd = dataman.auriga.write.servo[2];
         var cmd = auriga.setServoMotor(8, 1, 90);
         assert.equal(targetCmd, cmd);
       });
 
       it('数字舵机在端口9 slot1 旋转角度90', function() {
-        var targetCmd = dataman.auriga.write.servo[0];
+        var targetCmd = dataman.auriga.write.servo[3];
         var cmd = auriga.setServoMotor(9, 1, 90);
         assert.equal(targetCmd, cmd);
       });
 
       it('数字舵机在端口10 slot1 旋转角度90', function() {
-        var targetCmd = dataman.auriga.write.servo[0];
+        var targetCmd = dataman.auriga.write.servo[4];
         var cmd = auriga.setServoMotor(10, 1, 90);
         assert.equal(targetCmd, cmd);
       });
 
       it('数字舵机在端口6 slot2 旋转角度90', function() {
-        var targetCmd = dataman.auriga.write.servo[1];
+        var targetCmd = dataman.auriga.write.servo[5];
         var cmd = auriga.setServoMotor(6, 2, 90);
         assert.equal(targetCmd, cmd);
       });
@@ -1063,7 +1063,7 @@ describe('【auriga_最新固件】', function() {
       });
     });
 
-    describe('表情面板-显示时间：setLedMatrixTime(6, 1, 10, 20)', function() {
+    describe('表情面板-显示时间：setLedMatrixTime(6～10, 0/1, 0～23, 0～59)', function() {
       it("在端口6上以分隔符‘：’显示时间10:20 ", function() {
         var targetCmd = dataman.auriga.write.ledMatrixTime[0];
         var cmd = auriga.setLedMatrixTime(6, 1, 10, 20);
@@ -1071,158 +1071,158 @@ describe('【auriga_最新固件】', function() {
       });
 
       it("在端口7上以分隔符‘：’显示时间10:20 ", function() {
-        var targetCmd = dataman.auriga.write.ledMatrixTime[0];
+        var targetCmd = dataman.auriga.write.ledMatrixTime[1];
         var cmd = auriga.setLedMatrixTime(7, 1, 10, 20);
         assert.equal(targetCmd, cmd);
       });
 
       it("在端口8上以分隔符‘：’显示时间10:20 ", function() {
-        var targetCmd = dataman.auriga.write.ledMatrixTime[0];
+        var targetCmd = dataman.auriga.write.ledMatrixTime[2];
         var cmd = auriga.setLedMatrixTime(8, 1, 10, 20);
         assert.equal(targetCmd, cmd);
       });
 
       it("在端口9上以分隔符‘：’显示时间10:20 ", function() {
-        var targetCmd = dataman.auriga.write.ledMatrixTime[0];
+        var targetCmd = dataman.auriga.write.ledMatrixTime[3];
         var cmd = auriga.setLedMatrixTime(9, 1, 10, 20);
         assert.equal(targetCmd, cmd);
       });
 
       it("在端口10上以分隔符‘：’显示时间10:20 ", function() {
-        var targetCmd = dataman.auriga.write.ledMatrixTime[0];
+        var targetCmd = dataman.auriga.write.ledMatrixTime[4];
         var cmd = auriga.setLedMatrixTime(10, 1, 10, 20);
         assert.equal(targetCmd, cmd);
       });
 
       it("在端口6上以分隔符‘ ’显示时间10 20 ", function() {
-        var targetCmd = dataman.auriga.write.ledMatrixTime[0];
+        var targetCmd = dataman.auriga.write.ledMatrixTime[5];
         var cmd = auriga.setLedMatrixTime(6, 0, 10, 20);
         assert.equal(targetCmd, cmd);
       });
 
       it("在端口6上以分隔符‘：’显示时间00:00 ", function() {
-        var targetCmd = dataman.auriga.write.ledMatrixTime[0];
+        var targetCmd = dataman.auriga.write.ledMatrixTime[6];
         var cmd = auriga.setLedMatrixTime(6, 1, 0, 0);
         assert.equal(targetCmd, cmd);
       });
 
       it("在端口6上以分隔符‘：’显示时间23:59 ", function() {
-        var targetCmd = dataman.auriga.write.ledMatrixTime[0];
+        var targetCmd = dataman.auriga.write.ledMatrixTime[7];
         var cmd = auriga.setLedMatrixTime(6, 1, 23, 59);
         assert.equal(targetCmd, cmd);
       });
 
       it("在端口6上以分隔符‘：’显示时间-1:00 ", function() {
-        var targetCmd = dataman.auriga.write.ledMatrixTime[0];
+        var targetCmd = dataman.auriga.write.ledMatrixTime[8];
         var cmd = auriga.setLedMatrixTime(6, 1, -1, 0);
         assert.equal(targetCmd, cmd);
       });
 
       it("在端口6上以分隔符‘：’显示时间00:-1 ", function() {
-        var targetCmd = dataman.auriga.write.ledMatrixTime[0];
+        var targetCmd = dataman.auriga.write.ledMatrixTime[9];
         var cmd = auriga.setLedMatrixTime(6, 1, 0, -1);
         assert.equal(targetCmd, cmd);
       });
 
       it("在端口6上以分隔符‘：’显示时间23:60 ", function() {
-        var targetCmd = dataman.auriga.write.ledMatrixTime[0];
+        var targetCmd = dataman.auriga.write.ledMatrixTime[10];
         var cmd = auriga.setLedMatrixTime(6, 1, 23, 60);
         assert.equal(targetCmd, cmd);
       });
 
       it("在端口6上以分隔符‘：’显示时间24:00 ", function() {
-        var targetCmd = dataman.auriga.write.ledMatrixTime[0];
+        var targetCmd = dataman.auriga.write.ledMatrixTime[11];
         var cmd = auriga.setLedMatrixTime(6, 1, 24, 0);
         assert.equal(targetCmd, cmd);
       });
 
       it("在端口6上以分隔符‘：’显示时间time:01 ", function() {
-        var targetCmd = dataman.auriga.write.ledMatrixTime[0];
+        var targetCmd = dataman.auriga.write.ledMatrixTime[12];
         var cmd = auriga.setLedMatrixTime(6, 1, 'time', 01);
         assert.equal(targetCmd, cmd);
       });
 
       it("在端口6上以分隔符‘：’显示时间15.5:12 ", function() {
-        var targetCmd = dataman.auriga.write.ledMatrixTime[0];
+        var targetCmd = dataman.auriga.write.ledMatrixTime[13];
         var cmd = auriga.setLedMatrixTime(6, 1, 15.5, 12);
         assert.equal(targetCmd, cmd);
       });   
     });
 
     describe('表情面板-显示数字：setLedMatrixNumber(6, 0)', function() {
-      it("显示数字：setLedMatrixNumber(6, 0) ", function() {
+      it("在端口6上的表情面板显示数字0 ", function() {
         var targetCmd = dataman.auriga.write.ledMatrixNumber[0];
         var cmd = auriga.setLedMatrixNumber(6, 0);
         assert.equal(targetCmd, cmd);
       });
 
-      it("显示数字：setLedMatrixNumber(7, 0) ", function() {
+      it("在端口7上的表情面板显示数字0 ", function() {
         var targetCmd = dataman.auriga.write.ledMatrixNumber[1];
         var cmd = auriga.setLedMatrixNumber(7, 0);
         assert.equal(targetCmd, cmd);
       });
 
-      it("显示数字：setLedMatrixNumber(8, 0) ", function() {
+      it("在端口8上的表情面板显示数字0 ", function() {
         var targetCmd = dataman.auriga.write.ledMatrixNumber[2];
         var cmd = auriga.setLedMatrixNumber(8, 0);
         assert.equal(targetCmd, cmd);
       });
 
-      it("显示数字：setLedMatrixNumber(9, 0) ", function() {
+      it("在端口9上的表情面板显示数字0", function() {
         var targetCmd = dataman.auriga.write.ledMatrixNumber[3];
         var cmd = auriga.setLedMatrixNumber(9, 0);
         assert.equal(targetCmd, cmd);
       });
 
-      it("显示数字：setLedMatrixNumber(10, 0) ", function() {
+      it("在端口10上的表情面板显示数字0", function() {
         var targetCmd = dataman.auriga.write.ledMatrixNumber[4];
         var cmd = auriga.setLedMatrixNumber(10, 0);
         assert.equal(targetCmd, cmd);
       });
 
-      it("显示数字：setLedMatrixNumber(6, -1) ", function() {
+      it("在端口 6 上的表情面板显示数字 -1 ", function() {
         var targetCmd = dataman.auriga.write.ledMatrixNumber[5];
         var cmd = auriga.setLedMatrixNumber(6, -1);
         assert.equal(targetCmd, cmd);
       });
 
-      it("显示数字：setLedMatrixNumber(6, 1) ", function() {
+      it("在端口 6 上的表情面板显示数字 1 ", function() {
         var targetCmd = dataman.auriga.write.ledMatrixNumber[6];
         var cmd = auriga.setLedMatrixNumber(6, 1);
         assert.equal(targetCmd, cmd);
       });
 
-      it("显示数字：setLedMatrixNumber(6, 12.25) ", function() {
+      it("在端口 6 上的表情面板显示数字 12.25", function() {
         var targetCmd = dataman.auriga.write.ledMatrixNumber[7];
         var cmd = auriga.setLedMatrixNumber(6, 12.25);
         assert.equal(targetCmd, cmd);
       });
 
-      it("显示数字：setLedMatrixNumber(6, 2147483647) ", function() {
+      it("在端口 6 上的表情面板显示数字 2147483647 ", function() {
         var targetCmd = dataman.auriga.write.ledMatrixNumber[8];
         var cmd = auriga.setLedMatrixNumber(6, 2147483647);
         assert.equal(targetCmd, cmd);
       });
 
-      it("显示数字：setLedMatrixNumber(6, -2147483648) ", function() {
+      it("在端口6上的表情面板显示数字 -2147483648", function() {
         var targetCmd = dataman.auriga.write.ledMatrixNumber[9];
         var cmd = auriga.setLedMatrixNumber(6, -2147483648);
         assert.equal(targetCmd, cmd);
       });
 
-      it("显示数字：setLedMatrixNumber(6, 2147483648) ", function() {
+      it("在端口6上的表情面板显示数字 2147483648 ", function() {
         var targetCmd = dataman.auriga.write.ledMatrixNumber[10];
         var cmd = auriga.setLedMatrixNumber(6, 2147483648);
         assert.equal(targetCmd, cmd);
       });
 
-      it("显示数字：setLedMatrixNumber(6, -2147483649) ", function() {
+      it("在端口6上的表情面板显示数字0 -2147483649 ", function() {
         var targetCmd = dataman.auriga.write.ledMatrixNumber[11];
         var cmd = auriga.setLedMatrixNumber(6, -2147483649);
         assert.equal(targetCmd, cmd);
       });
 
-      it("显示数字：setLedMatrixNumber(6, ‘error’) ", function() {
+      it("在端口6上的表情面板显示数字 ‘error’ ", function() {
         var targetCmd = dataman.auriga.write.ledMatrixNumber[12];
         var cmd = auriga.setLedMatrixNumber(6, 'error');
         assert.equal(targetCmd, cmd);
@@ -1238,49 +1238,55 @@ describe('【auriga_最新固件】', function() {
       });
 
       it('在端口7的快门线设置为按下快门00 ', function() {
-        var targetCmd = dataman.auriga.write.shutter[0];
+        var targetCmd = dataman.auriga.write.shutter[1];
         var cmd = auriga.setShutter(7, 0);
         assert.equal(targetCmd, cmd);
       });
 
       it('在端口8的快门线设置为按下快门00 ', function() {
-        var targetCmd = dataman.auriga.write.shutter[0];
+        var targetCmd = dataman.auriga.write.shutter[2];
         var cmd = auriga.setShutter(8, 0);
         assert.equal(targetCmd, cmd);
       });
 
       it('在端口9的快门线设置为按下快门00 ', function() {
-        var targetCmd = dataman.auriga.write.shutter[0];
+        var targetCmd = dataman.auriga.write.shutter[3];
         var cmd = auriga.setShutter(9, 0);
         assert.equal(targetCmd, cmd);
       });
 
       it('在端口10的快门线设置为按下快门00 ', function() {
-        var targetCmd = dataman.auriga.write.shutter[0];
+        var targetCmd = dataman.auriga.write.shutter[4];
         var cmd = auriga.setShutter(10, 0);
         assert.equal(targetCmd, cmd);
       });
       
       it('在端口6的快门线设置为松开快门01 ', function() {
-        var targetCmd = dataman.auriga.write.shutter[0];
+        var targetCmd = dataman.auriga.write.shutter[5];
         var cmd = auriga.setShutter(6, 1);
         assert.equal(targetCmd, cmd);
       });
 
       it('在端口6的快门线设置为开始对焦02 ', function() {
-        var targetCmd = dataman.auriga.write.shutter[0];
+        var targetCmd = dataman.auriga.write.shutter[6];
         var cmd = auriga.setShutter(6, 2);
         assert.equal(targetCmd, cmd);
       });
 
+      it('在端口6的快门线设置为停止对焦03 ', function() {
+        var targetCmd = dataman.auriga.write.shutter[7];
+        var cmd = auriga.setShutter(6, 3);
+        assert.equal(targetCmd, cmd);
+      });
+
       it('在端口6的快门线设置为错误模式05 ', function() {
-        var targetCmd = dataman.auriga.write.shutter[0];
+        var targetCmd = dataman.auriga.write.shutter[8];
         var cmd = auriga.setShutter(6, 5);
         assert.equal(targetCmd, cmd);
       });
 
       it('在端口6的快门线设置为错误模式-1 ', function() {
-        var targetCmd = dataman.auriga.write.shutter[0];
+        var targetCmd = dataman.auriga.write.shutter[9];
         var cmd = auriga.setShutter(6, -1);
         assert.equal(targetCmd, cmd);
       });
@@ -1295,35 +1301,35 @@ describe('【auriga_最新固件】', function() {
       });
 
       it('设置TONE输出A2(110)频率8分之一（125）节拍', function() {
-        var targetCmd = dataman.auriga.write.tone[0];
+        var targetCmd = dataman.auriga.write.tone[1];
         var toneData = "A2";
         var cmd = auriga.setTone(toneData, 125);
         assert.equal(targetCmd, cmd);
       });
 
       it('设置TONE输出B2(123)频率4分之一（250）节拍', function() {
-        var targetCmd = dataman.auriga.write.tone[0];
+        var targetCmd = dataman.auriga.write.tone[2];
         var toneData = "B2";
         var cmd = auriga.setTone(toneData, 250);
         assert.equal(targetCmd, cmd);
       });
 
       it('设置TONE输出D5(555)频率一（1000）节拍', function() {
-        var targetCmd = dataman.auriga.write.tone[0];
+        var targetCmd = dataman.auriga.write.tone[3];
         var toneData = "D5";
         var cmd = auriga.setTone(toneData, 1000);
         assert.equal(targetCmd, cmd);
       });
 
       it('设置TONE输出C7(2093)频率二（2000）节拍', function() {
-        var targetCmd = dataman.auriga.write.tone[0];
+        var targetCmd = dataman.auriga.write.tone[4];
         var toneData = "C7";
         var cmd = auriga.setTone(toneData, 2000);
         assert.equal(targetCmd, cmd);
       });
 
       it('设置TONE输出B7(3951)频率（500）停止节拍', function() {
-        var targetCmd = dataman.auriga.write.tone[0];
+        var targetCmd = dataman.auriga.write.tone[5];
         var toneData = "B7";
         var cmd = auriga.setTone(toneData, 0);//停止节拍在协议上也没有标注是多少
         assert.equal(targetCmd, cmd);
@@ -1466,14 +1472,14 @@ describe('【auriga_最新固件】', function() {
         assert.equal(targetCmd, cmd);
       });
 
-      it('it should be a number between 0~1024 ', function(done) {
+      it('it should be a number between -1024~1024 ', function(done) {
         var resultType;
         auriga.getSensorValue('temperature', {
           "port": 10,
           "slot": 2
         }, function(result) {
           assert.isNumber(result);      //result is a number
-          assert.isAtLeast(result, 0);  //result >= 0
+          assert.isAtLeast(result, -1024);  //result >= -1024
           assert.isAtMost(result, 1024);  //result <= 1024
           done();
         });
@@ -1481,8 +1487,44 @@ describe('【auriga_最新固件】', function() {
     });
 
     describe('光线传感器：readLight(0,12)', function() {
-      var targetCmd = dataman.auriga.read.light[0];
-      it(targetCmd + ' should be sent', function() {
+      it('发送读取端口6的光线的指令', function() {
+        var targetCmd = dataman.auriga.read.light[0];
+        var cmd = auriga.readLight(0, 6);
+        assert.equal(targetCmd, cmd);
+      });
+
+      it('发送读取端口7的光线的指令', function() {
+        var targetCmd = dataman.auriga.read.light[1];
+        var cmd = auriga.readLight(0, 7);
+        assert.equal(targetCmd, cmd);
+      });
+
+      it('发送读取端口8的光线的指令', function() {
+        var targetCmd = dataman.auriga.read.light[2];
+        var cmd = auriga.readLight(0, 8);
+        assert.equal(targetCmd, cmd);
+      });
+
+      it('发送读取端口9的光线的指令', function() {
+        var targetCmd = dataman.auriga.read.light[3];
+        var cmd = auriga.readLight(0, 9);
+        assert.equal(targetCmd, cmd);
+      });
+
+      it('发送读取端口10的光线的指令', function() {
+        var targetCmd = dataman.auriga.read.light[4];
+        var cmd = auriga.readLight(0, 10);
+        assert.equal(targetCmd, cmd);
+      });
+
+      it('发送读取端口11的光线的指令', function() {
+        var targetCmd = dataman.auriga.read.light[5];
+        var cmd = auriga.readLight(0, 11);
+        assert.equal(targetCmd, cmd);
+      });
+
+      it('发送读取端口12的光线的指令', function() {
+        var targetCmd = dataman.auriga.read.light[6];
         var cmd = auriga.readLight(0, 12);
         assert.equal(targetCmd, cmd);
       });
@@ -1501,9 +1543,33 @@ describe('【auriga_最新固件】', function() {
     });
 
     describe('电位器传感器：readPotentionmeter(0,6)', function() {
-      var targetCmd = dataman.auriga.read.potentionmeter[0];
-      it(targetCmd + ' should be sent', function() {
+      it('发送读取端口 6 的电位器传感器的指令', function() {
+        var targetCmd = dataman.auriga.read.potentionmeter[0];
         var cmd = auriga.readPotentionmeter(0, 6);
+        assert.equal(targetCmd, cmd);
+      });
+
+      it('发送读取端口 7 的电位器传感器的指令', function() {
+        var targetCmd = dataman.auriga.read.potentionmeter[1];
+        var cmd = auriga.readPotentionmeter(0, 7);
+        assert.equal(targetCmd, cmd);
+      });
+
+      it('发送读取端口 8 的电位器传感器的指令', function() {
+        var targetCmd = dataman.auriga.read.potentionmeter[2];
+        var cmd = auriga.readPotentionmeter(0, 8);
+        assert.equal(targetCmd, cmd);
+      });
+
+      it('发送读取端口 9 的电位器传感器的指令', function() {
+        var targetCmd = dataman.auriga.read.potentionmeter[3];
+        var cmd = auriga.readPotentionmeter(0, 9);
+        assert.equal(targetCmd, cmd);
+      });
+
+      it('发送读取端口 10 的电位器传感器的指令', function() {
+        var targetCmd = dataman.auriga.read.potentionmeter[4];
+        var cmd = auriga.readPotentionmeter(0, 10);
         assert.equal(targetCmd, cmd);
       });
 
@@ -1521,9 +1587,39 @@ describe('【auriga_最新固件】', function() {
     });
 
     describe('摇杆传感器：readJoystick(0,6,1)', function() {
-      var targetCmd = dataman.auriga.read.joystick[0];
-      it(targetCmd + ' should be sent', function() {
+      it('发送读取端口 6 上的摇杆在 x 轴上的值的指令', function() {
+        var targetCmd = dataman.auriga.read.joystick[0];
         var cmd = auriga.readJoystick(0, 6, 1);
+        assert.equal(targetCmd, cmd);
+      });
+
+      it('发送读取端口 7 上的摇杆在 x 轴上的值的指令', function() {
+        var targetCmd = dataman.auriga.read.joystick[1];
+        var cmd = auriga.readJoystick(0, 7, 1);
+        assert.equal(targetCmd, cmd);
+      });
+
+      it('发送读取端口 8 上的摇杆在 x 轴上的值的指令', function() {
+        var targetCmd = dataman.auriga.read.joystick[2];
+        var cmd = auriga.readJoystick(0, 8, 1);
+        assert.equal(targetCmd, cmd);
+      });
+
+      it('发送读取端口 9 上的摇杆在 x 轴上的值的指令', function() {
+        var targetCmd = dataman.auriga.read.joystick[3];
+        var cmd = auriga.readJoystick(0, 9, 1);
+        assert.equal(targetCmd, cmd);
+      });
+
+      it('发送读取端口 10 上的摇杆在 x 轴上的值的指令', function() {
+        var targetCmd = dataman.auriga.read.joystick[4];
+        var cmd = auriga.readJoystick(0, 10, 1);
+        assert.equal(targetCmd, cmd);
+      });
+
+      it('发送读取端口 6 上的摇杆在 y 轴上的值的指令', function() {
+        var targetCmd = dataman.auriga.read.joystick[5];
+        var cmd = auriga.readJoystick(0, 6, 2);
         assert.equal(targetCmd, cmd);
       });
 
@@ -1540,16 +1636,64 @@ describe('【auriga_最新固件】', function() {
       });
     });
 
-    describe('姿态传感器（陀螺仪）：readGyro(0,1,1)', function() {
-      var targetCmdOnboard = dataman.auriga.read.gyro[0];
-      it(targetCmdOnboard + ' should be sent（板载）', function() {
+    describe('姿态传感器（陀螺仪）：readGyro(0,1/0,1~3)', function() {
+      it('发送读取板载陀螺仪在 x 轴上的值的指令', function() {
+        var targetCmdOnboard = dataman.auriga.read.gyro[0];
         var cmd = auriga.readGyro(0, 1, 1);
         assert.equal(targetCmdOnboard, cmd);
       });
 
-      var targetCmdExternal = dataman.auriga.read.gyro[1];
-      it(targetCmdExternal + ' should be sent（外接）', function() {
+      it('发送读取板载陀螺仪在 y 轴上的值的指令', function() {
+        var targetCmdOnboard = dataman.auriga.read.gyro[1];
+        var cmd = auriga.readGyro(0, 1, 2);
+        assert.equal(targetCmdOnboard, cmd);
+      });
+
+      it('发送读取板载陀螺仪在 z 轴上的值的指令', function() {
+        var targetCmdOnboard = dataman.auriga.read.gyro[2];
+        var cmd = auriga.readGyro(0, 1, 3);
+        assert.equal(targetCmdOnboard, cmd);
+      });
+
+      it('发送读取端口 6 上的陀螺仪在 x 轴上的值的指令', function() {
+        var targetCmdExternal = dataman.auriga.read.gyro[3];
         var cmd = auriga.readGyro(0, 0, 1);
+        assert.equal(targetCmdExternal, cmd);
+      });
+
+      it('发送读取端口 7 上的陀螺仪在 x 轴上的值的指令', function() {
+        var targetCmdExternal = dataman.auriga.read.gyro[4];
+        var cmd = auriga.readGyro(0, 0, 1);
+        assert.equal(targetCmdExternal, cmd);
+      });
+
+      it('发送读取端口 8 上的陀螺仪在 x 轴上的值的指令', function() {
+        var targetCmdExternal = dataman.auriga.read.gyro[5];
+        var cmd = auriga.readGyro(0, 0, 1);
+        assert.equal(targetCmdExternal, cmd);
+      });
+
+      it('发送读取端口 9 上的陀螺仪在 x 轴上的值的指令', function() {
+        var targetCmdExternal = dataman.auriga.read.gyro[6];
+        var cmd = auriga.readGyro(0, 0, 1);
+        assert.equal(targetCmdExternal, cmd);
+      });
+
+      it('发送读取端口 10 上的陀螺仪在 x 轴上的值的指令', function() {
+        var targetCmdExternal = dataman.auriga.read.gyro[7];
+        var cmd = auriga.readGyro(0, 0, 1);
+        assert.equal(targetCmdExternal, cmd);
+      });
+
+      it('发送读取端口 6 上的陀螺仪在 y 轴上的值的指令', function() {
+        var targetCmdExternal = dataman.auriga.read.gyro[8];
+        var cmd = auriga.readGyro(0, 0, 2);
+        assert.equal(targetCmdExternal, cmd);
+      });
+
+      it('发送读取端口 6 上的陀螺仪在 z 轴上的值的指令', function() {
+        var targetCmdExternal = dataman.auriga.read.gyro[9];
+        var cmd = auriga.readGyro(0, 0, 3);
         assert.equal(targetCmdExternal, cmd);
       });
 
@@ -1566,19 +1710,41 @@ describe('【auriga_最新固件】', function() {
       });
     });
 
-    describe('音量传感器：readSound(0,14)', function() {
-      var targetCmdOnboard = dataman.auriga.read.sound[0];
-      it(targetCmdOnboard + ' should be sent（板载）', function() {
-        var cmd = auriga.readSound(0, 14);
-        //console.log(cmd + ' has been sent');
+    describe('音量传感器：readSound(0,14／6～10)', function() {
+      it('发送读取端口6上的音量传感器的值的指令', function() {
+        var targetCmdOnboard = dataman.auriga.read.sound[0];
+        var cmd = auriga.readSound(0, 6);
         assert.equal(targetCmdOnboard, cmd);
       });
 
-      var targetCmdExternal = dataman.auriga.read.sound[1];
-      it(targetCmdExternal + ' should be sent（外接）', function() {
+      it('发送读取端口7上的音量传感器的值的指令', function() {
+        var targetCmdOnboard = dataman.auriga.read.sound[1];
         var cmd = auriga.readSound(0, 7);
-        //console.log(cmd + ' has been sent');
-        assert.equal(targetCmdExternal, cmd);
+        assert.equal(targetCmdOnboard, cmd);
+      });
+
+      it('发送读取端口8上的音量传感器的值的指令', function() {
+        var targetCmdOnboard = dataman.auriga.read.sound[2];
+        var cmd = auriga.readSound(0, 8);
+        assert.equal(targetCmdOnboard, cmd);
+      });
+
+      it('发送读取端口9上的音量传感器的值的指令', function() {
+        var targetCmdOnboard = dataman.auriga.read.sound[3];
+        var cmd = auriga.readSound(0, 9);
+        assert.equal(targetCmdOnboard, cmd);
+      });
+
+      it('发送读取端口10上的音量传感器的值的指令', function() {
+        var targetCmdOnboard = dataman.auriga.read.sound[4];
+        var cmd = auriga.readSound(0, 10);
+        assert.equal(targetCmdOnboard, cmd);
+      });
+      
+      it('发送读取板载的音量传感器的值的指令', function() {
+        var targetCmdOnboard = dataman.auriga.read.sound[5];
+        var cmd = auriga.readSound(0, 14);
+        assert.equal(targetCmdOnboard, cmd);
       });
 
       it('it should be a number between 0~1024', function(done) {
@@ -1595,28 +1761,51 @@ describe('【auriga_最新固件】', function() {
     });
 
     describe('板载温度传感器：readTemperatureOnBoard(0)', function() {
-      var targetCmdOnboard = dataman.auriga.read.temperatureOnBoard[0];
-      it(targetCmdOnboard + ' should be sent（板载）', function() {
+      it('发送读取板载温度传感器的值的指令', function() {
+        var targetCmdOnboard = dataman.auriga.read.temperatureOnBoard[0];
         var cmd = auriga.readTemperatureOnBoard(0);
         assert.equal(targetCmdOnboard, cmd);
       });
 
-      it('it should be a number between -70~50', function(done) {
+      it('it should be a number between -1024～1024', function(done) {
         var resultType;
         auriga.getSensorValue('temperatureOnBoard', function(result) {
           assert.isNumber(result);      //result is a number
-          assert.isAtLeast(result, -70);  //result >= -70
-          assert.isAtMost(result, 50);  //result <= 50
+          assert.isAtLeast(result, -1024);  //result >= -1024
+          assert.isAtMost(result, 1024);  //result <= 1024
           done();
         });
       });
     });
 
     describe('被动式红外传感器：readPirmotion(0, 6)', function() {
-      var targetCmd = dataman.auriga.read.pirmotion[0];
-      it(targetCmd + ' should be sent', function() {
+      it('发送读取端口 6 上的被动式红外传感器的值的指令', function() {
+        var targetCmd = dataman.auriga.read.pirmotion[0];
         var cmd = auriga.readPirmotion(0, 6);
-        //console.log(cmd + ' has been sent');
+        assert.equal(targetCmd, cmd);
+      });
+
+      it('发送读取端口 7 上的被动式红外传感器的值的指令', function() {
+        var targetCmd = dataman.auriga.read.pirmotion[1];
+        var cmd = auriga.readPirmotion(0, 7);
+        assert.equal(targetCmd, cmd);
+      });
+
+      it('发送读取端口 8 上的被动式红外传感器的值的指令', function() {
+        var targetCmd = dataman.auriga.read.pirmotion[2];
+        var cmd = auriga.readPirmotion(0, 8);
+        assert.equal(targetCmd, cmd);
+      });
+
+      it('发送读取端口 9 上的被动式红外传感器的值的指令', function() {
+        var targetCmd = dataman.auriga.read.pirmotion[3];
+        var cmd = auriga.readPirmotion(0, 9);
+        assert.equal(targetCmd, cmd);
+      });
+
+      it('发送读取端口 10 上的被动式红外传感器的值的指令', function() {
+        var targetCmd = dataman.auriga.read.pirmotion[4];
+        var cmd = auriga.readPirmotion(0, 10);
         assert.equal(targetCmd, cmd);
       });
 
@@ -1633,12 +1822,37 @@ describe('【auriga_最新固件】', function() {
     });
 
 
-    describe('巡线传感器：readLineFollower(0, 6)', function() {
-      var targetCmd = dataman.auriga.read.lineFollower[0];
-      it(targetCmd + ' should be sent', function() {
+    describe('巡线传感器：readLineFollower(0, 6~10)', function() {
+      it('发送读取端口 6 上的巡线传感器的值的指令', function() {
+        var targetCmd = dataman.auriga.read.lineFollower[0];
         var cmd = auriga.readLineFollower(0, 6);
         assert.equal(targetCmd, cmd);
       });
+
+      it('发送读取端口 7 上的巡线传感器的值的指令', function() {
+        var targetCmd = dataman.auriga.read.lineFollower[1];
+        var cmd = auriga.readLineFollower(0, 7);
+        assert.equal(targetCmd, cmd);
+      });
+
+      it('发送读取端口 8 上的巡线传感器的值的指令', function() {
+        var targetCmd = dataman.auriga.read.lineFollower[2];
+        var cmd = auriga.readLineFollower(0, 8);
+        assert.equal(targetCmd, cmd);
+      });
+
+      it('发送读取端口 9 上的巡线传感器的值的指令', function() {
+        var targetCmd = dataman.auriga.read.lineFollower[3];
+        var cmd = auriga.readLineFollower(0, 9);
+        assert.equal(targetCmd, cmd);
+      });
+
+      it('发送读取端口 10 上的巡线传感器的值的指令', function() {
+        var targetCmd = dataman.auriga.read.lineFollower[4];
+        var cmd = auriga.readLineFollower(0, 10);
+        assert.equal(targetCmd, cmd);
+      });      
+
 
       it('it should be 0 or 1 or 2 or 3', function(done) {
         var resultType;
@@ -1653,9 +1867,39 @@ describe('【auriga_最新固件】', function() {
     });
 
 
-    describe('限位开关传感器：readLimitSwitch(0, 6, 2)', function() {
-      var targetCmd = dataman.auriga.read.limitSwitch[0];
-      it(targetCmd + ' should be sent', function() {
+    describe('限位开关传感器：readLimitSwitch(0, 6～10, 1/2)', function() {
+      it('发送读取端口 6 slot 1 上的限位开关的值的指令', function() {
+        var targetCmd = dataman.auriga.read.limitSwitch[0];
+        var cmd = auriga.readLimitSwitch(0, 6, 1);
+        assert.equal(targetCmd, cmd);
+      });
+
+      it('发送读取端口 7 slot 1 上的限位开关的值的指令', function() {
+        var targetCmd = dataman.auriga.read.limitSwitch[1];
+        var cmd = auriga.readLimitSwitch(0, 7, 1);
+        assert.equal(targetCmd, cmd);
+      });
+
+      it('发送读取端口 8 slot 1 上的限位开关的值的指令', function() {
+        var targetCmd = dataman.auriga.read.limitSwitch[2];
+        var cmd = auriga.readLimitSwitch(0, 8, 1);
+        assert.equal(targetCmd, cmd);
+      });
+
+      it('发送读取端口 9 slot 1 上的限位开关的值的指令', function() {
+        var targetCmd = dataman.auriga.read.limitSwitch[3];
+        var cmd = auriga.readLimitSwitch(0, 9, 1);
+        assert.equal(targetCmd, cmd);
+      });
+
+      it('发送读取端口 10 slot 1 上的限位开关的值的指令', function() {
+        var targetCmd = dataman.auriga.read.limitSwitch[4];
+        var cmd = auriga.readLimitSwitch(0, 10, 1);
+        assert.equal(targetCmd, cmd);
+      });
+
+      it('发送读取端口 6 slot 2 上的限位开关的值的指令', function() {
+        var targetCmd = dataman.auriga.read.limitSwitch[5];
         var cmd = auriga.readLimitSwitch(0, 6, 2);
         assert.equal(targetCmd, cmd);
       });
@@ -1674,9 +1918,33 @@ describe('【auriga_最新固件】', function() {
     });
 
     describe('电子罗盘传感器：readCompass(0, 6)', function() {
-      var targetCmd = dataman.auriga.read.compass[0];
-      it(targetCmd + ' should be sent', function() {
+      it('发送读取端口 6 上的电子罗盘传感器的值的指令', function() {
+        var targetCmd = dataman.auriga.read.compass[0];
         var cmd = auriga.readCompass(0, 6);
+        assert.equal(targetCmd, cmd);
+      });
+
+      it('发送读取端口 7 上的电子罗盘传感器的值的指令', function() {
+        var targetCmd = dataman.auriga.read.compass[1];
+        var cmd = auriga.readCompass(0, 7);
+        assert.equal(targetCmd, cmd);
+      });
+
+      it('发送读取端口 8 上的电子罗盘传感器的值的指令', function() {
+        var targetCmd = dataman.auriga.read.compass[2];
+        var cmd = auriga.readCompass(0, 8);
+        assert.equal(targetCmd, cmd);
+      });
+
+      it('发送读取端口 9 上的电子罗盘传感器的值的指令', function() {
+        var targetCmd = dataman.auriga.read.compass[3];
+        var cmd = auriga.readCompass(0, 9);
+        assert.equal(targetCmd, cmd);
+      });
+
+      it('发送读取端口 10 上的电子罗盘传感器的值的指令', function() {
+        var targetCmd = dataman.auriga.read.compass[4];
+        var cmd = auriga.readCompass(0, 10);
         assert.equal(targetCmd, cmd);
       });
 
@@ -1694,31 +1962,86 @@ describe('【auriga_最新固件】', function() {
     });
 
 
-    describe('温湿度传感器：readHumiture(0, 6, 1)', function() {
-      var targetCmd = dataman.auriga.read.humiture[0];
-      it(targetCmd + ' should be sent', function() {
+    describe('温湿度传感器：readHumiture(0, 6～10, 1／0)', function() {
+      it('发送读取端口 6 上的温湿度传感器上的温度的指令', function() {
+        var targetCmd = dataman.auriga.read.humiture[0];
         var cmd = auriga.readHumiture(0, 6, 1);
         assert.equal(targetCmd, cmd);
       });
 
-      it('it should be a number between -70~50', function(done) {
+      it('发送读取端口 7 上的温湿度传感器上的温度的指令', function() {
+        var targetCmd = dataman.auriga.read.humiture[1];
+        var cmd = auriga.readHumiture(0, 7, 1);
+        assert.equal(targetCmd, cmd);
+      });
+
+      it('发送读取端口 8 上的温湿度传感器上的温度的指令', function() {
+        var targetCmd = dataman.auriga.read.humiture[2];
+        var cmd = auriga.readHumiture(0, 8, 1);
+        assert.equal(targetCmd, cmd);
+      });
+
+      it('发送读取端口 9 上的温湿度传感器上的温度的指令', function() {
+        var targetCmd = dataman.auriga.read.humiture[3];
+        var cmd = auriga.readHumiture(0, 9, 1);
+        assert.equal(targetCmd, cmd);
+      });
+
+      it('发送读取端口 10 上的温湿度传感器上的温度的指令', function() {
+        var targetCmd = dataman.auriga.read.humiture[4];
+        var cmd = auriga.readHumiture(0, 10, 1);
+        assert.equal(targetCmd, cmd);
+      });
+
+      it('发送读取端口 6 上的温湿度传感器上的湿度的指令', function() {
+        var targetCmd = dataman.auriga.read.humiture[5];
+        var cmd = auriga.readHumiture(0, 6, 0);
+        assert.equal(targetCmd, cmd);
+      });
+
+      it('it should be a number between -1024~1024', function(done) {
         var resultType;
         auriga.getSensorValue('humiture', {
           "port": 6
         }, function(result) {
           assert.isNumber(result);      //result is a number
-          assert.isAtLeast(result, -70);  //result >= -70
-          assert.isAtMost(result, 50);  //result <= 50
+          assert.isAtLeast(result, -1024);  //result >= -1024
+          assert.isAtMost(result, 1024);  //result <= 1024
           done();
         });
       });
     });
 
 
-    describe('火焰传感器：readFlame(0, 6)', function() {
-      var targetCmd = dataman.auriga.read.flame[0];
-      it(targetCmd + ' should be sent', function() {
+    describe('火焰传感器：readFlame(0, 6~10)', function() {
+      
+      it('发送读取端口 6 上的火焰传感器的值的指令' , function() {
+        var targetCmd = dataman.auriga.read.flame[0];
         var cmd = auriga.readFlame(0, 6);
+        assert.equal(targetCmd, cmd);
+      });
+
+      it('发送读取端口 7 上的火焰传感器的值的指令' , function() {
+        var targetCmd = dataman.auriga.read.flame[1];
+        var cmd = auriga.readFlame(0, 7);
+        assert.equal(targetCmd, cmd);
+      });
+
+      it('发送读取端口 8 上的火焰传感器的值的指令' , function() {
+        var targetCmd = dataman.auriga.read.flame[2];
+        var cmd = auriga.readFlame(0, 8);
+        assert.equal(targetCmd, cmd);
+      });
+
+      it('发送读取端口 9 上的火焰传感器的值的指令' , function() {
+        var targetCmd = dataman.auriga.read.flame[3];
+        var cmd = auriga.readFlame(0, 9);
+        assert.equal(targetCmd, cmd);
+      });
+
+      it('发送读取端口 10 上的火焰传感器的值的指令' , function() {
+        var targetCmd = dataman.auriga.read.flame[4];
+        var cmd = auriga.readFlame(0, 10);
         assert.equal(targetCmd, cmd);
       });
 
@@ -1736,14 +2059,38 @@ describe('【auriga_最新固件】', function() {
     });
 
 
-    describe('气体传感器：readGas(0, 6)', function() {
-      var targetCmd = dataman.auriga.read.gas[0];
-      it(targetCmd + ' should be sent', function() {
+    describe('气体传感器：readGas(0, 6~10)', function() {
+      
+      it('发送读取端口 6 上的气体传感器的值的指令', function() {
+        var targetCmd = dataman.auriga.read.gas[0];
         var cmd = auriga.readGas(0, 6);
         assert.equal(targetCmd, cmd);
       });
 
-      var targetType = dataman.auriga.read.gas[1];
+      it('发送读取端口 7 上的气体传感器的值的指令', function() {
+        var targetCmd = dataman.auriga.read.gas[1];
+        var cmd = auriga.readGas(0, 7);
+        assert.equal(targetCmd, cmd);
+      });
+
+      it('发送读取端口 8 上的气体传感器的值的指令', function() {
+        var targetCmd = dataman.auriga.read.gas[2];
+        var cmd = auriga.readGas(0, 8);
+        assert.equal(targetCmd, cmd);
+      });
+
+      it('发送读取端口 9 上的气体传感器的值的指令', function() {
+        var targetCmd = dataman.auriga.read.gas[3];
+        var cmd = auriga.readGas(0, 9);
+        assert.equal(targetCmd, cmd);
+      });
+
+      it('发送读取端口 10 上的气体传感器的值的指令', function() {
+        var targetCmd = dataman.auriga.read.gas[4];
+        var cmd = auriga.readGas(0, 10);
+        assert.equal(targetCmd, cmd);
+      });
+
       it('it should be a number between 0~1024', function(done) {
         var resultType;
         auriga.getSensorValue('gas', {
@@ -1758,10 +2105,34 @@ describe('【auriga_最新固件】', function() {
     });
 
 
-    describe('触摸传感器：readTouch(0, 6)', function() {
-      var targetCmd = dataman.auriga.read.touch[0];
-      it(targetCmd + ' should be sent', function() {
+    describe('触摸传感器：readTouch(0, 6～10)', function() {
+      it('发送读取端口 6 上的触摸传感器的值的指令', function() {
+        var targetCmd = dataman.auriga.read.touch[0];
         var cmd = auriga.readTouch(0, 6);
+        assert.equal(targetCmd, cmd);
+      });
+
+      it('发送读取端口 7 上的触摸传感器的值的指令', function() {
+        var targetCmd = dataman.auriga.read.touch[1];
+        var cmd = auriga.readTouch(0, 7);
+        assert.equal(targetCmd, cmd);
+      });
+
+      it('发送读取端口 8 上的触摸传感器的值的指令', function() {
+        var targetCmd = dataman.auriga.read.touch[2];
+        var cmd = auriga.readTouch(0, 8);
+        assert.equal(targetCmd, cmd);
+      });
+
+      it('发送读取端口 9 上的触摸传感器的值的指令', function() {
+        var targetCmd = dataman.auriga.read.touch[3];
+        var cmd = auriga.readTouch(0, 9);
+        assert.equal(targetCmd, cmd);
+      });
+
+      it('发送读取端口 10 上的触摸传感器的值的指令', function() {
+        var targetCmd = dataman.auriga.read.touch[4];
+        var cmd = auriga.readTouch(0, 10);
         assert.equal(targetCmd, cmd);
       });
 
@@ -1779,9 +2150,51 @@ describe('【auriga_最新固件】', function() {
 
 
     describe('按键传感器：readFourKeys(0, 6, 1)', function() {
-      var targetCmd = dataman.auriga.read.fourKeys[0];
-      it(targetCmd + ' should be sent', function() {
+      it('发送读取端口 6 上第 1 个按键的按键传感器的值的指令', function() {
+        var targetCmd = dataman.auriga.read.fourKeys[0];
         var cmd = auriga.readFourKeys(0, 6, 1);
+        assert.equal(targetCmd, cmd);
+      });
+
+      it('发送读取端口 7 上第 1 个按键的按键传感器的值的指令', function() {
+        var targetCmd = dataman.auriga.read.fourKeys[1];
+        var cmd = auriga.readFourKeys(0, 7, 1);
+        assert.equal(targetCmd, cmd);
+      });
+
+      it('发送读取端口 8 上第 1 个按键的按键传感器的值的指令', function() {
+        var targetCmd = dataman.auriga.read.fourKeys[2];
+        var cmd = auriga.readFourKeys(0, 8, 1);
+        assert.equal(targetCmd, cmd);
+      });
+
+      it('发送读取端口 9 上第 1 个按键的按键传感器的值的指令', function() {
+        var targetCmd = dataman.auriga.read.fourKeys[3];
+        var cmd = auriga.readFourKeys(0, 9, 1);
+        assert.equal(targetCmd, cmd);
+      });
+
+      it('发送读取端口 10 上第 1 个按键的按键传感器的值的指令', function() {
+        var targetCmd = dataman.auriga.read.fourKeys[4];
+        var cmd = auriga.readFourKeys(0, 10, 1);
+        assert.equal(targetCmd, cmd);
+      });
+
+      it('发送读取端口 6 上第 2 个按键的按键传感器的值的指令', function() {
+        var targetCmd = dataman.auriga.read.fourKeys[5];
+        var cmd = auriga.readFourKeys(0, 6, 2);
+        assert.equal(targetCmd, cmd);
+      });
+
+      it('发送读取端口 6 上第 3 个按键的按键传感器的值的指令', function() {
+        var targetCmd = dataman.auriga.read.fourKeys[6];
+        var cmd = auriga.readFourKeys(0, 6, 3);
+        assert.equal(targetCmd, cmd);
+      });
+
+      it('发送读取端口 6 上第 4 个按键的按键传感器的值的指令', function() {
+        var targetCmd = dataman.auriga.read.fourKeys[7];
+        var cmd = auriga.readFourKeys(0, 6, 4);
         assert.equal(targetCmd, cmd);
       });
 
@@ -1798,10 +2211,16 @@ describe('【auriga_最新固件】', function() {
     });
 
 
-    describe('读取板载编码电机的速度：readEncoderMotorOnBoard(0, 0, 1, 2)', function() {
-      var targetCmd = dataman.auriga.read.encoderMotorOnBoard[0];
-      it(targetCmd + ' should be sent', function() {
-        var cmd = auriga.readEncoderMotorOnBoard(0, 0, 1, 2);
+    describe('读取板载编码电机的速度：readEncoderMotorOnBoard(0, 1／2, 2)', function() {
+      it('发送读取板载slot 1 上的速度的指令', function() {
+        var targetCmd = dataman.auriga.read.encoderMotorOnBoard[0];
+        var cmd = auriga.readEncoderMotorOnBoard(0, 1, 2);
+        assert.equal(targetCmd, cmd);
+      });
+
+      it('发送读取板载slot 2 上的速度的指令', function() {
+        var targetCmd = dataman.auriga.read.encoderMotorOnBoard[1];
+        var cmd = auriga.readEncoderMotorOnBoard(0, 2, 2);
         assert.equal(targetCmd, cmd);
       });
 
@@ -1820,10 +2239,16 @@ describe('【auriga_最新固件】', function() {
     });
 
 
-    describe('读取板载编码电机的位置：readEncoderMotorOnBoard(0, 0, 1, 1)', function() {
-      var targetCmd = dataman.auriga.read.encoderMotorOnBoard[1];
-      it(targetCmd + ' should be sent', function() {
-        var cmd = auriga.readEncoderMotorOnBoard(0, 0, 1, 1);
+    describe('读取板载编码电机的位置：readEncoderMotorOnBoard(0, 1／2, 1)', function() { 
+      it('发送读取板载slot 1 上的位置的指令', function() {
+        var targetCmd = dataman.auriga.read.encoderMotorOnBoard[2];
+        var cmd = auriga.readEncoderMotorOnBoard(0, 1, 1);
+        assert.equal(targetCmd, cmd);
+      });
+
+      it('发送读取板载slot 2 上的位置的指令', function() {
+        var targetCmd = dataman.auriga.read.encoderMotorOnBoard[3];
+        var cmd = auriga.readEncoderMotorOnBoard(0, 2, 1);
         assert.equal(targetCmd, cmd);
       });
 
@@ -1842,17 +2267,11 @@ describe('【auriga_最新固件】', function() {
     });
 
 
-    describe('主板通用命令-读取电压／模式：readFirmwareMode(0, 112)', function() {
-      var targetVoltage = dataman.auriga.read.voltage[0];
-      it(targetVoltage + ' should be sent（读取电压）', function() {
+    describe('主板通用命令-读取电压：readFirmwareMode(0, 112)', function() {
+      it('发送读取主板电压的指令', function() {
+        var targetVoltage = dataman.auriga.read.voltage[0];
         var cmd = auriga.readFirmwareMode(0, 112);
         assert.equal(targetVoltage, cmd);
-      });
-
-      var targetMode = dataman.auriga.read.mode[0];
-      it(targetMode + ' should be sent（读取模式）', function() {
-        var cmd = auriga.readFirmwareMode(0, 113);
-        assert.equal(targetMode, cmd);
       });
 
       it('it should be a number between 0~255', function(done) {
@@ -1863,6 +2282,26 @@ describe('【auriga_最新固件】', function() {
           assert.isNumber(result);      //result is a number
           assert.isAtLeast(result, 0);  //result >= 0
           assert.isAtMost(result, 255);  //result <= 255
+          done();
+        });
+      });
+    });
+
+
+    describe('主板通用命令-读取模式：readFirmwareMode(0, 113)', function() {  
+      it('发送读取主板模式的指令', function() {
+        var targetMode = dataman.auriga.read.mode[0];
+        var cmd = auriga.readFirmwareMode(0, 113);
+        assert.equal(targetMode, cmd);
+      });
+
+      it('it should be a number between 0～4', function(done) {
+        var resultType;
+        auriga.getSensorValue('firmwareMode', {
+          "type": 113
+        }, function(result) {
+          assert.isNumber(result);      //result is a number
+          assert.oneOf(result,[0,1,2,3.4])    //result is 0 /1/2/3/4
           done();
         });
       });
