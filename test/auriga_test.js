@@ -1376,8 +1376,9 @@ describe('【auriga_最新固件】', function() {
         assert.equal(targetCmd, cmd);
       });
 
-      var targetVersion = dataman.auriga.read.version[1];
-      it(targetVersion + ' should be returned', function(done) {
+     
+      it('检查返回的版本号是否为09.01.013', function(done) {
+        var targetVersion = dataman.auriga.read.version[1];
         auriga.getSensorValue('version', function(result) {
           assert.equal(targetVersion, result);
           done();
@@ -1419,7 +1420,7 @@ describe('【auriga_最新固件】', function() {
 
       it('it should be a number between 0~400', function(done) {
         auriga.getSensorValue('ultrasonic', {
-          "port": 10
+          "port": 6
         }, function(result) {
           assert.isNumber(result);      //result is a number
           assert.isAtLeast(result, 0);  //result >= 0
@@ -1475,8 +1476,8 @@ describe('【auriga_最新固件】', function() {
       it('it should be a number between -1024~1024 ', function(done) {
         var resultType;
         auriga.getSensorValue('temperature', {
-          "port": 10,
-          "slot": 2
+          "port": 6,
+          "slot": 1
         }, function(result) {
           assert.isNumber(result);      //result is a number
           assert.isAtLeast(result, -1024);  //result >= -1024
@@ -1486,7 +1487,7 @@ describe('【auriga_最新固件】', function() {
       });
     });
 
-    describe('光线传感器：readLight(0,12)', function() {
+    describe('光线传感器：readLight(0,6～12)', function() {
       it('发送读取端口6的光线的指令', function() {
         var targetCmd = dataman.auriga.read.light[0];
         var cmd = auriga.readLight(0, 6);
@@ -1532,7 +1533,7 @@ describe('【auriga_最新固件】', function() {
       it('it should be a number between 0~1024', function(done) {
         var resultType;
         auriga.getSensorValue('light', {
-          "port": 12
+          "port": 6
         }, function(result) {
           assert.isNumber(result);      //result is a number
           assert.isAtLeast(result, 0);  //result >= 0
@@ -1626,7 +1627,8 @@ describe('【auriga_最新固件】', function() {
       it('it should be a number between -492~492', function(done) {
         var resultType;
         auriga.getSensorValue('joystick', {
-          "port": 6
+          "port": 6,
+          "x": 1
         }, function(result) {
           assert.isNumber(result);      //result is a number
           assert.isAtLeast(result, -492);  //result >= -492
@@ -1700,7 +1702,7 @@ describe('【auriga_最新固件】', function() {
       it('it should be a number between -180~180', function(done) {
         var resultType;
         auriga.getSensorValue('gyro', {
-          "port": 1 //0表示外接；1表示板载
+          "port": 0 //0表示外接；1表示板载
         }, function(result) {
           assert.isNumber(result);      //result is a number
           assert.isAtLeast(result, -180);  //result >= -180
@@ -1750,7 +1752,7 @@ describe('【auriga_最新固件】', function() {
       it('it should be a number between 0~1024', function(done) {
         var resultType;
         auriga.getSensorValue('sound', {
-          "port": 14
+          "port": 6
         }, function(result) {
           assert.isNumber(result);      //result is a number
           assert.isAtLeast(result, 0);  //result >= 0
