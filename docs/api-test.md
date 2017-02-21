@@ -14,3 +14,7 @@ auriga.getSensorValue('temperatureOnBoard', function(val) { console.log(val);})
 
 auriga.getSensorValue('version', function(val) { console.log(val);})
 
+auriga.turnOffLedPanelOnBoard(0)
+auriga.setLedPanelOnBoard(0, 0, 255, 0)
+auriga.setLedPanelOnBoard(0, 0, 0, 255)
+auriga.setTone("C5", 250)
