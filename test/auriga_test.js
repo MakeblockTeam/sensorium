@@ -1,7 +1,6 @@
 //test latest_auriga：09.01.012
 
 var assert = require('chai').assert;
-var utils = require("../src/core/utils");
 var dataman = require('./dataman');
 
 var Auriga = require("../src/protocol/auriga");
@@ -21,7 +20,7 @@ describe('【auriga_最新固件】', function() {
     describe('直流电机：setDcMotor(1／2/3/4,-255～255)', function() {
       it('设置直流电机端口1速度为255', function() {
         var targetCmd = dataman.auriga.write.dcMotor[0];
-        var cmd = auriga.setDcMotor(1, 255);
+        var cmd = auriga.setDcMotor(1, 255); // (port, speed)
         assert.equal(targetCmd, cmd);
       });
 
@@ -43,7 +42,7 @@ describe('【auriga_最新固件】', function() {
         assert.equal(targetCmd, cmd);
       });
 
-      it('设置直流电机端口5速度为255', function() {
+      it('设置直流电机端口5（错误端口）速度为255', function() {
         var targetCmd = dataman.auriga.write.dcMotor[4];
         var cmd = auriga.setDcMotor(5, 255);
         assert.equal(targetCmd, cmd);
@@ -207,7 +206,7 @@ describe('【auriga_最新固件】', function() {
     describe('摇杆1：setJoystick(-255～255,-255～255)', function() {
       it('app虚拟摇杆1左轮速度100右轮速度100', function() {
         var targetCmd = dataman.auriga.write.joystick[0];
-        var cmd = auriga.setJoystick(100, 100);
+        var cmd = auriga.setJoystick(100, 100);//leftSpeed, rightSpeed
         assert.equal(targetCmd, cmd);
       });
 

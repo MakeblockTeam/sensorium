@@ -16,11 +16,13 @@ function doReady() {
 }
 
 function setLeds(position, r, g, b) {
-  auriga.setFourLeds(10, position, r, g, b);
+  // auriga.setFourLeds(10, position, r, g, b);
+  auriga.setLedPanelOnBoard(position, r, g, b);
 }
 
 function turnOffLeds(position) {
-  auriga.setFourLeds(10, position, 0, 0, 0);
+  // auriga.setFourLeds(10, position, 0, 0, 0);
+  auriga.setLedPanelOnBoard(position, 0, 0, 0);
 }
 
 
