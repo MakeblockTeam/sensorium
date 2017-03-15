@@ -396,14 +396,14 @@ describe('【auriga_最新固件】', function() {
       });
     });
 
-    describe('RGB LED灯：setLed(6~10/0,1/2,0~12,0~255,0~255,0~255)', function() {      
+    describe('RGB LED灯条：setLed(6~10,1/2,0~12,0~255,0~255,0~255)', function() {      
       it('将端口号6 slot1的灯条的全部位置上亮起红色', function() {
         var targetCmd = dataman.auriga.write.led[0];
         var cmd = auriga.setLed(6, 1, 0, 255, 0, 0);
         assert.equal(targetCmd, cmd);
       });
 
-      it('将端口号7 slot1的led的全部位置上亮起红色', function() {
+      it('将端口号7 slot1的灯条的全部位置上亮起红色', function() {
         var targetCmd = dataman.auriga.write.led[1];
         var cmd = auriga.setLed(7, 1, 0, 255, 0, 0);
         assert.equal(targetCmd, cmd);
@@ -580,7 +580,7 @@ describe('【auriga_最新固件】', function() {
       });
     });
 
-    describe('四键led灯：setFourLeds(6～10，0~12,0~255,0~255,0~255)', function() {      
+    describe('四键led灯：setFourLeds(6～10，0~4,0~255,0~255,0~255)', function() {      
       it('将端口6上的四键led灯的全部位置上亮起红色', function() {
         var targetCmd = dataman.auriga.write.fourLeds[0];
         var cmd = auriga.setFourLeds(6, 0, 255, 0, 0);
