@@ -8,19 +8,22 @@ var parser = new xml2js.Parser({
   valueProcessors: [revertquote]
 });
 
+//将提取出来的用例名字和摘要添加上额外的“头和尾巴”之后存在这个对象writeData中，以便用这个对象写入文件
+var writeData = {};
+
+
 //解析数据时对每条XML做自定义处理
 function revertquote(name){
   var outputName = name.replace(/&#39;/g, "'");
   return outputName;
 }
 
-function Transform(){
-  //构造函数
+function transform(){
 
-};
+  //var availableData = fs.mkdirSync(__dirname + '/availableData.js', 0777);
 
-//将提取出来的用例名字和摘要添加上额外的“头和尾巴”之后存在这个对象writeData中，以便用这个对象写入文件
-var writeData = {};
+
+
 //将xml文件打开并读出
 fs.readFile(__dirname + '/rawData.xml', function(err, data) {
   //之后将要提取的数据（仅有名字和摘要字段）暂存在extractedXml
@@ -70,7 +73,22 @@ fs.readFile(__dirname + '/rawData.xml', function(err, data) {
   //为提取的内容添加“头和尾巴”转换为可用数据
   writeData = "var availableData = " + JSON.stringify(extractedXml) + '\n' + "module.exports = availableData;";
   //将需要的完整的数据写入文件availableData.js
-  fs.writeFile(__dirname + '/availableData.js', writeData);
+  fs.writeFile(__dirname + '/availableData.js', writeData, function(err){
+    if(err) throw err;
+    var availableData = require('./availableData.js');
+  });
 });
 
-module.exports = Transform;
+}
+
+
+transform();
+
+module.exports = transform;
+
+
+
+
+
+
+

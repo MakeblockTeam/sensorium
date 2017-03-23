@@ -31,7 +31,7 @@ function initSerial() {
       //for PC and raspberry pi
       ports.forEach(function(port) {
         var name = port.comName;
-        console.log(port.comName);
+        //console.log(port.comName);
         var NAME = name.toUpperCase();
         if (NAME.indexOf('USB') > 0 || NAME.indexOf('AMA') > 0 || NAME.indexOf('COM') > 0) {
           logger.info('serial port found:', name);

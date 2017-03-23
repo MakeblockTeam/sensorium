@@ -93,7 +93,7 @@
 	<externalid><![CDATA[1210]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<div>
-	receive:`auriga.getSensorValue('ultrasonic', {'port': 6}, function(result) {assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 400);done();});</div>
+	receive:`auriga`ultrasonic`{'port': 6}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 400);</div>
 ]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>

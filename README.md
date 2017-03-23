@@ -54,7 +54,7 @@ mcore.turnOffLed(0);
 
 mcore.setTone("C4", 250);
 
-setInterval(function() { mcore.getSensorValue('ultrasonic', {"port": 3}, function(val) { }); }, 500)
+setInterval(function(done) { mcore.getSensorValue('ultrasonic', {"port": 3}, function(val) { });done(); }, 500)
 
 setInterval(function() { mcore.getSensorValue('linefollower', {"port": 2}, function(val) { }); }, 500)
 ```

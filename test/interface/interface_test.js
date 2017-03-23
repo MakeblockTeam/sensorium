@@ -1,8 +1,8 @@
 var assert = require('chai').assert;
 var Transform = require('./transform');
-var transform = new Transform();//______
+var transform = new Transform();//____
 
-var availableData = require('./availableData');
+var availableData = require('./availableData.js');
 
 var Auriga = require("../../src/protocol/auriga");
 var auriga = new Auriga({
@@ -25,8 +25,11 @@ var megapi = new MegaPi({
 function interfaceTest(d){
   if(d.caseName){
     //执行第一个用例之前将对象j赋值为0
-    before(function(){
+    before(function(done){
       j = 0;
+      setTimeout(function() {
+        done()
+      }, 1000);
     });
 
     //每条用例执行之后，将对象j增加1
@@ -37,30 +40,44 @@ function interfaceTest(d){
 
     //遍历每一条用例
     for(var j=0; j < d.caseName.length;j++){
+      //以“receive：”开头的是针对读指令的返回值做断言
       if(d.caseSummary[j][0] == "receive:") {
-        it(d.caseName[j] + ": ", function(done) {
-          eval(d.caseSummary[j][1]);
+        it(d.caseName[j], function(done) {
+          var deviceType = eval(d.caseSummary[j][1]);//主板类型
+          var optionsModular = d.caseSummary[j][2];//读取的模块类型
+          var optionsPort = d.caseSummary[j][3];//port、slot口参数
+          deviceType.getSensorValue(optionsModular, optionsPort,function(result) {
+            eval(d.caseSummary[j][4]);//断言
+            done();
+          });
         });
-      }else{
-        it(d.caseName[j] + ": ", function() {
-          console.log("（" + eval(d.caseSummary[j][0]) + "） 接口返回值 == 预期值（" + d.caseSummary[j][1] + "）");
-          assert.equal(eval(d.caseSummary[j][0]), d.caseSummary[j][1]);     
-      }); 
-      }
-          
+      }else{//其他则是对发送指令进行断言
+        it(d.caseName[j], function() {
+          //console.log(eval(d.caseSummary[j][0]),d.caseSummary[j][1]);//注意！添加这一句，等于是开启一条新线程
+          var sendOrder = eval(d.caseSummary[j][0]);//相应的接口发送的实际指令
+          var presetOrder = d.caseSummary[j][1];//对应的预设值
+          assert.equal(sendOrder, presetOrder); 
+        }); 
+      }      
     }
   }else{
     for(var i in d){
       describe(i + ': ', function() {
-        before(function(done) {
-          setTimeout(function() {
-            done()
-          }, 1000);
-        });
         interfaceTest(d[i]);
       });
     }
   }
 }
 
+
 interfaceTest(availableData);
+
+
+
+
+
+
+
+
+
+
