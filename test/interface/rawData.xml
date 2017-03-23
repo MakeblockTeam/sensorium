@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite id="21125" name="障碍距离" >
+<node_order><![CDATA[4]]></node_order>
+<details><![CDATA[]]></details> 
+
+<testcase internalid="21126" name="探测障碍物距离【端口6】">
+	<node_order><![CDATA[1000]]></node_order>
+	<externalid><![CDATA[976]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	auriga.readUltrasonic(0, 6)`ff 55 04 00 01 01 06</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[3]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="21128" name="探测障碍物距离【端口7】">
+	<node_order><![CDATA[1001]]></node_order>
+	<externalid><![CDATA[977]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	auriga.readUltrasonic(0, 7)`ff 55 04 00 01 01 07</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="21130" name="探测障碍物距离【端口9】">
+	<node_order><![CDATA[1002]]></node_order>
+	<externalid><![CDATA[978]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	auriga.readUltrasonic(0, 9)`ff 55 04 00 01 01 09</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="21132" name="探测障碍物距离【端口10】">
+	<node_order><![CDATA[1003]]></node_order>
+	<externalid><![CDATA[979]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	auriga.readUltrasonic(0, 10)`ff 55 04 00 01 01 0a</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="21134" name="探测障碍物距离【端口8】">
+	<node_order><![CDATA[1004]]></node_order>
+	<externalid><![CDATA[980]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	auriga.readUltrasonic(0, 8)`ff 55 04 00 01 01 08</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="25175" name="@检查端口6超声波返回的值是否是0~400的数值">
+	<node_order><![CDATA[1005]]></node_order>
+	<externalid><![CDATA[1210]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<div>
+	receive:`auriga.getSensorValue('ultrasonic', {'port': 6}, function(result) {assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 400);done();});</div>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[3]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+</testsuite>
