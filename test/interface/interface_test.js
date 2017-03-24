@@ -1,6 +1,5 @@
 var assert = require('chai').assert;
-var Transform = require('./transform');
-var transform = new Transform();//____
+// var Transform = require('./transform');
 
 var availableData = require('./availableData.js');
 
@@ -21,15 +20,15 @@ var megapi = new MegaPi({
   "driver": "serial"
 });
 
-
-function interfaceTest(d){
-  if(d.caseName){
+function doTest(d) {
+  if(d.caseName){ 
     //执行第一个用例之前将对象j赋值为0
     before(function(done){
-      j = 0;
+      j = 0;      
       setTimeout(function() {
         done()
       }, 1000);
+
     });
 
     //每条用例执行之后，将对象j增加1
@@ -58,22 +57,21 @@ function interfaceTest(d){
           var presetOrder = d.caseSummary[j][1];//对应的预设值
           assert.equal(sendOrder, presetOrder); 
         }); 
-      }      
+      }
+
     }
+  // }
   }else{
     for(var i in d){
       describe(i + ': ', function() {
-        interfaceTest(d[i]);
+        doTest(d[i]);
       });
     }
   }
 }
 
-
-interfaceTest(availableData);
-
-
-
+//执行测试
+doTest(availableData);
 
 
 
