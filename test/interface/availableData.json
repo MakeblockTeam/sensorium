@@ -1,0 +1,79 @@
+{
+    "drivenData": [{
+        "caseDir": "mCore/运动语句",
+        "caseName": "运动向前速度100",
+        "caseSummary": []
+    }, {
+        "caseDir": "mCore/运动语句",
+        "caseName": "运动向后速度255",
+        "caseSummary": []
+    }, {
+        "caseDir": "mCore/运动语句",
+        "caseName": "左转速度256",
+        "caseSummary": []
+    }, {
+        "caseDir": "mCore/运动语句",
+        "caseName": "右转速度100",
+        "caseSummary": []
+    }, {
+        "caseDir": "mCore/运动语句",
+        "caseName": "运动向前速度0",
+        "caseSummary": []
+    }, {
+        "caseDir": "mCore/运动语句",
+        "caseName": "运动向前速度-256",
+        "caseSummary": []
+    }, {
+        "caseDir": "mCore/运动语句",
+        "caseName": "停止运动",
+        "caseSummary": []
+    }, {
+        "caseDir": "mCore/运动语句",
+        "caseName": "运动向前速度-255",
+        "caseSummary": []
+    }, {
+        "caseDir": "mCore/直流电机",
+        "caseName": "设置直流电机M1速度100",
+        "caseSummary": ["send:", "mcore.setDcMotor(9, 100)", "ff 55 06 00 02 0a 09 64 00"]
+    }, {
+        "caseDir": "mCore/直流电机",
+        "caseName": "设置直流电机M1速度0",
+        "caseSummary": ["send:", "mcore.setDcMotor(9, 0)", "ff 55 06 00 02 0a 09 00 00"]
+    }, {
+        "caseDir": "mCore/直流电机",
+        "caseName": "设置直流电机M1速度-255",
+        "caseSummary": ["send:", "mcore.setDcMotor(9, -255)", "ff 55 06 00 02 0a 09 01 ff"]
+    }, {
+        "caseDir": "mCore/直流电机",
+        "caseName": "设置直流电机M2速度255",
+        "caseSummary": ["send:", "mcore.setDcMotor(10, 255)", "ff 55 06 00 02 0a 0a ff 00"]
+    }, {
+        "caseDir": "mCore/直流电机",
+        "caseName": "设置直流电机M2速度256",
+        "caseSummary": ["send:", "mcore.setDcMotor(10, 256)", "ff 55 06 00 02 0a 0a ff 00"]
+    }, {
+        "caseDir": "mCore/直流电机",
+        "caseName": "设置直流电机M2速度-256",
+        "caseSummary": ["send:", "mcore.setDcMotor(10, -256)", "ff 55 06 00 02 0a 0a 01 ff"]
+    }, {
+        "caseDir": "mCore/舵机",
+        "caseName": "设置舵机【端口1】插槽【1】角度【90】",
+        "caseSummary": ["send:", "mcore.setServoMotor(1, 1, 90)", "ff 55 06 00 02 0b 01 01 5a"]
+    }, {
+        "caseDir": "mCore/舵机",
+        "caseName": "设置舵机【端口1】插槽【2】角度【0】",
+        "caseSummary": ["send:", "mcore.setServoMotor(1, 2, 0)", "ff 55 06 00 02 0b 01 02 00"]
+    }, {
+        "caseDir": "mCore/舵机",
+        "caseName": "设置舵机【端口2】插槽【1】角度【180】",
+        "caseSummary": ["send:", "mcore.setServoMotor(2, 1, 180)", "ff 55 06 00 02 0b 02 01 b4"]
+    }, {
+        "caseDir": "mCore/舵机",
+        "caseName": "设置舵机【端口3】插槽【2】角度【181】",
+        "caseSummary": ["send:", "mcore.setServoMotor(3, 2, 181)", "ff 55 06 00 02 0b 03 02 b4"]
+    }, {
+        "caseDir": "mCore/舵机",
+        "caseName": "设置舵机【端口4】插槽【1】角度【-1】",
+        "caseSummary": ["send:", "mcore.setServoMotor(4, 1, -1)", "ff 55 06 00 02 0b 04 01 00"]
+    }]
+}

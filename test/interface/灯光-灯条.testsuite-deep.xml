@@ -1,0 +1,419 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite id="19881" name="灯光-灯条" >
+<node_order><![CDATA[1]]></node_order>
+<details><![CDATA[]]></details> 
+<testsuite id="19882" name="语句-色板" >
+<node_order><![CDATA[1]]></node_order>
+<details><![CDATA[]]></details> 
+
+<testcase internalid="19883" name="灯条上位置为【8】上的灯【端口8】插槽【1】颜色为【色板选择红】">
+	<node_order><![CDATA[0]]></node_order>
+	<externalid><![CDATA[563]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="19885" name="灯条上位置为【1】上的灯【端口7】插槽【1】颜色为【色板选择蓝】">
+	<node_order><![CDATA[1]]></node_order>
+	<externalid><![CDATA[564]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="19887" name="灯条上位置为【全部】上的灯【端口6】插槽【1】颜色为【色板选择红】">
+	<node_order><![CDATA[2]]></node_order>
+	<externalid><![CDATA[565]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[3]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="19889" name="灯条上位置为【2】上的灯【端口9】插槽【1】颜色为【色板选择白】">
+	<node_order><![CDATA[1028]]></node_order>
+	<externalid><![CDATA[566]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="19891" name="灯条上位置为【3】上的灯【端口10】插槽【1】颜色为【色板选择黄】">
+	<node_order><![CDATA[1029]]></node_order>
+	<externalid><![CDATA[567]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="19893" name="灯条上位置为【4】上的灯【端口6】插槽【2】颜色为【色板选择红】">
+	<node_order><![CDATA[1030]]></node_order>
+	<externalid><![CDATA[568]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="19895" name="灯条上位置为【5】上的灯【端口7】插槽【2】颜色为【色板选择橙色】">
+	<node_order><![CDATA[1031]]></node_order>
+	<externalid><![CDATA[569]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[3]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="19897" name="灯条上位置为【6】上的灯【端口9】插槽【2】颜色为【色板选择红】">
+	<node_order><![CDATA[1032]]></node_order>
+	<externalid><![CDATA[570]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="19899" name="灯条上位置为【7】上的灯【端口10】插槽【2】颜色为【色板选择红】">
+	<node_order><![CDATA[1033]]></node_order>
+	<externalid><![CDATA[571]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="19901" name="灯条上位置为【8】上的灯【端口8】插槽【2】颜色为【色板选择红】">
+	<node_order><![CDATA[1034]]></node_order>
+	<externalid><![CDATA[572]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+</testsuite><testsuite id="19903" name="语句-rgb" >
+<node_order><![CDATA[2]]></node_order>
+<details><![CDATA[]]></details> 
+
+<testcase internalid="19904" name="灯条上位置为【全部】上的灯【端口6】插槽【1】红【255】绿【0】蓝【0】">
+	<node_order><![CDATA[1009]]></node_order>
+	<externalid><![CDATA[573]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[3]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="19906" name="灯条上位置为【1】上的灯【端口7】插槽【1】红【0】绿【255】蓝【0】">
+	<node_order><![CDATA[1010]]></node_order>
+	<externalid><![CDATA[574]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="19908" name="灯条上位置为【2】上的灯【端口9】插槽【1】红【0】绿【0】蓝【255】">
+	<node_order><![CDATA[1011]]></node_order>
+	<externalid><![CDATA[575]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="19910" name="灯条上位置为【3】上的灯【端口10】插槽【1】红【100】绿【100】蓝【100】">
+	<node_order><![CDATA[1012]]></node_order>
+	<externalid><![CDATA[576]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="19912" name="灯条上位置为【8】上的灯【端口8】插槽【1】红【255】绿【0】蓝【0】">
+	<node_order><![CDATA[1025]]></node_order>
+	<externalid><![CDATA[577]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="19914" name="灯条上位置为【4】上的灯【端口6】插槽【2】红【0】绿【0】蓝【0】">
+	<node_order><![CDATA[1026]]></node_order>
+	<externalid><![CDATA[578]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="19916" name="灯条上位置为【5】上的灯【端口7】插槽【2】红【100】绿【100】蓝【0】">
+	<node_order><![CDATA[1027]]></node_order>
+	<externalid><![CDATA[579]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[3]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="19918" name="灯条上位置为【6】上的灯【端口9】插槽【2】红【255】绿【0】蓝【255】">
+	<node_order><![CDATA[1028]]></node_order>
+	<externalid><![CDATA[580]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="19920" name="灯条上位置为【7】上的灯【端口10】插槽【2】红【0】绿【255】蓝【255】">
+	<node_order><![CDATA[1029]]></node_order>
+	<externalid><![CDATA[581]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="19922" name="灯条上位置为【8】上的灯【端口8】插槽【2】红【255】绿【0】蓝【0】">
+	<node_order><![CDATA[1030]]></node_order>
+	<externalid><![CDATA[582]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="19924" name="灯条上位置为【全部】上的灯【端口6】插槽【1】红【256】绿【0】蓝【0】">
+	<node_order><![CDATA[1031]]></node_order>
+	<externalid><![CDATA[583]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[1]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="19926" name="灯条上位置为【全部】上的灯【端口9】插槽【1】红【-1】绿【0】蓝【0】">
+	<node_order><![CDATA[1032]]></node_order>
+	<externalid><![CDATA[584]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[1]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+</testsuite><testsuite id="19930" name="语句-关闭灯" >
+<node_order><![CDATA[3]]></node_order>
+<details><![CDATA[]]></details> 
+
+<testcase internalid="19928" name="关闭灯条位置【1】上的灯【端口7】插槽【2】">
+	<node_order><![CDATA[0]]></node_order>
+	<externalid><![CDATA[585]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[3]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="19931" name="关闭灯条位置【全部】上的灯【端口6】插槽【1】">
+	<node_order><![CDATA[1]]></node_order>
+	<externalid><![CDATA[586]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[3]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="19933" name="关闭灯条位置【2】上的灯【端口9】插槽【1】">
+	<node_order><![CDATA[2]]></node_order>
+	<externalid><![CDATA[587]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="19935" name="关闭灯条位置【3】上的灯【端口10】插槽【2】">
+	<node_order><![CDATA[3]]></node_order>
+	<externalid><![CDATA[588]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="19937" name="关闭灯条位置【4】上的灯【端口8】插槽【1】">
+	<node_order><![CDATA[4]]></node_order>
+	<externalid><![CDATA[589]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+</testsuite></testsuite>
