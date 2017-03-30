@@ -1,7 +1,9 @@
+/**
+ * @fileOverview  do interface-test for sensorium 
+ *[为sensorium库做接口测试，测试用例由testlink上导出，运行命令：node transform.js后即可得到]
+ */
 var assert = require('chai').assert;
-// var Transform = require('./transform');
-
-var availableData = require('./availableData.js');
+var fs=require('fs');
 
 var Auriga = require("../../src/protocol/auriga");
 var auriga = new Auriga({
@@ -20,62 +22,34 @@ var megapi = new MegaPi({
   "driver": "serial"
 });
 
-function doTest(d) {
-  if(d.caseName){ 
-    //执行第一个用例之前将对象j赋值为0
-    before(function(done){
-      j = 0;      
-      setTimeout(function() {
-        done()
-      }, 1000);
+var availableData=__dirname + "/availableData.json";
+var temporaryData=JSON.parse(fs.readFileSync( availableData));//读取json文件
+var drivenData = temporaryData.drivenData;//得到测试数据
 
-    });
+describe('interface:', function() {
+  before(function(done) {
+    setTimeout(function() {
+      done();
+    }, 1000);
+  });
 
-    //每条用例执行之后，将对象j增加1
-    afterEach(function() {
-      //在本区块的每个测试用例之后执行
-      j++;
-    });
-
-    //遍历每一条用例
-    for(var j=0; j < d.caseName.length;j++){
-      //以“receive：”开头的是针对读指令的返回值做断言
-      if(d.caseSummary[j][0] == "receive:") {
-        it(d.caseName[j], function(done) {
-          var deviceType = eval(d.caseSummary[j][1]);//主板类型
-          var optionsModular = d.caseSummary[j][2];//读取的模块类型
-          var optionsPort = d.caseSummary[j][3];//port、slot口参数
-          deviceType.getSensorValue(optionsModular, optionsPort,function(result) {
-            eval(d.caseSummary[j][4]);//断言
-            done();
-          });
+  drivenData.forEach(function(d) {
+    it(d.caseDir + " ： " + d.caseName, function(done) {
+      if (d.caseSummary[0] == "receive:") {
+        var deviceType = eval(d.caseSummary[1]); //主板类型
+        var optionsModular = d.caseSummary[2]; //读取的模块类型
+        var optionsPort = d.caseSummary[3]; //port、slot口参数
+        deviceType.getSensorValue(optionsModular, optionsPort, function(result) {
+          eval(d.caseSummary[4]); //断言
+          done();
         });
-      }else{//其他则是对发送指令进行断言
-        it(d.caseName[j], function() {
-          //console.log(eval(d.caseSummary[j][0]),d.caseSummary[j][1]);//注意！添加这一句，等于是开启一条新线程
-          var sendOrder = eval(d.caseSummary[j][0]);//相应的接口发送的实际指令
-          var presetOrder = d.caseSummary[j][1];//对应的预设值
-          assert.equal(sendOrder, presetOrder); 
-        }); 
+      } else if (d.caseSummary[0] == "send:") {
+        //console.log(eval(d.caseSummary[j][0]),d.caseSummary[j][1]);//注意！添加这一句，等于是开启一条新线程
+        var sendOrder = eval(d.caseSummary[1]); //相应的接口发送的实际指令
+        var presetOrder = d.caseSummary[2]; //对应的预设值
+        assert.equal(sendOrder, presetOrder);
+        done();
       }
-
-    }
-  // }
-  }else{
-    for(var i in d){
-      describe(i + ': ', function() {
-        doTest(d[i]);
-      });
-    }
-  }
-}
-
-//执行测试
-doTest(availableData);
-
-
-
-
-
-
-
+    });
+  });
+});

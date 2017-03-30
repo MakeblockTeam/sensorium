@@ -13,3 +13,8 @@ gulp.task('browserify', function() {
     .pipe(rename('sensorium.js'))
     .pipe(gulp.dest('browser/'))
 });
+
+gulp.task('interfacetest', function() {
+    // 加载数据方法
+    // 抹茶执行
+})
