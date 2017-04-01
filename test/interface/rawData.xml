@@ -513,7 +513,9 @@
 	<node_order><![CDATA[1000]]></node_order>
 	<externalid><![CDATA[15]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`mcore.setJoystick(100,100);`ff 55 07 00 02 05 64 00 64 00</p>
+]]></summary>
 	<preconditions><![CDATA[<p>
 	设备正确连接可运行，蓝牙通信正常</p>
 ]]></preconditions>
@@ -552,7 +554,9 @@
 	<node_order><![CDATA[1001]]></node_order>
 	<externalid><![CDATA[16]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`mcore.setJoystick(-255,-255);`ff 55 07 00 02 05 01 ff 01 ff</p>
+]]></summary>
 	<preconditions><![CDATA[<p>
 	设备正确连接可运行，蓝牙通信正常</p>
 ]]></preconditions>
@@ -589,7 +593,9 @@
 	<node_order><![CDATA[1002]]></node_order>
 	<externalid><![CDATA[17]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`mcore.setJoystick(0,256);`ff 55 07 00 02 05 00 00 ff 00</p>
+]]></summary>
 	<preconditions><![CDATA[<p>
 	设备正常连接可运行，蓝牙通信正常</p>
 ]]></preconditions>
@@ -626,7 +632,9 @@
 	<node_order><![CDATA[1003]]></node_order>
 	<externalid><![CDATA[18]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`mcore.setJoystick(100,0);`ff 55 07 00 02 05 64 00 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[<p>
 	设备正常连接可运行，蓝牙通信正常</p>
 ]]></preconditions>
@@ -663,7 +671,9 @@
 	<node_order><![CDATA[1005]]></node_order>
 	<externalid><![CDATA[20]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`mcore.setJoystick(0,0);`ff 55 07 00 02 05 00 00 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[<p>
 	设备正常连接可运行，蓝牙通信正常</p>
 ]]></preconditions>
@@ -700,7 +710,9 @@
 	<node_order><![CDATA[1007]]></node_order>
 	<externalid><![CDATA[23]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`mcore.setJoystick(-256,-256);`ff 55 07 00 02 05 01 ff 01 ff</p>
+]]></summary>
 	<preconditions><![CDATA[<p>
 	设备正常连接可运行，蓝牙通信正常</p>
 ]]></preconditions>
@@ -737,7 +749,9 @@
 	<node_order><![CDATA[1020]]></node_order>
 	<externalid><![CDATA[36]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`mcore.setJoystick(0,0);`ff 55 07 00 02 05 00 00 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[<p>
 	设备正常连接可运行，蓝牙通信正常</p>
 ]]></preconditions>
@@ -776,7 +790,9 @@
 	<node_order><![CDATA[1021]]></node_order>
 	<externalid><![CDATA[145]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`mcore.setJoystick(-255,-255);`ff 55 07 00 02 05 01 ff 01 ff</p>
+]]></summary>
 	<preconditions><![CDATA[<p>
 	设备正确连接可运行，蓝牙通信正常</p>
 ]]></preconditions>
@@ -1254,7 +1270,9 @@
 	<node_order><![CDATA[1000]]></node_order>
 	<externalid><![CDATA[250]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`orion.setJoystick(100,100);`ff 55 07 00 02 05 64 00 64 00</p>
+]]></summary>
 	<preconditions><![CDATA[<p>
 	设备正确连接可运行，蓝牙通信正常</p>
 ]]></preconditions>
@@ -1293,7 +1311,9 @@
 	<node_order><![CDATA[1001]]></node_order>
 	<externalid><![CDATA[251]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`orion.setJoystick(-255,-255);`ff 55 07 00 02 05 01 ff 01 ff</p>
+]]></summary>
 	<preconditions><![CDATA[<p>
 	设备正确连接可运行，蓝牙通信正常</p>
 ]]></preconditions>
@@ -1330,7 +1350,9 @@
 	<node_order><![CDATA[1002]]></node_order>
 	<externalid><![CDATA[252]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`orion.setJoystick(0,256);`ff 55 07 00 02 05 00 00 ff 00</p>
+]]></summary>
 	<preconditions><![CDATA[<p>
 	设备正常连接可运行，蓝牙通信正常</p>
 ]]></preconditions>
@@ -1367,7 +1389,9 @@
 	<node_order><![CDATA[1003]]></node_order>
 	<externalid><![CDATA[253]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`orion.setJoystick(100,0);`ff 55 07 00 02 05 64 00 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[<p>
 	设备正常连接可运行，蓝牙通信正常</p>
 ]]></preconditions>
@@ -1404,7 +1428,9 @@
 	<node_order><![CDATA[1005]]></node_order>
 	<externalid><![CDATA[254]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`orion.setJoystick(0,0);`ff 55 07 00 02 05 00 00 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[<p>
 	设备正常连接可运行，蓝牙通信正常</p>
 ]]></preconditions>
@@ -1441,7 +1467,9 @@
 	<node_order><![CDATA[1007]]></node_order>
 	<externalid><![CDATA[255]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`orion.setJoystick(-256,-256);`ff 55 07 00 02 05 01 ff 01 ff</p>
+]]></summary>
 	<preconditions><![CDATA[<p>
 	设备正常连接可运行，蓝牙通信正常</p>
 ]]></preconditions>
@@ -1478,7 +1506,9 @@
 	<node_order><![CDATA[1020]]></node_order>
 	<externalid><![CDATA[256]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`orion.setJoystick(0,0);`ff 55 07 00 02 05 00 00 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[<p>
 	设备正常连接可运行，蓝牙通信正常</p>
 ]]></preconditions>
@@ -1517,7 +1547,9 @@
 	<node_order><![CDATA[1021]]></node_order>
 	<externalid><![CDATA[257]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`orion.setJoystick(-255,-255);`ff 55 07 00 02 05 01 ff 01 ff</p>
+]]></summary>
 	<preconditions><![CDATA[<p>
 	设备正确连接可运行，蓝牙通信正常</p>
 ]]></preconditions>
@@ -2266,7 +2298,7 @@
 	<externalid><![CDATA[120]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	send:`orion.setEncoderMotor(1, 1, 150, -2147483648)`ff 55 0b 00 02 0c 08 01 96 00 00 00 00 7f</p>
+	send:`orion.setEncoderMotor(1, 1, 150, -2147483648)`ff 55 0b 00 02 0c 08 01 96 00 00 00 00 cf</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	设备正确连接可运行，蓝牙通信正常</p>
@@ -2344,7 +2376,7 @@
 	<externalid><![CDATA[122]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	send:`orion.setEncoderMotor(1, 1, 150, -2147483649)`ff 55 0b 00 02 0c 08 01 96 00 00 00 00 7f</p>
+	send:`orion.setEncoderMotor(1, 1, 150, -2147483649)`ff 55 0b 00 02 0c 08 01 96 00 00 00 00 cf</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	设备正确连接可运行，蓝牙通信正常</p>
@@ -2425,7 +2457,7 @@
 	<externalid><![CDATA[127]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	send:`orion.setStepperMotor(1, 0, 1000);`ff 55 0a 00 02 28 02 b8 0b 7f ff ff ff</p>
+	send:`orion.setStepperMotor(1, 0, 1000);`ff 55 0a 00 02 28 01 00 00 e8 03 00 00</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	设备正确连接可运行，蓝牙通信正常</p>
@@ -2542,7 +2574,7 @@
 	<externalid><![CDATA[132]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	send:`orion.setStepperMotor(1, 1500, -2147483648);`ff 55 0a 00 02 28 01 b8 0b 00 00 00&nbsp;80</p>
+	send:`orion.setStepperMotor(1, 1500, -2147483648);`ff 55 0a 00 02 28 01 dc 05 00 00 00 80</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	设备正确连接可运行，蓝牙通信正常</p>
@@ -2581,7 +2613,7 @@
 	<externalid><![CDATA[133]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	send:`orion.setStepperMotor(1, 3000, 2147483648);`ff 55 0a 00 02 28 01 b8 0b ff ff ff&nbsp;7f</p>
+	send:`orion.setStepperMotor(1, 3000, 2147483648);`ff 55 0a 00 02 28 01 b8 0b ff ff ff 7f</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	设备正确连接可运行，蓝牙通信正常</p>
@@ -2661,7 +2693,7 @@
 	<externalid><![CDATA[1218]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	send:`orion.setStepperMotor(2, 3000, 1000);`ff 55 0a 00 02 28 02 b8 0b 7f e8 03 00 00</p>
+	send:`orion.setStepperMotor(2, 3000, 1000);`ff 55 0a 00 02 28 02 b8 0b e8 03 00 00</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	蓝牙设备正常连接，通信正常</p>
@@ -2705,7 +2737,9 @@
 	<node_order><![CDATA[1000]]></node_order>
 	<externalid><![CDATA[258]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`auriga.setJoystick(100,100);`ff 55 07 00 02 05 64 00 64 00</p>
+]]></summary>
 	<preconditions><![CDATA[<p>
 	设备正确连接可运行，蓝牙通信正常</p>
 ]]></preconditions>
@@ -2744,7 +2778,9 @@
 	<node_order><![CDATA[1001]]></node_order>
 	<externalid><![CDATA[259]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`auriga.setJoystick(-255,-255);`ff 55 07 00 02 05 01 ff 01 ff</p>
+]]></summary>
 	<preconditions><![CDATA[<p>
 	设备正确连接可运行，蓝牙通信正常</p>
 ]]></preconditions>
@@ -2781,7 +2817,9 @@
 	<node_order><![CDATA[1002]]></node_order>
 	<externalid><![CDATA[260]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`auriga.setJoystick(0,256);`ff 55 07 00 02 05 00 00 ff 00</p>
+]]></summary>
 	<preconditions><![CDATA[<p>
 	设备正常连接可运行，蓝牙通信正常</p>
 ]]></preconditions>
@@ -2818,7 +2856,9 @@
 	<node_order><![CDATA[1003]]></node_order>
 	<externalid><![CDATA[261]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`auriga.setJoystick(100,0);`ff 55 07 00 02 05 64 00 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[<p>
 	设备正常连接可运行，蓝牙通信正常</p>
 ]]></preconditions>
@@ -2855,7 +2895,9 @@
 	<node_order><![CDATA[1005]]></node_order>
 	<externalid><![CDATA[262]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`auriga.setJoystick(0,0);`ff 55 07 00 02 05 00 00 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[<p>
 	设备正常连接可运行，蓝牙通信正常</p>
 ]]></preconditions>
@@ -2892,7 +2934,9 @@
 	<node_order><![CDATA[1007]]></node_order>
 	<externalid><![CDATA[263]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`auriga.setJoystick(-256,-256);`ff 55 07 00 02 05 01 ff 01 ff</p>
+]]></summary>
 	<preconditions><![CDATA[<p>
 	设备正常连接可运行，蓝牙通信正常</p>
 ]]></preconditions>
@@ -2968,7 +3012,9 @@
 	<node_order><![CDATA[1021]]></node_order>
 	<externalid><![CDATA[265]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`auriga.setJoystick(-255,-255);`ff 55 07 00 02 05 01 ff 01 ff</p>
+]]></summary>
 	<preconditions><![CDATA[<p>
 	设备正确连接可运行，蓝牙通信正常</p>
 ]]></preconditions>
@@ -3680,7 +3726,7 @@
 	<externalid><![CDATA[232]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	send:`auriga.setEncoderMotor(1, 1, 150, 2147483647);`ff 55 0b 00 02 0c 08 01 96 00 ff ff ff 7f</p>
+	send:`auriga.setEncoderMotor(1, 1, 150, 2147483647);`ff 55 0b 00 02 0c 08 01 96 00 ff ff ff 4e</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	设备正确连接可运行，蓝牙通信正常</p>
@@ -3758,7 +3804,7 @@
 	<externalid><![CDATA[225]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	send:`auriga.setEncoderMotor(1, 2, 150, 720);`ff 55 0b 00 02 0c 08 02 96 00 00 00 34 44</p>
+	send:`auriga.setEncoderMotor(2, 2, -1, 720);`ff 55 0b 00 02 0c 08 02 00 00 00 00 34 44</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	设备正确连接可运行，蓝牙通信正常</p>
@@ -3836,7 +3882,7 @@
 	<externalid><![CDATA[228]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	send:`auriga.setEncoderMotor(1, 2, 150, -2147483648);`ff 55 0b 00 02 0c 08 02 96 00 00 00 00 80</p>
+	send:`auriga.setEncoderMotor(1, 2, 150, -2147483648);`ff 55 0b 00 02 0c 08 02 96 00 00 00 00 cf</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	设备正确连接可运行，蓝牙通信正常</p>
@@ -3875,7 +3921,7 @@
 	<externalid><![CDATA[229]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	send:`auriga.setEncoderMotor(1, 1, 150, 2147483648);`ff 55 0b 00 02 0c 08 01 96 00 ff ff ff 7f</p>
+	send:`auriga.setEncoderMotor(1, 1, 150, 2147483648);`ff 55 0b 00 02 0c 08 01 96 00 ff ff ff 4e</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	设备正确连接可运行，蓝牙通信正常</p>
@@ -3914,7 +3960,7 @@
 	<externalid><![CDATA[230]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	send:`auriga.setEncoderMotor(1, 1, 150, -2147483649);`ff 55 0b 00 02 0c 08 01 96 00 00 00 00 80</p>
+	send:`auriga.setEncoderMotor(1, 1, 150, -2147483649);`ff 55 0b 00 02 0c 08 01 96 00 00 00 00 cf</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	设备正确连接可运行，蓝牙通信正常</p>
@@ -4193,7 +4239,7 @@
 	<externalid><![CDATA[212]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	send:`auriga.setEncoderMotorOnBoard(1, 100)/ff 55 07 00 02 3d 00 01 64 00</p>
+	send:`auriga.setEncoderMotorOnBoard(1, 100)`ff 55 07 00 02 3d 00 01 64 00</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	设备正确连接可运行，蓝牙通信正常</p>
@@ -4312,7 +4358,7 @@
 	<externalid><![CDATA[215]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	send:`auriga.setEncoderMotorOnBoard(1, 100)`ff 55 07 00 02 3d 00 01 01 ff</p>
+	send:`auriga.setEncoderMotorOnBoard(1, -255)`ff 55 07 00 02 3d 00 01 01 ff</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	设备正确连接可运行，蓝牙通信正常</p>
@@ -5227,11 +5273,327 @@
 </step>
 </steps>
 </testcase>
-</testsuite></testsuite></testsuite><testsuite id="5277" name="MegaPi" >
+</testsuite></testsuite><testsuite id="27528" name="@虚拟摇杆" >
+<node_order><![CDATA[7]]></node_order>
+<details><![CDATA[<p>
+	@开头说明：仅用于接口测试的用例</p>
+]]></details> 
+
+<testcase internalid="27529" name="虚拟摇杆拐弯【100】速度【100】">
+	<node_order><![CDATA[1000]]></node_order>
+	<externalid><![CDATA[1246]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`auriga.setVirtualJoystickForBalance(100,100);`ff 55 08 00 02 34 00 64 00 64 00</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[3]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27531" name="虚拟摇杆拐弯【255】速度【255】">
+	<node_order><![CDATA[1001]]></node_order>
+	<externalid><![CDATA[1247]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`auriga.setVirtualJoystickForBalance(255,255);`ff 55 08 00 02 34 00 ff 00 ff 00</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27533" name="虚拟摇杆拐弯【-255】速度【-255】">
+	<node_order><![CDATA[1002]]></node_order>
+	<externalid><![CDATA[1248]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`auriga.setVirtualJoystickForBalance(-255,-255);`ff 55 08 00 02 34 00 01 ff 01 ff</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27535" name="虚拟摇杆拐弯【0】速度【150】">
+	<node_order><![CDATA[1003]]></node_order>
+	<externalid><![CDATA[1249]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`auriga.setVirtualJoystickForBalance(0,150);`ff 55 08 00 02 34 00 00 00 96 00</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27537" name="虚拟摇杆拐弯【-100】速度【100】">
+	<node_order><![CDATA[1004]]></node_order>
+	<externalid><![CDATA[1250]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`auriga.setVirtualJoystickForBalance(-100,100);`ff 55 08 00 02 34 00 9c ff 64 00</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27539" name="虚拟摇杆拐弯【150】速度【0】">
+	<node_order><![CDATA[1005]]></node_order>
+	<externalid><![CDATA[1251]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`auriga.setVirtualJoystickForBalance(150,0);`ff 55 08 00 02 34 00 96 00 00 00</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27541" name="虚拟摇杆拐弯【100】速度【-100】">
+	<node_order><![CDATA[1006]]></node_order>
+	<externalid><![CDATA[1252]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`auriga.setVirtualJoystickForBalance(100,-100);`ff 55 08 00 02 34 00 64 00 9c ff</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27543" name="虚拟摇杆拐弯【256】速度【256】">
+	<node_order><![CDATA[1007]]></node_order>
+	<externalid><![CDATA[1253]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`auriga.setVirtualJoystickForBalance(256,256);`ff 55 08 00 02 34 00 ff 00 ff 00</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27545" name="虚拟摇杆拐弯【-256】速度【-256】">
+	<node_order><![CDATA[1008]]></node_order>
+	<externalid><![CDATA[1254]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`auriga.setVirtualJoystickForBalance(-256,-256);`ff 55 08 00 02 34 00 01 ff 01 ff</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+</testsuite></testsuite><testsuite id="5277" name="MegaPi" >
 <node_order><![CDATA[4]]></node_order>
 <details><![CDATA[]]></details> 
-<testsuite id="5278" name="步进电机" >
+<testsuite id="27547" name="@虚拟摇杆" >
 <node_order><![CDATA[0]]></node_order>
+<details><![CDATA[<p>
+	@开头说明：仅用于接口测试的用例</p>
+]]></details> 
+
+<testcase internalid="27548" name="虚拟摇杆拐弯【100】速度【100】">
+	<node_order><![CDATA[1000]]></node_order>
+	<externalid><![CDATA[1255]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`megapi.setVirtualJoystickForBalance(100,100);`ff 55 08 00 02 34 00 64 00 64 00</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[3]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27550" name="虚拟摇杆拐弯【255】速度【255】">
+	<node_order><![CDATA[1001]]></node_order>
+	<externalid><![CDATA[1256]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`megapi.setVirtualJoystickForBalance(255,255);`ff 55 08 00 02 34 00 ff 00 ff 00</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27552" name="虚拟摇杆拐弯【-255】速度【-255】">
+	<node_order><![CDATA[1002]]></node_order>
+	<externalid><![CDATA[1257]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`megapi.setVirtualJoystickForBalance(-255,-255);`ff 55 08 00 02 34 00 01 ff 01 ff</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27554" name="虚拟摇杆拐弯【0】速度【150】">
+	<node_order><![CDATA[1003]]></node_order>
+	<externalid><![CDATA[1258]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`megapi.setVirtualJoystickForBalance(0,150);`ff 55 08 00 02 34 00 00 00 96 00</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27556" name="虚拟摇杆拐弯【-100】速度【100】">
+	<node_order><![CDATA[1004]]></node_order>
+	<externalid><![CDATA[1259]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`megapi.setVirtualJoystickForBalance(-100,100);`ff 55 08 00 02 34 00 9c ff 64 00</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27558" name="虚拟摇杆拐弯【150】速度【0】">
+	<node_order><![CDATA[1005]]></node_order>
+	<externalid><![CDATA[1260]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`megapi.setVirtualJoystickForBalance(150,0);`ff 55 08 00 02 34 00 96 00 00 00</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27560" name="虚拟摇杆拐弯【100】速度【-100】">
+	<node_order><![CDATA[1006]]></node_order>
+	<externalid><![CDATA[1261]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`megapi.setVirtualJoystickForBalance(100,-100);`ff 55 08 00 02 34 00 64 00 9c ff</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27562" name="虚拟摇杆拐弯【256】速度【256】">
+	<node_order><![CDATA[1007]]></node_order>
+	<externalid><![CDATA[1262]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`megapi.setVirtualJoystickForBalance(256,256);`ff 55 08 00 02 34 00 ff 00 ff 00</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27564" name="虚拟摇杆拐弯【-256】速度【-256】">
+	<node_order><![CDATA[1008]]></node_order>
+	<externalid><![CDATA[1263]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`megapi.setVirtualJoystickForBalance(-256,-256);`ff 55 08 00 02 34 00 01 ff 01 ff</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+</testsuite><testsuite id="5278" name="步进电机" >
+<node_order><![CDATA[1]]></node_order>
 <details><![CDATA[]]></details> 
 
 <testcase internalid="5279" name="设置步进电机【端口3】速度为【3000】角度【1000】">
@@ -5395,7 +5757,7 @@
 	<externalid><![CDATA[297]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	send:`megapi.setStepperMotor(1, -1, 1000);`ff 55 0a 00 02 28 01 00 00 e8 03 00 00&nbsp;</p>
+	send:`megapi.setStepperMotor(1, -1, 1000);`ff 55 0a 00 02 28 01 00 00 e8 03 00 00</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	设备正确连接可运行，蓝牙通信正常</p>
@@ -5473,7 +5835,7 @@
 	<externalid><![CDATA[299]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	send:`megapi.setStepperMotor(1, 3000, -2147483648);`ff 55 0a 00 02 28 01 b8 0b 00 00 00 08</p>
+	send:`megapi.setStepperMotor(1, 3000, -2147483648);`ff 55 0a 00 02 28 01 b8 0b 00 00 00 80</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	设备正确连接可运行，蓝牙通信正常</p>
@@ -5551,7 +5913,7 @@
 	<externalid><![CDATA[301]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	send:`megapi.setStepperMotor(1, 3000, -2147483649);`ff 55 0a 00 02 28 01 b8 0b 00 00 00 08</p>
+	send:`megapi.setStepperMotor(1, 3000, -2147483649);`ff 55 0a 00 02 28 01 b8 0b 00 00 00 80</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	设备正确连接可运行，蓝牙通信正常</p>
@@ -5587,7 +5949,7 @@
 </steps>
 </testcase>
 </testsuite><testsuite id="5315" name="舵机" >
-<node_order><![CDATA[1]]></node_order>
+<node_order><![CDATA[2]]></node_order>
 <details><![CDATA[]]></details> 
 
 <testcase internalid="5316" name="设置舵机【端口6】插槽【1】角度【90】">
@@ -5785,14 +6147,16 @@
 </steps>
 </testcase>
 </testsuite><testsuite id="5336" name="运动语句" >
-<node_order><![CDATA[2]]></node_order>
+<node_order><![CDATA[3]]></node_order>
 <details><![CDATA[]]></details> 
 
 <testcase internalid="5337" name="运动向前速度100">
 	<node_order><![CDATA[1000]]></node_order>
 	<externalid><![CDATA[266]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`megapi.setJoystick(100,100);`ff 55 07 00 02 05 64 00 64 00</p>
+]]></summary>
 	<preconditions><![CDATA[<p>
 	设备正确连接可运行，蓝牙通信正常</p>
 ]]></preconditions>
@@ -5831,7 +6195,9 @@
 	<node_order><![CDATA[1001]]></node_order>
 	<externalid><![CDATA[267]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`megapi.setJoystick(-255,-255);`ff 55 07 00 02 05 01 ff 01 ff</p>
+]]></summary>
 	<preconditions><![CDATA[<p>
 	设备正确连接可运行，蓝牙通信正常</p>
 ]]></preconditions>
@@ -5868,7 +6234,9 @@
 	<node_order><![CDATA[1002]]></node_order>
 	<externalid><![CDATA[268]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`megapi.setJoystick(0,256);`ff 55 07 00 02 05 00 00 ff 00</p>
+]]></summary>
 	<preconditions><![CDATA[<p>
 	设备正常连接可运行，蓝牙通信正常</p>
 ]]></preconditions>
@@ -5905,7 +6273,9 @@
 	<node_order><![CDATA[1003]]></node_order>
 	<externalid><![CDATA[269]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`megapi.setJoystick(100,0);`ff 55 07 00 02 05 64 00 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[<p>
 	设备正常连接可运行，蓝牙通信正常</p>
 ]]></preconditions>
@@ -5942,7 +6312,9 @@
 	<node_order><![CDATA[1005]]></node_order>
 	<externalid><![CDATA[270]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`megapi.setJoystick(0,0);`ff 55 07 00 02 05 00 00 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[<p>
 	设备正常连接可运行，蓝牙通信正常</p>
 ]]></preconditions>
@@ -5979,7 +6351,9 @@
 	<node_order><![CDATA[1007]]></node_order>
 	<externalid><![CDATA[271]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`megapi.setJoystick(-256,-256);`ff 55 07 00 02 05 01 ff 01 ff</p>
+]]></summary>
 	<preconditions><![CDATA[<p>
 	设备正常连接可运行，蓝牙通信正常</p>
 ]]></preconditions>
@@ -6055,7 +6429,9 @@
 	<node_order><![CDATA[1021]]></node_order>
 	<externalid><![CDATA[273]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`megapi.setJoystick(-255,-255);`ff 55 07 00 02 05 01 ff 01 ff</p>
+]]></summary>
 	<preconditions><![CDATA[<p>
 	设备正确连接可运行，蓝牙通信正常</p>
 ]]></preconditions>
@@ -6088,7 +6464,7 @@
 </steps>
 </testcase>
 </testsuite><testsuite id="5369" name="直流电机（外接）" >
-<node_order><![CDATA[3]]></node_order>
+<node_order><![CDATA[4]]></node_order>
 <details><![CDATA[]]></details> 
 
 <testcase internalid="5370" name="设置直流电机【端口1A】速度【100】">
@@ -6227,7 +6603,7 @@
 
 </testcase>
 </testsuite><testsuite id="24021" name="板载编码电机" >
-<node_order><![CDATA[6]]></node_order>
+<node_order><![CDATA[5]]></node_order>
 <details><![CDATA[]]></details> 
 
 <testcase internalid="24022" name="设置编码电机【端口1】速度为【100】">
@@ -6354,7 +6730,7 @@
 	<externalid><![CDATA[1206]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	send:`megapi.setEncoderMotorOnBoard(4, 100)`ff 55 07 00 02 3d 00 04 01 ff</p>
+	send:`megapi.setEncoderMotorOnBoard(4, -255)`ff 55 07 00 02 3d 00 04 01 ff</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	设备正确连接可运行，蓝牙通信正常</p>
@@ -7780,7 +8156,9 @@
 	<node_order><![CDATA[1002]]></node_order>
 	<externalid><![CDATA[519]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`mcore.setTone(&#39;A2&#39;, 250);`ff 55 08 00 02 22 09 6e 00 fa 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -7795,7 +8173,9 @@
 	<node_order><![CDATA[1003]]></node_order>
 	<externalid><![CDATA[521]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`mcore.setTone(&#39;G3&#39;, 500);`ff 55 08 00 02 22 09 c4 00 f4 01</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -7810,7 +8190,9 @@
 	<node_order><![CDATA[1004]]></node_order>
 	<externalid><![CDATA[522]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`mcore.setTone(&#39;B3&#39;, 125);`ff 55 08 00 02 22 09 f7 00 7d 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -7825,7 +8207,9 @@
 	<node_order><![CDATA[1005]]></node_order>
 	<externalid><![CDATA[523]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`mcore.setTone(&#39;D6&#39;, 1000);`ff 55 08 00 02 22 09 97 04 e8 03</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -7840,7 +8224,9 @@
 	<node_order><![CDATA[1006]]></node_order>
 	<externalid><![CDATA[524]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`mcore.setTone(&#39;G7&#39;,2000);`ff 55 08 00 02 22 09 40 0c d0 07</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -7855,7 +8241,9 @@
 	<node_order><![CDATA[1007]]></node_order>
 	<externalid><![CDATA[525]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`mcore.setTone(&#39;C5&#39;, 0);`ff 55 08 00 02 22 09 0b 02 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -7903,7 +8291,9 @@
 	<node_order><![CDATA[1002]]></node_order>
 	<externalid><![CDATA[400]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`mcore.setLedPanelOnBoard(0, 255,0,0);`ff 55 09 00 02 08 00 02 00 ff 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -7918,7 +8308,9 @@
 	<node_order><![CDATA[1003]]></node_order>
 	<externalid><![CDATA[401]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`mcore.setLedPanelOnBoard(1,100,100,100);`ff 55 09 00 02 08 00 02 01 64 64 64</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -7933,7 +8325,9 @@
 	<node_order><![CDATA[1004]]></node_order>
 	<externalid><![CDATA[402]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`mcore.setLedPanelOnBoard(2,256,0,0);`ff 55 09 00 02 08 00 02 02 ff 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[1]]></importance>
@@ -7948,7 +8342,9 @@
 	<node_order><![CDATA[1005]]></node_order>
 	<externalid><![CDATA[403]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`mcore.setLedPanelOnBoard(2, -1, 0, 0);`ff 55 09 00 02 08 00 02 02 00 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[1]]></importance>
@@ -7963,7 +8359,9 @@
 	<node_order><![CDATA[1006]]></node_order>
 	<externalid><![CDATA[404]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`mcore.turnOffLedPanelOnBoard(0);`ff 55 09 00 02 08 00 02 00 00 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -7978,7 +8376,9 @@
 	<node_order><![CDATA[1007]]></node_order>
 	<externalid><![CDATA[405]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`mcore.turnOffLedPanelOnBoard(1);`ff 55 09 00 02 08 00 02 01 00 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -7993,7 +8393,9 @@
 	<node_order><![CDATA[1008]]></node_order>
 	<externalid><![CDATA[406]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`mcore.turnOffLedPanelOnBoard(2);`ff 55 09 00 02 08 00 02 02 00 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -8086,7 +8488,9 @@
 	<node_order><![CDATA[1005]]></node_order>
 	<externalid><![CDATA[412]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`mcore.setFourLeds(1, 0, 255, 0, 0);`ff 55 09 00 02 08 01 02 00 ff 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -8101,7 +8505,9 @@
 	<node_order><![CDATA[1006]]></node_order>
 	<externalid><![CDATA[413]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`mcore.setFourLeds(2, 1, 0, 255, 0);`ff 55 09 00 02 08 02 02 01 00 ff 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -8116,7 +8522,9 @@
 	<node_order><![CDATA[1007]]></node_order>
 	<externalid><![CDATA[414]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`mcore.setFourLeds(3, 2, 0, 0, 255);`ff 55 09 00 02 08 03 02 02 00 00 ff</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -8131,7 +8539,9 @@
 	<node_order><![CDATA[1008]]></node_order>
 	<externalid><![CDATA[415]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`mcore.setFourLeds(4, 3, 100, 100, 100);`ff 55 09 00 02 08 04 02 03 64 64 64</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -8146,7 +8556,9 @@
 	<node_order><![CDATA[1009]]></node_order>
 	<externalid><![CDATA[416]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`mcore.setFourLeds(1, 4, 0, 0, 0);`ff 55 09 00 02 08 01 02 04 00 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -8161,7 +8573,9 @@
 	<node_order><![CDATA[1010]]></node_order>
 	<externalid><![CDATA[417]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`mcore.setFourLeds(1, 0, 256, 0, 0);`ff 55 09 00 02 08 01 02 00 ff 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[1]]></importance>
@@ -8176,7 +8590,9 @@
 	<node_order><![CDATA[1011]]></node_order>
 	<externalid><![CDATA[418]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`mcore.setFourLeds(1, 0, -1, 0, 0);`ff 55 09 00 02 08 01 02 00 00 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[1]]></importance>
@@ -8314,7 +8730,9 @@
 	<node_order><![CDATA[1008]]></node_order>
 	<externalid><![CDATA[427]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`mcore.setLed(1, 1, 0, 255, 0, 0);`ff 55 09 00 02 08 01 01 00 ff 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -8329,7 +8747,9 @@
 	<node_order><![CDATA[1009]]></node_order>
 	<externalid><![CDATA[428]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`mcore.setLed(2, 1, 1, 0, 255, 0);`ff 55 09 00 02 08 02 01 01 00 ff 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -8344,7 +8764,9 @@
 	<node_order><![CDATA[1010]]></node_order>
 	<externalid><![CDATA[429]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`mcore.setLed(3, 1, 2, 0, 0, 255);`ff 55 09 00 02 08 03 01 02 00 00 ff</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -8359,7 +8781,9 @@
 	<node_order><![CDATA[1011]]></node_order>
 	<externalid><![CDATA[430]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`mcore.setLed(4, 1, 3, 100, 100, 100);`ff 55 09 00 02 08 04 01 03 64 64 64</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -8374,7 +8798,9 @@
 	<node_order><![CDATA[1012]]></node_order>
 	<externalid><![CDATA[431]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`mcore.setLed(1, 2, 4, 0, 0, 0);`ff 55 09 00 02 08 01 02 04 00 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -8389,7 +8815,9 @@
 	<node_order><![CDATA[1013]]></node_order>
 	<externalid><![CDATA[432]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`mcore.setLed(2, 2, 5, 100, 100, 0);`ff 55 09 00 02 08 02 02 05 64 64 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -8404,7 +8832,9 @@
 	<node_order><![CDATA[1014]]></node_order>
 	<externalid><![CDATA[433]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`mcore.setLed(3, 2, 6, 255, 0, 255);`ff 55 09 00 02 08 03 02 06 ff 00 ff</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -8419,7 +8849,9 @@
 	<node_order><![CDATA[1015]]></node_order>
 	<externalid><![CDATA[434]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`mcore.setLed(4, 2, 7, 0, 255, 255);`ff 55 09 00 02 08 04 02 07 00 ff ff</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -8434,7 +8866,9 @@
 	<node_order><![CDATA[1016]]></node_order>
 	<externalid><![CDATA[435]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`mcore.setLed(1, 1, 0, 256, 0, 0);`ff 55 09 00 02 08 01 01 00 ff 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[1]]></importance>
@@ -8449,7 +8883,9 @@
 	<node_order><![CDATA[1017]]></node_order>
 	<externalid><![CDATA[436]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`mcore.setLed(1, 1, 0, -1, 0, 0);`ff 55 09 00 02 08 01 01 00 00 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[1]]></importance>
@@ -8464,7 +8900,9 @@
 	<node_order><![CDATA[1018]]></node_order>
 	<externalid><![CDATA[437]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`mcore.setLed(1, 1, 0, 0, 0, 0);`ff 55 09 00 02 08 01 01 00 00 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -8479,7 +8917,9 @@
 	<node_order><![CDATA[1019]]></node_order>
 	<externalid><![CDATA[438]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`mcore.setLed(2, 2, 1, 0, 0, 0);`ff 55 09 00 02 08 02 02 01 00 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -8494,7 +8934,9 @@
 	<node_order><![CDATA[1020]]></node_order>
 	<externalid><![CDATA[439]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`mcore.setLed(3, 1, 2, 0, 0, 0);`ff 55 09 00 02 08 03 01 02 00 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -8509,7 +8951,9 @@
 	<node_order><![CDATA[1021]]></node_order>
 	<externalid><![CDATA[440]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`mcore.setLed(4, 2, 3, 0, 0, 0);`ff 55 09 00 02 08 04 02 03 00 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -8522,12 +8966,17 @@
 </testsuite><testsuite id="18612" name="表情面板" >
 <node_order><![CDATA[5]]></node_order>
 <details><![CDATA[]]></details> 
+<testsuite id="27643" name="显示字符" >
+<node_order><![CDATA[1]]></node_order>
+<details><![CDATA[]]></details> 
 
-<testcase internalid="18785" name="展示表情【端口1】x【0】y【0】表情为【-默认-】">
+<testcase internalid="27647" name="展示字符【端口1】x【0】y【0】字符为【'hi'】">
 	<node_order><![CDATA[1000]]></node_order>
-	<externalid><![CDATA[441]]></externalid>
+	<externalid><![CDATA[1299]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`mcore.setLedMatrixChar(1, 0, 0, &#39;hi&#39;);`ff 55 0a 00 02 29 01 01 00 00 02 68 69</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -8538,11 +8987,13 @@
 
 </testcase>
 
-<testcase internalid="18787" name="展示表情【端口2】x【1】y【0】表情为【-自定义-】">
+<testcase internalid="27649" name="展示字符【端口2】x【1】y【0】字符为【'hi'】">
 	<node_order><![CDATA[1001]]></node_order>
-	<externalid><![CDATA[442]]></externalid>
+	<externalid><![CDATA[1300]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`mcore.setLedMatrixChar(2, 1, 0, &#39;hi&#39;);`ff 55 0a 00 02 29 02 01 01 00 02 68 69</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -8553,11 +9004,13 @@
 
 </testcase>
 
-<testcase internalid="18789" name="展示表情【端口3】x【0】y【2】表情为【-自定义-】">
+<testcase internalid="27651" name="展示字符【端口3】x【0】y【2】字符为【'hi'】">
 	<node_order><![CDATA[1002]]></node_order>
-	<externalid><![CDATA[443]]></externalid>
+	<externalid><![CDATA[1301]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`mcore.setLedMatrixChar(3, 0, 2, &#39;hi&#39;);`ff 55 0a 00 02 29 03 01 00 02 02 68 69</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -8568,11 +9021,13 @@
 
 </testcase>
 
-<testcase internalid="18791" name="展示表情【端口4】x【2】y【-1】表情为【-自定义-】">
+<testcase internalid="27653" name="展示字符【端口4】x【2】y【-1】字符为【'hi'】">
 	<node_order><![CDATA[1003]]></node_order>
-	<externalid><![CDATA[444]]></externalid>
+	<externalid><![CDATA[1302]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`mcore.setLedMatrixChar(4, 2, -1, &#39;hi&#39;);`ff 55 0a 00 02 29 04 01 02 ff 02 68 69</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -8583,11 +9038,13 @@
 
 </testcase>
 
-<testcase internalid="18819" name="展示表情【端口1】x【1.5】y【0】表情为【-默认-】">
+<testcase internalid="27655" name="展示字符【端口1】x【1.5】y【0】字符为【'hi'】">
 	<node_order><![CDATA[1004]]></node_order>
-	<externalid><![CDATA[445]]></externalid>
+	<externalid><![CDATA[1303]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`mcore.setLedMatrixChar(1, 1.5, 0, &#39;hi&#39;);`ff 55 0a 00 02 29 01 01 00 00 02 68 69</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[1]]></importance>
@@ -8597,7 +9054,305 @@
 	<active>1</active>
 
 </testcase>
-</testsuite><testsuite id="18613" name="数码管" >
+</testsuite><testsuite id="27644" name="显示表情" >
+<node_order><![CDATA[2]]></node_order>
+<details><![CDATA[]]></details> 
+
+<testcase internalid="27657" name="展示表情【端口1】x【0】y【0】表情为【-默认-】">
+	<node_order><![CDATA[1000]]></node_order>
+	<externalid><![CDATA[1304]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`mcore.setLedMatrixEmotion(1, 0, 0, &#39;0_0&#39;);`ff 55 17 00 02 29 01 02 00 00 00 00 40 48 44 42 02 02 02 02 42 44 48 40 00 00</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[3]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27659" name="展示表情【端口2】x【1】y【0】表情为【-自定义-】">
+	<node_order><![CDATA[1001]]></node_order>
+	<externalid><![CDATA[1305]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`mcore.setLedMatrixEmotion(2, 1, 0, &#39;0_0&#39;);`ff 55 17 00 02 29 02 02 01 00 00 00 40 48 44 42 02 02 02 02 42 44 48 40 00 00</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27661" name="展示表情【端口3】x【0】y【2】表情为【-自定义-】">
+	<node_order><![CDATA[1002]]></node_order>
+	<externalid><![CDATA[1306]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`mcore.setLedMatrixEmotion(3, 0, 2, &#39;0_0&#39;);`ff 55 17 00 02 29 03 02 00 02 00 00 40 48 44 42 02 02 02 02 42 44 48 40 00 00</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27663" name="展示表情【端口4】x【2】y【-1】表情为【-自定义-】">
+	<node_order><![CDATA[1003]]></node_order>
+	<externalid><![CDATA[1307]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`mcore.setLedMatrixEmotion(4, 2, -1, &#39;0_0&#39;);`ff 55 17 00 02 29 04 02 02 ff 00 00 40 48 44 42 02 02 02 02 42 44 48 40 00 00</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[3]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27665" name="展示表情【端口1】x【1.5】y【0】表情为【-默认-】">
+	<node_order><![CDATA[1004]]></node_order>
+	<externalid><![CDATA[1308]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`mcore.setLedMatrixEmotion(1, 1.5, 0, &#39;0_0&#39;);`ff 55 17 00 02 29 01 02 00 00 00 00 40 48 44 42 02 02 02 02 42 44 48 40 00 00</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[1]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+</testsuite><testsuite id="27645" name="显示时间" >
+<node_order><![CDATA[3]]></node_order>
+<details><![CDATA[]]></details> 
+
+<testcase internalid="27667" name="展示时间【端口1】时间为【10:20】">
+	<node_order><![CDATA[1000]]></node_order>
+	<externalid><![CDATA[1309]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`mcore.setLedMatrixTime(1, 1, 10, 20);`ff 55 08 00 02 29 01 03 01 0a 14</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[3]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27669" name="展示时间【端口2】为【00:00】">
+	<node_order><![CDATA[1001]]></node_order>
+	<externalid><![CDATA[1310]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`mcore.setLedMatrixTime(2, 1, 0, 0);`ff 55 08 00 02 29 02 03 01 00 00</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27671" name="展示时间【端口3】为【23 59】">
+	<node_order><![CDATA[1002]]></node_order>
+	<externalid><![CDATA[1311]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`mcore.setLedMatrixTime(3, 0, 23, 59);`ff 55 08 00 02 29 03 03 00 17 3b</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27673" name="展示时间【端口4为【-1：00】">
+	<node_order><![CDATA[1003]]></node_order>
+	<externalid><![CDATA[1312]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`mcore.setLedMatrixTime(4, 1, -1, 0);`ff 55 08 00 02 29 04 03 01 00 00</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[3]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27675" name="展示时间【端口1】为【24:60】">
+	<node_order><![CDATA[1004]]></node_order>
+	<externalid><![CDATA[1313]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`mcore.setLedMatrixTime(1, 1, 24, 60);`ff 55 08 00 02 29 01 03 01 17 3b</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[1]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27687" name="展示时间【端口1】为【15.5 ： 20】">
+	<node_order><![CDATA[1005]]></node_order>
+	<externalid><![CDATA[1319]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`mcore.setLedMatrixTime(1, 1, 15.5, 20);`ff 55 08 00 02 29 01 03 01 0f 14</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+</testsuite><testsuite id="27646" name="显示数字" >
+<node_order><![CDATA[4]]></node_order>
+<details><![CDATA[]]></details> 
+
+<testcase internalid="27677" name="展示数字【端口1】为【0】">
+	<node_order><![CDATA[1000]]></node_order>
+	<externalid><![CDATA[1314]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`mcore.setLedMatrixNumber(1, 0);`ff 55 09 00 02 29 01 04 00 00 00 00</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[3]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27679" name="展示数字【端口2】为【12.25】">
+	<node_order><![CDATA[1001]]></node_order>
+	<externalid><![CDATA[1315]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`mcore.setLedMatrixNumber(2, 12.25);`ff 55 09 00 02 29 02 04 00 00 44 41</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27681" name="展示数字【端口3】为【2147483647】">
+	<node_order><![CDATA[1002]]></node_order>
+	<externalid><![CDATA[1316]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`mcore.setLedMatrixNumber(3, 2147483647);`ff 55 09 00 02 29 03 04 ff ff ff 4e</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27683" name="展示数字【端口4】为【-2147483648】">
+	<node_order><![CDATA[1003]]></node_order>
+	<externalid><![CDATA[1317]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`mcore.setLedMatrixNumber(4, -2147483648);`ff 55 09 00 02 29 04 04 00 00 00 cf</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[3]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27685" name="展示数字【端口1】为【2147483648】">
+	<node_order><![CDATA[1004]]></node_order>
+	<externalid><![CDATA[1318]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`mcore.setLedMatrixNumber(1, 2147483648);`ff 55 09 00 02 29 01 04 ff ff ff 4e</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[1]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27689" name="展示数字【端口1】为【-2147483649】">
+	<node_order><![CDATA[1005]]></node_order>
+	<externalid><![CDATA[1320]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`mcore.setLedMatrixNumber(1, -2147483649);`ff 55 09 00 02 29 01 04 00 00 00 cf</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+</testsuite></testsuite><testsuite id="18613" name="数码管" >
 <node_order><![CDATA[6]]></node_order>
 <details><![CDATA[]]></details> 
 
@@ -8605,7 +9360,9 @@
 	<node_order><![CDATA[1000]]></node_order>
 	<externalid><![CDATA[446]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`mcore.setSevenSegment(1, 0);`ff 55 08 00 02 09 01 00 00 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -8620,7 +9377,9 @@
 	<node_order><![CDATA[1001]]></node_order>
 	<externalid><![CDATA[447]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`mcore.setSevenSegment(2, 100);`ff 55 08 00 02 09 02 00 00 c8 42</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -8635,7 +9394,9 @@
 	<node_order><![CDATA[1002]]></node_order>
 	<externalid><![CDATA[448]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`mcore.setSevenSegment(3, -100);`ff 55 08 00 02 09 03 00 00 c8 c2</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -8650,7 +9411,9 @@
 	<node_order><![CDATA[1003]]></node_order>
 	<externalid><![CDATA[449]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`mcore.setSevenSegment(4, 12345);`ff 55 08 00 02 09 04 00 3c 1c 46</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -8665,7 +9428,9 @@
 	<node_order><![CDATA[1004]]></node_order>
 	<externalid><![CDATA[450]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`mcore.setSevenSegment(1, -1234);`ff 55 08 00 02 09 01 00 c0 79 c4</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -8680,7 +9445,9 @@
 	<node_order><![CDATA[1005]]></node_order>
 	<externalid><![CDATA[451]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`mcore.setSevenSegment(1, 0.5);`ff 55 08 00 02 09 01 00 00 00 3f</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[1]]></importance>
@@ -8698,7 +9465,9 @@
 	<node_order><![CDATA[1000]]></node_order>
 	<externalid><![CDATA[452]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`mcore.setShutter(1, 0);`ff 55 05 00 02 14 01 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -8713,7 +9482,9 @@
 	<node_order><![CDATA[1001]]></node_order>
 	<externalid><![CDATA[453]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`mcore.setShutter(2, 1);`ff 55 05 00 02 14 02 01</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -8728,7 +9499,9 @@
 	<node_order><![CDATA[1002]]></node_order>
 	<externalid><![CDATA[454]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`mcore.setShutter(3, 2);`ff 55 05 00 02 14 03 02</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -8743,7 +9516,9 @@
 	<node_order><![CDATA[1003]]></node_order>
 	<externalid><![CDATA[455]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`mcore.setShutter(4, 3);`ff 55 05 00 02 14 04 03</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -8842,7 +9617,9 @@
 	<node_order><![CDATA[1000]]></node_order>
 	<externalid><![CDATA[507]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`orion.setShutter(6, 0);`ff 55 05 00 02 14 06 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -8857,7 +9634,9 @@
 	<node_order><![CDATA[1001]]></node_order>
 	<externalid><![CDATA[508]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`orion.setShutter(7, 1);`ff 55 05 00 02 14 07 01</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -8872,7 +9651,9 @@
 	<node_order><![CDATA[1002]]></node_order>
 	<externalid><![CDATA[509]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`orion.setShutter(3, 2);`ff 55 05 00 02 14 03 02</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -8887,7 +9668,9 @@
 	<node_order><![CDATA[1003]]></node_order>
 	<externalid><![CDATA[510]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`orion.setShutter(4, 3);`ff 55 05 00 02 14 04 03</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -8902,7 +9685,9 @@
 	<node_order><![CDATA[1004]]></node_order>
 	<externalid><![CDATA[511]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`orion.setShutter(8, 0);`ff 55 05 00 02 14 08 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -8920,7 +9705,9 @@
 	<node_order><![CDATA[1000]]></node_order>
 	<externalid><![CDATA[501]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`orion.setSevenSegment(3, 0);`ff 55 08 00 02 09 03 00 00 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -8935,7 +9722,9 @@
 	<node_order><![CDATA[1001]]></node_order>
 	<externalid><![CDATA[502]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`orion.setSevenSegment(4, 100);`ff 55 08 00 02 09 04 00 00 c8 42</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -8950,7 +9739,9 @@
 	<node_order><![CDATA[1002]]></node_order>
 	<externalid><![CDATA[503]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`orion.setSevenSegment(6, -100);`ff 55 08 00 02 09 06 00 00 c8 c2</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -8965,7 +9756,9 @@
 	<node_order><![CDATA[1003]]></node_order>
 	<externalid><![CDATA[504]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`orion.setSevenSegment(4, 12345);`ff 55 08 00 02 09 04 00 3c 1c 46</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -8980,7 +9773,9 @@
 	<node_order><![CDATA[1004]]></node_order>
 	<externalid><![CDATA[505]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`orion.setSevenSegment(6, -1234);`ff 55 08 00 02 09 06 00 c0 79 c4</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -8995,7 +9790,9 @@
 	<node_order><![CDATA[1005]]></node_order>
 	<externalid><![CDATA[506]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`mcore.setSevenSegment(3, 0.5);`ff 55 08 00 02 09 03 00 00 00 3f</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[1]]></importance>
@@ -9169,7 +9966,9 @@
 	<node_order><![CDATA[1009]]></node_order>
 	<externalid><![CDATA[481]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`orion.setLed(6, 1, 0, 255, 0, 0);`ff 55 09 00 02 08 06 01 00 ff 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -9184,7 +9983,9 @@
 	<node_order><![CDATA[1010]]></node_order>
 	<externalid><![CDATA[482]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`orion.setLed(7, 1, 1, 0, 255, 0);`ff 55 09 00 02 08 07 01 01 00 ff 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -9199,7 +10000,9 @@
 	<node_order><![CDATA[1011]]></node_order>
 	<externalid><![CDATA[483]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`orion.setLed(3, 1, 2, 0, 0, 255);`ff 55 09 00 02 08 03 01 02 00 00 ff</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -9214,7 +10017,9 @@
 	<node_order><![CDATA[1012]]></node_order>
 	<externalid><![CDATA[484]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`orion.setLed(4, 1, 3, 100, 100, 100);`ff 55 09 00 02 08 04 01 03 64 64 64</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -9229,7 +10034,9 @@
 	<node_order><![CDATA[1025]]></node_order>
 	<externalid><![CDATA[497]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`orion.setLed(8, 1, 8, 255, 0, 0);`ff 55 09 00 02 08 08 01 08 ff 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -9244,7 +10051,9 @@
 	<node_order><![CDATA[1026]]></node_order>
 	<externalid><![CDATA[485]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`orion.setLed(6, 2, 4, 0, 0, 0);`ff 55 09 00 02 08 06 02 04 00 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -9259,7 +10068,9 @@
 	<node_order><![CDATA[1027]]></node_order>
 	<externalid><![CDATA[486]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`orion.setLed(7, 2, 5, 100, 100, 0);`ff 55 09 00 02 08 07 02 05 64 64 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -9274,7 +10085,9 @@
 	<node_order><![CDATA[1028]]></node_order>
 	<externalid><![CDATA[487]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`orion.setLed(3, 2, 6, 255, 0, 255);`ff 55 09 00 02 08 03 02 06 ff 00 ff</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -9289,7 +10102,9 @@
 	<node_order><![CDATA[1029]]></node_order>
 	<externalid><![CDATA[488]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`orion.setLed(4, 2, 7, 0, 255, 255);`ff 55 09 00 02 08 04 02 07 00 ff ff</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -9304,7 +10119,9 @@
 	<node_order><![CDATA[1030]]></node_order>
 	<externalid><![CDATA[498]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`orion.setLed(8, 2, 8, 255, 0, 0);`ff 55 09 00 02 08 08 02 08 ff 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -9319,7 +10136,9 @@
 	<node_order><![CDATA[1031]]></node_order>
 	<externalid><![CDATA[489]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`orion.setLed(3, 1, 0, 256, 0, 0);`ff 55 09 00 02 08 03 01 00 ff 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[1]]></importance>
@@ -9334,7 +10153,9 @@
 	<node_order><![CDATA[1032]]></node_order>
 	<externalid><![CDATA[490]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`orion.setLed(4, 1, 0, -1, 0, 0);`ff 55 09 00 02 08 04 01 00 00 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[1]]></importance>
@@ -9352,7 +10173,9 @@
 	<node_order><![CDATA[0]]></node_order>
 	<externalid><![CDATA[492]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`orion.setLed(7, 2, 1, 0, 0, 0);`ff 55 09 00 02 08 07 02 01 00 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -9367,7 +10190,9 @@
 	<node_order><![CDATA[1]]></node_order>
 	<externalid><![CDATA[491]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`orion.setLed(6, 1, 0, 0, 0, 0);`ff 55 09 00 02 08 06 01 00 00 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -9382,7 +10207,9 @@
 	<node_order><![CDATA[2]]></node_order>
 	<externalid><![CDATA[493]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`orion.setLed(3, 1, 2, 0, 0, 0);`ff 55 09 00 02 08 03 01 02 00 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -9397,7 +10224,9 @@
 	<node_order><![CDATA[3]]></node_order>
 	<externalid><![CDATA[494]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`orion.setLed(4, 2, 3, 0, 0, 0);`ff 55 09 00 02 08 04 02 03 00 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -9412,7 +10241,9 @@
 	<node_order><![CDATA[4]]></node_order>
 	<externalid><![CDATA[499]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`orion.setLed(8, 1, 4, 0, 0, 0);`ff 55 09 00 02 08 08 01 04 00 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -9505,7 +10336,9 @@
 	<node_order><![CDATA[1005]]></node_order>
 	<externalid><![CDATA[466]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`orion.setFourLeds(7, 0, 255, 0, 0);`ff 55 09 00 02 08 07 02 00 ff 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -9520,7 +10353,9 @@
 	<node_order><![CDATA[1006]]></node_order>
 	<externalid><![CDATA[467]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`orion.setFourLeds(6, 1, 0, 255, 0);`ff 55 09 00 02 08 06 02 01 00 ff 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -9535,7 +10370,9 @@
 	<node_order><![CDATA[1007]]></node_order>
 	<externalid><![CDATA[468]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`orion.setFourLeds(3, 2, 0, 0, 255);`ff 55 09 00 02 08 03 02 02 00 00 ff</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -9550,7 +10387,9 @@
 	<node_order><![CDATA[1008]]></node_order>
 	<externalid><![CDATA[469]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`orion.setFourLeds(4, 3, 100, 100, 100);`ff 55 09 00 02 08 04 02 03 64 64 64</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -9565,7 +10404,9 @@
 	<node_order><![CDATA[1009]]></node_order>
 	<externalid><![CDATA[470]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`orion.setFourLeds(8, 4, 0, 0, 0);`ff 55 09 00 02 08 08 02 04 00 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -9580,7 +10421,9 @@
 	<node_order><![CDATA[1010]]></node_order>
 	<externalid><![CDATA[471]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`orion.setFourLeds(3, 0, 256, 0, 0);`ff 55 09 00 02 08 03 02 00 ff 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[1]]></importance>
@@ -9595,7 +10438,9 @@
 	<node_order><![CDATA[1011]]></node_order>
 	<externalid><![CDATA[472]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`orion.setFourLeds(3, 0, -1, 0, 0);`ff 55 09 00 02 08 03 02 00 00 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[1]]></importance>
@@ -9928,7 +10773,9 @@
 	<node_order><![CDATA[1009]]></node_order>
 	<externalid><![CDATA[573]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`auriga.setLed(6, 1, 0, 255, 0, 0);`ff 55 09 00 02 08 06 01 00 ff 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -9943,7 +10790,9 @@
 	<node_order><![CDATA[1010]]></node_order>
 	<externalid><![CDATA[574]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`auriga.setLed(7, 1, 1, 0, 255, 0);`ff 55 09 00 02 08 07 01 01 00 ff 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -9958,7 +10807,9 @@
 	<node_order><![CDATA[1011]]></node_order>
 	<externalid><![CDATA[575]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`auriga.setLed(9, 1, 2, 0, 0, 255);`ff 55 09 00 02 08 09 01 02 00 00 ff</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -9973,7 +10824,9 @@
 	<node_order><![CDATA[1012]]></node_order>
 	<externalid><![CDATA[576]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`auriga.setLed(10, 1, 3, 100, 100, 100);`ff 55 09 00 02 08 0a 01 03 64 64 64</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -9988,7 +10841,9 @@
 	<node_order><![CDATA[1025]]></node_order>
 	<externalid><![CDATA[577]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`auriga.setLed(8, 1, 8, 255, 0, 0);`ff 55 09 00 02 08 08 01 08 ff 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -10003,7 +10858,9 @@
 	<node_order><![CDATA[1026]]></node_order>
 	<externalid><![CDATA[578]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`auriga.setLed(6, 2, 4, 0, 0, 0);`ff 55 09 00 02 08 06 02 04 00 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -10018,7 +10875,9 @@
 	<node_order><![CDATA[1027]]></node_order>
 	<externalid><![CDATA[579]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`auriga.setLed(7, 2, 5, 100, 100, 0);`ff 55 09 00 02 08 07 02 05 64 64 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -10033,7 +10892,9 @@
 	<node_order><![CDATA[1028]]></node_order>
 	<externalid><![CDATA[580]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`auriga.setLed(9, 2, 6, 255, 0, 255);`ff 55 09 00 02 08 09 02 06 ff 00 ff</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -10048,7 +10909,9 @@
 	<node_order><![CDATA[1029]]></node_order>
 	<externalid><![CDATA[581]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`auriga.setLed(10, 2, 7, 0, 255, 255);`ff 55 09 00 02 08 0a 02 07 00 ff ff</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -10063,7 +10926,9 @@
 	<node_order><![CDATA[1030]]></node_order>
 	<externalid><![CDATA[582]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`auriga.setLed(8, 2, 8, 255, 0, 0);`ff 55 09 00 02 08 08 02 08 ff 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -10078,7 +10943,9 @@
 	<node_order><![CDATA[1031]]></node_order>
 	<externalid><![CDATA[583]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`auriga.setLed(6, 1, 0, 256, 0, 0);`ff 55 09 00 02 08 06 01 00 ff 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[1]]></importance>
@@ -10093,7 +10960,9 @@
 	<node_order><![CDATA[1032]]></node_order>
 	<externalid><![CDATA[584]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`auriga.setLed(9, 1, 0, -1, 0, 0);`ff 55 09 00 02 08 09 01 00 00 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[1]]></importance>
@@ -10111,7 +10980,9 @@
 	<node_order><![CDATA[0]]></node_order>
 	<externalid><![CDATA[585]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`auriga.setLed(7, 2, 1, 0, 0, 0);`ff 55 09 00 02 08 07 02 01 00 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -10126,7 +10997,9 @@
 	<node_order><![CDATA[1]]></node_order>
 	<externalid><![CDATA[586]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`auriga.setLed(6, 1, 0, 0, 0, 0);`ff 55 09 00 02 08 06 01 00 00 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -10141,7 +11014,9 @@
 	<node_order><![CDATA[2]]></node_order>
 	<externalid><![CDATA[587]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`auriga.setLed(9, 1, 2, 0, 0, 0);`ff 55 09 00 02 08 09 01 02 00 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -10156,7 +11031,9 @@
 	<node_order><![CDATA[3]]></node_order>
 	<externalid><![CDATA[588]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`auriga.setLed(10, 2, 3, 0, 0, 0);`ff 55 09 00 02 08 0a 02 03 00 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -10171,7 +11048,9 @@
 	<node_order><![CDATA[4]]></node_order>
 	<externalid><![CDATA[589]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`auriga.setLed(8, 1, 4, 0, 0, 0);`ff 55 09 00 02 08 08 01 04 00 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -10264,7 +11143,9 @@
 	<node_order><![CDATA[1005]]></node_order>
 	<externalid><![CDATA[539]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`auriga.setFourLeds(7, 0, 255, 0, 0);`ff 55 09 00 02 08 07 02 00 ff 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -10279,7 +11160,9 @@
 	<node_order><![CDATA[1006]]></node_order>
 	<externalid><![CDATA[540]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`auriga.setFourLeds(6, 1, 0, 255, 0);`ff 55 09 00 02 08 06 02 01 00 ff 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -10294,7 +11177,9 @@
 	<node_order><![CDATA[1007]]></node_order>
 	<externalid><![CDATA[541]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`auriga.setFourLeds(9, 2, 0, 0, 255);`ff 55 09 00 02 08 09 02 02 00 00 ff</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -10309,7 +11194,9 @@
 	<node_order><![CDATA[1008]]></node_order>
 	<externalid><![CDATA[542]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`auriga.setFourLeds(10, 3, 100, 100, 100);`ff 55 09 00 02 08 0a 02 03 64 64 64</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -10324,7 +11211,9 @@
 	<node_order><![CDATA[1009]]></node_order>
 	<externalid><![CDATA[543]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`auriga.setFourLeds(8, 4, 0, 0, 0);`ff 55 09 00 02 08 08 02 04 00 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -10339,7 +11228,9 @@
 	<node_order><![CDATA[1010]]></node_order>
 	<externalid><![CDATA[544]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`auriga.setFourLeds(6, 0, 256, 0, 0);`ff 55 09 00 02 08 06 02 00 ff 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[1]]></importance>
@@ -10354,7 +11245,9 @@
 	<node_order><![CDATA[1011]]></node_order>
 	<externalid><![CDATA[545]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`auriga.setFourLeds(6, 0, -1, 0, 0);`ff 55 09 00 02 08 06 02 00 00 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[1]]></importance>
@@ -10398,11 +11291,13 @@
 
 </testcase>
 
-<testcase internalid="19282" name="播放音调【A2】节拍为【四分之一】">
+<testcase internalid="27512" name="播放音调【A2】节拍为【四分之一】">
 	<node_order><![CDATA[1002]]></node_order>
-	<externalid><![CDATA[528]]></externalid>
+	<externalid><![CDATA[1238]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`auriga.setTone(&#39;A2&#39;, 250);`ff 55 08 00 02 22 09 6e 00 fa 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -10413,11 +11308,13 @@
 
 </testcase>
 
-<testcase internalid="19284" name="播放音调【G3】节拍为【二分之一】">
+<testcase internalid="27514" name="播放音调【G3】节拍为【二分之一】">
 	<node_order><![CDATA[1003]]></node_order>
-	<externalid><![CDATA[529]]></externalid>
+	<externalid><![CDATA[1239]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`auriga.setTone(&#39;G3&#39;, 500);`ff 55 08 00 02 22 09 c4 00 f4 01</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -10428,11 +11325,13 @@
 
 </testcase>
 
-<testcase internalid="19286" name="播放音调【B3】节拍为【八分之一】">
+<testcase internalid="27516" name="播放音调【B3】节拍为【八分之一】">
 	<node_order><![CDATA[1004]]></node_order>
-	<externalid><![CDATA[530]]></externalid>
+	<externalid><![CDATA[1240]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`auriga.setTone(&#39;B3&#39;, 125);`ff 55 08 00 02 22 09 f7 00 7d 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -10443,11 +11342,13 @@
 
 </testcase>
 
-<testcase internalid="19288" name="播放音调【D6】节拍为【整拍】">
+<testcase internalid="27518" name="播放音调【D6】节拍为【整拍】">
 	<node_order><![CDATA[1005]]></node_order>
-	<externalid><![CDATA[531]]></externalid>
+	<externalid><![CDATA[1241]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`auriga.setTone(&#39;D6&#39;, 1000);`ff 55 08 00 02 22 09 97 04 e8 03</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -10458,11 +11359,13 @@
 
 </testcase>
 
-<testcase internalid="19290" name="播放音调【G7】节拍为【双拍】">
+<testcase internalid="27520" name="播放音调【G7】节拍为【双拍】">
 	<node_order><![CDATA[1006]]></node_order>
-	<externalid><![CDATA[532]]></externalid>
+	<externalid><![CDATA[1242]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`auriga.setTone(&#39;G7&#39;,2000);`ff 55 08 00 02 22 09 40 0c d0 07</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -10473,11 +11376,13 @@
 
 </testcase>
 
-<testcase internalid="19292" name="播放音调【C5】节拍为【停止】">
+<testcase internalid="27522" name="播放音调【C5】节拍为【停止】">
 	<node_order><![CDATA[1007]]></node_order>
-	<externalid><![CDATA[533]]></externalid>
+	<externalid><![CDATA[1243]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`auriga.setTone(&#39;C5&#39;, 0);`ff 55 08 00 02 22 09 0b 02 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -10585,7 +11490,9 @@
 	<node_order><![CDATA[1006]]></node_order>
 	<externalid><![CDATA[552]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`auriga.setLedPanelOnBoard(0, 255,0,0);`ff 55 09 00 02 08 00 02 00 ff 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -10600,7 +11507,9 @@
 	<node_order><![CDATA[1007]]></node_order>
 	<externalid><![CDATA[553]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`auriga.setLedPanelOnBoard(3, 0,255,0);`ff 55 09 00 02 08 00 02 03 00 ff 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -10615,7 +11524,9 @@
 	<node_order><![CDATA[1008]]></node_order>
 	<externalid><![CDATA[554]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`auriga.setLedPanelOnBoard(5, 100, 100, 100);`ff 55 09 00 02 08 00 02 05 64 64 64</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -10630,7 +11541,9 @@
 	<node_order><![CDATA[1009]]></node_order>
 	<externalid><![CDATA[555]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`auriga.setLedPanelOnBoard(7, 256,0,0);`ff 55 09 00 02 08 00 02 07 ff 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[1]]></importance>
@@ -10645,7 +11558,9 @@
 	<node_order><![CDATA[1010]]></node_order>
 	<externalid><![CDATA[556]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`auriga.setLedPanelOnBoard(9, -1,0,0);`ff 55 09 00 02 08 00 02 09 00 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[1]]></importance>
@@ -10660,7 +11575,9 @@
 	<node_order><![CDATA[1011]]></node_order>
 	<externalid><![CDATA[557]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`auriga.setLedPanelOnBoard(0, 0, 100, 0);`ff 55 09 00 02 08 00 02 00 00 64 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[1]]></importance>
@@ -10671,11 +11588,13 @@
 
 </testcase>
 
-<testcase internalid="19848" name="设置板载LED灯盘位置【13】上的灯颜色为红【255】绿【0】蓝【0】">
+<testcase internalid="19848" name="设置板载LED灯盘位置【256】上的灯颜色为红【255】绿【0】蓝【0】">
 	<node_order><![CDATA[1012]]></node_order>
 	<externalid><![CDATA[558]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`auriga.setLedPanelOnBoard(256, 255,0,0);`ff 55 09 00 02 08 00 02 ff ff 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[1]]></importance>
@@ -10690,7 +11609,9 @@
 	<node_order><![CDATA[1013]]></node_order>
 	<externalid><![CDATA[559]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`auriga.turnOffLedPanelOnBoard(0);`ff 55 09 00 02 08 00 02 00 00 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -10705,7 +11626,9 @@
 	<node_order><![CDATA[1014]]></node_order>
 	<externalid><![CDATA[560]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`auriga.turnOffLedPanelOnBoard(2);`ff 55 09 00 02 08 00 02 02 00 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -10720,7 +11643,9 @@
 	<node_order><![CDATA[1015]]></node_order>
 	<externalid><![CDATA[561]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`auriga.turnOffLedPanelOnBoard(0);`ff 55 09 00 02 08 00 02 00 00 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -10731,11 +11656,13 @@
 
 </testcase>
 
-<testcase internalid="19858" name="关闭板载LED灯盘位置上【13】上的灯">
+<testcase internalid="19858" name="关闭板载LED灯盘位置上【256】上的灯">
 	<node_order><![CDATA[1016]]></node_order>
 	<externalid><![CDATA[562]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`auriga.turnOffLedPanelOnBoard(256);`ff 55 09 00 02 08 00 02 ff 00 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[1]]></importance>
@@ -10753,7 +11680,9 @@
 	<node_order><![CDATA[1000]]></node_order>
 	<externalid><![CDATA[590]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`auriga.setSevenSegment(7, 0);`ff 55 08 00 02 09 07 00 00 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -10768,7 +11697,9 @@
 	<node_order><![CDATA[1001]]></node_order>
 	<externalid><![CDATA[591]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`auriga.setSevenSegment(8, 100);`ff 55 08 00 02 09 08 00 00 c8 42</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -10783,7 +11714,9 @@
 	<node_order><![CDATA[1002]]></node_order>
 	<externalid><![CDATA[592]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`auriga.setSevenSegment(6, -100);`ff 55 08 00 02 09 06 00 00 c8 c2</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -10798,7 +11731,9 @@
 	<node_order><![CDATA[1003]]></node_order>
 	<externalid><![CDATA[593]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`auriga.setSevenSegment(9, 12345);`ff 55 08 00 02 09 09 00 3c 1c 46</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -10813,7 +11748,9 @@
 	<node_order><![CDATA[1004]]></node_order>
 	<externalid><![CDATA[594]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`auriga.setSevenSegment(6, -1234);`ff 55 08 00 02 09 06 00 c0 79 c4</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -10828,7 +11765,9 @@
 	<node_order><![CDATA[1005]]></node_order>
 	<externalid><![CDATA[595]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`auriga.setSevenSegment(10, 0.5);`ff 55 08 00 02 09 0a 00 00 00 3f</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[1]]></importance>
@@ -10846,7 +11785,9 @@
 	<node_order><![CDATA[1000]]></node_order>
 	<externalid><![CDATA[596]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`auriga.setShutter(6, 0);`ff 55 05 00 02 14 06 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -10861,7 +11802,9 @@
 	<node_order><![CDATA[1001]]></node_order>
 	<externalid><![CDATA[597]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`auriga.setShutter(7, 1);`ff 55 05 00 02 14 07 01</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -10876,7 +11819,9 @@
 	<node_order><![CDATA[1002]]></node_order>
 	<externalid><![CDATA[598]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`auriga.setShutter(9, 2);`ff 55 05 00 02 14 09 02</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -10891,7 +11836,9 @@
 	<node_order><![CDATA[1003]]></node_order>
 	<externalid><![CDATA[599]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`auriga.setShutter(10, 3);`ff 55 05 00 02 14 0a 03</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -10906,7 +11853,9 @@
 	<node_order><![CDATA[1004]]></node_order>
 	<externalid><![CDATA[600]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`auriga.setShutter(8, 0);`ff 55 05 00 02 14 08 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -10919,12 +11868,17 @@
 </testsuite><testsuite id="20126" name="表情面板" >
 <node_order><![CDATA[9]]></node_order>
 <details><![CDATA[]]></details> 
+<testsuite id="27726" name="显示数字" >
+<node_order><![CDATA[0]]></node_order>
+<details><![CDATA[]]></details> 
 
-<testcase internalid="20127" name="展示表情【端口6】x【0】y【0】表情为【-默认-】">
+<testcase internalid="27727" name="展示数字【端口1】为【0】">
 	<node_order><![CDATA[1000]]></node_order>
-	<externalid><![CDATA[666]]></externalid>
+	<externalid><![CDATA[1337]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`auriga.setLedMatrixNumber(1, 0);`ff 55 09 00 02 29 01 04 00 00 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -10935,11 +11889,13 @@
 
 </testcase>
 
-<testcase internalid="20129" name="展示表情【端口7】x【1】y【0】表情为【-自定义-】">
+<testcase internalid="27729" name="展示数字【端口2】为【12.25】">
 	<node_order><![CDATA[1001]]></node_order>
-	<externalid><![CDATA[667]]></externalid>
+	<externalid><![CDATA[1338]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`auriga.setLedMatrixNumber(2, 12.25);`ff 55 09 00 02 29 02 04 00 00 44 41</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -10950,11 +11906,13 @@
 
 </testcase>
 
-<testcase internalid="20131" name="展示表情【端口8】x【0】y【2】表情为【-自定义-】">
+<testcase internalid="27731" name="展示数字【端口3】为【2147483647】">
 	<node_order><![CDATA[1002]]></node_order>
-	<externalid><![CDATA[668]]></externalid>
+	<externalid><![CDATA[1339]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`auriga.setLedMatrixNumber(3, 2147483647);`ff 55 09 00 02 29 03 04 ff ff ff 4e</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -10965,11 +11923,13 @@
 
 </testcase>
 
-<testcase internalid="20133" name="展示表情【端口9】x【2】y【-1】表情为【-自定义-】">
+<testcase internalid="27733" name="展示数字【端口4】为【-2147483648】">
 	<node_order><![CDATA[1003]]></node_order>
-	<externalid><![CDATA[669]]></externalid>
+	<externalid><![CDATA[1340]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`auriga.setLedMatrixNumber(4, -2147483648);`ff 55 09 00 02 29 04 04 00 00 00 cf</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -10980,11 +11940,13 @@
 
 </testcase>
 
-<testcase internalid="20135" name="展示表情【端口10】x【1.5】y【0】表情为【-默认-】">
+<testcase internalid="27735" name="展示数字【端口1】为【2147483648】">
 	<node_order><![CDATA[1004]]></node_order>
-	<externalid><![CDATA[670]]></externalid>
+	<externalid><![CDATA[1341]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`auriga.setLedMatrixNumber(1, 2147483648);`ff 55 09 00 02 29 01 04 ff ff ff 4e</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[1]]></importance>
@@ -10994,7 +11956,305 @@
 	<active>1</active>
 
 </testcase>
-</testsuite><testsuite id="25247" name="智能舵机" >
+
+<testcase internalid="27737" name="展示数字【端口1】为【-2147483649】">
+	<node_order><![CDATA[1005]]></node_order>
+	<externalid><![CDATA[1342]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`auriga.setLedMatrixNumber(1, -2147483649);`ff 55 09 00 02 29 01 04 00 00 00 cf</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+</testsuite><testsuite id="27713" name="显示时间" >
+<node_order><![CDATA[1]]></node_order>
+<details><![CDATA[]]></details> 
+
+<testcase internalid="27714" name="展示时间【端口1】时间为【10:20】">
+	<node_order><![CDATA[1000]]></node_order>
+	<externalid><![CDATA[1331]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`auriga.setLedMatrixTime(1, 1, 10, 20);`ff 55 08 00 02 29 01 03 01 0a 14</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[3]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27716" name="展示时间【端口2】为【00:00】">
+	<node_order><![CDATA[1001]]></node_order>
+	<externalid><![CDATA[1332]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`auriga.setLedMatrixTime(2, 1, 0, 0);`ff 55 08 00 02 29 02 03 01 00 00</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27718" name="展示时间【端口3】为【23 59】">
+	<node_order><![CDATA[1002]]></node_order>
+	<externalid><![CDATA[1333]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`auriga.setLedMatrixTime(3, 0, 23, 59);`ff 55 08 00 02 29 03 03 00 17 3b</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27720" name="展示时间【端口4为【-1：00】">
+	<node_order><![CDATA[1003]]></node_order>
+	<externalid><![CDATA[1334]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`auriga.setLedMatrixTime(4, 1, -1, 0);`ff 55 08 00 02 29 04 03 01 00 00</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[3]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27722" name="展示时间【端口1】为【24:60】">
+	<node_order><![CDATA[1004]]></node_order>
+	<externalid><![CDATA[1335]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`auriga.setLedMatrixTime(1, 1, 24, 60);`ff 55 08 00 02 29 01 03 01 17 3b</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[1]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27724" name="展示时间【端口1】为【15.5 ： 20】">
+	<node_order><![CDATA[1005]]></node_order>
+	<externalid><![CDATA[1336]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`auriga.setLedMatrixTime(1, 1, 15.5, 20);`ff 55 08 00 02 29 01 03 01 0f 14</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+</testsuite><testsuite id="27702" name="显示表情" >
+<node_order><![CDATA[2]]></node_order>
+<details><![CDATA[]]></details> 
+
+<testcase internalid="27703" name="展示表情【端口1】x【0】y【0】表情为【-默认-】">
+	<node_order><![CDATA[1000]]></node_order>
+	<externalid><![CDATA[1326]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`auriga.setLedMatrixEmotion(1, 0, 0, &#39;0_0&#39;);`ff 55 17 00 02 29 01 02 00 00 00 00 40 48 44 42 02 02 02 02 42 44 48 40 00 00</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[3]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27705" name="展示表情【端口2】x【1】y【0】表情为【-自定义-】">
+	<node_order><![CDATA[1001]]></node_order>
+	<externalid><![CDATA[1327]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`auriga.setLedMatrixEmotion(2, 1, 0, &#39;0_0&#39;);`ff 55 17 00 02 29 02 02 01 00 00 00 40 48 44 42 02 02 02 02 42 44 48 40 00 00</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27707" name="展示表情【端口3】x【0】y【2】表情为【-自定义-】">
+	<node_order><![CDATA[1002]]></node_order>
+	<externalid><![CDATA[1328]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`auriga.setLedMatrixEmotion(3, 0, 2, &#39;0_0&#39;);`ff 55 17 00 02 29 03 02 00 02 00 00 40 48 44 42 02 02 02 02 42 44 48 40 00 00</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27709" name="展示表情【端口4】x【2】y【-1】表情为【-自定义-】">
+	<node_order><![CDATA[1003]]></node_order>
+	<externalid><![CDATA[1329]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`auriga.setLedMatrixEmotion(4, 2, -1, &#39;0_0&#39;);`ff 55 17 00 02 29 04 02 02 ff 00 00 40 48 44 42 02 02 02 02 42 44 48 40 00 00</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[3]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27711" name="展示表情【端口1】x【1.5】y【0】表情为【-默认-】">
+	<node_order><![CDATA[1004]]></node_order>
+	<externalid><![CDATA[1330]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`auriga.setLedMatrixEmotion(1, 1.5, 0, &#39;0_0&#39;);`ff 55 17 00 02 29 01 02 00 00 00 00 40 48 44 42 02 02 02 02 42 44 48 40 00 00</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[1]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+</testsuite><testsuite id="27691" name="显示字符" >
+<node_order><![CDATA[3]]></node_order>
+<details><![CDATA[]]></details> 
+
+<testcase internalid="27692" name="展示字符【端口1】x【0】y【0】字符为【'hi'】">
+	<node_order><![CDATA[1000]]></node_order>
+	<externalid><![CDATA[1321]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`auriga.setLedMatrixChar(1, 0, 0, &#39;hi&#39;);`ff 55 0a 00 02 29 01 01 00 00 02 68 69</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[3]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27694" name="展示字符【端口2】x【1】y【0】字符为【'hi'】">
+	<node_order><![CDATA[1001]]></node_order>
+	<externalid><![CDATA[1322]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`auriga.setLedMatrixChar(2, 1, 0, &#39;hi&#39;);`ff 55 0a 00 02 29 02 01 01 00 02 68 69</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27696" name="展示字符【端口3】x【0】y【2】字符为【'hi'】">
+	<node_order><![CDATA[1002]]></node_order>
+	<externalid><![CDATA[1323]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`auriga.setLedMatrixChar(3, 0, 2, &#39;hi&#39;);`ff 55 0a 00 02 29 03 01 00 02 02 68 69</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27698" name="展示字符【端口4】x【2】y【-1】字符为【'hi'】">
+	<node_order><![CDATA[1003]]></node_order>
+	<externalid><![CDATA[1324]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`auriga.setLedMatrixChar(4, 2, -1, &#39;hi&#39;);`ff 55 0a 00 02 29 04 01 02 ff 02 68 69</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[3]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27700" name="展示字符【端口1】x【1.5】y【0】字符为【'hi'】">
+	<node_order><![CDATA[1004]]></node_order>
+	<externalid><![CDATA[1325]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`auriga.setLedMatrixChar(1, 1.5, 0, &#39;hi&#39;);`ff 55 0a 00 02 29 01 01 00 00 02 68 69</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[1]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+</testsuite></testsuite><testsuite id="25247" name="智能舵机" >
 <node_order><![CDATA[10]]></node_order>
 <details><![CDATA[]]></details> 
 
@@ -11273,6 +12533,36 @@
 </step>
 </steps>
 </testcase>
+
+<testcase internalid="27524" name="操作实际连接不存在的舵机">
+	<node_order><![CDATA[1003]]></node_order>
+	<externalid><![CDATA[1244]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[3]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27526" name="设置后取消操作">
+	<node_order><![CDATA[1004]]></node_order>
+	<externalid><![CDATA[1245]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
 </testsuite></testsuite><testsuite id="18606" name="MegaPi" >
 <node_order><![CDATA[4]]></node_order>
 <details><![CDATA[]]></details> 
@@ -11437,7 +12727,9 @@
 	<node_order><![CDATA[1005]]></node_order>
 	<externalid><![CDATA[616]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`megapi.setFourLeds(7, 0, 255, 0, 0);`ff 55 09 00 02 08 07 02 00 ff 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -11452,7 +12744,9 @@
 	<node_order><![CDATA[1006]]></node_order>
 	<externalid><![CDATA[617]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`megapi.setFourLeds(6, 1, 0, 255, 0);`ff 55 09 00 02 08 06 02 01 00 ff 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -11467,7 +12761,9 @@
 	<node_order><![CDATA[1007]]></node_order>
 	<externalid><![CDATA[618]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`megapi.setFourLeds(7, 2, 0, 0, 255);`ff 55 09 00 02 08 07 02 02 00 00 ff</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -11482,7 +12778,9 @@
 	<node_order><![CDATA[1008]]></node_order>
 	<externalid><![CDATA[619]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`megapi.setFourLeds(6, 3, 100, 100, 100);`ff 55 09 00 02 08 06 02 03 64 64 64</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -11497,7 +12795,9 @@
 	<node_order><![CDATA[1009]]></node_order>
 	<externalid><![CDATA[620]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`megapi.setFourLeds(8, 4, 0, 0, 0);`ff 55 09 00 02 08 08 02 04 00 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -11512,7 +12812,9 @@
 	<node_order><![CDATA[1010]]></node_order>
 	<externalid><![CDATA[621]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`megapi.setFourLeds(6, 0, 256, 0, 0);`ff 55 09 00 02 08 06 02 00 ff 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[1]]></importance>
@@ -11527,7 +12829,9 @@
 	<node_order><![CDATA[1011]]></node_order>
 	<externalid><![CDATA[622]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`megapi.setFourLeds(6, 0, -1, 0, 0);`ff 55 09 00 02 08 06 02 00 00 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[1]]></importance>
@@ -11641,7 +12945,9 @@
 	<node_order><![CDATA[1009]]></node_order>
 	<externalid><![CDATA[633]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`megapi.setLed(6, 1, 0, 255, 0, 0);`ff 55 09 00 02 08 06 01 00 ff 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -11656,7 +12962,9 @@
 	<node_order><![CDATA[1010]]></node_order>
 	<externalid><![CDATA[634]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`megapi.setLed(7, 1, 1, 0, 255, 0);`ff 55 09 00 02 08 07 01 01 00 ff 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -11671,7 +12979,9 @@
 	<node_order><![CDATA[1025]]></node_order>
 	<externalid><![CDATA[637]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`megapi.setLed(8, 1, 8, 255, 0, 0);`ff 55 09 00 02 08 08 01 08 ff 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -11686,7 +12996,9 @@
 	<node_order><![CDATA[1026]]></node_order>
 	<externalid><![CDATA[638]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`megapi.setLed(6, 2, 4, 0, 0, 0);`ff 55 09 00 02 08 06 02 04 00 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -11701,7 +13013,9 @@
 	<node_order><![CDATA[1027]]></node_order>
 	<externalid><![CDATA[639]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`megapi.setLed(7, 2, 5, 100, 100, 0);`ff 55 09 00 02 08 07 02 05 64 64 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -11716,7 +13030,9 @@
 	<node_order><![CDATA[1030]]></node_order>
 	<externalid><![CDATA[642]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`megapi.setLed(8, 2, 8, 255, 0, 0);`ff 55 09 00 02 08 08 02 08 ff 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -11731,7 +13047,9 @@
 	<node_order><![CDATA[1031]]></node_order>
 	<externalid><![CDATA[643]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`megapi.setLed(6, 1, 0, 256, 0, 0);`ff 55 09 00 02 08 06 01 00 ff 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[1]]></importance>
@@ -11746,7 +13064,9 @@
 	<node_order><![CDATA[1032]]></node_order>
 	<externalid><![CDATA[644]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`megapi.setLed(8, 1, 0, -1, 0, 0);`ff 55 09 00 02 08 08 01 00 00 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[1]]></importance>
@@ -11764,7 +13084,9 @@
 	<node_order><![CDATA[0]]></node_order>
 	<externalid><![CDATA[645]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`megapi.setLed(7, 2, 1, 0, 0, 0);`ff 55 09 00 02 08 07 02 01 00 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -11779,7 +13101,9 @@
 	<node_order><![CDATA[1]]></node_order>
 	<externalid><![CDATA[646]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`megapi.setLed(6, 1, 0, 0, 0, 0);`ff 55 09 00 02 08 06 01 00 00 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -11794,7 +13118,9 @@
 	<node_order><![CDATA[4]]></node_order>
 	<externalid><![CDATA[649]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`megapi.setLed(8, 1, 4, 0, 0, 0);`ff 55 09 00 02 08 08 01 04 00 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -11812,7 +13138,9 @@
 	<node_order><![CDATA[1000]]></node_order>
 	<externalid><![CDATA[650]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`megapi.setSevenSegment(7, 0);`ff 55 08 00 02 09 07 00 00 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -11827,7 +13155,9 @@
 	<node_order><![CDATA[1001]]></node_order>
 	<externalid><![CDATA[651]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`megapi.setSevenSegment(8, 100);`ff 55 08 00 02 09 08 00 00 c8 42</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -11842,7 +13172,9 @@
 	<node_order><![CDATA[1002]]></node_order>
 	<externalid><![CDATA[652]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`megapi.setSevenSegment(6, -100);`ff 55 08 00 02 09 06 00 00 c8 c2</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -11857,7 +13189,9 @@
 	<node_order><![CDATA[1003]]></node_order>
 	<externalid><![CDATA[653]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`megapi.setSevenSegment(7, 12345);`ff 55 08 00 02 09 07 00 3c 1c 46</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -11872,7 +13206,9 @@
 	<node_order><![CDATA[1004]]></node_order>
 	<externalid><![CDATA[654]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`megapi.setSevenSegment(6, -1234);`ff 55 08 00 02 09 06 00 c0 79 c4</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -11887,7 +13223,9 @@
 	<node_order><![CDATA[1005]]></node_order>
 	<externalid><![CDATA[655]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`megapi.setSevenSegment(8, 0.5);`ff 55 08 00 02 09 08 00 00 00 3f</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[1]]></importance>
@@ -11905,7 +13243,9 @@
 	<node_order><![CDATA[1000]]></node_order>
 	<externalid><![CDATA[656]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`megapi.setShutter(6, 0);`ff 55 05 00 02 14 06 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -11920,7 +13260,9 @@
 	<node_order><![CDATA[1001]]></node_order>
 	<externalid><![CDATA[657]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`megapi.setShutter(7, 1);`ff 55 05 00 02 14 07 01</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -11935,7 +13277,9 @@
 	<node_order><![CDATA[1002]]></node_order>
 	<externalid><![CDATA[658]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`megapi.setShutter(6, 2);`ff 55 05 00 02 14 06 02</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -11950,7 +13294,9 @@
 	<node_order><![CDATA[1003]]></node_order>
 	<externalid><![CDATA[659]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`megapi.setShutter(7, 3);`ff 55 05 00 02 14 07 03</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -11965,7 +13311,9 @@
 	<node_order><![CDATA[1004]]></node_order>
 	<externalid><![CDATA[660]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`megapi.setShutter(8, 0);`ff 55 05 00 02 14 08 00</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -11978,12 +13326,17 @@
 </testsuite><testsuite id="20115" name="表情面板" >
 <node_order><![CDATA[8]]></node_order>
 <details><![CDATA[]]></details> 
+<testsuite id="27776" name="显示字符" >
+<node_order><![CDATA[0]]></node_order>
+<details><![CDATA[]]></details> 
 
-<testcase internalid="20116" name="展示表情【端口6】x【0】y【0】表情为【-默认-】">
+<testcase internalid="27777" name="展示字符【端口1】x【0】y【0】字符为【'hi'】">
 	<node_order><![CDATA[1000]]></node_order>
-	<externalid><![CDATA[661]]></externalid>
+	<externalid><![CDATA[1360]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`megapi.setLedMatrixChar(1, 0, 0, &#39;hi&#39;);`ff 55 0a 00 02 29 01 01 00 00 02 68 69</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -11994,11 +13347,13 @@
 
 </testcase>
 
-<testcase internalid="20118" name="展示表情【端口7】x【1】y【0】表情为【-自定义-】">
+<testcase internalid="27779" name="展示字符【端口2】x【1】y【0】字符为【'hi'】">
 	<node_order><![CDATA[1001]]></node_order>
-	<externalid><![CDATA[662]]></externalid>
+	<externalid><![CDATA[1361]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`megapi.setLedMatrixChar(2, 1, 0, &#39;hi&#39;);`ff 55 0a 00 02 29 02 01 01 00 02 68 69</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -12009,11 +13364,13 @@
 
 </testcase>
 
-<testcase internalid="20120" name="展示表情【端口8】x【0】y【2】表情为【-自定义-】">
+<testcase internalid="27781" name="展示字符【端口3】x【0】y【2】字符为【'hi'】">
 	<node_order><![CDATA[1002]]></node_order>
-	<externalid><![CDATA[663]]></externalid>
+	<externalid><![CDATA[1362]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`megapi.setLedMatrixChar(3, 0, 2, &#39;hi&#39;);`ff 55 0a 00 02 29 03 01 00 02 02 68 69</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -12024,11 +13381,13 @@
 
 </testcase>
 
-<testcase internalid="20122" name="展示表情【端口6】x【2】y【-1】表情为【-自定义-】">
+<testcase internalid="27783" name="展示字符【端口4】x【2】y【-1】字符为【'hi'】">
 	<node_order><![CDATA[1003]]></node_order>
-	<externalid><![CDATA[664]]></externalid>
+	<externalid><![CDATA[1363]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`megapi.setLedMatrixChar(4, 2, -1, &#39;hi&#39;);`ff 55 0a 00 02 29 04 01 02 ff 02 68 69</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -12039,11 +13398,13 @@
 
 </testcase>
 
-<testcase internalid="20124" name="展示表情【端口6】x【1.5】y【0】表情为【-默认-】">
+<testcase internalid="27785" name="展示字符【端口1】x【1.5】y【0】字符为【'hi'】">
 	<node_order><![CDATA[1004]]></node_order>
-	<externalid><![CDATA[665]]></externalid>
+	<externalid><![CDATA[1364]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	send:`megapi.setLedMatrixChar(1, 1.5, 0, &#39;hi&#39;);`ff 55 0a 00 02 29 01 01 00 00 02 68 69</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[1]]></importance>
@@ -12053,7 +13414,305 @@
 	<active>1</active>
 
 </testcase>
-</testsuite></testsuite><testsuite id="18607" name="Crystal" >
+</testsuite><testsuite id="27765" name="显示表情" >
+<node_order><![CDATA[1]]></node_order>
+<details><![CDATA[]]></details> 
+
+<testcase internalid="27766" name="展示表情【端口1】x【0】y【0】表情为【-默认-】">
+	<node_order><![CDATA[1000]]></node_order>
+	<externalid><![CDATA[1355]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`megapi.setLedMatrixEmotion(1, 0, 0, &#39;0_0&#39;);`ff 55 17 00 02 29 01 02 00 00 00 00 40 48 44 42 02 02 02 02 42 44 48 40 00 00</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[3]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27768" name="展示表情【端口2】x【1】y【0】表情为【-自定义-】">
+	<node_order><![CDATA[1001]]></node_order>
+	<externalid><![CDATA[1356]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`megapi.setLedMatrixEmotion(2, 1, 0, &#39;0_0&#39;);`ff 55 17 00 02 29 02 02 01 00 00 00 40 48 44 42 02 02 02 02 42 44 48 40 00 00</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27770" name="展示表情【端口3】x【0】y【2】表情为【-自定义-】">
+	<node_order><![CDATA[1002]]></node_order>
+	<externalid><![CDATA[1357]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`megapi.setLedMatrixEmotion(3, 0, 2, &#39;0_0&#39;);`ff 55 17 00 02 29 03 02 00 02 00 00 40 48 44 42 02 02 02 02 42 44 48 40 00 00</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27772" name="展示表情【端口4】x【2】y【-1】表情为【-自定义-】">
+	<node_order><![CDATA[1003]]></node_order>
+	<externalid><![CDATA[1358]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`megapi.setLedMatrixEmotion(4, 2, -1, &#39;0_0&#39;);`ff 55 17 00 02 29 04 02 02 ff 00 00 40 48 44 42 02 02 02 02 42 44 48 40 00 00</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[3]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27774" name="展示表情【端口1】x【1.5】y【0】表情为【-默认-】">
+	<node_order><![CDATA[1004]]></node_order>
+	<externalid><![CDATA[1359]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`megapi.setLedMatrixEmotion(1, 1.5, 0, &#39;0_0&#39;);`ff 55 17 00 02 29 01 02 00 00 00 00 40 48 44 42 02 02 02 02 42 44 48 40 00 00</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[1]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+</testsuite><testsuite id="27752" name="显示时间" >
+<node_order><![CDATA[2]]></node_order>
+<details><![CDATA[]]></details> 
+
+<testcase internalid="27753" name="展示时间【端口1】时间为【10:20】">
+	<node_order><![CDATA[1000]]></node_order>
+	<externalid><![CDATA[1349]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`megapi.setLedMatrixTime(1, 1, 10, 20);`ff 55 08 00 02 29 01 03 01 0a 14</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[3]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27755" name="展示时间【端口2】为【00:00】">
+	<node_order><![CDATA[1001]]></node_order>
+	<externalid><![CDATA[1350]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`megapi.setLedMatrixTime(2, 1, 0, 0);`ff 55 08 00 02 29 02 03 01 00 00</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27757" name="展示时间【端口3】为【23 59】">
+	<node_order><![CDATA[1002]]></node_order>
+	<externalid><![CDATA[1351]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`megapi.setLedMatrixTime(3, 0, 23, 59);`ff 55 08 00 02 29 03 03 00 17 3b</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27759" name="展示时间【端口4为【-1：00】">
+	<node_order><![CDATA[1003]]></node_order>
+	<externalid><![CDATA[1352]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`megapi.setLedMatrixTime(4, 1, -1, 0);`ff 55 08 00 02 29 04 03 01 00 00</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[3]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27761" name="展示时间【端口1】为【24:60】">
+	<node_order><![CDATA[1004]]></node_order>
+	<externalid><![CDATA[1353]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`megapi.setLedMatrixTime(1, 1, 24, 60);`ff 55 08 00 02 29 01 03 01 17 3b</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[1]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27763" name="展示时间【端口1】为【15.5 ： 20】">
+	<node_order><![CDATA[1005]]></node_order>
+	<externalid><![CDATA[1354]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`megapi.setLedMatrixTime(1, 1, 15.5, 20);`ff 55 08 00 02 29 01 03 01 0f 14</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+</testsuite><testsuite id="27739" name="显示数字" >
+<node_order><![CDATA[3]]></node_order>
+<details><![CDATA[]]></details> 
+
+<testcase internalid="27740" name="展示数字【端口1】为【0】">
+	<node_order><![CDATA[1000]]></node_order>
+	<externalid><![CDATA[1343]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`megapi.setLedMatrixNumber(1, 0);`ff 55 09 00 02 29 01 04 00 00 00 00</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[3]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27742" name="展示数字【端口2】为【12.25】">
+	<node_order><![CDATA[1001]]></node_order>
+	<externalid><![CDATA[1344]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`megapi.setLedMatrixNumber(2, 12.25);`ff 55 09 00 02 29 02 04 00 00 44 41</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27744" name="展示数字【端口3】为【2147483647】">
+	<node_order><![CDATA[1002]]></node_order>
+	<externalid><![CDATA[1345]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`megapi.setLedMatrixNumber(3, 2147483647);`ff 55 09 00 02 29 03 04 ff ff ff 4e</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27746" name="展示数字【端口4】为【-2147483648】">
+	<node_order><![CDATA[1003]]></node_order>
+	<externalid><![CDATA[1346]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`megapi.setLedMatrixNumber(4, -2147483648);`ff 55 09 00 02 29 04 04 00 00 00 cf</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[3]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27748" name="展示数字【端口1】为【2147483648】">
+	<node_order><![CDATA[1004]]></node_order>
+	<externalid><![CDATA[1347]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`megapi.setLedMatrixNumber(1, 2147483648);`ff 55 09 00 02 29 01 04 ff ff ff 4e</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[1]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27750" name="展示数字【端口1】为【-2147483649】">
+	<node_order><![CDATA[1005]]></node_order>
+	<externalid><![CDATA[1348]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`megapi.setLedMatrixNumber(1, -2147483649);`ff 55 09 00 02 29 01 04 00 00 00 cf</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+</testsuite></testsuite></testsuite><testsuite id="18607" name="Crystal" >
 <node_order><![CDATA[5]]></node_order>
 <details><![CDATA[]]></details> 
 <testsuite id="20161" name="显示值" >
@@ -16316,7 +17975,7 @@
 	<externalid><![CDATA[976]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	auriga.readUltrasonic(0, 6)`ff 55 04 00 01 01 06</p>
+	send:`auriga.readUltrasonic(0, 6)`ff 55 04 00 01 01 06</p>
 ]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
@@ -16333,7 +17992,7 @@
 	<externalid><![CDATA[977]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	auriga.readUltrasonic(0, 7)`ff 55 04 00 01 01 07</p>
+	send:`auriga.readUltrasonic(0, 7)`ff 55 04 00 01 01 07</p>
 ]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
@@ -16350,7 +18009,7 @@
 	<externalid><![CDATA[978]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	auriga.readUltrasonic(0, 9)`ff 55 04 00 01 01 09</p>
+	send:`auriga.readUltrasonic(0, 9)`ff 55 04 00 01 01 09</p>
 ]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
@@ -16367,7 +18026,7 @@
 	<externalid><![CDATA[979]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	auriga.readUltrasonic(0, 10)`ff 55 04 00 01 01 0a</p>
+	send:`auriga.readUltrasonic(0, 10)`ff 55 04 00 01 01 0a</p>
 ]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
@@ -16384,7 +18043,7 @@
 	<externalid><![CDATA[980]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	auriga.readUltrasonic(0, 8)`ff 55 04 00 01 01 08</p>
+	send:`auriga.readUltrasonic(0, 8)`ff 55 04 00 01 01 08</p>
 ]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
@@ -19868,4 +21527,393 @@
 </testsuite><testsuite id="27378" name="内容页面操作" >
 <node_order><![CDATA[11]]></node_order>
 <details><![CDATA[]]></details> 
+</testsuite><testsuite id="27566" name="@固件模式" >
+<node_order><![CDATA[12]]></node_order>
+<details><![CDATA[]]></details> 
+<testsuite id="27569" name="orion" >
+<node_order><![CDATA[1]]></node_order>
+<details><![CDATA[]]></details> 
+
+<testcase internalid="27572" name="设置固件模式【00蓝牙】">
+	<node_order><![CDATA[1000]]></node_order>
+	<externalid><![CDATA[1265]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`orion.setFirmwareMode(0);`ff 55 05 00 02 3c 11 00</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[3]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27574" name="设置固件模式【01自动避障】">
+	<node_order><![CDATA[1001]]></node_order>
+	<externalid><![CDATA[1266]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`orion.setFirmwareMode(1);`ff 55 05 00 02 3c 11 01</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[3]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27576" name="设置固件模式【02平衡车】">
+	<node_order><![CDATA[1002]]></node_order>
+	<externalid><![CDATA[1267]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`orion.setFirmwareMode(2);`ff 55 05 00 02 3c 11 02</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[3]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27578" name="设置固件模式【03红外】">
+	<node_order><![CDATA[1003]]></node_order>
+	<externalid><![CDATA[1268]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`orion.setFirmwareMode(3);`ff 55 05 00 02 3c 11 03</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[3]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27580" name="设置固件模式【04巡线】">
+	<node_order><![CDATA[1004]]></node_order>
+	<externalid><![CDATA[1269]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`orion.setFirmwareMode(4);`ff 55 05 00 02 3c 11 04</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27582" name="设置固件模式【09错误】">
+	<node_order><![CDATA[1005]]></node_order>
+	<externalid><![CDATA[1270]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`orion.setFirmwareMode(9);`ff 55 05 00 02 3c 11 00</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+</testsuite><testsuite id="27570" name="auriga" >
+<node_order><![CDATA[2]]></node_order>
+<details><![CDATA[]]></details> 
+
+<testcase internalid="27610" name="设置固件模式【00蓝牙】">
+	<node_order><![CDATA[1000]]></node_order>
+	<externalid><![CDATA[1283]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`auriga.setFirmwareMode(0);`ff 55 05 00 02 3c 11 00</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[3]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27612" name="设置固件模式【01自动避障】">
+	<node_order><![CDATA[1001]]></node_order>
+	<externalid><![CDATA[1284]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`auriga.setFirmwareMode(1);`ff 55 05 00 02 3c 11 01</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[3]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27614" name="设置固件模式【02平衡车】">
+	<node_order><![CDATA[1002]]></node_order>
+	<externalid><![CDATA[1285]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`auriga.setFirmwareMode(2);`ff 55 05 00 02 3c 11 02</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[3]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27616" name="设置固件模式【03红外】">
+	<node_order><![CDATA[1003]]></node_order>
+	<externalid><![CDATA[1286]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`auriga.setFirmwareMode(3);`ff 55 05 00 02 3c 11 03</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[3]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27618" name="设置固件模式【04巡线】">
+	<node_order><![CDATA[1004]]></node_order>
+	<externalid><![CDATA[1287]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`auriga.setFirmwareMode(4);`ff 55 05 00 02 3c 11 04</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27620" name="设置固件模式【09错误】">
+	<node_order><![CDATA[1005]]></node_order>
+	<externalid><![CDATA[1288]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`auriga.setFirmwareMode(9);`ff 55 05 00 02 3c 11 00</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+</testsuite><testsuite id="27571" name="megapi" >
+<node_order><![CDATA[3]]></node_order>
+<details><![CDATA[]]></details> 
+
+<testcase internalid="27622" name="设置固件模式【00蓝牙】">
+	<node_order><![CDATA[1000]]></node_order>
+	<externalid><![CDATA[1289]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`megapi.setFirmwareMode(0);`ff 55 05 00 02 3c 11 00</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[3]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27624" name="设置固件模式【01自动避障】">
+	<node_order><![CDATA[1001]]></node_order>
+	<externalid><![CDATA[1290]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`megapi.setFirmwareMode(1);`ff 55 05 00 02 3c 11 01</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[3]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27626" name="设置固件模式【02平衡车】">
+	<node_order><![CDATA[1002]]></node_order>
+	<externalid><![CDATA[1291]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`megapi.setFirmwareMode(2);`ff 55 05 00 02 3c 11 02</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[3]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27628" name="设置固件模式【03红外】">
+	<node_order><![CDATA[1003]]></node_order>
+	<externalid><![CDATA[1292]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`megapi.setFirmwareMode(3);`ff 55 05 00 02 3c 11 03</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[3]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27630" name="设置固件模式【04巡线】">
+	<node_order><![CDATA[1004]]></node_order>
+	<externalid><![CDATA[1293]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`megapi.setFirmwareMode(4);`ff 55 05 00 02 3c 11 04</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27632" name="设置固件模式【09错误】">
+	<node_order><![CDATA[1005]]></node_order>
+	<externalid><![CDATA[1294]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`megapi.setFirmwareMode(9);`ff 55 05 00 02 3c 11 00</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+</testsuite></testsuite><testsuite id="27634" name="@重启指令" >
+<node_order><![CDATA[13]]></node_order>
+<details><![CDATA[]]></details> 
+
+<testcase internalid="27635" name="mcore(出厂版本不支持)主板重启">
+	<node_order><![CDATA[1000]]></node_order>
+	<externalid><![CDATA[1295]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`mcore.reset();`ff 55 02 00 04</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[3]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27637" name="orion主板重启">
+	<node_order><![CDATA[1001]]></node_order>
+	<externalid><![CDATA[1296]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`orion.reset();`ff 55 02 00 04</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[3]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27639" name="auriga主板重启">
+	<node_order><![CDATA[1002]]></node_order>
+	<externalid><![CDATA[1297]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`auriga.reset();`ff 55 02 00 04</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[3]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27641" name="megapi主板重启">
+	<node_order><![CDATA[1003]]></node_order>
+	<externalid><![CDATA[1298]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send:`megapi.reset();`ff 55 02 00 04</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[3]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
 </testsuite></testsuite>
