@@ -29,8 +29,9 @@ var drivenData = temporaryData.drivenData;//得到测试数据
 describe('interface:', function() {
   before(function(done) {
     setTimeout(function() {
+      console.log("启动时间：4秒～～～OK！");
       done();
-    }, 1000);
+    }, 4000);
   });
 
   drivenData.forEach(function(d) {
@@ -40,6 +41,7 @@ describe('interface:', function() {
         var optionsModular = d.caseSummary[2]; //读取的模块类型
         var optionsPort = d.caseSummary[3]; //port、slot口参数
         deviceType.getSensorValue(optionsModular, optionsPort, function(result) {
+          // console.log("        这条读指令的返回值为 ： " + result);
           eval(d.caseSummary[4]); //断言
           done();
         });

@@ -14326,7 +14326,9 @@
 	<node_order><![CDATA[1000]]></node_order>
 	<externalid><![CDATA[729]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`mcore`flame`{&#39;port&#39;: 3}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -14341,7 +14343,9 @@
 	<node_order><![CDATA[1001]]></node_order>
 	<externalid><![CDATA[730]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`mcore`flame`{&#39;port&#39;: 4}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -14359,7 +14363,9 @@
 	<node_order><![CDATA[1000]]></node_order>
 	<externalid><![CDATA[734]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`mcore`touch`{&#39;port&#39;: 1}`assert.isNumber(result);assert.oneOf(result,[0,1]);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -14374,7 +14380,9 @@
 	<node_order><![CDATA[1001]]></node_order>
 	<externalid><![CDATA[735]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`mcore`touch`{&#39;port&#39;: 2}`assert.isNumber(result);assert.oneOf(result,[0,1]);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -14389,7 +14397,9 @@
 	<node_order><![CDATA[1002]]></node_order>
 	<externalid><![CDATA[736]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`mcore`touch`{&#39;port&#39;: 3}`assert.isNumber(result);assert.oneOf(result,[0,1]);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -14404,7 +14414,9 @@
 	<node_order><![CDATA[1003]]></node_order>
 	<externalid><![CDATA[737]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`mcore`touch`{&#39;port&#39;: 4}`assert.isNumber(result);assert.oneOf(result,[0,1]);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -14422,7 +14434,9 @@
 	<node_order><![CDATA[1000]]></node_order>
 	<externalid><![CDATA[739]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`mcore`fourKeys`{&#39;port&#39;: 1,&#39;key&#39;:1}`assert.isNumber(result);assert.oneOf(result,[0,1]);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -14437,7 +14451,9 @@
 	<node_order><![CDATA[1001]]></node_order>
 	<externalid><![CDATA[740]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`mcore`fourKeys`{&#39;port&#39;: 4,&#39;key&#39;:2}`assert.isNumber(result);assert.oneOf(result,[0,1]);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -14452,7 +14468,9 @@
 	<node_order><![CDATA[1002]]></node_order>
 	<externalid><![CDATA[741]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`mcore`fourKeys`{&#39;port&#39;: 3,&#39;key&#39;:3}`assert.isNumber(result);assert.oneOf(result,[0,1]);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -14467,7 +14485,9 @@
 	<node_order><![CDATA[1003]]></node_order>
 	<externalid><![CDATA[742]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`mcore`fourKeys`{&#39;port&#39;: 4,&#39;key&#39;:4}`assert.isNumber(result);assert.oneOf(result,[0,1]);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -14884,7 +14904,9 @@
 	<node_order><![CDATA[1000]]></node_order>
 	<externalid><![CDATA[776]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`orion`flame`{&#39;port&#39;: 6}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -14899,7 +14921,9 @@
 	<node_order><![CDATA[1001]]></node_order>
 	<externalid><![CDATA[777]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`orion`flame`{&#39;port&#39;: 7}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -14914,7 +14938,9 @@
 	<node_order><![CDATA[1002]]></node_order>
 	<externalid><![CDATA[778]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`orion`flame`{&#39;port&#39;: 8}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -14929,7 +14955,9 @@
 	<node_order><![CDATA[1003]]></node_order>
 	<externalid><![CDATA[779]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`orion`flame`{&#39;port&#39;: 3}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -14944,7 +14972,9 @@
 	<node_order><![CDATA[1004]]></node_order>
 	<externalid><![CDATA[780]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`orion`flame`{&#39;port&#39;: 4}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -14962,7 +14992,9 @@
 	<node_order><![CDATA[1000]]></node_order>
 	<externalid><![CDATA[781]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`orion`touch`{&#39;port&#39;: 6}`assert.isNumber(result);assert.oneOf(result,[0,1]);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -14977,7 +15009,9 @@
 	<node_order><![CDATA[1001]]></node_order>
 	<externalid><![CDATA[782]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`orion`touch`{&#39;port&#39;: 7}`assert.isNumber(result);assert.oneOf(result,[0,1]);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -14992,7 +15026,9 @@
 	<node_order><![CDATA[1002]]></node_order>
 	<externalid><![CDATA[783]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`orion`touch`{&#39;port&#39;: 8}`assert.isNumber(result);assert.oneOf(result,[0,1]);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -15007,7 +15043,9 @@
 	<node_order><![CDATA[1003]]></node_order>
 	<externalid><![CDATA[784]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`orion`touch`{&#39;port&#39;: 3}`assert.isNumber(result);assert.oneOf(result,[0,1]);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -15022,7 +15060,9 @@
 	<node_order><![CDATA[1004]]></node_order>
 	<externalid><![CDATA[785]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`orion`touch`{&#39;port&#39;: 4}`assert.isNumber(result);assert.oneOf(result,[0,1]);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -15040,7 +15080,9 @@
 	<node_order><![CDATA[1000]]></node_order>
 	<externalid><![CDATA[786]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`orion`fourKeys`{&#39;port&#39;: 6,&#39;key&#39;:1}`assert.isNumber(result);assert.oneOf(result,[0,1]);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -15055,7 +15097,9 @@
 	<node_order><![CDATA[1001]]></node_order>
 	<externalid><![CDATA[787]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`orion`fourKeys`{&#39;port&#39;: 7,&#39;key&#39;:2}`assert.isNumber(result);assert.oneOf(result,[0,1]);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -15070,7 +15114,9 @@
 	<node_order><![CDATA[1002]]></node_order>
 	<externalid><![CDATA[788]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`orion`fourKeys`{&#39;port&#39;: 8,&#39;key&#39;:3}`assert.isNumber(result);assert.oneOf(result,[0,1]);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -15085,7 +15131,9 @@
 	<node_order><![CDATA[1003]]></node_order>
 	<externalid><![CDATA[789]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`orion`fourKeys`{&#39;port&#39;: 3,&#39;key&#39;:4}`assert.isNumber(result);assert.oneOf(result,[0,1]);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -15100,7 +15148,9 @@
 	<node_order><![CDATA[1004]]></node_order>
 	<externalid><![CDATA[790]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`orion`fourKeys`{&#39;port&#39;: 4,&#39;key&#39;:1}`assert.isNumber(result);assert.oneOf(result,[0,1]);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -15622,7 +15672,9 @@
 	<node_order><![CDATA[1000]]></node_order>
 	<externalid><![CDATA[823]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`auriga`flame`{&#39;port&#39;: 6}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -15637,7 +15689,9 @@
 	<node_order><![CDATA[1001]]></node_order>
 	<externalid><![CDATA[824]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`auriga`flame`{&#39;port&#39;: 7}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -15652,7 +15706,9 @@
 	<node_order><![CDATA[1002]]></node_order>
 	<externalid><![CDATA[825]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`auriga`flame`{&#39;port&#39;: 8}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -15667,7 +15723,9 @@
 	<node_order><![CDATA[1003]]></node_order>
 	<externalid><![CDATA[826]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`auriga`flame`{&#39;port&#39;: 9}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -15682,7 +15740,9 @@
 	<node_order><![CDATA[1004]]></node_order>
 	<externalid><![CDATA[827]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`auriga`flame`{&#39;port&#39;: 10}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -15700,7 +15760,9 @@
 	<node_order><![CDATA[1000]]></node_order>
 	<externalid><![CDATA[828]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`auriga`touch`{&#39;port&#39;: 6}`assert.isNumber(result);assert.oneOf(result,[0,1]);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -15715,7 +15777,9 @@
 	<node_order><![CDATA[1001]]></node_order>
 	<externalid><![CDATA[829]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`auriga`touch`{&#39;port&#39;: 7}`assert.isNumber(result);assert.oneOf(result,[0,1]);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -15730,7 +15794,9 @@
 	<node_order><![CDATA[1002]]></node_order>
 	<externalid><![CDATA[830]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`auriga`touch`{&#39;port&#39;: 8}`assert.isNumber(result);assert.oneOf(result,[0,1]);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -15745,7 +15811,9 @@
 	<node_order><![CDATA[1003]]></node_order>
 	<externalid><![CDATA[831]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`auriga`touch`{&#39;port&#39;: 9}`assert.isNumber(result);assert.oneOf(result,[0,1]);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -15760,7 +15828,9 @@
 	<node_order><![CDATA[1004]]></node_order>
 	<externalid><![CDATA[832]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`auriga`touch`{&#39;port&#39;: 10}`assert.isNumber(result);assert.oneOf(result,[0,1]);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -15778,7 +15848,9 @@
 	<node_order><![CDATA[1000]]></node_order>
 	<externalid><![CDATA[833]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`auriga`fourKeys`{&#39;port&#39;: 6,&#39;key&#39;:1}`assert.isNumber(result);assert.oneOf(result,[0,1]);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -15793,7 +15865,9 @@
 	<node_order><![CDATA[1001]]></node_order>
 	<externalid><![CDATA[834]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`auriga`fourKeys`{&#39;port&#39;: 7,&#39;key&#39;:2}`assert.isNumber(result);assert.oneOf(result,[0,1]);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -15808,7 +15882,9 @@
 	<node_order><![CDATA[1002]]></node_order>
 	<externalid><![CDATA[835]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`auriga`fourKeys`{&#39;port&#39;: 8,&#39;key&#39;:3}`assert.isNumber(result);assert.oneOf(result,[0,1]);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -15823,7 +15899,9 @@
 	<node_order><![CDATA[1003]]></node_order>
 	<externalid><![CDATA[836]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`auriga`fourKeys`{&#39;port&#39;: 9,&#39;key&#39;:4}`assert.isNumber(result);assert.oneOf(result,[0,1]);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -15838,7 +15916,9 @@
 	<node_order><![CDATA[1004]]></node_order>
 	<externalid><![CDATA[837]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`auriga`fourKeys`{&#39;port&#39;: 10,&#39;key&#39;:1}`assert.isNumber(result);assert.oneOf(result,[0,1]);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -16210,7 +16290,9 @@
 	<node_order><![CDATA[1000]]></node_order>
 	<externalid><![CDATA[870]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`megapi`flame`{&#39;port&#39;: 6}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -16225,7 +16307,9 @@
 	<node_order><![CDATA[1001]]></node_order>
 	<externalid><![CDATA[871]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`megapi`flame`{&#39;port&#39;: 7}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -16240,7 +16324,9 @@
 	<node_order><![CDATA[1002]]></node_order>
 	<externalid><![CDATA[872]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`megapi`flame`{&#39;port&#39;: 8}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -16258,7 +16344,9 @@
 	<node_order><![CDATA[1000]]></node_order>
 	<externalid><![CDATA[875]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`megapi`touch`{&#39;port&#39;: 6}`assert.isNumber(result);assert.oneOf(result,[0,1]);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -16273,7 +16361,9 @@
 	<node_order><![CDATA[1001]]></node_order>
 	<externalid><![CDATA[876]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`megapi`touch`{&#39;port&#39;: 7}`assert.isNumber(result);assert.oneOf(result,[0,1]);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -16288,7 +16378,9 @@
 	<node_order><![CDATA[1002]]></node_order>
 	<externalid><![CDATA[877]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`megapi`touch`{&#39;port&#39;: 8}`assert.isNumber(result);assert.oneOf(result,[0,1]);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -16306,7 +16398,9 @@
 	<node_order><![CDATA[1000]]></node_order>
 	<externalid><![CDATA[880]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`megapi`fourKeys`{&#39;port&#39;: 6,&#39;key&#39;:1}`assert.isNumber(result);assert.oneOf(result,[0,1]);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -16321,7 +16415,9 @@
 	<node_order><![CDATA[1001]]></node_order>
 	<externalid><![CDATA[881]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`megapi`fourKeys`{&#39;port&#39;: 7,&#39;key&#39;:2}`assert.isNumber(result);assert.oneOf(result,[0,1]);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -16336,7 +16432,9 @@
 	<node_order><![CDATA[1002]]></node_order>
 	<externalid><![CDATA[882]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`megapi`fourKeys`{&#39;port&#39;: 8,&#39;key&#39;:3}`assert.isNumber(result);assert.oneOf(result,[0,1]);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -16351,7 +16449,9 @@
 	<node_order><![CDATA[1004]]></node_order>
 	<externalid><![CDATA[884]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`megapi`fourKeys`{&#39;port&#39;: 6,&#39;key&#39;:4}`assert.isNumber(result);assert.oneOf(result,[0,1]);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -16573,7 +16673,9 @@
 	<node_order><![CDATA[1000]]></node_order>
 	<externalid><![CDATA[887]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`mcore`ultrasonic`{&#39;port&#39;: 1}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 400);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -16588,7 +16690,9 @@
 	<node_order><![CDATA[1001]]></node_order>
 	<externalid><![CDATA[888]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`mcore`ultrasonic`{&#39;port&#39;: 2}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 400);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -16603,7 +16707,9 @@
 	<node_order><![CDATA[1002]]></node_order>
 	<externalid><![CDATA[889]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`mcore`ultrasonic`{&#39;port&#39;: 3}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 400);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -16618,7 +16724,9 @@
 	<node_order><![CDATA[1003]]></node_order>
 	<externalid><![CDATA[890]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`mcore`ultrasonic`{&#39;port&#39;: 4}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 400);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -16636,7 +16744,9 @@
 	<node_order><![CDATA[1000]]></node_order>
 	<externalid><![CDATA[891]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`mcore`lineFollower`{&#39;port&#39;: 1}`assert.isNumber(result);assert.oneOf(result,[0,1,2,3]);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -16651,7 +16761,9 @@
 	<node_order><![CDATA[1001]]></node_order>
 	<externalid><![CDATA[892]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`mcore`lineFollower`{&#39;port&#39;: 2}`assert.isNumber(result);assert.oneOf(result,[0,1,2,3]);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -16666,7 +16778,9 @@
 	<node_order><![CDATA[1002]]></node_order>
 	<externalid><![CDATA[893]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`mcore`lineFollower`{&#39;port&#39;: 3}`assert.isNumber(result);assert.oneOf(result,[0,1,2,3]);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -16681,7 +16795,9 @@
 	<node_order><![CDATA[1003]]></node_order>
 	<externalid><![CDATA[894]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`mcore`lineFollower`{&#39;port&#39;: 4}`assert.isNumber(result);assert.oneOf(result,[0,1,2,3]);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -16699,7 +16815,9 @@
 	<node_order><![CDATA[1000]]></node_order>
 	<externalid><![CDATA[895]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`mcore`light`{&#39;port&#39;: 11}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -16714,7 +16832,9 @@
 	<node_order><![CDATA[1001]]></node_order>
 	<externalid><![CDATA[896]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`mcore`light`{&#39;port&#39;: 3}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -16729,7 +16849,9 @@
 	<node_order><![CDATA[1002]]></node_order>
 	<externalid><![CDATA[897]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`mcore`light`{&#39;port&#39;: 4}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -16747,7 +16869,9 @@
 	<node_order><![CDATA[1000]]></node_order>
 	<externalid><![CDATA[898]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`mcore`sound`{&#39;port&#39;: 3}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -16762,7 +16886,9 @@
 	<node_order><![CDATA[1001]]></node_order>
 	<externalid><![CDATA[899]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`mcore`sound`{&#39;port&#39;: 3}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -16780,7 +16906,9 @@
 	<node_order><![CDATA[1000]]></node_order>
 	<externalid><![CDATA[900]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`mcore`humiture`{&#39;port&#39;: 1}`assert.isNumber(result);assert.isAtLeast(result, -1024);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -16795,7 +16923,9 @@
 	<node_order><![CDATA[1001]]></node_order>
 	<externalid><![CDATA[901]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`mcore`humiture`{&#39;port&#39;: 3}`assert.isNumber(result);assert.isAtLeast(result, -1024);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -16810,7 +16940,9 @@
 	<node_order><![CDATA[1002]]></node_order>
 	<externalid><![CDATA[902]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`mcore`humiture`{&#39;port&#39;: 2}`assert.isNumber(result);assert.isAtLeast(result, -1024);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -16825,7 +16957,9 @@
 	<node_order><![CDATA[1003]]></node_order>
 	<externalid><![CDATA[903]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`mcore`humiture`{&#39;port&#39;: 4}`assert.isNumber(result);assert.isAtLeast(result, -1024);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -16843,7 +16977,9 @@
 	<node_order><![CDATA[1000]]></node_order>
 	<externalid><![CDATA[904]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`mcore`temperature`{&#39;port&#39;: 1,&#39;slot&#39;: 1}`assert.isNumber(result);assert.isAtLeast(result, -1024);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -16858,7 +16994,9 @@
 	<node_order><![CDATA[1001]]></node_order>
 	<externalid><![CDATA[905]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`mcore`temperature`{&#39;port&#39;: 2,&#39;slot&#39;: 2}`assert.isNumber(result);assert.isAtLeast(result, -1024);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -16873,7 +17011,9 @@
 	<node_order><![CDATA[1002]]></node_order>
 	<externalid><![CDATA[906]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`mcore`temperature`{&#39;port&#39;: 3,&#39;slot&#39;: 1}`assert.isNumber(result);assert.isAtLeast(result, -1024);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -16888,7 +17028,9 @@
 	<node_order><![CDATA[1003]]></node_order>
 	<externalid><![CDATA[907]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`mcore`temperature`{&#39;port&#39;: 4,&#39;slot&#39;: 2}`assert.isNumber(result);assert.isAtLeast(result, -1024);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -16906,7 +17048,9 @@
 	<node_order><![CDATA[1000]]></node_order>
 	<externalid><![CDATA[908]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`mcore`gas`{&#39;port&#39;: 3}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -16921,7 +17065,9 @@
 	<node_order><![CDATA[1001]]></node_order>
 	<externalid><![CDATA[909]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`mcore`gas`{&#39;port&#39;: 4}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -16939,7 +17085,9 @@
 	<node_order><![CDATA[1000]]></node_order>
 	<externalid><![CDATA[910]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`mcore`compass`{&#39;port&#39;: 1}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -16954,7 +17102,9 @@
 	<node_order><![CDATA[1001]]></node_order>
 	<externalid><![CDATA[911]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`mcore`compass`{&#39;port&#39;: 2}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -16969,7 +17119,9 @@
 	<node_order><![CDATA[1002]]></node_order>
 	<externalid><![CDATA[912]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`mcore`compass`{&#39;port&#39;: 3}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -16984,7 +17136,9 @@
 	<node_order><![CDATA[1003]]></node_order>
 	<externalid><![CDATA[913]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`mcore`compass`{&#39;port&#39;: 4}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -17002,7 +17156,9 @@
 	<node_order><![CDATA[1000]]></node_order>
 	<externalid><![CDATA[914]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`mcore`potentionmeter`{&#39;port&#39;: 3}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 1000);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -17017,7 +17173,9 @@
 	<node_order><![CDATA[1001]]></node_order>
 	<externalid><![CDATA[915]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`mcore`potentionmeter`{&#39;port&#39;: 4}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 1000);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -17035,7 +17193,9 @@
 	<node_order><![CDATA[1000]]></node_order>
 	<externalid><![CDATA[916]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`mcore`limitSwitch`{&#39;port&#39;: 1,&#39;slot&#39;: 1}`assert.isNumber(result);assert.oneOf(result,[0,1]);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -17050,7 +17210,9 @@
 	<node_order><![CDATA[1001]]></node_order>
 	<externalid><![CDATA[917]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`mcore`limitSwitch`{&#39;port&#39;: 2,&#39;slot&#39;: 2}`assert.isNumber(result);assert.oneOf(result,[0,1]);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -17065,7 +17227,9 @@
 	<node_order><![CDATA[1002]]></node_order>
 	<externalid><![CDATA[918]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`mcore`limitSwitch`{&#39;port&#39;: 3,&#39;slot&#39;: 1}`assert.isNumber(result);assert.oneOf(result,[0,1]);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -17080,7 +17244,9 @@
 	<node_order><![CDATA[1003]]></node_order>
 	<externalid><![CDATA[919]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`mcore`limitSwitch`{&#39;port&#39;: 4,&#39;slot&#39;: 2}`assert.isNumber(result);assert.oneOf(result,[0,1]);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -17098,7 +17264,9 @@
 	<node_order><![CDATA[1000]]></node_order>
 	<externalid><![CDATA[920]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`mcore`pirmotion`{&#39;port&#39;: 1}`assert.isNumber(result);assert.oneOf(result,[0,1]);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -17113,7 +17281,9 @@
 	<node_order><![CDATA[1001]]></node_order>
 	<externalid><![CDATA[921]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`mcore`pirmotion`{&#39;port&#39;: 2}`assert.isNumber(result);assert.oneOf(result,[0,1]);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -17128,7 +17298,9 @@
 	<node_order><![CDATA[1002]]></node_order>
 	<externalid><![CDATA[922]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`mcore`pirmotion`{&#39;port&#39;: 3}`assert.isNumber(result);assert.oneOf(result,[0,1]);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -17143,7 +17315,9 @@
 	<node_order><![CDATA[1003]]></node_order>
 	<externalid><![CDATA[923]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`mcore`pirmotion`{&#39;port&#39;: 4}`assert.isNumber(result);assert.oneOf(result,[0,1]);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -17161,7 +17335,9 @@
 	<node_order><![CDATA[1000]]></node_order>
 	<externalid><![CDATA[924]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`mcore`joystick`{&#39;port&#39;:3,&#39;x&#39;:1}`assert.isNumber(result);assert.isAtLeast(result,-492);assert.isAtMost(result, 492);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -17176,10 +17352,66 @@
 	<node_order><![CDATA[1001]]></node_order>
 	<externalid><![CDATA[925]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`mcore`joystick`{&#39;port&#39;:4,&#39;y&#39;:1}`assert.isNumber(result);assert.isAtLeast(result,-492);assert.isAtMost(result, 492);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+</testsuite><testsuite id="27787" name="陀螺仪" >
+<node_order><![CDATA[17]]></node_order>
+<details><![CDATA[]]></details> 
+
+<testcase internalid="27788" name="探测陀螺仪【端口1～4】在【x】轴">
+	<node_order><![CDATA[1000]]></node_order>
+	<externalid><![CDATA[1365]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	receive:`mcore`gyro`{&#39;type&#39;:1}`assert.isNumber(result);assert.isAtLeast(result,-180);assert.isAtMost(result, 180);</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27790" name="探测陀螺仪【端口1～4】在【y】轴">
+	<node_order><![CDATA[1001]]></node_order>
+	<externalid><![CDATA[1366]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	receive:`mcore`gyro`{&#39;type&#39;:2}`assert.isNumber(result);assert.isAtLeast(result,-180);assert.isAtMost(result, 180);</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27792" name="探测陀螺仪【端口1～4】在【z】轴">
+	<node_order><![CDATA[1002]]></node_order>
+	<externalid><![CDATA[1367]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	receive:`mcore`gyro`{&#39;type&#39;:3}`assert.isNumber(result);assert.isAtLeast(result,-180);assert.isAtMost(result, 180);</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
 	<is_open>1</is_open>
@@ -17230,7 +17462,9 @@
 	<node_order><![CDATA[1000]]></node_order>
 	<externalid><![CDATA[928]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`orion`ultrasonic`{&#39;port&#39;: 6}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 400);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -17245,7 +17479,9 @@
 	<node_order><![CDATA[1001]]></node_order>
 	<externalid><![CDATA[929]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`orion`ultrasonic`{&#39;port&#39;: 7}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 400);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -17260,7 +17496,9 @@
 	<node_order><![CDATA[1002]]></node_order>
 	<externalid><![CDATA[930]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`orion`ultrasonic`{&#39;port&#39;: 3}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 400);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -17275,7 +17513,9 @@
 	<node_order><![CDATA[1003]]></node_order>
 	<externalid><![CDATA[931]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`orion`ultrasonic`{&#39;port&#39;: 4}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 400);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -17290,7 +17530,9 @@
 	<node_order><![CDATA[1004]]></node_order>
 	<externalid><![CDATA[932]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`orion`ultrasonic`{&#39;port&#39;: 8}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 400);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -17308,7 +17550,9 @@
 	<node_order><![CDATA[1000]]></node_order>
 	<externalid><![CDATA[933]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`orion`lineFollower`{&#39;port&#39;: 6}`assert.isNumber(result);assert.oneOf(result,[0,1,2,3]);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -17323,7 +17567,9 @@
 	<node_order><![CDATA[1002]]></node_order>
 	<externalid><![CDATA[935]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`orion`lineFollower`{&#39;port&#39;: 3}`assert.isNumber(result);assert.oneOf(result,[0,1,2,3]);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -17338,7 +17584,9 @@
 	<node_order><![CDATA[1003]]></node_order>
 	<externalid><![CDATA[936]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`orion`lineFollower`{&#39;port&#39;: 4}`assert.isNumber(result);assert.oneOf(result,[0,1,2,3]);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -17356,7 +17604,9 @@
 	<node_order><![CDATA[1000]]></node_order>
 	<externalid><![CDATA[937]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`orion`light`{&#39;port&#39;: 6}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -17371,7 +17621,9 @@
 	<node_order><![CDATA[1001]]></node_order>
 	<externalid><![CDATA[938]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`orion`light`{&#39;port&#39;: 7}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -17386,7 +17638,9 @@
 	<node_order><![CDATA[1002]]></node_order>
 	<externalid><![CDATA[939]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`orion`light`{&#39;port&#39;: 8}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -17404,7 +17658,9 @@
 	<node_order><![CDATA[1000]]></node_order>
 	<externalid><![CDATA[940]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`orion`sound`{&#39;port&#39;: 6}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -17419,7 +17675,9 @@
 	<node_order><![CDATA[1001]]></node_order>
 	<externalid><![CDATA[941]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`orion`sound`{&#39;port&#39;: 7}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -17434,7 +17692,9 @@
 	<node_order><![CDATA[1002]]></node_order>
 	<externalid><![CDATA[942]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`orion`sound`{&#39;port&#39;: 8}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -17452,7 +17712,9 @@
 	<node_order><![CDATA[1000]]></node_order>
 	<externalid><![CDATA[943]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`orion`humiture`{&#39;port&#39;: 6}`assert.isNumber(result);assert.isAtLeast(result, -1024);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -17467,7 +17729,9 @@
 	<node_order><![CDATA[1001]]></node_order>
 	<externalid><![CDATA[944]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`orion`humiture`{&#39;port&#39;: 3}`assert.isNumber(result);assert.isAtLeast(result, -1024);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -17482,7 +17746,9 @@
 	<node_order><![CDATA[1002]]></node_order>
 	<externalid><![CDATA[945]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`orion`humiture`{&#39;port&#39;: 7}`assert.isNumber(result);assert.isAtLeast(result, -1024);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -17497,7 +17763,9 @@
 	<node_order><![CDATA[1003]]></node_order>
 	<externalid><![CDATA[946]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`orion`humiture`{&#39;port&#39;: 4}`assert.isNumber(result);assert.isAtLeast(result, -1024);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -17512,7 +17780,9 @@
 	<node_order><![CDATA[1004]]></node_order>
 	<externalid><![CDATA[947]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`orion`humiture`{&#39;port&#39;: 8}`assert.isNumber(result);assert.isAtLeast(result, -1024);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -17530,7 +17800,9 @@
 	<node_order><![CDATA[1000]]></node_order>
 	<externalid><![CDATA[948]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`orion`temperature`{&#39;port&#39;: 6,&#39;slot&#39;: 1}`assert.isNumber(result);assert.isAtLeast(result, -1024);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -17545,7 +17817,9 @@
 	<node_order><![CDATA[1001]]></node_order>
 	<externalid><![CDATA[949]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`orion`temperature`{&#39;port&#39;: 7,&#39;slot&#39;: 2}`assert.isNumber(result);assert.isAtLeast(result, -1024);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -17560,7 +17834,9 @@
 	<node_order><![CDATA[1002]]></node_order>
 	<externalid><![CDATA[950]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`orion`temperature`{&#39;port&#39;: 3,&#39;slot&#39;: 1}`assert.isNumber(result);assert.isAtLeast(result, -1024);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -17575,7 +17851,9 @@
 	<node_order><![CDATA[1003]]></node_order>
 	<externalid><![CDATA[951]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`orion`temperature`{&#39;port&#39;: 4,&#39;slot&#39;: 2}`assert.isNumber(result);assert.isAtLeast(result, -1024);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -17590,7 +17868,9 @@
 	<node_order><![CDATA[1004]]></node_order>
 	<externalid><![CDATA[952]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`orion`temperature`{&#39;port&#39;: 8,&#39;slot&#39;: 1}`assert.isNumber(result);assert.isAtLeast(result, -1024);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -17608,7 +17888,9 @@
 	<node_order><![CDATA[1000]]></node_order>
 	<externalid><![CDATA[953]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`orion`gas`{&#39;port&#39;: 3}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -17623,7 +17905,9 @@
 	<node_order><![CDATA[1001]]></node_order>
 	<externalid><![CDATA[954]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`orion`gas`{&#39;port&#39;: 4}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -17638,7 +17922,9 @@
 	<node_order><![CDATA[1002]]></node_order>
 	<externalid><![CDATA[955]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`orion`gas`{&#39;port&#39;: 6}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -17653,7 +17939,9 @@
 	<node_order><![CDATA[1003]]></node_order>
 	<externalid><![CDATA[956]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`orion`gas`{&#39;port&#39;: 7}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -17668,7 +17956,9 @@
 	<node_order><![CDATA[1004]]></node_order>
 	<externalid><![CDATA[957]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`orion`gas`{&#39;port&#39;: 8}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -17686,7 +17976,9 @@
 	<node_order><![CDATA[1000]]></node_order>
 	<externalid><![CDATA[958]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`orion`potentionmeter`{&#39;port&#39;: 6}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 1000);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -17701,7 +17993,9 @@
 	<node_order><![CDATA[1001]]></node_order>
 	<externalid><![CDATA[959]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`orion`potentionmeter`{&#39;port&#39;: 7}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 1000);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -17716,7 +18010,9 @@
 	<node_order><![CDATA[1002]]></node_order>
 	<externalid><![CDATA[960]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`orion`potentionmeter`{&#39;port&#39;: 8}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 1000);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -17734,7 +18030,9 @@
 	<node_order><![CDATA[1000]]></node_order>
 	<externalid><![CDATA[961]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`orion`limitSwitch`{&#39;port&#39;: 6,&#39;slot&#39;: 1}`assert.isNumber(result);assert.oneOf(result,[0,1]);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -17749,7 +18047,9 @@
 	<node_order><![CDATA[1001]]></node_order>
 	<externalid><![CDATA[962]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`orion`limitSwitch`{&#39;port&#39;: 7,&#39;slot&#39;: 2}`assert.isNumber(result);assert.oneOf(result,[0,1]);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -17764,7 +18064,9 @@
 	<node_order><![CDATA[1002]]></node_order>
 	<externalid><![CDATA[963]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`orion`limitSwitch`{&#39;port&#39;: 3,&#39;slot&#39;: 1}`assert.isNumber(result);assert.oneOf(result,[0,1]);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -17779,7 +18081,9 @@
 	<node_order><![CDATA[1003]]></node_order>
 	<externalid><![CDATA[964]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`orion`limitSwitch`{&#39;port&#39;: 4,&#39;slot&#39;: 2}`assert.isNumber(result);assert.oneOf(result,[0,1]);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -17794,7 +18098,9 @@
 	<node_order><![CDATA[1004]]></node_order>
 	<externalid><![CDATA[965]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`orion`limitSwitch`{&#39;port&#39;: 8,&#39;slot&#39;: 1}`assert.isNumber(result);assert.oneOf(result,[0,1]);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -17812,7 +18118,9 @@
 	<node_order><![CDATA[1000]]></node_order>
 	<externalid><![CDATA[966]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`orion`pirmotion`{&#39;port&#39;: 6}`assert.isNumber(result);assert.oneOf(result,[0,1]);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -17827,7 +18135,9 @@
 	<node_order><![CDATA[1001]]></node_order>
 	<externalid><![CDATA[967]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`orion`pirmotion`{&#39;port&#39;: 7}`assert.isNumber(result);assert.oneOf(result,[0,1]);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -17842,7 +18152,9 @@
 	<node_order><![CDATA[1002]]></node_order>
 	<externalid><![CDATA[968]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`orion`pirmotion`{&#39;port&#39;: 3}`assert.isNumber(result);assert.oneOf(result,[0,1]);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -17857,7 +18169,9 @@
 	<node_order><![CDATA[1003]]></node_order>
 	<externalid><![CDATA[969]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`orion`pirmotion`{&#39;port&#39;: 4}`assert.isNumber(result);assert.oneOf(result,[0,1]);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -17872,7 +18186,9 @@
 	<node_order><![CDATA[1004]]></node_order>
 	<externalid><![CDATA[970]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`orion`pirmotion`{&#39;port&#39;: 8}`assert.isNumber(result);assert.oneOf(result,[0,1]);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -17890,7 +18206,9 @@
 	<node_order><![CDATA[1000]]></node_order>
 	<externalid><![CDATA[971]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`orion`joystick`{&#39;port&#39;:6,&#39;x&#39;:1}`assert.isNumber(result);assert.isAtLeast(result,-492);assert.isAtMost(result, 492);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -17905,7 +18223,9 @@
 	<node_order><![CDATA[1001]]></node_order>
 	<externalid><![CDATA[972]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`orion`joystick`{&#39;port&#39;:7,&#39;y&#39;:1}`assert.isNumber(result);assert.isAtLeast(result,-492);assert.isAtMost(result, 492);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -17920,7 +18240,9 @@
 	<node_order><![CDATA[1002]]></node_order>
 	<externalid><![CDATA[973]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`orion`joystick`{&#39;port&#39;:8,&#39;x&#39;:1}`assert.isNumber(result);assert.isAtLeast(result,-492);assert.isAtMost(result, 492);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -17975,7 +18297,7 @@
 	<externalid><![CDATA[976]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	send:`auriga.readUltrasonic(0, 6)`ff 55 04 00 01 01 06</p>
+	receive:`auriga`ultrasonic`{&#39;port&#39;: 6}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 400);</p>
 ]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
@@ -17992,7 +18314,7 @@
 	<externalid><![CDATA[977]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	send:`auriga.readUltrasonic(0, 7)`ff 55 04 00 01 01 07</p>
+	receive:`auriga`ultrasonic`{&#39;port&#39;: 7}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 400);</p>
 ]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
@@ -18009,7 +18331,7 @@
 	<externalid><![CDATA[978]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	send:`auriga.readUltrasonic(0, 9)`ff 55 04 00 01 01 09</p>
+	receive:`auriga`ultrasonic`{&#39;port&#39;: 9}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 400);</p>
 ]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
@@ -18026,7 +18348,7 @@
 	<externalid><![CDATA[979]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	send:`auriga.readUltrasonic(0, 10)`ff 55 04 00 01 01 0a</p>
+	receive:`auriga`ultrasonic`{&#39;port&#39;: 10}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 400);</p>
 ]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
@@ -18043,28 +18365,11 @@
 	<externalid><![CDATA[980]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	send:`auriga.readUltrasonic(0, 8)`ff 55 04 00 01 01 08</p>
+	receive:`auriga`ultrasonic`{&#39;port&#39;: 8}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 400);</p>
 ]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
-	<estimated_exec_duration></estimated_exec_duration>
-	<status>1</status>
-	<is_open>1</is_open>
-	<active>1</active>
-
-</testcase>
-
-<testcase internalid="25175" name="@检查端口6超声波返回的值是否是0~400的数值">
-	<node_order><![CDATA[1005]]></node_order>
-	<externalid><![CDATA[1210]]></externalid>
-	<version><![CDATA[1]]></version>
-	<summary><![CDATA[<div>
-	receive:`auriga`ultrasonic`{&#39;port&#39;: 6}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 400);</div>
-]]></summary>
-	<preconditions><![CDATA[]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
-	<importance><![CDATA[3]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
 	<is_open>1</is_open>
@@ -18079,7 +18384,9 @@
 	<node_order><![CDATA[1000]]></node_order>
 	<externalid><![CDATA[981]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`auriga`lineFollower`{&#39;port&#39;: 6}`assert.isNumber(result);assert.oneOf(result,[0,1,2,3]);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -18094,7 +18401,9 @@
 	<node_order><![CDATA[1002]]></node_order>
 	<externalid><![CDATA[982]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`auriga`lineFollower`{&#39;port&#39;: 7}`assert.isNumber(result);assert.oneOf(result,[0,1,2,3]);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -18109,7 +18418,9 @@
 	<node_order><![CDATA[1003]]></node_order>
 	<externalid><![CDATA[983]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`auriga`lineFollower`{&#39;port&#39;: 8}`assert.isNumber(result);assert.oneOf(result,[0,1,2,3]);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -18124,7 +18435,9 @@
 	<node_order><![CDATA[1004]]></node_order>
 	<externalid><![CDATA[984]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`auriga`lineFollower`{&#39;port&#39;: 9}`assert.isNumber(result);assert.oneOf(result,[0,1,2,3]);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -18139,7 +18452,9 @@
 	<node_order><![CDATA[1005]]></node_order>
 	<externalid><![CDATA[985]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`auriga`lineFollower`{&#39;port&#39;: 10}`assert.isNumber(result);assert.oneOf(result,[0,1,2,3]);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -18157,7 +18472,9 @@
 	<node_order><![CDATA[1000]]></node_order>
 	<externalid><![CDATA[986]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`auriga`light`{&#39;port&#39;: 6}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -18172,7 +18489,9 @@
 	<node_order><![CDATA[1001]]></node_order>
 	<externalid><![CDATA[987]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`auriga`light`{&#39;port&#39;: 7}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -18187,7 +18506,9 @@
 	<node_order><![CDATA[1002]]></node_order>
 	<externalid><![CDATA[988]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`auriga`light`{&#39;port&#39;: 8}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -18202,7 +18523,9 @@
 	<node_order><![CDATA[1003]]></node_order>
 	<externalid><![CDATA[989]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`auriga`light`{&#39;port&#39;: 9}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -18217,7 +18540,9 @@
 	<node_order><![CDATA[1004]]></node_order>
 	<externalid><![CDATA[990]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`auriga`light`{&#39;port&#39;: 10}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -18232,7 +18557,9 @@
 	<node_order><![CDATA[1005]]></node_order>
 	<externalid><![CDATA[991]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`auriga`light`{&#39;port&#39;: 11}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -18247,7 +18574,9 @@
 	<node_order><![CDATA[1006]]></node_order>
 	<externalid><![CDATA[992]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`auriga`light`{&#39;port&#39;: 12}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -18265,7 +18594,9 @@
 	<node_order><![CDATA[1000]]></node_order>
 	<externalid><![CDATA[993]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`auriga`sound`{&#39;port&#39;: 6}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -18280,7 +18611,9 @@
 	<node_order><![CDATA[1001]]></node_order>
 	<externalid><![CDATA[994]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`auriga`sound`{&#39;port&#39;: 7}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -18295,7 +18628,9 @@
 	<node_order><![CDATA[1002]]></node_order>
 	<externalid><![CDATA[995]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`auriga`sound`{&#39;port&#39;: 8}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -18310,7 +18645,9 @@
 	<node_order><![CDATA[1003]]></node_order>
 	<externalid><![CDATA[999]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`auriga`sound`{&#39;port&#39;: 9}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -18325,7 +18662,9 @@
 	<node_order><![CDATA[1004]]></node_order>
 	<externalid><![CDATA[1000]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`auriga`sound`{&#39;port&#39;: 10}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -18340,7 +18679,9 @@
 	<node_order><![CDATA[1005]]></node_order>
 	<externalid><![CDATA[1001]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`auriga`sound`{&#39;port&#39;: 11}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -18358,7 +18699,9 @@
 	<node_order><![CDATA[1000]]></node_order>
 	<externalid><![CDATA[1002]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`auriga`temperatureOnBoard``assert.isNumber(result);assert.isAtLeast(result,-1024);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -18376,7 +18719,9 @@
 	<node_order><![CDATA[1000]]></node_order>
 	<externalid><![CDATA[1003]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`auriga`humiture`{&#39;port&#39;: 6}`assert.isNumber(result);assert.isAtLeast(result, -1024);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -18391,7 +18736,9 @@
 	<node_order><![CDATA[1001]]></node_order>
 	<externalid><![CDATA[1004]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`auriga`humiture`{&#39;port&#39;: 9}`assert.isNumber(result);assert.isAtLeast(result, -1024);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -18406,7 +18753,9 @@
 	<node_order><![CDATA[1002]]></node_order>
 	<externalid><![CDATA[1005]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`auriga`humiture`{&#39;port&#39;: 7}`assert.isNumber(result);assert.isAtLeast(result, -1024);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -18421,7 +18770,9 @@
 	<node_order><![CDATA[1003]]></node_order>
 	<externalid><![CDATA[1006]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`auriga`humiture`{&#39;port&#39;: 10}`assert.isNumber(result);assert.isAtLeast(result, -1024);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -18436,7 +18787,9 @@
 	<node_order><![CDATA[1004]]></node_order>
 	<externalid><![CDATA[1007]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`auriga`humiture`{&#39;port&#39;: 8}`assert.isNumber(result);assert.isAtLeast(result, -1024);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -18454,7 +18807,9 @@
 	<node_order><![CDATA[1000]]></node_order>
 	<externalid><![CDATA[1008]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`auriga`temperature`{&#39;port&#39;:6,&#39;slot&#39;:1}`assert.isNumber(result);assert.isAtLeast(result,-1024);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -18469,7 +18824,9 @@
 	<node_order><![CDATA[1001]]></node_order>
 	<externalid><![CDATA[1009]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`auriga`temperature`{&#39;port&#39;:7,&#39;slot&#39;:2}`assert.isNumber(result);assert.isAtLeast(result,-1024);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -18484,7 +18841,9 @@
 	<node_order><![CDATA[1002]]></node_order>
 	<externalid><![CDATA[1010]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`auriga`temperature`{&#39;port&#39;:9,&#39;slot&#39;:1}`assert.isNumber(result);assert.isAtLeast(result,-1024);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -18499,7 +18858,9 @@
 	<node_order><![CDATA[1003]]></node_order>
 	<externalid><![CDATA[1011]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`auriga`temperature`{&#39;port&#39;:10,&#39;slot&#39;:2}`assert.isNumber(result);assert.isAtLeast(result,-1024);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -18514,7 +18875,9 @@
 	<node_order><![CDATA[1004]]></node_order>
 	<externalid><![CDATA[1012]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`auriga`temperature`{&#39;port&#39;:8,&#39;slot&#39;:1}`assert.isNumber(result);assert.isAtLeast(result,-1024);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -18532,7 +18895,9 @@
 	<node_order><![CDATA[1000]]></node_order>
 	<externalid><![CDATA[1013]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`auriga`gas`{&#39;port&#39;:9}`assert.isNumber(result);assert.isAtLeast(result,0);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -18547,7 +18912,9 @@
 	<node_order><![CDATA[1001]]></node_order>
 	<externalid><![CDATA[1014]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`auriga`gas`{&#39;port&#39;:10}`assert.isNumber(result);assert.isAtLeast(result,0);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -18562,7 +18929,9 @@
 	<node_order><![CDATA[1002]]></node_order>
 	<externalid><![CDATA[1015]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`auriga`gas`{&#39;port&#39;:6}`assert.isNumber(result);assert.isAtLeast(result,0);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -18577,7 +18946,9 @@
 	<node_order><![CDATA[1003]]></node_order>
 	<externalid><![CDATA[1016]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`auriga`gas`{&#39;port&#39;:7}`assert.isNumber(result);assert.isAtLeast(result,0);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -18592,7 +18963,9 @@
 	<node_order><![CDATA[1004]]></node_order>
 	<externalid><![CDATA[1017]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`auriga`gas`{&#39;port&#39;:8}`assert.isNumber(result);assert.isAtLeast(result,0);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -18602,7 +18975,7 @@
 	<active>1</active>
 
 </testcase>
-</testsuite><testsuite id="21256" name="读取编码电机位置/速度" >
+</testsuite><testsuite id="21256" name="板载编码电机位置/速度" >
 <node_order><![CDATA[12]]></node_order>
 <details><![CDATA[]]></details> 
 
@@ -18610,7 +18983,9 @@
 	<node_order><![CDATA[1000]]></node_order>
 	<externalid><![CDATA[1018]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`auriga`encoderMotorOnBoard`{&#39;port&#39;:0,&#39;slot&#39;:1,&#39;type&#39;:1}`assert.isNumber(result);assert.isAtLeast(result,-2147483648);assert.isAtMost(result, 2147483647);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -18625,7 +19000,9 @@
 	<node_order><![CDATA[1001]]></node_order>
 	<externalid><![CDATA[1019]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`auriga`encoderMotorOnBoard`{&#39;port&#39;:0,&#39;slot&#39;:1,&#39;type&#39;:2}`assert.isNumber(result);assert.isAtLeast(result,0);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -18635,7 +19012,7 @@
 	<active>1</active>
 
 </testcase>
-</testsuite><testsuite id="21262" name="板载陀螺仪" >
+</testsuite><testsuite id="21262" name="陀螺仪" >
 <node_order><![CDATA[13]]></node_order>
 <details><![CDATA[]]></details> 
 
@@ -18643,7 +19020,9 @@
 	<node_order><![CDATA[1000]]></node_order>
 	<externalid><![CDATA[1020]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`auriga`gyro`{&#39;port&#39;:1, &#39;type&#39;:1}`assert.isNumber(result);assert.isAtLeast(result,-180);assert.isAtMost(result, 180);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -18658,7 +19037,9 @@
 	<node_order><![CDATA[1001]]></node_order>
 	<externalid><![CDATA[1021]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`auriga`gyro`{&#39;port&#39;:1, &#39;type&#39;:2}`assert.isNumber(result);assert.isAtLeast(result,-180);assert.isAtMost(result, 180);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -18673,7 +19054,60 @@
 	<node_order><![CDATA[1002]]></node_order>
 	<externalid><![CDATA[1022]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`auriga`gyro`{&#39;port&#39;:1, &#39;type&#39;:3}`assert.isNumber(result);assert.isAtLeast(result,-180);assert.isAtMost(result, 180);</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27794" name="读取陀螺仪【端口6～10】在【x】轴（外接）">
+	<node_order><![CDATA[1003]]></node_order>
+	<externalid><![CDATA[1368]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	receive:`auriga`gyro`{&#39;port&#39;:0, &#39;type&#39;:1}`assert.isNumber(result);assert.isAtLeast(result,-180);assert.isAtMost(result, 180);</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[3]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27796" name="读取陀螺仪【端口6～10】在【y】轴（外接）">
+	<node_order><![CDATA[1004]]></node_order>
+	<externalid><![CDATA[1369]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	receive:`auriga`gyro`{&#39;port&#39;:0, &#39;type&#39;:2}`assert.isNumber(result);assert.isAtLeast(result,-180);assert.isAtMost(result, 180);</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27798" name="读取陀螺仪【端口6～10】在【z】轴（外接）">
+	<node_order><![CDATA[1005]]></node_order>
+	<externalid><![CDATA[1370]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	receive:`auriga`gyro`{&#39;port&#39;:0, &#39;type&#39;:3}`assert.isNumber(result);assert.isAtLeast(result,-180);assert.isAtMost(result, 180);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -18691,7 +19125,9 @@
 	<node_order><![CDATA[1000]]></node_order>
 	<externalid><![CDATA[1023]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`auriga`compass`{&#39;port&#39;: 6}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -18706,7 +19142,9 @@
 	<node_order><![CDATA[1001]]></node_order>
 	<externalid><![CDATA[1024]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`auriga`compass`{&#39;port&#39;: 7}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -18721,7 +19159,9 @@
 	<node_order><![CDATA[1002]]></node_order>
 	<externalid><![CDATA[1025]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`auriga`compass`{&#39;port&#39;: 8}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -18736,7 +19176,9 @@
 	<node_order><![CDATA[1003]]></node_order>
 	<externalid><![CDATA[1026]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`auriga`compass`{&#39;port&#39;: 9}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -18751,7 +19193,9 @@
 	<node_order><![CDATA[1004]]></node_order>
 	<externalid><![CDATA[1027]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`auriga`compass`{&#39;port&#39;: 10}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -18769,7 +19213,9 @@
 	<node_order><![CDATA[1000]]></node_order>
 	<externalid><![CDATA[1028]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`auriga`potentionmeter`{&#39;port&#39;: 6}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 1000);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -18784,7 +19230,9 @@
 	<node_order><![CDATA[1001]]></node_order>
 	<externalid><![CDATA[1029]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`auriga`potentionmeter`{&#39;port&#39;: 7}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 1000);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -18799,7 +19247,9 @@
 	<node_order><![CDATA[1002]]></node_order>
 	<externalid><![CDATA[1030]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`auriga`potentionmeter`{&#39;port&#39;: 8}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 1000);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -18814,7 +19264,9 @@
 	<node_order><![CDATA[1003]]></node_order>
 	<externalid><![CDATA[1031]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`auriga`potentionmeter`{&#39;port&#39;: 9}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 1000);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -18829,7 +19281,9 @@
 	<node_order><![CDATA[1004]]></node_order>
 	<externalid><![CDATA[1032]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`auriga`potentionmeter`{&#39;port&#39;: 10}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 1000);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -18847,7 +19301,9 @@
 	<node_order><![CDATA[1000]]></node_order>
 	<externalid><![CDATA[1033]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`auriga`limitSwitch`{&#39;port&#39;: 6,&#39;slot&#39;: 1}`assert.isNumber(result);assert.oneOf(result,[0,1]);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -18862,7 +19318,9 @@
 	<node_order><![CDATA[1001]]></node_order>
 	<externalid><![CDATA[1034]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`auriga`limitSwitch`{&#39;port&#39;: 7,&#39;slot&#39;: 2}`assert.isNumber(result);assert.oneOf(result,[0,1]);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -18877,7 +19335,9 @@
 	<node_order><![CDATA[1002]]></node_order>
 	<externalid><![CDATA[1035]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`auriga`limitSwitch`{&#39;port&#39;: 9,&#39;slot&#39;: 1}`assert.isNumber(result);assert.oneOf(result,[0,1]);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -18892,7 +19352,9 @@
 	<node_order><![CDATA[1003]]></node_order>
 	<externalid><![CDATA[1036]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`auriga`limitSwitch`{&#39;port&#39;: 10,&#39;slot&#39;: 2}`assert.isNumber(result);assert.oneOf(result,[0,1]);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -18907,7 +19369,9 @@
 	<node_order><![CDATA[1004]]></node_order>
 	<externalid><![CDATA[1037]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`auriga`limitSwitch`{&#39;port&#39;: 8,&#39;slot&#39;: 1}`assert.isNumber(result);assert.oneOf(result,[0,1]);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -18925,7 +19389,9 @@
 	<node_order><![CDATA[1000]]></node_order>
 	<externalid><![CDATA[1038]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`auriga`pirmotion`{&#39;port&#39;: 6}`assert.isNumber(result);assert.oneOf(result,[0,1]);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -18940,7 +19406,9 @@
 	<node_order><![CDATA[1001]]></node_order>
 	<externalid><![CDATA[1039]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`auriga`pirmotion`{&#39;port&#39;: 7}`assert.isNumber(result);assert.oneOf(result,[0,1]);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -18955,7 +19423,9 @@
 	<node_order><![CDATA[1002]]></node_order>
 	<externalid><![CDATA[1040]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`auriga`pirmotion`{&#39;port&#39;: 9}`assert.isNumber(result);assert.oneOf(result,[0,1]);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -18970,7 +19440,9 @@
 	<node_order><![CDATA[1003]]></node_order>
 	<externalid><![CDATA[1041]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`auriga`pirmotion`{&#39;port&#39;: 10}`assert.isNumber(result);assert.oneOf(result,[0,1]);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -18985,7 +19457,9 @@
 	<node_order><![CDATA[1004]]></node_order>
 	<externalid><![CDATA[1042]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`auriga`pirmotion`{&#39;port&#39;: 8}`assert.isNumber(result);assert.oneOf(result,[0,1]);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -19003,7 +19477,9 @@
 	<node_order><![CDATA[1000]]></node_order>
 	<externalid><![CDATA[1043]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`auriga`joystick`{&#39;port&#39;:6,&#39;x&#39;:1}`assert.isNumber(result);assert.isAtLeast(result,-492);assert.isAtMost(result, 492);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -19018,7 +19494,9 @@
 	<node_order><![CDATA[1001]]></node_order>
 	<externalid><![CDATA[1044]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`auriga`joystick`{&#39;port&#39;:7,&#39;y&#39;:1}`assert.isNumber(result);assert.isAtLeast(result,-492);assert.isAtMost(result, 492);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -19033,7 +19511,9 @@
 	<node_order><![CDATA[1002]]></node_order>
 	<externalid><![CDATA[1045]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`auriga`joystick`{&#39;port&#39;:8,&#39;x&#39;:1}`assert.isNumber(result);assert.isAtLeast(result,-492);assert.isAtMost(result, 492);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -19048,7 +19528,9 @@
 	<node_order><![CDATA[1003]]></node_order>
 	<externalid><![CDATA[1046]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`auriga`joystick`{&#39;port&#39;:9,&#39;y&#39;:1}`assert.isNumber(result);assert.isAtLeast(result,-492);assert.isAtMost(result, 492);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -19063,7 +19545,9 @@
 	<node_order><![CDATA[1004]]></node_order>
 	<externalid><![CDATA[1047]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`auriga`joystick`{&#39;port&#39;:10,&#39;x&#39;:1}`assert.isNumber(result);assert.isAtLeast(result,-492);assert.isAtMost(result, 492);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -19274,8 +19758,45 @@
 </testsuite></testsuite><testsuite id="20777" name="MegaPi" >
 <node_order><![CDATA[4]]></node_order>
 <details><![CDATA[]]></details> 
-<testsuite id="21386" name="滑块" >
+<testsuite id="27821" name="板载编码电机位置/速度" >
 <node_order><![CDATA[0]]></node_order>
+<details><![CDATA[]]></details> 
+
+<testcase internalid="27822" name="读取编码电机的【位置】【M1】">
+	<node_order><![CDATA[1000]]></node_order>
+	<externalid><![CDATA[1377]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	receive:`magepi`encoderMotorOnBoard`{&#39;port&#39;:0,&#39;slot&#39;:1,&#39;type&#39;:1}`assert.isNumber(result);assert.isAtLeast(result,-2147483648);assert.isAtMost(result, 2147483647);</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[3]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27824" name="读取编码电机的【速度】【M2】">
+	<node_order><![CDATA[1001]]></node_order>
+	<externalid><![CDATA[1378]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	receive:`megapi`encoderMotorOnBoard`{&#39;port&#39;:0,&#39;slot&#39;:1,&#39;type&#39;:2}`assert.isNumber(result);assert.isAtLeast(result,0);assert.isAtMost(result, 1024);</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[3]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+</testsuite><testsuite id="21386" name="滑块" >
+<node_order><![CDATA[1]]></node_order>
 <details><![CDATA[]]></details> 
 
 <testcase internalid="21387" name="获取滑块【当前】的值">
@@ -19308,14 +19829,16 @@
 
 </testcase>
 </testsuite><testsuite id="21391" name="障碍距离" >
-<node_order><![CDATA[4]]></node_order>
+<node_order><![CDATA[2]]></node_order>
 <details><![CDATA[]]></details> 
 
 <testcase internalid="21392" name="探测障碍物距离【端口6】">
 	<node_order><![CDATA[1000]]></node_order>
 	<externalid><![CDATA[1050]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`megapi`ultrasonic`{&#39;port&#39;: 6}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 400);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -19330,7 +19853,9 @@
 	<node_order><![CDATA[1001]]></node_order>
 	<externalid><![CDATA[1051]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`megapi`ultrasonic`{&#39;port&#39;: 7}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 400);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -19345,7 +19870,9 @@
 	<node_order><![CDATA[1004]]></node_order>
 	<externalid><![CDATA[1054]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`megapi`ultrasonic`{&#39;port&#39;: 8}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 400);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -19356,14 +19883,16 @@
 
 </testcase>
 </testsuite><testsuite id="21402" name="巡线器值" >
-<node_order><![CDATA[6]]></node_order>
+<node_order><![CDATA[3]]></node_order>
 <details><![CDATA[]]></details> 
 
 <testcase internalid="21403" name="读取巡线传感器的值【端口6】">
 	<node_order><![CDATA[1000]]></node_order>
 	<externalid><![CDATA[1055]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`megapi`lineFollower`{&#39;port&#39;: 6}`assert.isNumber(result);assert.oneOf(result,[0,1,2,3]);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -19378,7 +19907,9 @@
 	<node_order><![CDATA[1002]]></node_order>
 	<externalid><![CDATA[1056]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`megapi`lineFollower`{&#39;port&#39;: 7}`assert.isNumber(result);assert.oneOf(result,[0,1,2,3]);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -19393,7 +19924,9 @@
 	<node_order><![CDATA[1003]]></node_order>
 	<externalid><![CDATA[1057]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`megapi`lineFollower`{&#39;port&#39;: 8}`assert.isNumber(result);assert.oneOf(result,[0,1,2,3]);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -19404,14 +19937,16 @@
 
 </testcase>
 </testsuite><testsuite id="21413" name="光线强度" >
-<node_order><![CDATA[7]]></node_order>
+<node_order><![CDATA[4]]></node_order>
 <details><![CDATA[]]></details> 
 
 <testcase internalid="21414" name="探测光线强度【端口6】">
 	<node_order><![CDATA[1000]]></node_order>
 	<externalid><![CDATA[1060]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`megapi`light`{&#39;port&#39;: 6}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -19426,7 +19961,9 @@
 	<node_order><![CDATA[1001]]></node_order>
 	<externalid><![CDATA[1061]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`megapi`light`{&#39;port&#39;: 7}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -19441,7 +19978,9 @@
 	<node_order><![CDATA[1002]]></node_order>
 	<externalid><![CDATA[1062]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`megapi`light`{&#39;port&#39;: 8}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -19452,14 +19991,16 @@
 
 </testcase>
 </testsuite><testsuite id="21420" name="声音强度" >
-<node_order><![CDATA[8]]></node_order>
+<node_order><![CDATA[5]]></node_order>
 <details><![CDATA[]]></details> 
 
 <testcase internalid="21421" name="探测声音强度【端口6】">
 	<node_order><![CDATA[1000]]></node_order>
 	<externalid><![CDATA[1063]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`megapi`sound`{&#39;port&#39;: 6}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -19474,7 +20015,9 @@
 	<node_order><![CDATA[1001]]></node_order>
 	<externalid><![CDATA[1064]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`megapi`sound`{&#39;port&#39;: 7}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 1024)</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -19489,7 +20032,9 @@
 	<node_order><![CDATA[1002]]></node_order>
 	<externalid><![CDATA[1065]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`megapi`sound`{&#39;port&#39;: 8}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -19500,14 +20045,16 @@
 
 </testcase>
 </testsuite><testsuite id="21427" name="温湿度值" >
-<node_order><![CDATA[9]]></node_order>
+<node_order><![CDATA[6]]></node_order>
 <details><![CDATA[]]></details> 
 
 <testcase internalid="21428" name="探测温湿度传感器【温度】在【端口6】">
 	<node_order><![CDATA[1000]]></node_order>
 	<externalid><![CDATA[1066]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`megapi`humiture`{&#39;port&#39;: 6}`assert.isNumber(result);assert.isAtLeast(result,-1024);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -19522,7 +20069,9 @@
 	<node_order><![CDATA[1002]]></node_order>
 	<externalid><![CDATA[1068]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`megapi`humiture`{&#39;port&#39;: 7}`assert.isNumber(result);assert.isAtLeast(result,-1024);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -19537,7 +20086,9 @@
 	<node_order><![CDATA[1004]]></node_order>
 	<externalid><![CDATA[1070]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`megapi`humiture`{&#39;port&#39;: 8}`assert.isNumber(result);assert.isAtLeast(result,-1024);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -19548,14 +20099,16 @@
 
 </testcase>
 </testsuite><testsuite id="21449" name="气体浓度" >
-<node_order><![CDATA[11]]></node_order>
+<node_order><![CDATA[7]]></node_order>
 <details><![CDATA[]]></details> 
 
 <testcase internalid="21454" name="探测周围气体浓度【端口6】">
 	<node_order><![CDATA[1002]]></node_order>
 	<externalid><![CDATA[1078]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`megapi`gas`{&#39;port&#39;: 6}`assert.isNumber(result);assert.isAtLeast(result,0);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -19570,7 +20123,9 @@
 	<node_order><![CDATA[1003]]></node_order>
 	<externalid><![CDATA[1079]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`megapi`gas`{&#39;port&#39;: 7}`assert.isNumber(result);assert.isAtLeast(result,0);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -19585,7 +20140,9 @@
 	<node_order><![CDATA[1004]]></node_order>
 	<externalid><![CDATA[1080]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`megapi`gas`{&#39;port&#39;: 8}`assert.isNumber(result);assert.isAtLeast(result,0);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -19596,14 +20153,16 @@
 
 </testcase>
 </testsuite><testsuite id="21438" name="通用温度值" >
-<node_order><![CDATA[1006]]></node_order>
+<node_order><![CDATA[8]]></node_order>
 <details><![CDATA[]]></details> 
 
 <testcase internalid="21439" name="探测通用温度传感器的值【端口6】插槽【1】">
 	<node_order><![CDATA[1000]]></node_order>
 	<externalid><![CDATA[1071]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`megapi`temperature`{&#39;port&#39;:6,&#39;slot&#39;:1}`assert.isNumber(result);assert.isAtLeast(result,-1024);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -19618,7 +20177,9 @@
 	<node_order><![CDATA[1001]]></node_order>
 	<externalid><![CDATA[1072]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`megapi`temperature`{&#39;port&#39;:7,&#39;slot&#39;:2}`assert.isNumber(result);assert.isAtLeast(result,-1024);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -19633,7 +20194,9 @@
 	<node_order><![CDATA[1004]]></node_order>
 	<externalid><![CDATA[1075]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`megapi`temperature`{&#39;port&#39;:8,&#39;slot&#39;:1}`assert.isNumber(result);assert.isAtLeast(result,-1024);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -19644,14 +20207,16 @@
 
 </testcase>
 </testsuite><testsuite id="21460" name="电子罗盘" >
-<node_order><![CDATA[1007]]></node_order>
+<node_order><![CDATA[9]]></node_order>
 <details><![CDATA[]]></details> 
 
 <testcase internalid="21461" name="读取电子罗盘【端口6】">
 	<node_order><![CDATA[1000]]></node_order>
 	<externalid><![CDATA[1081]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`megapi`compass`{&#39;port&#39;: 6}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -19666,7 +20231,9 @@
 	<node_order><![CDATA[1001]]></node_order>
 	<externalid><![CDATA[1082]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`megapi`compass`{&#39;port&#39;: 7}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -19681,7 +20248,9 @@
 	<node_order><![CDATA[1002]]></node_order>
 	<externalid><![CDATA[1083]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`megapi`compass`{&#39;port&#39;: 8}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 1024);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -19692,14 +20261,16 @@
 
 </testcase>
 </testsuite><testsuite id="21471" name="电位器" >
-<node_order><![CDATA[1008]]></node_order>
+<node_order><![CDATA[10]]></node_order>
 <details><![CDATA[]]></details> 
 
 <testcase internalid="21472" name="读取电位器的值【端口6】">
 	<node_order><![CDATA[1000]]></node_order>
 	<externalid><![CDATA[1086]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`megapi`potentionmeter`{&#39;port&#39;: 6}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 1000);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -19714,7 +20285,9 @@
 	<node_order><![CDATA[1001]]></node_order>
 	<externalid><![CDATA[1087]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`megapi`potentionmeter`{&#39;port&#39;: 7}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 1000);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -19729,7 +20302,9 @@
 	<node_order><![CDATA[1002]]></node_order>
 	<externalid><![CDATA[1088]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`megapi`potentionmeter`{&#39;port&#39;: 8}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 1000);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -19740,14 +20315,16 @@
 
 </testcase>
 </testsuite><testsuite id="21478" name="限位开关" >
-<node_order><![CDATA[1009]]></node_order>
+<node_order><![CDATA[11]]></node_order>
 <details><![CDATA[]]></details> 
 
 <testcase internalid="21479" name="读取限位开关的状态值【端口6】插槽【1】">
 	<node_order><![CDATA[1000]]></node_order>
 	<externalid><![CDATA[1089]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`megapi`limitSwitch`{&#39;port&#39;: 6,&#39;slot&#39;: 1}`assert.isNumber(result);assert.oneOf(result,[0,1]);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -19762,7 +20339,9 @@
 	<node_order><![CDATA[1001]]></node_order>
 	<externalid><![CDATA[1090]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`megapi`limitSwitch`{&#39;port&#39;: 7,&#39;slot&#39;: 2}`assert.isNumber(result);assert.oneOf(result,[0,1]);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -19777,7 +20356,9 @@
 	<node_order><![CDATA[1004]]></node_order>
 	<externalid><![CDATA[1093]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`megapi`limitSwitch`{&#39;port&#39;: 8,&#39;slot&#39;: 1}`assert.isNumber(result);assert.oneOf(result,[0,1]);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -19788,14 +20369,16 @@
 
 </testcase>
 </testsuite><testsuite id="21489" name="人体红外" >
-<node_order><![CDATA[1010]]></node_order>
+<node_order><![CDATA[12]]></node_order>
 <details><![CDATA[]]></details> 
 
 <testcase internalid="21490" name="读取人体红外传感器的状态值【端口6】">
 	<node_order><![CDATA[1000]]></node_order>
 	<externalid><![CDATA[1094]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`megapi`pirmotion`{&#39;port&#39;: 6}`assert.isNumber(result);assert.oneOf(result,[0,1]);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -19810,7 +20393,9 @@
 	<node_order><![CDATA[1001]]></node_order>
 	<externalid><![CDATA[1095]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`megapi`pirmotion`{&#39;port&#39;: 7}`assert.isNumber(result);assert.oneOf(result,[0,1]);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -19825,7 +20410,9 @@
 	<node_order><![CDATA[1004]]></node_order>
 	<externalid><![CDATA[1098]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`megapi`pirmotion`{&#39;port&#39;: 8}`assert.isNumber(result);assert.oneOf(result,[0,1]);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -19836,14 +20423,16 @@
 
 </testcase>
 </testsuite><testsuite id="21500" name="摇杆" >
-<node_order><![CDATA[1011]]></node_order>
+<node_order><![CDATA[13]]></node_order>
 <details><![CDATA[]]></details> 
 
 <testcase internalid="21501" name="读取摇杆【x】【端口6】">
 	<node_order><![CDATA[1000]]></node_order>
 	<externalid><![CDATA[1099]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`megapi`joystick`{&#39;port&#39;:6,&#39;x&#39;:1}`assert.isNumber(result);assert.isAtLeast(result,-492);assert.isAtMost(result, 492);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -19858,7 +20447,9 @@
 	<node_order><![CDATA[1001]]></node_order>
 	<externalid><![CDATA[1100]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`megapi`joystick`{&#39;port&#39;:7,&#39;y&#39;:1}`assert.isNumber(result);assert.isAtLeast(result,-492);assert.isAtMost(result, 492);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -19873,7 +20464,114 @@
 	<node_order><![CDATA[1002]]></node_order>
 	<externalid><![CDATA[1101]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	receive:`megapi`joystick`{&#39;port&#39;:8,&#39;x&#39;:1}`assert.isNumber(result);assert.isAtLeast(result,-492);assert.isAtMost(result, 492);</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+</testsuite><testsuite id="27800" name="陀螺仪" >
+<node_order><![CDATA[14]]></node_order>
+<details><![CDATA[]]></details> 
+
+<testcase internalid="27801" name="读取板载陀螺仪【x】">
+	<node_order><![CDATA[1000]]></node_order>
+	<externalid><![CDATA[1371]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	receive:`megapi`gyro`{&#39;port&#39;:1, &#39;type&#39;:1}`assert.isNumber(result);assert.isAtLeast(result,-180);assert.isAtMost(result, 180);</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[3]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27803" name="读取板载陀螺仪【y】">
+	<node_order><![CDATA[1001]]></node_order>
+	<externalid><![CDATA[1372]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	receive:`megapi`gyro`{&#39;port&#39;:1, &#39;type&#39;:2}`assert.isNumber(result);assert.isAtLeast(result,-180);assert.isAtMost(result, 180);</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27805" name="读取板载陀螺仪【z】">
+	<node_order><![CDATA[1002]]></node_order>
+	<externalid><![CDATA[1373]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	receive:`megapi`gyro`{&#39;port&#39;:1, &#39;type&#39;:3}`assert.isNumber(result);assert.isAtLeast(result,-180);assert.isAtMost(result, 180);</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27807" name="读取陀螺仪【端口6～8】在【x】轴（外接）">
+	<node_order><![CDATA[1003]]></node_order>
+	<externalid><![CDATA[1374]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	receive:`megapi`gyro`{&#39;port&#39;:0, &#39;type&#39;:1}`assert.isNumber(result);assert.isAtLeast(result,-180);assert.isAtMost(result, 180);</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[3]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27809" name="读取陀螺仪【端口6～8】在【y】轴（外接）">
+	<node_order><![CDATA[1004]]></node_order>
+	<externalid><![CDATA[1375]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	receive:`megapi`gyro`{&#39;port&#39;:0, &#39;type&#39;:2}`assert.isNumber(result);assert.isAtLeast(result,-180);assert.isAtMost(result, 180);</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27811" name="读取陀螺仪【端口6～8】在【z】轴（外接）">
+	<node_order><![CDATA[1005]]></node_order>
+	<externalid><![CDATA[1376]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	receive:`megapi`gyro`{&#39;port&#39;:0, &#39;type&#39;:3}`assert.isNumber(result);assert.isAtLeast(result,-180);assert.isAtMost(result, 180);</p>
+]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -21518,15 +22216,773 @@
 </testsuite></testsuite><testsuite id="27375" name="顶部栏" >
 <node_order><![CDATA[8]]></node_order>
 <details><![CDATA[]]></details> 
+
+<testcase internalid="27838" name="返回按键">
+	<node_order><![CDATA[1000]]></node_order>
+	<externalid><![CDATA[1385]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+<steps>
+<step>
+	<step_number><![CDATA[1]]></step_number>
+	<actions><![CDATA[<p>
+	在blackly页面点击顶部栏左上角返回键</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	跳转至上一页面（编辑）</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+</steps>
+</testcase>
+
+<testcase internalid="27841" name="缩略图滑动框">
+	<node_order><![CDATA[1001]]></node_order>
+	<externalid><![CDATA[1386]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+<steps>
+<step>
+	<step_number><![CDATA[1]]></step_number>
+	<actions><![CDATA[<p>
+	检查点：1、明显标记出当前blackly页面所在的控件</p>
+]]></actions>
+	<expectedresults><![CDATA[]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+
+<step>
+	<step_number><![CDATA[2]]></step_number>
+	<actions><![CDATA[<p>
+	2、可以左右滑动</p>
+]]></actions>
+	<expectedresults><![CDATA[]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+
+<step>
+	<step_number><![CDATA[3]]></step_number>
+	<actions><![CDATA[<p>
+	3、可以左右点击依次切换缩略图</p>
+]]></actions>
+	<expectedresults><![CDATA[]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+
+<step>
+	<step_number><![CDATA[4]]></step_number>
+	<actions><![CDATA[<p>
+	4、可以点击缩略图跳转至相应的blackly</p>
+]]></actions>
+	<expectedresults><![CDATA[]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+</steps>
+</testcase>
+
+<testcase internalid="27847" name="蓝牙连接">
+	<node_order><![CDATA[1002]]></node_order>
+	<externalid><![CDATA[1387]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[3]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+<steps>
+<step>
+	<step_number><![CDATA[1]]></step_number>
+	<actions><![CDATA[<p>
+	在blockly页面进行蓝牙连接</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	蓝牙可以正常连接，连接后自动返回至当前blackly页面</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+</steps>
+</testcase>
+
+<testcase internalid="27850" name="解锁">
+	<node_order><![CDATA[1003]]></node_order>
+	<externalid><![CDATA[1388]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[]]></summary>
+	<preconditions><![CDATA[<p>
+	当前是auriga主板时，且至少连接一个或以上的智能舵机</p>
+]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+<steps>
+<step>
+	<step_number><![CDATA[1]]></step_number>
+	<actions><![CDATA[<p>
+	点击解锁按钮</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	有点击状态，同时auriga连接的所有智能舵机都解锁</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+</steps>
+</testcase>
+
+<testcase internalid="27853" name="标零--确认">
+	<node_order><![CDATA[1004]]></node_order>
+	<externalid><![CDATA[1389]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[]]></summary>
+	<preconditions><![CDATA[<p>
+	当前是auriga主板，且至少连接一个或以上智能舵机</p>
+]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+<steps>
+<step>
+	<step_number><![CDATA[1]]></step_number>
+	<actions><![CDATA[<p>
+	点击标零按钮</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	有点击状态，同时弹出确认弹框</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+
+<step>
+	<step_number><![CDATA[2]]></step_number>
+	<actions><![CDATA[<p>
+	点击确定</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	成功设置所有智能舵机当前角度为零度</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+</steps>
+</testcase>
+
+<testcase internalid="27857" name="标零--取消">
+	<node_order><![CDATA[1005]]></node_order>
+	<externalid><![CDATA[1390]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[]]></summary>
+	<preconditions><![CDATA[<p>
+	当前是auriga主板，连接至少一个或以上的智能舵机，</p>
+]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+<steps>
+<step>
+	<step_number><![CDATA[1]]></step_number>
+	<actions><![CDATA[<p>
+	点击标零按钮</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	有点击状态，弹出确认弹框</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+
+<step>
+	<step_number><![CDATA[2]]></step_number>
+	<actions><![CDATA[<p>
+	点击弹框右上角的取消按钮</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	弹框收回，标零操作未成功</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+</steps>
+</testcase>
 </testsuite><testsuite id="27376" name="底部菜单栏" >
 <node_order><![CDATA[9]]></node_order>
 <details><![CDATA[]]></details> 
+
+<testcase internalid="27862" name="撤销（undo）">
+	<node_order><![CDATA[1000]]></node_order>
+	<externalid><![CDATA[1391]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[]]></summary>
+	<preconditions><![CDATA[<p>
+	已经对blackly页面操作一次以上</p>
+]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+<steps>
+<step>
+	<step_number><![CDATA[1]]></step_number>
+	<actions><![CDATA[<p>
+	点击撤销</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	返回至上一步时页面状态</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+</steps>
+</testcase>
+
+<testcase internalid="27865" name="撤销置灰">
+	<node_order><![CDATA[1001]]></node_order>
+	<externalid><![CDATA[1392]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+<steps>
+<step>
+	<step_number><![CDATA[1]]></step_number>
+	<actions><![CDATA[<p>
+	进入blackly</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	撤销按钮是置灰状态</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+
+<step>
+	<step_number><![CDATA[2]]></step_number>
+	<actions><![CDATA[<p>
+	随机操作两个步骤</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	撤销按钮是非置灰状态</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+
+<step>
+	<step_number><![CDATA[3]]></step_number>
+	<actions><![CDATA[<p>
+	点击撤销按钮</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	页面回到第一个步骤后的状态</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+
+<step>
+	<step_number><![CDATA[4]]></step_number>
+	<actions><![CDATA[<p>
+	在点击撤销按钮</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	页面回到初始状态，撤销按钮置灰</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+</steps>
+</testcase>
+
+<testcase internalid="27871" name="重做（redo）">
+	<node_order><![CDATA[1002]]></node_order>
+	<externalid><![CDATA[1393]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[]]></summary>
+	<preconditions><![CDATA[<p>
+	上一个操作是撤销</p>
+]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+<steps>
+<step>
+	<step_number><![CDATA[1]]></step_number>
+	<actions><![CDATA[<p>
+	点击重做按钮</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	页面恢复至撤销前一个状态；重做按钮置灰</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+</steps>
+</testcase>
+
+<testcase internalid="27874" name="重做置灰">
+	<node_order><![CDATA[1003]]></node_order>
+	<externalid><![CDATA[1394]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+<steps>
+<step>
+	<step_number><![CDATA[1]]></step_number>
+	<actions><![CDATA[<p>
+	当上一个步骤是撤销时</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	重做是非置灰状态</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+
+<step>
+	<step_number><![CDATA[2]]></step_number>
+	<actions><![CDATA[<p>
+	当连续n次撤销后</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	重做按钮非置灰状态</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+
+<step>
+	<step_number><![CDATA[3]]></step_number>
+	<actions><![CDATA[<p>
+	当上一个操作是非撤销操作或者是重做所有撤销之后</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	重做按钮置灰</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+</steps>
+</testcase>
+
+<testcase internalid="27879" name="居中">
+	<node_order><![CDATA[1004]]></node_order>
+	<externalid><![CDATA[1395]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[]]></summary>
+	<preconditions><![CDATA[<p>
+	当前内容存在</p>
+]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+<steps>
+<step>
+	<step_number><![CDATA[1]]></step_number>
+	<actions><![CDATA[<p>
+	点击居中按钮</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	内容居中</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+</steps>
+</testcase>
+
+<testcase internalid="27882" name="字体放大">
+	<node_order><![CDATA[1005]]></node_order>
+	<externalid><![CDATA[1396]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[]]></summary>
+	<preconditions><![CDATA[<p>
+	当前字体不是最大</p>
+]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+<steps>
+<step>
+	<step_number><![CDATA[1]]></step_number>
+	<actions><![CDATA[<p>
+	连续点击放大字体按钮</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	字体连续放大，直到最大后，按钮置灰</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+</steps>
+</testcase>
+
+<testcase internalid="27885" name="字体缩小">
+	<node_order><![CDATA[1006]]></node_order>
+	<externalid><![CDATA[1397]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[]]></summary>
+	<preconditions><![CDATA[<p>
+	字体并非最小</p>
+]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+<steps>
+<step>
+	<step_number><![CDATA[1]]></step_number>
+	<actions><![CDATA[<p>
+	连续点击缩小字体按钮</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	字体每点击一次就缩小一号，直至缩小至最小，按钮就置灰</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+</steps>
+</testcase>
 </testsuite><testsuite id="27377" name="运行／停止" >
 <node_order><![CDATA[10]]></node_order>
 <details><![CDATA[]]></details> 
+
+<testcase internalid="27888" name="运行／停止">
+	<node_order><![CDATA[1000]]></node_order>
+	<externalid><![CDATA[1398]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[]]></summary>
+	<preconditions><![CDATA[<p>
+	连接mbot,新建一个cp，进入blackly</p>
+]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+<steps>
+<step>
+	<step_number><![CDATA[1]]></step_number>
+	<actions><![CDATA[<p>
+	编写：</p>
+<p>
+	当开关打开时，</p>
+<p>
+	运动【向前】速度为【100】</p>
+<p>
+	当开关关闭时，</p>
+<p>
+	停止运动</p>
+]]></actions>
+	<expectedresults><![CDATA[]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+
+<step>
+	<step_number><![CDATA[2]]></step_number>
+	<actions><![CDATA[<p>
+	点击右下角运行框</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	弹出显示一个开关</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+
+<step>
+	<step_number><![CDATA[3]]></step_number>
+	<actions><![CDATA[<p>
+	打开开关</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	mbot以速度100向前运动</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+
+<step>
+	<step_number><![CDATA[4]]></step_number>
+	<actions><![CDATA[<p>
+	关闭开关</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	mbot停止运动</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+
+<step>
+	<step_number><![CDATA[5]]></step_number>
+	<actions><![CDATA[<p>
+	点击右下角运行库收起</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	弹框收回</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+</steps>
+</testcase>
 </testsuite><testsuite id="27378" name="内容页面操作" >
 <node_order><![CDATA[11]]></node_order>
 <details><![CDATA[]]></details> 
+
+<testcase internalid="27895" name="长按语句块">
+	<node_order><![CDATA[1000]]></node_order>
+	<externalid><![CDATA[1399]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[3]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+<steps>
+<step>
+	<step_number><![CDATA[1]]></step_number>
+	<actions><![CDATA[<p>
+	长按任一语句块</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	弹出菜单栏「复制／复制当前及以下块／复制当前及以下块到剪切板／删除块」</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+</steps>
+</testcase>
+
+<testcase internalid="27898" name="长按语句块--复制">
+	<node_order><![CDATA[1001]]></node_order>
+	<externalid><![CDATA[1400]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+<steps>
+<step>
+	<step_number><![CDATA[1]]></step_number>
+	<actions><![CDATA[<p>
+	长按语句块</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	弹出菜单栏</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+
+<step>
+	<step_number><![CDATA[2]]></step_number>
+	<actions><![CDATA[<p>
+	选择复制</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	在当前页面复制出了长按的语句块</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+</steps>
+</testcase>
+
+<testcase internalid="27902" name="长按语句块--复制当前及以下块">
+	<node_order><![CDATA[1002]]></node_order>
+	<externalid><![CDATA[1401]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27904" name="长按语句块--复制当前及以下块到剪切板">
+	<node_order><![CDATA[1003]]></node_order>
+	<externalid><![CDATA[1402]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27906" name="长按语句块--删除x块">
+	<node_order><![CDATA[1004]]></node_order>
+	<externalid><![CDATA[1403]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27908" name="长按空白区域">
+	<node_order><![CDATA[1005]]></node_order>
+	<externalid><![CDATA[1404]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[3]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+<steps>
+<step>
+	<step_number><![CDATA[1]]></step_number>
+	<actions><![CDATA[<p>
+	长按空白区域</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	弹出菜单栏「撤销／重做／折叠块／展开块／删除x块」</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+</steps>
+</testcase>
+
+<testcase internalid="27911" name="长按空白区域--撤销">
+	<node_order><![CDATA[1006]]></node_order>
+	<externalid><![CDATA[1405]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27913" name="长按空白区域--重做">
+	<node_order><![CDATA[1007]]></node_order>
+	<externalid><![CDATA[1406]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27915" name="长按空白区域--折叠块">
+	<node_order><![CDATA[1008]]></node_order>
+	<externalid><![CDATA[1407]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27917" name="长按空白区域--展开块">
+	<node_order><![CDATA[1009]]></node_order>
+	<externalid><![CDATA[1408]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27919" name="长按空白区域--删除x块">
+	<node_order><![CDATA[1010]]></node_order>
+	<externalid><![CDATA[1409]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27921" name="检查内容页面右边和底边的进度条显示">
+	<node_order><![CDATA[1011]]></node_order>
+	<externalid><![CDATA[1410]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[1]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
 </testsuite><testsuite id="27566" name="@固件模式" >
 <node_order><![CDATA[12]]></node_order>
 <details><![CDATA[]]></details> 
@@ -21629,6 +23085,40 @@
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27826" name="读取供电电压">
+	<node_order><![CDATA[1006]]></node_order>
+	<externalid><![CDATA[1379]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	receive:`orion`firmwareMode`{&#39;type&#39;: 112}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 255);&nbsp;</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[3]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27828" name="读取固件模式">
+	<node_order><![CDATA[1007]]></node_order>
+	<externalid><![CDATA[1380]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	receive:`orion`firmwareMode`{&#39;type&#39;: 113}`assert.isNumber(result);assert.oneOf(result,[0,1,2,3.4]);</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[3]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
 	<is_open>1</is_open>
@@ -21740,6 +23230,40 @@
 	<active>1</active>
 
 </testcase>
+
+<testcase internalid="27830" name="读取供电电压">
+	<node_order><![CDATA[1006]]></node_order>
+	<externalid><![CDATA[1381]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	receive:`auriga`firmwareMode`{&#39;type&#39;: 112}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 255);&nbsp;</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[3]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27832" name="读取固件模式">
+	<node_order><![CDATA[1007]]></node_order>
+	<externalid><![CDATA[1382]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	receive:`auriga`firmwareMode`{&#39;type&#39;: 113}`assert.isNumber(result);assert.oneOf(result,[0,1,2,3.4]);</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[3]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
 </testsuite><testsuite id="27571" name="megapi" >
 <node_order><![CDATA[3]]></node_order>
 <details><![CDATA[]]></details> 
@@ -21839,6 +23363,40 @@
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27834" name="读取供电电压">
+	<node_order><![CDATA[1006]]></node_order>
+	<externalid><![CDATA[1383]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	receive:`megapi`firmwareMode`{&#39;type&#39;: 112}`assert.isNumber(result);assert.isAtLeast(result, 0);assert.isAtMost(result, 255);&nbsp;</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[3]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="27836" name="读取固件模式">
+	<node_order><![CDATA[1007]]></node_order>
+	<externalid><![CDATA[1384]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	receive:`megapi`firmwareMode`{&#39;type&#39;: 113}`assert.isNumber(result);assert.oneOf(result,[0,1,2,3.4]);</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[3]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
 	<is_open>1</is_open>

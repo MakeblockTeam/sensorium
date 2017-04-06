@@ -59,11 +59,9 @@ Transform.transformData = function() { //callback
               extractedXml_ss.caseName = _case_.$.name; //[]//提取用例名至extractedXml
               extractedXml_ss.caseSummary = [];
 
-              if (summaryToStr.indexOf("receive:") > 0) { //针对返回值的验证用例
-                var summaryToSub = summaryToStr.substring(11, summaryToStr.length - 10); //将摘要中前后多余的<p>\r\n\t等字符除去 
-                extractedXml_ss.caseSummary = summaryToSub.split("`"); //提取用例摘要
-              } else if (summaryToStr.indexOf("send:") > 0) { //针对发送指令的用例
-                var summaryToSub = summaryToStr.substring(9, summaryToStr.length - 8); //将摘要中前后多余的<p>\r\n\t等字符除去
+              if (summaryToStr.indexOf("receive:") > 0 || summaryToStr.indexOf("send:") > 0) { //针对返回值的验证用例
+                var summaryToSub = summaryToStr.substring(9, summaryToStr.length - 8); //将摘要中前后多余的<p>\r\n\t等字符除去 
+                // console.log(summaryToStr);
                 extractedXml_ss.caseSummary = summaryToSub.split("`"); //提取用例摘要
               }else {
                 console.log("====== ! 用例： " + _case_.$.name + " 的接口摘要描写有误 ！======");
