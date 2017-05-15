@@ -51,7 +51,7 @@ function Mock() {
    */
   this._send = function(buf) {
     // Send data
-
+    console.log(buf);
   };
 
 }
