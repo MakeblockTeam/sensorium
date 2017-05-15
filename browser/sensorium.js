@@ -7097,18 +7097,13 @@ function CordovaBle() {
   var readCharacteristicID = 'FFE2';
 
   this._init = function() {
-    if (typeof ble != "undefined" && ble.connectedDeviceID) {
-      ble.startNotification(ble.connectedDeviceID, commServiceID, readCharacteristicID, function(data) {
-        var bufArray = utils.arrayFromArrayBuffer(data);
-        // read success
+    if (typeof ble != "undefined") {
+      ble.startListenReceivedData(function (msg) {
+        var bufArray = utils.arrayFromArrayBuffer(msg);
         parse.doParse(bufArray, driver);
-
-      }, function(err) {
-        // read failure
-        logger.warn('read error, ', err);
+      }, function (msg) {
+        console.log(msg);
       });
-    } else {
-      // connection may lost
     }
   };
 
@@ -7118,21 +7113,14 @@ function CordovaBle() {
    * @return {[integer]}     [the actual byte length sent. -1 if send fails.]
    */
   this._send = function(buf) {
-    if (typeof ble != "undefined"  && ble.connectedDeviceID) {
-      ble.writeWithoutResponse(ble.connectedDeviceID, commServiceID,
-        writeCharacteristicID, utils.arrayBufferFromArray(buf),
-        function() {
-          if(!isConnected) {
-            self._init();
-          }
-          isConnected = true;
-        },
-        function(err) {
-          logger.warn('write error, ', err);
-          ble.stopNotification(ble.connectedDeviceID, commServiceID, readCharacteristicID);
-          isConnected = false;
-        }
-      );
+    var self = this;
+    if (typeof ble != "undefined") {
+      var cmd = utils.arrayBufferFromArray(buf);
+      ble.sendData(function (msg) {
+        // success
+      }, function (msg) {
+        console.log(msg);
+      }, cmd);
     }
   };
 }
