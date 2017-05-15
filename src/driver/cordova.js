@@ -30,7 +30,7 @@ function CordovaBle() {
   var readCharacteristicID = 'FFE2';
 
   this._init = function() {
-    if (ble && ble.connectedDeviceID) {
+    if (typeof ble != "undefined" && ble.connectedDeviceID) {
       ble.startNotification(ble.connectedDeviceID, commServiceID, readCharacteristicID, function(data) {
         var bufArray = utils.arrayFromArrayBuffer(data);
         // read success
@@ -51,8 +51,7 @@ function CordovaBle() {
    * @return {[integer]}     [the actual byte length sent. -1 if send fails.]
    */
   this._send = function(buf) {
-
-    if (ble && ble.connectedDeviceID) {
+    if (typeof ble != "undefined"  && ble.connectedDeviceID) {
       ble.writeWithoutResponse(ble.connectedDeviceID, commServiceID,
         writeCharacteristicID, utils.arrayBufferFromArray(buf),
         function() {
