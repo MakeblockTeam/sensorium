@@ -7,7 +7,6 @@ var createDriver = require("../driver/index.js").create;
 var CONFIG = require("./config");
 var ValueWrapper = require("../core/value_wrapper");
 var PromiseList = require("../core/promise");
-var logger = require('../log/log4js').logger;
 var utils = require("./utils");
 
 
@@ -17,7 +16,7 @@ function Board() {
 
 Board.prototype.init = function(conf) {
   this.setDriver(conf.driver);
-  logger.warn("Driver: " + conf.driver);
+  console.warn("Driver: " + conf.driver);
 };
 
 Board.prototype.setDriver = function(driver) {
@@ -30,7 +29,7 @@ Board.prototype.setDriver = function(driver) {
   });
 
   this.driver.on('error', function(err) {
-    logger.warn(err);
+    console.warn(err);
   });
 };
 
@@ -123,7 +122,7 @@ Board.prototype._handlerCommandSendTimeout = function(params) {
  * @param  {[type]} command [description]
  */
 Board.prototype.send = function(command) {
-  // logger.log('send: ' + utils.intStrToHexStr(command));
+  // console.log('send: ' + utils.intStrToHexStr(command));
   this.driver.send(command);
   return utils.intStrToHexStr(command);
 };
@@ -135,7 +134,7 @@ Board.prototype.send = function(command) {
  */
 Board.prototype.sensorCallback = function(index, result) {
   var deviceType = PromiseList.getType(index);
-  logger.debug(deviceType + ": " + result);
+  console.debug(deviceType + ": " + result);
   PromiseList.receiveValue(index, result);
 };
 

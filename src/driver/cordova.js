@@ -3,7 +3,6 @@
  */
 
 var Driver = require('./driver');
-var logger = require('../log/log4js').logger;
 
 var utils = require('../core/utils');
 var Parse = require('../core/parse');

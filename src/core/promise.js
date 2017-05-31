@@ -3,8 +3,6 @@
  * 用于处理传感器数据分发
  */
 
-var logger = require('../log/log4js').logger;
-
 var PromiseList = {
     requestList: new Array(255),
     index: 1,
@@ -38,7 +36,7 @@ var PromiseList = {
         if(this.requestList[index]) {
             return this.requestList[index].type;
         } else {
-            // logger.warn("返回字节的索引值无法匹配");
+            // console.warn("返回字节的索引值无法匹配");
             return 0;
         }
     }

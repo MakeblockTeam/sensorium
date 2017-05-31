@@ -19,13 +19,12 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "babel-core": "^6.24.1",
+    "babel-loader": "^7.0.0",
     "blessed": "^0.1.81",
     "chai": "^3.5.0",
-    "gulp-browserify": "^0.5.1",
-    "log": "^1.4.0",
-    "log4js": "^0.6.37",
     "mocha": "^2.5.3",
-    "serialport": "^4.0.1",
+    "serialport": "^4.0.7",
     "underscore": "^1.8.3",
     "xml2js": "^0.4.17"
   }

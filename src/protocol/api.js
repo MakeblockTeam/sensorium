@@ -823,7 +823,7 @@ function Api(board) {
       0x06, index,
       SETTINGS.READ_MODE,
       0x3d,
-      00,
+      0x00,
       slot,
       type
     ];

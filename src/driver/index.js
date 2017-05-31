@@ -7,9 +7,8 @@ var Mtester = require('./mtester');
 var Mock = require('./mock');
 var Serial = function(){};
 if(typeof window == 'undefined') {
-  Serial = require('./serial');
+  // Serial = require('./serial');
 }
-var logger = require('../log/log4js').logger;
 
 /**
  * [create the the driver factory method]
@@ -38,7 +37,7 @@ function create(type) {
       driver = new Mock();
       break;
     default:
-      logger.warn('unsupported driver: ', type);
+      console.warn('unsupported driver: ', type);
       break;
   }
   if (driver._init) {

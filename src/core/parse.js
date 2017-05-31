@@ -5,7 +5,6 @@
 var SETTINGS = require("../protocol/settings");
 var PromiseList = require("./promise");
 var utils = require('../core/utils');
-var logger = require('../log/log4js').logger;
 
 
 function Parse() {
@@ -60,7 +59,7 @@ function Parse() {
           if (driver && driver._on_data) {
             driver._on_data(dataIndex, result);
           } else {
-            logger.warn("driver data callback not found!");
+            console.warn("driver data callback not found!");
           }
         }
       } else {

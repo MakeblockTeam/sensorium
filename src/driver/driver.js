@@ -2,7 +2,6 @@
  * @fileOverview The driver base class.
  * 用于数据通信
  */
-var logger = require('../log/log4js').logger;
 
 function Driver() {
   var self = this;
@@ -39,7 +38,7 @@ function Driver() {
         self._on_ready = callback;
         break;
       default:
-        logger.warn('unsupported event: ', event);
+        console.warn('unsupported event: ', event);
         break;
     }
   };

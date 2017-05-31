@@ -4,7 +4,6 @@
 
 var Driver = require('./driver');
 var SerialPort = require("serialport");
-var logger = require('../log/log4js').logger;
 var Parse = require('../core/parse');
 var utils = require('../core/utils');
 var parse = new Parse();
@@ -14,9 +13,9 @@ var serialName = '';
 var serialPort = null;
 
 function checkConnection(err) {
-  logger.debug(err.message);
+  console.debug(err.message);
   if (err && (err.message.indexOf('not open') > 0)) {
-    logger.warn('serial connection lost.');
+    console.warn('serial connection lost.');
     serialName = '';
     serialPort = null;
     initSerial();
@@ -34,7 +33,7 @@ function initSerial() {
         console.log(port.comName);
         var NAME = name.toUpperCase();
         if (NAME.indexOf('USB') > 0 || NAME.indexOf('AMA') > 0) {
-          logger.info('serial port found:', name);
+          console.info('serial port found:', name);
           serialName = name;
           return;
         }
@@ -47,15 +46,15 @@ function initSerial() {
         });
 
         serialPort.on('open', function() {
-          logger.info('serial opened: ', serialName);
+          console.info('serial opened: ', serialName);
 
           serialPort.on('ready', function() {
-            logger.info('ready');
+            console.info('ready');
           });
 
           // 接收硬件返回来的数据
           serialPort.on('data', function(data) {
-            // logger.debug('received: ' + utils.intStrToHexStr(utils.buffer2string(data).split(" ")));
+            // console.debug('received: ' + utils.intStrToHexStr(utils.buffer2string(data).split(" ")));
             // parse buffer data
 
             data = utils.arrayFromArrayBuffer(data);
@@ -63,7 +62,7 @@ function initSerial() {
           });
 
           serialPort.on('error', function(err) {
-            logger.warn('serial port error ' + err);
+            console.warn('serial port error ' + err);
             if (driver._on_error) {
               driver._on_error(err);
             }
@@ -96,7 +95,7 @@ function Serial() {
 
     serialPort.write(buf, function(err, results) {
       if (err) {
-        logger.warn(err);
+        console.warn(err);
         checkConnection(err);
         return -1;
       }
