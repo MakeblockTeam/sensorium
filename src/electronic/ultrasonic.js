@@ -1,4 +1,4 @@
-import command from "../communicate";
+import command from "../communicate/command";
 
 class Ultrasonic {
   constructor(port) {
@@ -6,15 +6,11 @@ class Ultrasonic {
     this.value = 0;
   }
 
-  on("request", callback) {
-    let that = this;
-    getSensorValue('ultrasonic', {
-      "port": that.port
+  onData(callback) {
+    command.getSensorValue('ultrasonic', {
+      "port": this.port
     }, callback);
   }
 }
 
-
-let ultrasonic = new Ultrasonic();
-
-export default ultrasonic;
+export default Ultrasonic;

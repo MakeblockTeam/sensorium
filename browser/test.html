@@ -23,10 +23,11 @@
         send: function(buf) {
           console.log(buf);
         },
-        onReceive: function(buf, parse, on_data) {
 
+        // parse是定义的解析器，需要被调用
+        onReceive: function(parse) {
           serialPort.on('data', function(buff) {
-            parse.doParse(buff, on_data);
+            parse.doParse(buff);
           });
         }
       }
@@ -34,6 +35,13 @@
       var mcore = new Sensorium.Mcore({
         "transport": transport
       });
+
+      // mcore.dcMotor(1,1).start(100);
+
+      mcore.ultrasonic(1,1).onData(function(val) {
+        console.log(val);
+      });
+
     </script>
 </body>
 </html>

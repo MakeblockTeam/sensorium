@@ -6,7 +6,7 @@
 import utils from "./utils";
 import Transport from '../communicate/transport';
 import Command from '../communicate/command';
-import parse from './parse';
+import Parse from './parse';
 import Settings from '../protocol/settings';
 var _ = require('underscore');
 
@@ -15,6 +15,9 @@ class Board {
   init(conf) {
     this._config = _.extend(Settings.DEFAULT_CONF, conf || {});
     this.setTransport(this._config.transport);
+
+    // 启动数据监听
+    this.onReceive();
   };
 
   /**
@@ -34,12 +37,12 @@ class Board {
    * }
    */
   setTransport(transport) {
-    this.transport = this._config.transport;
+    this.transport = transport;
     Transport.set(this.transport);
   };
 
   /**
-   * 定义主板发送数据通道
+   * 注册主板发送数据通道
    * @param  {[type]} command [description]
    */
   send(command) {
@@ -52,8 +55,9 @@ class Board {
    * @param  {[type]} data [description]
    * @return {[type]}      [description]
    */
-  onReceive(data, callback) {
-
+  onReceive() {
+    var parse = new Parse();
+    this.transport.onReceive(parse);
   }
 }
 

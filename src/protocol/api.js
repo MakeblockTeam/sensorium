@@ -1,10 +1,10 @@
 /**
  * @fileOverview  Api api list
  */
-
 import utils from "../core/utils";
 
 function Api(transport) {
+
   /**
    * Set dc motor speed.
    * @param {number} port  port number, vailable is: 1,2,3,4

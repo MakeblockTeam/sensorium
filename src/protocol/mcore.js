@@ -6,10 +6,8 @@ function Mcore(conf) {
 
   // 挂载各电子模块
   for (let i in electronics) {
-    if(!this[i]) {
-      this[i] = function(port, slot) {
-        return new electronics[i](port, slot);
-      }
+    this[i] = function(port, slot) {
+      return new electronics[i](port, slot);
     }
   }
 }

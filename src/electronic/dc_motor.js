@@ -8,9 +8,8 @@ class DcMotor {
     this.slot = slot;
     this.on = false;
     this.speed = 0;
+    this.api = new Api(Transport.get());
     this.direction = 1;
-    this.transport = Transport.get();
-    this.api = new Api(this.transport);
   }
 
   start(speed) {

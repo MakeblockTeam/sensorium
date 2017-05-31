@@ -3,7 +3,10 @@
  */
 
 import ValueWrapper from "../core/value_wrapper";
+import utils from "../core/utils";
 import PromiseList from "../core/promise";
+import Transport from './transport';
+import Api from "../protocol/api";
 
 class Command {
   constructor() {
@@ -11,9 +14,9 @@ class Command {
       // 开启超时重发
       OPEN_RESNET_MODE: false,
       // 超时重发的次数
-      RESENT_COUNT: 2,
+      RESENT_COUNT: 1,
       // 读值指令超时的设定
-      COMMAND_SEND_TIMEOUT: 3000,
+      COMMAND_SEND_TIMEOUT: 1000,
     };
   }
 
@@ -54,11 +57,13 @@ class Command {
    * @param  {object} params command params.
    */
   _readBlockStatus(params) {
+    this.api = new Api(Transport.get());
+
     var deviceType = params.deviceType;
     var index = params.index;
     var port = params.port;
     var slot = params.slot || null;
-    var funcName = 'this.read' + utils.upperCaseFirstLetter(deviceType);
+    var funcName = 'this.api.read' + utils.upperCaseFirstLetter(deviceType);
     var paramsStr = '(' + index + ',' + port + ',' + slot + ')';
     var func = funcName + paramsStr;
     eval(func);

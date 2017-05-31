@@ -14,7 +14,7 @@ function Parse() {
   // data : 当前处理的数据
   // this.buffer: 历史缓存数据
   // 记录数据和历史数据分开记录
-  this.doParse = function(bytes, on_data, callback) {
+  this.doParse = function(bytes, callback) {
     var data  = bytes;
     data = this.buffer.concat(data);
     this.buffer = [];
@@ -42,16 +42,13 @@ function Parse() {
         var dataIndex = buf[0];
         var promiseType = PromiseList.getType(dataIndex);
         if (promiseType || promiseType == 0) {
-          // 计算返回值
-          var result = this.getResult(buf, promiseType);
-          callback && callback(buf);
 
-          // 接收到数据后，启用回调
-          if (on_data) {
-            on_data(result)
-          } else {
-            console.warn("driver data callback not found!");
-          }
+          // 计算返回值，并注入
+          var result = this.getResult(buf, promiseType);
+          PromiseList.receiveValue(dataIndex, result);
+
+          // 为测试留接口
+          callback && callback(buf);
         }
       } else {
         // normal

@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 16);
+/******/ 	return __webpack_require__(__webpack_require__.s = 13);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -341,18 +341,115 @@ var Utils = {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-var Settings = {
-    // 数据发送与接收相关
-    // 回复数据的index位置
-    READ_BYTES_INDEX: 2,
-    // 数据发送默认的驱动driver: makeblockhd, cordova
-    DEFAULT_CONF: {}
-};
+/**
+ * @fileOverview 存储指令的传输通道：蓝牙，串口，2.4G等，一个单例。
+ */
 
-/* harmony default export */ __webpack_exports__["a"] = (Settings);
+class Transport {
+
+  constructor() {
+    this.transport = null;
+  }
+
+  set(transport) {
+    this.transport = transport;
+  }
+
+  get() {
+    return this.transport;
+  }
+
+  static getInstance() {
+    if (!Transport.instance) {
+      Transport.instance = new Transport();
+    }
+    return Transport.instance;
+  }
+}
+
+var transport = Transport.getInstance();
+
+/* harmony default export */ __webpack_exports__["a"] = (transport);
 
 /***/ }),
 /* 2 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/**
+ * @fileOverview PromiveList is sensor data's transfer station.
+ * 用于处理传感器数据分发
+ */
+
+var PromiseList = {
+    requestList: new Array(255),
+    index: 1,
+
+    add: function (type, callback, valueWrapper) {
+        this.index++;
+        if (this.index > 254) {
+            this.index = 1;
+        }
+        this.requestList[this.index] = {
+            type: type,
+            callback: callback,
+            valueWrapper: valueWrapper,
+            hasReceivedValue: false,
+            resentCount: 0
+        };
+        return this.index;
+    },
+
+    // 将值写到对应请求的值对象中，并且启动回调
+    receiveValue: function (index, value) {
+        var that = this;
+        if (this.requestList[index]) {
+            this.requestList[index].callback(value);
+            this.requestList[index].valueWrapper.setValue(value);
+            this.requestList[index].hasReceivedValue = true;
+        }
+    },
+
+    getType: function (index) {
+        if (this.requestList[index]) {
+            return this.requestList[index].type;
+        } else {
+            // console.warn("返回字节的索引值无法匹配");
+            return 0;
+        }
+    }
+};
+
+/* harmony default export */ __webpack_exports__["a"] = (PromiseList);
+
+/***/ }),
+/* 3 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_board__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__electronic_index__ = __webpack_require__(10);
+
+
+
+function Mcore(conf) {
+  __WEBPACK_IMPORTED_MODULE_0__core_board__["a" /* default */].init(conf);
+
+  // 挂载各电子模块
+  for (let i in __WEBPACK_IMPORTED_MODULE_1__electronic_index__["a" /* default */]) {
+    this[i] = function (port, slot) {
+      return new __WEBPACK_IMPORTED_MODULE_1__electronic_index__["a" /* default */][i](port, slot);
+    };
+  }
+}
+
+// clone method and attributes from board to Mcore.
+Mcore.prototype = __WEBPACK_IMPORTED_MODULE_0__core_board__["a" /* default */];
+
+/* harmony default export */ __webpack_exports__["a"] = (Mcore);
+
+/***/ }),
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;//     Underscore.js 1.8.3
@@ -1921,15 +2018,140 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;//     Underscor
 }).call(this);
 
 /***/ }),
-/* 3 */
+/* 5 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_value_wrapper__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__core_promise__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__transport__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__protocol_api__ = __webpack_require__(12);
+/**
+ * @fileOverview 协议发送基类.
+ */
+
+
+
+
+
+
+
+class Command {
+  constructor() {
+    this.CONFIG = {
+      // 开启超时重发
+      OPEN_RESNET_MODE: false,
+      // 超时重发的次数
+      RESENT_COUNT: 1,
+      // 读值指令超时的设定
+      COMMAND_SEND_TIMEOUT: 1000
+    };
+  }
+
+  /**
+   * Get sensor's value.
+   * @param  {String}   deviceType the sensor's type.
+   * @param  {Object}   options    config options, such as port, slot etc.
+   * @param  {Function} callback   the function to be excuted.
+   */
+  getSensorValue(deviceType, options, callback) {
+    if (callback == undefined && typeof options == 'function') {
+      callback = options;
+      options = {};
+    }
+    var params = {};
+    params.deviceType = deviceType;
+    params.callback = callback;
+    params.port = options.port;
+    params.slot = options.slot || 2;
+    var valueWrapper = new __WEBPACK_IMPORTED_MODULE_0__core_value_wrapper__["a" /* default */]();
+    var index = __WEBPACK_IMPORTED_MODULE_2__core_promise__["a" /* default */].add(deviceType, callback, valueWrapper);
+    params.index = index;
+    // 发送读取指令
+    this._doGetSensorValue(params);
+    if (this.CONFIG.OPEN_RESNET_MODE) {
+      // 执行超时检测
+      this._handlerCommandSendTimeout(params);
+    }
+    return valueWrapper;
+  }
+  _doGetSensorValue(params) {
+    var that = this;
+    this._readBlockStatus(params);
+  }
+
+  /**
+   * Read module's value.
+   * @param  {object} params command params.
+   */
+  _readBlockStatus(params) {
+    this.api = new __WEBPACK_IMPORTED_MODULE_4__protocol_api__["a" /* default */](__WEBPACK_IMPORTED_MODULE_3__transport__["a" /* default */].get());
+
+    var deviceType = params.deviceType;
+    var index = params.index;
+    var port = params.port;
+    var slot = params.slot || null;
+    var funcName = 'this.api.read' + __WEBPACK_IMPORTED_MODULE_1__core_utils__["a" /* default */].upperCaseFirstLetter(deviceType);
+    var paramsStr = '(' + index + ',' + port + ',' + slot + ')';
+    var func = funcName + paramsStr;
+    eval(func);
+  }
+
+  /**
+   * Command sending timeout handler.
+   * @param  {Object} params params.
+   */
+  _handlerCommandSendTimeout(params) {
+    var that = this;
+    var promiseItem = __WEBPACK_IMPORTED_MODULE_2__core_promise__["a" /* default */].requestList[params.index];
+    setTimeout(function () {
+      if (promiseItem.hasReceivedValue) {
+        // 成功拿到数据，不进行处理
+        return;
+      } else {
+        // 超过规定的时间，还没有拿到数据，需要进行超时重发处理
+        if (promiseItem.resentCount >= that.CONFIG.RESENT_COUNT) {
+          // 如果重发的次数大于规定次数,则终止重发
+          console.log("【resend ends】");
+          return;
+        } else {
+          console.log('【resend】:' + params.index);
+          promiseItem.resentCount = promiseItem.resentCount || 0;
+          promiseItem.resentCount++;
+          that._doGetSensorValue(params);
+          that._handlerCommandSendTimeout(params);
+        }
+      }
+    }, that.CONFIG.COMMAND_SEND_TIMEOUT);
+  }
+
+  /**
+   * Get value form sensor and put the value to user's callback.
+   * @param  {Number} index  the index of sensor's request command in promiseList
+   * @param  {Number} result the value of sensor.
+   */
+  sensorCallback(index, result) {
+    var deviceType = __WEBPACK_IMPORTED_MODULE_2__core_promise__["a" /* default */].getType(index);
+    console.debug(deviceType + ": " + result);
+    __WEBPACK_IMPORTED_MODULE_2__core_promise__["a" /* default */].receiveValue(index, result);
+  }
+}
+
+var command = new Command();
+
+/* harmony default export */ __webpack_exports__["a"] = (command);
+
+/***/ }),
+/* 6 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__utils__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__communicate_transport__ = __webpack_require__(17);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__communicate_command__ = __webpack_require__(18);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__parse__ = __webpack_require__(19);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__protocol_settings__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__communicate_transport__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__communicate_command__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__parse__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__protocol_settings__ = __webpack_require__(14);
 /**
  * @fileOverview board 用做通信基类，连接收和发送接口.
  * @author Hyman (hujinhong@makelbock.cc)
@@ -1940,13 +2162,16 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;//     Underscor
 
 
 
-var _ = __webpack_require__(2);
+var _ = __webpack_require__(4);
 
 class Board {
 
   init(conf) {
     this._config = _.extend(__WEBPACK_IMPORTED_MODULE_4__protocol_settings__["a" /* default */].DEFAULT_CONF, conf || {});
     this.setTransport(this._config.transport);
+
+    // 启动数据监听
+    this.onReceive();
   }
 
   /**
@@ -1966,12 +2191,12 @@ class Board {
    * }
    */
   setTransport(transport) {
-    this.transport = this._config.transport;
+    this.transport = transport;
     __WEBPACK_IMPORTED_MODULE_1__communicate_transport__["a" /* default */].set(this.transport);
   }
 
   /**
-   * 定义主板发送数据通道
+   * 注册主板发送数据通道
    * @param  {[type]} command [description]
    */
   send(command) {
@@ -1984,7 +2209,10 @@ class Board {
    * @param  {[type]} data [description]
    * @return {[type]}      [description]
    */
-  onReceive(data, callback) {}
+  onReceive() {
+    var parse = new __WEBPACK_IMPORTED_MODULE_3__parse__["a" /* default */]();
+    this.transport.onReceive(parse);
+  }
 }
 
 let board = new Board();
@@ -1992,7 +2220,289 @@ let board = new Board();
 /* harmony default export */ __webpack_exports__["a"] = (board);
 
 /***/ }),
-/* 4 */
+/* 7 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_promise__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
+/**
+ * @fileOverview 负责实际的数据解析
+ */
+
+
+
+function Parse() {
+  this.buffer = [];
+
+  // 获取到的最大指令长度
+  this.REC_BUF_LENGTH = 40;
+
+  // 解析从硬件传递过来的数据
+  // data : 当前处理的数据
+  // this.buffer: 历史缓存数据
+  // 记录数据和历史数据分开记录
+  this.doParse = function (bytes, callback) {
+    var data = bytes;
+    data = this.buffer.concat(data);
+    this.buffer = [];
+
+    // parse buffer data
+    for (var i = 0; i < data.length; i++) {
+      this.buffer.push(parseInt(data[i]));
+      if (parseInt(data[i]) === 0x55 && parseInt(data[i - 1]) === 0xff) {
+        // start flag
+        this.recvLength = 0;
+        this.beginRecv = true;
+        this.tempBuf = [];
+      } else if (parseInt(data[i - 1]) === 0x0d && parseInt(data[i]) === 0x0a && this.tempBuf) {
+        // end flag
+        this.beginRecv = false;
+        var buf = this.tempBuf.slice(0, this.recvLength - 1);
+        // 解析正确的数据后，清空buffer
+        this.buffer = [];
+        if (buf.length == 0) {
+          // buf中没有数据
+          return false;
+        }
+
+        // 以下为有效数据, 获取返回字节流中的索引位
+        var dataIndex = buf[0];
+        var promiseType = __WEBPACK_IMPORTED_MODULE_0__core_promise__["a" /* default */].getType(dataIndex);
+        if (promiseType || promiseType == 0) {
+
+          // 计算返回值，并注入
+          var result = this.getResult(buf, promiseType);
+          __WEBPACK_IMPORTED_MODULE_0__core_promise__["a" /* default */].receiveValue(dataIndex, result);
+
+          // 为测试留接口
+          callback && callback(buf);
+        }
+      } else {
+        // normal
+        if (this.beginRecv) {
+          if (this.recvLength >= this.REC_BUF_LENGTH) {
+            console.log("receive buffer overflow!");
+          }
+          this.tempBuf[this.recvLength++] = parseInt(data[i]);
+        }
+      }
+    }
+  };
+
+  /**
+   * Get result from buffer data.
+   * @param  {Array} buf array data.
+   * @return {Float}         value of sensor's callback
+   * 回复数据数值解析, 从左到右第四位数据：
+   *     1: 单字符(1 byte)
+   *     2： float(4 byte)
+   *     3： short(2 byte)，16个长度
+   *     4： 字符串
+   *     5： double(4 byte)
+   *     6: long(4 byte)
+   *  @example
+   *  ff 55 02 02 7c 1a 81 41 0d 0a
+   */
+  this.getResult = function (buf, type) {
+    // 获取返回的数据类型
+    var dataType = buf[1];
+    var result = null;
+    switch (dataType) {
+      case "1":
+      case 1:
+        // 1byte
+        result = buf[2];
+        break;
+      case "3":
+      case 3:
+        // 2byte
+        result = this.calculateResponseValue([parseInt(buf[3]), parseInt(buf[2])]);
+        break;
+      case "4":
+      case 4:
+        // 字符串
+        var bytes = buf.splice(3, buf[2]);
+        result = __WEBPACK_IMPORTED_MODULE_1__core_utils__["a" /* default */].bytesToString(bytes);
+        break;
+      case "2":
+      case "5":
+      case "6":
+      case 2:
+      case 5:
+      case 6:
+        // long型或者float型的4byte处理
+        result = this.calculateResponseValue([parseInt(buf[5]), parseInt(buf[4]), parseInt(buf[3]), parseInt(buf[2])]);
+        break;
+      default:
+        break;
+    }
+
+    // TOFIX: should not be placed here.
+    //  if (type == this.PromiseType.ENCODER_MOTER.index) {
+    //   result = Math.abs(result);
+    // }
+
+    return result;
+  };
+
+  /**
+   * calculate value from data received: bytes -> int -> float
+   * @param  {Array} intArray decimal array
+   * @return {Number}  result.
+   */
+  this.calculateResponseValue = function (intArray) {
+    var result = null;
+
+    // FIXME: int字节转浮点型
+    var intBitsToFloat = function (num) {
+      /* s 为符号（sign）；e 为指数（exponent）；m 为有效位数（mantissa）*/
+      var s = num >> 31 == 0 ? 1 : -1,
+          e = num >> 23 & 0xff,
+          m = e == 0 ? (num & 0x7fffff) << 1 : num & 0x7fffff | 0x800000;
+      return s * m * Math.pow(2, e - 150);
+    };
+    var intValue = __WEBPACK_IMPORTED_MODULE_1__core_utils__["a" /* default */].bytesToInt(intArray);
+    // TOFIX
+    if (intValue < 100000 && intValue > 0) {
+      result = intValue;
+    } else {
+      result = parseFloat(intBitsToFloat(intValue).toFixed(2));
+    }
+    return result;
+  };
+}
+
+let parse = new Parse();
+
+/* harmony default export */ __webpack_exports__["a"] = (parse);
+
+/***/ }),
+/* 8 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/**
+ * 用来存值、取值
+ * valueWrapper是一个拥有存值、取值的类，每一个对象都将拥有这两个方法。
+ *
+ * 用来储存“读取数据”block对数据的请求，使用valueWrapper来完成程序变量的临时替代
+ * 在蓝牙返回数据之后设置真实的值，然后继续程序执行。
+ * 最终目的：取到程序块中请求的值
+ *
+ * 该技巧利用了对象的引用类型的原理，对象的属性值存在内存的某一个位置，后面值改变，内存
+ * 中的值即跟着改变。
+ */
+function ValueWrapper() {};
+
+ValueWrapper.prototype.toString = function () {
+    return this.val;
+};
+
+ValueWrapper.prototype.setValue = function (value) {
+    this.val = value;
+};
+
+/* harmony default export */ __webpack_exports__["a"] = (ValueWrapper);
+
+/***/ }),
+/* 9 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__communicate_transport__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__protocol_api__ = __webpack_require__(12);
+
+
+
+class DcMotor {
+
+  constructor(port, slot) {
+    this.port = port;
+    this.slot = slot;
+    this.on = false;
+    this.speed = 0;
+    this.api = new __WEBPACK_IMPORTED_MODULE_1__protocol_api__["a" /* default */](__WEBPACK_IMPORTED_MODULE_0__communicate_transport__["a" /* default */].get());
+    this.direction = 1;
+  }
+
+  start(speed) {
+    this.speed = speed || this.speed;
+    this._run();
+  }
+
+  stop() {
+    this.speed = 0;
+    this._run();
+  }
+
+  _run() {
+    this.api.setDcMotor(this.port, this.speed);
+  }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (DcMotor);
+
+/***/ }),
+/* 10 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__dc_motor__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__rgb_led__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ultrasonic__ = __webpack_require__(15);
+
+
+
+
+let electronics = {
+  "dcMotor": __WEBPACK_IMPORTED_MODULE_0__dc_motor__["a" /* default */],
+  "rgbLed": __WEBPACK_IMPORTED_MODULE_1__rgb_led__["a" /* default */],
+  "ultrasonic": __WEBPACK_IMPORTED_MODULE_2__ultrasonic__["a" /* default */]
+};
+
+/* harmony default export */ __webpack_exports__["a"] = (electronics);
+
+/***/ }),
+/* 11 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+class RgbLed {
+  constructor(port, slot) {
+    this.port = port;
+    this.slot = slot;
+    this.on = false;
+    this.position = 0;
+    this.r = 0;
+    this.g = 0;
+    this.b = 0;
+  }
+
+  turnOn(r, g, b) {
+    this.r = r || this.r;
+    this.g = g || this.g;
+    this.b = b || this.b;
+    board.setLed(this.port, this.slot, this.position, this.r, this.g, this.b);
+  }
+
+  turnOff() {
+    board.setLed(this.port, this.slot, this.position, 0, 0, 0);
+  }
+
+  blue() {
+    board.setLed(this.port, this.slot, this.position, 0, 255, 0);
+  }
+
+  red() {}
+
+  green() {}
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (RgbLed);
+
+/***/ }),
+/* 12 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2002,8 +2512,8 @@ let board = new Board();
  */
 
 
-
 function Api(transport) {
+
   /**
    * Set dc motor speed.
    * @param {number} port  port number, vailable is: 1,2,3,4
@@ -2676,218 +3186,12 @@ function Api(transport) {
 /* harmony default export */ __webpack_exports__["a"] = (Api);
 
 /***/ }),
-/* 5 */,
-/* 6 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_board__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__electronic_index__ = __webpack_require__(14);
-
-
-
-function Mcore(conf) {
-  __WEBPACK_IMPORTED_MODULE_0__core_board__["a" /* default */].init(conf);
-
-  // 挂载各电子模块
-  for (let i in __WEBPACK_IMPORTED_MODULE_1__electronic_index__["a" /* default */]) {
-    if (!this[i]) {
-      this[i] = function (port, slot) {
-        return new __WEBPACK_IMPORTED_MODULE_1__electronic_index__["a" /* default */][i](port, slot);
-      };
-    }
-  }
-}
-
-// clone method and attributes from board to Mcore.
-Mcore.prototype = __WEBPACK_IMPORTED_MODULE_0__core_board__["a" /* default */];
-
-/* harmony default export */ __webpack_exports__["a"] = (Mcore);
-
-/***/ }),
-/* 7 */,
-/* 8 */,
-/* 9 */,
-/* 10 */,
-/* 11 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/**
- * @fileOverview PromiveList is sensor data's transfer station.
- * 用于处理传感器数据分发
- */
-
-var PromiseList = {
-    requestList: new Array(255),
-    index: 1,
-
-    add: function (type, callback, valueWrapper) {
-        this.index++;
-        if (this.index > 254) {
-            this.index = 1;
-        }
-        this.requestList[this.index] = {
-            type: type,
-            callback: callback,
-            valueWrapper: valueWrapper,
-            hasReceivedValue: false,
-            resentCount: 0
-        };
-        return this.index;
-    },
-
-    // 将值写到对应请求的值对象中，并且启动回调
-    receiveValue: function (index, value) {
-        var that = this;
-        if (this.requestList[index]) {
-            this.requestList[index].callback(value);
-            this.requestList[index].valueWrapper.setValue(value);
-            this.requestList[index].hasReceivedValue = true;
-        }
-    },
-
-    getType: function (index) {
-        if (this.requestList[index]) {
-            return this.requestList[index].type;
-        } else {
-            // console.warn("返回字节的索引值无法匹配");
-            return 0;
-        }
-    }
-};
-
-/* harmony default export */ __webpack_exports__["a"] = (PromiseList);
-
-/***/ }),
-/* 12 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/**
- * 用来存值、取值
- * valueWrapper是一个拥有存值、取值的类，每一个对象都将拥有这两个方法。
- *
- * 用来储存“读取数据”block对数据的请求，使用valueWrapper来完成程序变量的临时替代
- * 在蓝牙返回数据之后设置真实的值，然后继续程序执行。
- * 最终目的：取到程序块中请求的值
- *
- * 该技巧利用了对象的引用类型的原理，对象的属性值存在内存的某一个位置，后面值改变，内存
- * 中的值即跟着改变。
- */
-function ValueWrapper() {};
-
-ValueWrapper.prototype.toString = function () {
-    return this.val;
-};
-
-ValueWrapper.prototype.setValue = function (value) {
-    this.val = value;
-};
-
-/* harmony default export */ __webpack_exports__["a"] = (ValueWrapper);
-
-/***/ }),
 /* 13 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__communicate_transport__ = __webpack_require__(17);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__protocol_api__ = __webpack_require__(4);
-
-
-
-class DcMotor {
-
-  constructor(port, slot) {
-    this.port = port;
-    this.slot = slot;
-    this.on = false;
-    this.speed = 0;
-    this.direction = 1;
-    this.transport = __WEBPACK_IMPORTED_MODULE_0__communicate_transport__["a" /* default */].get();
-    this.api = new __WEBPACK_IMPORTED_MODULE_1__protocol_api__["a" /* default */](this.transport);
-  }
-
-  start(speed) {
-    this.speed = speed || this.speed;
-    this._run();
-  }
-
-  stop() {
-    this.speed = 0;
-    this._run();
-  }
-
-  _run() {
-    this.api.setDcMotor(this.port, this.speed);
-  }
-}
-
-/* harmony default export */ __webpack_exports__["a"] = (DcMotor);
-
-/***/ }),
-/* 14 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__dc_motor__ = __webpack_require__(13);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__rgb_led__ = __webpack_require__(15);
-
-
-
-let electronics = {
-  "dcMotor": __WEBPACK_IMPORTED_MODULE_0__dc_motor__["a" /* default */],
-  "rgbLed": __WEBPACK_IMPORTED_MODULE_1__rgb_led__["a" /* default */]
-};
-
-/* harmony default export */ __webpack_exports__["a"] = (electronics);
-
-/***/ }),
-/* 15 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-class RgbLed {
-  constructor(port, slot) {
-    this.port = port;
-    this.slot = slot;
-    this.on = false;
-    this.position = 0;
-    this.r = 0;
-    this.g = 0;
-    this.b = 0;
-  }
-
-  turnOn(r, g, b) {
-    this.r = r || this.r;
-    this.g = g || this.g;
-    this.b = b || this.b;
-    board.setLed(this.port, this.slot, this.position, this.r, this.g, this.b);
-  }
-
-  turnOff() {
-    board.setLed(this.port, this.slot, this.position, 0, 0, 0);
-  }
-
-  blue() {
-    board.setLed(this.port, this.slot, this.position, 0, 255, 0);
-  }
-
-  red() {}
-
-  green() {}
-}
-
-/* harmony default export */ __webpack_exports__["a"] = (RgbLed);
-
-/***/ }),
-/* 16 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mcore__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mcore__ = __webpack_require__(3);
 
 
 var Sensorium = {
@@ -2897,317 +3201,42 @@ var Sensorium = {
 window.Sensorium = Sensorium;
 
 /***/ }),
-/* 17 */
+/* 14 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/**
- * @fileOverview 存储指令的传输通道：蓝牙，串口，2.4G等，一个单例。
- */
+var Settings = {
+    // 数据发送与接收相关
+    // 回复数据的index位置
+    READ_BYTES_INDEX: 2,
+    // 数据发送默认的驱动driver: makeblockhd, cordova
+    DEFAULT_CONF: {}
+};
 
-class Transport {
-
-  constructor() {
-    this.transport = null;
-  }
-
-  set(transport) {
-    this.transport = transport;
-  }
-
-  get() {
-    return this.transport;
-  }
-
-  static getInstance() {
-    if (!Transport.instance) {
-      Transport.instance = new Transport();
-    }
-    return Transport.instance;
-  }
-}
-
-var transport = Transport.getInstance();
-
-/* harmony default export */ __webpack_exports__["a"] = (transport);
+/* harmony default export */ __webpack_exports__["a"] = (Settings);
 
 /***/ }),
-/* 18 */
+/* 15 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_value_wrapper__ = __webpack_require__(12);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_promise__ = __webpack_require__(11);
-/**
- * @fileOverview 协议发送基类.
- */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__communicate_command__ = __webpack_require__(5);
 
 
-
-
-class Command {
-  constructor() {
-    this.CONFIG = {
-      // 开启超时重发
-      OPEN_RESNET_MODE: false,
-      // 超时重发的次数
-      RESENT_COUNT: 2,
-      // 读值指令超时的设定
-      COMMAND_SEND_TIMEOUT: 3000
-    };
+class Ultrasonic {
+  constructor(port) {
+    this.port = port;
+    this.value = 0;
   }
 
-  /**
-   * Get sensor's value.
-   * @param  {String}   deviceType the sensor's type.
-   * @param  {Object}   options    config options, such as port, slot etc.
-   * @param  {Function} callback   the function to be excuted.
-   */
-  getSensorValue(deviceType, options, callback) {
-    if (callback == undefined && typeof options == 'function') {
-      callback = options;
-      options = {};
-    }
-    var params = {};
-    params.deviceType = deviceType;
-    params.callback = callback;
-    params.port = options.port;
-    params.slot = options.slot || 2;
-    var valueWrapper = new __WEBPACK_IMPORTED_MODULE_0__core_value_wrapper__["a" /* default */]();
-    var index = __WEBPACK_IMPORTED_MODULE_1__core_promise__["a" /* default */].add(deviceType, callback, valueWrapper);
-    params.index = index;
-    // 发送读取指令
-    this._doGetSensorValue(params);
-    if (this.CONFIG.OPEN_RESNET_MODE) {
-      // 执行超时检测
-      this._handlerCommandSendTimeout(params);
-    }
-    return valueWrapper;
-  }
-  _doGetSensorValue(params) {
-    var that = this;
-    this._readBlockStatus(params);
-  }
-
-  /**
-   * Read module's value.
-   * @param  {object} params command params.
-   */
-  _readBlockStatus(params) {
-    var deviceType = params.deviceType;
-    var index = params.index;
-    var port = params.port;
-    var slot = params.slot || null;
-    var funcName = 'this.read' + utils.upperCaseFirstLetter(deviceType);
-    var paramsStr = '(' + index + ',' + port + ',' + slot + ')';
-    var func = funcName + paramsStr;
-    eval(func);
-  }
-
-  /**
-   * Command sending timeout handler.
-   * @param  {Object} params params.
-   */
-  _handlerCommandSendTimeout(params) {
-    var that = this;
-    var promiseItem = __WEBPACK_IMPORTED_MODULE_1__core_promise__["a" /* default */].requestList[params.index];
-    setTimeout(function () {
-      if (promiseItem.hasReceivedValue) {
-        // 成功拿到数据，不进行处理
-        return;
-      } else {
-        // 超过规定的时间，还没有拿到数据，需要进行超时重发处理
-        if (promiseItem.resentCount >= that.CONFIG.RESENT_COUNT) {
-          // 如果重发的次数大于规定次数,则终止重发
-          console.log("【resend ends】");
-          return;
-        } else {
-          console.log('【resend】:' + params.index);
-          promiseItem.resentCount = promiseItem.resentCount || 0;
-          promiseItem.resentCount++;
-          that._doGetSensorValue(params);
-          that._handlerCommandSendTimeout(params);
-        }
-      }
-    }, that.CONFIG.COMMAND_SEND_TIMEOUT);
-  }
-
-  /**
-   * Get value form sensor and put the value to user's callback.
-   * @param  {Number} index  the index of sensor's request command in promiseList
-   * @param  {Number} result the value of sensor.
-   */
-  sensorCallback(index, result) {
-    var deviceType = __WEBPACK_IMPORTED_MODULE_1__core_promise__["a" /* default */].getType(index);
-    console.debug(deviceType + ": " + result);
-    __WEBPACK_IMPORTED_MODULE_1__core_promise__["a" /* default */].receiveValue(index, result);
+  onData(callback) {
+    __WEBPACK_IMPORTED_MODULE_0__communicate_command__["a" /* default */].getSensorValue('ultrasonic', {
+      "port": this.port
+    }, callback);
   }
 }
 
-var command = new Command();
-
-/* unused harmony default export */ var _unused_webpack_default_export = (command);
-
-/***/ }),
-/* 19 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_promise__ = __webpack_require__(11);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
-/**
- * @fileOverview 负责实际的数据解析
- */
-
-
-
-function Parse() {
-  this.buffer = [];
-
-  // 获取到的最大指令长度
-  this.REC_BUF_LENGTH = 40;
-
-  // 解析从硬件传递过来的数据
-  // data : 当前处理的数据
-  // this.buffer: 历史缓存数据
-  // 记录数据和历史数据分开记录
-  this.doParse = function (bytes, on_data, callback) {
-    var data = bytes;
-    data = this.buffer.concat(data);
-    this.buffer = [];
-
-    // parse buffer data
-    for (var i = 0; i < data.length; i++) {
-      this.buffer.push(parseInt(data[i]));
-      if (parseInt(data[i]) === 0x55 && parseInt(data[i - 1]) === 0xff) {
-        // start flag
-        this.recvLength = 0;
-        this.beginRecv = true;
-        this.tempBuf = [];
-      } else if (parseInt(data[i - 1]) === 0x0d && parseInt(data[i]) === 0x0a && this.tempBuf) {
-        // end flag
-        this.beginRecv = false;
-        var buf = this.tempBuf.slice(0, this.recvLength - 1);
-        // 解析正确的数据后，清空buffer
-        this.buffer = [];
-        if (buf.length == 0) {
-          // buf中没有数据
-          return false;
-        }
-
-        // 以下为有效数据, 获取返回字节流中的索引位
-        var dataIndex = buf[0];
-        var promiseType = __WEBPACK_IMPORTED_MODULE_0__core_promise__["a" /* default */].getType(dataIndex);
-        if (promiseType || promiseType == 0) {
-          // 计算返回值
-          var result = this.getResult(buf, promiseType);
-          callback && callback(buf);
-
-          // 接收到数据后，启用回调
-          if (on_data) {
-            on_data(result);
-          } else {
-            console.warn("driver data callback not found!");
-          }
-        }
-      } else {
-        // normal
-        if (this.beginRecv) {
-          if (this.recvLength >= this.REC_BUF_LENGTH) {
-            console.log("receive buffer overflow!");
-          }
-          this.tempBuf[this.recvLength++] = parseInt(data[i]);
-        }
-      }
-    }
-  };
-
-  /**
-   * Get result from buffer data.
-   * @param  {Array} buf array data.
-   * @return {Float}         value of sensor's callback
-   * 回复数据数值解析, 从左到右第四位数据：
-   *     1: 单字符(1 byte)
-   *     2： float(4 byte)
-   *     3： short(2 byte)，16个长度
-   *     4： 字符串
-   *     5： double(4 byte)
-   *     6: long(4 byte)
-   *  @example
-   *  ff 55 02 02 7c 1a 81 41 0d 0a
-   */
-  this.getResult = function (buf, type) {
-    // 获取返回的数据类型
-    var dataType = buf[1];
-    var result = null;
-    switch (dataType) {
-      case "1":
-      case 1:
-        // 1byte
-        result = buf[2];
-        break;
-      case "3":
-      case 3:
-        // 2byte
-        result = this.calculateResponseValue([parseInt(buf[3]), parseInt(buf[2])]);
-        break;
-      case "4":
-      case 4:
-        // 字符串
-        var bytes = buf.splice(3, buf[2]);
-        result = __WEBPACK_IMPORTED_MODULE_1__core_utils__["a" /* default */].bytesToString(bytes);
-        break;
-      case "2":
-      case "5":
-      case "6":
-      case 2:
-      case 5:
-      case 6:
-        // long型或者float型的4byte处理
-        result = this.calculateResponseValue([parseInt(buf[5]), parseInt(buf[4]), parseInt(buf[3]), parseInt(buf[2])]);
-        break;
-      default:
-        break;
-    }
-
-    // TOFIX: should not be placed here.
-    //  if (type == this.PromiseType.ENCODER_MOTER.index) {
-    //   result = Math.abs(result);
-    // }
-
-    return result;
-  };
-
-  /**
-   * calculate value from data received: bytes -> int -> float
-   * @param  {Array} intArray decimal array
-   * @return {Number}  result.
-   */
-  this.calculateResponseValue = function (intArray) {
-    var result = null;
-
-    // FIXME: int字节转浮点型
-    var intBitsToFloat = function (num) {
-      /* s 为符号（sign）；e 为指数（exponent）；m 为有效位数（mantissa）*/
-      var s = num >> 31 == 0 ? 1 : -1,
-          e = num >> 23 & 0xff,
-          m = e == 0 ? (num & 0x7fffff) << 1 : num & 0x7fffff | 0x800000;
-      return s * m * Math.pow(2, e - 150);
-    };
-    var intValue = __WEBPACK_IMPORTED_MODULE_1__core_utils__["a" /* default */].bytesToInt(intArray);
-    // TOFIX
-    if (intValue < 100000 && intValue > 0) {
-      result = intValue;
-    } else {
-      result = parseFloat(intBitsToFloat(intValue).toFixed(2));
-    }
-    return result;
-  };
-}
-
-let parse = new Parse();
-
-/* unused harmony default export */ var _unused_webpack_default_export = (parse);
+/* harmony default export */ __webpack_exports__["a"] = (Ultrasonic);
 
 /***/ })
 /******/ ]);
