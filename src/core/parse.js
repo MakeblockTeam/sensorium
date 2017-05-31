@@ -1,11 +1,8 @@
 /**
  * @fileOverview 负责实际的数据解析
  */
-
-var SETTINGS = require("../protocol/settings");
-var PromiseList = require("./promise");
-var utils = require('../core/utils');
-
+import PromiseList from "../core/promise";
+import utils from "../core/utils";
 
 function Parse() {
   this.buffer = [];
@@ -14,18 +11,11 @@ function Parse() {
   this.REC_BUF_LENGTH = 40;
 
   // 解析从硬件传递过来的数据
-  // 接收的消息队列并实现组包，例如：ff 55 3c 02 10  01 0d | 0a | ff 55 03 | 04 01 0d 0a 0a 32 | 0d 0a
   // data : 当前处理的数据
   // this.buffer: 历史缓存数据
   // 记录数据和历史数据分开记录
-  this.doParse = function(bytes, driver, callback) {
+  this.doParse = function(bytes, on_data, callback) {
     var data  = bytes;
-    // if (typeof(bytes) == 'string') {
-    //   data = bytes.split(" ");
-    // } else {
-    //   data = bytes;
-    // }
-
     data = this.buffer.concat(data);
     this.buffer = [];
 
@@ -55,9 +45,10 @@ function Parse() {
           // 计算返回值
           var result = this.getResult(buf, promiseType);
           callback && callback(buf);
+
           // 接收到数据后，启用回调
-          if (driver && driver._on_data) {
-            driver._on_data(dataIndex, result);
+          if (on_data) {
+            on_data(result)
           } else {
             console.warn("driver data callback not found!");
           }
@@ -159,5 +150,6 @@ function Parse() {
   };
 }
 
-// window.Parse = Parse;
-module.exports = Parse;
+let parse = new Parse();
+
+export default parse;

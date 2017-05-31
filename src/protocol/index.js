@@ -1,15 +1,7 @@
-var Auriga = require("./auriga");
-var Mcore = require("./mcore");
-var Orion = require("./orion");
-var MegaPi = require("./megapi");
+import Mcore from "./mcore";
 
-function Sensorium() {
-  return {
-    "Auriga": Auriga,
-    "Mcore": Mcore,
-    "Orion": Orion,
-    "MegaPi": MegaPi
-  }
+var  Sensorium = {
+    "Mcore": Mcore
 }
 
 window.Sensorium = Sensorium;

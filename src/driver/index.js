@@ -10,6 +10,12 @@ if(typeof window == 'undefined') {
   // Serial = require('./serial');
 }
 
+
+function create(type) {
+
+}
+
+
 /**
  * [create the the driver factory method]
  * @param  {[string]} type [the driver type, 'serial', 'bluetooth', 'mock'] ('mock is only used for test')

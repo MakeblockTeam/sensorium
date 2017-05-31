@@ -9,9 +9,10 @@
  * 该技巧利用了对象的引用类型的原理，对象的属性值存在内存的某一个位置，后面值改变，内存
  * 中的值即跟着改变。
  */
-ValueWrapper = function() {
+function ValueWrapper() {
 
-},
+};
+
 ValueWrapper.prototype.toString = function() {
     return this.val;
 };
@@ -20,5 +21,4 @@ ValueWrapper.prototype.setValue = function(value) {
     this.val = value;
 };
 
-
-module.exports = ValueWrapper;
+export default ValueWrapper;

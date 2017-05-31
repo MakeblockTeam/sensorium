@@ -2,10 +2,9 @@
  * @fileOverview  Api api list
  */
 
-var utils = require("../core/utils");
-var SETTINGS = require("./settings");
+import utils from "../core/utils";
 
-function Api(board) {
+function Api(transport) {
   /**
    * Set dc motor speed.
    * @param {number} port  port number, vailable is: 1,2,3,4
@@ -18,13 +17,13 @@ function Api(board) {
     var a = [
       0xff,0x55,
       0x06, 0,
-      SETTINGS.WRITE_MODE,
+      0x02,
       0x0a,
       port,
       speed & 0xff,
       (speed >> 8) & 0xff
     ];
-    return board.send(a);
+    return transport.send(a);
   },
 
   /**
@@ -39,14 +38,14 @@ function Api(board) {
     var a = [
       0xff,0x55,
       0x07, 0,
-      SETTINGS.WRITE_MODE,
+      0x02,
       0x3d,
       0,
       slot,
       speed & 0xff,
       (speed >> 8) & 0xff
     ];
-    return board.send(a);
+    return transport.send(a);
   };
 
   /**
@@ -62,18 +61,18 @@ function Api(board) {
     var a = [
       0xff,0x55,
       0x07, 0,
-      SETTINGS.WRITE_MODE,
+      0x02,
       0x05,
       leftSpeed & 0xff,
       (leftSpeed >> 8) & 0xff,
       rightSpeed & 0xff,
       (rightSpeed >> 8) & 0xff
     ];
-    return board.send(a);
+    return transport.send(a);
   };
 
   /**
-   * Set speed for balance mode, the port is on board, value is 0.
+   * Set speed for balance mode, the port is on transport, value is 0.
    * @param {number} turnDegree turn extend, -255 ~ 255
    * @param {number} speed      speed, -255 ~ 255
    * @example
@@ -85,7 +84,7 @@ function Api(board) {
     var a = [
       0xff,0x55,
       0x08, 0,
-      SETTINGS.WRITE_MODE,
+      0x02,
       0x34,
       0,
       turnExtent & 0xff,
@@ -93,7 +92,7 @@ function Api(board) {
       speed & 0xff,
       (speed >> 8) & 0xff
     ];
-    return board.send(a);
+    return transport.send(a);
   };
 
   /**
@@ -110,7 +109,7 @@ function Api(board) {
     var a = [
       0xff,0x55,
       0x0a, 0,
-      SETTINGS.WRITE_MODE,
+      0x02,
       0x28,
       port,
       speed & 0xff,
@@ -120,12 +119,12 @@ function Api(board) {
       distanceBytes[1],
       distanceBytes[0]
     ];
-    return board.send(a);
+    return transport.send(a);
   };
 
   /**
    * Set RgbFourLed electronic module color.
-   * @param {number} port     port number, vailable is: 0(on board), 6,7,8,9,10
+   * @param {number} port     port number, vailable is: 0(on transport), 6,7,8,9,10
    * @param {number} slot     slot number, vailable is: 1,2
    * @param {number} position led position, 0 signify all leds.
    * @param {number} r        red, the range is 0 ~ 255
@@ -141,18 +140,18 @@ function Api(board) {
     var a = [
       0xff,0x55,
       0x09, 0,
-      SETTINGS.WRITE_MODE,
+      0x02,
       0x08,
       port,
       slot,
       position, r, g, b
     ];
-    return board.send(a);
+    return transport.send(a);
   };
 
   /**
    * set four leds
-   * @param {number} port     port number, vailable is: 0(on board), 6,7,8,9,10
+   * @param {number} port     port number, vailable is: 0(on transport), 6,7,8,9,10
    * @param {number} position led position, 0 signify all leds.
    * @param {number} r        red, the range is 0 ~ 255
    * @param {number} g        green, the range is 0 ~ 255
@@ -164,7 +163,7 @@ function Api(board) {
 
   /**
    * turn off four leds
-   * @param {number} port     port number, vailable is: 0(on board), 6,7,8,9,10
+   * @param {number} port     port number, vailable is: 0(on transport), 6,7,8,9,10
    * @param {number} position led position, 0 signify all leds.
    */
   this.turnOffFourLeds = function(port, position) {
@@ -172,7 +171,7 @@ function Api(board) {
   };
 
   /**
-   * set led panel on Api board.
+   * set led panel on Api transport.
    * @param {number} position led position, 0 signify all leds.
    * @param {number} r        red, the range is 0 ~ 255
    * @param {number} g        green, the range is 0 ~ 255
@@ -183,7 +182,7 @@ function Api(board) {
   };
 
   /**
-   * turn off led panel on board
+   * turn off led panel on transport
    * @param {number} position led position, 0 signify all leds.
    */
   this.turnOffLedPanelOnBoard = function(position) {
@@ -191,8 +190,8 @@ function Api(board) {
   };
 
   /**
-   * Set board mode.
-   * @param {number} mode board mode,
+   * Set transport mode.
+   * @param {number} mode transport mode,
    *     0: bluetooth mode
    *     1: ultrasonic mode
    *     2: balance mode
@@ -205,12 +204,12 @@ function Api(board) {
     var a = [
       0xff,0x55,
       0x05, 0,
-      SETTINGS.WRITE_MODE,
+      0x02,
       0x3c,
       0x11, // 0x11 means Api
       mode
     ];
-    return board.send(a);
+    return transport.send(a);
   };
 
   /**
@@ -224,13 +223,13 @@ function Api(board) {
     var a = [
       0xff,0x55,
       0x06, 0,
-      SETTINGS.WRITE_MODE,
+      0x02,
       0x0b,
       port,
       slot,
       degree
     ];
-    return board.send(a);
+    return transport.send(a);
   };
 
   /**
@@ -246,7 +245,7 @@ function Api(board) {
     var a = [
       0xff,0x55,
       0x08, 0,
-      SETTINGS.WRITE_MODE,
+      0x02,
       0x09,
       port,
       byte4Array[0],
@@ -254,7 +253,7 @@ function Api(board) {
       byte4Array[2],
       byte4Array[3]
     ];
-    return board.send(a);
+    return transport.send(a);
   };
 
   /**
@@ -274,7 +273,7 @@ function Api(board) {
     var a = [
       0xff,0x55,
       0x0a,0,
-      SETTINGS.WRITE_MODE,
+      0x02,
       0x29,
       port,
       0x01,
@@ -282,7 +281,7 @@ function Api(board) {
       yAxis,
       char.length,
     ].concat(charAsciiArray);
-    return board.send(a);
+    return transport.send(a);
   };
 
 
@@ -300,14 +299,14 @@ function Api(board) {
     var a = [
       0xff,0x55,
       0x17,0,
-      SETTINGS.WRITE_MODE,
+      0x02,
       0x29,
       port,
       0x02,
       xAxis,
       yAxis
     ].concat(emotionData);
-    return board.send(a);
+    return transport.send(a);
   };
 
   /**
@@ -325,7 +324,7 @@ function Api(board) {
     var a = [
       0xff,0x55,
       0x08,0,
-      SETTINGS.WRITE_MODE,
+      0x02,
       0x29,
       port,
       0x03,
@@ -333,7 +332,7 @@ function Api(board) {
       hour,
       minute
     ];
-    return board.send(a);
+    return transport.send(a);
   };
 
   /**
@@ -348,7 +347,7 @@ function Api(board) {
     var a = [
       0xff,0x55,
       0x09, 0,
-      SETTINGS.WRITE_MODE,
+      0x02,
       0x29,
       port,
       0x04,
@@ -357,7 +356,7 @@ function Api(board) {
       byte4Array[2],
       byte4Array[3]
     ];
-    return board.send(a);
+    return transport.send(a);
   };
 
   /**
@@ -371,22 +370,22 @@ function Api(board) {
     var a = [
       0xff,0x55,
       0x05,0,
-      SETTINGS.WRITE_MODE,
+      0x02,
       0x14,
       port,
       action
     ];
-    return board.send(a);
+    return transport.send(a);
   };
 
   /**
-   * reset all sensors and motors on board.
+   * reset all sensors and motors on transport.
    * @exmaple
       ff 55 02 00 04
    */
   this.reset = function() {
     var a = [0xff, 0x55, 0x02, 0x00, 0x04];
-    return board.send(a);
+    return transport.send(a);
   };
 
   /**
@@ -411,7 +410,7 @@ function Api(board) {
     var a = [
       0xff, 0x55,
       0x08, 0,
-      SETTINGS.WRITE_MODE,
+      0x02,
       0x22,
       0x09,
       (TONE_HZ[tone] & 0xff),
@@ -420,7 +419,7 @@ function Api(board) {
       (beat >> 8) & 0xff
     ];
 
-    return board.send(a);
+    return transport.send(a);
   };
 
   /**
@@ -439,7 +438,7 @@ function Api(board) {
     var a = [
       0xff,0x55,
       0x0b, 0,
-      SETTINGS.WRITE_MODE,
+      0x02,
       0x0c,
       0x08,
       slot,
@@ -450,21 +449,21 @@ function Api(board) {
       byte4Array[2],
       byte4Array[3]
     ];
-    return board.send(a);
+    return transport.send(a);
   };
 
   /**
-   * read verion of board
+   * read verion of transport
    * @param  {Number} index index of command
    */
   this.readVersion = function(index) {
     var a = [
       0xff,0x55,
       0x03, index,
-      SETTINGS.READ_MODE,
+      0x01,
       0x00
     ];
-    return board.send(a);
+    return transport.send(a);
   };
 
   /**
@@ -481,11 +480,11 @@ function Api(board) {
     var a = [
       0xff,0x55,
       0x04, index,
-      SETTINGS.READ_MODE,
+      0x01,
       0x01,
       port
     ];
-    return board.send(a);
+    return transport.send(a);
   };
 
   /**
@@ -501,16 +500,16 @@ function Api(board) {
     var a = [
       0xff,0x55,
       0x05, index,
-      SETTINGS.READ_MODE,
+      0x01,
       0x02,
       port,
       slot
     ];
-    return board.send(a);
+    return transport.send(a);
   };
 
   /**
-   * The light sensor module or onboard (lamp) light sensors numerical reading.
+   * The light sensor module or ontransport (lamp) light sensors numerical reading.
    * @param  {Number} index [description]
    * @param  {Number} port  vailable: 6,7,8,9,10, onbord(0c),onbord(0b)
    * @return {Number}       [description]
@@ -521,11 +520,11 @@ function Api(board) {
     var a = [
       0xff,0x55,
       0x04, index,
-      SETTINGS.READ_MODE,
+      0x01,
       0x03,
       port
     ];
-    return board.send(a);
+    return transport.send(a);
   };
 
   /**
@@ -540,11 +539,11 @@ function Api(board) {
     var a = [
       0xff,0x55,
       0x04, index,
-      SETTINGS.READ_MODE,
+      0x01,
       0x04,
       port
     ];
-    return board.send(a);
+    return transport.send(a);
   };
 
   /**
@@ -559,12 +558,12 @@ function Api(board) {
     var a = [
       0xff,0x55,
       0x05, index,
-      SETTINGS.READ_MODE,
+      0x01,
       0x05,
       port,
       axis
     ];
-    return board.send(a);
+    return transport.send(a);
   };
 
   /**
@@ -580,19 +579,19 @@ function Api(board) {
     var a = [
       0xff, 0x55,
       0x05, index,
-      SETTINGS.READ_MODE,
+      0x01,
       0x06,
       port,
       axis
     ];
-    var c = board.send(a);
+    var c = transport.send(a);
     return c;
   };
 
   /**
    * read volume testing MIC module parameters
    * @param  {Number} index [description]
-   * @param  {Number} port  vailable: 6，7，8，9，10，onboard(0x0e)
+   * @param  {Number} port  vailable: 6，7，8，9，10，ontransport(0x0e)
    * @return {Number}       [description]
    * @example
    * ff 55 04 00 01 07 06
@@ -601,15 +600,15 @@ function Api(board) {
     var a = [
       0xff,0x55,
       0x04, index,
-      SETTINGS.READ_MODE,
+      0x01,
       0x07,
       port
     ];
-    return board.send(a);
+    return transport.send(a);
   };
 
   /**
-   * read temperature on board
+   * read temperature on transport
    * @param  {Number} index [description]
    * @example
    * ff 55 04 00 01 1b 0d
@@ -619,11 +618,11 @@ function Api(board) {
     var a = [
       0xff,0x55,
       0x04, index,
-      SETTINGS.READ_MODE,
+      0x01,
       0x1b,
       port,
     ];
-    return board.send(a);
+    return transport.send(a);
   };
 
   /**
@@ -638,11 +637,11 @@ function Api(board) {
     var a = [
       0xff,0x55,
       0x04, index,
-      SETTINGS.READ_MODE,
+      0x01,
       0x0f,
       port
     ];
-    return board.send(a);
+    return transport.send(a);
   };
 
   /**
@@ -662,11 +661,11 @@ function Api(board) {
     var a = [
       0xff,0x55,
       0x04, index,
-      SETTINGS.READ_MODE,
+      0x01,
       0x11,
       port
     ];
-    return board.send(a);
+    return transport.send(a);
   };
 
   /**
@@ -682,12 +681,12 @@ function Api(board) {
     var a = [
       0xff, 0x55,
       0x05, index,
-      SETTINGS.READ_MODE,
+      0x01,
       0x15,
       port,
       slot
     ];
-    var c = board.send(a);
+    var c = transport.send(a);
     return c;
   };
 
@@ -703,11 +702,11 @@ function Api(board) {
     var a = [
       0xff,0x55,
       0x04, index,
-      SETTINGS.READ_MODE,
+      0x01,
       0x1a,
       port
     ];
-    return board.send(a);
+    return transport.send(a);
   };
 
   /**
@@ -723,12 +722,12 @@ function Api(board) {
     var a = [
       0xff,0x55,
       0x05, index,
-      SETTINGS.READ_MODE,
+      0x01,
       0x17,
       port,
       type
     ];
-    return board.send(a);
+    return transport.send(a);
   };
 
   /**
@@ -743,11 +742,11 @@ function Api(board) {
     var a = [
       0xff,0x55,
       0x04, index,
-      SETTINGS.READ_MODE,
+      0x01,
       0x18,
       port
     ];
-    return board.send(a);
+    return transport.send(a);
   };
 
   /**
@@ -762,11 +761,11 @@ function Api(board) {
     var a = [
       0xff,0x55,
       0x04, index,
-      SETTINGS.READ_MODE,
+      0x01,
       0x19,
       port
     ];
-    return board.send(a);
+    return transport.send(a);
   };
 
   /**
@@ -781,11 +780,11 @@ function Api(board) {
     var a = [
       0xff,0x55,
       0x04, index,
-      SETTINGS.READ_MODE,
+      0x01,
       0x33,
       port
     ];
-    return board.send(a);
+    return transport.send(a);
   };
 
   /**
@@ -801,16 +800,16 @@ function Api(board) {
     var a = [
       0xff,0x55,
       0x05, index,
-      SETTINGS.READ_MODE,
+      0x01,
       0x16,
       port,
       key
     ];
-    return board.send(a);
+    return transport.send(a);
   };
 
   /**
-   * read encoder motor position or speed on board.
+   * read encoder motor position or speed on transport.
    * @param  {Number} index [description]
    * @param  {Number} slot vailable:1,2
    * @param  {Number} type  1: position; 2: speed
@@ -821,13 +820,13 @@ function Api(board) {
     var a = [
       0xff,0x55,
       0x06, index,
-      SETTINGS.READ_MODE,
+      0x01,
       0x3d,
       0x00,
       slot,
       type
     ];
-    return board.send(a);
+    return transport.send(a);
   };
 
   /**
@@ -841,11 +840,11 @@ function Api(board) {
     var a = [
       0xff,0x55,
       0x04, index,
-      SETTINGS.READ_MODE,
+      0x01,
       0x3c,
       type
     ];
-    return board.send(a);
+    return transport.send(a);
   };
 
   /**
@@ -859,11 +858,11 @@ function Api(board) {
   //   var a = [
   //     0xff,0x55,
   //     0x04, index,
-  //     SETTINGS.READ_MODE,
+  //     0x01,
   //     0x1e,
   //     port,
   //   ];
-  //   return board.send(a);
+  //   return transport.send(a);
   // };
 
   /**
@@ -877,11 +876,11 @@ function Api(board) {
   //   var a = [
   //     0xff,0x55,
   //     0x04, index,
-  //     SETTINGS.READ_MODE,
+  //     0x01,
   //     0x1f,
   //     port,
   //   ];
-  //   return board.send(a);
+  //   return transport.send(a);
   // };
 
   /**
@@ -896,12 +895,12 @@ function Api(board) {
   //   var a = [
   //     0xff,0x55,
   //     0x05, index,
-  //     SETTINGS.READ_MODE,
+  //     0x01,
   //     0x25,
   //     port,
   //     key,
   //   ];
-  //   return board.send(a);
+  //   return transport.send(a);
   // };
 
   /**
@@ -916,12 +915,12 @@ function Api(board) {
   //   var a = [
   //     0xff,0x55,
   //     0x05, index,
-  //     SETTINGS.READ_MODE,
+  //     0x01,
   //     0x24,
   //     port1,
   //     port2,
   //   ];
-  //   return board.send(a);
+  //   return transport.send(a);
   // };
 
   /**
@@ -936,21 +935,21 @@ function Api(board) {
   //   var a = [
   //     0xff,0x55,
   //     0x03, index,
-  //     SETTINGS.READ_MODE,
+  //     0x01,
   //     0x32,
   //   ];
-  //   return board.send(a);
+  //   return transport.send(a);
   // };
 
-  // this.readOnboardButton = function(index) {
+  // this.readOntransportButton = function(index) {
   //   var a = [
   //     0xff,0x55,
   //     0x03, index,
-  //     SETTINGS.READ_MODE,
+  //     0x01,
   //     0x32,
   //   ];
-  //   return board.send(a);
+  //   return transport.send(a);
   // };
 }
 
-module.exports = Api;
+export default Api;

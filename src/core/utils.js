@@ -3,7 +3,6 @@
  */
 
 var Utils = {
-
   /**
    * limit value
    * @param  {Number} value
@@ -262,5 +261,4 @@ var Utils = {
   }
 }
 
-
-module.exports = Utils;
+export default Utils;

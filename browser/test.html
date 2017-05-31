@@ -13,30 +13,27 @@
 </head>
 <body>
     <div id="msg"></div>
-</body>
 
     <script>
+      // console.log = function(str) {
+      //     document.getElementById("msg").innerHTML += (str + '<br><br>');
+      // };
 
-        console.log = function(str) {
-            document.getElementById("msg").innerHTML += (str + '<br><br>');
-        };
+      var transport = {
+        send: function(buf) {
+          console.log(buf);
+        },
+        onReceive: function(buf, parse, on_data) {
 
-        // var auriga = new Auriga({
-        //     driver: 'makeblockhd'
-        // });
+          serialPort.on('data', function(buff) {
+            parse.doParse(buff, on_data);
+          });
+        }
+      }
 
-        // auriga.setFirmwareMode(1);
-
-        // auriga.getSensorValue("ultrasonic", {
-        //     port:6,
-        //     slot:1
-        // }, function(val) {
-        //     console.log(val);
-        // });
-
-        var sensorium = new Sensorium({
-            driver: 'cordova'
-        });
-
+      var mcore = new Sensorium.Mcore({
+        "transport": transport
+      });
     </script>
+</body>
 </html>

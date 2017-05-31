@@ -1,76 +1,20 @@
-var Board = require("../core/board");
-var utils = require("../core/utils");
-var SETTINGS = require("./settings");
-var _ = require('underscore');
-var Api = require('./api');
-
-var board = new Board();
-var api = new Api(board);
+import board from '../core/board';
+import electronics from '../electronic/index';
 
 function Mcore(conf) {
-  this._config = _.extend(SETTINGS.DEFAULT_CONF, conf || {});
-  board.init(this._config);
+  board.init(conf);
 
-  var apiList = [
-    "setDcMotor",
-    "setEncoderMotorOnBoard",
-    "setJoystick",
-    "setVirtualJoystickForBalance",
-    "setStepperMotor",
-    "setLed",
-    "setFourLeds",
-    "turnOffFourLeds",
-    "setLedPanelOnBoard",
-    "turnOffLedPanelOnBoard",
-    "setFirmwareMode",
-    "setServoMotor",
-    "setSevenSegment",
-    "setLedMatrixChar",
-    "setLedMatrixEmotion",
-    "setLedMatrixTime",
-    "setLedMatrixNumber",
-    "setShutter",
-    "reset",
-    "setTone",
-    "setEncoderMotor",
-    "readVersion",
-    "readUltrasonic",
-    "readTemperature",
-    "readLight",
-    "readPotentionmeter",
-    "readJoystick",
-    "readGyro",
-    "readSound",
-    "readTemperatureOnBoard",
-    "readPirmotion",
-    "readLineFollower",
-    "readLimitSwitch",
-    "readCompass",
-    "readHumiture",
-    "readFlame",
-    "readGas",
-    "readTouch",
-    "readFourKeys",
-    "readEncoderMotorOnBoard",
-    "readFirmwareMode",
-    // "readDigGPIO",
-    // "readAnalogGPIO",
-    // "readGPIOContinue",
-    // "readDoubleGPIO",
-    // "readRuntime",
-    // "readOnboardButton",
-  ];
-
-  for(var i in apiList) {
-    this[apiList[i]] = api[apiList[i]];
+  // 挂载各电子模块
+  for (let i in electronics) {
+    if(!this[i]) {
+      this[i] = function(port, slot) {
+        return new electronics[i](port, slot);
+      }
+    }
   }
 }
 
 // clone method and attributes from board to Mcore.
 Mcore.prototype = board;
 
-if (typeof window !== "undefined") {
-  window.Mcore = Mcore;
-}
-
-module.exports = Mcore;
+export default Mcore;
