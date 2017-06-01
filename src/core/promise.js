@@ -42,6 +42,4 @@ var PromiseList = {
     }
 };
 
-
-
-export default PromiseList;
+module.exports = PromiseList;

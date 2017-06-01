@@ -1,10 +1,10 @@
 var Transport = require('../communicate/transport');
 var Api = require("../protocol/api");
 
-class RgbLed {
-  constructor(port, slot) {
-    this.port = port;
-    this.slot = slot;
+class LedPanel {
+  constructor() {
+    this.port = 0;
+    this.slot = 2;
     this.on = false;
     this.position = 0;
     this.r = 0;
@@ -17,15 +17,15 @@ class RgbLed {
     this.r = r || this.r;
     this.g = g || this.g;
     this.b = b || this.b;
-    this.api.setLed(this.port, this.slot, this.position, this.r, this.g, this.b);
+    this.api.setLedPanelOnBoard(this.position, this.r, this.g, this.b);
   }
 
   turnOff() {
-    this.api.setLed(this.port, this.slot, this.position, 0, 0, 0);
+    this.api.setLedPanelOnBoard(this.position, 0, 0, 0);
   }
 
   blue() {
-    this.api.setLed(this.port, this.slot, this.position, 0, 255, 0);
+    this.api.setLedPanelOnBoard(this.position, 0, 0, 100);
   }
 
   red() {
@@ -37,4 +37,4 @@ class RgbLed {
   }
 }
 
-module.exports = RgbLed;
+module.exports = LedPanel;

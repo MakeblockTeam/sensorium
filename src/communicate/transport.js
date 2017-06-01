@@ -26,4 +26,4 @@ class Transport {
 
 var transport = Transport.getInstance();
 
-export default transport;
+module.exports = transport;

@@ -1,5 +1,5 @@
-import Transport from '../communicate/transport';
-import Api from "../protocol/api";
+var Transport = require('../communicate/transport');
+var Api = require("../protocol/api");
 
 class DcMotor {
 
@@ -27,4 +27,4 @@ class DcMotor {
   }
 }
 
-export default DcMotor;
+module.exports = DcMotor;

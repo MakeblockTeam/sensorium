@@ -3,9 +3,9 @@
  * @author Hyman
  */
 
-import Transport from '../communicate/transport';
-import parse from './parse';
-import Settings from '../protocol/settings';
+var Transport =  require('../communicate/transport');
+var parse =  require('./parse');
+var Settings =  require('../protocol/settings');
 var _ = require('underscore');
 
 class Board {
@@ -59,4 +59,4 @@ class Board {
 
 let board = new Board();
 
-export default board;
+module.exports = board;

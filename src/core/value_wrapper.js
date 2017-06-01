@@ -21,4 +21,4 @@ ValueWrapper.prototype.setValue = function(value) {
     this.val = value;
 };
 
-export default ValueWrapper;
+module.exports = ValueWrapper;

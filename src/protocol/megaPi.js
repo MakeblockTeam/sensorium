@@ -1,5 +1,5 @@
-import board from '../core/board';
-import electronics from '../electronic/index';
+var board = require('../core/board');
+var electronics = require('../electronic/index');
 
 function MegaPi(conf) {
   board.init(conf);
@@ -15,4 +15,4 @@ function MegaPi(conf) {
 // clone method and attributes from board to MegaPi.
 MegaPi.prototype = board;
 
-export default MegaPi;
+module.exports = MegaPi;

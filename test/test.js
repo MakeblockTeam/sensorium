@@ -26,10 +26,10 @@ function initSerial(callback) {
       //for PC and raspberry pi
       ports.forEach(function(port) {
         var name = port.comName;
-        console.log(port.comName);
+        // console.log(port.comName);
         var NAME = name.toUpperCase();
         if (NAME.indexOf('USB') > 0 || NAME.indexOf('AMA') > 0 || NAME.indexOf('COM') > 0) {
-          console.info('serial port found:', name);
+          // console.info('serial port found:', name);
           serialName = name;
           return;
         }
@@ -47,7 +47,9 @@ function initSerial(callback) {
             console.info('ready');
           });
 
-          callback(serialPort);
+          setTimeout(function() {
+            callback(serialPort);
+          }, 1000);
         });
       }
     });
@@ -62,12 +64,12 @@ function doTest(serialPort) {
     send: function(buf) {
       console.log(buf);
 
-      // serialPort.write(buf, function(err, results) {
-      //   if (err) {
-      //     console.warn(err);
-      //     return -1;
-      //   }
-      // });
+      serialPort.write(buf, function(err, results) {
+        if (err) {
+          console.warn(err);
+          return -1;
+        }
+      });
     },
 
     onReceived: function(parse) {
@@ -77,10 +79,20 @@ function doTest(serialPort) {
     }
   };
 
-  // var auriga = new Sensorium.Auriga({
-  //   "transport": transport
-  // });
+  var auriga = new Sensorium.Auriga({
+    "transport": transport
+  });
 
-  // auriga.dcMotor(1,1).start(100);
-  console.log(Sensorium)
+  var ledPanel = auriga.ledPanel();
+  ledPanel.turnOn(100,0,0);
+  setTimeout(function() {
+    ledPanel.turnOff();
+  }, 3000);
+
+  // var ultrasonic = auriga.ultrasonic(7);
+  // setInterval(function() {
+  //   ultrasonic.onData(function(val) {
+  //     console.log(val);
+  //   });
+  // }, 1000);
 }

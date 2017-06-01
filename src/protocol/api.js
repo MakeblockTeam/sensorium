@@ -1,7 +1,7 @@
 /**
  * @fileOverview  Api api list
  */
-import utils from "../core/utils";
+var utils = require("../core/utils");
 
 function Api(transport) {
 
@@ -952,4 +952,4 @@ function Api(transport) {
   // };
 }
 
-export default Api;
+module.exports = Api;

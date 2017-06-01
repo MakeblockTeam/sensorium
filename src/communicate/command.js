@@ -1,12 +1,11 @@
 /**
  * @fileOverview 协议发送基类.
  */
-
-import ValueWrapper from "../core/value_wrapper";
-import utils from "../core/utils";
-import PromiseList from "../core/promise";
-import Transport from './transport';
-import Api from "../protocol/api";
+var ValueWrapper = require("../core/value_wrapper");
+var utils = require("../core/utils");
+var PromiseList = require("../core/promise");
+var Transport = require('./transport');
+var Api = require("../protocol/api");
 
 class Command {
   constructor() {
@@ -116,4 +115,4 @@ class Command {
 
 var command = new Command();
 
-export default command;
+module.exports = command;

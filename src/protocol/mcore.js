@@ -1,5 +1,5 @@
-import board from '../core/board';
-import electronics from '../electronic/index';
+var board = require('../core/board');
+var electronics = require('../electronic/index');
 
 function Mcore(conf) {
   board.init(conf);
@@ -15,4 +15,4 @@ function Mcore(conf) {
 // clone method and attributes from board to Mcore.
 Mcore.prototype = board;
 
-export default Mcore;
+module.exports = Mcore;

@@ -1,7 +1,7 @@
-import Mcore from "./mcore";
-import Orion from "./orion";
-import Auriga from "./auriga";
-import MegaPi from "./megaPi";
+var Mcore = require("./mcore");
+var Orion = require("./orion");
+var Auriga = require("./auriga");
+var MegaPi = require("./megaPi");
 
 var Sensorium = {
     "Mcore": Mcore,
@@ -14,4 +14,4 @@ if(typeof window != "undefined") {
   window.Sensorium = Sensorium;
 }
 
-export default Sensorium;
+module.exports = Sensorium;

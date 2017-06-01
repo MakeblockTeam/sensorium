@@ -1,4 +1,4 @@
-import command from "../communicate/command";
+var command = require("../communicate/command");
 
 class Ultrasonic {
   constructor(port) {
@@ -13,4 +13,4 @@ class Ultrasonic {
   }
 }
 
-export default Ultrasonic;
+module.exports = Ultrasonic;

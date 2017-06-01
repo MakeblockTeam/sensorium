@@ -12,4 +12,4 @@ function Cache() {
     this.mockData = {};
 }
 
-export default Cache;
+module.exports = Cache;

@@ -1,5 +1,5 @@
-import board from '../core/board';
-import electronics from '../electronic/index';
+var board = require('../core/board');
+var electronics = require('../electronic/index');
 
 function Auriga(conf) {
   board.init(conf);
@@ -15,4 +15,4 @@ function Auriga(conf) {
 // clone method and attributes from board to Auriga.
 Auriga.prototype = board;
 
-export default Auriga;
+module.exports = Auriga;

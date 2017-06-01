@@ -1,12 +1,14 @@
-import DcMotor from './dc_motor';
-import RgbLed from './rgb_led';
-import Ultrasonic from './ultrasonic';
+var DcMotor = require('./dc_motor');
+var RgbLed = require('./rgb_led');
+var Ultrasonic = require('./ultrasonic');
+var LedPanel = require('./led_panel');
 
 
 let electronics = {
   "dcMotor": DcMotor,
   "rgbLed": RgbLed,
-  "ultrasonic": Ultrasonic
+  "ultrasonic": Ultrasonic,
+  "ledPanel": LedPanel,
 };
 
-export default electronics;
+module.exports = electronics;

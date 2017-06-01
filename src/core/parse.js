@@ -1,8 +1,8 @@
 /**
  * @fileOverview 负责实际的数据解析
  */
-import PromiseList from "../core/promise";
-import utils from "../core/utils";
+var PromiseList = require("../core/promise");
+var utils = require("../core/utils");
 
 function Parse() {
   this.buffer = [];
@@ -149,4 +149,4 @@ function Parse() {
 
 let parse = new Parse();
 
-export default parse;
+module.exports = parse;
