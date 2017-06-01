@@ -63,11 +63,137 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 14);
+/******/ 	return __webpack_require__(__webpack_require__.s = 17);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__communicate_transport__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__parse__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__protocol_settings__ = __webpack_require__(18);
+/**
+ * @fileOverview board 用做通信基类，连接收和发送接口.
+ * @author Hyman
+ */
+
+
+
+
+var _ = __webpack_require__(10);
+
+class Board {
+
+  init(conf) {
+    this._config = _.extend(__WEBPACK_IMPORTED_MODULE_2__protocol_settings__["a" /* default */].DEFAULT_CONF, conf || {});
+    this.setTransport(this._config.transport);
+
+    // 启动数据监听
+    this.onReceived();
+  }
+
+  /**
+   * 存储通信的通道
+   * @param {Object} transport json object.
+   * @example
+   * {
+   *    send: function(buf) {
+   *      console.log(buf);
+   *    },
+   *
+   *    onReceived: function(parse) {
+   *      serialPort.on('data', function(buff) {
+   *        parse.doParse(buff);
+   *      });
+   *    }
+   *  }
+   */
+  setTransport(transport) {
+    this.transport = transport;
+    __WEBPACK_IMPORTED_MODULE_0__communicate_transport__["a" /* default */].set(this.transport);
+  }
+
+  /**
+   * 注册主板发送数据通道
+   * @param  {[type]} command [description]
+   */
+  send(command) {
+    this.transport.send(command);
+    return utils.intStrToHexStr(command);
+  }
+
+  /**
+   * 定义数据接收通道
+   * parse 是解析器
+   */
+  onReceived() {
+    this.transport.onReceived(__WEBPACK_IMPORTED_MODULE_1__parse__["a" /* default */]);
+  }
+}
+
+let board = new Board();
+
+/* harmony default export */ __webpack_exports__["a"] = (board);
+
+/***/ }),
+/* 1 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__dc_motor__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__rgb_led__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ultrasonic__ = __webpack_require__(16);
+
+
+
+
+let electronics = {
+  "dcMotor": __WEBPACK_IMPORTED_MODULE_0__dc_motor__["a" /* default */],
+  "rgbLed": __WEBPACK_IMPORTED_MODULE_1__rgb_led__["a" /* default */],
+  "ultrasonic": __WEBPACK_IMPORTED_MODULE_2__ultrasonic__["a" /* default */]
+};
+
+/* harmony default export */ __webpack_exports__["a"] = (electronics);
+
+/***/ }),
+/* 2 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/**
+ * @fileOverview 存储指令的传输通道：蓝牙，串口，2.4G等，一个单例。
+ */
+
+class Transport {
+
+  constructor() {
+    this.transport = null;
+  }
+
+  set(transport) {
+    this.transport = transport;
+  }
+
+  get() {
+    return this.transport;
+  }
+
+  static getInstance() {
+    if (!Transport.instance) {
+      Transport.instance = new Transport();
+    }
+    return Transport.instance;
+  }
+}
+
+var transport = Transport.getInstance();
+
+/* harmony default export */ __webpack_exports__["a"] = (transport);
+
+/***/ }),
+/* 3 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -337,172 +463,7 @@ var Utils = {
 /* harmony default export */ __webpack_exports__["a"] = (Utils);
 
 /***/ }),
-/* 1 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/**
- * @fileOverview 存储指令的传输通道：蓝牙，串口，2.4G等，一个单例。
- */
-
-class Transport {
-
-  constructor() {
-    this.transport = null;
-  }
-
-  set(transport) {
-    this.transport = transport;
-  }
-
-  get() {
-    return this.transport;
-  }
-
-  static getInstance() {
-    if (!Transport.instance) {
-      Transport.instance = new Transport();
-    }
-    return Transport.instance;
-  }
-}
-
-var transport = Transport.getInstance();
-
-/* harmony default export */ __webpack_exports__["a"] = (transport);
-
-/***/ }),
-/* 2 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_value_wrapper__ = __webpack_require__(9);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__core_promise__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__transport__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__protocol_api__ = __webpack_require__(4);
-/**
- * @fileOverview 协议发送基类.
- */
-
-
-
-
-
-
-
-class Command {
-  constructor() {
-    this.CONFIG = {
-      // 开启超时重发
-      OPEN_RESNET_MODE: false,
-      // 超时重发的次数
-      RESENT_COUNT: 1,
-      // 读值指令超时的设定
-      COMMAND_SEND_TIMEOUT: 1000
-    };
-  }
-
-  /**
-   * Get sensor's value.
-   * @param  {String}   deviceType the sensor's type.
-   * @param  {Object}   options    config options, such as port, slot etc.
-   * @param  {Function} callback   the function to be excuted.
-   */
-  getSensorValue(deviceType, options, callback) {
-    if (callback == undefined && typeof options == 'function') {
-      callback = options;
-      options = {};
-    }
-    var params = {};
-    params.deviceType = deviceType;
-    params.callback = callback;
-    params.port = options.port;
-    params.slot = options.slot || 2;
-    var valueWrapper = new __WEBPACK_IMPORTED_MODULE_0__core_value_wrapper__["a" /* default */]();
-    var index = __WEBPACK_IMPORTED_MODULE_2__core_promise__["a" /* default */].add(deviceType, callback, valueWrapper);
-    params.index = index;
-    // 发送读取指令
-    this._doGetSensorValue(params);
-    if (this.CONFIG.OPEN_RESNET_MODE) {
-      // 执行超时检测
-      this._handlerCommandSendTimeout(params);
-    }
-    return valueWrapper;
-  }
-  _doGetSensorValue(params) {
-    var that = this;
-    this._readBlockStatus(params);
-
-    // 模拟传感器回传数据
-    // setTimeout(function() {
-    //   that.sensorCallback(params.index, 111);
-    // }, 1000)
-  }
-
-  /**
-   * Read module's value.
-   * @param  {object} params command params.
-   */
-  _readBlockStatus(params) {
-    this.api = new __WEBPACK_IMPORTED_MODULE_4__protocol_api__["a" /* default */](__WEBPACK_IMPORTED_MODULE_3__transport__["a" /* default */].get());
-
-    var deviceType = params.deviceType;
-    var index = params.index;
-    var port = params.port;
-    var slot = params.slot || null;
-    var funcName = 'this.api.read' + __WEBPACK_IMPORTED_MODULE_1__core_utils__["a" /* default */].upperCaseFirstLetter(deviceType);
-    var paramsStr = '(' + index + ',' + port + ',' + slot + ')';
-    var func = funcName + paramsStr;
-    eval(func);
-  }
-
-  /**
-   * Command sending timeout handler.
-   * @param  {Object} params params.
-   */
-  _handlerCommandSendTimeout(params) {
-    var that = this;
-    var promiseItem = __WEBPACK_IMPORTED_MODULE_2__core_promise__["a" /* default */].requestList[params.index];
-    setTimeout(function () {
-      if (promiseItem.hasReceivedValue) {
-        // 成功拿到数据，不进行处理
-        return;
-      } else {
-        // 超过规定的时间，还没有拿到数据，需要进行超时重发处理
-        if (promiseItem.resentCount >= that.CONFIG.RESENT_COUNT) {
-          // 如果重发的次数大于规定次数,则终止重发
-          console.log("【resend ends】");
-          return;
-        } else {
-          console.log('【resend】:' + params.index);
-          promiseItem.resentCount = promiseItem.resentCount || 0;
-          promiseItem.resentCount++;
-          that._doGetSensorValue(params);
-          that._handlerCommandSendTimeout(params);
-        }
-      }
-    }, that.CONFIG.COMMAND_SEND_TIMEOUT);
-  }
-
-  /**
-   * Get value form sensor and put the value to user's callback.
-   * @param  {Number} index  the index of sensor's request command in promiseList
-   * @param  {Number} result the value of sensor.
-   */
-  sensorCallback(index, result) {
-    var deviceType = __WEBPACK_IMPORTED_MODULE_2__core_promise__["a" /* default */].getType(index);
-    console.debug(deviceType + ": " + result);
-    __WEBPACK_IMPORTED_MODULE_2__core_promise__["a" /* default */].receiveValue(index, result);
-  }
-}
-
-var command = new Command();
-
-/* harmony default export */ __webpack_exports__["a"] = (command);
-
-/***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -553,11 +514,11 @@ var PromiseList = {
 /* harmony default export */ __webpack_exports__["a"] = (PromiseList);
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_utils__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_utils__ = __webpack_require__(3);
 /**
  * @fileOverview  Api api list
  */
@@ -1237,33 +1198,11 @@ function Api(transport) {
 /* harmony default export */ __webpack_exports__["a"] = (Api);
 
 /***/ }),
-/* 5 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_board__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__electronic_index__ = __webpack_require__(11);
-
-
-
-function Mcore(conf) {
-  __WEBPACK_IMPORTED_MODULE_0__core_board__["a" /* default */].init(conf);
-
-  // 挂载各电子模块
-  for (let i in __WEBPACK_IMPORTED_MODULE_1__electronic_index__["a" /* default */]) {
-    this[i] = function (port, slot) {
-      return new __WEBPACK_IMPORTED_MODULE_1__electronic_index__["a" /* default */][i](port, slot);
-    };
-  }
-}
-
-// clone method and attributes from board to Mcore.
-Mcore.prototype = __WEBPACK_IMPORTED_MODULE_0__core_board__["a" /* default */];
-
-/* harmony default export */ __webpack_exports__["a"] = (Mcore);
-
-/***/ }),
-/* 6 */
+/* 6 */,
+/* 7 */,
+/* 8 */,
+/* 9 */,
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;//     Underscore.js 1.8.3
@@ -2832,18 +2771,17 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;//     Underscor
 }).call(this);
 
 /***/ }),
-/* 7 */
+/* 11 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__utils__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__communicate_transport__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__communicate_command__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__parse__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__protocol_settings__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_value_wrapper__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__core_promise__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__transport__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__protocol_api__ = __webpack_require__(5);
 /**
- * @fileOverview board 用做通信基类，连接收和发送接口.
- * @author Hyman (hujinhong@makelbock.cc)
+ * @fileOverview 协议发送基类.
  */
 
 
@@ -2851,68 +2789,124 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;//     Underscor
 
 
 
-var _ = __webpack_require__(6);
 
-class Board {
-
-  init(conf) {
-    this._config = _.extend(__WEBPACK_IMPORTED_MODULE_4__protocol_settings__["a" /* default */].DEFAULT_CONF, conf || {});
-    this.setTransport(this._config.transport);
-
-    // 启动数据监听
-    this.onReceived();
+class Command {
+  constructor() {
+    this.CONFIG = {
+      // 开启超时重发
+      OPEN_RESNET_MODE: false,
+      // 超时重发的次数
+      RESENT_COUNT: 1,
+      // 读值指令超时的设定
+      COMMAND_SEND_TIMEOUT: 1000
+    };
   }
 
   /**
-   * 存储通信的通道
-   * @param {Object} transport json object.
-   * @example
-   * {
-   *   "send": function(data, callback) {
-   *     serialPort.write(data, callback);
-   *   },
-   *   "onReceive": function(data, callback) {
-   *      serialPort.on('data', function(data){
-   *        var array = utils.arrayFromArrayBuffer(data);
-   *        callback(array);
-   *      });
-   *   }
-   * }
+   * Get sensor's value.
+   * @param  {String}   deviceType the sensor's type.
+   * @param  {Object}   options    config options, such as port, slot etc.
+   * @param  {Function} callback   the function to be excuted.
    */
-  setTransport(transport) {
-    this.transport = transport;
-    __WEBPACK_IMPORTED_MODULE_1__communicate_transport__["a" /* default */].set(this.transport);
+  getSensorValue(deviceType, options, callback) {
+    if (callback == undefined && typeof options == 'function') {
+      callback = options;
+      options = {};
+    }
+    var params = {};
+    params.deviceType = deviceType;
+    params.callback = callback;
+    params.port = options.port;
+    params.slot = options.slot || 2;
+    var valueWrapper = new __WEBPACK_IMPORTED_MODULE_0__core_value_wrapper__["a" /* default */]();
+    var index = __WEBPACK_IMPORTED_MODULE_2__core_promise__["a" /* default */].add(deviceType, callback, valueWrapper);
+    params.index = index;
+    // 发送读取指令
+    this._doGetSensorValue(params);
+    if (this.CONFIG.OPEN_RESNET_MODE) {
+      // 执行超时检测
+      this._handlerCommandSendTimeout(params);
+    }
+    return valueWrapper;
+  }
+  _doGetSensorValue(params) {
+    var that = this;
+    this._readBlockStatus(params);
+
+    // 模拟传感器回传数据
+    // setTimeout(function() {
+    //   that.sensorCallback(params.index, 111);
+    // }, 1000)
   }
 
   /**
-   * 注册主板发送数据通道
-   * @param  {[type]} command [description]
+   * Read module's value.
+   * @param  {object} params command params.
    */
-  send(command) {
-    this.transport.send(command);
-    return __WEBPACK_IMPORTED_MODULE_0__utils__["a" /* default */].intStrToHexStr(command);
+  _readBlockStatus(params) {
+    this.api = new __WEBPACK_IMPORTED_MODULE_4__protocol_api__["a" /* default */](__WEBPACK_IMPORTED_MODULE_3__transport__["a" /* default */].get());
+
+    var deviceType = params.deviceType;
+    var index = params.index;
+    var port = params.port;
+    var slot = params.slot || null;
+    var funcName = 'this.api.read' + __WEBPACK_IMPORTED_MODULE_1__core_utils__["a" /* default */].upperCaseFirstLetter(deviceType);
+    var paramsStr = '(' + index + ',' + port + ',' + slot + ')';
+    var func = funcName + paramsStr;
+    eval(func);
   }
 
   /**
-   * 定义数据接收通道
-   * parse 是解析器
+   * Command sending timeout handler.
+   * @param  {Object} params params.
    */
-  onReceived() {
-    this.transport.onReceived(__WEBPACK_IMPORTED_MODULE_3__parse__["a" /* default */]);
+  _handlerCommandSendTimeout(params) {
+    var that = this;
+    var promiseItem = __WEBPACK_IMPORTED_MODULE_2__core_promise__["a" /* default */].requestList[params.index];
+    setTimeout(function () {
+      if (promiseItem.hasReceivedValue) {
+        // 成功拿到数据，不进行处理
+        return;
+      } else {
+        // 超过规定的时间，还没有拿到数据，需要进行超时重发处理
+        if (promiseItem.resentCount >= that.CONFIG.RESENT_COUNT) {
+          // 如果重发的次数大于规定次数,则终止重发
+          console.log("【resend ends】");
+          return;
+        } else {
+          console.log('【resend】:' + params.index);
+          promiseItem.resentCount = promiseItem.resentCount || 0;
+          promiseItem.resentCount++;
+          that._doGetSensorValue(params);
+          that._handlerCommandSendTimeout(params);
+        }
+      }
+    }, that.CONFIG.COMMAND_SEND_TIMEOUT);
+  }
+
+  /**
+   * Get value form sensor and put the value to user's callback.
+   * @param  {Number} index  the index of sensor's request command in promiseList
+   * @param  {Number} result the value of sensor.
+   */
+  sensorCallback(index, result) {
+    var deviceType = __WEBPACK_IMPORTED_MODULE_2__core_promise__["a" /* default */].getType(index);
+    console.debug(deviceType + ": " + result);
+    __WEBPACK_IMPORTED_MODULE_2__core_promise__["a" /* default */].receiveValue(index, result);
   }
 }
 
-let board = new Board();
+var command = new Command();
 
-/* harmony default export */ __webpack_exports__["a"] = (board);
+/* harmony default export */ __webpack_exports__["a"] = (command);
 
 /***/ }),
-/* 8 */
+/* 12 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_promise__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_promise__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(3);
 /**
  * @fileOverview 负责实际的数据解析
  */
@@ -3065,7 +3059,7 @@ let parse = new Parse();
 /* harmony default export */ __webpack_exports__["a"] = (parse);
 
 /***/ }),
-/* 9 */
+/* 13 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3093,12 +3087,12 @@ ValueWrapper.prototype.setValue = function (value) {
 /* harmony default export */ __webpack_exports__["a"] = (ValueWrapper);
 
 /***/ }),
-/* 10 */
+/* 14 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__communicate_transport__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__protocol_api__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__communicate_transport__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__protocol_api__ = __webpack_require__(5);
 
 
 
@@ -3131,27 +3125,7 @@ class DcMotor {
 /* harmony default export */ __webpack_exports__["a"] = (DcMotor);
 
 /***/ }),
-/* 11 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__dc_motor__ = __webpack_require__(10);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__rgb_led__ = __webpack_require__(12);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ultrasonic__ = __webpack_require__(13);
-
-
-
-
-let electronics = {
-  "dcMotor": __WEBPACK_IMPORTED_MODULE_0__dc_motor__["a" /* default */],
-  "rgbLed": __WEBPACK_IMPORTED_MODULE_1__rgb_led__["a" /* default */],
-  "ultrasonic": __WEBPACK_IMPORTED_MODULE_2__ultrasonic__["a" /* default */]
-};
-
-/* harmony default export */ __webpack_exports__["a"] = (electronics);
-
-/***/ }),
-/* 12 */
+/* 15 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3189,11 +3163,11 @@ class RgbLed {
 /* harmony default export */ __webpack_exports__["a"] = (RgbLed);
 
 /***/ }),
-/* 13 */
+/* 16 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__communicate_command__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__communicate_command__ = __webpack_require__(11);
 
 
 class Ultrasonic {
@@ -3212,22 +3186,35 @@ class Ultrasonic {
 /* harmony default export */ __webpack_exports__["a"] = (Ultrasonic);
 
 /***/ }),
-/* 14 */
+/* 17 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mcore__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mcore__ = __webpack_require__(21);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__orion__ = __webpack_require__(23);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__auriga__ = __webpack_require__(20);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__megaPi__ = __webpack_require__(22);
+
+
+
 
 
 var Sensorium = {
-    "Mcore": __WEBPACK_IMPORTED_MODULE_0__mcore__["a" /* default */]
+    "Mcore": __WEBPACK_IMPORTED_MODULE_0__mcore__["a" /* default */],
+    "Orion": __WEBPACK_IMPORTED_MODULE_1__orion__["a" /* default */],
+    "Auriga": __WEBPACK_IMPORTED_MODULE_2__auriga__["a" /* default */],
+    "MegaPi": __WEBPACK_IMPORTED_MODULE_3__megaPi__["a" /* default */]
 };
 
-window.Sensorium = Sensorium;
+if (typeof window != "undefined") {
+    window.Sensorium = Sensorium;
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (Sensorium);
 
 /***/ }),
-/* 15 */
+/* 18 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3240,6 +3227,111 @@ var Settings = {
 };
 
 /* harmony default export */ __webpack_exports__["a"] = (Settings);
+
+/***/ }),
+/* 19 */,
+/* 20 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_board__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__electronic_index__ = __webpack_require__(1);
+
+
+
+function Auriga(conf) {
+  __WEBPACK_IMPORTED_MODULE_0__core_board__["a" /* default */].init(conf);
+
+  // 挂载各电子模块
+  for (let i in __WEBPACK_IMPORTED_MODULE_1__electronic_index__["a" /* default */]) {
+    this[i] = function (port, slot) {
+      return new __WEBPACK_IMPORTED_MODULE_1__electronic_index__["a" /* default */][i](port, slot);
+    };
+  }
+}
+
+// clone method and attributes from board to Auriga.
+Auriga.prototype = __WEBPACK_IMPORTED_MODULE_0__core_board__["a" /* default */];
+
+/* harmony default export */ __webpack_exports__["a"] = (Auriga);
+
+/***/ }),
+/* 21 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_board__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__electronic_index__ = __webpack_require__(1);
+
+
+
+function Mcore(conf) {
+  __WEBPACK_IMPORTED_MODULE_0__core_board__["a" /* default */].init(conf);
+
+  // 挂载各电子模块
+  for (let i in __WEBPACK_IMPORTED_MODULE_1__electronic_index__["a" /* default */]) {
+    this[i] = function (port, slot) {
+      return new __WEBPACK_IMPORTED_MODULE_1__electronic_index__["a" /* default */][i](port, slot);
+    };
+  }
+}
+
+// clone method and attributes from board to Mcore.
+Mcore.prototype = __WEBPACK_IMPORTED_MODULE_0__core_board__["a" /* default */];
+
+/* harmony default export */ __webpack_exports__["a"] = (Mcore);
+
+/***/ }),
+/* 22 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_board__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__electronic_index__ = __webpack_require__(1);
+
+
+
+function MegaPi(conf) {
+  __WEBPACK_IMPORTED_MODULE_0__core_board__["a" /* default */].init(conf);
+
+  // 挂载各电子模块
+  for (let i in __WEBPACK_IMPORTED_MODULE_1__electronic_index__["a" /* default */]) {
+    this[i] = function (port, slot) {
+      return new __WEBPACK_IMPORTED_MODULE_1__electronic_index__["a" /* default */][i](port, slot);
+    };
+  }
+}
+
+// clone method and attributes from board to MegaPi.
+MegaPi.prototype = __WEBPACK_IMPORTED_MODULE_0__core_board__["a" /* default */];
+
+/* harmony default export */ __webpack_exports__["a"] = (MegaPi);
+
+/***/ }),
+/* 23 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_board__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__electronic_index__ = __webpack_require__(1);
+
+
+
+function Orion(conf) {
+  __WEBPACK_IMPORTED_MODULE_0__core_board__["a" /* default */].init(conf);
+
+  // 挂载各电子模块
+  for (let i in __WEBPACK_IMPORTED_MODULE_1__electronic_index__["a" /* default */]) {
+    this[i] = function (port, slot) {
+      return new __WEBPACK_IMPORTED_MODULE_1__electronic_index__["a" /* default */][i](port, slot);
+    };
+  }
+}
+
+// clone method and attributes from board to Orion.
+Orion.prototype = __WEBPACK_IMPORTED_MODULE_0__core_board__["a" /* default */];
+
+/* harmony default export */ __webpack_exports__["a"] = (Orion);
 
 /***/ })
 /******/ ]);

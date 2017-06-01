@@ -24,15 +24,26 @@
           console.log(buf);
         },
 
-        // parse是定义的解析器，需要被调用
         onReceived: function(parse) {
           // serialPort.on('data', function(buff) {
           //   parse.doParse(buff);
           // });
         }
-      }
+      };
 
       var mcore = new Sensorium.Mcore({
+        "transport": transport
+      });
+
+      var auriga = new Sensorium.Auriga({
+        "transport": transport
+      });
+
+      var megaPi = new Sensorium.MegaPi({
+        "transport": transport
+      });
+
+      var orion = new Sensorium.Orion({
         "transport": transport
       });
 

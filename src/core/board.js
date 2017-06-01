@@ -1,11 +1,9 @@
 /**
  * @fileOverview board 用做通信基类，连接收和发送接口.
- * @author Hyman (hujinhong@makelbock.cc)
+ * @author Hyman
  */
 
-import utils from "./utils";
 import Transport from '../communicate/transport';
-import Command from '../communicate/command';
 import parse from './parse';
 import Settings from '../protocol/settings';
 var _ = require('underscore');
@@ -25,16 +23,16 @@ class Board {
    * @param {Object} transport json object.
    * @example
    * {
-   *   "send": function(data, callback) {
-   *     serialPort.write(data, callback);
-   *   },
-   *   "onReceive": function(data, callback) {
-   *      serialPort.on('data', function(data){
-   *        var array = utils.arrayFromArrayBuffer(data);
-   *        callback(array);
+   *    send: function(buf) {
+   *      console.log(buf);
+   *    },
+   *
+   *    onReceived: function(parse) {
+   *      serialPort.on('data', function(buff) {
+   *        parse.doParse(buff);
    *      });
-   *   }
-   * }
+   *    }
+   *  }
    */
   setTransport(transport) {
     this.transport = transport;
