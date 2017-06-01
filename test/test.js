@@ -83,16 +83,20 @@ function doTest(serialPort) {
     "transport": transport
   });
 
-  var ledPanel = auriga.ledPanel();
-  ledPanel.turnOn(100,0,0);
-  setTimeout(function() {
-    ledPanel.turnOff();
-  }, 3000);
+  var mcore = new Sensorium.Mcore({
+    "transport": transport
+  });
 
-  // var ultrasonic = auriga.ultrasonic(7);
-  // setInterval(function() {
-  //   ultrasonic.onData(function(val) {
-  //     console.log(val);
-  //   });
-  // }, 1000);
+  // var ledPanel = auriga.ledPanel();
+  // ledPanel.turnOn(100,0,0);
+  // setTimeout(function() {
+  //   ledPanel.turnOff();
+  // }, 3000);
+
+  var ultrasonic = auriga.ultrasonic(7);
+  setInterval(function() {
+    ultrasonic.onData(function(val) {
+      console.log(val);
+    });
+  }, 500);
 }

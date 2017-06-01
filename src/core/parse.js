@@ -14,8 +14,8 @@ function Parse() {
   // data : 当前处理的数据
   // this.buffer: 历史缓存数据
   // 记录数据和历史数据分开记录
-  this.doParse = function(bytes, callback) {
-    var data  = bytes;
+  this.doParse = function(buffData, callback) {
+    var data  = utils.arrayFromArrayBuffer(buffData);
     data = this.buffer.concat(data);
     this.buffer = [];
 
