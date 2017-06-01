@@ -2860,7 +2860,7 @@ class Board {
     this.setTransport(this._config.transport);
 
     // 启动数据监听
-    this.onReceive();
+    this.onReceived();
   }
 
   /**
@@ -2897,8 +2897,8 @@ class Board {
    * 定义数据接收通道
    * parse 是解析器
    */
-  onReceive() {
-    this.transport.onReceive(__WEBPACK_IMPORTED_MODULE_3__parse__["a" /* default */]);
+  onReceived() {
+    this.transport.onReceived(__WEBPACK_IMPORTED_MODULE_3__parse__["a" /* default */]);
   }
 }
 
