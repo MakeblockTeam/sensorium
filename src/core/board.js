@@ -6,7 +6,7 @@
 import utils from "./utils";
 import Transport from '../communicate/transport';
 import Command from '../communicate/command';
-import Parse from './parse';
+import parse from './parse';
 import Settings from '../protocol/settings';
 var _ = require('underscore');
 
@@ -52,11 +52,9 @@ class Board {
 
   /**
    * 定义数据接收通道
-   * @param  {[type]} data [description]
-   * @return {[type]}      [description]
+   * parse 是解析器
    */
   onReceive() {
-    var parse = new Parse();
     this.transport.onReceive(parse);
   }
 }

@@ -26,9 +26,9 @@
 
         // parse是定义的解析器，需要被调用
         onReceive: function(parse) {
-          serialPort.on('data', function(buff) {
-            parse.doParse(buff);
-          });
+          // serialPort.on('data', function(buff) {
+          //   parse.doParse(buff);
+          // });
         }
       }
 
@@ -38,9 +38,9 @@
 
       // mcore.dcMotor(1,1).start(100);
 
-      mcore.ultrasonic(1,1).onData(function(val) {
-        console.log(val);
-      });
+      // mcore.ultrasonic(1,1).onData(function(val) {
+      //   console.log(val);
+      // });
 
     </script>
 </body>

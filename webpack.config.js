@@ -11,5 +11,6 @@ module.exports = {
       {test: /\.(js|jsx)$/, use: 'babel-loader'}
     ]
   },
-  watch: true
+  watch: true,
+  devtool: "cheap-module-source-map"
 };

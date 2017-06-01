@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 13);
+/******/ 	return __webpack_require__(__webpack_require__.s = 14);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -376,6 +376,136 @@ var transport = Transport.getInstance();
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_value_wrapper__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__core_promise__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__transport__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__protocol_api__ = __webpack_require__(4);
+/**
+ * @fileOverview 协议发送基类.
+ */
+
+
+
+
+
+
+
+class Command {
+  constructor() {
+    this.CONFIG = {
+      // 开启超时重发
+      OPEN_RESNET_MODE: false,
+      // 超时重发的次数
+      RESENT_COUNT: 1,
+      // 读值指令超时的设定
+      COMMAND_SEND_TIMEOUT: 1000
+    };
+  }
+
+  /**
+   * Get sensor's value.
+   * @param  {String}   deviceType the sensor's type.
+   * @param  {Object}   options    config options, such as port, slot etc.
+   * @param  {Function} callback   the function to be excuted.
+   */
+  getSensorValue(deviceType, options, callback) {
+    if (callback == undefined && typeof options == 'function') {
+      callback = options;
+      options = {};
+    }
+    var params = {};
+    params.deviceType = deviceType;
+    params.callback = callback;
+    params.port = options.port;
+    params.slot = options.slot || 2;
+    var valueWrapper = new __WEBPACK_IMPORTED_MODULE_0__core_value_wrapper__["a" /* default */]();
+    var index = __WEBPACK_IMPORTED_MODULE_2__core_promise__["a" /* default */].add(deviceType, callback, valueWrapper);
+    params.index = index;
+    // 发送读取指令
+    this._doGetSensorValue(params);
+    if (this.CONFIG.OPEN_RESNET_MODE) {
+      // 执行超时检测
+      this._handlerCommandSendTimeout(params);
+    }
+    return valueWrapper;
+  }
+  _doGetSensorValue(params) {
+    var that = this;
+    this._readBlockStatus(params);
+
+    // 模拟传感器回传数据
+    // setTimeout(function() {
+    //   that.sensorCallback(params.index, 111);
+    // }, 1000)
+  }
+
+  /**
+   * Read module's value.
+   * @param  {object} params command params.
+   */
+  _readBlockStatus(params) {
+    this.api = new __WEBPACK_IMPORTED_MODULE_4__protocol_api__["a" /* default */](__WEBPACK_IMPORTED_MODULE_3__transport__["a" /* default */].get());
+
+    var deviceType = params.deviceType;
+    var index = params.index;
+    var port = params.port;
+    var slot = params.slot || null;
+    var funcName = 'this.api.read' + __WEBPACK_IMPORTED_MODULE_1__core_utils__["a" /* default */].upperCaseFirstLetter(deviceType);
+    var paramsStr = '(' + index + ',' + port + ',' + slot + ')';
+    var func = funcName + paramsStr;
+    eval(func);
+  }
+
+  /**
+   * Command sending timeout handler.
+   * @param  {Object} params params.
+   */
+  _handlerCommandSendTimeout(params) {
+    var that = this;
+    var promiseItem = __WEBPACK_IMPORTED_MODULE_2__core_promise__["a" /* default */].requestList[params.index];
+    setTimeout(function () {
+      if (promiseItem.hasReceivedValue) {
+        // 成功拿到数据，不进行处理
+        return;
+      } else {
+        // 超过规定的时间，还没有拿到数据，需要进行超时重发处理
+        if (promiseItem.resentCount >= that.CONFIG.RESENT_COUNT) {
+          // 如果重发的次数大于规定次数,则终止重发
+          console.log("【resend ends】");
+          return;
+        } else {
+          console.log('【resend】:' + params.index);
+          promiseItem.resentCount = promiseItem.resentCount || 0;
+          promiseItem.resentCount++;
+          that._doGetSensorValue(params);
+          that._handlerCommandSendTimeout(params);
+        }
+      }
+    }, that.CONFIG.COMMAND_SEND_TIMEOUT);
+  }
+
+  /**
+   * Get value form sensor and put the value to user's callback.
+   * @param  {Number} index  the index of sensor's request command in promiseList
+   * @param  {Number} result the value of sensor.
+   */
+  sensorCallback(index, result) {
+    var deviceType = __WEBPACK_IMPORTED_MODULE_2__core_promise__["a" /* default */].getType(index);
+    console.debug(deviceType + ": " + result);
+    __WEBPACK_IMPORTED_MODULE_2__core_promise__["a" /* default */].receiveValue(index, result);
+  }
+}
+
+var command = new Command();
+
+/* harmony default export */ __webpack_exports__["a"] = (command);
+
+/***/ }),
+/* 3 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
 /**
  * @fileOverview PromiveList is sensor data's transfer station.
  * 用于处理传感器数据分发
@@ -423,12 +553,696 @@ var PromiseList = {
 /* harmony default export */ __webpack_exports__["a"] = (PromiseList);
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_board__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__electronic_index__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_utils__ = __webpack_require__(0);
+/**
+ * @fileOverview  Api api list
+ */
+
+
+function Api(transport) {
+
+  /**
+   * Set dc motor speed.
+   * @param {number} port  port number, vailable is: 1,2,3,4
+   * @param {number} speed speed, the range is -255 ~ 255
+   * @example
+   *     ff 55 06 00 02 0a 01 ff 00
+   */
+  this.setDcMotor = function (port, speed) {
+    speed = __WEBPACK_IMPORTED_MODULE_0__core_utils__["a" /* default */].limitValue(speed);
+    var a = [0xff, 0x55, 0x06, 0, 0x02, 0x0a, port, speed & 0xff, speed >> 8 & 0xff];
+    return transport.send(a);
+  },
+
+  /**
+   * Set encoder motor speed.
+   * @param {number} slot  slot number, vailable is: 1,2
+   * @param {number} speed speed, the range is -255 ~ 255
+   * @example
+   *     ff 55 07 00 02 3d 00 01 64 00
+   */
+  this.setEncoderMotorOnBoard = function (slot, speed) {
+    speed = __WEBPACK_IMPORTED_MODULE_0__core_utils__["a" /* default */].limitValue(speed);
+    var a = [0xff, 0x55, 0x07, 0, 0x02, 0x3d, 0, slot, speed & 0xff, speed >> 8 & 0xff];
+    return transport.send(a);
+  };
+
+  /**
+   * Set both left speed and right speed with one command.
+   * @param {number} leftSpeed  left speed, the range is -255 ~ 255
+   * @param {number} rightSpeed right speed, the range is -255 ~ 255
+   * @example
+   *     ff 55 07 00 02 05 64 00 64 00
+   */
+  this.setJoystick = function (leftSpeed, rightSpeed) {
+    leftSpeed = __WEBPACK_IMPORTED_MODULE_0__core_utils__["a" /* default */].limitValue(leftSpeed);
+    rightSpeed = __WEBPACK_IMPORTED_MODULE_0__core_utils__["a" /* default */].limitValue(rightSpeed);
+    var a = [0xff, 0x55, 0x07, 0, 0x02, 0x05, leftSpeed & 0xff, leftSpeed >> 8 & 0xff, rightSpeed & 0xff, rightSpeed >> 8 & 0xff];
+    return transport.send(a);
+  };
+
+  /**
+   * Set speed for balance mode, the port is on transport, value is 0.
+   * @param {number} turnDegree turn extend, -255 ~ 255
+   * @param {number} speed      speed, -255 ~ 255
+   * @example
+   *     ff 55 08 00 02 34 00 64 00 64 00
+   */
+  this.setVirtualJoystickForBalance = function (turnExtent, speed) {
+    turnExtent = __WEBPACK_IMPORTED_MODULE_0__core_utils__["a" /* default */].limitValue(turnExtent);
+    speed = __WEBPACK_IMPORTED_MODULE_0__core_utils__["a" /* default */].limitValue(speed);
+    var a = [0xff, 0x55, 0x08, 0, 0x02, 0x34, 0, turnExtent & 0xff, turnExtent >> 8 & 0xff, speed & 0xff, speed >> 8 & 0xff];
+    return transport.send(a);
+  };
+
+  /**
+   * Set stepper motor speed.
+   * @param {Number} port     port number, vailable is: 1,2,3,4
+   * @param {Number} speed    speed, the range is 0 ~ 3000
+   * @param {Long} distance distance, the range is -2147483648 ~ 2147483647
+   * @example
+   *     ff 55 0a 00 02 28 01 b8 0b e8 03 00 00
+   */
+  this.setStepperMotor = function (port, speed, distance) {
+    speed = __WEBPACK_IMPORTED_MODULE_0__core_utils__["a" /* default */].limitValue(speed, [0, 3000]);
+    var distanceBytes = __WEBPACK_IMPORTED_MODULE_0__core_utils__["a" /* default */].longToBytes(distance);
+    var a = [0xff, 0x55, 0x0a, 0, 0x02, 0x28, port, speed & 0xff, speed >> 8 & 0xff, distanceBytes[3], distanceBytes[2], distanceBytes[1], distanceBytes[0]];
+    return transport.send(a);
+  };
+
+  /**
+   * Set RgbFourLed electronic module color.
+   * @param {number} port     port number, vailable is: 0(on transport), 6,7,8,9,10
+   * @param {number} slot     slot number, vailable is: 1,2
+   * @param {number} position led position, 0 signify all leds.
+   * @param {number} r        red, the range is 0 ~ 255
+   * @param {number} g        green, the range is 0 ~ 255
+   * @param {number} b        blue, the range is 0 ~ 255
+   * @example
+   *     ff 55 09 00 02 08 06 02 00 ff 00 00
+   */
+  this.setLed = function (port, slot, position, r, g, b) {
+    r = __WEBPACK_IMPORTED_MODULE_0__core_utils__["a" /* default */].limitValue(r, [0, 255]);
+    g = __WEBPACK_IMPORTED_MODULE_0__core_utils__["a" /* default */].limitValue(g, [0, 255]);
+    b = __WEBPACK_IMPORTED_MODULE_0__core_utils__["a" /* default */].limitValue(b, [0, 255]);
+    var a = [0xff, 0x55, 0x09, 0, 0x02, 0x08, port, slot, position, r, g, b];
+    return transport.send(a);
+  };
+
+  /**
+   * set four leds
+   * @param {number} port     port number, vailable is: 0(on transport), 6,7,8,9,10
+   * @param {number} position led position, 0 signify all leds.
+   * @param {number} r        red, the range is 0 ~ 255
+   * @param {number} g        green, the range is 0 ~ 255
+   * @param {number} b        blue, the range is 0 ~ 255
+   */
+  this.setFourLeds = function (port, position, r, g, b) {
+    return this.setLed(port, 2, position, r, g, b);
+  };
+
+  /**
+   * turn off four leds
+   * @param {number} port     port number, vailable is: 0(on transport), 6,7,8,9,10
+   * @param {number} position led position, 0 signify all leds.
+   */
+  this.turnOffFourLeds = function (port, position) {
+    return this.setLed(port, 2, position, 0, 0, 0);
+  };
+
+  /**
+   * set led panel on Api transport.
+   * @param {number} position led position, 0 signify all leds.
+   * @param {number} r        red, the range is 0 ~ 255
+   * @param {number} g        green, the range is 0 ~ 255
+   * @param {number} b        blue, the range is 0 ~ 255
+   */
+  this.setLedPanelOnBoard = function (position, r, g, b) {
+    return this.setLed(0, 2, position, r, g, b);
+  };
+
+  /**
+   * turn off led panel on transport
+   * @param {number} position led position, 0 signify all leds.
+   */
+  this.turnOffLedPanelOnBoard = function (position) {
+    return this.setLed(0, 2, position, 0, 0, 0);
+  };
+
+  /**
+   * Set transport mode.
+   * @param {number} mode transport mode,
+   *     0: bluetooth mode
+   *     1: ultrasonic mode
+   *     2: balance mode
+   *     3: infrared mode
+   *     4: linefollow mode
+   * @example
+   *     ff 55 05 00 02 3c 11 00
+   */
+  this.setFirmwareMode = function (mode) {
+    var a = [0xff, 0x55, 0x05, 0, 0x02, 0x3c, 0x11, // 0x11 means Api
+    mode];
+    return transport.send(a);
+  };
+
+  /**
+   * Set Servo speed.
+   * @param {[type]} port   port number, vailable is 6,7,8,9,10
+   * @param {[type]} slot   slot number, vailable is 1,2
+   * @param {[type]} degree servo degree, the range is 0 ~ 180
+   */
+  this.setServoMotor = function (port, slot, degree) {
+    degree = __WEBPACK_IMPORTED_MODULE_0__core_utils__["a" /* default */].limitValue(degree, [0, 180]);
+    var a = [0xff, 0x55, 0x06, 0, 0x02, 0x0b, port, slot, degree];
+    return transport.send(a);
+  };
+
+  /**
+   * Set Seven-segment digital tube number.
+   * @param {number} port   port number, vailable is 6,7,8,9,10
+   * @param {float} number  the number to be displayed, -999 ~ 9999
+   * @exmpa
+   *     ff 55 08 00 02 09 06 00 00 c8 42
+   */
+  this.setSevenSegment = function (port, number) {
+    number = __WEBPACK_IMPORTED_MODULE_0__core_utils__["a" /* default */].limitValue(number, [-999, 9999]);
+    var byte4Array = __WEBPACK_IMPORTED_MODULE_0__core_utils__["a" /* default */].float32ToBytes(number);
+    var a = [0xff, 0x55, 0x08, 0, 0x02, 0x09, port, byte4Array[0], byte4Array[1], byte4Array[2], byte4Array[3]];
+    return transport.send(a);
+  };
+
+  /**
+   * Set led matrix char.
+   * @param {number} port   port number, vailable is 6,7,8,9,10
+   * @param {number} xAxis  x position
+   * @param {number} yAxis  y position
+   * @param {string} char  char, 例如 Hi 转换成ASCII的值 48 69
+   * @exmaple
+   * ff 55 0a 00 02 29 06 01 00 01 02 48 69
+   */
+  this.setLedMatrixChar = function (port, xAxis, yAxis, char) {
+    var charAsciiArray = [];
+    for (var i = 0; i < char.length; i++) {
+      charAsciiArray.push(char[i].charCodeAt());
+    }
+    var a = [0xff, 0x55, 0x0a, 0, 0x02, 0x29, port, 0x01, xAxis, yAxis, char.length].concat(charAsciiArray);
+    return transport.send(a);
+  };
+
+  /**
+   * Set led matrix emotion.
+   * @param {number} port   port number, vailable is 6,7,8,9,10
+   * @param {number} xAxis      x position
+   * @param {number} yAxis      y position
+   * @param {Array} emotionData emotion data to be displayed, such as
+   *  [00, 00, 40, 48, 44, 42, 02, 02, 02, 02, 42, 44, 48, 40, 00, 00]
+   * @example
+   * ff 55 17 00 02 29 06 02 00 00 00 00 40 48 44 42 02 02 02 02 42 44 48 40 00 00
+   */
+  this.setLedMatrixEmotion = function (port, xAxis, yAxis, emotionData) {
+    var a = [0xff, 0x55, 0x17, 0, 0x02, 0x29, port, 0x02, xAxis, yAxis].concat(emotionData);
+    return transport.send(a);
+  };
+
+  /**
+   * Set led matrix time.
+   * @param {number} port   port number, vailable is 6,7,8,9,10
+   * @param {number} separator time separator, 01 signify `:`, 02 signify ` `
+   * @param {number} hour      hour number, 0 ~ 23
+   * @param {number} minute    minute number, 0 ~ 59
+   * @example
+   *     ff 55 08 00 02 29 06 03 01 0a 14
+   */
+  this.setLedMatrixTime = function (port, separator, hour, minute) {
+    hour = __WEBPACK_IMPORTED_MODULE_0__core_utils__["a" /* default */].limitValue(hour, [0, 23]);
+    minute = __WEBPACK_IMPORTED_MODULE_0__core_utils__["a" /* default */].limitValue(minute, [0, 59]);
+    var a = [0xff, 0x55, 0x08, 0, 0x02, 0x29, port, 0x03, separator, hour, minute];
+    return transport.send(a);
+  };
+
+  /**
+   * Set led matrix number.
+   * @param {number} port   port number, vailable is 6,7,8,9,10
+   * @param {float} number the number to be displayed
+   * @exmaple
+      ff 55 09 00 02 29 06 04 00 00 00 00
+   */
+  this.setLedMatrixNumber = function (port, number) {
+    var byte4Array = __WEBPACK_IMPORTED_MODULE_0__core_utils__["a" /* default */].float32ToBytes(number);
+    var a = [0xff, 0x55, 0x09, 0, 0x02, 0x29, port, 0x04, byte4Array[0], byte4Array[1], byte4Array[2], byte4Array[3]];
+    return transport.send(a);
+  };
+
+  /**
+   * Set shutter.
+   * @param {number} port   port number, vailable is 6,7,8,9,10
+   * @param {number} action 0: 按下快门; 1: 松开快门; 2: 聚焦; 3: 停止聚焦
+   * @exmaple
+      ff 55 05 00 02 14 06 02
+   */
+  this.setShutter = function (port, action) {
+    var a = [0xff, 0x55, 0x05, 0, 0x02, 0x14, port, action];
+    return transport.send(a);
+  };
+
+  /**
+   * reset all sensors and motors on transport.
+   * @exmaple
+      ff 55 02 00 04
+   */
+  this.reset = function () {
+    var a = [0xff, 0x55, 0x02, 0x00, 0x04];
+    return transport.send(a);
+  };
+
+  /**
+   * set buzzer.
+   * @param {string} tone , "A2" ~ "D8"
+   * @param {number} beat , 125: eight; 250: quater; 500: half; 1000: one; 2000: double
+   * @example
+   * C2，quater beat: ff 55 08 00 02 22 09 41 00 f4 01
+   */
+  this.setTone = function (tone, beat) {
+    var TONE_HZ = {
+      // 原始数据：D5: 587 "E5": 658,"F5": 698,"G5": 784,"A5": 880,"B5": 988,"C6": 1047
+      "A2": 110, "B2": 123, "C2": 65,
+      "C3": 131, "D3": 147, "E3": 165, "F3": 175, "G3": 196, "A3": 220,
+      "B3": 247, "C4": 262, "D4": 294, "E4": 330, "F4": 349, "G4": 392,
+      "A4": 440, "B4": 494, "C5": 523, "D5": 555, "E5": 640, "F5": 698,
+      "G5": 784, "A5": 880, "B5": 988, "C6": 1047, "D6": 1175, "E6": 1319,
+      "F6": 1397, "G6": 1568, "A6": 1760, "B6": 1976, "C7": 2093, "D7": 2349,
+      "E7": 2637, "F7": 2794, "G7": 3136, "A7": 3520, "B7": 3951, "C8": 4186, "D8": 4699
+    };
+
+    var a = [0xff, 0x55, 0x08, 0, 0x02, 0x22, 0x09, TONE_HZ[tone] & 0xff, TONE_HZ[tone] >> 8 & 0xff, beat & 0xff, beat >> 8 & 0xff];
+
+    return transport.send(a);
+  };
+
+  /**
+   * set encoder motor.
+   * @param  {Number} index [description]
+   * @param  {Number} port  vailable: 1,2,3,4
+   * @param  {Number} slot  vailable: 1，2
+   * @param  {Number} speed  0 ~ 300, 单位：rpm（每分钟转多少圈）
+   * @param  {Float} angle  相对位移, -2147483648 ~ 2147483647
+   * @example
+   * ff 55 0b 00 02 0c 08 01 96 00 00 00 34 44
+   */
+  this.setEncoderMotor = function (port, slot, speed, angle) {
+    speed = __WEBPACK_IMPORTED_MODULE_0__core_utils__["a" /* default */].limitValue(speed, [0, 300]);
+    var byte4Array = __WEBPACK_IMPORTED_MODULE_0__core_utils__["a" /* default */].float32ToBytes(angle);
+    var a = [0xff, 0x55, 0x0b, 0, 0x02, 0x0c, 0x08, slot, speed & 0xff, speed >> 8 & 0xff, byte4Array[0], byte4Array[1], byte4Array[2], byte4Array[3]];
+    return transport.send(a);
+  };
+
+  /**
+   * read verion of transport
+   * @param  {Number} index index of command
+   */
+  this.readVersion = function (index) {
+    var a = [0xff, 0x55, 0x03, index, 0x01, 0x00];
+    return transport.send(a);
+  };
+
+  /**
+   * mainly used for distance measurement, the measurement range is 0 to 500 cm,
+   * the execution of the command will have more than 100 milliseconds latency.
+   * So the frequency of the host to send this instruction shoulds not be too high.
+   * @param  {Number} index [description]
+   * @param  {Number} port  vailable: 6，7，8，9，10
+   * @return {Number}       [description]
+   * @example
+   * ff 55 04 00 01 01 03
+   */
+  this.readUltrasonic = function (index, port) {
+    var a = [0xff, 0x55, 0x04, index, 0x01, 0x01, port];
+    return transport.send(a);
+  };
+
+  /**
+   * read temperature, Each port can connect two road temperature sensor.
+   * @param  {Number} index [description]
+   * @param  {Number} port  vailable: 6，7，8，9，10
+   * @param  {Number} slot  vailable: slot1(1), slot2(2)
+   * @return {Number}       [description]
+   * @example
+   * ff 55 05 00 01 02 01 02
+   */
+  this.readTemperature = function (index, port, slot) {
+    var a = [0xff, 0x55, 0x05, index, 0x01, 0x02, port, slot];
+    return transport.send(a);
+  };
+
+  /**
+   * The light sensor module or ontransport (lamp) light sensors numerical reading.
+   * @param  {Number} index [description]
+   * @param  {Number} port  vailable: 6,7,8,9,10, onbord(0c),onbord(0b)
+   * @return {Number}       [description]
+   * @example
+   * ff 55 04 00 01 03 07
+   */
+  this.readLight = function (index, port) {
+    var a = [0xff, 0x55, 0x04, index, 0x01, 0x03, port];
+    return transport.send(a);
+  };
+
+  /**
+   * read Potentionmeter
+   * @param  {Number} index [description]
+   * @param  {Number} port  vailable: 6，7，8，9，10
+   * @return {Number}       [description]
+   * @example
+   * ff 55 04 00 01 04 06
+   */
+  this.readPotentionmeter = function (index, port) {
+    var a = [0xff, 0x55, 0x04, index, 0x01, 0x04, port];
+    return transport.send(a);
+  };
+
+  /**
+   * read josystic value
+   * @param  {Number} index [description]
+   * @param  {Number} port  vailable: 6，7，8，9，10
+   * @param  {Number} axis  1: x-axis; 2: y-axis;
+   * @example
+   * ff 55 05 00 01 05 06 01
+   */
+  this.readJoystick = function (index, port, axis) {
+    var a = [0xff, 0x55, 0x05, index, 0x01, 0x05, port, axis];
+    return transport.send(a);
+  };
+
+  /**
+   * read gyro value in different axis.
+   * @param  {Number} index [description]
+   * @param  {Number} port  vailable: 6，7，8，9，10
+   * @param  {Number} axis  vailable: X-axis(01)  Y-axis(02)  Z-axis(03)
+   * @return {Number}       [description]
+   * @example
+   * ff 55 05 00 01 06 00 01
+   */
+  this.readGyro = function (index, port, axis) {
+    var a = [0xff, 0x55, 0x05, index, 0x01, 0x06, port, axis];
+    var c = transport.send(a);
+    return c;
+  };
+
+  /**
+   * read volume testing MIC module parameters
+   * @param  {Number} index [description]
+   * @param  {Number} port  vailable: 6，7，8，9，10，ontransport(0x0e)
+   * @return {Number}       [description]
+   * @example
+   * ff 55 04 00 01 07 06
+   */
+  this.readSound = function (index, port) {
+    var a = [0xff, 0x55, 0x04, index, 0x01, 0x07, port];
+    return transport.send(a);
+  };
+
+  /**
+   * read temperature on transport
+   * @param  {Number} index [description]
+   * @example
+   * ff 55 04 00 01 1b 0d
+   */
+  this.readTemperatureOnBoard = function (index) {
+    var port = 0x0d;
+    var a = [0xff, 0x55, 0x04, index, 0x01, 0x1b, port];
+    return transport.send(a);
+  };
+
+  /**
+   * read pyroelectric infrared sensor
+   * @param  {Number} index [description]
+   * @param  {Number} port  vailable: 6,7,8,9,10
+   * @return {Number}       [description]
+   * @example
+   * ff 55 04 00 01 0f 06
+   */
+  this.readPirmotion = function (index, port) {
+    var a = [0xff, 0x55, 0x04, index, 0x01, 0x0f, port];
+    return transport.send(a);
+  };
+
+  /**
+   * read LineFollower sensor
+   * @param  {Number} index [description]
+   * @param  {Number} port  vailable: 6，7，8，9，10
+   * @return {Number} number,
+   *  00   0
+      01   1
+      10   2
+      11   3
+      when 0 said has a black line
+    * @example
+    * ff 55 04 00 01 11 02
+   */
+  this.readLineFollower = function (index, port) {
+    var a = [0xff, 0x55, 0x04, index, 0x01, 0x11, port];
+    return transport.send(a);
+  };
+
+  /**
+   * read limitSwitch
+   * @param  {Number} index [description]
+   * @param  {Number} port  vailable: 6,7,8,9,10
+   * @param  {Number} slot  vailable: SLOT1(01)   SLOT2(02)
+   * @return {Number}       [description]
+   * @example
+   * ff 55 05 00 01 15 06 02
+   */
+  this.readLimitSwitch = function (index, port, slot) {
+    var a = [0xff, 0x55, 0x05, index, 0x01, 0x15, port, slot];
+    var c = transport.send(a);
+    return c;
+  };
+
+  /**
+   * read compass.
+   * @param  {Number} index [description]
+   * @param  {Number} port  vailable: 6,7,8,9,10
+   * @return {Number}       [description]
+   * @example
+   * ff 55 04 00 01 1a 06
+   */
+  this.readCompass = function (index, port) {
+    var a = [0xff, 0x55, 0x04, index, 0x01, 0x1a, port];
+    return transport.send(a);
+  };
+
+  /**
+   * read humiture
+   * @param  {Number} index [description]
+   * @param  {Number} port  vailable: 6，7，8，9，10
+   * @param  {Number} temperature(01) humidity (00)
+   * @return {Number}       [description]
+   * @example
+   * ff 55 05 00 01 17 06 00
+   */
+  this.readHumiture = function (index, port, type) {
+    var a = [0xff, 0x55, 0x05, index, 0x01, 0x17, port, type];
+    return transport.send(a);
+  };
+
+  /**
+   * read flame
+   * @param  {Number} index [description]
+   * @param  {Number} port  vailable: 6,7,8,9,10
+   * @return {Number}       [description]
+   * @example
+   * ff 55 04 00 01 18 03
+   */
+  this.readFlame = function (index, port) {
+    var a = [0xff, 0x55, 0x04, index, 0x01, 0x18, port];
+    return transport.send(a);
+  };
+
+  /**
+   * Used to get the harmful gas density
+   * @param  {Number} index [description]
+   * @param  {Number} port  vailable: 6,7,8,9,10
+   * @return {Number}       [description]
+   * @example
+   * ff 55 04 00 01 19 06
+   */
+  this.readGas = function (index, port) {
+    var a = [0xff, 0x55, 0x04, index, 0x01, 0x19, port];
+    return transport.send(a);
+  };
+
+  /**
+   * read touch sensor
+   * @param  {Number} index [description]
+   * @param  {Number} port  vailable: 6,7,8,9,10
+   * @return {Number}       [description]
+   * @example
+   * ff 55 04 00 01 33 06
+   */
+  this.readTouch = function (index, port) {
+    var a = [0xff, 0x55, 0x04, index, 0x01, 0x33, port];
+    return transport.send(a);
+  };
+
+  /**
+   * To determine whether the corresponding button is pressed.
+   * @param  {Number} index [description]
+   * @param  {Number} port  vailable: 6,7,8,9,10
+   * @param  {Number} key   vailable:1,2,3,4
+   * @return {Number}       [description]
+   * @example
+   * ff 55 05 00 01 16 03 01
+   */
+  this.readFourKeys = function (index, port, key) {
+    var a = [0xff, 0x55, 0x05, index, 0x01, 0x16, port, key];
+    return transport.send(a);
+  };
+
+  /**
+   * read encoder motor position or speed on transport.
+   * @param  {Number} index [description]
+   * @param  {Number} slot vailable:1,2
+   * @param  {Number} type  1: position; 2: speed
+   * @example
+   * ff 55 06 00 01 3d 00 01 02
+   */
+  this.readEncoderMotorOnBoard = function (index, slot, type) {
+    var a = [0xff, 0x55, 0x06, index, 0x01, 0x3d, 0x00, slot, type];
+    return transport.send(a);
+  };
+
+  /**
+   * read firmware mode or voltage.
+   * @param  {Number} index [description]
+   * @param  {Number} type  0x70: 电压; 0x71: 模式
+   * @example
+   * ff 55 04 00 01 3c 70
+   */
+  this.readFirmwareMode = function (index, type) {
+    var a = [0xff, 0x55, 0x04, index, 0x01, 0x3c, type];
+    return transport.send(a);
+  };
+
+  /**
+   * @param  {Number} index [description]
+   * @param  {Number} port  vailable: digit GPOI port
+   * @return {Number}       [description]
+   * @example
+   * ff 55 04 00 01 1e 09
+   */
+  // this.readDigGPIO = function(index, port) {
+  //   var a = [
+  //     0xff,0x55,
+  //     0x04, index,
+  //     0x01,
+  //     0x1e,
+  //     port,
+  //   ];
+  //   return transport.send(a);
+  // };
+
+  /**
+   * @param  {Number} index [description]
+   * @param  {Number} port  vailable: analog GPIO port
+   * @return {Number}       [description]
+   * @example
+   * ff 55 04 00 01 1f 02
+   */
+  // this.readAnalogGPIO = function(index, port) {
+  //   var a = [
+  //     0xff,0x55,
+  //     0x04, index,
+  //     0x01,
+  //     0x1f,
+  //     port,
+  //   ];
+  //   return transport.send(a);
+  // };
+
+  /**
+   * @param  {Number} index [description]
+   * @param  {Number} port  vailable: GPIO port
+   * @param  {Number} key   vailable: 0,1
+   * @return {Number}       [description]
+   * @example
+   * ff 55 05 00 01 25 0d 20 4e
+   */
+  // this.readGPIOContinue = function(index, port, key) {
+  //   var a = [
+  //     0xff,0x55,
+  //     0x05, index,
+  //     0x01,
+  //     0x25,
+  //     port,
+  //     key,
+  //   ];
+  //   return transport.send(a);
+  // };
+
+  /**
+   * @param  {Number} index [description]
+   * @param  {Number} port  vailable: GPIO port
+   * @param  {Number} key   vailable: 0,1
+   * @return {Number}       [description]
+   * @example
+   * ff 55 05 00 01 24 45 40
+   */
+  // this.readDoubleGPIO = function(index, port1, port2) {
+  //   var a = [
+  //     0xff,0x55,
+  //     0x05, index,
+  //     0x01,
+  //     0x24,
+  //     port1,
+  //     port2,
+  //   ];
+  //   return transport.send(a);
+  // };
+
+  /**
+   * @param  {Number} index [description]
+   * @param  {Number} port  vailable: analog GPIO port
+   * @param  {Number} key   vailable: 0,1
+   * @return {Number}       [description]
+   * @example
+   * ff 55 03 00 01 32
+   */
+  // this.readRuntime = function(index) {
+  //   var a = [
+  //     0xff,0x55,
+  //     0x03, index,
+  //     0x01,
+  //     0x32,
+  //   ];
+  //   return transport.send(a);
+  // };
+
+  // this.readOntransportButton = function(index) {
+  //   var a = [
+  //     0xff,0x55,
+  //     0x03, index,
+  //     0x01,
+  //     0x32,
+  //   ];
+  //   return transport.send(a);
+  // };
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (Api);
+
+/***/ }),
+/* 5 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_board__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__electronic_index__ = __webpack_require__(11);
 
 
 
@@ -449,7 +1263,7 @@ Mcore.prototype = __WEBPACK_IMPORTED_MODULE_0__core_board__["a" /* default */];
 /* harmony default export */ __webpack_exports__["a"] = (Mcore);
 
 /***/ }),
-/* 4 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;//     Underscore.js 1.8.3
@@ -2018,140 +2832,15 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;//     Underscor
 }).call(this);
 
 /***/ }),
-/* 5 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_value_wrapper__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__core_promise__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__transport__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__protocol_api__ = __webpack_require__(12);
-/**
- * @fileOverview 协议发送基类.
- */
-
-
-
-
-
-
-
-class Command {
-  constructor() {
-    this.CONFIG = {
-      // 开启超时重发
-      OPEN_RESNET_MODE: false,
-      // 超时重发的次数
-      RESENT_COUNT: 1,
-      // 读值指令超时的设定
-      COMMAND_SEND_TIMEOUT: 1000
-    };
-  }
-
-  /**
-   * Get sensor's value.
-   * @param  {String}   deviceType the sensor's type.
-   * @param  {Object}   options    config options, such as port, slot etc.
-   * @param  {Function} callback   the function to be excuted.
-   */
-  getSensorValue(deviceType, options, callback) {
-    if (callback == undefined && typeof options == 'function') {
-      callback = options;
-      options = {};
-    }
-    var params = {};
-    params.deviceType = deviceType;
-    params.callback = callback;
-    params.port = options.port;
-    params.slot = options.slot || 2;
-    var valueWrapper = new __WEBPACK_IMPORTED_MODULE_0__core_value_wrapper__["a" /* default */]();
-    var index = __WEBPACK_IMPORTED_MODULE_2__core_promise__["a" /* default */].add(deviceType, callback, valueWrapper);
-    params.index = index;
-    // 发送读取指令
-    this._doGetSensorValue(params);
-    if (this.CONFIG.OPEN_RESNET_MODE) {
-      // 执行超时检测
-      this._handlerCommandSendTimeout(params);
-    }
-    return valueWrapper;
-  }
-  _doGetSensorValue(params) {
-    var that = this;
-    this._readBlockStatus(params);
-  }
-
-  /**
-   * Read module's value.
-   * @param  {object} params command params.
-   */
-  _readBlockStatus(params) {
-    this.api = new __WEBPACK_IMPORTED_MODULE_4__protocol_api__["a" /* default */](__WEBPACK_IMPORTED_MODULE_3__transport__["a" /* default */].get());
-
-    var deviceType = params.deviceType;
-    var index = params.index;
-    var port = params.port;
-    var slot = params.slot || null;
-    var funcName = 'this.api.read' + __WEBPACK_IMPORTED_MODULE_1__core_utils__["a" /* default */].upperCaseFirstLetter(deviceType);
-    var paramsStr = '(' + index + ',' + port + ',' + slot + ')';
-    var func = funcName + paramsStr;
-    eval(func);
-  }
-
-  /**
-   * Command sending timeout handler.
-   * @param  {Object} params params.
-   */
-  _handlerCommandSendTimeout(params) {
-    var that = this;
-    var promiseItem = __WEBPACK_IMPORTED_MODULE_2__core_promise__["a" /* default */].requestList[params.index];
-    setTimeout(function () {
-      if (promiseItem.hasReceivedValue) {
-        // 成功拿到数据，不进行处理
-        return;
-      } else {
-        // 超过规定的时间，还没有拿到数据，需要进行超时重发处理
-        if (promiseItem.resentCount >= that.CONFIG.RESENT_COUNT) {
-          // 如果重发的次数大于规定次数,则终止重发
-          console.log("【resend ends】");
-          return;
-        } else {
-          console.log('【resend】:' + params.index);
-          promiseItem.resentCount = promiseItem.resentCount || 0;
-          promiseItem.resentCount++;
-          that._doGetSensorValue(params);
-          that._handlerCommandSendTimeout(params);
-        }
-      }
-    }, that.CONFIG.COMMAND_SEND_TIMEOUT);
-  }
-
-  /**
-   * Get value form sensor and put the value to user's callback.
-   * @param  {Number} index  the index of sensor's request command in promiseList
-   * @param  {Number} result the value of sensor.
-   */
-  sensorCallback(index, result) {
-    var deviceType = __WEBPACK_IMPORTED_MODULE_2__core_promise__["a" /* default */].getType(index);
-    console.debug(deviceType + ": " + result);
-    __WEBPACK_IMPORTED_MODULE_2__core_promise__["a" /* default */].receiveValue(index, result);
-  }
-}
-
-var command = new Command();
-
-/* harmony default export */ __webpack_exports__["a"] = (command);
-
-/***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__utils__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__communicate_transport__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__communicate_command__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__parse__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__protocol_settings__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__communicate_command__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__parse__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__protocol_settings__ = __webpack_require__(15);
 /**
  * @fileOverview board 用做通信基类，连接收和发送接口.
  * @author Hyman (hujinhong@makelbock.cc)
@@ -2162,7 +2851,7 @@ var command = new Command();
 
 
 
-var _ = __webpack_require__(4);
+var _ = __webpack_require__(6);
 
 class Board {
 
@@ -2206,12 +2895,10 @@ class Board {
 
   /**
    * 定义数据接收通道
-   * @param  {[type]} data [description]
-   * @return {[type]}      [description]
+   * parse 是解析器
    */
   onReceive() {
-    var parse = new __WEBPACK_IMPORTED_MODULE_3__parse__["a" /* default */]();
-    this.transport.onReceive(parse);
+    this.transport.onReceive(__WEBPACK_IMPORTED_MODULE_3__parse__["a" /* default */]);
   }
 }
 
@@ -2220,11 +2907,11 @@ let board = new Board();
 /* harmony default export */ __webpack_exports__["a"] = (board);
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_promise__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_promise__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
 /**
  * @fileOverview 负责实际的数据解析
@@ -2378,7 +3065,7 @@ let parse = new Parse();
 /* harmony default export */ __webpack_exports__["a"] = (parse);
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2406,12 +3093,12 @@ ValueWrapper.prototype.setValue = function (value) {
 /* harmony default export */ __webpack_exports__["a"] = (ValueWrapper);
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__communicate_transport__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__protocol_api__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__protocol_api__ = __webpack_require__(4);
 
 
 
@@ -2444,13 +3131,13 @@ class DcMotor {
 /* harmony default export */ __webpack_exports__["a"] = (DcMotor);
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__dc_motor__ = __webpack_require__(9);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__rgb_led__ = __webpack_require__(11);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ultrasonic__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__dc_motor__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__rgb_led__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ultrasonic__ = __webpack_require__(13);
 
 
 
@@ -2464,7 +3151,7 @@ let electronics = {
 /* harmony default export */ __webpack_exports__["a"] = (electronics);
 
 /***/ }),
-/* 11 */
+/* 12 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2502,725 +3189,11 @@ class RgbLed {
 /* harmony default export */ __webpack_exports__["a"] = (RgbLed);
 
 /***/ }),
-/* 12 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_utils__ = __webpack_require__(0);
-/**
- * @fileOverview  Api api list
- */
-
-
-function Api(transport) {
-
-  /**
-   * Set dc motor speed.
-   * @param {number} port  port number, vailable is: 1,2,3,4
-   * @param {number} speed speed, the range is -255 ~ 255
-   * @example
-   *     ff 55 06 00 02 0a 01 ff 00
-   */
-  this.setDcMotor = function (port, speed) {
-    speed = __WEBPACK_IMPORTED_MODULE_0__core_utils__["a" /* default */].limitValue(speed);
-    var a = [0xff, 0x55, 0x06, 0, 0x02, 0x0a, port, speed & 0xff, speed >> 8 & 0xff];
-    return transport.send(a);
-  },
-
-  /**
-   * Set encoder motor speed.
-   * @param {number} slot  slot number, vailable is: 1,2
-   * @param {number} speed speed, the range is -255 ~ 255
-   * @example
-   *     ff 55 07 00 02 3d 00 01 64 00
-   */
-  this.setEncoderMotorOnBoard = function (slot, speed) {
-    speed = __WEBPACK_IMPORTED_MODULE_0__core_utils__["a" /* default */].limitValue(speed);
-    var a = [0xff, 0x55, 0x07, 0, 0x02, 0x3d, 0, slot, speed & 0xff, speed >> 8 & 0xff];
-    return transport.send(a);
-  };
-
-  /**
-   * Set both left speed and right speed with one command.
-   * @param {number} leftSpeed  left speed, the range is -255 ~ 255
-   * @param {number} rightSpeed right speed, the range is -255 ~ 255
-   * @example
-   *     ff 55 07 00 02 05 64 00 64 00
-   */
-  this.setJoystick = function (leftSpeed, rightSpeed) {
-    leftSpeed = __WEBPACK_IMPORTED_MODULE_0__core_utils__["a" /* default */].limitValue(leftSpeed);
-    rightSpeed = __WEBPACK_IMPORTED_MODULE_0__core_utils__["a" /* default */].limitValue(rightSpeed);
-    var a = [0xff, 0x55, 0x07, 0, 0x02, 0x05, leftSpeed & 0xff, leftSpeed >> 8 & 0xff, rightSpeed & 0xff, rightSpeed >> 8 & 0xff];
-    return transport.send(a);
-  };
-
-  /**
-   * Set speed for balance mode, the port is on transport, value is 0.
-   * @param {number} turnDegree turn extend, -255 ~ 255
-   * @param {number} speed      speed, -255 ~ 255
-   * @example
-   *     ff 55 08 00 02 34 00 64 00 64 00
-   */
-  this.setVirtualJoystickForBalance = function (turnExtent, speed) {
-    turnExtent = __WEBPACK_IMPORTED_MODULE_0__core_utils__["a" /* default */].limitValue(turnExtent);
-    speed = __WEBPACK_IMPORTED_MODULE_0__core_utils__["a" /* default */].limitValue(speed);
-    var a = [0xff, 0x55, 0x08, 0, 0x02, 0x34, 0, turnExtent & 0xff, turnExtent >> 8 & 0xff, speed & 0xff, speed >> 8 & 0xff];
-    return transport.send(a);
-  };
-
-  /**
-   * Set stepper motor speed.
-   * @param {Number} port     port number, vailable is: 1,2,3,4
-   * @param {Number} speed    speed, the range is 0 ~ 3000
-   * @param {Long} distance distance, the range is -2147483648 ~ 2147483647
-   * @example
-   *     ff 55 0a 00 02 28 01 b8 0b e8 03 00 00
-   */
-  this.setStepperMotor = function (port, speed, distance) {
-    speed = __WEBPACK_IMPORTED_MODULE_0__core_utils__["a" /* default */].limitValue(speed, [0, 3000]);
-    var distanceBytes = __WEBPACK_IMPORTED_MODULE_0__core_utils__["a" /* default */].longToBytes(distance);
-    var a = [0xff, 0x55, 0x0a, 0, 0x02, 0x28, port, speed & 0xff, speed >> 8 & 0xff, distanceBytes[3], distanceBytes[2], distanceBytes[1], distanceBytes[0]];
-    return transport.send(a);
-  };
-
-  /**
-   * Set RgbFourLed electronic module color.
-   * @param {number} port     port number, vailable is: 0(on transport), 6,7,8,9,10
-   * @param {number} slot     slot number, vailable is: 1,2
-   * @param {number} position led position, 0 signify all leds.
-   * @param {number} r        red, the range is 0 ~ 255
-   * @param {number} g        green, the range is 0 ~ 255
-   * @param {number} b        blue, the range is 0 ~ 255
-   * @example
-   *     ff 55 09 00 02 08 06 02 00 ff 00 00
-   */
-  this.setLed = function (port, slot, position, r, g, b) {
-    r = __WEBPACK_IMPORTED_MODULE_0__core_utils__["a" /* default */].limitValue(r, [0, 255]);
-    g = __WEBPACK_IMPORTED_MODULE_0__core_utils__["a" /* default */].limitValue(g, [0, 255]);
-    b = __WEBPACK_IMPORTED_MODULE_0__core_utils__["a" /* default */].limitValue(b, [0, 255]);
-    var a = [0xff, 0x55, 0x09, 0, 0x02, 0x08, port, slot, position, r, g, b];
-    return transport.send(a);
-  };
-
-  /**
-   * set four leds
-   * @param {number} port     port number, vailable is: 0(on transport), 6,7,8,9,10
-   * @param {number} position led position, 0 signify all leds.
-   * @param {number} r        red, the range is 0 ~ 255
-   * @param {number} g        green, the range is 0 ~ 255
-   * @param {number} b        blue, the range is 0 ~ 255
-   */
-  this.setFourLeds = function (port, position, r, g, b) {
-    return this.setLed(port, 2, position, r, g, b);
-  };
-
-  /**
-   * turn off four leds
-   * @param {number} port     port number, vailable is: 0(on transport), 6,7,8,9,10
-   * @param {number} position led position, 0 signify all leds.
-   */
-  this.turnOffFourLeds = function (port, position) {
-    return this.setLed(port, 2, position, 0, 0, 0);
-  };
-
-  /**
-   * set led panel on Api transport.
-   * @param {number} position led position, 0 signify all leds.
-   * @param {number} r        red, the range is 0 ~ 255
-   * @param {number} g        green, the range is 0 ~ 255
-   * @param {number} b        blue, the range is 0 ~ 255
-   */
-  this.setLedPanelOnBoard = function (position, r, g, b) {
-    return this.setLed(0, 2, position, r, g, b);
-  };
-
-  /**
-   * turn off led panel on transport
-   * @param {number} position led position, 0 signify all leds.
-   */
-  this.turnOffLedPanelOnBoard = function (position) {
-    return this.setLed(0, 2, position, 0, 0, 0);
-  };
-
-  /**
-   * Set transport mode.
-   * @param {number} mode transport mode,
-   *     0: bluetooth mode
-   *     1: ultrasonic mode
-   *     2: balance mode
-   *     3: infrared mode
-   *     4: linefollow mode
-   * @example
-   *     ff 55 05 00 02 3c 11 00
-   */
-  this.setFirmwareMode = function (mode) {
-    var a = [0xff, 0x55, 0x05, 0, 0x02, 0x3c, 0x11, // 0x11 means Api
-    mode];
-    return transport.send(a);
-  };
-
-  /**
-   * Set Servo speed.
-   * @param {[type]} port   port number, vailable is 6,7,8,9,10
-   * @param {[type]} slot   slot number, vailable is 1,2
-   * @param {[type]} degree servo degree, the range is 0 ~ 180
-   */
-  this.setServoMotor = function (port, slot, degree) {
-    degree = __WEBPACK_IMPORTED_MODULE_0__core_utils__["a" /* default */].limitValue(degree, [0, 180]);
-    var a = [0xff, 0x55, 0x06, 0, 0x02, 0x0b, port, slot, degree];
-    return transport.send(a);
-  };
-
-  /**
-   * Set Seven-segment digital tube number.
-   * @param {number} port   port number, vailable is 6,7,8,9,10
-   * @param {float} number  the number to be displayed, -999 ~ 9999
-   * @exmpa
-   *     ff 55 08 00 02 09 06 00 00 c8 42
-   */
-  this.setSevenSegment = function (port, number) {
-    number = __WEBPACK_IMPORTED_MODULE_0__core_utils__["a" /* default */].limitValue(number, [-999, 9999]);
-    var byte4Array = __WEBPACK_IMPORTED_MODULE_0__core_utils__["a" /* default */].float32ToBytes(number);
-    var a = [0xff, 0x55, 0x08, 0, 0x02, 0x09, port, byte4Array[0], byte4Array[1], byte4Array[2], byte4Array[3]];
-    return transport.send(a);
-  };
-
-  /**
-   * Set led matrix char.
-   * @param {number} port   port number, vailable is 6,7,8,9,10
-   * @param {number} xAxis  x position
-   * @param {number} yAxis  y position
-   * @param {string} char  char, 例如 Hi 转换成ASCII的值 48 69
-   * @exmaple
-   * ff 55 0a 00 02 29 06 01 00 01 02 48 69
-   */
-  this.setLedMatrixChar = function (port, xAxis, yAxis, char) {
-    var charAsciiArray = [];
-    for (var i = 0; i < char.length; i++) {
-      charAsciiArray.push(char[i].charCodeAt());
-    }
-    var a = [0xff, 0x55, 0x0a, 0, 0x02, 0x29, port, 0x01, xAxis, yAxis, char.length].concat(charAsciiArray);
-    return transport.send(a);
-  };
-
-  /**
-   * Set led matrix emotion.
-   * @param {number} port   port number, vailable is 6,7,8,9,10
-   * @param {number} xAxis      x position
-   * @param {number} yAxis      y position
-   * @param {Array} emotionData emotion data to be displayed, such as
-   *  [00, 00, 40, 48, 44, 42, 02, 02, 02, 02, 42, 44, 48, 40, 00, 00]
-   * @example
-   * ff 55 17 00 02 29 06 02 00 00 00 00 40 48 44 42 02 02 02 02 42 44 48 40 00 00
-   */
-  this.setLedMatrixEmotion = function (port, xAxis, yAxis, emotionData) {
-    var a = [0xff, 0x55, 0x17, 0, 0x02, 0x29, port, 0x02, xAxis, yAxis].concat(emotionData);
-    return transport.send(a);
-  };
-
-  /**
-   * Set led matrix time.
-   * @param {number} port   port number, vailable is 6,7,8,9,10
-   * @param {number} separator time separator, 01 signify `:`, 02 signify ` `
-   * @param {number} hour      hour number, 0 ~ 23
-   * @param {number} minute    minute number, 0 ~ 59
-   * @example
-   *     ff 55 08 00 02 29 06 03 01 0a 14
-   */
-  this.setLedMatrixTime = function (port, separator, hour, minute) {
-    hour = __WEBPACK_IMPORTED_MODULE_0__core_utils__["a" /* default */].limitValue(hour, [0, 23]);
-    minute = __WEBPACK_IMPORTED_MODULE_0__core_utils__["a" /* default */].limitValue(minute, [0, 59]);
-    var a = [0xff, 0x55, 0x08, 0, 0x02, 0x29, port, 0x03, separator, hour, minute];
-    return transport.send(a);
-  };
-
-  /**
-   * Set led matrix number.
-   * @param {number} port   port number, vailable is 6,7,8,9,10
-   * @param {float} number the number to be displayed
-   * @exmaple
-      ff 55 09 00 02 29 06 04 00 00 00 00
-   */
-  this.setLedMatrixNumber = function (port, number) {
-    var byte4Array = __WEBPACK_IMPORTED_MODULE_0__core_utils__["a" /* default */].float32ToBytes(number);
-    var a = [0xff, 0x55, 0x09, 0, 0x02, 0x29, port, 0x04, byte4Array[0], byte4Array[1], byte4Array[2], byte4Array[3]];
-    return transport.send(a);
-  };
-
-  /**
-   * Set shutter.
-   * @param {number} port   port number, vailable is 6,7,8,9,10
-   * @param {number} action 0: 按下快门; 1: 松开快门; 2: 聚焦; 3: 停止聚焦
-   * @exmaple
-      ff 55 05 00 02 14 06 02
-   */
-  this.setShutter = function (port, action) {
-    var a = [0xff, 0x55, 0x05, 0, 0x02, 0x14, port, action];
-    return transport.send(a);
-  };
-
-  /**
-   * reset all sensors and motors on transport.
-   * @exmaple
-      ff 55 02 00 04
-   */
-  this.reset = function () {
-    var a = [0xff, 0x55, 0x02, 0x00, 0x04];
-    return transport.send(a);
-  };
-
-  /**
-   * set buzzer.
-   * @param {string} tone , "A2" ~ "D8"
-   * @param {number} beat , 125: eight; 250: quater; 500: half; 1000: one; 2000: double
-   * @example
-   * C2，quater beat: ff 55 08 00 02 22 09 41 00 f4 01
-   */
-  this.setTone = function (tone, beat) {
-    var TONE_HZ = {
-      // 原始数据：D5: 587 "E5": 658,"F5": 698,"G5": 784,"A5": 880,"B5": 988,"C6": 1047
-      "A2": 110, "B2": 123, "C2": 65,
-      "C3": 131, "D3": 147, "E3": 165, "F3": 175, "G3": 196, "A3": 220,
-      "B3": 247, "C4": 262, "D4": 294, "E4": 330, "F4": 349, "G4": 392,
-      "A4": 440, "B4": 494, "C5": 523, "D5": 555, "E5": 640, "F5": 698,
-      "G5": 784, "A5": 880, "B5": 988, "C6": 1047, "D6": 1175, "E6": 1319,
-      "F6": 1397, "G6": 1568, "A6": 1760, "B6": 1976, "C7": 2093, "D7": 2349,
-      "E7": 2637, "F7": 2794, "G7": 3136, "A7": 3520, "B7": 3951, "C8": 4186, "D8": 4699
-    };
-
-    var a = [0xff, 0x55, 0x08, 0, 0x02, 0x22, 0x09, TONE_HZ[tone] & 0xff, TONE_HZ[tone] >> 8 & 0xff, beat & 0xff, beat >> 8 & 0xff];
-
-    return transport.send(a);
-  };
-
-  /**
-   * set encoder motor.
-   * @param  {Number} index [description]
-   * @param  {Number} port  vailable: 1,2,3,4
-   * @param  {Number} slot  vailable: 1，2
-   * @param  {Number} speed  0 ~ 300, 单位：rpm（每分钟转多少圈）
-   * @param  {Float} angle  相对位移, -2147483648 ~ 2147483647
-   * @example
-   * ff 55 0b 00 02 0c 08 01 96 00 00 00 34 44
-   */
-  this.setEncoderMotor = function (port, slot, speed, angle) {
-    speed = __WEBPACK_IMPORTED_MODULE_0__core_utils__["a" /* default */].limitValue(speed, [0, 300]);
-    var byte4Array = __WEBPACK_IMPORTED_MODULE_0__core_utils__["a" /* default */].float32ToBytes(angle);
-    var a = [0xff, 0x55, 0x0b, 0, 0x02, 0x0c, 0x08, slot, speed & 0xff, speed >> 8 & 0xff, byte4Array[0], byte4Array[1], byte4Array[2], byte4Array[3]];
-    return transport.send(a);
-  };
-
-  /**
-   * read verion of transport
-   * @param  {Number} index index of command
-   */
-  this.readVersion = function (index) {
-    var a = [0xff, 0x55, 0x03, index, 0x01, 0x00];
-    return transport.send(a);
-  };
-
-  /**
-   * mainly used for distance measurement, the measurement range is 0 to 500 cm,
-   * the execution of the command will have more than 100 milliseconds latency.
-   * So the frequency of the host to send this instruction shoulds not be too high.
-   * @param  {Number} index [description]
-   * @param  {Number} port  vailable: 6，7，8，9，10
-   * @return {Number}       [description]
-   * @example
-   * ff 55 04 00 01 01 03
-   */
-  this.readUltrasonic = function (index, port) {
-    var a = [0xff, 0x55, 0x04, index, 0x01, 0x01, port];
-    return transport.send(a);
-  };
-
-  /**
-   * read temperature, Each port can connect two road temperature sensor.
-   * @param  {Number} index [description]
-   * @param  {Number} port  vailable: 6，7，8，9，10
-   * @param  {Number} slot  vailable: slot1(1), slot2(2)
-   * @return {Number}       [description]
-   * @example
-   * ff 55 05 00 01 02 01 02
-   */
-  this.readTemperature = function (index, port, slot) {
-    var a = [0xff, 0x55, 0x05, index, 0x01, 0x02, port, slot];
-    return transport.send(a);
-  };
-
-  /**
-   * The light sensor module or ontransport (lamp) light sensors numerical reading.
-   * @param  {Number} index [description]
-   * @param  {Number} port  vailable: 6,7,8,9,10, onbord(0c),onbord(0b)
-   * @return {Number}       [description]
-   * @example
-   * ff 55 04 00 01 03 07
-   */
-  this.readLight = function (index, port) {
-    var a = [0xff, 0x55, 0x04, index, 0x01, 0x03, port];
-    return transport.send(a);
-  };
-
-  /**
-   * read Potentionmeter
-   * @param  {Number} index [description]
-   * @param  {Number} port  vailable: 6，7，8，9，10
-   * @return {Number}       [description]
-   * @example
-   * ff 55 04 00 01 04 06
-   */
-  this.readPotentionmeter = function (index, port) {
-    var a = [0xff, 0x55, 0x04, index, 0x01, 0x04, port];
-    return transport.send(a);
-  };
-
-  /**
-   * read josystic value
-   * @param  {Number} index [description]
-   * @param  {Number} port  vailable: 6，7，8，9，10
-   * @param  {Number} axis  1: x-axis; 2: y-axis;
-   * @example
-   * ff 55 05 00 01 05 06 01
-   */
-  this.readJoystick = function (index, port, axis) {
-    var a = [0xff, 0x55, 0x05, index, 0x01, 0x05, port, axis];
-    return transport.send(a);
-  };
-
-  /**
-   * read gyro value in different axis.
-   * @param  {Number} index [description]
-   * @param  {Number} port  vailable: 6，7，8，9，10
-   * @param  {Number} axis  vailable: X-axis(01)  Y-axis(02)  Z-axis(03)
-   * @return {Number}       [description]
-   * @example
-   * ff 55 05 00 01 06 00 01
-   */
-  this.readGyro = function (index, port, axis) {
-    var a = [0xff, 0x55, 0x05, index, 0x01, 0x06, port, axis];
-    var c = transport.send(a);
-    return c;
-  };
-
-  /**
-   * read volume testing MIC module parameters
-   * @param  {Number} index [description]
-   * @param  {Number} port  vailable: 6，7，8，9，10，ontransport(0x0e)
-   * @return {Number}       [description]
-   * @example
-   * ff 55 04 00 01 07 06
-   */
-  this.readSound = function (index, port) {
-    var a = [0xff, 0x55, 0x04, index, 0x01, 0x07, port];
-    return transport.send(a);
-  };
-
-  /**
-   * read temperature on transport
-   * @param  {Number} index [description]
-   * @example
-   * ff 55 04 00 01 1b 0d
-   */
-  this.readTemperatureOnBoard = function (index) {
-    var port = 0x0d;
-    var a = [0xff, 0x55, 0x04, index, 0x01, 0x1b, port];
-    return transport.send(a);
-  };
-
-  /**
-   * read pyroelectric infrared sensor
-   * @param  {Number} index [description]
-   * @param  {Number} port  vailable: 6,7,8,9,10
-   * @return {Number}       [description]
-   * @example
-   * ff 55 04 00 01 0f 06
-   */
-  this.readPirmotion = function (index, port) {
-    var a = [0xff, 0x55, 0x04, index, 0x01, 0x0f, port];
-    return transport.send(a);
-  };
-
-  /**
-   * read LineFollower sensor
-   * @param  {Number} index [description]
-   * @param  {Number} port  vailable: 6，7，8，9，10
-   * @return {Number} number,
-   *  00   0
-      01   1
-      10   2
-      11   3
-      when 0 said has a black line
-    * @example
-    * ff 55 04 00 01 11 02
-   */
-  this.readLineFollower = function (index, port) {
-    var a = [0xff, 0x55, 0x04, index, 0x01, 0x11, port];
-    return transport.send(a);
-  };
-
-  /**
-   * read limitSwitch
-   * @param  {Number} index [description]
-   * @param  {Number} port  vailable: 6,7,8,9,10
-   * @param  {Number} slot  vailable: SLOT1(01)   SLOT2(02)
-   * @return {Number}       [description]
-   * @example
-   * ff 55 05 00 01 15 06 02
-   */
-  this.readLimitSwitch = function (index, port, slot) {
-    var a = [0xff, 0x55, 0x05, index, 0x01, 0x15, port, slot];
-    var c = transport.send(a);
-    return c;
-  };
-
-  /**
-   * read compass.
-   * @param  {Number} index [description]
-   * @param  {Number} port  vailable: 6,7,8,9,10
-   * @return {Number}       [description]
-   * @example
-   * ff 55 04 00 01 1a 06
-   */
-  this.readCompass = function (index, port) {
-    var a = [0xff, 0x55, 0x04, index, 0x01, 0x1a, port];
-    return transport.send(a);
-  };
-
-  /**
-   * read humiture
-   * @param  {Number} index [description]
-   * @param  {Number} port  vailable: 6，7，8，9，10
-   * @param  {Number} temperature(01) humidity (00)
-   * @return {Number}       [description]
-   * @example
-   * ff 55 05 00 01 17 06 00
-   */
-  this.readHumiture = function (index, port, type) {
-    var a = [0xff, 0x55, 0x05, index, 0x01, 0x17, port, type];
-    return transport.send(a);
-  };
-
-  /**
-   * read flame
-   * @param  {Number} index [description]
-   * @param  {Number} port  vailable: 6,7,8,9,10
-   * @return {Number}       [description]
-   * @example
-   * ff 55 04 00 01 18 03
-   */
-  this.readFlame = function (index, port) {
-    var a = [0xff, 0x55, 0x04, index, 0x01, 0x18, port];
-    return transport.send(a);
-  };
-
-  /**
-   * Used to get the harmful gas density
-   * @param  {Number} index [description]
-   * @param  {Number} port  vailable: 6,7,8,9,10
-   * @return {Number}       [description]
-   * @example
-   * ff 55 04 00 01 19 06
-   */
-  this.readGas = function (index, port) {
-    var a = [0xff, 0x55, 0x04, index, 0x01, 0x19, port];
-    return transport.send(a);
-  };
-
-  /**
-   * read touch sensor
-   * @param  {Number} index [description]
-   * @param  {Number} port  vailable: 6,7,8,9,10
-   * @return {Number}       [description]
-   * @example
-   * ff 55 04 00 01 33 06
-   */
-  this.readTouch = function (index, port) {
-    var a = [0xff, 0x55, 0x04, index, 0x01, 0x33, port];
-    return transport.send(a);
-  };
-
-  /**
-   * To determine whether the corresponding button is pressed.
-   * @param  {Number} index [description]
-   * @param  {Number} port  vailable: 6,7,8,9,10
-   * @param  {Number} key   vailable:1,2,3,4
-   * @return {Number}       [description]
-   * @example
-   * ff 55 05 00 01 16 03 01
-   */
-  this.readFourKeys = function (index, port, key) {
-    var a = [0xff, 0x55, 0x05, index, 0x01, 0x16, port, key];
-    return transport.send(a);
-  };
-
-  /**
-   * read encoder motor position or speed on transport.
-   * @param  {Number} index [description]
-   * @param  {Number} slot vailable:1,2
-   * @param  {Number} type  1: position; 2: speed
-   * @example
-   * ff 55 06 00 01 3d 00 01 02
-   */
-  this.readEncoderMotorOnBoard = function (index, slot, type) {
-    var a = [0xff, 0x55, 0x06, index, 0x01, 0x3d, 0x00, slot, type];
-    return transport.send(a);
-  };
-
-  /**
-   * read firmware mode or voltage.
-   * @param  {Number} index [description]
-   * @param  {Number} type  0x70: 电压; 0x71: 模式
-   * @example
-   * ff 55 04 00 01 3c 70
-   */
-  this.readFirmwareMode = function (index, type) {
-    var a = [0xff, 0x55, 0x04, index, 0x01, 0x3c, type];
-    return transport.send(a);
-  };
-
-  /**
-   * @param  {Number} index [description]
-   * @param  {Number} port  vailable: digit GPOI port
-   * @return {Number}       [description]
-   * @example
-   * ff 55 04 00 01 1e 09
-   */
-  // this.readDigGPIO = function(index, port) {
-  //   var a = [
-  //     0xff,0x55,
-  //     0x04, index,
-  //     0x01,
-  //     0x1e,
-  //     port,
-  //   ];
-  //   return transport.send(a);
-  // };
-
-  /**
-   * @param  {Number} index [description]
-   * @param  {Number} port  vailable: analog GPIO port
-   * @return {Number}       [description]
-   * @example
-   * ff 55 04 00 01 1f 02
-   */
-  // this.readAnalogGPIO = function(index, port) {
-  //   var a = [
-  //     0xff,0x55,
-  //     0x04, index,
-  //     0x01,
-  //     0x1f,
-  //     port,
-  //   ];
-  //   return transport.send(a);
-  // };
-
-  /**
-   * @param  {Number} index [description]
-   * @param  {Number} port  vailable: GPIO port
-   * @param  {Number} key   vailable: 0,1
-   * @return {Number}       [description]
-   * @example
-   * ff 55 05 00 01 25 0d 20 4e
-   */
-  // this.readGPIOContinue = function(index, port, key) {
-  //   var a = [
-  //     0xff,0x55,
-  //     0x05, index,
-  //     0x01,
-  //     0x25,
-  //     port,
-  //     key,
-  //   ];
-  //   return transport.send(a);
-  // };
-
-  /**
-   * @param  {Number} index [description]
-   * @param  {Number} port  vailable: GPIO port
-   * @param  {Number} key   vailable: 0,1
-   * @return {Number}       [description]
-   * @example
-   * ff 55 05 00 01 24 45 40
-   */
-  // this.readDoubleGPIO = function(index, port1, port2) {
-  //   var a = [
-  //     0xff,0x55,
-  //     0x05, index,
-  //     0x01,
-  //     0x24,
-  //     port1,
-  //     port2,
-  //   ];
-  //   return transport.send(a);
-  // };
-
-  /**
-   * @param  {Number} index [description]
-   * @param  {Number} port  vailable: analog GPIO port
-   * @param  {Number} key   vailable: 0,1
-   * @return {Number}       [description]
-   * @example
-   * ff 55 03 00 01 32
-   */
-  // this.readRuntime = function(index) {
-  //   var a = [
-  //     0xff,0x55,
-  //     0x03, index,
-  //     0x01,
-  //     0x32,
-  //   ];
-  //   return transport.send(a);
-  // };
-
-  // this.readOntransportButton = function(index) {
-  //   var a = [
-  //     0xff,0x55,
-  //     0x03, index,
-  //     0x01,
-  //     0x32,
-  //   ];
-  //   return transport.send(a);
-  // };
-}
-
-/* harmony default export */ __webpack_exports__["a"] = (Api);
-
-/***/ }),
 /* 13 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mcore__ = __webpack_require__(3);
-
-
-var Sensorium = {
-    "Mcore": __WEBPACK_IMPORTED_MODULE_0__mcore__["a" /* default */]
-};
-
-window.Sensorium = Sensorium;
-
-/***/ }),
-/* 14 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var Settings = {
-    // 数据发送与接收相关
-    // 回复数据的index位置
-    READ_BYTES_INDEX: 2,
-    // 数据发送默认的驱动driver: makeblockhd, cordova
-    DEFAULT_CONF: {}
-};
-
-/* harmony default export */ __webpack_exports__["a"] = (Settings);
-
-/***/ }),
-/* 15 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__communicate_command__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__communicate_command__ = __webpack_require__(2);
 
 
 class Ultrasonic {
@@ -3238,5 +3211,36 @@ class Ultrasonic {
 
 /* harmony default export */ __webpack_exports__["a"] = (Ultrasonic);
 
+/***/ }),
+/* 14 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mcore__ = __webpack_require__(5);
+
+
+var Sensorium = {
+    "Mcore": __WEBPACK_IMPORTED_MODULE_0__mcore__["a" /* default */]
+};
+
+window.Sensorium = Sensorium;
+
+/***/ }),
+/* 15 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var Settings = {
+    // 数据发送与接收相关
+    // 回复数据的index位置
+    READ_BYTES_INDEX: 2,
+    // 数据发送默认的驱动driver: makeblockhd, cordova
+    DEFAULT_CONF: {}
+};
+
+/* harmony default export */ __webpack_exports__["a"] = (Settings);
+
 /***/ })
 /******/ ]);
+//# sourceMappingURL=sensorium.js.map

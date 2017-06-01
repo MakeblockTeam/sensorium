@@ -50,6 +50,11 @@ class Command {
   _doGetSensorValue(params) {
     var that = this;
     this._readBlockStatus(params);
+
+    // 模拟传感器回传数据
+    // setTimeout(function() {
+    //   that.sensorCallback(params.index, 111);
+    // }, 1000)
   };
 
   /**
