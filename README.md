@@ -127,4 +127,4 @@ Email: <your npm email>
 Logged in as <your username> on https://registry.npmjs.org/.
 ```
 
-之后发布只需修改package.json的version，并执行npm publish即可。
+之后发布只需修改 `package.json` 的 `version`，并执行 `npm publish` 即可。
