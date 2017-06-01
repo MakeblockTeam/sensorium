@@ -114,3 +114,17 @@ mcore.getSensorValue('ultrasonic', {"port": 3}, function(val) {
 - lineFollower
 
 ```
+# package publish
+
+首次发布需要注册[npm](https://www.npmjs.com/)的账号，并在bash中添加用户信息
+
+```
+npm adduser
+Username: <your npm username>
+Password: <your npm password>
+Email: <your npm email>
+
+Logged in as <your username> on https://registry.npmjs.org/.
+```
+
+之后发布只需修改package.json的version，并执行npm publish即可。
