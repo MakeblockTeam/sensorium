@@ -1,7 +1,7 @@
 {
-  "name": "sensorium",
-  "version": "1.1.5",
-  "description": "makeblock mainboards protocol api",
+  "name": "msensorium",
+  "version": "0.1.0",
+  "description": "mainboards protocol api",
   "main": "src/protocol/index.js",
   "directories": {
     "doc": "docs",
@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://git.oschina.net/callblueday/msnail.git"
+    "url": ""
   },
   "author": "",
   "license": "ISC",
@@ -28,6 +28,7 @@
     "xml2js": "^0.4.17"
   },
   "dependencies": {
+    "mneurons": "^0.0.1",
     "underscore": "^1.8.3"
   }
 }

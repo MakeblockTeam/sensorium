@@ -13,7 +13,7 @@ npm install
 Generate `sensorium.js` width npm. The target file is `/browser`.
 
 ```
-gulp browserify
+webpack
 ```
 
 # Usage
@@ -34,6 +34,72 @@ inclue the file `/browser/sensorium.js` in your project.
 </script>
 
 ```
+## node
+
+```js
+var Sensorium = require("sensorium");
+
+var transport = {
+  send: function(buf) {
+    console.log(buf);
+
+    serialPort.write(buf, function(err, results) {
+      if (err) {
+        console.warn(err);
+        return -1;
+      }
+    });
+  },
+
+  onReceived: function(parse) {
+    serialPort.on('data', function(buff) {
+      parse.doParse(buff);
+    });
+  }
+};
+
+var auriga = new Sensorium.Auriga({
+  "transport": transport
+});
+
+var mcore = new Sensorium.Mcore({
+  "transport": transport
+});
+
+// 亮灯
+var ledPanel = auriga.ledPanel();
+ledPanel.turnOn(100,0,0);
+setTimeout(function() {
+  ledPanel.turnOff();
+}, 3000);
+
+// 获取超声波的值
+var ultrasonic = auriga.ultrasonic(7);
+setInterval(function() {
+  ultrasonic.onData(function(val) {
+    console.log(val);
+  });
+}, 500);
+
+
+// 神经元
+var engine = new Sensorium.Neuron({
+  "driver": {
+    send: function(buf) {
+      // 最后的数据走这里
+      serialPort.write(tempBuf);
+    },
+
+    onReceived: function(parse, driver) {
+      serialPort.on('data', function(data) {
+        parse.checksumRcvbuf(data, driver);
+      });
+    }
+  }
+})
+
+```
+
 
 ## cli test tool
 Use [blessed](https://github.com/chjj/blessed) for comandline tool.
@@ -88,30 +154,8 @@ npm run doc
 open `docs/api/index.html` in browser.
 
 # Api list
-## Mcore
+http://km.makeblock.com/pages/viewpage.action?pageId=6685828
 
-Write:
-
-```
-mcore.setDcMotor(9, 200);
-
-mcore.setLed(0, 255, 0, 0);
-mcore.turnOffLed(0);
-
-mcore.setTone("C4", 250);
-
-```
-
-Read:
-
-
-```
-mcore.getSensorValue('ultrasonic', {"port": 3}, function(val) {
-  console.log(val);
-});
-
-- ultrasonic
-- lineFollower
 
 ```
 # package publish
