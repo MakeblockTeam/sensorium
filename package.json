@@ -1,5 +1,5 @@
 {
-  "name": "msensorium",
+  "name": "sensorium",
   "version": "0.1.0",
   "description": "mainboards protocol api",
   "main": "src/protocol/index.js",
