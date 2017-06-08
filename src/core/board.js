@@ -53,7 +53,9 @@ class Board {
    * parse 是解析器
    */
   onReceived() {
-    this.transport.onReceived(parse);
+    if(this.transport) {
+      this.transport.onReceived(parse);
+    }
   }
 }
 

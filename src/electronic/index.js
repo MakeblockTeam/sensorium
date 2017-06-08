@@ -4,18 +4,24 @@ var Ultrasonic = require('./ultrasonic');
 var LedPanel = require('./led_panel');
 var Buzzer = require('./Buzzer');
 
-
-function dcMotor() {
-  return new DcMotor(...arguments);
-}
-
-function rgbLed() {
-  return new RgbLed(...arguments);
+// rgb led 
+function rgbLed(port, slot) {
+  return new RgbLed(port, slot);
 }
 
 function rgbLedOnBoard() {
   return new RgbLed(0, 2);
 }
+
+function fourLed(port) {
+  return new RgbLed(port, 2);
+}
+
+// motor
+function dcMotor(port) {
+  return new DcMotor(port);
+}
+
 
 function ledPanel() {
   return new LedPanel(...arguments);
@@ -33,6 +39,7 @@ module.exports = {
   dcMotor,
   rgbLed,
   rgbLedOnBoard,
+  fourLed,
   ultrasonic,
   ledPanel,
   buzzer

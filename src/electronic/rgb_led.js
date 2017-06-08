@@ -119,7 +119,7 @@ class RgbLed extends Electronic {
     if(arguments.length !== 0) {
       [r, g, b] = arguments;
     }
-    this.api.setLed(this.port, this.ledPosition, r, g, b);
+    this.api.setLed(this.port, this.slot, this.ledPosition, r, g, b);
   }
 }
 

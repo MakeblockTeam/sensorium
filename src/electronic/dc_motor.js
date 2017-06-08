@@ -1,38 +1,15 @@
-const { defineNumber, defineString } = require('../core/type');
-const Electronic = require('./electronic');
+const Motor = require('./motor');
 
-class DcMotor extends Electronic {
+class DcMotor extends Motor {
 
   /**
-   * DcMotor类，直流电机模块
+   * DC Motor
    * @constructor
-   * @param {number} port - 电子模块port口
-   * @param {number} slot - 电子模块slot口
+   * @param {number} port
+   * @param {number} slot
    */
-  constructor(port, slot) {
-    super(port, slot);
-    this.on = false;
-    this.speed = 0;
-    this.direction = 1;
-  }
-
-  /**
-   * 直流电机启动
-   * @param {number} speed - 启动速度
-   */
-  start(speed) {
-    this.speed = defineNumber(speed);
-    this._run();
-    return this;
-  }
-
-  /**
-   * 直流电机停止
-   */
-  stop() {
-    this.speed = 0;
-    this._run();
-    return this;
+  constructor(port) {
+    super(port);
   }
 
   _run() {
