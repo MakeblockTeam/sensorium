@@ -1,39 +1,125 @@
-var Transport = require('../communicate/transport');
-var Api = require("../protocol/api");
+const { defineNumber } = require('../core/type');
+const Electronic = require('./electronic');
 
-class RgbLed {
+class RgbLed extends Electronic {
+
+  /**
+   * RgbLed类，led模块
+   * @param {number} port - led port口
+   * @param {number} position - led灯的位置
+   */
   constructor(port, slot) {
-    this.port = port;
-    this.slot = slot;
+    super(port, slot);
     this.on = false;
-    this.position = 0;
-    this.r = 0;
-    this.g = 0;
-    this.b = 0;
-    this.api = new Api(Transport.get());
+    this.ledPosition = 0;
+    this.ledR = 0;
+    this.ledG = 0;
+    this.ledB = 0;
   }
 
-  turnOn(r,g,b) {
-    this.r = r || this.r;
-    this.g = g || this.g;
-    this.b = b || this.b;
-    this.api.setLed(this.port, this.slot, this.position, this.r, this.g, this.b);
+  /**
+   * set led position
+   * @param {number} position 
+   */
+  position(position) {
+    this.ledPosition = defineNumber(position, this.ledPosition);
+    return this;
   }
 
-  turnOff() {
-    this.api.setLed(this.port, this.slot, this.position, 0, 0, 0);
+  /**
+   * set led red value
+   * @param {number} value 0 ~ 255 
+   */
+  r(value) {
+    this.ledR = defineNumber(value, this.ledR);
+    return this;
   }
 
-  blue() {
-    this.api.setLed(this.port, this.slot, this.position, 0, 255, 0);
+  /**
+   * set led green value
+   * @param {number} value 0 ~ 255 
+   */
+  g(value) {
+    this.ledG = defineNumber(value, this.ledG);
+    return this;
   }
 
+  /**
+   * set blue red value
+   * @param {number} value 0 ~ 255 
+   */
+  b(value) {
+    this.ledB = defineNumber(value, this.ledB);
+    return this;
+  }
+
+  /**
+   * turn on led
+   * @param {number} position
+   * @param {number} r - red
+   * @param {number} g - green
+   * @param {number} b - blue
+   */
+  turnOn(position, r, g, b) {
+    this.position(position);
+    this.r(r);
+    this.g(g);
+    this.b(b);
+    this._run();
+    return this;
+  }
+
+  /**
+   * turn off led
+   * @param {number} position
+   */
+  turnOff(position) {
+    this.position(position);
+    this._run(0, 0, 0);
+    return this;
+  }
+
+  /**
+   * LED亮红色灯光
+   */
   red() {
-
+    this.ledR = 255;
+    this.ledG = 0;
+    this.ledB = 0;
+    this._run();
+    return this;
   }
 
+  /**
+   * LED亮绿色灯光
+   */
   green() {
+    this.ledR = 0;
+    this.ledG = 255;
+    this.ledB = 0;
+    this._run();
+    return this;
+  }
 
+  /**
+   * LED亮蓝色灯光
+   */
+  blue() {
+    this.ledR = 0;
+    this.ledG = 0;
+    this.ledB = 255;
+    this._run();
+    return this;
+  }
+
+  _run() {
+    let r = this.ledR,
+      g = this.ledG,
+      b = this.ledB;
+    if(arguments.length !== 0) {
+      [r, g, b] = arguments;
+    }
+    this.api.setLed(this.port, this.ledPosition, r, g, b);
   }
 }
 

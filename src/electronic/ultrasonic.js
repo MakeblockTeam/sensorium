@@ -1,8 +1,9 @@
-var command = require("../communicate/command");
+const command = require("../communicate/command");
+const Electronic = require('./electronic');
 
-class Ultrasonic {
+class Ultrasonic extends Electronic {
   constructor(port) {
-    this.port = port;
+    super(port);
     this.value = 0;
   }
 

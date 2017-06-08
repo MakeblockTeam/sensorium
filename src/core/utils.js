@@ -258,6 +258,10 @@ var Utils = {
       str += String.fromCharCode(bytes[i]);
     }
     return str;
+  },
+
+  getSecurityValue(val1, val2, type) {
+    return typeof val1 === type ? val1 : val2;
   }
 }
 
