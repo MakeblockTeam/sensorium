@@ -31,21 +31,30 @@
         }
       };
 
-      var mcore = new Sensorium.Mcore({
-        "transport": transport
-      });
+      // //创建一个板子
+      var mcore = Sensorium('Mcore');
 
-      var auriga = new Sensorium.Auriga({
-        "transport": transport
+      //装上收发功能
+      mcore({
+        send: transport.send,
+        onReceived: transport.onReceived
       });
+      
+      // var mcore = new Sensorium.Mcore({
+      //   "transport": transport
+      // });
 
-      var megaPi = new Sensorium.MegaPi({
-        "transport": transport
-      });
+      // var auriga = new Sensorium.Auriga({
+      //   "transport": transport
+      // });
 
-      var orion = new Sensorium.Orion({
-        "transport": transport
-      });
+      // var megaPi = new Sensorium.MegaPi({
+      //   "transport": transport
+      // });
+
+      // var orion = new Sensorium.Orion({
+      //   "transport": transport
+      // });
 
       // mcore.dcMotor(1,1).start(100);
 

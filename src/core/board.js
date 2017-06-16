@@ -6,13 +6,19 @@
 var Transport =  require('../communicate/transport');
 var parse =  require('./parse');
 var Settings =  require('../protocol/settings');
-var _ = require('underscore');
 
+// 超类： 具备发送、接收方法
 class Board {
 
+  constructor(conf){
+    this._config = null;
+    this.transport = null;
+    this.init(conf);
+  }
+
   init(conf) {
-    this._config = _.extend(Settings.DEFAULT_CONF, conf || {});
-    this.setTransport(this._config.transport);
+    this._config = Object.assign(Settings.DEFAULT_CONF, conf || {});
+    this.setTransport(this._config.transport || {});
 
     // 启动数据监听
     this.onReceived();
@@ -53,12 +59,10 @@ class Board {
    * parse 是解析器
    */
   onReceived() {
-    if(this.transport) {
+    if(this.transport.onReceived) {
       this.transport.onReceived(parse);
     }
   }
 }
 
-let board = new Board();
-
-module.exports = board;
+module.exports = Board;

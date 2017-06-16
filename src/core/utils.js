@@ -262,7 +262,18 @@ var Utils = {
 
   getSecurityValue(val1, val2, type) {
     return typeof val1 === type ? val1 : val2;
+  },
+
+  /**
+   * 函数式编程
+   * @param  {Function} func 方法
+   * @param  {Arguments} args 方法的参数
+   * @return {*}      返回结果由方法决定
+   */
+  composer(func, args){
+    return func(...args);
   }
+
 }
 
 module.exports = Utils;

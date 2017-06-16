@@ -1,16 +1,25 @@
-var board = require('../core/board');
-var electronics = require('../electronic/index');
+const Board = require('../core/Board');
+const electronics = require('../electronic/index');
 
-function Mcore(conf) {
-  board.init(conf);
+//实现一个板子就注册一个板子名称
+class Mcore extends Board{
+  constructor(conf){
+    //继承 Board
+    super(conf);
 
-  // 挂载各电子模块
-  for (let i in electronics) {
-    this[i] = electronics[i];
+    // 挂载各电子模块
+    for (let apiName in electronics) {
+      let func = electronics[apiName];
+      if(func.support().charAt(0) === '1'){
+        this[apiName] = function() {
+          return new func(...arguments);
+        }
+      }
+      
+    }
+
   }
 }
 
 // clone method and attributes from board to Mcore.
-Mcore.prototype = board;
-
 module.exports = Mcore;

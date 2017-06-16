@@ -6,6 +6,7 @@ var Settings = {
     DEFAULT_CONF : {
 
     },
+    SUPPORTLIST: ['Mcore', 'Auriga', 'MegaPi', 'Orion', 'Neuron']
 };
 
 module.exports = Settings;
