@@ -23,7 +23,8 @@ function bufAssembler(obj, ...args){
     throw new Error(`id should not be empty`);
   }
   const bufAttr = new Array(obj.index || 0, obj.mode, obj.id);
-  bufLength = bufAttr.length + args.length;
+  //to fix:
+  bufLength = (bufAttr.length + args.length).toString(16);
   return bufHead.concat([bufLength], bufAttr, args);
 }
 
@@ -241,18 +242,12 @@ function protocolAssembler() {
     for(var i = 0; i < char.length; i++) {
       charAsciiArray.push(char[i].charCodeAt());
     }
-    var a = [
-      0xff,0x55,
-      0x0a,0,
-      0x02,
-      0x29,
-      port,
-      0x01,
+
+    return bufAssembler({mode: 0x02, id: 0x29}, port, 0x01, 
       xAxis,
       yAxis,
       char.length,
-    ].concat(charAsciiArray);
-    return transport.send(a);
+      ...charAsciiArray);
   };
 
 
@@ -267,17 +262,21 @@ function protocolAssembler() {
    * ff 55 17 00 02 29 06 02 00 00 00 00 40 48 44 42 02 02 02 02 42 44 48 40 00 00
    */
   this.setLedMatrixEmotion = function(port, xAxis, yAxis, emotionData) {
-    var a = [
-      0xff,0x55,
-      0x17,0,
-      0x02,
-      0x29,
-      port,
-      0x02,
+    // var a = [
+    //   0xff,0x55,
+    //   0x17,0,
+    //   0x02,
+    //   0x29,
+    //   port,
+    //   0x02,
+    //   xAxis,
+    //   yAxis
+    // ].concat(emotionData);
+
+    return bufAssembler({mode: 0x02, id: 0x29}, port, 0x02, 
       xAxis,
-      yAxis
-    ].concat(emotionData);
-    return transport.send(a);
+      yAxis,
+      ...emotionData);
   };
 
   /**
@@ -292,18 +291,7 @@ function protocolAssembler() {
   this.setLedMatrixTime = function(port, separator, hour, minute) {
     hour = utils.limitValue(hour, [0, 23]);
     minute = utils.limitValue(minute, [0, 59]);
-    var a = [
-      0xff,0x55,
-      0x08,0,
-      0x02,
-      0x29,
-      port,
-      0x03,
-      separator,
-      hour,
-      minute
-    ];
-    return transport.send(a);
+    return bufAssembler({mode: 0x02, id: 0x29}, port, 0x03, separator, hour, minute);
   };
 
   /**
@@ -315,19 +303,11 @@ function protocolAssembler() {
    */
   this.setLedMatrixNumber = function(port, number) {
     var byte4Array = utils.float32ToBytes(number);
-    var a = [
-      0xff,0x55,
-      0x09, 0,
-      0x02,
-      0x29,
-      port,
-      0x04,
+    return bufAssembler({mode: 0x02, id: 0x29}, port, 0x04,
       byte4Array[0],
       byte4Array[1],
       byte4Array[2],
-      byte4Array[3]
-    ];
-    return transport.send(a);
+      byte4Array[3]);
   };
 
   /**
