@@ -11,8 +11,7 @@ class RgbLedBase extends Electronic {
    */
   constructor(port, slot) {
     super();
-    this.port = port;
-    this.slot = slot;
+    this.serialPort = [defineNumber(port), defineNumber(slot)];
     this.ledPosition = 0;
     this.rgb = [0, 0, 0];
   }
@@ -117,7 +116,7 @@ class RgbLedBase extends Electronic {
 
   _run() {
     // 拿到参数
-    let args = [this.port, this.slot, this.ledPosition, ...(this.rgb)];
+    let args = [...(this.serialPort), this.ledPosition, ...(this.rgb)];
     // 拿到协议组装器，组装协议
     let buf = composer(setLed, args);
     // 用板子发送协议

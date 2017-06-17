@@ -12,7 +12,7 @@ class RgbLed extends RgbLedBase {
    * @return {instance}      实例本身
    */
   port(port){
-    this.port = defineNumber(port, this.port);
+    this.serialPort[0] = defineNumber(port, this.serialPort[0]);
     return this;
   }
 
@@ -22,7 +22,7 @@ class RgbLed extends RgbLedBase {
    * @return {instance}      实例本身
    */
   slot(slot){
-    this.slot = defineNumber(slot, this.slot);
+    this.serialPort[1] = defineNumber(slot, this.serialPort[1]);
     return this;
   }
 

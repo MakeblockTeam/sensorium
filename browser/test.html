@@ -33,13 +33,16 @@
 
       // //创建一个板子
       var mcore = Sensorium('Mcore');
-
+      // debugger;
       //装上收发功能
-      mcore({
+      mcore.setTransport({
         send: transport.send,
         onReceived: transport.onReceived
       });
-      
+      //连接模块
+      mcore.connect('RgbLed', 1, 1);
+
+
       // var mcore = new Sensorium.Mcore({
       //   "transport": transport
       // });

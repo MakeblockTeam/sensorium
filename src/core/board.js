@@ -12,6 +12,10 @@ class Board {
 
   constructor(conf){
     this._config = null;
+    //板子支持的电子元件
+    this.electronics = {};
+    //连接
+    this.connecting = {};
     this.transport = null;
     this.init(conf);
   }
@@ -23,6 +27,29 @@ class Board {
     // 启动数据监听
     this.onReceived();
   };
+
+  /**
+   * [connect description]
+   * @param  {String}    name 电子模块名
+   * @param  {...Array} args port, slot, id...
+   * @return {Object}         电子模块实例
+   */
+  connect(name, ...args){
+    if(typeof name == 'undefined'){
+      throw new Error('electronic name should not be empty');
+    }
+    let id = [name].concat(args).join('_').toLowerCase();
+    if(this.connecting[id]){
+      return this.connecting[id];
+    }else{
+      // 电子模块类
+      let eModule = this.electronics[name];
+      let emodule = new eModule(...args);
+      // 保存模块
+      this.connecting[id] = emodule;
+      return emodule;
+    }
+  }
 
   /**
    * 存储通信的通道

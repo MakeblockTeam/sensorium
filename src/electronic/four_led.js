@@ -12,7 +12,7 @@ class FourLed extends RgbLedBase {
    * @return {instance}      实例本身
    */
   port(port){
-    this.port = defineNumber(port, this.port);
+    this.serialPort[0] = defineNumber(port, this.serialPort[0]);
     return this;
   }
 

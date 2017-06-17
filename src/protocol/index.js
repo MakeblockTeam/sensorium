@@ -18,10 +18,7 @@ function Sensorium(board){
   if(typeof board_ == 'undefined'){
     throw new Error('sorry, the board could not be supported!');
   }
-  //对应的板子自带了电子模块 api
-  return function (transportInterface){
-    return new board_(transportInterface);
-  }
+  return new board_();
 }
 
 
@@ -31,25 +28,21 @@ if(typeof window != "undefined") {
 // cmd
 module.exports = Sensorium;
 
-// {//board
-//   send = transportInterface.send;
-//   receive = transportInterface.receive;
-//   // 板子调用电子模块 api
-//   // api 将启用 send、receive 方法收发数据
-// }
 
-// //创建一个板子
+// 1、创建一个板子
 // var mcore = Sensorium('Mcore');
 
-// //创建这个板子时就已经装好了该板子的电子模块接口
+// 创建这个板子并不意味着已经建立了通信
+// 也不意味着已经电子模块会自动接入
 
-// //装上收发功能
-// mcore({
+// 2、建立收发功能
+// mcore.setTransport({
 //   send: send,
 //   receive: receive
 // });
 
-// mcore.rgbLed(1,1)
+// 3、连接电子模块并运行
+// mcore.join('RgbLed', 1,1)
 //     .r(100)
 //     .g(0)
 //     .b(0)

@@ -7,17 +7,13 @@ class Mcore extends Board{
     //继承 Board
     super(conf);
 
-    // 挂载各电子模块
-    for (let apiName in electronics) {
-      let func = electronics[apiName];
+    // 挂载电子模块
+    for (let name in electronics) {
+      let func = electronics[name];
       if(func.support().charAt(0) === '1'){
-        this[apiName] = function() {
-          return new func(...arguments);
-        }
+        this.electronics[name] = func;
       }
-      
     }
-
   }
 }
 

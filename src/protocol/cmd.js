@@ -221,18 +221,10 @@ function protocolAssembler() {
   this.setSevenSegment = function(port, number) {
     number = utils.limitValue(number, [-999, 9999]);
     var byte4Array = utils.float32ToBytes(number);
-    var a = [
-      0xff,0x55,
-      0x08, 0,
-      0x02,
-      0x09,
-      port,
-      byte4Array[0],
+    return bufAssembler({mode: 0x02, id: 0x09}, port, byte4Array[0],
       byte4Array[1],
       byte4Array[2],
-      byte4Array[3]
-    ];
-    return transport.send(a);
+      byte4Array[3]);
   };
 
   /**

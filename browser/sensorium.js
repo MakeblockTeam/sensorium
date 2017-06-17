@@ -64,10 +64,7 @@
 	  if(typeof board_ == 'undefined'){
 	    throw new Error('sorry, the board could not be supported!');
 	  }
-	  //对应的板子自带了电子模块 api
-	  return function (transportInterface){
-	    return new board_(transportInterface);
-	  }
+	  return new board_();
 	}
 
 
@@ -77,25 +74,21 @@
 	// cmd
 	module.exports = Sensorium;
 
-	// {//board
-	//   send = transportInterface.send;
-	//   receive = transportInterface.receive;
-	//   // 板子调用电子模块 api
-	//   // api 将启用 send、receive 方法收发数据
-	// }
 
-	// //创建一个板子
+	// 1、创建一个板子
 	// var mcore = Sensorium('Mcore');
 
-	// //创建这个板子时就已经装好了该板子的电子模块接口
+	// 创建这个板子并不意味着已经建立了通信
+	// 也不意味着已经电子模块会自动接入
 
-	// //装上收发功能
-	// mcore({
+	// 2、建立收发功能
+	// mcore.setTransport({
 	//   send: send,
 	//   receive: receive
 	// });
 
-	// mcore.rgbLed(1,1)
+	// 3、连接电子模块并运行
+	// mcore.join('RgbLed', 1,1)
 	//     .r(100)
 	//     .g(0)
 	//     .b(0)
@@ -119,17 +112,13 @@
 	    //继承 Board
 	    super(conf);
 
-	    // 挂载各电子模块
-	    for (let apiName in electronics) {
-	      let func = electronics[apiName];
+	    // 挂载电子模块
+	    for (let name in electronics) {
+	      let func = electronics[name];
 	      if(func.support().charAt(0) === '1'){
-	        this[apiName] = function() {
-	          return new func(...arguments);
-	        }
+	        this.electronics[name] = func;
 	      }
-	      
 	    }
-
 	  }
 	}
 
@@ -154,6 +143,10 @@
 
 	  constructor(conf){
 	    this._config = null;
+	    //板子支持的电子元件
+	    this.electronics = {};
+	    //连接
+	    this.connecting = {};
 	    this.transport = null;
 	    this.init(conf);
 	  }
@@ -165,6 +158,29 @@
 	    // 启动数据监听
 	    this.onReceived();
 	  };
+
+	  /**
+	   * [connect description]
+	   * @param  {String}    name 电子模块名
+	   * @param  {...Array} args port, slot, id...
+	   * @return {Object}         电子模块实例
+	   */
+	  connect(name, ...args){
+	    if(typeof name == 'undefined'){
+	      throw new Error('electronic name should not be empty');
+	    }
+	    let id = [name].concat(args).join('_').toLowerCase();
+	    if(this.connecting[id]){
+	      return this.connecting[id];
+	    }else{
+	      // 电子模块类
+	      let eModule = this.electronics[name];
+	      let emodule = new eModule(...args);
+	      // 保存模块
+	      this.connecting[id] = emodule;
+	      return emodule;
+	    }
+	  }
 
 	  /**
 	   * 存储通信的通道
@@ -821,7 +837,7 @@
 	   * @return {instance}      实例本身
 	   */
 	  port(port){
-	    this.port = defineNumber(port, this.port);
+	    this.serialPort[0] = defineNumber(port, this.serialPort[0]);
 	    return this;
 	  }
 
@@ -903,8 +919,7 @@
 	   */
 	  constructor(port, slot) {
 	    super();
-	    this.port = port;
-	    this.slot = slot;
+	    this.serialPort = [defineNumber(port), defineNumber(slot)];
 	    this.ledPosition = 0;
 	    this.rgb = [0, 0, 0];
 	  }
@@ -1009,7 +1024,7 @@
 
 	  _run() {
 	    // 拿到参数
-	    let args = [this.port, this.slot, this.ledPosition, ...(this.rgb)];
+	    let args = [...(this.serialPort), this.ledPosition, ...(this.rgb)];
 	    // 拿到协议组装器，组装协议
 	    let buf = composer(setLed, args);
 	    // 用板子发送协议
@@ -1037,19 +1052,19 @@
 	   * @param {number} slot - 电子模块slot口
 	   */
 	  constructor(port, slot) {
-	    port = defineNumber(port);
-	    slot = defineNumber(slot);
-	    let id = this.constructor.name + '_' + port + '_' + slot;
-	    let api = new Api(Transport.get());
-	    if(id in POOL) {
-	      return POOL[id];
-	    } else {
-	      this.port = port;
-	      this.slot = slot;
-	      this.api = api;
-	      POOL[id] = this;
-	      return this;
-	    }
+	    // port = defineNumber(port);
+	    // slot = defineNumber(slot);
+	    // let id = this.constructor.name + '_' + port + '_' + slot;
+	    // let api = new Api(Transport.get());
+	    // if(id in POOL) {
+	    //   return POOL[id];
+	    // } else {
+	    //   this.port = port;
+	    //   this.slot = slot;
+	    //   this.api = api;
+	    //   POOL[id] = this;
+	    //   return this;
+	    // }
 	  }
 	}
 
@@ -2242,18 +2257,10 @@
 	  this.setSevenSegment = function(port, number) {
 	    number = utils.limitValue(number, [-999, 9999]);
 	    var byte4Array = utils.float32ToBytes(number);
-	    var a = [
-	      0xff,0x55,
-	      0x08, 0,
-	      0x02,
-	      0x09,
-	      port,
-	      byte4Array[0],
+	    return bufAssembler({mode: 0x02, id: 0x09}, port, byte4Array[0],
 	      byte4Array[1],
 	      byte4Array[2],
-	      byte4Array[3]
-	    ];
-	    return transport.send(a);
+	      byte4Array[3]);
 	  };
 
 	  /**
@@ -2971,7 +2978,7 @@
 	   * @return {instance}      实例本身
 	   */
 	  port(port){
-	    this.port = defineNumber(port, this.port);
+	    this.serialPort[0] = defineNumber(port, this.serialPort[0]);
 	    return this;
 	  }
 
@@ -2981,7 +2988,7 @@
 	   * @return {instance}      实例本身
 	   */
 	  slot(slot){
-	    this.slot = defineNumber(slot, this.slot);
+	    this.serialPort[1] = defineNumber(slot, this.serialPort[1]);
 	    return this;
 	  }
 
