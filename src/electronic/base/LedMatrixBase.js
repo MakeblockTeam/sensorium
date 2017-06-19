@@ -11,14 +11,6 @@ class LedMatrixBase extends Electronic {
    */
   constructor(port) {
     super();
-    this.port(port);
-  }
-
-  /**
-   * set the port
-   * @param  {Number} port 数字
-   */
-  port(port){
     this.serialPort = [defineNumber(port)];
   }
 

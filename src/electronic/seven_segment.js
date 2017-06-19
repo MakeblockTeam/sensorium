@@ -14,18 +14,10 @@ class SevenSegment extends Electronic {
   constructor(port) {
     super();
     this.args = {
-      port: null,
+      port: defineNumber(port),
       number: null
     };
     this.port(port);
-  }
-
-  /**
-   * @param {string} tone - 声音音调
-   */
-  port(port) {
-    this.args.port = defineNumber(port);
-    return this;
   }
   /**
    * @param {string} beat - 声音音节
@@ -44,8 +36,13 @@ class SevenSegment extends Electronic {
     board.send(buf);
   }
 
-  //描述各主控的支持情况
-  static support(){
+  //参数戳：描述port slot id 需传参的个数
+  static argsStamp(){
+    return 1;
+  }
+
+  //主控支持戳：描述各主控的支持情况
+  static supportStamp(){
     return '1111';
   }
 }

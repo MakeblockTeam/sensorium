@@ -318,15 +318,7 @@ function protocolAssembler() {
       ff 55 05 00 02 14 06 02
    */
   this.setShutter = function(port, action) {
-    var a = [
-      0xff,0x55,
-      0x05,0,
-      0x02,
-      0x14,
-      port,
-      action
-    ];
-    return transport.send(a);
+    return bufAssembler({mode: 0x02, id: 0x14}, port, action);
   };
 
   /**

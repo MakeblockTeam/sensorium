@@ -1,24 +1,25 @@
-var Mcore = require("./mcore");
-// var Orion = require("./orion");
-// var Auriga = require("./auriga");
-// var MegaPi = require("./megaPi");
-// var Neuron = require("./neuron");
+// const Mcore = require("./mcore");
+// const Orion = require("./orion");
+// const Auriga = require("./auriga");
+// const MegaPi = require("./megaPi");
+// const Neuron = require("./neuron");
 
 const boards = {
-    "Mcore": Mcore
-    // ,"Orion": Orion,
-    // "Auriga": Auriga,
-    // "MegaPi": MegaPi,
-    // "Neuron": Neuron
+    "Mcore":  require("./mcore"),
+    "Orion":  require("./orion"),
+    "Auriga": require("./auriga"),
+    "MegaPi": require("./megaPi"),
+    "Neuron": require("./neuron")
 }
 
-function Sensorium(board){
+function Sensorium(boardName){
   //匹配对应的板子
-  let board_ = boards[board];
-  if(typeof board_ == 'undefined'){
+  let board = boards[boardName];
+  if(typeof board == 'undefined'){
     throw new Error('sorry, the board could not be supported!');
   }
-  return new board_();
+  //TO IMPROVE: 需释放上一次板子实例
+  return new board();
 }
 
 
@@ -27,27 +28,3 @@ if(typeof window != "undefined") {
 }
 // cmd
 module.exports = Sensorium;
-
-
-// 1、创建一个板子
-// var mcore = Sensorium('Mcore');
-
-// 创建这个板子并不意味着已经建立了通信
-// 也不意味着已经电子模块会自动接入
-
-// 2、建立收发功能
-// mcore.setTransport({
-//   send: send,
-//   receive: receive
-// });
-
-// 3、连接电子模块并运行
-// mcore.join('RgbLed', 1,1)
-//     .r(100)
-//     .g(0)
-//     .b(0)
-//     .turnOn(); //调用底层的 API 发送协议
-
-
-
-

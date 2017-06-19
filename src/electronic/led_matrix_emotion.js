@@ -4,9 +4,9 @@ const {
 } = require('../core/type');
 const Electronic = require('./electronic');
 const LedMatrixBase = require('./base/LedMatrixBase');
-const { setLedMatrixChar } = require('../protocol/cmd');
+const { setLedMatrixEmotion } = require('../protocol/cmd');
 
-class LedChar extends LedMatrixBase {
+class LedEmotion extends LedMatrixBase {
   /**
    * @constructor
    */
@@ -15,7 +15,7 @@ class LedChar extends LedMatrixBase {
     this.args = {
       x: null,
       y: null,
-      char: null
+      emotion: null
     };
   }
 
@@ -29,8 +29,8 @@ class LedChar extends LedMatrixBase {
     return this;
   }
 
-  showChar(str){
-    this.args.char = str;
+  showEmotion(emotion){
+    this.args.emotion = emotion;
     this._run();
     return this;
   }
@@ -38,16 +38,21 @@ class LedChar extends LedMatrixBase {
   _run() {
     // 拿到参数
     // 拿到协议组装器，组装协议
-    let buf = composer(setLedMatrixChar, [this.serialPort[0], this.args.x, this.args.y, this.args.char]);
+    let buf = composer(setLedMatrixEmotion, [this.serialPort[0], this.args.x, this.args.y, this.args.emotion]);
     // 用板子发送协议
     board.send(buf);
   }
 
-  //描述各主控的支持情况:
+  //参数戳：描述port slot id 需传参的个数
+  static argsStamp(){
+    return 1;
+  }
+
+  //主控支持戳：描述各主控的支持情况
   //orion 不支持
-  static support(){
+  static supportStamp(){
     return '1110';
   }
 }
 
-module.exports = LedChar;
+module.exports = LedEmotion;

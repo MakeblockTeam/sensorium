@@ -7,13 +7,28 @@ var Transport =  require('../communicate/transport');
 var parse =  require('./parse');
 var Settings =  require('../protocol/settings');
 
+function createModuleId(eModule, args){
+  args = [...args]; //转数组
+  let name = eModule.name;
+  let argsStamp = eModule.argsStamp();
+  let argsLength = args.length;
+  if(argsLength < argsStamp){
+    //参数不足
+    console.warn(`there's lack of ${argsStamp-argsLength} argument(s), and ${eModule.name} may not work as a result`);
+  }else if(argsLength > argsStamp){
+    //参数多余
+    args.splice(argsStamp);
+  }
+  return [name].concat(...args).join('_').toLowerCase();
+}
+
 // 超类： 具备发送、接收方法
 class Board {
 
   constructor(conf){
     this._config = null;
     //板子支持的电子元件
-    this.electronics = {};
+    // this.electronics = {};
     //连接
     this.connecting = {};
     this.transport = null;
@@ -29,21 +44,16 @@ class Board {
   };
 
   /**
-   * [connect description]
-   * @param  {String}    name 电子模块名
-   * @param  {...Array} args port, slot, id...
+   * 电子模块实例工厂
+   * @param  {Function} eModule 电子模块类
+   * @param  {Array-Like} args    [port, slot, id...]
    * @return {Object}         电子模块实例
    */
-  connect(name, ...args){
-    if(typeof name == 'undefined'){
-      throw new Error('electronic name should not be empty');
-    }
-    let id = [name].concat(args).join('_').toLowerCase();
+  eModuleFactory(eModule, args){
+    let id = createModuleId(eModule, args);
     if(this.connecting[id]){
       return this.connecting[id];
     }else{
-      // 电子模块类
-      let eModule = this.electronics[name];
       let emodule = new eModule(...args);
       // 保存模块
       this.connecting[id] = emodule;

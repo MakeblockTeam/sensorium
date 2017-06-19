@@ -46,6 +46,7 @@ class Command {
     }
     return valueWrapper;
   };
+  
   _doGetSensorValue(params) {
     var that = this;
     this._readBlockStatus(params);

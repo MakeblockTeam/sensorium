@@ -44,27 +44,28 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Mcore = __webpack_require__(1);
-	// var Orion = require("./orion");
-	// var Auriga = require("./auriga");
-	// var MegaPi = require("./megaPi");
-	// var Neuron = require("./neuron");
+	// const Mcore = require("./mcore");
+	// const Orion = require("./orion");
+	// const Auriga = require("./auriga");
+	// const MegaPi = require("./megaPi");
+	// const Neuron = require("./neuron");
 
 	const boards = {
-	    "Mcore": Mcore
-	    // ,"Orion": Orion,
-	    // "Auriga": Auriga,
-	    // "MegaPi": MegaPi,
-	    // "Neuron": Neuron
+	    "Mcore":  __webpack_require__(1),
+	    "Orion":  __webpack_require__(19),
+	    "Auriga": __webpack_require__(20),
+	    "MegaPi": __webpack_require__(21),
+	    "Neuron": __webpack_require__(22)
 	}
 
-	function Sensorium(board){
+	function Sensorium(boardName){
 	  //匹配对应的板子
-	  let board_ = boards[board];
-	  if(typeof board_ == 'undefined'){
+	  let board = boards[boardName];
+	  if(typeof board == 'undefined'){
 	    throw new Error('sorry, the board could not be supported!');
 	  }
-	  return new board_();
+	  //TO IMPROVE: 需释放上一次板子实例
+	  return new board();
 	}
 
 
@@ -74,49 +75,32 @@
 	// cmd
 	module.exports = Sensorium;
 
-
-	// 1、创建一个板子
-	// var mcore = Sensorium('Mcore');
-
-	// 创建这个板子并不意味着已经建立了通信
-	// 也不意味着已经电子模块会自动接入
-
-	// 2、建立收发功能
-	// mcore.setTransport({
-	//   send: send,
-	//   receive: receive
-	// });
-
-	// 3、连接电子模块并运行
-	// mcore.join('RgbLed', 1,1)
-	//     .r(100)
-	//     .g(0)
-	//     .b(0)
-	//     .turnOn(); //调用底层的 API 发送协议
-
-
-
-
-
-
 /***/ },
 /* 1 */
 /***/ function(module, exports, __webpack_require__) {
 
 	const Board = __webpack_require__(2);
 	const electronics = __webpack_require__(8);
+	const Settings = __webpack_require__(7);
+	//支持位置
+	const SUPPORT_INDEX = Settings.SUPPORTLIST.indexOf('Mcore');
 
 	//实现一个板子就注册一个板子名称
 	class Mcore extends Board{
 	  constructor(conf){
 	    //继承 Board
 	    super(conf);
-
+	    let this_ = this;
+	    // 置空已连接块
+	    this.connecting = {};
 	    // 挂载电子模块
 	    for (let name in electronics) {
-	      let func = electronics[name];
-	      if(func.support().charAt(0) === '1'){
-	        this.electronics[name] = func;
+	      let eModule = electronics[name];
+	      if(eModule.supportStamp().charAt(SUPPORT_INDEX) === '1'){
+	        // when use mcore.rgbLed(port, slot)
+	        this[name] = function(){
+	          return this_.eModuleFactory(eModule, arguments);
+	        };
 	      }
 	    }
 	  }
@@ -138,13 +122,28 @@
 	var parse =  __webpack_require__(4);
 	var Settings =  __webpack_require__(7);
 
+	function createModuleId(eModule, args){
+	  args = [...args]; //转数组
+	  let name = eModule.name;
+	  let argsStamp = eModule.argsStamp();
+	  let argsLength = args.length;
+	  if(argsLength < argsStamp){
+	    //参数不足
+	    console.warn(`there's lack of ${argsStamp-argsLength} argument(s), and ${eModule.name} may not work as a result`);
+	  }else if(argsLength > argsStamp){
+	    //参数多余
+	    args.splice(argsStamp);
+	  }
+	  return [name].concat(...args).join('_').toLowerCase();
+	}
+
 	// 超类： 具备发送、接收方法
 	class Board {
 
 	  constructor(conf){
 	    this._config = null;
 	    //板子支持的电子元件
-	    this.electronics = {};
+	    // this.electronics = {};
 	    //连接
 	    this.connecting = {};
 	    this.transport = null;
@@ -160,21 +159,16 @@
 	  };
 
 	  /**
-	   * [connect description]
-	   * @param  {String}    name 电子模块名
-	   * @param  {...Array} args port, slot, id...
+	   * 电子模块实例工厂
+	   * @param  {Function} eModule 电子模块类
+	   * @param  {Array-Like} args    [port, slot, id...]
 	   * @return {Object}         电子模块实例
 	   */
-	  connect(name, ...args){
-	    if(typeof name == 'undefined'){
-	      throw new Error('electronic name should not be empty');
-	    }
-	    let id = [name].concat(args).join('_').toLowerCase();
+	  eModuleFactory(eModule, args){
+	    let id = createModuleId(eModule, args);
 	    if(this.connecting[id]){
 	      return this.connecting[id];
 	    }else{
-	      // 电子模块类
-	      let eModule = this.electronics[name];
 	      let emodule = new eModule(...args);
 	      // 保存模块
 	      this.connecting[id] = emodule;
@@ -831,18 +825,13 @@
 	    super(port, 2);
 	  }
 
-	  /**
-	   * 扩展一个设置 port 的接口
-	   * @param  {Number} port port
-	   * @return {instance}      实例本身
-	   */
-	  port(port){
-	    this.serialPort[0] = defineNumber(port, this.serialPort[0]);
-	    return this;
+	  //参数戳：描述port slot id 需传参的个数
+	  static argsStamp(){
+	    return 1;
 	  }
 
-	  //描述各主控的支持情况
-	  static support(){
+	  //主控支持戳：描述各主控的支持情况
+	  static supportStamp(){
 	    return '1111';
 	  }
 	}
@@ -2059,7 +2048,8 @@
 	    throw new Error(`id should not be empty`);
 	  }
 	  const bufAttr = new Array(obj.index || 0, obj.mode, obj.id);
-	  bufLength = bufAttr.length + args.length;
+	  //to fix:
+	  bufLength = (bufAttr.length + args.length).toString(16);
 	  return bufHead.concat([bufLength], bufAttr, args);
 	}
 
@@ -2277,18 +2267,12 @@
 	    for(var i = 0; i < char.length; i++) {
 	      charAsciiArray.push(char[i].charCodeAt());
 	    }
-	    var a = [
-	      0xff,0x55,
-	      0x0a,0,
-	      0x02,
-	      0x29,
-	      port,
-	      0x01,
+
+	    return bufAssembler({mode: 0x02, id: 0x29}, port, 0x01, 
 	      xAxis,
 	      yAxis,
 	      char.length,
-	    ].concat(charAsciiArray);
-	    return transport.send(a);
+	      ...charAsciiArray);
 	  };
 
 
@@ -2303,17 +2287,21 @@
 	   * ff 55 17 00 02 29 06 02 00 00 00 00 40 48 44 42 02 02 02 02 42 44 48 40 00 00
 	   */
 	  this.setLedMatrixEmotion = function(port, xAxis, yAxis, emotionData) {
-	    var a = [
-	      0xff,0x55,
-	      0x17,0,
-	      0x02,
-	      0x29,
-	      port,
-	      0x02,
+	    // var a = [
+	    //   0xff,0x55,
+	    //   0x17,0,
+	    //   0x02,
+	    //   0x29,
+	    //   port,
+	    //   0x02,
+	    //   xAxis,
+	    //   yAxis
+	    // ].concat(emotionData);
+
+	    return bufAssembler({mode: 0x02, id: 0x29}, port, 0x02, 
 	      xAxis,
-	      yAxis
-	    ].concat(emotionData);
-	    return transport.send(a);
+	      yAxis,
+	      ...emotionData);
 	  };
 
 	  /**
@@ -2328,18 +2316,7 @@
 	  this.setLedMatrixTime = function(port, separator, hour, minute) {
 	    hour = utils.limitValue(hour, [0, 23]);
 	    minute = utils.limitValue(minute, [0, 59]);
-	    var a = [
-	      0xff,0x55,
-	      0x08,0,
-	      0x02,
-	      0x29,
-	      port,
-	      0x03,
-	      separator,
-	      hour,
-	      minute
-	    ];
-	    return transport.send(a);
+	    return bufAssembler({mode: 0x02, id: 0x29}, port, 0x03, separator, hour, minute);
 	  };
 
 	  /**
@@ -2351,19 +2328,11 @@
 	   */
 	  this.setLedMatrixNumber = function(port, number) {
 	    var byte4Array = utils.float32ToBytes(number);
-	    var a = [
-	      0xff,0x55,
-	      0x09, 0,
-	      0x02,
-	      0x29,
-	      port,
-	      0x04,
+	    return bufAssembler({mode: 0x02, id: 0x29}, port, 0x04,
 	      byte4Array[0],
 	      byte4Array[1],
 	      byte4Array[2],
-	      byte4Array[3]
-	    ];
-	    return transport.send(a);
+	      byte4Array[3]);
 	  };
 
 	  /**
@@ -2374,15 +2343,7 @@
 	      ff 55 05 00 02 14 06 02
 	   */
 	  this.setShutter = function(port, action) {
-	    var a = [
-	      0xff,0x55,
-	      0x05,0,
-	      0x02,
-	      0x14,
-	      port,
-	      action
-	    ];
-	    return transport.send(a);
+	    return bufAssembler({mode: 0x02, id: 0x14}, port, action);
 	  };
 
 	  /**
@@ -2972,28 +2933,13 @@
 	    super(port, slot);
 	  }
 
-	  /**
-	   * 扩展一个设置 port 的接口
-	   * @param  {Number} port port
-	   * @return {instance}      实例本身
-	   */
-	  port(port){
-	    this.serialPort[0] = defineNumber(port, this.serialPort[0]);
-	    return this;
+	  //参数戳：描述port slot id 需传参的个数
+	  static argsStamp(){
+	    return 2;
 	  }
 
-	  /**
-	   * 扩展一个设置 slot 的接口
-	   * @param  {Number} slot slot
-	   * @return {instance}      实例本身
-	   */
-	  slot(slot){
-	    this.serialPort[1] = defineNumber(slot, this.serialPort[1]);
-	    return this;
-	  }
-
-	  //描述各主控的支持情况
-	  static support(){
+	  //主控支持戳：描述各主控的支持情况
+	  static supportStamp(){
 	    return '1111';
 	  }
 	}
@@ -3012,9 +2958,14 @@
 	    super(0, 2);
 	  }
 
-	  //描述各主控的支持情况
-	  static support(){
-	    return '1100';
+	  //参数戳：描述port slot id 需传参的个数
+	  static argsStamp(){
+	    return 0;
+	  }
+
+	  //主控支持戳：描述各主控的支持情况
+	  static supportStamp(){
+	    return '1111';
 	  }
 	}
 
@@ -3032,8 +2983,13 @@
 	    super(0, 2);
 	  }
 
-	  //描述各主控的支持情况
-	  static support(){
+	  //参数戳：描述port slot id 需传参的个数
+	  static argsStamp(){
+	    return 0;
+	  }
+
+	  //主控支持戳：描述各主控的支持情况
+	  static supportStamp(){
 	    return '0100';
 	  }
 	}
@@ -3092,13 +3048,130 @@
 	    board.send(buf);
 	  }
 
-	  //描述各主控的支持情况
-	  static support(){
+	  //参数戳：描述port slot id 需传参的个数
+	  static argsStamp(){
+	    return 0;
+	  }
+
+	  //主控支持戳：描述各主控的支持情况
+	  static supportStamp(){
 	    return '1111';
 	  }
 	}
 
 	module.exports = Buzzer;
+
+/***/ },
+/* 19 */
+/***/ function(module, exports, __webpack_require__) {
+
+	const Board = __webpack_require__(2);
+	const electronics = __webpack_require__(8);
+	const Settings = __webpack_require__(7);
+	//支持位置
+	const SUPPORT_INDEX = Settings.SUPPORTLIST.indexOf('Orion');
+
+	//实现一个板子就注册一个板子名称
+	class Orion extends Board{
+	  constructor(conf){
+	    //继承 Board
+	    super(conf);
+	    let this_ = this;
+	    // 置空已连接块
+	    this.connecting = {};
+	    // 挂载电子模块
+	    for (let name in electronics) {
+	      let eModule = electronics[name];
+	      if(eModule.supportStamp().charAt(SUPPORT_INDEX) === '1'){
+	        // when use mcore.rgbLed(port, slot)
+	        this[name] = function(){
+	          return this_.eModuleFactory(eModule, arguments);
+	        };
+	      }
+	    }
+	  }
+	}
+
+	module.exports = Orion;
+
+/***/ },
+/* 20 */
+/***/ function(module, exports, __webpack_require__) {
+
+	const Board = __webpack_require__(2);
+	const electronics = __webpack_require__(8);
+	const Settings = __webpack_require__(7);
+	//支持位置
+	const SUPPORT_INDEX = Settings.SUPPORTLIST.indexOf('Auriga');
+
+	//实现一个板子就注册一个板子名称
+	class Auriga extends Board{
+	  constructor(conf){
+	    //继承 Board
+	    super(conf);
+	    let this_ = this;
+	    // 置空已连接块
+	    this.connecting = {};
+	    // 挂载电子模块
+	    for (let name in electronics) {
+	      let eModule = electronics[name];
+	      if(eModule.supportStamp().charAt(SUPPORT_INDEX) === '1'){
+	        // when use mcore.rgbLed(port, slot)
+	        this[name] = function(){
+	          return this_.eModuleFactory(eModule, arguments);
+	        };
+	      }
+	    }
+	  }
+	}
+
+	// clone method and attributes from board to Auriga.
+	module.exports = Auriga;
+
+/***/ },
+/* 21 */
+/***/ function(module, exports, __webpack_require__) {
+
+	const Board = __webpack_require__(2);
+	const electronics = __webpack_require__(8);
+	const Settings = __webpack_require__(7);
+	//支持位置
+	const SUPPORT_INDEX = Settings.SUPPORTLIST.indexOf('MegaPi');
+
+	//实现一个板子就注册一个板子名称
+	class MegaPi extends Board{
+	  constructor(conf){
+	    //继承 Board
+	    super(conf);
+	    let this_ = this;
+	    // 置空已连接块
+	    this.connecting = {};
+	    // 挂载电子模块
+	    for (let name in electronics) {
+	      let eModule = electronics[name];
+	      if(eModule.supportStamp().charAt(SUPPORT_INDEX) === '1'){
+	        // when use mcore.rgbLed(port, slot)
+	        this[name] = function(){
+	          return this_.eModuleFactory(eModule, arguments);
+	        };
+	      }
+	    }
+	  }
+	}
+
+	// clone method and attributes from board to MegaPi.
+	module.exports = MegaPi;
+
+/***/ },
+/* 22 */
+/***/ function(module, exports) {
+
+	// var Neuron = require('mneurons');
+	// var Neuron = require('../../neurons-engine/lib/engine/logic');
+
+	var Neuron = {};
+
+	module.exports = Neuron;
 
 /***/ }
 /******/ ]);
