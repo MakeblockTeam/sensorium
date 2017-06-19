@@ -12,14 +12,14 @@ const boards = {
     "Neuron": require("./neuron")
 }
 
-function Sensorium(boardName){
+function Sensorium(boardName, opts){
   //匹配对应的板子
   let board = boards[boardName];
   if(typeof board == 'undefined'){
     throw new Error('sorry, the board could not be supported!');
   }
   //TO IMPROVE: 需释放上一次板子实例
-  return new board();
+  return new board(opts);
 }
 
 

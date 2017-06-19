@@ -2,8 +2,9 @@ const command = require("../communicate/command");
 const {
   defineNumber
 } = require('../core/type');
+const { composer } = require('../core/utils');
 const Electronic = require('./electronic');
-const { setSevenSegment } = require('../protocol/cmd');
+const { readUltrasonic } = require('../protocol/cmd');
 
 class Ultrasonic extends Electronic {
   constructor(port) {
@@ -14,9 +15,9 @@ class Ultrasonic extends Electronic {
   }
 
   getData(callback) {
-    command.getSensorValue('ultrasonic', {
-      "port": this.args.port
-    }, callback);
+    let buf = composer(readUltrasonic, [this.args.port]);
+    //执行
+    command.getSensorValue('ultrasonic', buf, callback);
   }
 
   //参数戳：描述port slot id 需传参的个数

@@ -25,5 +25,4 @@ class Mcore extends Board{
   }
 }
 
-// clone method and attributes from board to Mcore.
 module.exports = Mcore;

@@ -2,6 +2,7 @@ const {
   defineNumber,
   defineString
 } = require('../core/type');
+const { composer } = require('../core/utils');
 const Electronic = require('./electronic');
 const { setShutter } = require('../protocol/cmd');
 

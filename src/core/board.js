@@ -3,11 +3,12 @@
  * @author Hyman
  */
 
-var Transport =  require('../communicate/transport');
-var parse =  require('./parse');
-var Settings =  require('../protocol/settings');
+// const Transport =  require('../communicate/transport');
+const parse =  require('./parse');
+const Command = require('./communicate/command');
+const Settings =  require('../protocol/settings');
 
-function createModuleId(eModule, args){
+const createModuleId = function (eModule, args){
   args = [...args]; //转数组
   let name = eModule.name;
   let argsStamp = eModule.argsStamp();
@@ -22,13 +23,11 @@ function createModuleId(eModule, args){
   return [name].concat(...args).join('_').toLowerCase();
 }
 
+let Transport = null;
 // 超类： 具备发送、接收方法
 class Board {
-
   constructor(conf){
     this._config = null;
-    //板子支持的电子元件
-    // this.electronics = {};
     //连接
     this.connecting = {};
     this.transport = null;
@@ -78,17 +77,18 @@ class Board {
    *  }
    */
   setTransport(transport) {
-    this.transport = transport;
-    Transport.set(this.transport);
+    //
+    Transport = transport;
   };
 
   /**
    * 注册主板发送数据通道
    * @param  {[type]} command [description]
    */
-  send(command) {
-    this.transport.send(command);
-    return utils.intStrToHexStr(command);
+  send(buf) {
+    Command.send(Transport.send, buf);
+    // this.transport.send(command);
+    return utils.intStrToHexStr(buf);
   };
 
   /**
@@ -96,8 +96,8 @@ class Board {
    * parse 是解析器
    */
   onReceived() {
-    if(this.transport.onReceived) {
-      this.transport.onReceived(parse);
+    if(Transport.onReceived) {
+      Transport.onReceived(parse);
     }
   }
 }

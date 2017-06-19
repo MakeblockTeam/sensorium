@@ -25,5 +25,4 @@ class MegaPi extends Board{
   }
 }
 
-// clone method and attributes from board to MegaPi.
 module.exports = MegaPi;

@@ -399,13 +399,14 @@ function protocolAssembler() {
    * @param  {Number} index index of command
    */
   this.readVersion = function(index) {
-    var a = [
-      0xff,0x55,
-      0x03, index,
-      0x01,
-      0x00
-    ];
-    return transport.send(a);
+    // var a = [
+    //   0xff,0x55,
+    //   0x03, index,
+    //   0x01,
+    //   0x00
+    // ];
+    // return transport.send(a);
+    bufAssembler({mode: 0x01, id: 0x00});
   };
 
   /**
@@ -418,15 +419,8 @@ function protocolAssembler() {
    * @example
    * ff 55 04 00 01 01 03
    */
-  this.readUltrasonic = function(index, port) {
-    var a = [
-      0xff,0x55,
-      0x04, index,
-      0x01,
-      0x01,
-      port
-    ];
-    return transport.send(a);
+  this.readUltrasonic = function(port) {
+    return bufAssembler({mode: 0x01, id: 0x01}, port);
   };
 
   /**
@@ -439,15 +433,7 @@ function protocolAssembler() {
    * ff 55 05 00 01 02 01 02
    */
   this.readTemperature = function(index, port, slot) {
-    var a = [
-      0xff,0x55,
-      0x05, index,
-      0x01,
-      0x02,
-      port,
-      slot
-    ];
-    return transport.send(a);
+    return bufAssembler({mode: 0x01, id: 0x02}, port, slot);
   };
 
   /**
@@ -459,14 +445,7 @@ function protocolAssembler() {
    * ff 55 04 00 01 03 07
    */
   this.readLight = function(index, port) {
-    var a = [
-      0xff,0x55,
-      0x04, index,
-      0x01,
-      0x03,
-      port
-    ];
-    return transport.send(a);
+    return bufAssembler({mode: 0x01, id: 0x03}, port);
   };
 
   /**
@@ -478,14 +457,7 @@ function protocolAssembler() {
    * ff 55 04 00 01 04 06
    */
   this.readPotentionmeter = function(index, port) {
-    var a = [
-      0xff,0x55,
-      0x04, index,
-      0x01,
-      0x04,
-      port
-    ];
-    return transport.send(a);
+    return bufAssembler({mode: 0x01, id: 0x04}, port);
   };
 
   /**
@@ -497,15 +469,7 @@ function protocolAssembler() {
    * ff 55 05 00 01 05 06 01
    */
   this.readJoystick = function(index, port, axis) {
-    var a = [
-      0xff,0x55,
-      0x05, index,
-      0x01,
-      0x05,
-      port,
-      axis
-    ];
-    return transport.send(a);
+    return bufAssembler({mode: 0x01, id: 0x05}, port, axis);
   };
 
   /**
@@ -518,16 +482,7 @@ function protocolAssembler() {
    * ff 55 05 00 01 06 00 01
    */
   this.readGyro = function(index, port, axis) {
-    var a = [
-      0xff, 0x55,
-      0x05, index,
-      0x01,
-      0x06,
-      port,
-      axis
-    ];
-    var c = transport.send(a);
-    return c;
+    return bufAssembler({mode: 0x01, id: 0x06}, port, axis);
   };
 
   /**
@@ -539,14 +494,7 @@ function protocolAssembler() {
    * ff 55 04 00 01 07 06
    */
   this.readSound = function(index, port) {
-    var a = [
-      0xff,0x55,
-      0x04, index,
-      0x01,
-      0x07,
-      port
-    ];
-    return transport.send(a);
+    return bufAssembler({mode: 0x01, id: 0x07}, port);
   };
 
   /**
@@ -557,14 +505,7 @@ function protocolAssembler() {
    */
   this.readTemperatureOnBoard = function(index) {
     var port = 0x0d;
-    var a = [
-      0xff,0x55,
-      0x04, index,
-      0x01,
-      0x1b,
-      port,
-    ];
-    return transport.send(a);
+    return bufAssembler({mode: 0x01, id: 0x1b}, port);
   };
 
   /**
@@ -576,14 +517,7 @@ function protocolAssembler() {
    * ff 55 04 00 01 0f 06
    */
   this.readPirmotion = function(index, port) {
-    var a = [
-      0xff,0x55,
-      0x04, index,
-      0x01,
-      0x0f,
-      port
-    ];
-    return transport.send(a);
+    return bufAssembler({mode: 0x01, id: 0x0f}, port);
   };
 
   /**
@@ -600,14 +534,7 @@ function protocolAssembler() {
     * ff 55 04 00 01 11 02
    */
   this.readLineFollower = function(index, port) {
-    var a = [
-      0xff,0x55,
-      0x04, index,
-      0x01,
-      0x11,
-      port
-    ];
-    return transport.send(a);
+    return bufAssembler({mode: 0x01, id: 0x11}, port);
   };
 
   /**
@@ -620,16 +547,7 @@ function protocolAssembler() {
    * ff 55 05 00 01 15 06 02
    */
   this.readLimitSwitch = function(index, port, slot) {
-    var a = [
-      0xff, 0x55,
-      0x05, index,
-      0x01,
-      0x15,
-      port,
-      slot
-    ];
-    var c = transport.send(a);
-    return c;
+    return bufAssembler({mode: 0x01, id: 0x15}, port, slot);
   };
 
   /**
@@ -641,14 +559,7 @@ function protocolAssembler() {
    * ff 55 04 00 01 1a 06
    */
   this.readCompass = function(index, port) {
-    var a = [
-      0xff,0x55,
-      0x04, index,
-      0x01,
-      0x1a,
-      port
-    ];
-    return transport.send(a);
+    return bufAssembler({mode: 0x01, id: 0x1a}, port);
   };
 
   /**
@@ -661,15 +572,7 @@ function protocolAssembler() {
    * ff 55 05 00 01 17 06 00
    */
   this.readHumiture = function(index, port, type) {
-    var a = [
-      0xff,0x55,
-      0x05, index,
-      0x01,
-      0x17,
-      port,
-      type
-    ];
-    return transport.send(a);
+    return bufAssembler({mode: 0x01, id: 0x17}, port, type);
   };
 
   /**
@@ -681,14 +584,7 @@ function protocolAssembler() {
    * ff 55 04 00 01 18 03
    */
   this.readFlame = function(index, port) {
-    var a = [
-      0xff,0x55,
-      0x04, index,
-      0x01,
-      0x18,
-      port
-    ];
-    return transport.send(a);
+    return bufAssembler({mode: 0x01, id: 0x18}, port);
   };
 
   /**
@@ -700,14 +596,7 @@ function protocolAssembler() {
    * ff 55 04 00 01 19 06
    */
   this.readGas = function(index, port) {
-    var a = [
-      0xff,0x55,
-      0x04, index,
-      0x01,
-      0x19,
-      port
-    ];
-    return transport.send(a);
+    return bufAssembler({mode: 0x01, id: 0x19}, port);
   };
 
   /**
@@ -719,14 +608,7 @@ function protocolAssembler() {
    * ff 55 04 00 01 33 06
    */
   this.readTouch = function(index, port) {
-    var a = [
-      0xff,0x55,
-      0x04, index,
-      0x01,
-      0x33,
-      port
-    ];
-    return transport.send(a);
+    return bufAssembler({mode: 0x01, id: 0x33}, port);
   };
 
   /**
@@ -739,15 +621,15 @@ function protocolAssembler() {
    * ff 55 05 00 01 16 03 01
    */
   this.readFourKeys = function(index, port, key) {
-    var a = [
-      0xff,0x55,
-      0x05, index,
-      0x01,
-      0x16,
-      port,
-      key
-    ];
-    return transport.send(a);
+    // var a = [
+    //   0xff,0x55,
+    //   0x05, index,
+    //   0x01,
+    //   0x16,
+    //   port,
+    //   key
+    // ];
+    return bufAssembler({mode: 0x01, id: 0x16}, port, key);
   };
 
   /**
@@ -759,16 +641,17 @@ function protocolAssembler() {
    * ff 55 06 00 01 3d 00 01 02
    */
   this.readEncoderMotorOnBoard = function(index, slot, type) {
-    var a = [
-      0xff,0x55,
-      0x06, index,
-      0x01,
-      0x3d,
-      0x00,
-      slot,
-      type
-    ];
-    return transport.send(a);
+    var port = 0x00; //板载 port
+    // var a = [
+    //   0xff,0x55,
+    //   0x06, index,
+    //   0x01,
+    //   0x3d,
+    //   0x00,
+    //   slot,
+    //   type
+    // ];
+    return bufAssembler({mode: 0x01, id: 0x3d}, port, slot, type);
   };
 
   /**
@@ -779,14 +662,7 @@ function protocolAssembler() {
    * ff 55 04 00 01 3c 70
    */
   this.readFirmwareMode = function(index, type) {
-    var a = [
-      0xff,0x55,
-      0x04, index,
-      0x01,
-      0x3c,
-      type
-    ];
-    return transport.send(a);
+    return bufAssembler({mode: 0x01, id: 0x3c}, type);
   };
 
   /**

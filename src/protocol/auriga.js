@@ -25,5 +25,4 @@ class Auriga extends Board{
   }
 }
 
-// clone method and attributes from board to Auriga.
 module.exports = Auriga;
