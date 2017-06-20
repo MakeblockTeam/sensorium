@@ -1,22 +1,21 @@
-const {
-  defineNumber,
-  defineString
-} = require('../core/type');
-const Electronic = require('./electronic');
-const LedMatrixBase = require('./base/LedMatrixBase');
-const { setLedMatrixChar } = require('../protocol/cmd');
+import { defineNumber } from '../core/type';
+import Utils from '../core/utils';
+import LedMatrixBase from './base/LedMatrixBase';
+import protocolAssembler from '../protocol/cmd';
+import Command from '../communicate/command';
 
-class LedChar extends LedMatrixBase {
+class LedMatrixChar extends LedMatrixBase {
   /**
    * @constructor
    */
   constructor(port) {
     super(port);
-    this.args = {
+    //扩充参数
+    Object.assign(this.args, {
       x: null,
       y: null,
       char: null
-    };
+    });
   }
 
   x(xAxis){
@@ -31,16 +30,10 @@ class LedChar extends LedMatrixBase {
 
   showChar(str){
     this.args.char = str;
-    this._run();
+    //组装buf
+    let buf = Utils.composer(protocolAssembler.setLedMatrixChar, [this.args.port, this.args.x, this.args.y, this.args.char]);
+    Command.exec(buf);
     return this;
-  }
- 
-  _run() {
-    // 拿到参数
-    // 拿到协议组装器，组装协议
-    let buf = composer(setLedMatrixChar, [this.serialPort[0], this.args.x, this.args.y, this.args.char]);
-    // 用板子发送协议
-    board.send(buf);
   }
 
   //参数戳：描述port slot id 需传参的个数
@@ -55,4 +48,4 @@ class LedChar extends LedMatrixBase {
   }
 }
 
-module.exports = LedChar;
+export default LedMatrixChar;

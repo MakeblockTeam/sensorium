@@ -18,6 +18,18 @@
       // console.log = function(str) {
       //     document.getElementById("msg").innerHTML += (str + '<br><br>');
       // };
+      var appendResult = function(str){
+        document.getElementById("msg").innerHTML += (str + '<br><br>');
+      }
+
+      var exec = function(board){
+        for(var name in board){
+          var api = board[name];
+          if(board.hasOwnProperty(name) && typeof api == 'function'){
+            console.log(api(1));
+          }
+        }
+      }
 
       var transport = {
         send: function(buf) {
@@ -40,10 +52,11 @@
         receive: transport.receive
       });
       
+      exec(mcore);
       //连接并建立模块实例
-      mcore.SevenSegment(1);
+      // mcore.SevenSegment(1);
       //再次连接同一个模块，会调用已存在的模块实例
-      mcore.SevenSegment(1).showNumber(111);
+      // mcore.SevenSegment(1).showNumber(111);
 
 
       // var mcore = new Sensorium.Mcore({

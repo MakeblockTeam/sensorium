@@ -1,22 +1,21 @@
-const {
-  defineNumber,
-  defineString
-} = require('../core/type');
-const Electronic = require('./electronic');
-const LedMatrixBase = require('./base/LedMatrixBase');
-const { setLedMatrixEmotion } = require('../protocol/cmd');
+// import { defineNumber } from '../core/type';
+import Utils from '../core/utils';
+import LedMatrixBase from './base/LedMatrixBase';
+import protocolAssembler from '../protocol/cmd';
+import Command from '../communicate/command';
 
-class LedEmotion extends LedMatrixBase {
+class LedMatrixEmotion extends LedMatrixBase {
   /**
    * @constructor
    */
   constructor(port) {
     super(port);
-    this.args = {
+    //参数
+    Object.assign(this.args, {
       x: null,
       y: null,
       emotion: null
-    };
+    });
   }
 
   x(xAxis){
@@ -31,16 +30,11 @@ class LedEmotion extends LedMatrixBase {
 
   showEmotion(emotion){
     this.args.emotion = emotion;
-    this._run();
+    //组装buf
+    let buf = Utils.composer(protocolAssembler.setLedMatrixEmotion, [this.args.port, this.args.x, this.args.y, this.args.emotion]);
+    //执行
+    Command.exec(buf);
     return this;
-  }
- 
-  _run() {
-    // 拿到参数
-    // 拿到协议组装器，组装协议
-    let buf = composer(setLedMatrixEmotion, [this.serialPort[0], this.args.x, this.args.y, this.args.emotion]);
-    // 用板子发送协议
-    board.send(buf);
   }
 
   //参数戳：描述port slot id 需传参的个数
@@ -55,4 +49,4 @@ class LedEmotion extends LedMatrixBase {
   }
 }
 
-module.exports = LedEmotion;
+export default LedMatrixEmotion;

@@ -22,16 +22,9 @@ class SevenSegment extends Electronic {
    */
   showNumber(number) {
     this.args.number = defineNumber(number);
-    Command.send([11,12,13]);
-    // this._run();
-  }
- 
-  _run() {
-    // 拿到参数
-    // 拿到协议组装器，组装协议
     let buf = Utils.composer(protocolAssembler.setSevenSegment, [this.args.port, this.args.number]);
-    // 用板子发送协议
-    // board.send(buf);
+    Command.exec(buf);
+    return this;
   }
 
   //参数戳：描述port slot id 需传参的个数

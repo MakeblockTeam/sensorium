@@ -1,5 +1,4 @@
-const { defineNumber } = require('../core/type');
-const RgbLedBase = require('./base/RgbLedBase');
+import RgbLedBase from './base/RgbLedBase';
 
 class RgbLed extends RgbLedBase {
   constructor(port, slot){
@@ -17,4 +16,4 @@ class RgbLed extends RgbLedBase {
   }
 }
 
-module.exports = RgbLed;
+export default RgbLed;

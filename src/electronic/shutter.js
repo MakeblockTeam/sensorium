@@ -23,16 +23,11 @@ class Shutter extends Electronic {
    */
   action(actionId) {
     this.args.action = defineString(actionId);
-    this._run();
-    return this;
-  }
- 
-  _run() {
-    // 拿到参数
     // 拿到协议组装器，组装协议
     let buf = Utils.composer(protocolAssembler.setShutter, [this.args.port, this.args.action]);
-    // 用板子发送协议
-    board.send(buf);
+    //执行
+    Command.exec(buf);
+    return this;
   }
   
   //参数戳：描述port slot id 需传参的个数
@@ -46,4 +41,4 @@ class Shutter extends Electronic {
   }
 }
 
-module.exports = Shutter;
+export default Shutter;

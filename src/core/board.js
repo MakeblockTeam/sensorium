@@ -82,26 +82,6 @@ class Board {
       // console.warn('')
     }
   }
-
-  /**
-   * 注册主板发送数据通道
-   * @param  {[type]} command [description]
-   */
-  // send(buf) {
-  //   Command.send(Transport.send, buf);
-  //   // this.transport.send(command);
-  //   return utils.intStrToHexStr(buf);
-  // };
-
-  /**
-   * 定义数据接收通道
-   * parse 是解析器
-   */
-  // onReceived() {
-  //   if(Transport.onReceived) {
-  //     Transport.onReceived(parse);
-  //   }
-  // }
 }
 
 // module.exports = Board;

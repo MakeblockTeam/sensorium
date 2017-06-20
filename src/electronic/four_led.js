@@ -1,5 +1,4 @@
-const { defineNumber } = require('../core/type');
-const RgbLedBase = require('./base/RgbLedBase');
+import RgbLedBase from './base/RgbLedBase';
 
 class FourLed extends RgbLedBase {
   constructor(port){
@@ -17,4 +16,4 @@ class FourLed extends RgbLedBase {
   }
 }
 
-module.exports = FourLed;
+export default FourLed;

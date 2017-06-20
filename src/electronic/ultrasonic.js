@@ -1,5 +1,5 @@
-import { defineNumber, defineString } from '../core/type';
-// import Utils from '../core/utils';
+import { defineNumber } from '../core/type';
+import Utils from '../core/utils';
 import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
 import Command from '../communicate/command';
@@ -13,9 +13,12 @@ class Ultrasonic extends Electronic {
   }
 
   getData(callback) {
-    let buf = composer(protocolAssembler.readUltrasonic, [this.args.port]);
+    // 拿到协议组装器，组装协议
+    let buf = Utils.composer(protocolAssembler.readUltrasonic, [this.args.port]);
     //执行
-    Command.getSensorValue('ultrasonic', buf, callback);
+    Command.exec(buf, callback);
+    // Command.getSensorValue('ultrasonic', buf, callback);
+    return this;
   }
 
   //参数戳：描述port slot id 需传参的个数

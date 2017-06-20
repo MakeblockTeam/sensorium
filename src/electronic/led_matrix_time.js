@@ -1,22 +1,20 @@
-const {
-  defineNumber,
-  defineString
-} = require('../core/type');
-const Electronic = require('./electronic');
-const LedMatrixBase = require('./base/LedMatrixBase');
-const { setLedMatrixTime } = require('../protocol/cmd');
+import { defineNumber } from '../core/type';
+import Utils from '../core/utils';
+import LedMatrixBase from './base/LedMatrixBase';
+import protocolAssembler from '../protocol/cmd';
+import Command from '../communicate/command';
 
-class SetChar extends LedMatrixBase {
+class LedMatrixTime extends LedMatrixBase {
   /**
    * @constructor
    */
   constructor(port) {
     super(port);
-    this.args = {
+    Object.assign(this.args, {
       separator: null,
       hour: null,
       minute: null
-    };
+    });
   }
 
   separator(separator){
@@ -25,26 +23,20 @@ class SetChar extends LedMatrixBase {
   }
 
   hour(h){
-    this.args.hour = h;
+    this.args.hour = defineNumber(h);
     return this;
   }
   
   minute(m){
-    this.args.minute = m;
+    this.args.minute = defineNumber(m);
     return this;
   }
 
   showTime(){
-    this._run();
+    //组装buf
+    let buf = Utils.composer(protocolAssembler.setLedMatrixTime, [this.args.port, this.args.separator, this.args.hour, this.args.minute]);
+    Command.exec(buf);
     return this;
-  }
-  
-  _run() {
-    // 拿到参数
-    // 拿到协议组装器，组装协议
-    let buf = composer(setLedMatrixTime, [this.serialPort[0], this.args.separator, this.args.hour, this.args.minute]);
-    // 用板子发送协议
-    board.send(buf);
   }
 
   //参数戳：描述port slot id 需传参的个数
@@ -59,4 +51,4 @@ class SetChar extends LedMatrixBase {
   }
 }
 
-module.exports = SetChar;
+export default LedMatrixTime;

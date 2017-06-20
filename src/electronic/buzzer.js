@@ -1,12 +1,8 @@
-const {
-  defineNumber,
-  defineString
-} = require('../core/type');
-const Electronic = require('./electronic');
-const { setTone } = require('../protocol/cmd');
-
-// 作为闭包内容不开放
-const ToneAndBeat = ['', ''];
+import { defineNumber, defineString } from '../core/type';
+import Utils from '../core/utils';
+import Electronic from './electronic';
+import protocolAssembler from '../protocol/cmd';
+import Command from '../communicate/command';
 class Buzzer extends Electronic {
   /**
    * Buzzer类，声音模块
@@ -14,36 +10,35 @@ class Buzzer extends Electronic {
    */
   constructor() {
     super();
+    this.args = {
+      tone: null,
+      beat: null
+    }
   }
 
   /**
    * @param {string} tone - 声音音调
    */
   tone(tone) {
-    ToneAndBeat[0] = defineString(tone.toUpperCase());
+    this.args.tone = defineString(tone.toUpperCase());
     return this;
   }
   /**
    * @param {string} beat - 声音音节
    */
   beat(beat) {
-    ToneAndBeat[1] = defineNumber(beat);
+    this.args.beat = defineNumber(beat);
     return this;
   }
   /**
    * 播放声音
    */
   play() {
-    this._run();
-    return this;
-  }
-
-  _run() {
-    // 拿到参数
     // 拿到协议组装器，组装协议
-    let buf = composer(setTone, ToneAndBeat);
-    // 用板子发送协议
-    board.send(buf);
+    let buf = Utils.composer(protocolAssembler.setTone, [this.args.port, this.args.action]);
+    //执行
+    Command.exec(buf);
+    return this;
   }
 
   //参数戳：描述port slot id 需传参的个数
@@ -57,4 +52,4 @@ class Buzzer extends Electronic {
   }
 }
 
-module.exports = Buzzer;
+export default Buzzer;

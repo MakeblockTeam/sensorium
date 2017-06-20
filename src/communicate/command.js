@@ -22,6 +22,16 @@ class Command {
     };
   }
 
+  /**
+   * 执行 buf 协议
+   * @param  {Array}   buf      协议
+   * @param  {Function} callback 回调
+   * @return {[type]}            [description]
+   */
+  exec(buf, callback){
+    console.log(buf);
+  }
+
   send(buf){
     Transport.send(buf);
   }
