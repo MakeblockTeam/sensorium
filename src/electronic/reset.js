@@ -4,26 +4,23 @@ import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
 import Command from '../communicate/command';
 
-class Ultrasonic extends Electronic {
-  constructor(port) {
+class Reset extends Electronic {
+  constructor(callback) {
     super();
-    this.args = {
-      port: defineNumber(port)
-    };
+    this.reset(callback);
   }
 
-  getData(callback) {
+  reset(callback) {
     // 拿到协议组装器，组装协议
-    let buf = Utils.composer(protocolAssembler.readUltrasonic, [this.args.port]);
+    let buf = Utils.composer(protocolAssembler.reset);
     //执行
     Command.execRead(buf, callback);
-    // Command.getSensorValue('ultrasonic', buf, callback);
     return this;
   }
 
-  //参数戳：描述port slot id 需传参的个数
+  //参数戳：描述 port slot id 需传参的个数
   static argsStamp(){
-    return 1;
+    return 0;
   }
 
   //主控支持戳：描述各主控的支持情况
@@ -33,4 +30,4 @@ class Ultrasonic extends Electronic {
 
 }
 
-export default Ultrasonic;
+export default Reset;

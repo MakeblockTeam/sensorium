@@ -4,7 +4,7 @@ import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
 import Command from '../communicate/command';
 
-class Ultrasonic extends Electronic {
+class LineFollower extends Electronic {
   constructor(port) {
     super();
     this.args = {
@@ -14,7 +14,7 @@ class Ultrasonic extends Electronic {
 
   getData(callback) {
     // 拿到协议组装器，组装协议
-    let buf = Utils.composer(protocolAssembler.readUltrasonic, [this.args.port]);
+    let buf = Utils.composer(protocolAssembler.readLineFollower, [this.args.port]);
     //执行
     Command.execRead(buf, callback);
     // Command.getSensorValue('ultrasonic', buf, callback);
@@ -33,4 +33,4 @@ class Ultrasonic extends Electronic {
 
 }
 
-export default Ultrasonic;
+export default LineFollower;
