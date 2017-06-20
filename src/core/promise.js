@@ -3,7 +3,7 @@
  * 用于处理传感器数据分发
  */
 
-var PromiseList = {
+const PromiseList = {
     requestList: new Array(255),
     index: 1,
 
@@ -42,4 +42,4 @@ var PromiseList = {
     }
 };
 
-module.exports = PromiseList;
+export default PromiseList;

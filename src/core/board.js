@@ -2,11 +2,11 @@
  * @fileOverview board 用做通信基类，连接收和发送接口.
  * @author Hyman
  */
-
-// const Transport =  require('../communicate/transport');
-const parse =  require('./parse');
-const Command = require('./communicate/command');
-const Settings =  require('../protocol/settings');
+//es6 module
+import Transport from '../communicate/transport';
+import parse from './parse';
+// const Command = require('../communicate/command');
+import Settings from'../protocol/settings';
 
 const createModuleId = function (eModule, args){
   args = [...args]; //转数组
@@ -23,14 +23,12 @@ const createModuleId = function (eModule, args){
   return [name].concat(...args).join('_').toLowerCase();
 }
 
-let Transport = null;
 // 超类： 具备发送、接收方法
 class Board {
   constructor(conf){
     this._config = null;
     //连接
     this.connecting = {};
-    this.transport = null;
     this.init(conf);
   }
 
@@ -39,8 +37,8 @@ class Board {
     this.setTransport(this._config.transport || {});
 
     // 启动数据监听
-    this.onReceived();
-  };
+    // this.onReceived();
+  }
 
   /**
    * 电子模块实例工厂
@@ -77,29 +75,34 @@ class Board {
    *  }
    */
   setTransport(transport) {
-    //
-    Transport = transport;
-  };
+    if(transport && typeof transport.send == 'function' && typeof transport.receive == 'function' ){
+      Transport.send = transport.send;
+      Transport.receive = transport.receive;
+    }else{
+      // console.warn('')
+    }
+  }
 
   /**
    * 注册主板发送数据通道
    * @param  {[type]} command [description]
    */
-  send(buf) {
-    Command.send(Transport.send, buf);
-    // this.transport.send(command);
-    return utils.intStrToHexStr(buf);
-  };
+  // send(buf) {
+  //   Command.send(Transport.send, buf);
+  //   // this.transport.send(command);
+  //   return utils.intStrToHexStr(buf);
+  // };
 
   /**
    * 定义数据接收通道
    * parse 是解析器
    */
-  onReceived() {
-    if(Transport.onReceived) {
-      Transport.onReceived(parse);
-    }
-  }
+  // onReceived() {
+  //   if(Transport.onReceived) {
+  //     Transport.onReceived(parse);
+  //   }
+  // }
 }
 
-module.exports = Board;
+// module.exports = Board;
+export default Board;

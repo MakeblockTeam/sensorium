@@ -1,10 +1,8 @@
-const {
-  defineNumber,
-  defineString
-} = require('../core/type');
-const { composer } = require('../core/utils');
-const Electronic = require('./electronic');
-const { setSevenSegment } = require('../protocol/cmd');
+import { defineNumber, defineString } from '../core/type';
+import Utils from '../core/utils';
+import Electronic from './electronic';
+import protocolAssembler from '../protocol/cmd';
+import Command from '../communicate/command';
 
 // 作为闭包内容不开放
 class SevenSegment extends Electronic {
@@ -18,23 +16,22 @@ class SevenSegment extends Electronic {
       port: defineNumber(port),
       number: null
     };
-    this.port(port);
   }
   /**
    * @param {string} beat - 声音音节
    */
   showNumber(number) {
     this.args.number = defineNumber(number);
-    this._run();
-    return this;
+    Command.send([11,12,13]);
+    // this._run();
   }
  
   _run() {
     // 拿到参数
     // 拿到协议组装器，组装协议
-    let buf = composer(setSevenSegment, [this.args.port, this.args.number]);
+    let buf = Utils.composer(protocolAssembler.setSevenSegment, [this.args.port, this.args.number]);
     // 用板子发送协议
-    board.send(buf);
+    // board.send(buf);
   }
 
   //参数戳：描述port slot id 需传参的个数
@@ -48,4 +45,4 @@ class SevenSegment extends Electronic {
   }
 }
 
-module.exports = SevenSegment;
+export default SevenSegment;

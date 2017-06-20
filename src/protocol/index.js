@@ -1,18 +1,18 @@
-// const Mcore = require("./mcore");
-// const Orion = require("./orion");
-// const Auriga = require("./auriga");
-// const MegaPi = require("./megaPi");
-// const Neuron = require("./neuron");
+import Mcore from './mcore';
+import Orion from './orion';
+import Auriga from './auriga';
+import MegaPi from './megaPi';
+import Neuron from './neuron';
 
 const boards = {
-    "Mcore":  require("./mcore"),
-    "Orion":  require("./orion"),
-    "Auriga": require("./auriga"),
-    "MegaPi": require("./megaPi"),
-    "Neuron": require("./neuron")
+    "Mcore":  Mcore,
+    "Orion":  Orion,
+    "Auriga": Auriga,
+    "MegaPi": MegaPi,
+    "Neuron": Neuron
 }
 
-function Sensorium(boardName, opts){
+function Sensorium (boardName, opts){
   //匹配对应的板子
   let board = boards[boardName];
   if(typeof board == 'undefined'){
@@ -22,9 +22,9 @@ function Sensorium(boardName, opts){
   return new board(opts);
 }
 
-
 if(typeof window != "undefined") {
   window.Sensorium = Sensorium;
 }
 // cmd
-module.exports = Sensorium;
+// module.exports = Sensorium;
+export default Sensorium;

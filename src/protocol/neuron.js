@@ -1,6 +1,6 @@
 // var Neuron = require('mneurons');
 // var Neuron = require('../../neurons-engine/lib/engine/logic');
 
-var Neuron = {};
+const Neuron = {};
 
-module.exports = Neuron;
+export default Neuron;

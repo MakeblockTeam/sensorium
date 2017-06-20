@@ -39,10 +39,16 @@ function defineType(type) {
     }
 };
 
-module.exports = {
-    defineNumber: defineType('number'),
-    defineString: defineType('string'),
-    defineArray: defineType('array'),
-    defineBoolean: defineType('boolean'),
-    defineObject: defineType('object')
+let defineNumber = defineType('number'),
+    defineString = defineType('string'),
+    defineArray = defineType('array'),
+    defineBoolean = defineType('boolean'),
+    defineObject = defineType('object');
+
+export {
+  defineNumber,
+  defineString,
+  defineArray,
+  defineBoolean,
+  defineObject
 }

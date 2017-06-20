@@ -1,10 +1,8 @@
-const {
-  defineNumber,
-  defineString
-} = require('../core/type');
-const { composer } = require('../core/utils');
-const Electronic = require('./electronic');
-const { setShutter } = require('../protocol/cmd');
+import { defineNumber, defineString } from '../core/type';
+import Utils from '../core/utils';
+import Electronic from './electronic';
+import protocolAssembler from '../protocol/cmd';
+import Command from '../communicate/command';
 
 // 作为闭包内容不开放
 class Shutter extends Electronic {
@@ -18,7 +16,6 @@ class Shutter extends Electronic {
       port: defineNumber(port),
       action: null
     };
-    this.port(port);
   }
 
   /**
@@ -33,7 +30,7 @@ class Shutter extends Electronic {
   _run() {
     // 拿到参数
     // 拿到协议组装器，组装协议
-    let buf = composer(setSevenSegment, [this.args.port, this.args.action]);
+    let buf = Utils.composer(protocolAssembler.setShutter, [this.args.port, this.args.action]);
     // 用板子发送协议
     board.send(buf);
   }

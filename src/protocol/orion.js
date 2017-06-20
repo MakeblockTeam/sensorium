@@ -1,6 +1,6 @@
-const Board = require('../core/Board');
-const electronics = require('../electronic/index');
-const Settings = require('./settings');
+import Board from '../core/Board';
+import electronics from '../electronic/index';
+import Settings from './settings';
 //支持位置
 const SUPPORT_INDEX = Settings.SUPPORTLIST.indexOf('Orion');
 
@@ -25,4 +25,4 @@ class Orion extends Board{
   }
 }
 
-module.exports = Orion;
+export default Orion;

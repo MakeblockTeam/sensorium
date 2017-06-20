@@ -1,9 +1,12 @@
 /**
  * @fileOverview 协议发送基类.
  */
-var ValueWrapper = require("../core/value_wrapper");
-var utils = require("../core/utils");
-var PromiseList = require("../core/promise");
+//es6 module
+import Transport from './transport';
+import ValueWrapper from '../core/value_wrapper';
+import { utils as Utils} from '../core/utils';
+import PromiseList from '../core/promise';
+
 // var Transport = require('./transport');
 // var Api = require("../protocol/api");
 
@@ -17,6 +20,10 @@ class Command {
       // 读值指令超时的设定
       COMMAND_SEND_TIMEOUT: 1000,
     };
+  }
+
+  send(buf){
+    Transport.send(buf);
   }
 
   /**
@@ -115,6 +122,4 @@ class Command {
   };
 }
 
-var command = new Command();
-
-module.exports = command;
+export default new Command();

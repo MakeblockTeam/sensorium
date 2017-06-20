@@ -2,7 +2,7 @@
  * @fileOverview 存储指令的传输通道：蓝牙，串口，2.4G等，一个单例。
  */
 
-class Transport {
+class Transport_old {
 
   constructor() {
     this.transport = null;
@@ -16,14 +16,37 @@ class Transport {
     return this.transport;
   }
 
-  static getInstance() {
-    if (!Transport.instance) {
-      Transport.instance = new Transport();
-    }
-    return Transport.instance;
+  send(){
+
   }
+
+  receive(){
+
+  }
+
+  // static getInstance() {
+  //   if (!Transport.instance) {
+  //     Transport.instance = new Transport();
+  //   }
+  //   return Transport.instance;
+  // }
 }
 
-var transport = Transport.getInstance();
+// var transport = Transport.getInstance();
+// module.exports = transport;
 
-module.exports = transport;
+//输出单例
+let Transport = {
+  send: function(){
+
+  },
+
+  receive: function(){
+
+  }
+};
+
+export default Transport;
+
+
+

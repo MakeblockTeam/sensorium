@@ -1,7 +1,7 @@
 /**
  * @fileOverview  Api api list
  */
-const utils = require("../core/utils");
+import Utils from "../core/utils";
 
 /**
  * buf 协议组装器
@@ -37,7 +37,7 @@ function protocolAssembler() {
    *     ff 55 06 00 02 0a 01 ff 00
    */
   this.setDcMotor = function(port, speed) {
-    speed = utils.limitValue(speed);
+    speed = Utils.limitValue(speed);
     return bufAssembler({mode: 0x02, id: 0x0a}, port, speed & 0xff, (speed >> 8) & 0xff);
   };
 
@@ -49,7 +49,7 @@ function protocolAssembler() {
    *     ff 55 07 00 02 3d 00 01 64 00
    */
   this.setEncoderMotorOnBoard = function(slot, speed) {
-    speed = utils.limitValue(speed);
+    speed = Utils.limitValue(speed);
     return bufAssembler({mode: 0x02, id: 0x3d}, 0, slot, speed & 0xff, (speed >> 8) & 0xff);
   };
 
@@ -61,8 +61,8 @@ function protocolAssembler() {
    *     ff 55 07 00 02 05 64 00 64 00
    */
   this.setJoystick = function(leftSpeed, rightSpeed) {
-    leftSpeed = utils.limitValue(leftSpeed);
-    rightSpeed = utils.limitValue(rightSpeed);
+    leftSpeed = Utils.limitValue(leftSpeed);
+    rightSpeed = Utils.limitValue(rightSpeed);
     return bufAssembler(
       {mode: 0x02, id: 0x05}, 
       leftSpeed & 0xff,
@@ -79,8 +79,8 @@ function protocolAssembler() {
    *     ff 55 08 00 02 34 00 64 00 64 00
    */
   this.setVirtualJoystickForBalance = function(turnExtent, speed) {
-    turnExtent = utils.limitValue(turnExtent);
-    speed = utils.limitValue(speed);
+    turnExtent = Utils.limitValue(turnExtent);
+    speed = Utils.limitValue(speed);
     port = 0; //板载虚拟摇杆 port = 00
     return bufAssembler(
       {mode: 0x02, id: 0x34}, 
@@ -100,8 +100,8 @@ function protocolAssembler() {
    *     ff 55 0a 00 02 28 01 b8 0b e8 03 00 00
    */
   this.setStepperMotor = function(port, speed, distance) {
-    speed = utils.limitValue(speed, [0, 3000]);
-    var distanceBytes = utils.longToBytes(distance);
+    speed = Utils.limitValue(speed, [0, 3000]);
+    var distanceBytes = Utils.longToBytes(distance);
     return bufAssembler({mode: 0x02, id: 0x28}, port,
       speed & 0xff,
       (speed >> 8) & 0xff,
@@ -123,9 +123,9 @@ function protocolAssembler() {
    *     ff 55 09 00 02 08 06 02 00 ff 00 00
    */
   this.setLed = function(port, slot, position, r, g, b) {
-    r = utils.limitValue(r, [0, 255]);
-    g = utils.limitValue(g, [0, 255]);
-    b = utils.limitValue(b, [0, 255]);
+    r = Utils.limitValue(r, [0, 255]);
+    g = Utils.limitValue(g, [0, 255]);
+    b = Utils.limitValue(b, [0, 255]);
     return bufAssembler({mode: 0x02, id: 0x08}, port, slot, position, r, g, b);
   };
 
@@ -199,7 +199,7 @@ function protocolAssembler() {
    * @param {[type]} degree servo degree, the range is 0 ~ 180
    */
   this.setServoMotor = function(port, slot, degree) {
-    degree = utils.limitValue(degree, [0, 180]);
+    degree = Utils.limitValue(degree, [0, 180]);
     var a = [
       0xff,0x55,
       0x06, 0,
@@ -220,8 +220,8 @@ function protocolAssembler() {
    *     ff 55 08 00 02 09 06 00 00 c8 42
    */
   this.setSevenSegment = function(port, number) {
-    number = utils.limitValue(number, [-999, 9999]);
-    var byte4Array = utils.float32ToBytes(number);
+    number = Utils.limitValue(number, [-999, 9999]);
+    var byte4Array = Utils.float32ToBytes(number);
     return bufAssembler({mode: 0x02, id: 0x09}, port, byte4Array[0],
       byte4Array[1],
       byte4Array[2],
@@ -289,8 +289,8 @@ function protocolAssembler() {
    *     ff 55 08 00 02 29 06 03 01 0a 14
    */
   this.setLedMatrixTime = function(port, separator, hour, minute) {
-    hour = utils.limitValue(hour, [0, 23]);
-    minute = utils.limitValue(minute, [0, 59]);
+    hour = Utils.limitValue(hour, [0, 23]);
+    minute = Utils.limitValue(minute, [0, 59]);
     return bufAssembler({mode: 0x02, id: 0x29}, port, 0x03, separator, hour, minute);
   };
 
@@ -302,7 +302,7 @@ function protocolAssembler() {
       ff 55 09 00 02 29 06 04 00 00 00 00
    */
   this.setLedMatrixNumber = function(port, number) {
-    var byte4Array = utils.float32ToBytes(number);
+    var byte4Array = Utils.float32ToBytes(number);
     return bufAssembler({mode: 0x02, id: 0x29}, port, 0x04,
       byte4Array[0],
       byte4Array[1],
@@ -375,8 +375,8 @@ function protocolAssembler() {
    * ff 55 0b 00 02 0c 08 01 96 00 00 00 34 44
    */
   this.setEncoderMotor = function(port, slot, speed, angle) {
-    speed = utils.limitValue(speed, [0, 300]);
-    var byte4Array = utils.float32ToBytes(angle);
+    speed = Utils.limitValue(speed, [0, 300]);
+    var byte4Array = Utils.float32ToBytes(angle);
     var a = [
       0xff,0x55,
       0x0b, 0,
@@ -770,4 +770,4 @@ function protocolAssembler() {
   // };
 }
 
-module.exports = new protocolAssembler();
+export default new protocolAssembler();

@@ -1,8 +1,7 @@
 /**
  * @fileOverview 工具类函数
  */
-
-var Utils = {
+export default {
   /**
    * limit value
    * @param  {Number} value
@@ -275,5 +274,3 @@ var Utils = {
   }
 
 }
-
-module.exports = Utils;

@@ -24,7 +24,7 @@
           console.log(buf);
         },
 
-        onReceived: function(parse) {
+        receive: function(parse) {
           // serialPort.on('data', function(buff) {
           //   parse.doParse(buff);
           // });
@@ -37,11 +37,13 @@
       //装上收发功能
       mcore.setTransport({
         send: transport.send,
-        onReceived: transport.onReceived
+        receive: transport.receive
       });
-      debugger;
-      //连接模块
-      mcore.RgbLed(1, 2);
+      
+      //连接并建立模块实例
+      mcore.SevenSegment(1);
+      //再次连接同一个模块，会调用已存在的模块实例
+      mcore.SevenSegment(1).showNumber(111);
 
 
       // var mcore = new Sensorium.Mcore({
