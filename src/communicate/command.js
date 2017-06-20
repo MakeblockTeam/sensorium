@@ -31,8 +31,12 @@ class Command {
   exec(buf, callback){
     console.log(buf);
   }
+  
+  execRead(buf, callback){
+    Transport.send(buf);
+  }
 
-  send(buf){
+  execWrite(buf, callback){
     Transport.send(buf);
   }
 

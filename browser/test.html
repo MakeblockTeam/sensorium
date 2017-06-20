@@ -26,7 +26,7 @@
         for(var name in board){
           var api = board[name];
           if(board.hasOwnProperty(name) && typeof api == 'function'){
-            console.log(api(1));
+            console.log(api(1, 2));
           }
         }
       }
@@ -54,9 +54,9 @@
       
       exec(mcore);
       //连接并建立模块实例
-      // mcore.SevenSegment(1);
+      mcore.SevenSegment(1);
       //再次连接同一个模块，会调用已存在的模块实例
-      // mcore.SevenSegment(1).showNumber(111);
+      mcore.SevenSegment(1).showNumber(111);
 
 
       // var mcore = new Sensorium.Mcore({

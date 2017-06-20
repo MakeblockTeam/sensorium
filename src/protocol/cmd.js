@@ -13,18 +13,18 @@ import Utils from "../core/utils";
  * @return {Array}      返回数组
  */
 function bufAssembler(obj, ...args){
-  const modes = [0x01, 0x02];
+  const modes = [0x01, 0x02, 0x04];
   const bufHead = [0xff,0x55];
   let bufLength = 0;
   //todo：完善抛错提示
   if(modes.indexOf(obj.mode) === -1){
     throw new Error(`mode should be one of ${modes}`);
-  }else if(typeof obj.id === 'undefined'){
+  }else if(obj.mode != 0x04 && typeof obj.id === 'undefined'){
     throw new Error(`id should not be empty`);
   }
   const bufAttr = new Array(obj.index || 0, obj.mode, obj.id);
   //to fix:
-  bufLength = (bufAttr.length + args.length).toString(16);
+  bufLength = bufAttr.length + args.length;
   return bufHead.concat([bufLength], bufAttr, args);
 }
 
@@ -181,15 +181,8 @@ function protocolAssembler() {
    *     ff 55 05 00 02 3c 11 00
    */
   this.setFirmwareMode = function(mode) {
-    var a = [
-      0xff,0x55,
-      0x05, 0,
-      0x02,
-      0x3c,
-      0x11, // 0x11 means Api
-      mode
-    ];
-    return transport.send(a);
+    var sub = 0x11; // 0x11 means Auriga模式
+    return bufAssembler({mode: 0x02, id: 0x3c}, sub, mode);
   };
 
   /**
@@ -327,8 +320,7 @@ function protocolAssembler() {
       ff 55 02 00 04
    */
   this.reset = function() {
-    var a = [0xff, 0x55, 0x02, 0x00, 0x04];
-    return transport.send(a);
+    return bufAssembler({mode: 0x04});
   };
 
   /**
@@ -399,14 +391,7 @@ function protocolAssembler() {
    * @param  {Number} index index of command
    */
   this.readVersion = function(index) {
-    // var a = [
-    //   0xff,0x55,
-    //   0x03, index,
-    //   0x01,
-    //   0x00
-    // ];
-    // return transport.send(a);
-    bufAssembler({mode: 0x01, id: 0x00});
+    return bufAssembler({mode: 0x01, id: 0x00});
   };
 
   /**
@@ -432,7 +417,7 @@ function protocolAssembler() {
    * @example
    * ff 55 05 00 01 02 01 02
    */
-  this.readTemperature = function(index, port, slot) {
+  this.readTemperature = function(port, slot) {
     return bufAssembler({mode: 0x01, id: 0x02}, port, slot);
   };
 
@@ -444,7 +429,7 @@ function protocolAssembler() {
    * @example
    * ff 55 04 00 01 03 07
    */
-  this.readLight = function(index, port) {
+  this.readLight = function(port) {
     return bufAssembler({mode: 0x01, id: 0x03}, port);
   };
 
@@ -456,7 +441,7 @@ function protocolAssembler() {
    * @example
    * ff 55 04 00 01 04 06
    */
-  this.readPotentionmeter = function(index, port) {
+  this.readPotentionmeter = function(port) {
     return bufAssembler({mode: 0x01, id: 0x04}, port);
   };
 
@@ -468,7 +453,7 @@ function protocolAssembler() {
    * @example
    * ff 55 05 00 01 05 06 01
    */
-  this.readJoystick = function(index, port, axis) {
+  this.readJoystick = function(port, axis) {
     return bufAssembler({mode: 0x01, id: 0x05}, port, axis);
   };
 
@@ -481,7 +466,7 @@ function protocolAssembler() {
    * @example
    * ff 55 05 00 01 06 00 01
    */
-  this.readGyro = function(index, port, axis) {
+  this.readGyro = function(port, axis) {
     return bufAssembler({mode: 0x01, id: 0x06}, port, axis);
   };
 
@@ -493,7 +478,7 @@ function protocolAssembler() {
    * @example
    * ff 55 04 00 01 07 06
    */
-  this.readSound = function(index, port) {
+  this.readSound = function(port) {
     return bufAssembler({mode: 0x01, id: 0x07}, port);
   };
 
@@ -503,7 +488,7 @@ function protocolAssembler() {
    * @example
    * ff 55 04 00 01 1b 0d
    */
-  this.readTemperatureOnBoard = function(index) {
+  this.readTemperatureOnBoard = function() {
     var port = 0x0d;
     return bufAssembler({mode: 0x01, id: 0x1b}, port);
   };
@@ -516,7 +501,7 @@ function protocolAssembler() {
    * @example
    * ff 55 04 00 01 0f 06
    */
-  this.readPirmotion = function(index, port) {
+  this.readPirmotion = function(port) {
     return bufAssembler({mode: 0x01, id: 0x0f}, port);
   };
 
@@ -533,7 +518,7 @@ function protocolAssembler() {
     * @example
     * ff 55 04 00 01 11 02
    */
-  this.readLineFollower = function(index, port) {
+  this.readLineFollower = function(port) {
     return bufAssembler({mode: 0x01, id: 0x11}, port);
   };
 
@@ -546,7 +531,7 @@ function protocolAssembler() {
    * @example
    * ff 55 05 00 01 15 06 02
    */
-  this.readLimitSwitch = function(index, port, slot) {
+  this.readLimitSwitch = function(port, slot) {
     return bufAssembler({mode: 0x01, id: 0x15}, port, slot);
   };
 
@@ -558,7 +543,7 @@ function protocolAssembler() {
    * @example
    * ff 55 04 00 01 1a 06
    */
-  this.readCompass = function(index, port) {
+  this.readCompass = function(port) {
     return bufAssembler({mode: 0x01, id: 0x1a}, port);
   };
 
@@ -571,7 +556,7 @@ function protocolAssembler() {
    * @example
    * ff 55 05 00 01 17 06 00
    */
-  this.readHumiture = function(index, port, type) {
+  this.readHumiture = function(port, type) {
     return bufAssembler({mode: 0x01, id: 0x17}, port, type);
   };
 
@@ -583,7 +568,7 @@ function protocolAssembler() {
    * @example
    * ff 55 04 00 01 18 03
    */
-  this.readFlame = function(index, port) {
+  this.readFlame = function(port) {
     return bufAssembler({mode: 0x01, id: 0x18}, port);
   };
 
@@ -595,7 +580,7 @@ function protocolAssembler() {
    * @example
    * ff 55 04 00 01 19 06
    */
-  this.readGas = function(index, port) {
+  this.readGas = function(port) {
     return bufAssembler({mode: 0x01, id: 0x19}, port);
   };
 
@@ -607,7 +592,7 @@ function protocolAssembler() {
    * @example
    * ff 55 04 00 01 33 06
    */
-  this.readTouch = function(index, port) {
+  this.readTouch = function(port) {
     return bufAssembler({mode: 0x01, id: 0x33}, port);
   };
 
@@ -620,7 +605,7 @@ function protocolAssembler() {
    * @example
    * ff 55 05 00 01 16 03 01
    */
-  this.readFourKeys = function(index, port, key) {
+  this.readFourKeys = function(port, key) {
     // var a = [
     //   0xff,0x55,
     //   0x05, index,
@@ -640,7 +625,7 @@ function protocolAssembler() {
    * @example
    * ff 55 06 00 01 3d 00 01 02
    */
-  this.readEncoderMotorOnBoard = function(index, slot, type) {
+  this.readEncoderMotorOnBoard = function(slot, type) {
     var port = 0x00; //板载 port
     // var a = [
     //   0xff,0x55,
