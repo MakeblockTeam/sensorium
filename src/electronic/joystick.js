@@ -1,23 +1,23 @@
-import { defineNumber } from '../core/type';
+import { defineNumber, defineString } from '../core/type';
 import Utils from '../core/utils';
 import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
 import Command from '../communicate/command';
 
-class Ultrasonic extends Electronic {
-  constructor(port) {
+class Joystick extends Electronic {
+  constructor(port, axis) {
     super();
     this.args = {
-      port: defineNumber(port)
+      port: defineNumber(port),
+      axis: defineString(axis)
     };
   }
 
   getData(callback) {
     // 拿到协议组装器，组装协议
-    let buf = Utils.composer(protocolAssembler.readUltrasonic, [this.args.port]);
+    let buf = Utils.composer(protocolAssembler.readJoystick, [this.args.port, this.args.axis]);
     //执行
     Command.execRead(buf, callback);
-    // Command.getSensorValue('ultrasonic', buf, callback);
     return this;
   }
 
@@ -33,4 +33,4 @@ class Ultrasonic extends Electronic {
 
 }
 
-export default Ultrasonic;
+export default Joystick;

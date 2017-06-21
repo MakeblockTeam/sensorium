@@ -63,819 +63,18 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 19);
+/******/ 	return __webpack_require__(__webpack_require__.s = 53);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, exports) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-/**
- * @fileOverview 存储指令的传输通道：蓝牙，串口，2.4G等，一个单例。
- */
-
-class Transport {
-
-  constructor() {
-    this.transport = null;
-  }
-
-  set(transport) {
-    this.transport = transport;
-  }
-
-  get() {
-    return this.transport;
-  }
-
-  static getInstance() {
-    if (!Transport.instance) {
-      Transport.instance = new Transport();
-    }
-    return Transport.instance;
-  }
-}
-
-var transport = Transport.getInstance();
-
-module.exports = transport;
-
-/***/ }),
-/* 1 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/**
- * @fileOverview board 用做通信基类，连接收和发送接口.
- * @author Hyman
- */
-
-var Transport = __webpack_require__(0);
-var parse = __webpack_require__(13);
-var Settings = __webpack_require__(20);
-var _ = __webpack_require__(11);
-
-class Board {
-
-  init(conf) {
-    this._config = _.extend(Settings.DEFAULT_CONF, conf || {});
-    this.setTransport(this._config.transport);
-
-    // 启动数据监听
-    this.onReceived();
-  }
-
-  /**
-   * 存储通信的通道
-   * @param {Object} transport json object.
-   * @example
-   * {
-   *    send: function(buf) {
-   *      console.log(buf);
-   *    },
-   *
-   *    onReceived: function(parse) {
-   *      serialPort.on('data', function(buff) {
-   *        parse.doParse(buff);
-   *      });
-   *    }
-   *  }
-   */
-  setTransport(transport) {
-    this.transport = transport;
-    Transport.set(this.transport);
-  }
-
-  /**
-   * 注册主板发送数据通道
-   * @param  {[type]} command [description]
-   */
-  send(command) {
-    this.transport.send(command);
-    return utils.intStrToHexStr(command);
-  }
-
-  /**
-   * 定义数据接收通道
-   * parse 是解析器
-   */
-  onReceived() {
-    this.transport.onReceived(parse);
-  }
-}
-
-let board = new Board();
-
-module.exports = board;
-
-/***/ }),
-/* 2 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var DcMotor = __webpack_require__(15);
-var RgbLed = __webpack_require__(17);
-var Ultrasonic = __webpack_require__(18);
-var LedPanel = __webpack_require__(16);
-
-let electronics = {
-  "dcMotor": DcMotor,
-  "rgbLed": RgbLed,
-  "ultrasonic": Ultrasonic,
-  "ledPanel": LedPanel
-};
-
-module.exports = electronics;
-
-/***/ }),
-/* 3 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/**
- * @fileOverview  Api api list
- */
-var utils = __webpack_require__(4);
-
-function Api(transport) {
-
-  /**
-   * Set dc motor speed.
-   * @param {number} port  port number, vailable is: 1,2,3,4
-   * @param {number} speed speed, the range is -255 ~ 255
-   * @example
-   *     ff 55 06 00 02 0a 01 ff 00
-   */
-  this.setDcMotor = function (port, speed) {
-    speed = utils.limitValue(speed);
-    var a = [0xff, 0x55, 0x06, 0, 0x02, 0x0a, port, speed & 0xff, speed >> 8 & 0xff];
-    return transport.send(a);
-  },
-
-  /**
-   * Set encoder motor speed.
-   * @param {number} slot  slot number, vailable is: 1,2
-   * @param {number} speed speed, the range is -255 ~ 255
-   * @example
-   *     ff 55 07 00 02 3d 00 01 64 00
-   */
-  this.setEncoderMotorOnBoard = function (slot, speed) {
-    speed = utils.limitValue(speed);
-    var a = [0xff, 0x55, 0x07, 0, 0x02, 0x3d, 0, slot, speed & 0xff, speed >> 8 & 0xff];
-    return transport.send(a);
-  };
-
-  /**
-   * Set both left speed and right speed with one command.
-   * @param {number} leftSpeed  left speed, the range is -255 ~ 255
-   * @param {number} rightSpeed right speed, the range is -255 ~ 255
-   * @example
-   *     ff 55 07 00 02 05 64 00 64 00
-   */
-  this.setJoystick = function (leftSpeed, rightSpeed) {
-    leftSpeed = utils.limitValue(leftSpeed);
-    rightSpeed = utils.limitValue(rightSpeed);
-    var a = [0xff, 0x55, 0x07, 0, 0x02, 0x05, leftSpeed & 0xff, leftSpeed >> 8 & 0xff, rightSpeed & 0xff, rightSpeed >> 8 & 0xff];
-    return transport.send(a);
-  };
-
-  /**
-   * Set speed for balance mode, the port is on transport, value is 0.
-   * @param {number} turnDegree turn extend, -255 ~ 255
-   * @param {number} speed      speed, -255 ~ 255
-   * @example
-   *     ff 55 08 00 02 34 00 64 00 64 00
-   */
-  this.setVirtualJoystickForBalance = function (turnExtent, speed) {
-    turnExtent = utils.limitValue(turnExtent);
-    speed = utils.limitValue(speed);
-    var a = [0xff, 0x55, 0x08, 0, 0x02, 0x34, 0, turnExtent & 0xff, turnExtent >> 8 & 0xff, speed & 0xff, speed >> 8 & 0xff];
-    return transport.send(a);
-  };
-
-  /**
-   * Set stepper motor speed.
-   * @param {Number} port     port number, vailable is: 1,2,3,4
-   * @param {Number} speed    speed, the range is 0 ~ 3000
-   * @param {Long} distance distance, the range is -2147483648 ~ 2147483647
-   * @example
-   *     ff 55 0a 00 02 28 01 b8 0b e8 03 00 00
-   */
-  this.setStepperMotor = function (port, speed, distance) {
-    speed = utils.limitValue(speed, [0, 3000]);
-    var distanceBytes = utils.longToBytes(distance);
-    var a = [0xff, 0x55, 0x0a, 0, 0x02, 0x28, port, speed & 0xff, speed >> 8 & 0xff, distanceBytes[3], distanceBytes[2], distanceBytes[1], distanceBytes[0]];
-    return transport.send(a);
-  };
-
-  /**
-   * Set RgbFourLed electronic module color.
-   * @param {number} port     port number, vailable is: 0(on transport), 6,7,8,9,10
-   * @param {number} slot     slot number, vailable is: 1,2
-   * @param {number} position led position, 0 signify all leds.
-   * @param {number} r        red, the range is 0 ~ 255
-   * @param {number} g        green, the range is 0 ~ 255
-   * @param {number} b        blue, the range is 0 ~ 255
-   * @example
-   *     ff 55 09 00 02 08 06 02 00 ff 00 00
-   */
-  this.setLed = function (port, slot, position, r, g, b) {
-    r = utils.limitValue(r, [0, 255]);
-    g = utils.limitValue(g, [0, 255]);
-    b = utils.limitValue(b, [0, 255]);
-    var a = [0xff, 0x55, 0x09, 0, 0x02, 0x08, port, slot, position, r, g, b];
-    return transport.send(a);
-  };
-
-  /**
-   * set four leds
-   * @param {number} port     port number, vailable is: 0(on transport), 6,7,8,9,10
-   * @param {number} position led position, 0 signify all leds.
-   * @param {number} r        red, the range is 0 ~ 255
-   * @param {number} g        green, the range is 0 ~ 255
-   * @param {number} b        blue, the range is 0 ~ 255
-   */
-  this.setFourLeds = function (port, position, r, g, b) {
-    return this.setLed(port, 2, position, r, g, b);
-  };
-
-  /**
-   * turn off four leds
-   * @param {number} port     port number, vailable is: 0(on transport), 6,7,8,9,10
-   * @param {number} position led position, 0 signify all leds.
-   */
-  this.turnOffFourLeds = function (port, position) {
-    return this.setLed(port, 2, position, 0, 0, 0);
-  };
-
-  /**
-   * set led panel on Api transport.
-   * @param {number} position led position, 0 signify all leds.
-   * @param {number} r        red, the range is 0 ~ 255
-   * @param {number} g        green, the range is 0 ~ 255
-   * @param {number} b        blue, the range is 0 ~ 255
-   */
-  this.setLedPanelOnBoard = function (position, r, g, b) {
-    return this.setLed(0, 2, position, r, g, b);
-  };
-
-  /**
-   * turn off led panel on transport
-   * @param {number} position led position, 0 signify all leds.
-   */
-  this.turnOffLedPanelOnBoard = function (position) {
-    return this.setLed(0, 2, position, 0, 0, 0);
-  };
-
-  /**
-   * Set transport mode.
-   * @param {number} mode transport mode,
-   *     0: bluetooth mode
-   *     1: ultrasonic mode
-   *     2: balance mode
-   *     3: infrared mode
-   *     4: linefollow mode
-   * @example
-   *     ff 55 05 00 02 3c 11 00
-   */
-  this.setFirmwareMode = function (mode) {
-    var a = [0xff, 0x55, 0x05, 0, 0x02, 0x3c, 0x11, // 0x11 means Api
-    mode];
-    return transport.send(a);
-  };
-
-  /**
-   * Set Servo speed.
-   * @param {[type]} port   port number, vailable is 6,7,8,9,10
-   * @param {[type]} slot   slot number, vailable is 1,2
-   * @param {[type]} degree servo degree, the range is 0 ~ 180
-   */
-  this.setServoMotor = function (port, slot, degree) {
-    degree = utils.limitValue(degree, [0, 180]);
-    var a = [0xff, 0x55, 0x06, 0, 0x02, 0x0b, port, slot, degree];
-    return transport.send(a);
-  };
-
-  /**
-   * Set Seven-segment digital tube number.
-   * @param {number} port   port number, vailable is 6,7,8,9,10
-   * @param {float} number  the number to be displayed, -999 ~ 9999
-   * @exmpa
-   *     ff 55 08 00 02 09 06 00 00 c8 42
-   */
-  this.setSevenSegment = function (port, number) {
-    number = utils.limitValue(number, [-999, 9999]);
-    var byte4Array = utils.float32ToBytes(number);
-    var a = [0xff, 0x55, 0x08, 0, 0x02, 0x09, port, byte4Array[0], byte4Array[1], byte4Array[2], byte4Array[3]];
-    return transport.send(a);
-  };
-
-  /**
-   * Set led matrix char.
-   * @param {number} port   port number, vailable is 6,7,8,9,10
-   * @param {number} xAxis  x position
-   * @param {number} yAxis  y position
-   * @param {string} char  char, 例如 Hi 转换成ASCII的值 48 69
-   * @exmaple
-   * ff 55 0a 00 02 29 06 01 00 01 02 48 69
-   */
-  this.setLedMatrixChar = function (port, xAxis, yAxis, char) {
-    var charAsciiArray = [];
-    for (var i = 0; i < char.length; i++) {
-      charAsciiArray.push(char[i].charCodeAt());
-    }
-    var a = [0xff, 0x55, 0x0a, 0, 0x02, 0x29, port, 0x01, xAxis, yAxis, char.length].concat(charAsciiArray);
-    return transport.send(a);
-  };
-
-  /**
-   * Set led matrix emotion.
-   * @param {number} port   port number, vailable is 6,7,8,9,10
-   * @param {number} xAxis      x position
-   * @param {number} yAxis      y position
-   * @param {Array} emotionData emotion data to be displayed, such as
-   *  [00, 00, 40, 48, 44, 42, 02, 02, 02, 02, 42, 44, 48, 40, 00, 00]
-   * @example
-   * ff 55 17 00 02 29 06 02 00 00 00 00 40 48 44 42 02 02 02 02 42 44 48 40 00 00
-   */
-  this.setLedMatrixEmotion = function (port, xAxis, yAxis, emotionData) {
-    var a = [0xff, 0x55, 0x17, 0, 0x02, 0x29, port, 0x02, xAxis, yAxis].concat(emotionData);
-    return transport.send(a);
-  };
-
-  /**
-   * Set led matrix time.
-   * @param {number} port   port number, vailable is 6,7,8,9,10
-   * @param {number} separator time separator, 01 signify `:`, 02 signify ` `
-   * @param {number} hour      hour number, 0 ~ 23
-   * @param {number} minute    minute number, 0 ~ 59
-   * @example
-   *     ff 55 08 00 02 29 06 03 01 0a 14
-   */
-  this.setLedMatrixTime = function (port, separator, hour, minute) {
-    hour = utils.limitValue(hour, [0, 23]);
-    minute = utils.limitValue(minute, [0, 59]);
-    var a = [0xff, 0x55, 0x08, 0, 0x02, 0x29, port, 0x03, separator, hour, minute];
-    return transport.send(a);
-  };
-
-  /**
-   * Set led matrix number.
-   * @param {number} port   port number, vailable is 6,7,8,9,10
-   * @param {float} number the number to be displayed
-   * @exmaple
-      ff 55 09 00 02 29 06 04 00 00 00 00
-   */
-  this.setLedMatrixNumber = function (port, number) {
-    var byte4Array = utils.float32ToBytes(number);
-    var a = [0xff, 0x55, 0x09, 0, 0x02, 0x29, port, 0x04, byte4Array[0], byte4Array[1], byte4Array[2], byte4Array[3]];
-    return transport.send(a);
-  };
-
-  /**
-   * Set shutter.
-   * @param {number} port   port number, vailable is 6,7,8,9,10
-   * @param {number} action 0: 按下快门; 1: 松开快门; 2: 聚焦; 3: 停止聚焦
-   * @exmaple
-      ff 55 05 00 02 14 06 02
-   */
-  this.setShutter = function (port, action) {
-    var a = [0xff, 0x55, 0x05, 0, 0x02, 0x14, port, action];
-    return transport.send(a);
-  };
-
-  /**
-   * reset all sensors and motors on transport.
-   * @exmaple
-      ff 55 02 00 04
-   */
-  this.reset = function () {
-    var a = [0xff, 0x55, 0x02, 0x00, 0x04];
-    return transport.send(a);
-  };
-
-  /**
-   * set buzzer.
-   * @param {string} tone , "A2" ~ "D8"
-   * @param {number} beat , 125: eight; 250: quater; 500: half; 1000: one; 2000: double
-   * @example
-   * C2，quater beat: ff 55 08 00 02 22 09 41 00 f4 01
-   */
-  this.setTone = function (tone, beat) {
-    var TONE_HZ = {
-      // 原始数据：D5: 587 "E5": 658,"F5": 698,"G5": 784,"A5": 880,"B5": 988,"C6": 1047
-      "A2": 110, "B2": 123, "C2": 65,
-      "C3": 131, "D3": 147, "E3": 165, "F3": 175, "G3": 196, "A3": 220,
-      "B3": 247, "C4": 262, "D4": 294, "E4": 330, "F4": 349, "G4": 392,
-      "A4": 440, "B4": 494, "C5": 523, "D5": 555, "E5": 640, "F5": 698,
-      "G5": 784, "A5": 880, "B5": 988, "C6": 1047, "D6": 1175, "E6": 1319,
-      "F6": 1397, "G6": 1568, "A6": 1760, "B6": 1976, "C7": 2093, "D7": 2349,
-      "E7": 2637, "F7": 2794, "G7": 3136, "A7": 3520, "B7": 3951, "C8": 4186, "D8": 4699
-    };
-
-    var a = [0xff, 0x55, 0x08, 0, 0x02, 0x22, 0x09, TONE_HZ[tone] & 0xff, TONE_HZ[tone] >> 8 & 0xff, beat & 0xff, beat >> 8 & 0xff];
-
-    return transport.send(a);
-  };
-
-  /**
-   * set encoder motor.
-   * @param  {Number} index [description]
-   * @param  {Number} port  vailable: 1,2,3,4
-   * @param  {Number} slot  vailable: 1，2
-   * @param  {Number} speed  0 ~ 300, 单位：rpm（每分钟转多少圈）
-   * @param  {Float} angle  相对位移, -2147483648 ~ 2147483647
-   * @example
-   * ff 55 0b 00 02 0c 08 01 96 00 00 00 34 44
-   */
-  this.setEncoderMotor = function (port, slot, speed, angle) {
-    speed = utils.limitValue(speed, [0, 300]);
-    var byte4Array = utils.float32ToBytes(angle);
-    var a = [0xff, 0x55, 0x0b, 0, 0x02, 0x0c, 0x08, slot, speed & 0xff, speed >> 8 & 0xff, byte4Array[0], byte4Array[1], byte4Array[2], byte4Array[3]];
-    return transport.send(a);
-  };
-
-  /**
-   * read verion of transport
-   * @param  {Number} index index of command
-   */
-  this.readVersion = function (index) {
-    var a = [0xff, 0x55, 0x03, index, 0x01, 0x00];
-    return transport.send(a);
-  };
-
-  /**
-   * mainly used for distance measurement, the measurement range is 0 to 500 cm,
-   * the execution of the command will have more than 100 milliseconds latency.
-   * So the frequency of the host to send this instruction shoulds not be too high.
-   * @param  {Number} index [description]
-   * @param  {Number} port  vailable: 6，7，8，9，10
-   * @return {Number}       [description]
-   * @example
-   * ff 55 04 00 01 01 03
-   */
-  this.readUltrasonic = function (index, port) {
-    var a = [0xff, 0x55, 0x04, index, 0x01, 0x01, port];
-    return transport.send(a);
-  };
-
-  /**
-   * read temperature, Each port can connect two road temperature sensor.
-   * @param  {Number} index [description]
-   * @param  {Number} port  vailable: 6，7，8，9，10
-   * @param  {Number} slot  vailable: slot1(1), slot2(2)
-   * @return {Number}       [description]
-   * @example
-   * ff 55 05 00 01 02 01 02
-   */
-  this.readTemperature = function (index, port, slot) {
-    var a = [0xff, 0x55, 0x05, index, 0x01, 0x02, port, slot];
-    return transport.send(a);
-  };
-
-  /**
-   * The light sensor module or ontransport (lamp) light sensors numerical reading.
-   * @param  {Number} index [description]
-   * @param  {Number} port  vailable: 6,7,8,9,10, onbord(0c),onbord(0b)
-   * @return {Number}       [description]
-   * @example
-   * ff 55 04 00 01 03 07
-   */
-  this.readLight = function (index, port) {
-    var a = [0xff, 0x55, 0x04, index, 0x01, 0x03, port];
-    return transport.send(a);
-  };
-
-  /**
-   * read Potentionmeter
-   * @param  {Number} index [description]
-   * @param  {Number} port  vailable: 6，7，8，9，10
-   * @return {Number}       [description]
-   * @example
-   * ff 55 04 00 01 04 06
-   */
-  this.readPotentionmeter = function (index, port) {
-    var a = [0xff, 0x55, 0x04, index, 0x01, 0x04, port];
-    return transport.send(a);
-  };
-
-  /**
-   * read josystic value
-   * @param  {Number} index [description]
-   * @param  {Number} port  vailable: 6，7，8，9，10
-   * @param  {Number} axis  1: x-axis; 2: y-axis;
-   * @example
-   * ff 55 05 00 01 05 06 01
-   */
-  this.readJoystick = function (index, port, axis) {
-    var a = [0xff, 0x55, 0x05, index, 0x01, 0x05, port, axis];
-    return transport.send(a);
-  };
-
-  /**
-   * read gyro value in different axis.
-   * @param  {Number} index [description]
-   * @param  {Number} port  vailable: 6，7，8，9，10
-   * @param  {Number} axis  vailable: X-axis(01)  Y-axis(02)  Z-axis(03)
-   * @return {Number}       [description]
-   * @example
-   * ff 55 05 00 01 06 00 01
-   */
-  this.readGyro = function (index, port, axis) {
-    var a = [0xff, 0x55, 0x05, index, 0x01, 0x06, port, axis];
-    var c = transport.send(a);
-    return c;
-  };
-
-  /**
-   * read volume testing MIC module parameters
-   * @param  {Number} index [description]
-   * @param  {Number} port  vailable: 6，7，8，9，10，ontransport(0x0e)
-   * @return {Number}       [description]
-   * @example
-   * ff 55 04 00 01 07 06
-   */
-  this.readSound = function (index, port) {
-    var a = [0xff, 0x55, 0x04, index, 0x01, 0x07, port];
-    return transport.send(a);
-  };
-
-  /**
-   * read temperature on transport
-   * @param  {Number} index [description]
-   * @example
-   * ff 55 04 00 01 1b 0d
-   */
-  this.readTemperatureOnBoard = function (index) {
-    var port = 0x0d;
-    var a = [0xff, 0x55, 0x04, index, 0x01, 0x1b, port];
-    return transport.send(a);
-  };
-
-  /**
-   * read pyroelectric infrared sensor
-   * @param  {Number} index [description]
-   * @param  {Number} port  vailable: 6,7,8,9,10
-   * @return {Number}       [description]
-   * @example
-   * ff 55 04 00 01 0f 06
-   */
-  this.readPirmotion = function (index, port) {
-    var a = [0xff, 0x55, 0x04, index, 0x01, 0x0f, port];
-    return transport.send(a);
-  };
-
-  /**
-   * read LineFollower sensor
-   * @param  {Number} index [description]
-   * @param  {Number} port  vailable: 6，7，8，9，10
-   * @return {Number} number,
-   *  00   0
-      01   1
-      10   2
-      11   3
-      when 0 said has a black line
-    * @example
-    * ff 55 04 00 01 11 02
-   */
-  this.readLineFollower = function (index, port) {
-    var a = [0xff, 0x55, 0x04, index, 0x01, 0x11, port];
-    return transport.send(a);
-  };
-
-  /**
-   * read limitSwitch
-   * @param  {Number} index [description]
-   * @param  {Number} port  vailable: 6,7,8,9,10
-   * @param  {Number} slot  vailable: SLOT1(01)   SLOT2(02)
-   * @return {Number}       [description]
-   * @example
-   * ff 55 05 00 01 15 06 02
-   */
-  this.readLimitSwitch = function (index, port, slot) {
-    var a = [0xff, 0x55, 0x05, index, 0x01, 0x15, port, slot];
-    var c = transport.send(a);
-    return c;
-  };
-
-  /**
-   * read compass.
-   * @param  {Number} index [description]
-   * @param  {Number} port  vailable: 6,7,8,9,10
-   * @return {Number}       [description]
-   * @example
-   * ff 55 04 00 01 1a 06
-   */
-  this.readCompass = function (index, port) {
-    var a = [0xff, 0x55, 0x04, index, 0x01, 0x1a, port];
-    return transport.send(a);
-  };
-
-  /**
-   * read humiture
-   * @param  {Number} index [description]
-   * @param  {Number} port  vailable: 6，7，8，9，10
-   * @param  {Number} temperature(01) humidity (00)
-   * @return {Number}       [description]
-   * @example
-   * ff 55 05 00 01 17 06 00
-   */
-  this.readHumiture = function (index, port, type) {
-    var a = [0xff, 0x55, 0x05, index, 0x01, 0x17, port, type];
-    return transport.send(a);
-  };
-
-  /**
-   * read flame
-   * @param  {Number} index [description]
-   * @param  {Number} port  vailable: 6,7,8,9,10
-   * @return {Number}       [description]
-   * @example
-   * ff 55 04 00 01 18 03
-   */
-  this.readFlame = function (index, port) {
-    var a = [0xff, 0x55, 0x04, index, 0x01, 0x18, port];
-    return transport.send(a);
-  };
-
-  /**
-   * Used to get the harmful gas density
-   * @param  {Number} index [description]
-   * @param  {Number} port  vailable: 6,7,8,9,10
-   * @return {Number}       [description]
-   * @example
-   * ff 55 04 00 01 19 06
-   */
-  this.readGas = function (index, port) {
-    var a = [0xff, 0x55, 0x04, index, 0x01, 0x19, port];
-    return transport.send(a);
-  };
-
-  /**
-   * read touch sensor
-   * @param  {Number} index [description]
-   * @param  {Number} port  vailable: 6,7,8,9,10
-   * @return {Number}       [description]
-   * @example
-   * ff 55 04 00 01 33 06
-   */
-  this.readTouch = function (index, port) {
-    var a = [0xff, 0x55, 0x04, index, 0x01, 0x33, port];
-    return transport.send(a);
-  };
-
-  /**
-   * To determine whether the corresponding button is pressed.
-   * @param  {Number} index [description]
-   * @param  {Number} port  vailable: 6,7,8,9,10
-   * @param  {Number} key   vailable:1,2,3,4
-   * @return {Number}       [description]
-   * @example
-   * ff 55 05 00 01 16 03 01
-   */
-  this.readFourKeys = function (index, port, key) {
-    var a = [0xff, 0x55, 0x05, index, 0x01, 0x16, port, key];
-    return transport.send(a);
-  };
-
-  /**
-   * read encoder motor position or speed on transport.
-   * @param  {Number} index [description]
-   * @param  {Number} slot vailable:1,2
-   * @param  {Number} type  1: position; 2: speed
-   * @example
-   * ff 55 06 00 01 3d 00 01 02
-   */
-  this.readEncoderMotorOnBoard = function (index, slot, type) {
-    var a = [0xff, 0x55, 0x06, index, 0x01, 0x3d, 0x00, slot, type];
-    return transport.send(a);
-  };
-
-  /**
-   * read firmware mode or voltage.
-   * @param  {Number} index [description]
-   * @param  {Number} type  0x70: 电压; 0x71: 模式
-   * @example
-   * ff 55 04 00 01 3c 70
-   */
-  this.readFirmwareMode = function (index, type) {
-    var a = [0xff, 0x55, 0x04, index, 0x01, 0x3c, type];
-    return transport.send(a);
-  };
-
-  /**
-   * @param  {Number} index [description]
-   * @param  {Number} port  vailable: digit GPOI port
-   * @return {Number}       [description]
-   * @example
-   * ff 55 04 00 01 1e 09
-   */
-  // this.readDigGPIO = function(index, port) {
-  //   var a = [
-  //     0xff,0x55,
-  //     0x04, index,
-  //     0x01,
-  //     0x1e,
-  //     port,
-  //   ];
-  //   return transport.send(a);
-  // };
-
-  /**
-   * @param  {Number} index [description]
-   * @param  {Number} port  vailable: analog GPIO port
-   * @return {Number}       [description]
-   * @example
-   * ff 55 04 00 01 1f 02
-   */
-  // this.readAnalogGPIO = function(index, port) {
-  //   var a = [
-  //     0xff,0x55,
-  //     0x04, index,
-  //     0x01,
-  //     0x1f,
-  //     port,
-  //   ];
-  //   return transport.send(a);
-  // };
-
-  /**
-   * @param  {Number} index [description]
-   * @param  {Number} port  vailable: GPIO port
-   * @param  {Number} key   vailable: 0,1
-   * @return {Number}       [description]
-   * @example
-   * ff 55 05 00 01 25 0d 20 4e
-   */
-  // this.readGPIOContinue = function(index, port, key) {
-  //   var a = [
-  //     0xff,0x55,
-  //     0x05, index,
-  //     0x01,
-  //     0x25,
-  //     port,
-  //     key,
-  //   ];
-  //   return transport.send(a);
-  // };
-
-  /**
-   * @param  {Number} index [description]
-   * @param  {Number} port  vailable: GPIO port
-   * @param  {Number} key   vailable: 0,1
-   * @return {Number}       [description]
-   * @example
-   * ff 55 05 00 01 24 45 40
-   */
-  // this.readDoubleGPIO = function(index, port1, port2) {
-  //   var a = [
-  //     0xff,0x55,
-  //     0x05, index,
-  //     0x01,
-  //     0x24,
-  //     port1,
-  //     port2,
-  //   ];
-  //   return transport.send(a);
-  // };
-
-  /**
-   * @param  {Number} index [description]
-   * @param  {Number} port  vailable: analog GPIO port
-   * @param  {Number} key   vailable: 0,1
-   * @return {Number}       [description]
-   * @example
-   * ff 55 03 00 01 32
-   */
-  // this.readRuntime = function(index) {
-  //   var a = [
-  //     0xff,0x55,
-  //     0x03, index,
-  //     0x01,
-  //     0x32,
-  //   ];
-  //   return transport.send(a);
-  // };
-
-  // this.readOntransportButton = function(index) {
-  //   var a = [
-  //     0xff,0x55,
-  //     0x03, index,
-  //     0x01,
-  //     0x32,
-  //   ];
-  //   return transport.send(a);
-  // };
-}
-
-module.exports = Api;
-
-/***/ }),
-/* 4 */
-/***/ (function(module, exports) {
-
+"use strict";
 /**
  * @fileOverview 工具类函数
  */
-
-var Utils = {
+/* harmony default export */ __webpack_exports__["a"] = ({
   /**
    * limit value
    * @param  {Number} value
@@ -1131,21 +330,1426 @@ var Utils = {
       str += String.fromCharCode(bytes[i]);
     }
     return str;
+  },
+
+  getSecurityValue(val1, val2, type) {
+    return typeof val1 === type ? val1 : val2;
+  },
+
+  /**
+   * 函数式编程
+   * @param  {!Function} func 方法
+   * @param  {!Array} args 方法的参数数组
+   * @return {*}      返回结果由方法决定
+   */
+  composer(func, args) {
+    return func(...args);
   }
+
+});
+
+/***/ }),
+/* 1 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return defineNumber; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return defineString; });
+/* unused harmony export defineArray */
+/* unused harmony export defineBoolean */
+/* unused harmony export defineObject */
+/**
+ * 对传入参数进行初始化
+ */
+function defineType(type) {
+    return function (param, defaultValue) {
+        if (arguments.length < 2 && typeof param === 'undefined') {
+            return;
+        }
+        if (typeof defaultValue === 'undefinded') {
+            switch (type) {
+                case 'number':
+                    defaultValue = 0;
+                    break;
+                case 'string':
+                    defaultValue = '';
+                    break;
+                case 'array':
+                    defaultValue = [];
+                    break;
+                case 'boolean':
+                    defaultValue = false;
+                    break;
+                case 'object':
+                    defaultValue = {};
+                    break;
+                default:
+                    defaultValue = 0;
+                    break;
+            }
+        }
+        let value = defaultValue;
+        let condition = type === 'boolean' ? typeof param === type : typeof param === type || param === 1 || param === 0;
+        if (condition) {
+            value = param;
+        } else {
+            console.warn(`param '${param}' is not a ${type}!`);
+        }
+        return value;
+    };
 };
 
-module.exports = Utils;
+let defineNumber = defineType('number'),
+    defineString = defineType('string'),
+    defineArray = defineType('array'),
+    defineBoolean = defineType('boolean'),
+    defineObject = defineType('object');
+
+
+
+/***/ }),
+/* 2 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__transport__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_value_wrapper__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__core_utils__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__core_promise__ = __webpack_require__(11);
+/**
+ * @fileOverview 协议发送基类.
+ */
+//es6 module
+
+
+
+
+
+// var Transport = require('./transport');
+// var Api = require("../protocol/api");
+
+class Command {
+  constructor() {
+    this.CONFIG = {
+      // 开启超时重发
+      OPEN_RESNET_MODE: false,
+      // 超时重发的次数
+      RESENT_COUNT: 1,
+      // 读值指令超时的设定
+      COMMAND_SEND_TIMEOUT: 1000
+    };
+  }
+
+  /**
+   * 执行 buf 协议
+   * @param  {Array}   buf      协议
+   * @param  {Function} callback 回调
+   * @return {[type]}            [description]
+   */
+  exec(buf, callback) {
+    console.log(buf);
+  }
+
+  execRead(buf, callback) {
+    __WEBPACK_IMPORTED_MODULE_0__transport__["a" /* default */].send(buf);
+  }
+
+  execWrite(buf, callback) {
+    __WEBPACK_IMPORTED_MODULE_0__transport__["a" /* default */].send(buf);
+  }
+
+  /**
+   * Get sensor's value.
+   * @param  {String}   deviceType the sensor's type.
+   * @param  {Array}   buf    buf assembles from arguments such as port, slot etc.
+   * @param  {Function} callback   the function to be excuted.
+   */
+  getSensorValue(deviceType, buf, callback) {
+    if (callback == undefined && typeof options == 'function') {
+      callback = options;
+      options = {};
+    }
+    var params = {};
+    params.deviceType = deviceType;
+    params.callback = callback;
+    // params.port = options.port;
+    // params.slot = options.slot || 2;
+    var valueWrapper = new __WEBPACK_IMPORTED_MODULE_1__core_value_wrapper__["a" /* default */]();
+    var index = __WEBPACK_IMPORTED_MODULE_3__core_promise__["a" /* default */].add(deviceType, callback, valueWrapper);
+    // params.index = index;
+    // 发送读取指令
+    this._doGetSensorValue(params);
+    if (this.CONFIG.OPEN_RESNET_MODE) {
+      // 执行超时检测
+      this._handlerCommandSendTimeout(params);
+    }
+    return valueWrapper;
+  }
+
+  _doGetSensorValue(params) {
+
+    // this._readBlockStatus(params);
+
+    // 模拟传感器回传数据
+    // setTimeout(function() {
+    //   that.sensorCallback(params.index, 111);
+    // }, 1000)
+  }
+
+  /**
+   * Read module's value.
+   * @param  {object} params command params.
+   */
+  // _readBlockStatus(params) {
+  //   this.api = new Api(Transport.get());
+
+  //   var deviceType = params.deviceType;
+  //   var index = params.index;
+  //   var port = params.port;
+  //   var slot = params.slot || null;
+  //   var funcName = 'this.api.read' + utils.upperCaseFirstLetter(deviceType);
+  //   var paramsStr = '(' + index + ',' + port + ',' + slot + ')';
+  //   var func = funcName + paramsStr;
+  //   eval(func);
+  // };
+
+  /**
+   * Command sending timeout handler.
+   * @param  {Object} params params.
+   */
+  _handlerCommandSendTimeout(params) {
+    var that = this;
+    var promiseItem = __WEBPACK_IMPORTED_MODULE_3__core_promise__["a" /* default */].requestList[params.index];
+    setTimeout(function () {
+      if (promiseItem.hasReceivedValue) {
+        // 成功拿到数据，不进行处理
+        return;
+      } else {
+        // 超过规定的时间，还没有拿到数据，需要进行超时重发处理
+        if (promiseItem.resentCount >= that.CONFIG.RESENT_COUNT) {
+          // 如果重发的次数大于规定次数,则终止重发
+          console.log("【resend ends】");
+          return;
+        } else {
+          console.log('【resend】:' + params.index);
+          promiseItem.resentCount = promiseItem.resentCount || 0;
+          promiseItem.resentCount++;
+          that._doGetSensorValue(params);
+          that._handlerCommandSendTimeout(params);
+        }
+      }
+    }, that.CONFIG.COMMAND_SEND_TIMEOUT);
+  }
+
+  /**
+   * Get value form sensor and put the value to user's callback.
+   * @param  {Number} index  the index of sensor's request command in promiseList
+   * @param  {Number} result the value of sensor.
+   */
+  sensorCallback(index, result) {
+    var deviceType = __WEBPACK_IMPORTED_MODULE_3__core_promise__["a" /* default */].getType(index);
+    console.debug(deviceType + ": " + result);
+    __WEBPACK_IMPORTED_MODULE_3__core_promise__["a" /* default */].receiveValue(index, result);
+  }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (new Command());
+
+/***/ }),
+/* 3 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_utils__ = __webpack_require__(0);
+/**
+ * @fileOverview  Api api list
+ */
+
+
+/**
+ * buf 协议组装器
+ * @param  {Object} obj  对象
+ * @param  {Number} obj.index  由上位机赋值
+ * @param  {Number} obj.mode  查询、执行
+ * @param  {Number} obj.id  指令ID
+ * @param  {Arguments} args 其他参数
+ * @return {Array}      返回数组
+ */
+function bufAssembler(obj, ...args) {
+  const modes = [0x01, 0x02, 0x04];
+  const bufHead = [0xff, 0x55];
+  let bufLength = 0;
+  let bufAttr;
+  //todo：完善抛错提示
+  if (obj.mode == 0x04) {
+    bufAttr = new Array(obj.index || 0, obj.mode);
+  } else {
+    if (modes.indexOf(obj.mode) === -1) {
+      throw new Error(`mode should be one of ${modes}`);
+    } else if (typeof obj.id === 'undefined') {
+      throw new Error(`id should not be empty`);
+    }
+    bufAttr = new Array(obj.index || 0, obj.mode, obj.id);
+  }
+  //to fix:
+  bufLength = bufAttr.length + args.length;
+  return bufHead.concat([bufLength], bufAttr, args);
+}
+
+function protocolAssembler() {
+  /**
+   * Set dc motor speed.
+   * @param {number} port  port number, vailable is: 1,2,3,4
+   * @param {number} speed speed, the range is -255 ~ 255
+   * @example
+   *     ff 55 06 00 02 0a 01 ff 00
+   */
+  this.setDcMotor = function (port, speed) {
+    speed = __WEBPACK_IMPORTED_MODULE_0__core_utils__["a" /* default */].limitValue(speed);
+    return bufAssembler({ mode: 0x02, id: 0x0a }, port, speed & 0xff, speed >> 8 & 0xff);
+  };
+
+  /**
+   * Set encoder motor speed.
+   * @param {number} slot  slot number, vailable is: 1,2
+   * @param {number} speed speed, the range is -255 ~ 255
+   * @example
+   *     ff 55 07 00 02 3d 00 01 64 00
+   */
+  //TO COMFIRM: 缺少一个 angle
+  // this.setEncoderMotorOnBoard = function(slot, speed) {
+  //   let port = 0x00;
+  //   speed = Utils.limitValue(speed);
+  //   return bufAssembler({mode: 0x02, id: 0x3d}, port, slot, speed & 0xff, (speed >> 8) & 0xff);
+  // };
+
+  /**
+   * Set encoder motor speed.
+   * @param {number} slot  slot number, vailable is: 1,2
+   * @param {number} speed speed, the range is -255 ~ 255
+   * @example
+   *     ff 55 07 00 02 3d 00 01 64 00
+   */
+  this.setEncoderMotorOnBoard = function (slot, speed, angle) {
+    let port = 0x00; //板载 port 为 0
+    return this.setEncoderMotor(port, slot, speed, angle);
+  };
+
+  /**
+   * set encoder motor.
+   * @param  {Number} index [description]
+   * @param  {Number} port  vailable: 1,2,3,4
+   * @param  {Number} slot  vailable: 1，2
+   * @param  {Number} speed  0 ~ 300, 单位：rpm（每分钟转多少圈）
+   * @param  {Float} angle  相对位移, -2147483648 ~ 2147483647
+   * @example
+   * ff 55 0b 00 02 0c 08 01 96 00 00 00 34 44
+   */
+  this.setEncoderMotor = function (port, slot, speed, angle) {
+    port = port || 0x08; //I2C地址，目前无意义(软件稳定后可能会重新设计)，用来占位
+    speed = __WEBPACK_IMPORTED_MODULE_0__core_utils__["a" /* default */].limitValue(speed, [0, 300]);
+    let byte4Array = __WEBPACK_IMPORTED_MODULE_0__core_utils__["a" /* default */].float32ToBytes(angle);
+    return bufAssembler({ mode: 0x02, id: 0x0c }, port, slot, speed & 0xff, speed >> 8 & 0xff, ...byte4Array);
+  };
+
+  /**
+   * Set both left speed and right speed with one command.
+   * @param {number} leftSpeed  left speed, the range is -255 ~ 255
+   * @param {number} rightSpeed right speed, the range is -255 ~ 255
+   * @example
+   *     ff 55 07 00 02 05 64 00 64 00
+   */
+  this.setJoystick = function (leftSpeed, rightSpeed) {
+    leftSpeed = __WEBPACK_IMPORTED_MODULE_0__core_utils__["a" /* default */].limitValue(leftSpeed);
+    rightSpeed = __WEBPACK_IMPORTED_MODULE_0__core_utils__["a" /* default */].limitValue(rightSpeed);
+    return bufAssembler({ mode: 0x02, id: 0x05 }, leftSpeed & 0xff, leftSpeed >> 8 & 0xff, rightSpeed & 0xff, rightSpeed >> 8 & 0xff);
+  };
+
+  /**
+   * Set speed for balance mode, the port is on transport, value is 0.
+   * @param {number} turnDegree turn extend, -255 ~ 255
+   * @param {number} speed      speed, -255 ~ 255
+   * @example
+   *     ff 55 08 00 02 34 00 64 00 64 00
+   */
+  this.setVirtualJoystickForBalance = function (turnExtent, speed) {
+    turnExtent = __WEBPACK_IMPORTED_MODULE_0__core_utils__["a" /* default */].limitValue(turnExtent);
+    speed = __WEBPACK_IMPORTED_MODULE_0__core_utils__["a" /* default */].limitValue(speed);
+    port = 0; //板载虚拟摇杆 port = 00
+    return bufAssembler({ mode: 0x02, id: 0x34 }, port, turnExtent & 0xff, turnExtent >> 8 & 0xff, speed & 0xff, speed >> 8 & 0xff);
+  };
+
+  /**
+   * Set stepper motor speed.
+   * @param {Number} port     port number, vailable is: 1,2,3,4
+   * @param {Number} speed    speed, the range is 0 ~ 3000
+   * @param {Long} distance distance, the range is -2147483648 ~ 2147483647
+   * @example
+   *     ff 55 0a 00 02 28 01 b8 0b e8 03 00 00
+   */
+  this.setStepperMotor = function (port, speed, distance) {
+    speed = __WEBPACK_IMPORTED_MODULE_0__core_utils__["a" /* default */].limitValue(speed, [0, 3000]);
+    var distanceBytes = __WEBPACK_IMPORTED_MODULE_0__core_utils__["a" /* default */].longToBytes(distance);
+    return bufAssembler({ mode: 0x02, id: 0x28 }, port, speed & 0xff, speed >> 8 & 0xff, distanceBytes[3], distanceBytes[2], distanceBytes[1], distanceBytes[0]);
+  };
+
+  /**
+   * Set RgbFourLed electronic module color.
+   * @param {number} port     port number, vailable is: 0(on transport), 6,7,8,9,10
+   * @param {number} slot     slot number, vailable is: 1,2
+   * @param {number} position led position, 0 signify all leds.
+   * @param {number} r        red, the range is 0 ~ 255
+   * @param {number} g        green, the range is 0 ~ 255
+   * @param {number} b        blue, the range is 0 ~ 255
+   * @example
+   *     ff 55 09 00 02 08 06 02 00 ff 00 00
+   */
+  this.setLed = function (port, slot, position, r, g, b) {
+    r = __WEBPACK_IMPORTED_MODULE_0__core_utils__["a" /* default */].limitValue(r, [0, 255]);
+    g = __WEBPACK_IMPORTED_MODULE_0__core_utils__["a" /* default */].limitValue(g, [0, 255]);
+    b = __WEBPACK_IMPORTED_MODULE_0__core_utils__["a" /* default */].limitValue(b, [0, 255]);
+    return bufAssembler({ mode: 0x02, id: 0x08 }, port, slot, position, r, g, b);
+  };
+
+  /**
+   * set four leds
+   * @param {number} port     port number, vailable is: 0(on transport), 6,7,8,9,10
+   * @param {number} position led position, 0 signify all leds.
+   * @param {number} r        red, the range is 0 ~ 255
+   * @param {number} g        green, the range is 0 ~ 255
+   * @param {number} b        blue, the range is 0 ~ 255
+   */
+  this.setFourLeds = function (port, position, r, g, b) {
+    return this.setLed(port, 2, position, r, g, b);
+  };
+
+  /**
+   * turn off four leds
+   * @param {number} port     port number, vailable is: 0(on transport), 6,7,8,9,10
+   * @param {number} position led position, 0 signify all leds.
+   */
+  this.turnOffFourLeds = function (port, position) {
+    return this.setLed(port, 2, position, 0, 0, 0);
+  };
+
+  /**
+   * set led panel on Api transport.
+   * @param {number} position led position, 0 signify all leds.
+   * @param {number} r        red, the range is 0 ~ 255
+   * @param {number} g        green, the range is 0 ~ 255
+   * @param {number} b        blue, the range is 0 ~ 255
+   */
+  this.setLedPanelOnBoard = function (position, r, g, b) {
+    return this.setLed(0, 2, position, r, g, b);
+  };
+
+  /**
+   * turn off led panel on transport
+   * @param {number} position led position, 0 signify all leds.
+   */
+  this.turnOffLedPanelOnBoard = function (position) {
+    return this.setLed(0, 2, position, 0, 0, 0);
+  };
+
+  /**
+   * Set transport mode.
+   * @param {number} mode transport mode,
+   *     0: bluetooth mode
+   *     1: ultrasonic mode
+   *     2: balance mode
+   *     3: infrared mode
+   *     4: linefollow mode
+   * @example
+   *     ff 55 05 00 02 3c 11 00
+   */
+  this.setFirmwareMode = function (mode) {
+    var sub = 0x11; // 0x11 means Auriga模式
+    return bufAssembler({ mode: 0x02, id: 0x3c }, sub, mode);
+  };
+
+  /**
+   * Set Servo speed.
+   * @param {[type]} port   port number, vailable is 6,7,8,9,10
+   * @param {[type]} slot   slot number, vailable is 1,2
+   * @param {[type]} degree servo degree, the range is 0 ~ 180
+   */
+  this.setServoMotor = function (port, slot, degree) {
+    degree = __WEBPACK_IMPORTED_MODULE_0__core_utils__["a" /* default */].limitValue(degree, [0, 180]);
+    return bufAssembler({ mode: 0x02, id: 0x0b }, port, slot, degree);
+  };
+
+  /**
+   * Set Seven-segment digital tube number.
+   * @param {number} port   port number, vailable is 6,7,8,9,10
+   * @param {float} number  the number to be displayed, -999 ~ 9999
+   * @exmpa
+   *     ff 55 08 00 02 09 06 00 00 c8 42
+   */
+  this.setSevenSegment = function (port, number) {
+    number = __WEBPACK_IMPORTED_MODULE_0__core_utils__["a" /* default */].limitValue(number, [-999, 9999]);
+    var byte4Array = __WEBPACK_IMPORTED_MODULE_0__core_utils__["a" /* default */].float32ToBytes(number);
+    return bufAssembler({ mode: 0x02, id: 0x09 }, port, ...byte4Array);
+    // byte4Array[0],
+    // byte4Array[1],
+    // byte4Array[2],
+    // byte4Array[3]);
+  };
+
+  /**
+   * Set led matrix char.
+   * @param {number} port   port number, vailable is 6,7,8,9,10
+   * @param {number} xAxis  x position
+   * @param {number} yAxis  y position
+   * @param {string} char  char, 例如 Hi 转换成ASCII的值 48 69
+   * @exmaple
+   * ff 55 0a 00 02 29 06 01 00 01 02 48 69
+   */
+  this.setLedMatrixChar = function (port, xAxis, yAxis, char) {
+    var charAsciiArray = [];
+    for (var i = 0; i < char.length; i++) {
+      charAsciiArray.push(char[i].charCodeAt());
+    }
+
+    return bufAssembler({ mode: 0x02, id: 0x29 }, port, 0x01, xAxis, yAxis, char.length, ...charAsciiArray);
+  };
+
+  /**
+   * Set led matrix emotion.
+   * @param {number} port   port number, vailable is 6,7,8,9,10
+   * @param {number} xAxis      x position
+   * @param {number} yAxis      y position
+   * @param {Array} emotionData emotion data to be displayed, such as
+   *  [00, 00, 40, 48, 44, 42, 02, 02, 02, 02, 42, 44, 48, 40, 00, 00]
+   * @example
+   * ff 55 17 00 02 29 06 02 00 00 00 00 40 48 44 42 02 02 02 02 42 44 48 40 00 00
+   */
+  this.setLedMatrixEmotion = function (port, xAxis, yAxis, emotionData) {
+    // var a = [
+    //   0xff,0x55,
+    //   0x17,0,
+    //   0x02,
+    //   0x29,
+    //   port,
+    //   0x02,
+    //   xAxis,
+    //   yAxis
+    // ].concat(emotionData);
+
+    return bufAssembler({ mode: 0x02, id: 0x29 }, port, 0x02, xAxis, yAxis, ...emotionData);
+  };
+
+  /**
+   * Set led matrix time.
+   * @param {number} port   port number, vailable is 6,7,8,9,10
+   * @param {number} separator time separator, 01 signify `:`, 02 signify ` `
+   * @param {number} hour      hour number, 0 ~ 23
+   * @param {number} minute    minute number, 0 ~ 59
+   * @example
+   *     ff 55 08 00 02 29 06 03 01 0a 14
+   */
+  this.setLedMatrixTime = function (port, separator, hour, minute) {
+    hour = __WEBPACK_IMPORTED_MODULE_0__core_utils__["a" /* default */].limitValue(hour, [0, 23]);
+    minute = __WEBPACK_IMPORTED_MODULE_0__core_utils__["a" /* default */].limitValue(minute, [0, 59]);
+    return bufAssembler({ mode: 0x02, id: 0x29 }, port, 0x03, separator, hour, minute);
+  };
+
+  /**
+   * Set led matrix number.
+   * @param {number} port   port number, vailable is 6,7,8,9,10
+   * @param {float} number the number to be displayed
+   * @exmaple
+      ff 55 09 00 02 29 06 04 00 00 00 00
+   */
+  this.setLedMatrixNumber = function (port, number) {
+    var byte4Array = __WEBPACK_IMPORTED_MODULE_0__core_utils__["a" /* default */].float32ToBytes(number);
+    return bufAssembler({ mode: 0x02, id: 0x29 }, port, 0x04, ...byte4Array);
+    // byte4Array[0],
+    // byte4Array[1],
+    // byte4Array[2],
+    // byte4Array[3]);
+  };
+
+  /**
+   * Set shutter.
+   * @param {number} port   port number, vailable is 6,7,8,9,10
+   * @param {number} action 0: 按下快门; 1: 松开快门; 2: 聚焦; 3: 停止聚焦
+   * @exmaple
+      ff 55 05 00 02 14 06 02
+   */
+  this.setShutter = function (port, action) {
+    return bufAssembler({ mode: 0x02, id: 0x14 }, port, action);
+  };
+
+  /**
+   * reset all sensors and motors on transport.
+   * @exmaple
+      ff 55 02 00 04
+   */
+  this.reset = function () {
+    return bufAssembler({ mode: 0x04 });
+  };
+
+  /**
+   * set buzzer.
+   * @param {string} tone , "A2" ~ "D8"
+   * @param {number} beat , 125: eight; 250: quater; 500: half; 1000: one; 2000: double
+   * @example
+   * C2，quater beat: ff 55 08 00 02 22 09 41 00 f4 01
+   */
+  this.setTone = function (tone, beat) {
+    var TONE = {
+      // 原始数据：D5: 587 "E5": 658,"F5": 698,"G5": 784,"A5": 880,"B5": 988,"C6": 1047
+      "A2": 110, "B2": 123, "C2": 65,
+      "C3": 131, "D3": 147, "E3": 165, "F3": 175, "G3": 196, "A3": 220,
+      "B3": 247, "C4": 262, "D4": 294, "E4": 330, "F4": 349, "G4": 392,
+      "A4": 440, "B4": 494, "C5": 523, "D5": 555, "E5": 640, "F5": 698,
+      "G5": 784, "A5": 880, "B5": 988, "C6": 1047, "D6": 1175, "E6": 1319,
+      "F6": 1397, "G6": 1568, "A6": 1760, "B6": 1976, "C7": 2093, "D7": 2349,
+      "E7": 2637, "F7": 2794, "G7": 3136, "A7": 3520, "B7": 3951, "C8": 4186, "D8": 4699
+    };
+    const BEAT = {
+      eight: 125,
+      quater: 250,
+      half: 500,
+      one: 1000,
+      double: 2000
+    };
+
+    return bufAssembler({ mode: 0x02, id: 0x22 }, 0x09, TONE[tone] & 0xff, TONE[tone] >> 8 & 0xff, BEAT[beat] & 0xff, BEAT[beat] >> 8 & 0xff);
+  };
+
+  /**
+   * read verion of transport
+   * @param  {Number} index index of command
+   */
+  this.readVersion = function (index) {
+    return bufAssembler({ mode: 0x01, id: 0x00 });
+  };
+
+  /**
+   * mainly used for distance measurement, the measurement range is 0 to 500 cm,
+   * the execution of the command will have more than 100 milliseconds latency.
+   * So the frequency of the host to send this instruction shoulds not be too high.
+   * @param  {Number} index [description]
+   * @param  {Number} port  vailable: 6，7，8，9，10
+   * @return {Number}       [description]
+   * @example
+   * ff 55 04 00 01 01 03
+   */
+  this.readUltrasonic = function (port) {
+    return bufAssembler({ mode: 0x01, id: 0x01 }, port);
+  };
+
+  /**
+   * read temperature, Each port can connect two road temperature sensor.
+   * @param  {Number} index [description]
+   * @param  {Number} port  vailable: 6，7，8，9，10
+   * @param  {Number} slot  vailable: slot1(1), slot2(2)
+   * @return {Number}       [description]
+   * @example
+   * ff 55 05 00 01 02 01 02
+   */
+  this.readTemperature = function (port, slot) {
+    return bufAssembler({ mode: 0x01, id: 0x02 }, port, slot);
+  };
+
+  /**
+   * The light sensor module or ontransport (lamp) light sensors numerical reading.
+   * @param  {Number} index [description]
+   * @param  {Number} port  vailable: 6,7,8,9,10, onbord(0c),onbord(0b)
+   * @return {Number}       [description]
+   * @example
+   * ff 55 04 00 01 03 07
+   */
+  this.readLight = function (port) {
+    return bufAssembler({ mode: 0x01, id: 0x03 }, port);
+  };
+
+  /**
+   * read Potentionmeter
+   * @param  {Number} index [description]
+   * @param  {Number} port  vailable: 6，7，8，9，10
+   * @return {Number}       [description]
+   * @example
+   * ff 55 04 00 01 04 06
+   */
+  this.readPotentionmeter = function (port) {
+    return bufAssembler({ mode: 0x01, id: 0x04 }, port);
+  };
+
+  /**
+   * read josystic value
+   * @param  {Number} index [description]
+   * @param  {Number} port  vailable: 6，7，8，9，10
+   * @param  {Number} axis  1: x-axis; 2: y-axis;
+   * @example
+   * ff 55 05 00 01 05 06 01
+   */
+  this.readJoystick = function (port, axis) {
+    return bufAssembler({ mode: 0x01, id: 0x05 }, port, axis);
+  };
+
+  /**
+   * read gyro value in different axis.
+   * @param  {Number} index [description]
+   * @param  {Number} port  vailable: 6，7，8，9，10
+   * @param  {Number} axis  vailable: X-axis(01)  Y-axis(02)  Z-axis(03)
+   * @return {Number}       [description]
+   * @example
+   * ff 55 05 00 01 06 00 01
+   */
+  this.readGyro = function (port, axis) {
+    return bufAssembler({ mode: 0x01, id: 0x06 }, port, axis);
+  };
+
+  /**
+   * read volume testing MIC module parameters
+   * @param  {Number} index [description]
+   * @param  {Number} port  vailable: 6，7，8，9，10，ontransport(0x0e)
+   * @return {Number}       [description]
+   * @example
+   * ff 55 04 00 01 07 06
+   */
+  this.readSound = function (port) {
+    return bufAssembler({ mode: 0x01, id: 0x07 }, port);
+  };
+
+  /**
+   * read temperature on transport
+   * @param  {Number} index [description]
+   * @example
+   * ff 55 04 00 01 1b 0d
+   */
+  this.readTemperatureOnBoard = function () {
+    var port = 0x0d;
+    return bufAssembler({ mode: 0x01, id: 0x1b }, port);
+  };
+
+  /**
+   * read pyroelectric infrared sensor
+   * @param  {Number} index [description]
+   * @param  {Number} port  vailable: 6,7,8,9,10
+   * @return {Number}       [description]
+   * @example
+   * ff 55 04 00 01 0f 06
+   */
+  this.readPirmotion = function (port) {
+    return bufAssembler({ mode: 0x01, id: 0x0f }, port);
+  };
+
+  /**
+   * read LineFollower sensor
+   * @param  {Number} index [description]
+   * @param  {Number} port  vailable: 6，7，8，9，10
+   * @return {Number} number,
+   *  00   0
+      01   1
+      10   2
+      11   3
+      when 0 said has a black line
+    * @example
+    * ff 55 04 00 01 11 02
+   */
+  this.readLineFollower = function (port) {
+    return bufAssembler({ mode: 0x01, id: 0x11 }, port);
+  };
+
+  /**
+   * read limitSwitch
+   * @param  {Number} index [description]
+   * @param  {Number} port  vailable: 6,7,8,9,10
+   * @param  {Number} slot  vailable: SLOT1(01)   SLOT2(02)
+   * @return {Number}       [description]
+   * @example
+   * ff 55 05 00 01 15 06 02
+   */
+  this.readLimitSwitch = function (port, slot) {
+    return bufAssembler({ mode: 0x01, id: 0x15 }, port, slot);
+  };
+
+  /**
+   * read compass.
+   * @param  {Number} index [description]
+   * @param  {Number} port  vailable: 6,7,8,9,10
+   * @return {Number}       [description]
+   * @example
+   * ff 55 04 00 01 1a 06
+   */
+  this.readCompass = function (port) {
+    return bufAssembler({ mode: 0x01, id: 0x1a }, port);
+  };
+
+  /**
+   * read humiture
+   * @param  {Number} index [description]
+   * @param  {Number} port  vailable: 6，7，8，9，10
+   * @param  {Number} temperature(01) humidity (00)
+   * @return {Number}       [description]
+   * @example
+   * ff 55 05 00 01 17 06 00
+   */
+  this.readHumiture = function (port, type) {
+    return bufAssembler({ mode: 0x01, id: 0x17 }, port, type);
+  };
+
+  /**
+   * read flame
+   * @param  {Number} index [description]
+   * @param  {Number} port  vailable: 6,7,8,9,10
+   * @return {Number}       [description]
+   * @example
+   * ff 55 04 00 01 18 03
+   */
+  this.readFlame = function (port) {
+    return bufAssembler({ mode: 0x01, id: 0x18 }, port);
+  };
+
+  /**
+   * Used to get the harmful gas density
+   * @param  {Number} index [description]
+   * @param  {Number} port  vailable: 6,7,8,9,10
+   * @return {Number}       [description]
+   * @example
+   * ff 55 04 00 01 19 06
+   */
+  this.readGas = function (port) {
+    return bufAssembler({ mode: 0x01, id: 0x19 }, port);
+  };
+
+  /**
+   * read touch sensor
+   * @param  {Number} index [description]
+   * @param  {Number} port  vailable: 6,7,8,9,10
+   * @return {Number}       [description]
+   * @example
+   * ff 55 04 00 01 33 06
+   */
+  this.readTouch = function (port) {
+    return bufAssembler({ mode: 0x01, id: 0x33 }, port);
+  };
+
+  /**
+   * To determine whether the corresponding button is pressed.
+   * @param  {Number} index [description]
+   * @param  {Number} port  vailable: 6,7,8,9,10
+   * @param  {Number} key   vailable:1,2,3,4
+   * @return {Number}       [description]
+   * @example
+   * ff 55 05 00 01 16 03 01
+   */
+  this.readFourKeys = function (port, key) {
+    // var a = [
+    //   0xff,0x55,
+    //   0x05, index,
+    //   0x01,
+    //   0x16,
+    //   port,
+    //   key
+    // ];
+    return bufAssembler({ mode: 0x01, id: 0x16 }, port, key);
+  };
+
+  /**
+   * read encoder motor position or speed on transport.
+   * @param  {Number} index [description]
+   * @param  {Number} slot vailable:1,2
+   * @param  {Number} type  1: position; 2: speed
+   * @example
+   * ff 55 06 00 01 3d 00 01 02
+   */
+  this.readEncoderMotorOnBoard = function (slot, type) {
+    let port = 0x00; //板载 port
+    return bufAssembler({ mode: 0x01, id: 0x3d }, port, slot, type);
+  };
+
+  /**
+   * read firmware mode or voltage.
+   * @param  {Number} index [description]
+   * @param  {Number} type  0x70: 电压; 0x71: 模式
+   * @example
+   * ff 55 04 00 01 3c 70
+   */
+  this.readFirmwareMode = function (index, type) {
+    return bufAssembler({ mode: 0x01, id: 0x3c }, type);
+  };
+
+  /**
+   * @param  {Number} index [description]
+   * @param  {Number} port  vailable: digit GPOI port
+   * @return {Number}       [description]
+   * @example
+   * ff 55 04 00 01 1e 09
+   */
+  // this.readDigGPIO = function(index, port) {
+  //   var a = [
+  //     0xff,0x55,
+  //     0x04, index,
+  //     0x01,
+  //     0x1e,
+  //     port,
+  //   ];
+  //   return transport.send(a);
+  // };
+
+  /**
+   * @param  {Number} index [description]
+   * @param  {Number} port  vailable: analog GPIO port
+   * @return {Number}       [description]
+   * @example
+   * ff 55 04 00 01 1f 02
+   */
+  // this.readAnalogGPIO = function(index, port) {
+  //   var a = [
+  //     0xff,0x55,
+  //     0x04, index,
+  //     0x01,
+  //     0x1f,
+  //     port,
+  //   ];
+  //   return transport.send(a);
+  // };
+
+  /**
+   * @param  {Number} index [description]
+   * @param  {Number} port  vailable: GPIO port
+   * @param  {Number} key   vailable: 0,1
+   * @return {Number}       [description]
+   * @example
+   * ff 55 05 00 01 25 0d 20 4e
+   */
+  // this.readGPIOContinue = function(index, port, key) {
+  //   var a = [
+  //     0xff,0x55,
+  //     0x05, index,
+  //     0x01,
+  //     0x25,
+  //     port,
+  //     key,
+  //   ];
+  //   return transport.send(a);
+  // };
+
+  /**
+   * @param  {Number} index [description]
+   * @param  {Number} port  vailable: GPIO port
+   * @param  {Number} key   vailable: 0,1
+   * @return {Number}       [description]
+   * @example
+   * ff 55 05 00 01 24 45 40
+   */
+  // this.readDoubleGPIO = function(index, port1, port2) {
+  //   var a = [
+  //     0xff,0x55,
+  //     0x05, index,
+  //     0x01,
+  //     0x24,
+  //     port1,
+  //     port2,
+  //   ];
+  //   return transport.send(a);
+  // };
+
+  /**
+   * @param  {Number} index [description]
+   * @param  {Number} port  vailable: analog GPIO port
+   * @param  {Number} key   vailable: 0,1
+   * @return {Number}       [description]
+   * @example
+   * ff 55 03 00 01 32
+   */
+  // this.readRuntime = function(index) {
+  //   var a = [
+  //     0xff,0x55,
+  //     0x03, index,
+  //     0x01,
+  //     0x32,
+  //   ];
+  //   return transport.send(a);
+  // };
+
+  // this.readOntransportButton = function(index) {
+  //   var a = [
+  //     0xff,0x55,
+  //     0x03, index,
+  //     0x01,
+  //     0x32,
+  //   ];
+  //   return transport.send(a);
+  // };
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (new protocolAssembler());
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports) {
+
+class Electronic {
+  /**
+   * Electron类，电子模块基类
+   * @param {number} port - 电子模块port口 
+   * @param {number} slot - 电子模块slot口
+   */
+  constructor(port, slot) {
+    // port = defineNumber(port);
+    // slot = defineNumber(slot);
+    // let id = this.constructor.name + '_' + port + '_' + slot;
+    // let api = new Api(Transport.get());
+    // if(id in POOL) {
+    //   return POOL[id];
+    // } else {
+    //   this.port = port;
+    //   this.slot = slot;
+    //   this.api = api;
+    //   POOL[id] = this;
+    //   return this;
+    // }
+  }
+}
+
+module.exports = Electronic;
 
 /***/ }),
 /* 5 */
-/***/ (function(module, exports) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+const Settings = {
+    // 数据发送与接收相关
+    // 回复数据的index位置
+    READ_BYTES_INDEX: 2,
+    // 数据发送默认的驱动driver: makeblockhd, cordova
+    DEFAULT_CONF: {},
+    SUPPORTLIST: ['Mcore', 'Auriga', 'MegaPi', 'Orion', 'Neuron']
+};
+
+/* harmony default export */ __webpack_exports__["a"] = (Settings);
+
+/***/ }),
+/* 6 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__communicate_transport__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__parse__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__protocol_settings__ = __webpack_require__(5);
+/**
+ * @fileOverview board 用做通信基类，连接收和发送接口.
+ * @author Hyman
+ */
+//es6 module
+
+
+// const Command = require('../communicate/command');
+
+
+const createModuleId = function (eModule, args) {
+  args = [...args]; //转数组
+  let name = eModule.name;
+  let argsStamp = eModule.argsStamp();
+  let argsLength = args.length;
+  if (argsLength < argsStamp) {
+    //参数不足
+    console.warn(`there's lack of ${argsStamp - argsLength} argument(s), and ${eModule.name} may not work as a result`);
+  } else if (argsLength > argsStamp) {
+    //参数多余
+    args.splice(argsStamp);
+  }
+  return [name].concat(...args).join('_').toLowerCase();
+};
+
+// 超类： 具备发送、接收方法
+class Board {
+  constructor(conf) {
+    this._config = null;
+    //连接
+    this.connecting = {};
+    this.init(conf);
+  }
+
+  init(conf) {
+    this._config = Object.assign(__WEBPACK_IMPORTED_MODULE_2__protocol_settings__["a" /* default */].DEFAULT_CONF, conf || {});
+    this.setTransport(this._config.transport || {});
+
+    // 启动数据监听
+    // this.onReceived();
+  }
+
+  /**
+   * 电子模块实例工厂
+   * @param  {Function} eModule 电子模块类
+   * @param  {Array-Like} args    [port, slot, id...]
+   * @return {Object}         电子模块实例
+   */
+  eModuleFactory(eModule, args) {
+    let id = createModuleId(eModule, args);
+    if (this.connecting[id]) {
+      return this.connecting[id];
+    } else {
+      let emodule = new eModule(...args);
+      // 保存模块
+      this.connecting[id] = emodule;
+      return emodule;
+    }
+  }
+
+  /**
+   * 存储通信的通道
+   * @param {Object} transport json object.
+   * @example
+   * {
+   *    send: function(buf) {
+   *      console.log(buf);
+   *    },
+   *
+   *    onReceived: function(parse) {
+   *      serialPort.on('data', function(buff) {
+   *        parse.doParse(buff);
+   *      });
+   *    }
+   *  }
+   */
+  setTransport(transport) {
+    if (transport && typeof transport.send == 'function' && typeof transport.receive == 'function') {
+      __WEBPACK_IMPORTED_MODULE_0__communicate_transport__["a" /* default */].send = transport.send;
+      __WEBPACK_IMPORTED_MODULE_0__communicate_transport__["a" /* default */].receive = transport.receive;
+    } else {
+      // console.warn('')
+    }
+  }
+}
+
+// module.exports = Board;
+/* harmony default export */ __webpack_exports__["a"] = (Board);
+
+/***/ }),
+/* 7 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__electronic__);
+
+
+
+
+class LedMatrixBase extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
+  /**
+   * LedMatrix 类，led模块
+   */
+  constructor(port) {
+    super();
+    this.args = {
+      port: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__core_type__["a" /* defineNumber */])(port)
+    };
+  }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (LedMatrixBase);
+
+/***/ }),
+/* 8 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__electronic__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(2);
+
+
+
+
+
+
+let bufComposer = function (obj) {
+  let args = [obj.port, obj.slot, obj.ledPosition, ...obj.rgb];
+  return __WEBPACK_IMPORTED_MODULE_1__core_utils__["a" /* default */].composer(__WEBPACK_IMPORTED_MODULE_3__protocol_cmd__["a" /* default */].setLed, args);
+};
+
+class RgbLedBase extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
+  /**
+   * RgbLed类，led模块
+   * @param {number} port - led port口
+   * @param {number} position - led灯的位置
+   */
+  constructor(port, slot) {
+    super();
+    this.args = {
+      port: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__core_type__["a" /* defineNumber */])(port),
+      slot: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__core_type__["a" /* defineNumber */])(slot),
+      ledPosition: 0,
+      rgb: [0, 0, 0]
+    };
+  }
+
+  /**
+   * set led position
+   * @param {number} position 
+   */
+  position(position) {
+    this.args.ledPosition = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__core_type__["a" /* defineNumber */])(position, this.args.ledPosition);
+    return this;
+  }
+
+  /**
+   * set led red value
+   * @param {number} value 0 ~ 255 
+   */
+  r(value) {
+    this.args.rgb[0] = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__core_type__["a" /* defineNumber */])(value, this.args.rgb[0]);
+    return this;
+  }
+
+  /**
+   * set led green value
+   * @param {number} value 0 ~ 255 
+   */
+  g(value) {
+    this.args.rgb[1] = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__core_type__["a" /* defineNumber */])(value, this.args.rgb[1]);
+    return this;
+  }
+
+  /**
+   * set blue red value
+   * @param {number} value 0 ~ 255 
+   */
+  b(value) {
+    this.args.rgb[2] = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__core_type__["a" /* defineNumber */])(value, this.args.rgb[2]);
+    return this;
+  }
+
+  /**
+   * turn on led
+   * @param {number} position
+   */
+  turnOn(position) {
+    this.args.position(position);
+    //组装协议
+    let buf = bufComposer(this.args);
+    //执行
+    __WEBPACK_IMPORTED_MODULE_4__communicate_command__["a" /* default */].execWrite(buf);
+    return this;
+  }
+
+  /**
+   * turn off led
+   * @param {number} position
+   */
+  turnOff(position) {
+    this.args.position(position);
+    this.args.rgb = [0, 0, 0];
+    //组装协议
+    let buf = bufComposer(this.args);
+    //执行
+    __WEBPACK_IMPORTED_MODULE_4__communicate_command__["a" /* default */].execWrite(buf);
+    return this;
+  }
+
+  /**
+   * turn on all the leds
+   */
+  turnOnAll() {
+    return this.turnOn(0);
+  }
+
+  /**
+   * turn off all the leds
+   */
+  turnOnAll() {
+    return this.turnOff(0);
+  }
+
+  /**
+   * LED亮红色灯光
+   */
+  red() {
+    this.args.rgb = [255, 0, 0];
+    //组装协议
+    let buf = bufComposer(this.args);
+    //执行
+    __WEBPACK_IMPORTED_MODULE_4__communicate_command__["a" /* default */].execWrite(buf);
+    return this;
+  }
+
+  /**
+   * LED亮绿色灯光
+   */
+  green() {
+    this.args.rgb = [0, 255, 0];
+    //组装协议
+    let buf = bufComposer(this.args);
+    //执行
+    __WEBPACK_IMPORTED_MODULE_4__communicate_command__["a" /* default */].execWrite(buf);
+    return this;
+  }
+
+  /**
+   * LED亮蓝色灯光
+   */
+  blue() {
+    this.args.rgb = [0, 0, 255];
+    //组装协议
+    let buf = bufComposer(this.args);
+    //执行
+    __WEBPACK_IMPORTED_MODULE_4__communicate_command__["a" /* default */].execWrite(buf);
+    return this;
+  }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (RgbLedBase);
+
+/***/ }),
+/* 9 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__dc_motor__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__stepper_motor__ = __webpack_require__(56);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__encoder_motor__ = __webpack_require__(54);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__encoder_motor_on_board__ = __webpack_require__(23);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__servo_motor__ = __webpack_require__(57);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__four_led__ = __webpack_require__(26);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__rgb_led__ = __webpack_require__(42);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__led_panel_on_board__ = __webpack_require__(35);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__rgb_led_on_board__ = __webpack_require__(43);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__led_matrix_char__ = __webpack_require__(31);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__led_matrix_time__ = __webpack_require__(34);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__led_matrix_emotion__ = __webpack_require__(32);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__led_matrix_number__ = __webpack_require__(33);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__buzzer__ = __webpack_require__(20);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__seven_segment__ = __webpack_require__(44);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__shutter__ = __webpack_require__(45);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__reset__ = __webpack_require__(41);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__version__ = __webpack_require__(51);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__ultrasonic__ = __webpack_require__(50);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__temperature__ = __webpack_require__(47);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__light__ = __webpack_require__(36);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__potentionmeter__ = __webpack_require__(40);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__joystick__ = __webpack_require__(30);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__gyro__ = __webpack_require__(28);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__sound__ = __webpack_require__(46);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__temperature_on_board__ = __webpack_require__(48);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__pirmotion__ = __webpack_require__(39);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__line_follower__ = __webpack_require__(38);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__limit_switch__ = __webpack_require__(37);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__compass__ = __webpack_require__(21);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__humiture__ = __webpack_require__(29);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__flame__ = __webpack_require__(24);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_32__gas__ = __webpack_require__(27);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_33__touch__ = __webpack_require__(49);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_34__four_keys__ = __webpack_require__(25);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// import EncoderMotorOnBoard from './encoder_motor_on_board';
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+  DcMotor: __WEBPACK_IMPORTED_MODULE_0__dc_motor__["a" /* default */],
+  StepperMotor: __WEBPACK_IMPORTED_MODULE_1__stepper_motor__["a" /* default */],
+  EncoderMotor: __WEBPACK_IMPORTED_MODULE_2__encoder_motor__["a" /* default */],
+  EncoderMotorOnBoard: __WEBPACK_IMPORTED_MODULE_3__encoder_motor_on_board__["a" /* default */],
+  ServoMotor: __WEBPACK_IMPORTED_MODULE_4__servo_motor__["a" /* default */],
+  FourLed: __WEBPACK_IMPORTED_MODULE_5__four_led__["a" /* default */],
+  RgbLed: __WEBPACK_IMPORTED_MODULE_6__rgb_led__["a" /* default */],
+  LedPanelOnBoard: __WEBPACK_IMPORTED_MODULE_7__led_panel_on_board__["a" /* default */],
+  RgbLedOnBoard: __WEBPACK_IMPORTED_MODULE_8__rgb_led_on_board__["a" /* default */],
+  LedMatrixChar: __WEBPACK_IMPORTED_MODULE_9__led_matrix_char__["a" /* default */],
+  LedMatrixTime: __WEBPACK_IMPORTED_MODULE_10__led_matrix_time__["a" /* default */],
+  LedMatrixEmotion: __WEBPACK_IMPORTED_MODULE_11__led_matrix_emotion__["a" /* default */],
+  LedMatrixNumber: __WEBPACK_IMPORTED_MODULE_12__led_matrix_number__["a" /* default */],
+  Buzzer: __WEBPACK_IMPORTED_MODULE_13__buzzer__["a" /* default */],
+  SevenSegment: __WEBPACK_IMPORTED_MODULE_14__seven_segment__["a" /* default */],
+  Shutter: __WEBPACK_IMPORTED_MODULE_15__shutter__["a" /* default */],
+
+  Reset: __WEBPACK_IMPORTED_MODULE_16__reset__["a" /* default */], //实现待验证
+  Version: __WEBPACK_IMPORTED_MODULE_17__version__["a" /* default */], //实现待验证
+  Ultrasonic: __WEBPACK_IMPORTED_MODULE_18__ultrasonic__["a" /* default */],
+  Temperature: __WEBPACK_IMPORTED_MODULE_19__temperature__["a" /* default */],
+  Light: __WEBPACK_IMPORTED_MODULE_20__light__["a" /* default */],
+  Potentionmeter: __WEBPACK_IMPORTED_MODULE_21__potentionmeter__["a" /* default */],
+  Joystick: __WEBPACK_IMPORTED_MODULE_22__joystick__["a" /* default */],
+  Gyro: __WEBPACK_IMPORTED_MODULE_23__gyro__["a" /* default */],
+  Sound: __WEBPACK_IMPORTED_MODULE_24__sound__["a" /* default */],
+  TemperatureOnBoard: __WEBPACK_IMPORTED_MODULE_25__temperature_on_board__["a" /* default */],
+  Pirmotion: __WEBPACK_IMPORTED_MODULE_26__pirmotion__["a" /* default */],
+  LineFollower: __WEBPACK_IMPORTED_MODULE_27__line_follower__["a" /* default */],
+  LimitSwitch: __WEBPACK_IMPORTED_MODULE_28__limit_switch__["a" /* default */],
+  Compass: __WEBPACK_IMPORTED_MODULE_29__compass__["a" /* default */],
+  Humiture: __WEBPACK_IMPORTED_MODULE_30__humiture__["a" /* default */],
+  Flame: __WEBPACK_IMPORTED_MODULE_31__flame__["a" /* default */],
+  Gas: __WEBPACK_IMPORTED_MODULE_32__gas__["a" /* default */],
+  Touch: __WEBPACK_IMPORTED_MODULE_33__touch__["a" /* default */],
+  FourKeys: __WEBPACK_IMPORTED_MODULE_34__four_keys__["a" /* default */],
+  EncoderMotorOnBoard: __WEBPACK_IMPORTED_MODULE_3__encoder_motor_on_board__["a" /* default */]
+});
+
+/***/ }),
+/* 10 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/**
+ * @fileOverview 存储指令的传输通道：蓝牙，串口，2.4G等，一个单例。
+ */
+
+//输出单例
+let Transport = {
+  send: function () {},
+
+  receive: function () {}
+};
+
+/* harmony default export */ __webpack_exports__["a"] = (Transport);
+
+/***/ }),
+/* 11 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
 /**
  * @fileOverview PromiveList is sensor data's transfer station.
  * 用于处理传感器数据分发
  */
 
-var PromiseList = {
+const PromiseList = {
     requestList: new Array(255),
     index: 1,
 
@@ -1184,1812 +1788,180 @@ var PromiseList = {
     }
 };
 
-module.exports = PromiseList;
-
-/***/ }),
-/* 6 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var board = __webpack_require__(1);
-var electronics = __webpack_require__(2);
-
-function Auriga(conf) {
-  board.init(conf);
-
-  // 挂载各电子模块
-  for (let i in electronics) {
-    this[i] = function (port, slot) {
-      return new electronics[i](port, slot);
-    };
-  }
-}
-
-// clone method and attributes from board to Auriga.
-Auriga.prototype = board;
-
-module.exports = Auriga;
-
-/***/ }),
-/* 7 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var board = __webpack_require__(1);
-var electronics = __webpack_require__(2);
-
-function Mcore(conf) {
-  board.init(conf);
-
-  // 挂载各电子模块
-  for (let i in electronics) {
-    this[i] = function (port, slot) {
-      return new electronics[i](port, slot);
-    };
-  }
-}
-
-// clone method and attributes from board to Mcore.
-Mcore.prototype = board;
-
-module.exports = Mcore;
-
-/***/ }),
-/* 8 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var board = __webpack_require__(1);
-var electronics = __webpack_require__(2);
-
-function MegaPi(conf) {
-  board.init(conf);
-
-  // 挂载各电子模块
-  for (let i in electronics) {
-    this[i] = function (port, slot) {
-      return new electronics[i](port, slot);
-    };
-  }
-}
-
-// clone method and attributes from board to MegaPi.
-MegaPi.prototype = board;
-
-module.exports = MegaPi;
-
-/***/ }),
-/* 9 */
-/***/ (function(module, exports) {
-
-// var Neuron = require('mneurons');
-// var Neuron = require('../../neurons-engine/lib/engine/logic');
-
-var Neuron = {};
-
-module.exports = Neuron;
-
-/***/ }),
-/* 10 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var board = __webpack_require__(1);
-var electronics = __webpack_require__(2);
-
-function Orion(conf) {
-  board.init(conf);
-
-  // 挂载各电子模块
-  for (let i in electronics) {
-    this[i] = function (port, slot) {
-      return new electronics[i](port, slot);
-    };
-  }
-}
-
-// clone method and attributes from board to Orion.
-Orion.prototype = board;
-
-module.exports = Orion;
-
-/***/ }),
-/* 11 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;//     Underscore.js 1.8.3
-//     http://underscorejs.org
-//     (c) 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
-//     Underscore may be freely distributed under the MIT license.
-
-(function () {
-
-  // Baseline setup
-  // --------------
-
-  // Establish the root object, `window` in the browser, or `exports` on the server.
-  var root = this;
-
-  // Save the previous value of the `_` variable.
-  var previousUnderscore = root._;
-
-  // Save bytes in the minified (but not gzipped) version:
-  var ArrayProto = Array.prototype,
-      ObjProto = Object.prototype,
-      FuncProto = Function.prototype;
-
-  // Create quick reference variables for speed access to core prototypes.
-  var push = ArrayProto.push,
-      slice = ArrayProto.slice,
-      toString = ObjProto.toString,
-      hasOwnProperty = ObjProto.hasOwnProperty;
-
-  // All **ECMAScript 5** native function implementations that we hope to use
-  // are declared here.
-  var nativeIsArray = Array.isArray,
-      nativeKeys = Object.keys,
-      nativeBind = FuncProto.bind,
-      nativeCreate = Object.create;
-
-  // Naked function reference for surrogate-prototype-swapping.
-  var Ctor = function () {};
-
-  // Create a safe reference to the Underscore object for use below.
-  var _ = function (obj) {
-    if (obj instanceof _) return obj;
-    if (!(this instanceof _)) return new _(obj);
-    this._wrapped = obj;
-  };
-
-  // Export the Underscore object for **Node.js**, with
-  // backwards-compatibility for the old `require()` API. If we're in
-  // the browser, add `_` as a global object.
-  if (true) {
-    if (typeof module !== 'undefined' && module.exports) {
-      exports = module.exports = _;
-    }
-    exports._ = _;
-  } else {
-    root._ = _;
-  }
-
-  // Current version.
-  _.VERSION = '1.8.3';
-
-  // Internal function that returns an efficient (for current engines) version
-  // of the passed-in callback, to be repeatedly applied in other Underscore
-  // functions.
-  var optimizeCb = function (func, context, argCount) {
-    if (context === void 0) return func;
-    switch (argCount == null ? 3 : argCount) {
-      case 1:
-        return function (value) {
-          return func.call(context, value);
-        };
-      case 2:
-        return function (value, other) {
-          return func.call(context, value, other);
-        };
-      case 3:
-        return function (value, index, collection) {
-          return func.call(context, value, index, collection);
-        };
-      case 4:
-        return function (accumulator, value, index, collection) {
-          return func.call(context, accumulator, value, index, collection);
-        };
-    }
-    return function () {
-      return func.apply(context, arguments);
-    };
-  };
-
-  // A mostly-internal function to generate callbacks that can be applied
-  // to each element in a collection, returning the desired result — either
-  // identity, an arbitrary callback, a property matcher, or a property accessor.
-  var cb = function (value, context, argCount) {
-    if (value == null) return _.identity;
-    if (_.isFunction(value)) return optimizeCb(value, context, argCount);
-    if (_.isObject(value)) return _.matcher(value);
-    return _.property(value);
-  };
-  _.iteratee = function (value, context) {
-    return cb(value, context, Infinity);
-  };
-
-  // An internal function for creating assigner functions.
-  var createAssigner = function (keysFunc, undefinedOnly) {
-    return function (obj) {
-      var length = arguments.length;
-      if (length < 2 || obj == null) return obj;
-      for (var index = 1; index < length; index++) {
-        var source = arguments[index],
-            keys = keysFunc(source),
-            l = keys.length;
-        for (var i = 0; i < l; i++) {
-          var key = keys[i];
-          if (!undefinedOnly || obj[key] === void 0) obj[key] = source[key];
-        }
-      }
-      return obj;
-    };
-  };
-
-  // An internal function for creating a new object that inherits from another.
-  var baseCreate = function (prototype) {
-    if (!_.isObject(prototype)) return {};
-    if (nativeCreate) return nativeCreate(prototype);
-    Ctor.prototype = prototype;
-    var result = new Ctor();
-    Ctor.prototype = null;
-    return result;
-  };
-
-  var property = function (key) {
-    return function (obj) {
-      return obj == null ? void 0 : obj[key];
-    };
-  };
-
-  // Helper for collection methods to determine whether a collection
-  // should be iterated as an array or as an object
-  // Related: http://people.mozilla.org/~jorendorff/es6-draft.html#sec-tolength
-  // Avoids a very nasty iOS 8 JIT bug on ARM-64. #2094
-  var MAX_ARRAY_INDEX = Math.pow(2, 53) - 1;
-  var getLength = property('length');
-  var isArrayLike = function (collection) {
-    var length = getLength(collection);
-    return typeof length == 'number' && length >= 0 && length <= MAX_ARRAY_INDEX;
-  };
-
-  // Collection Functions
-  // --------------------
-
-  // The cornerstone, an `each` implementation, aka `forEach`.
-  // Handles raw objects in addition to array-likes. Treats all
-  // sparse array-likes as if they were dense.
-  _.each = _.forEach = function (obj, iteratee, context) {
-    iteratee = optimizeCb(iteratee, context);
-    var i, length;
-    if (isArrayLike(obj)) {
-      for (i = 0, length = obj.length; i < length; i++) {
-        iteratee(obj[i], i, obj);
-      }
-    } else {
-      var keys = _.keys(obj);
-      for (i = 0, length = keys.length; i < length; i++) {
-        iteratee(obj[keys[i]], keys[i], obj);
-      }
-    }
-    return obj;
-  };
-
-  // Return the results of applying the iteratee to each element.
-  _.map = _.collect = function (obj, iteratee, context) {
-    iteratee = cb(iteratee, context);
-    var keys = !isArrayLike(obj) && _.keys(obj),
-        length = (keys || obj).length,
-        results = Array(length);
-    for (var index = 0; index < length; index++) {
-      var currentKey = keys ? keys[index] : index;
-      results[index] = iteratee(obj[currentKey], currentKey, obj);
-    }
-    return results;
-  };
-
-  // Create a reducing function iterating left or right.
-  function createReduce(dir) {
-    // Optimized iterator function as using arguments.length
-    // in the main function will deoptimize the, see #1991.
-    function iterator(obj, iteratee, memo, keys, index, length) {
-      for (; index >= 0 && index < length; index += dir) {
-        var currentKey = keys ? keys[index] : index;
-        memo = iteratee(memo, obj[currentKey], currentKey, obj);
-      }
-      return memo;
-    }
-
-    return function (obj, iteratee, memo, context) {
-      iteratee = optimizeCb(iteratee, context, 4);
-      var keys = !isArrayLike(obj) && _.keys(obj),
-          length = (keys || obj).length,
-          index = dir > 0 ? 0 : length - 1;
-      // Determine the initial value if none is provided.
-      if (arguments.length < 3) {
-        memo = obj[keys ? keys[index] : index];
-        index += dir;
-      }
-      return iterator(obj, iteratee, memo, keys, index, length);
-    };
-  }
-
-  // **Reduce** builds up a single result from a list of values, aka `inject`,
-  // or `foldl`.
-  _.reduce = _.foldl = _.inject = createReduce(1);
-
-  // The right-associative version of reduce, also known as `foldr`.
-  _.reduceRight = _.foldr = createReduce(-1);
-
-  // Return the first value which passes a truth test. Aliased as `detect`.
-  _.find = _.detect = function (obj, predicate, context) {
-    var key;
-    if (isArrayLike(obj)) {
-      key = _.findIndex(obj, predicate, context);
-    } else {
-      key = _.findKey(obj, predicate, context);
-    }
-    if (key !== void 0 && key !== -1) return obj[key];
-  };
-
-  // Return all the elements that pass a truth test.
-  // Aliased as `select`.
-  _.filter = _.select = function (obj, predicate, context) {
-    var results = [];
-    predicate = cb(predicate, context);
-    _.each(obj, function (value, index, list) {
-      if (predicate(value, index, list)) results.push(value);
-    });
-    return results;
-  };
-
-  // Return all the elements for which a truth test fails.
-  _.reject = function (obj, predicate, context) {
-    return _.filter(obj, _.negate(cb(predicate)), context);
-  };
-
-  // Determine whether all of the elements match a truth test.
-  // Aliased as `all`.
-  _.every = _.all = function (obj, predicate, context) {
-    predicate = cb(predicate, context);
-    var keys = !isArrayLike(obj) && _.keys(obj),
-        length = (keys || obj).length;
-    for (var index = 0; index < length; index++) {
-      var currentKey = keys ? keys[index] : index;
-      if (!predicate(obj[currentKey], currentKey, obj)) return false;
-    }
-    return true;
-  };
-
-  // Determine if at least one element in the object matches a truth test.
-  // Aliased as `any`.
-  _.some = _.any = function (obj, predicate, context) {
-    predicate = cb(predicate, context);
-    var keys = !isArrayLike(obj) && _.keys(obj),
-        length = (keys || obj).length;
-    for (var index = 0; index < length; index++) {
-      var currentKey = keys ? keys[index] : index;
-      if (predicate(obj[currentKey], currentKey, obj)) return true;
-    }
-    return false;
-  };
-
-  // Determine if the array or object contains a given item (using `===`).
-  // Aliased as `includes` and `include`.
-  _.contains = _.includes = _.include = function (obj, item, fromIndex, guard) {
-    if (!isArrayLike(obj)) obj = _.values(obj);
-    if (typeof fromIndex != 'number' || guard) fromIndex = 0;
-    return _.indexOf(obj, item, fromIndex) >= 0;
-  };
-
-  // Invoke a method (with arguments) on every item in a collection.
-  _.invoke = function (obj, method) {
-    var args = slice.call(arguments, 2);
-    var isFunc = _.isFunction(method);
-    return _.map(obj, function (value) {
-      var func = isFunc ? method : value[method];
-      return func == null ? func : func.apply(value, args);
-    });
-  };
-
-  // Convenience version of a common use case of `map`: fetching a property.
-  _.pluck = function (obj, key) {
-    return _.map(obj, _.property(key));
-  };
-
-  // Convenience version of a common use case of `filter`: selecting only objects
-  // containing specific `key:value` pairs.
-  _.where = function (obj, attrs) {
-    return _.filter(obj, _.matcher(attrs));
-  };
-
-  // Convenience version of a common use case of `find`: getting the first object
-  // containing specific `key:value` pairs.
-  _.findWhere = function (obj, attrs) {
-    return _.find(obj, _.matcher(attrs));
-  };
-
-  // Return the maximum element (or element-based computation).
-  _.max = function (obj, iteratee, context) {
-    var result = -Infinity,
-        lastComputed = -Infinity,
-        value,
-        computed;
-    if (iteratee == null && obj != null) {
-      obj = isArrayLike(obj) ? obj : _.values(obj);
-      for (var i = 0, length = obj.length; i < length; i++) {
-        value = obj[i];
-        if (value > result) {
-          result = value;
-        }
-      }
-    } else {
-      iteratee = cb(iteratee, context);
-      _.each(obj, function (value, index, list) {
-        computed = iteratee(value, index, list);
-        if (computed > lastComputed || computed === -Infinity && result === -Infinity) {
-          result = value;
-          lastComputed = computed;
-        }
-      });
-    }
-    return result;
-  };
-
-  // Return the minimum element (or element-based computation).
-  _.min = function (obj, iteratee, context) {
-    var result = Infinity,
-        lastComputed = Infinity,
-        value,
-        computed;
-    if (iteratee == null && obj != null) {
-      obj = isArrayLike(obj) ? obj : _.values(obj);
-      for (var i = 0, length = obj.length; i < length; i++) {
-        value = obj[i];
-        if (value < result) {
-          result = value;
-        }
-      }
-    } else {
-      iteratee = cb(iteratee, context);
-      _.each(obj, function (value, index, list) {
-        computed = iteratee(value, index, list);
-        if (computed < lastComputed || computed === Infinity && result === Infinity) {
-          result = value;
-          lastComputed = computed;
-        }
-      });
-    }
-    return result;
-  };
-
-  // Shuffle a collection, using the modern version of the
-  // [Fisher-Yates shuffle](http://en.wikipedia.org/wiki/Fisher–Yates_shuffle).
-  _.shuffle = function (obj) {
-    var set = isArrayLike(obj) ? obj : _.values(obj);
-    var length = set.length;
-    var shuffled = Array(length);
-    for (var index = 0, rand; index < length; index++) {
-      rand = _.random(0, index);
-      if (rand !== index) shuffled[index] = shuffled[rand];
-      shuffled[rand] = set[index];
-    }
-    return shuffled;
-  };
-
-  // Sample **n** random values from a collection.
-  // If **n** is not specified, returns a single random element.
-  // The internal `guard` argument allows it to work with `map`.
-  _.sample = function (obj, n, guard) {
-    if (n == null || guard) {
-      if (!isArrayLike(obj)) obj = _.values(obj);
-      return obj[_.random(obj.length - 1)];
-    }
-    return _.shuffle(obj).slice(0, Math.max(0, n));
-  };
-
-  // Sort the object's values by a criterion produced by an iteratee.
-  _.sortBy = function (obj, iteratee, context) {
-    iteratee = cb(iteratee, context);
-    return _.pluck(_.map(obj, function (value, index, list) {
-      return {
-        value: value,
-        index: index,
-        criteria: iteratee(value, index, list)
-      };
-    }).sort(function (left, right) {
-      var a = left.criteria;
-      var b = right.criteria;
-      if (a !== b) {
-        if (a > b || a === void 0) return 1;
-        if (a < b || b === void 0) return -1;
-      }
-      return left.index - right.index;
-    }), 'value');
-  };
-
-  // An internal function used for aggregate "group by" operations.
-  var group = function (behavior) {
-    return function (obj, iteratee, context) {
-      var result = {};
-      iteratee = cb(iteratee, context);
-      _.each(obj, function (value, index) {
-        var key = iteratee(value, index, obj);
-        behavior(result, value, key);
-      });
-      return result;
-    };
-  };
-
-  // Groups the object's values by a criterion. Pass either a string attribute
-  // to group by, or a function that returns the criterion.
-  _.groupBy = group(function (result, value, key) {
-    if (_.has(result, key)) result[key].push(value);else result[key] = [value];
-  });
-
-  // Indexes the object's values by a criterion, similar to `groupBy`, but for
-  // when you know that your index values will be unique.
-  _.indexBy = group(function (result, value, key) {
-    result[key] = value;
-  });
-
-  // Counts instances of an object that group by a certain criterion. Pass
-  // either a string attribute to count by, or a function that returns the
-  // criterion.
-  _.countBy = group(function (result, value, key) {
-    if (_.has(result, key)) result[key]++;else result[key] = 1;
-  });
-
-  // Safely create a real, live array from anything iterable.
-  _.toArray = function (obj) {
-    if (!obj) return [];
-    if (_.isArray(obj)) return slice.call(obj);
-    if (isArrayLike(obj)) return _.map(obj, _.identity);
-    return _.values(obj);
-  };
-
-  // Return the number of elements in an object.
-  _.size = function (obj) {
-    if (obj == null) return 0;
-    return isArrayLike(obj) ? obj.length : _.keys(obj).length;
-  };
-
-  // Split a collection into two arrays: one whose elements all satisfy the given
-  // predicate, and one whose elements all do not satisfy the predicate.
-  _.partition = function (obj, predicate, context) {
-    predicate = cb(predicate, context);
-    var pass = [],
-        fail = [];
-    _.each(obj, function (value, key, obj) {
-      (predicate(value, key, obj) ? pass : fail).push(value);
-    });
-    return [pass, fail];
-  };
-
-  // Array Functions
-  // ---------------
-
-  // Get the first element of an array. Passing **n** will return the first N
-  // values in the array. Aliased as `head` and `take`. The **guard** check
-  // allows it to work with `_.map`.
-  _.first = _.head = _.take = function (array, n, guard) {
-    if (array == null) return void 0;
-    if (n == null || guard) return array[0];
-    return _.initial(array, array.length - n);
-  };
-
-  // Returns everything but the last entry of the array. Especially useful on
-  // the arguments object. Passing **n** will return all the values in
-  // the array, excluding the last N.
-  _.initial = function (array, n, guard) {
-    return slice.call(array, 0, Math.max(0, array.length - (n == null || guard ? 1 : n)));
-  };
-
-  // Get the last element of an array. Passing **n** will return the last N
-  // values in the array.
-  _.last = function (array, n, guard) {
-    if (array == null) return void 0;
-    if (n == null || guard) return array[array.length - 1];
-    return _.rest(array, Math.max(0, array.length - n));
-  };
-
-  // Returns everything but the first entry of the array. Aliased as `tail` and `drop`.
-  // Especially useful on the arguments object. Passing an **n** will return
-  // the rest N values in the array.
-  _.rest = _.tail = _.drop = function (array, n, guard) {
-    return slice.call(array, n == null || guard ? 1 : n);
-  };
-
-  // Trim out all falsy values from an array.
-  _.compact = function (array) {
-    return _.filter(array, _.identity);
-  };
-
-  // Internal implementation of a recursive `flatten` function.
-  var flatten = function (input, shallow, strict, startIndex) {
-    var output = [],
-        idx = 0;
-    for (var i = startIndex || 0, length = getLength(input); i < length; i++) {
-      var value = input[i];
-      if (isArrayLike(value) && (_.isArray(value) || _.isArguments(value))) {
-        //flatten current level of array or arguments object
-        if (!shallow) value = flatten(value, shallow, strict);
-        var j = 0,
-            len = value.length;
-        output.length += len;
-        while (j < len) {
-          output[idx++] = value[j++];
-        }
-      } else if (!strict) {
-        output[idx++] = value;
-      }
-    }
-    return output;
-  };
-
-  // Flatten out an array, either recursively (by default), or just one level.
-  _.flatten = function (array, shallow) {
-    return flatten(array, shallow, false);
-  };
-
-  // Return a version of the array that does not contain the specified value(s).
-  _.without = function (array) {
-    return _.difference(array, slice.call(arguments, 1));
-  };
-
-  // Produce a duplicate-free version of the array. If the array has already
-  // been sorted, you have the option of using a faster algorithm.
-  // Aliased as `unique`.
-  _.uniq = _.unique = function (array, isSorted, iteratee, context) {
-    if (!_.isBoolean(isSorted)) {
-      context = iteratee;
-      iteratee = isSorted;
-      isSorted = false;
-    }
-    if (iteratee != null) iteratee = cb(iteratee, context);
-    var result = [];
-    var seen = [];
-    for (var i = 0, length = getLength(array); i < length; i++) {
-      var value = array[i],
-          computed = iteratee ? iteratee(value, i, array) : value;
-      if (isSorted) {
-        if (!i || seen !== computed) result.push(value);
-        seen = computed;
-      } else if (iteratee) {
-        if (!_.contains(seen, computed)) {
-          seen.push(computed);
-          result.push(value);
-        }
-      } else if (!_.contains(result, value)) {
-        result.push(value);
-      }
-    }
-    return result;
-  };
-
-  // Produce an array that contains the union: each distinct element from all of
-  // the passed-in arrays.
-  _.union = function () {
-    return _.uniq(flatten(arguments, true, true));
-  };
-
-  // Produce an array that contains every item shared between all the
-  // passed-in arrays.
-  _.intersection = function (array) {
-    var result = [];
-    var argsLength = arguments.length;
-    for (var i = 0, length = getLength(array); i < length; i++) {
-      var item = array[i];
-      if (_.contains(result, item)) continue;
-      for (var j = 1; j < argsLength; j++) {
-        if (!_.contains(arguments[j], item)) break;
-      }
-      if (j === argsLength) result.push(item);
-    }
-    return result;
-  };
-
-  // Take the difference between one array and a number of other arrays.
-  // Only the elements present in just the first array will remain.
-  _.difference = function (array) {
-    var rest = flatten(arguments, true, true, 1);
-    return _.filter(array, function (value) {
-      return !_.contains(rest, value);
-    });
-  };
-
-  // Zip together multiple lists into a single array -- elements that share
-  // an index go together.
-  _.zip = function () {
-    return _.unzip(arguments);
-  };
-
-  // Complement of _.zip. Unzip accepts an array of arrays and groups
-  // each array's elements on shared indices
-  _.unzip = function (array) {
-    var length = array && _.max(array, getLength).length || 0;
-    var result = Array(length);
-
-    for (var index = 0; index < length; index++) {
-      result[index] = _.pluck(array, index);
-    }
-    return result;
-  };
-
-  // Converts lists into objects. Pass either a single array of `[key, value]`
-  // pairs, or two parallel arrays of the same length -- one of keys, and one of
-  // the corresponding values.
-  _.object = function (list, values) {
-    var result = {};
-    for (var i = 0, length = getLength(list); i < length; i++) {
-      if (values) {
-        result[list[i]] = values[i];
-      } else {
-        result[list[i][0]] = list[i][1];
-      }
-    }
-    return result;
-  };
-
-  // Generator function to create the findIndex and findLastIndex functions
-  function createPredicateIndexFinder(dir) {
-    return function (array, predicate, context) {
-      predicate = cb(predicate, context);
-      var length = getLength(array);
-      var index = dir > 0 ? 0 : length - 1;
-      for (; index >= 0 && index < length; index += dir) {
-        if (predicate(array[index], index, array)) return index;
-      }
-      return -1;
-    };
-  }
-
-  // Returns the first index on an array-like that passes a predicate test
-  _.findIndex = createPredicateIndexFinder(1);
-  _.findLastIndex = createPredicateIndexFinder(-1);
-
-  // Use a comparator function to figure out the smallest index at which
-  // an object should be inserted so as to maintain order. Uses binary search.
-  _.sortedIndex = function (array, obj, iteratee, context) {
-    iteratee = cb(iteratee, context, 1);
-    var value = iteratee(obj);
-    var low = 0,
-        high = getLength(array);
-    while (low < high) {
-      var mid = Math.floor((low + high) / 2);
-      if (iteratee(array[mid]) < value) low = mid + 1;else high = mid;
-    }
-    return low;
-  };
-
-  // Generator function to create the indexOf and lastIndexOf functions
-  function createIndexFinder(dir, predicateFind, sortedIndex) {
-    return function (array, item, idx) {
-      var i = 0,
-          length = getLength(array);
-      if (typeof idx == 'number') {
-        if (dir > 0) {
-          i = idx >= 0 ? idx : Math.max(idx + length, i);
-        } else {
-          length = idx >= 0 ? Math.min(idx + 1, length) : idx + length + 1;
-        }
-      } else if (sortedIndex && idx && length) {
-        idx = sortedIndex(array, item);
-        return array[idx] === item ? idx : -1;
-      }
-      if (item !== item) {
-        idx = predicateFind(slice.call(array, i, length), _.isNaN);
-        return idx >= 0 ? idx + i : -1;
-      }
-      for (idx = dir > 0 ? i : length - 1; idx >= 0 && idx < length; idx += dir) {
-        if (array[idx] === item) return idx;
-      }
-      return -1;
-    };
-  }
-
-  // Return the position of the first occurrence of an item in an array,
-  // or -1 if the item is not included in the array.
-  // If the array is large and already in sort order, pass `true`
-  // for **isSorted** to use binary search.
-  _.indexOf = createIndexFinder(1, _.findIndex, _.sortedIndex);
-  _.lastIndexOf = createIndexFinder(-1, _.findLastIndex);
-
-  // Generate an integer Array containing an arithmetic progression. A port of
-  // the native Python `range()` function. See
-  // [the Python documentation](http://docs.python.org/library/functions.html#range).
-  _.range = function (start, stop, step) {
-    if (stop == null) {
-      stop = start || 0;
-      start = 0;
-    }
-    step = step || 1;
-
-    var length = Math.max(Math.ceil((stop - start) / step), 0);
-    var range = Array(length);
-
-    for (var idx = 0; idx < length; idx++, start += step) {
-      range[idx] = start;
-    }
-
-    return range;
-  };
-
-  // Function (ahem) Functions
-  // ------------------
-
-  // Determines whether to execute a function as a constructor
-  // or a normal function with the provided arguments
-  var executeBound = function (sourceFunc, boundFunc, context, callingContext, args) {
-    if (!(callingContext instanceof boundFunc)) return sourceFunc.apply(context, args);
-    var self = baseCreate(sourceFunc.prototype);
-    var result = sourceFunc.apply(self, args);
-    if (_.isObject(result)) return result;
-    return self;
-  };
-
-  // Create a function bound to a given object (assigning `this`, and arguments,
-  // optionally). Delegates to **ECMAScript 5**'s native `Function.bind` if
-  // available.
-  _.bind = function (func, context) {
-    if (nativeBind && func.bind === nativeBind) return nativeBind.apply(func, slice.call(arguments, 1));
-    if (!_.isFunction(func)) throw new TypeError('Bind must be called on a function');
-    var args = slice.call(arguments, 2);
-    var bound = function () {
-      return executeBound(func, bound, context, this, args.concat(slice.call(arguments)));
-    };
-    return bound;
-  };
-
-  // Partially apply a function by creating a version that has had some of its
-  // arguments pre-filled, without changing its dynamic `this` context. _ acts
-  // as a placeholder, allowing any combination of arguments to be pre-filled.
-  _.partial = function (func) {
-    var boundArgs = slice.call(arguments, 1);
-    var bound = function () {
-      var position = 0,
-          length = boundArgs.length;
-      var args = Array(length);
-      for (var i = 0; i < length; i++) {
-        args[i] = boundArgs[i] === _ ? arguments[position++] : boundArgs[i];
-      }
-      while (position < arguments.length) args.push(arguments[position++]);
-      return executeBound(func, bound, this, this, args);
-    };
-    return bound;
-  };
-
-  // Bind a number of an object's methods to that object. Remaining arguments
-  // are the method names to be bound. Useful for ensuring that all callbacks
-  // defined on an object belong to it.
-  _.bindAll = function (obj) {
-    var i,
-        length = arguments.length,
-        key;
-    if (length <= 1) throw new Error('bindAll must be passed function names');
-    for (i = 1; i < length; i++) {
-      key = arguments[i];
-      obj[key] = _.bind(obj[key], obj);
-    }
-    return obj;
-  };
-
-  // Memoize an expensive function by storing its results.
-  _.memoize = function (func, hasher) {
-    var memoize = function (key) {
-      var cache = memoize.cache;
-      var address = '' + (hasher ? hasher.apply(this, arguments) : key);
-      if (!_.has(cache, address)) cache[address] = func.apply(this, arguments);
-      return cache[address];
-    };
-    memoize.cache = {};
-    return memoize;
-  };
-
-  // Delays a function for the given number of milliseconds, and then calls
-  // it with the arguments supplied.
-  _.delay = function (func, wait) {
-    var args = slice.call(arguments, 2);
-    return setTimeout(function () {
-      return func.apply(null, args);
-    }, wait);
-  };
-
-  // Defers a function, scheduling it to run after the current call stack has
-  // cleared.
-  _.defer = _.partial(_.delay, _, 1);
-
-  // Returns a function, that, when invoked, will only be triggered at most once
-  // during a given window of time. Normally, the throttled function will run
-  // as much as it can, without ever going more than once per `wait` duration;
-  // but if you'd like to disable the execution on the leading edge, pass
-  // `{leading: false}`. To disable execution on the trailing edge, ditto.
-  _.throttle = function (func, wait, options) {
-    var context, args, result;
-    var timeout = null;
-    var previous = 0;
-    if (!options) options = {};
-    var later = function () {
-      previous = options.leading === false ? 0 : _.now();
-      timeout = null;
-      result = func.apply(context, args);
-      if (!timeout) context = args = null;
-    };
-    return function () {
-      var now = _.now();
-      if (!previous && options.leading === false) previous = now;
-      var remaining = wait - (now - previous);
-      context = this;
-      args = arguments;
-      if (remaining <= 0 || remaining > wait) {
-        if (timeout) {
-          clearTimeout(timeout);
-          timeout = null;
-        }
-        previous = now;
-        result = func.apply(context, args);
-        if (!timeout) context = args = null;
-      } else if (!timeout && options.trailing !== false) {
-        timeout = setTimeout(later, remaining);
-      }
-      return result;
-    };
-  };
-
-  // Returns a function, that, as long as it continues to be invoked, will not
-  // be triggered. The function will be called after it stops being called for
-  // N milliseconds. If `immediate` is passed, trigger the function on the
-  // leading edge, instead of the trailing.
-  _.debounce = function (func, wait, immediate) {
-    var timeout, args, context, timestamp, result;
-
-    var later = function () {
-      var last = _.now() - timestamp;
-
-      if (last < wait && last >= 0) {
-        timeout = setTimeout(later, wait - last);
-      } else {
-        timeout = null;
-        if (!immediate) {
-          result = func.apply(context, args);
-          if (!timeout) context = args = null;
-        }
-      }
-    };
-
-    return function () {
-      context = this;
-      args = arguments;
-      timestamp = _.now();
-      var callNow = immediate && !timeout;
-      if (!timeout) timeout = setTimeout(later, wait);
-      if (callNow) {
-        result = func.apply(context, args);
-        context = args = null;
-      }
-
-      return result;
-    };
-  };
-
-  // Returns the first function passed as an argument to the second,
-  // allowing you to adjust arguments, run code before and after, and
-  // conditionally execute the original function.
-  _.wrap = function (func, wrapper) {
-    return _.partial(wrapper, func);
-  };
-
-  // Returns a negated version of the passed-in predicate.
-  _.negate = function (predicate) {
-    return function () {
-      return !predicate.apply(this, arguments);
-    };
-  };
-
-  // Returns a function that is the composition of a list of functions, each
-  // consuming the return value of the function that follows.
-  _.compose = function () {
-    var args = arguments;
-    var start = args.length - 1;
-    return function () {
-      var i = start;
-      var result = args[start].apply(this, arguments);
-      while (i--) result = args[i].call(this, result);
-      return result;
-    };
-  };
-
-  // Returns a function that will only be executed on and after the Nth call.
-  _.after = function (times, func) {
-    return function () {
-      if (--times < 1) {
-        return func.apply(this, arguments);
-      }
-    };
-  };
-
-  // Returns a function that will only be executed up to (but not including) the Nth call.
-  _.before = function (times, func) {
-    var memo;
-    return function () {
-      if (--times > 0) {
-        memo = func.apply(this, arguments);
-      }
-      if (times <= 1) func = null;
-      return memo;
-    };
-  };
-
-  // Returns a function that will be executed at most one time, no matter how
-  // often you call it. Useful for lazy initialization.
-  _.once = _.partial(_.before, 2);
-
-  // Object Functions
-  // ----------------
-
-  // Keys in IE < 9 that won't be iterated by `for key in ...` and thus missed.
-  var hasEnumBug = !{ toString: null }.propertyIsEnumerable('toString');
-  var nonEnumerableProps = ['valueOf', 'isPrototypeOf', 'toString', 'propertyIsEnumerable', 'hasOwnProperty', 'toLocaleString'];
-
-  function collectNonEnumProps(obj, keys) {
-    var nonEnumIdx = nonEnumerableProps.length;
-    var constructor = obj.constructor;
-    var proto = _.isFunction(constructor) && constructor.prototype || ObjProto;
-
-    // Constructor is a special case.
-    var prop = 'constructor';
-    if (_.has(obj, prop) && !_.contains(keys, prop)) keys.push(prop);
-
-    while (nonEnumIdx--) {
-      prop = nonEnumerableProps[nonEnumIdx];
-      if (prop in obj && obj[prop] !== proto[prop] && !_.contains(keys, prop)) {
-        keys.push(prop);
-      }
-    }
-  }
-
-  // Retrieve the names of an object's own properties.
-  // Delegates to **ECMAScript 5**'s native `Object.keys`
-  _.keys = function (obj) {
-    if (!_.isObject(obj)) return [];
-    if (nativeKeys) return nativeKeys(obj);
-    var keys = [];
-    for (var key in obj) if (_.has(obj, key)) keys.push(key);
-    // Ahem, IE < 9.
-    if (hasEnumBug) collectNonEnumProps(obj, keys);
-    return keys;
-  };
-
-  // Retrieve all the property names of an object.
-  _.allKeys = function (obj) {
-    if (!_.isObject(obj)) return [];
-    var keys = [];
-    for (var key in obj) keys.push(key);
-    // Ahem, IE < 9.
-    if (hasEnumBug) collectNonEnumProps(obj, keys);
-    return keys;
-  };
-
-  // Retrieve the values of an object's properties.
-  _.values = function (obj) {
-    var keys = _.keys(obj);
-    var length = keys.length;
-    var values = Array(length);
-    for (var i = 0; i < length; i++) {
-      values[i] = obj[keys[i]];
-    }
-    return values;
-  };
-
-  // Returns the results of applying the iteratee to each element of the object
-  // In contrast to _.map it returns an object
-  _.mapObject = function (obj, iteratee, context) {
-    iteratee = cb(iteratee, context);
-    var keys = _.keys(obj),
-        length = keys.length,
-        results = {},
-        currentKey;
-    for (var index = 0; index < length; index++) {
-      currentKey = keys[index];
-      results[currentKey] = iteratee(obj[currentKey], currentKey, obj);
-    }
-    return results;
-  };
-
-  // Convert an object into a list of `[key, value]` pairs.
-  _.pairs = function (obj) {
-    var keys = _.keys(obj);
-    var length = keys.length;
-    var pairs = Array(length);
-    for (var i = 0; i < length; i++) {
-      pairs[i] = [keys[i], obj[keys[i]]];
-    }
-    return pairs;
-  };
-
-  // Invert the keys and values of an object. The values must be serializable.
-  _.invert = function (obj) {
-    var result = {};
-    var keys = _.keys(obj);
-    for (var i = 0, length = keys.length; i < length; i++) {
-      result[obj[keys[i]]] = keys[i];
-    }
-    return result;
-  };
-
-  // Return a sorted list of the function names available on the object.
-  // Aliased as `methods`
-  _.functions = _.methods = function (obj) {
-    var names = [];
-    for (var key in obj) {
-      if (_.isFunction(obj[key])) names.push(key);
-    }
-    return names.sort();
-  };
-
-  // Extend a given object with all the properties in passed-in object(s).
-  _.extend = createAssigner(_.allKeys);
-
-  // Assigns a given object with all the own properties in the passed-in object(s)
-  // (https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object/assign)
-  _.extendOwn = _.assign = createAssigner(_.keys);
-
-  // Returns the first key on an object that passes a predicate test
-  _.findKey = function (obj, predicate, context) {
-    predicate = cb(predicate, context);
-    var keys = _.keys(obj),
-        key;
-    for (var i = 0, length = keys.length; i < length; i++) {
-      key = keys[i];
-      if (predicate(obj[key], key, obj)) return key;
-    }
-  };
-
-  // Return a copy of the object only containing the whitelisted properties.
-  _.pick = function (object, oiteratee, context) {
-    var result = {},
-        obj = object,
-        iteratee,
-        keys;
-    if (obj == null) return result;
-    if (_.isFunction(oiteratee)) {
-      keys = _.allKeys(obj);
-      iteratee = optimizeCb(oiteratee, context);
-    } else {
-      keys = flatten(arguments, false, false, 1);
-      iteratee = function (value, key, obj) {
-        return key in obj;
-      };
-      obj = Object(obj);
-    }
-    for (var i = 0, length = keys.length; i < length; i++) {
-      var key = keys[i];
-      var value = obj[key];
-      if (iteratee(value, key, obj)) result[key] = value;
-    }
-    return result;
-  };
-
-  // Return a copy of the object without the blacklisted properties.
-  _.omit = function (obj, iteratee, context) {
-    if (_.isFunction(iteratee)) {
-      iteratee = _.negate(iteratee);
-    } else {
-      var keys = _.map(flatten(arguments, false, false, 1), String);
-      iteratee = function (value, key) {
-        return !_.contains(keys, key);
-      };
-    }
-    return _.pick(obj, iteratee, context);
-  };
-
-  // Fill in a given object with default properties.
-  _.defaults = createAssigner(_.allKeys, true);
-
-  // Creates an object that inherits from the given prototype object.
-  // If additional properties are provided then they will be added to the
-  // created object.
-  _.create = function (prototype, props) {
-    var result = baseCreate(prototype);
-    if (props) _.extendOwn(result, props);
-    return result;
-  };
-
-  // Create a (shallow-cloned) duplicate of an object.
-  _.clone = function (obj) {
-    if (!_.isObject(obj)) return obj;
-    return _.isArray(obj) ? obj.slice() : _.extend({}, obj);
-  };
-
-  // Invokes interceptor with the obj, and then returns obj.
-  // The primary purpose of this method is to "tap into" a method chain, in
-  // order to perform operations on intermediate results within the chain.
-  _.tap = function (obj, interceptor) {
-    interceptor(obj);
-    return obj;
-  };
-
-  // Returns whether an object has a given set of `key:value` pairs.
-  _.isMatch = function (object, attrs) {
-    var keys = _.keys(attrs),
-        length = keys.length;
-    if (object == null) return !length;
-    var obj = Object(object);
-    for (var i = 0; i < length; i++) {
-      var key = keys[i];
-      if (attrs[key] !== obj[key] || !(key in obj)) return false;
-    }
-    return true;
-  };
-
-  // Internal recursive comparison function for `isEqual`.
-  var eq = function (a, b, aStack, bStack) {
-    // Identical objects are equal. `0 === -0`, but they aren't identical.
-    // See the [Harmony `egal` proposal](http://wiki.ecmascript.org/doku.php?id=harmony:egal).
-    if (a === b) return a !== 0 || 1 / a === 1 / b;
-    // A strict comparison is necessary because `null == undefined`.
-    if (a == null || b == null) return a === b;
-    // Unwrap any wrapped objects.
-    if (a instanceof _) a = a._wrapped;
-    if (b instanceof _) b = b._wrapped;
-    // Compare `[[Class]]` names.
-    var className = toString.call(a);
-    if (className !== toString.call(b)) return false;
-    switch (className) {
-      // Strings, numbers, regular expressions, dates, and booleans are compared by value.
-      case '[object RegExp]':
-      // RegExps are coerced to strings for comparison (Note: '' + /a/i === '/a/i')
-      case '[object String]':
-        // Primitives and their corresponding object wrappers are equivalent; thus, `"5"` is
-        // equivalent to `new String("5")`.
-        return '' + a === '' + b;
-      case '[object Number]':
-        // `NaN`s are equivalent, but non-reflexive.
-        // Object(NaN) is equivalent to NaN
-        if (+a !== +a) return +b !== +b;
-        // An `egal` comparison is performed for other numeric values.
-        return +a === 0 ? 1 / +a === 1 / b : +a === +b;
-      case '[object Date]':
-      case '[object Boolean]':
-        // Coerce dates and booleans to numeric primitive values. Dates are compared by their
-        // millisecond representations. Note that invalid dates with millisecond representations
-        // of `NaN` are not equivalent.
-        return +a === +b;
-    }
-
-    var areArrays = className === '[object Array]';
-    if (!areArrays) {
-      if (typeof a != 'object' || typeof b != 'object') return false;
-
-      // Objects with different constructors are not equivalent, but `Object`s or `Array`s
-      // from different frames are.
-      var aCtor = a.constructor,
-          bCtor = b.constructor;
-      if (aCtor !== bCtor && !(_.isFunction(aCtor) && aCtor instanceof aCtor && _.isFunction(bCtor) && bCtor instanceof bCtor) && 'constructor' in a && 'constructor' in b) {
-        return false;
-      }
-    }
-    // Assume equality for cyclic structures. The algorithm for detecting cyclic
-    // structures is adapted from ES 5.1 section 15.12.3, abstract operation `JO`.
-
-    // Initializing stack of traversed objects.
-    // It's done here since we only need them for objects and arrays comparison.
-    aStack = aStack || [];
-    bStack = bStack || [];
-    var length = aStack.length;
-    while (length--) {
-      // Linear search. Performance is inversely proportional to the number of
-      // unique nested structures.
-      if (aStack[length] === a) return bStack[length] === b;
-    }
-
-    // Add the first object to the stack of traversed objects.
-    aStack.push(a);
-    bStack.push(b);
-
-    // Recursively compare objects and arrays.
-    if (areArrays) {
-      // Compare array lengths to determine if a deep comparison is necessary.
-      length = a.length;
-      if (length !== b.length) return false;
-      // Deep compare the contents, ignoring non-numeric properties.
-      while (length--) {
-        if (!eq(a[length], b[length], aStack, bStack)) return false;
-      }
-    } else {
-      // Deep compare objects.
-      var keys = _.keys(a),
-          key;
-      length = keys.length;
-      // Ensure that both objects contain the same number of properties before comparing deep equality.
-      if (_.keys(b).length !== length) return false;
-      while (length--) {
-        // Deep compare each member
-        key = keys[length];
-        if (!(_.has(b, key) && eq(a[key], b[key], aStack, bStack))) return false;
-      }
-    }
-    // Remove the first object from the stack of traversed objects.
-    aStack.pop();
-    bStack.pop();
-    return true;
-  };
-
-  // Perform a deep comparison to check if two objects are equal.
-  _.isEqual = function (a, b) {
-    return eq(a, b);
-  };
-
-  // Is a given array, string, or object empty?
-  // An "empty" object has no enumerable own-properties.
-  _.isEmpty = function (obj) {
-    if (obj == null) return true;
-    if (isArrayLike(obj) && (_.isArray(obj) || _.isString(obj) || _.isArguments(obj))) return obj.length === 0;
-    return _.keys(obj).length === 0;
-  };
-
-  // Is a given value a DOM element?
-  _.isElement = function (obj) {
-    return !!(obj && obj.nodeType === 1);
-  };
-
-  // Is a given value an array?
-  // Delegates to ECMA5's native Array.isArray
-  _.isArray = nativeIsArray || function (obj) {
-    return toString.call(obj) === '[object Array]';
-  };
-
-  // Is a given variable an object?
-  _.isObject = function (obj) {
-    var type = typeof obj;
-    return type === 'function' || type === 'object' && !!obj;
-  };
-
-  // Add some isType methods: isArguments, isFunction, isString, isNumber, isDate, isRegExp, isError.
-  _.each(['Arguments', 'Function', 'String', 'Number', 'Date', 'RegExp', 'Error'], function (name) {
-    _['is' + name] = function (obj) {
-      return toString.call(obj) === '[object ' + name + ']';
-    };
-  });
-
-  // Define a fallback version of the method in browsers (ahem, IE < 9), where
-  // there isn't any inspectable "Arguments" type.
-  if (!_.isArguments(arguments)) {
-    _.isArguments = function (obj) {
-      return _.has(obj, 'callee');
-    };
-  }
-
-  // Optimize `isFunction` if appropriate. Work around some typeof bugs in old v8,
-  // IE 11 (#1621), and in Safari 8 (#1929).
-  if (typeof /./ != 'function' && typeof Int8Array != 'object') {
-    _.isFunction = function (obj) {
-      return typeof obj == 'function' || false;
-    };
-  }
-
-  // Is a given object a finite number?
-  _.isFinite = function (obj) {
-    return isFinite(obj) && !isNaN(parseFloat(obj));
-  };
-
-  // Is the given value `NaN`? (NaN is the only number which does not equal itself).
-  _.isNaN = function (obj) {
-    return _.isNumber(obj) && obj !== +obj;
-  };
-
-  // Is a given value a boolean?
-  _.isBoolean = function (obj) {
-    return obj === true || obj === false || toString.call(obj) === '[object Boolean]';
-  };
-
-  // Is a given value equal to null?
-  _.isNull = function (obj) {
-    return obj === null;
-  };
-
-  // Is a given variable undefined?
-  _.isUndefined = function (obj) {
-    return obj === void 0;
-  };
-
-  // Shortcut function for checking if an object has a given property directly
-  // on itself (in other words, not on a prototype).
-  _.has = function (obj, key) {
-    return obj != null && hasOwnProperty.call(obj, key);
-  };
-
-  // Utility Functions
-  // -----------------
-
-  // Run Underscore.js in *noConflict* mode, returning the `_` variable to its
-  // previous owner. Returns a reference to the Underscore object.
-  _.noConflict = function () {
-    root._ = previousUnderscore;
-    return this;
-  };
-
-  // Keep the identity function around for default iteratees.
-  _.identity = function (value) {
-    return value;
-  };
-
-  // Predicate-generating functions. Often useful outside of Underscore.
-  _.constant = function (value) {
-    return function () {
-      return value;
-    };
-  };
-
-  _.noop = function () {};
-
-  _.property = property;
-
-  // Generates a function for a given object that returns a given property.
-  _.propertyOf = function (obj) {
-    return obj == null ? function () {} : function (key) {
-      return obj[key];
-    };
-  };
-
-  // Returns a predicate for checking whether an object has a given set of
-  // `key:value` pairs.
-  _.matcher = _.matches = function (attrs) {
-    attrs = _.extendOwn({}, attrs);
-    return function (obj) {
-      return _.isMatch(obj, attrs);
-    };
-  };
-
-  // Run a function **n** times.
-  _.times = function (n, iteratee, context) {
-    var accum = Array(Math.max(0, n));
-    iteratee = optimizeCb(iteratee, context, 1);
-    for (var i = 0; i < n; i++) accum[i] = iteratee(i);
-    return accum;
-  };
-
-  // Return a random integer between min and max (inclusive).
-  _.random = function (min, max) {
-    if (max == null) {
-      max = min;
-      min = 0;
-    }
-    return min + Math.floor(Math.random() * (max - min + 1));
-  };
-
-  // A (possibly faster) way to get the current timestamp as an integer.
-  _.now = Date.now || function () {
-    return new Date().getTime();
-  };
-
-  // List of HTML entities for escaping.
-  var escapeMap = {
-    '&': '&amp;',
-    '<': '&lt;',
-    '>': '&gt;',
-    '"': '&quot;',
-    "'": '&#x27;',
-    '`': '&#x60;'
-  };
-  var unescapeMap = _.invert(escapeMap);
-
-  // Functions for escaping and unescaping strings to/from HTML interpolation.
-  var createEscaper = function (map) {
-    var escaper = function (match) {
-      return map[match];
-    };
-    // Regexes for identifying a key that needs to be escaped
-    var source = '(?:' + _.keys(map).join('|') + ')';
-    var testRegexp = RegExp(source);
-    var replaceRegexp = RegExp(source, 'g');
-    return function (string) {
-      string = string == null ? '' : '' + string;
-      return testRegexp.test(string) ? string.replace(replaceRegexp, escaper) : string;
-    };
-  };
-  _.escape = createEscaper(escapeMap);
-  _.unescape = createEscaper(unescapeMap);
-
-  // If the value of the named `property` is a function then invoke it with the
-  // `object` as context; otherwise, return it.
-  _.result = function (object, property, fallback) {
-    var value = object == null ? void 0 : object[property];
-    if (value === void 0) {
-      value = fallback;
-    }
-    return _.isFunction(value) ? value.call(object) : value;
-  };
-
-  // Generate a unique integer id (unique within the entire client session).
-  // Useful for temporary DOM ids.
-  var idCounter = 0;
-  _.uniqueId = function (prefix) {
-    var id = ++idCounter + '';
-    return prefix ? prefix + id : id;
-  };
-
-  // By default, Underscore uses ERB-style template delimiters, change the
-  // following template settings to use alternative delimiters.
-  _.templateSettings = {
-    evaluate: /<%([\s\S]+?)%>/g,
-    interpolate: /<%=([\s\S]+?)%>/g,
-    escape: /<%-([\s\S]+?)%>/g
-  };
-
-  // When customizing `templateSettings`, if you don't want to define an
-  // interpolation, evaluation or escaping regex, we need one that is
-  // guaranteed not to match.
-  var noMatch = /(.)^/;
-
-  // Certain characters need to be escaped so that they can be put into a
-  // string literal.
-  var escapes = {
-    "'": "'",
-    '\\': '\\',
-    '\r': 'r',
-    '\n': 'n',
-    '\u2028': 'u2028',
-    '\u2029': 'u2029'
-  };
-
-  var escaper = /\\|'|\r|\n|\u2028|\u2029/g;
-
-  var escapeChar = function (match) {
-    return '\\' + escapes[match];
-  };
-
-  // JavaScript micro-templating, similar to John Resig's implementation.
-  // Underscore templating handles arbitrary delimiters, preserves whitespace,
-  // and correctly escapes quotes within interpolated code.
-  // NB: `oldSettings` only exists for backwards compatibility.
-  _.template = function (text, settings, oldSettings) {
-    if (!settings && oldSettings) settings = oldSettings;
-    settings = _.defaults({}, settings, _.templateSettings);
-
-    // Combine delimiters into one regular expression via alternation.
-    var matcher = RegExp([(settings.escape || noMatch).source, (settings.interpolate || noMatch).source, (settings.evaluate || noMatch).source].join('|') + '|$', 'g');
-
-    // Compile the template source, escaping string literals appropriately.
-    var index = 0;
-    var source = "__p+='";
-    text.replace(matcher, function (match, escape, interpolate, evaluate, offset) {
-      source += text.slice(index, offset).replace(escaper, escapeChar);
-      index = offset + match.length;
-
-      if (escape) {
-        source += "'+\n((__t=(" + escape + "))==null?'':_.escape(__t))+\n'";
-      } else if (interpolate) {
-        source += "'+\n((__t=(" + interpolate + "))==null?'':__t)+\n'";
-      } else if (evaluate) {
-        source += "';\n" + evaluate + "\n__p+='";
-      }
-
-      // Adobe VMs need the match returned to produce the correct offest.
-      return match;
-    });
-    source += "';\n";
-
-    // If a variable is not specified, place data values in local scope.
-    if (!settings.variable) source = 'with(obj||{}){\n' + source + '}\n';
-
-    source = "var __t,__p='',__j=Array.prototype.join," + "print=function(){__p+=__j.call(arguments,'');};\n" + source + 'return __p;\n';
-
-    try {
-      var render = new Function(settings.variable || 'obj', '_', source);
-    } catch (e) {
-      e.source = source;
-      throw e;
-    }
-
-    var template = function (data) {
-      return render.call(this, data, _);
-    };
-
-    // Provide the compiled source as a convenience for precompilation.
-    var argument = settings.variable || 'obj';
-    template.source = 'function(' + argument + '){\n' + source + '}';
-
-    return template;
-  };
-
-  // Add a "chain" function. Start chaining a wrapped Underscore object.
-  _.chain = function (obj) {
-    var instance = _(obj);
-    instance._chain = true;
-    return instance;
-  };
-
-  // OOP
-  // ---------------
-  // If Underscore is called as a function, it returns a wrapped object that
-  // can be used OO-style. This wrapper holds altered versions of all the
-  // underscore functions. Wrapped objects may be chained.
-
-  // Helper function to continue chaining intermediate results.
-  var result = function (instance, obj) {
-    return instance._chain ? _(obj).chain() : obj;
-  };
-
-  // Add your own custom functions to the Underscore object.
-  _.mixin = function (obj) {
-    _.each(_.functions(obj), function (name) {
-      var func = _[name] = obj[name];
-      _.prototype[name] = function () {
-        var args = [this._wrapped];
-        push.apply(args, arguments);
-        return result(this, func.apply(_, args));
-      };
-    });
-  };
-
-  // Add all of the Underscore functions to the wrapper object.
-  _.mixin(_);
-
-  // Add all mutator Array functions to the wrapper.
-  _.each(['pop', 'push', 'reverse', 'shift', 'sort', 'splice', 'unshift'], function (name) {
-    var method = ArrayProto[name];
-    _.prototype[name] = function () {
-      var obj = this._wrapped;
-      method.apply(obj, arguments);
-      if ((name === 'shift' || name === 'splice') && obj.length === 0) delete obj[0];
-      return result(this, obj);
-    };
-  });
-
-  // Add all accessor Array functions to the wrapper.
-  _.each(['concat', 'join', 'slice'], function (name) {
-    var method = ArrayProto[name];
-    _.prototype[name] = function () {
-      return result(this, method.apply(this._wrapped, arguments));
-    };
-  });
-
-  // Extracts the result from a wrapped and chained object.
-  _.prototype.value = function () {
-    return this._wrapped;
-  };
-
-  // Provide unwrapping proxy for some methods used in engine operations
-  // such as arithmetic and JSON stringification.
-  _.prototype.valueOf = _.prototype.toJSON = _.prototype.value;
-
-  _.prototype.toString = function () {
-    return '' + this._wrapped;
-  };
-
-  // AMD registration happens at the end for compatibility with AMD loaders
-  // that may not enforce next-turn semantics on modules. Even though general
-  // practice for AMD registration is to be anonymous, underscore registers
-  // as a named module because, like jQuery, it is a base library that is
-  // popular enough to be bundled in a third party lib, but not be part of
-  // an AMD load request. Those cases could generate an error when an
-  // anonymous define() is called outside of a loader request.
-  if (true) {
-    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = function () {
-      return _;
-    }.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
-				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-  }
-}).call(this);
+/* harmony default export */ __webpack_exports__["a"] = (PromiseList);
 
 /***/ }),
 /* 12 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-/**
- * @fileOverview 协议发送基类.
- */
-var ValueWrapper = __webpack_require__(14);
-var utils = __webpack_require__(4);
-var PromiseList = __webpack_require__(5);
-var Transport = __webpack_require__(0);
-var Api = __webpack_require__(3);
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_Board__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__electronic_index__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__settings__ = __webpack_require__(5);
 
-class Command {
-  constructor() {
-    this.CONFIG = {
-      // 开启超时重发
-      OPEN_RESNET_MODE: false,
-      // 超时重发的次数
-      RESENT_COUNT: 1,
-      // 读值指令超时的设定
-      COMMAND_SEND_TIMEOUT: 1000
-    };
-  }
 
-  /**
-   * Get sensor's value.
-   * @param  {String}   deviceType the sensor's type.
-   * @param  {Object}   options    config options, such as port, slot etc.
-   * @param  {Function} callback   the function to be excuted.
-   */
-  getSensorValue(deviceType, options, callback) {
-    if (callback == undefined && typeof options == 'function') {
-      callback = options;
-      options = {};
-    }
-    var params = {};
-    params.deviceType = deviceType;
-    params.callback = callback;
-    params.port = options.port;
-    params.slot = options.slot || 2;
-    var valueWrapper = new ValueWrapper();
-    var index = PromiseList.add(deviceType, callback, valueWrapper);
-    params.index = index;
-    // 发送读取指令
-    this._doGetSensorValue(params);
-    if (this.CONFIG.OPEN_RESNET_MODE) {
-      // 执行超时检测
-      this._handlerCommandSendTimeout(params);
-    }
-    return valueWrapper;
-  }
-  _doGetSensorValue(params) {
-    var that = this;
-    this._readBlockStatus(params);
 
-    // 模拟传感器回传数据
-    // setTimeout(function() {
-    //   that.sensorCallback(params.index, 111);
-    // }, 1000)
-  }
+//支持位置
+const SUPPORT_INDEX = __WEBPACK_IMPORTED_MODULE_2__settings__["a" /* default */].SUPPORTLIST.indexOf('Auriga');
 
-  /**
-   * Read module's value.
-   * @param  {object} params command params.
-   */
-  _readBlockStatus(params) {
-    this.api = new Api(Transport.get());
-
-    var deviceType = params.deviceType;
-    var index = params.index;
-    var port = params.port;
-    var slot = params.slot || null;
-    var funcName = 'this.api.read' + utils.upperCaseFirstLetter(deviceType);
-    var paramsStr = '(' + index + ',' + port + ',' + slot + ')';
-    var func = funcName + paramsStr;
-    eval(func);
-  }
-
-  /**
-   * Command sending timeout handler.
-   * @param  {Object} params params.
-   */
-  _handlerCommandSendTimeout(params) {
-    var that = this;
-    var promiseItem = PromiseList.requestList[params.index];
-    setTimeout(function () {
-      if (promiseItem.hasReceivedValue) {
-        // 成功拿到数据，不进行处理
-        return;
-      } else {
-        // 超过规定的时间，还没有拿到数据，需要进行超时重发处理
-        if (promiseItem.resentCount >= that.CONFIG.RESENT_COUNT) {
-          // 如果重发的次数大于规定次数,则终止重发
-          console.log("【resend ends】");
-          return;
-        } else {
-          console.log('【resend】:' + params.index);
-          promiseItem.resentCount = promiseItem.resentCount || 0;
-          promiseItem.resentCount++;
-          that._doGetSensorValue(params);
-          that._handlerCommandSendTimeout(params);
-        }
+//实现一个板子就注册一个板子名称
+class Auriga extends __WEBPACK_IMPORTED_MODULE_0__core_Board__["a" /* default */] {
+  constructor(conf) {
+    //继承 Board
+    super(conf);
+    let this_ = this;
+    // 置空已连接块
+    this.connecting = {};
+    // 挂载电子模块
+    for (let name in __WEBPACK_IMPORTED_MODULE_1__electronic_index__["a" /* default */]) {
+      let eModule = __WEBPACK_IMPORTED_MODULE_1__electronic_index__["a" /* default */][name];
+      if (eModule.supportStamp().charAt(SUPPORT_INDEX) === '1') {
+        // when use mcore.rgbLed(port, slot)
+        this[name] = function () {
+          return this_.eModuleFactory(eModule, arguments);
+        };
       }
-    }, that.CONFIG.COMMAND_SEND_TIMEOUT);
-  }
-
-  /**
-   * Get value form sensor and put the value to user's callback.
-   * @param  {Number} index  the index of sensor's request command in promiseList
-   * @param  {Number} result the value of sensor.
-   */
-  sensorCallback(index, result) {
-    var deviceType = PromiseList.getType(index);
-    console.debug(deviceType + ": " + result);
-    PromiseList.receiveValue(index, result);
+    }
   }
 }
 
-var command = new Command();
-
-module.exports = command;
+/* harmony default export */ __webpack_exports__["a"] = (Auriga);
 
 /***/ }),
 /* 13 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_Board__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__electronic_index__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__settings__ = __webpack_require__(5);
+
+
+
+//支持位置
+const SUPPORT_INDEX = __WEBPACK_IMPORTED_MODULE_2__settings__["a" /* default */].SUPPORTLIST.indexOf('Mcore');
+
+//实现一个板子就注册一个板子名称
+class Mcore extends __WEBPACK_IMPORTED_MODULE_0__core_Board__["a" /* default */] {
+  constructor(conf) {
+    //继承 Board
+    super(conf);
+    let this_ = this;
+    // 置空已连接块
+    this.connecting = {};
+    // 挂载电子模块
+    for (let name in __WEBPACK_IMPORTED_MODULE_1__electronic_index__["a" /* default */]) {
+      let eModule = __WEBPACK_IMPORTED_MODULE_1__electronic_index__["a" /* default */][name];
+      if (eModule.supportStamp().charAt(SUPPORT_INDEX) === '1') {
+        // when use mcore.rgbLed(port, slot)
+        this[name] = function () {
+          return this_.eModuleFactory(eModule, arguments);
+        };
+      }
+    }
+  }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (Mcore);
+
+/***/ }),
+/* 14 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_Board__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__electronic_index__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__settings__ = __webpack_require__(5);
+
+
+
+//支持位置
+const SUPPORT_INDEX = __WEBPACK_IMPORTED_MODULE_2__settings__["a" /* default */].SUPPORTLIST.indexOf('MegaPi');
+
+//实现一个板子就注册一个板子名称
+class MegaPi extends __WEBPACK_IMPORTED_MODULE_0__core_Board__["a" /* default */] {
+  constructor(conf) {
+    //继承 Board
+    super(conf);
+    let this_ = this;
+    // 置空已连接块
+    this.connecting = {};
+    // 挂载电子模块
+    for (let name in __WEBPACK_IMPORTED_MODULE_1__electronic_index__["a" /* default */]) {
+      let eModule = __WEBPACK_IMPORTED_MODULE_1__electronic_index__["a" /* default */][name];
+      if (eModule.supportStamp().charAt(SUPPORT_INDEX) === '1') {
+        // when use mcore.rgbLed(port, slot)
+        this[name] = function () {
+          return this_.eModuleFactory(eModule, arguments);
+        };
+      }
+    }
+  }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (MegaPi);
+
+/***/ }),
+/* 15 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+// var Neuron = require('mneurons');
+// var Neuron = require('../../neurons-engine/lib/engine/logic');
+
+const Neuron = {};
+
+/* harmony default export */ __webpack_exports__["a"] = (Neuron);
+
+/***/ }),
+/* 16 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_Board__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__electronic_index__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__settings__ = __webpack_require__(5);
+
+
+
+//支持位置
+const SUPPORT_INDEX = __WEBPACK_IMPORTED_MODULE_2__settings__["a" /* default */].SUPPORTLIST.indexOf('Orion');
+
+//实现一个板子就注册一个板子名称
+class Orion extends __WEBPACK_IMPORTED_MODULE_0__core_Board__["a" /* default */] {
+  constructor(conf) {
+    //继承 Board
+    super(conf);
+    let this_ = this;
+    // 置空已连接块
+    this.connecting = {};
+    // 挂载电子模块
+    for (let name in __WEBPACK_IMPORTED_MODULE_1__electronic_index__["a" /* default */]) {
+      let eModule = __WEBPACK_IMPORTED_MODULE_1__electronic_index__["a" /* default */][name];
+      if (eModule.supportStamp().charAt(SUPPORT_INDEX) === '1') {
+        // when use mcore.rgbLed(port, slot)
+        this[name] = function () {
+          return this_.eModuleFactory(eModule, arguments);
+        };
+      }
+    }
+  }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (Orion);
+
+/***/ }),
+/* 17 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_promise__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
 /**
  * @fileOverview 负责实际的数据解析
  */
-var PromiseList = __webpack_require__(5);
-var utils = __webpack_require__(4);
+
+
 
 function Parse() {
   this.buffer = [];
@@ -3002,7 +1974,7 @@ function Parse() {
   // this.buffer: 历史缓存数据
   // 记录数据和历史数据分开记录
   this.doParse = function (buffData, callback) {
-    var data = utils.arrayFromArrayBuffer(buffData);
+    var data = __WEBPACK_IMPORTED_MODULE_1__core_utils__["a" /* default */].arrayFromArrayBuffer(buffData);
     data = this.buffer.concat(data);
     this.buffer = [];
 
@@ -3027,12 +1999,12 @@ function Parse() {
 
         // 以下为有效数据, 获取返回字节流中的索引位
         var dataIndex = buf[0];
-        var promiseType = PromiseList.getType(dataIndex);
+        var promiseType = __WEBPACK_IMPORTED_MODULE_0__core_promise__["a" /* default */].getType(dataIndex);
         if (promiseType || promiseType == 0) {
 
           // 计算返回值，并注入
           var result = this.getResult(buf, promiseType);
-          PromiseList.receiveValue(dataIndex, result);
+          __WEBPACK_IMPORTED_MODULE_0__core_promise__["a" /* default */].receiveValue(dataIndex, result);
 
           // 为测试留接口
           callback && callback(buf);
@@ -3082,7 +2054,7 @@ function Parse() {
       case 4:
         // 字符串
         var bytes = buf.splice(3, buf[2]);
-        result = utils.bytesToString(bytes);
+        result = __WEBPACK_IMPORTED_MODULE_1__core_utils__["a" /* default */].bytesToString(bytes);
         break;
       case "2":
       case "5":
@@ -3121,7 +2093,7 @@ function Parse() {
           m = e == 0 ? (num & 0x7fffff) << 1 : num & 0x7fffff | 0x800000;
       return s * m * Math.pow(2, e - 150);
     };
-    var intValue = utils.bytesToInt(intArray);
+    var intValue = __WEBPACK_IMPORTED_MODULE_1__core_utils__["a" /* default */].bytesToInt(intArray);
     // TOFIX
     if (intValue < 100000 && intValue > 0) {
       result = intValue;
@@ -3134,12 +2106,13 @@ function Parse() {
 
 let parse = new Parse();
 
-module.exports = parse;
+/* unused harmony default export */ var _unused_webpack_default_export = (parse);
 
 /***/ }),
-/* 14 */
-/***/ (function(module, exports) {
+/* 18 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
 /**
  * 用来存值、取值
  * valueWrapper是一个拥有存值、取值的类，每一个对象都将拥有这两个方法。
@@ -3161,183 +2134,1921 @@ ValueWrapper.prototype.setValue = function (value) {
     this.val = value;
 };
 
-module.exports = ValueWrapper;
-
-/***/ }),
-/* 15 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var Transport = __webpack_require__(0);
-var Api = __webpack_require__(3);
-
-class DcMotor {
-
-  constructor(port, slot) {
-    this.port = port;
-    this.slot = slot;
-    this.on = false;
-    this.speed = 0;
-    this.api = new Api(Transport.get());
-    this.direction = 1;
-  }
-
-  start(speed) {
-    this.speed = speed || this.speed;
-    this._run();
-  }
-
-  stop() {
-    this.speed = 0;
-    this._run();
-  }
-
-  _run() {
-    this.api.setDcMotor(this.port, this.speed);
-  }
-}
-
-module.exports = DcMotor;
-
-/***/ }),
-/* 16 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var Transport = __webpack_require__(0);
-var Api = __webpack_require__(3);
-
-class LedPanel {
-  constructor() {
-    this.port = 0;
-    this.slot = 2;
-    this.on = false;
-    this.position = 0;
-    this.r = 0;
-    this.g = 0;
-    this.b = 0;
-    this.api = new Api(Transport.get());
-  }
-
-  turnOn(r, g, b) {
-    this.r = r || this.r;
-    this.g = g || this.g;
-    this.b = b || this.b;
-    this.api.setLedPanelOnBoard(this.position, this.r, this.g, this.b);
-  }
-
-  turnOff() {
-    this.api.setLedPanelOnBoard(this.position, 0, 0, 0);
-  }
-
-  blue() {
-    this.api.setLedPanelOnBoard(this.position, 0, 0, 100);
-  }
-
-  red() {}
-
-  green() {}
-}
-
-module.exports = LedPanel;
-
-/***/ }),
-/* 17 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var Transport = __webpack_require__(0);
-var Api = __webpack_require__(3);
-
-class RgbLed {
-  constructor(port, slot) {
-    this.port = port;
-    this.slot = slot;
-    this.on = false;
-    this.position = 0;
-    this.r = 0;
-    this.g = 0;
-    this.b = 0;
-    this.api = new Api(Transport.get());
-  }
-
-  turnOn(r, g, b) {
-    this.r = r || this.r;
-    this.g = g || this.g;
-    this.b = b || this.b;
-    this.api.setLed(this.port, this.slot, this.position, this.r, this.g, this.b);
-  }
-
-  turnOff() {
-    this.api.setLed(this.port, this.slot, this.position, 0, 0, 0);
-  }
-
-  blue() {
-    this.api.setLed(this.port, this.slot, this.position, 0, 255, 0);
-  }
-
-  red() {}
-
-  green() {}
-}
-
-module.exports = RgbLed;
-
-/***/ }),
-/* 18 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var command = __webpack_require__(12);
-
-class Ultrasonic {
-  constructor(port) {
-    this.port = port;
-    this.value = 0;
-  }
-
-  onData(callback) {
-    command.getSensorValue('ultrasonic', {
-      "port": this.port
-    }, callback);
-  }
-}
-
-module.exports = Ultrasonic;
+/* harmony default export */ __webpack_exports__["a"] = (ValueWrapper);
 
 /***/ }),
 /* 19 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-var Mcore = __webpack_require__(7);
-var Orion = __webpack_require__(10);
-var Auriga = __webpack_require__(6);
-var MegaPi = __webpack_require__(8);
-var Neuron = __webpack_require__(9);
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__electronic__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__electronic___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__electronic__);
 
-var Sensorium = {
-    "Mcore": Mcore,
-    "Orion": Orion,
-    "Auriga": Auriga,
-    "MegaPi": MegaPi,
-    "Neuron": Neuron
-};
 
-if (typeof window != "undefined") {
-    window.Sensorium = Sensorium;
+
+class MotorBase extends __WEBPACK_IMPORTED_MODULE_1__electronic___default.a {
+
+  /**
+   * Motor base class
+   * @constructor
+   * @param {number} port
+   * @param {number} slot
+   */
+  constructor(port, slot) {
+    super();
+    this.args = {
+      port: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__core_type__["a" /* defineNumber */])(port),
+      slot: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__core_type__["a" /* defineNumber */])(slot),
+      speed: 0
+    };
+  }
+
+  /**
+   * speed
+   * @param  {Number} speed
+   * @return {Object} the instance
+   */
+  speed(speed) {
+    this.args.speed = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__core_type__["a" /* defineNumber */])(speed, 0);
+    return this;
+  }
+
+  /**
+   * this interface does nothing
+   */
+  run() {
+    return this;
+  }
+
+  /**
+   * stop motor
+   */
+  stop() {
+    this.speed(0);
+    this.run();
+    return this;
+  }
 }
 
-module.exports = Sensorium;
+/* harmony default export */ __webpack_exports__["a"] = (MotorBase);
 
 /***/ }),
 /* 20 */
-/***/ (function(module, exports) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-var Settings = {
-    // 数据发送与接收相关
-    // 回复数据的index位置
-    READ_BYTES_INDEX: 2,
-    // 数据发送默认的驱动driver: makeblockhd, cordova
-    DEFAULT_CONF: {}
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__electronic__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(2);
+
+
+
+
+
+class Buzzer extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
+  /**
+   * Buzzer类，声音模块
+   * @constructor
+   */
+  constructor() {
+    super();
+    this.args = {
+      tone: null,
+      beat: null
+    };
+  }
+
+  /**
+   * @param {string} tone - 声音音调
+   */
+  tone(tone) {
+    this.args.tone = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__core_type__["b" /* defineString */])(tone.toUpperCase());
+    return this;
+  }
+  /**
+   * @param {string} beat - 声音音节
+   */
+  beat(beat) {
+    this.args.beat = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__core_type__["a" /* defineNumber */])(beat);
+    return this;
+  }
+  /**
+   * 播放声音
+   */
+  play() {
+    // 拿到协议组装器，组装协议
+    let buf = __WEBPACK_IMPORTED_MODULE_1__core_utils__["a" /* default */].composer(__WEBPACK_IMPORTED_MODULE_3__protocol_cmd__["a" /* default */].setTone, [this.args.port, this.args.action]);
+    //执行
+    __WEBPACK_IMPORTED_MODULE_4__communicate_command__["a" /* default */].execWrite(buf);
+    return this;
+  }
+
+  //参数戳：描述port slot id 需传参的个数
+  static argsStamp() {
+    return 0;
+  }
+
+  //主控支持戳：描述各主控的支持情况
+  static supportStamp() {
+    return '1111';
+  }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (Buzzer);
+
+/***/ }),
+/* 21 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__electronic__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(2);
+
+
+
+
+
+
+class Compass extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
+  constructor(port) {
+    super();
+    this.args = {
+      port: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__core_type__["a" /* defineNumber */])(port)
+    };
+  }
+
+  getData(callback) {
+    // 拿到协议组装器，组装协议
+    let buf = __WEBPACK_IMPORTED_MODULE_1__core_utils__["a" /* default */].composer(__WEBPACK_IMPORTED_MODULE_3__protocol_cmd__["a" /* default */].readCompass, [this.args.port]);
+    //执行
+    __WEBPACK_IMPORTED_MODULE_4__communicate_command__["a" /* default */].execRead(buf, callback);
+    // Command.getSensorValue('ultrasonic', buf, callback);
+    return this;
+  }
+
+  //参数戳：描述port slot id 需传参的个数
+  static argsStamp() {
+    return 1;
+  }
+
+  //主控支持戳：描述各主控的支持情况
+  //orion 不支持
+  static supportStamp() {
+    return '1101';
+  }
+
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (Compass);
+
+/***/ }),
+/* 22 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__base_MotorBase__ = __webpack_require__(19);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(2);
+
+
+
+
+
+
+class DcMotor extends __WEBPACK_IMPORTED_MODULE_2__base_MotorBase__["a" /* default */] {
+
+  /**
+   * DC Motor
+   * @constructor
+   * @param {number} port
+   */
+  constructor(port) {
+    super(port);
+  }
+
+  /**
+   * dcMoter run
+   * @return {Object} the instance
+   */
+  run() {
+    //组装buf
+    let buf = __WEBPACK_IMPORTED_MODULE_1__core_utils__["a" /* default */].composer(__WEBPACK_IMPORTED_MODULE_3__protocol_cmd__["a" /* default */].setDcMotor, [this.args.port, this.args.speed]);
+    //执行
+    __WEBPACK_IMPORTED_MODULE_4__communicate_command__["a" /* default */].execWrite(buf);
+    return this;
+  }
+
+  /**
+   * dcMoter run reversely
+   * @return {Object} the instance
+   */
+  runReverse() {
+    this.speed(-1 * this.args.speed);
+    return this.run();
+  }
+
+  //参数戳：描述port slot id 需传参的个数
+  static argsStamp() {
+    return 1;
+  }
+
+  //主控支持戳：描述各主控的支持情况
+  static supportStamp() {
+    return '1111';
+  }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (DcMotor);
+
+/***/ }),
+/* 23 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__base_EncoderMotorBase__ = __webpack_require__(55);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(2);
+
+
+
+
+
+
+const bufComposer = function (args) {
+  return __WEBPACK_IMPORTED_MODULE_1__core_utils__["a" /* default */].composer(__WEBPACK_IMPORTED_MODULE_3__protocol_cmd__["a" /* default */].readEncoderMotorOnBoard, [args.slot, args.type]);
 };
 
-module.exports = Settings;
+class EncoderMotorOnBoard extends __WEBPACK_IMPORTED_MODULE_2__base_EncoderMotorBase__["a" /* default */] {
+  /**
+   * EncoderMotorOnBoard
+   * @constructor
+   * @param {number} port
+   */
+  constructor(slot) {
+    super(slot);
+    Object.assign(this.args, {
+      type: null
+    });
+  }
+
+  /**
+   * get speed to the start position
+   * @param  {Function} callback 
+   */
+  readSpeed(callback) {
+    this.args.type = 0x02;
+    //组装buf
+    let buf = bufComposer(this.args);
+    //执行
+    __WEBPACK_IMPORTED_MODULE_4__communicate_command__["a" /* default */].execRead(buf, callback);
+    return this;
+  }
+
+  /**
+   * get angle offset to the start position
+   * @param  {Function} callback 
+   */
+  readAngle(callback) {
+    this.args.type = 0x01;
+    //组装buf
+    let buf = bufComposer(this.args);
+    //执行
+    __WEBPACK_IMPORTED_MODULE_4__communicate_command__["a" /* default */].execRead(buf, callback);
+    return this;
+  }
+
+  //参数戳：描述port slot id 需传参的个数
+  static argsStamp() {
+    return 1;
+  }
+
+  //主控支持戳：描述各主控的支持情况
+  //auriga megapi 支持
+  static supportStamp() {
+    return '0101';
+  }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (EncoderMotorOnBoard);
+
+/***/ }),
+/* 24 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__electronic__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(2);
+
+
+
+
+
+
+class Flame extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
+  constructor(port) {
+    super();
+    this.args = {
+      port: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__core_type__["a" /* defineNumber */])(port)
+    };
+  }
+
+  getData(callback) {
+    // 拿到协议组装器，组装协议
+    let buf = __WEBPACK_IMPORTED_MODULE_1__core_utils__["a" /* default */].composer(__WEBPACK_IMPORTED_MODULE_3__protocol_cmd__["a" /* default */].readFlame, [this.args.port]);
+    //执行
+    __WEBPACK_IMPORTED_MODULE_4__communicate_command__["a" /* default */].execRead(buf, callback);
+    return this;
+  }
+
+  //参数戳：描述port slot id 需传参的个数
+  static argsStamp() {
+    return 1;
+  }
+
+  //主控支持戳：描述各主控的支持情况
+  static supportStamp() {
+    return '1111';
+  }
+
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (Flame);
+
+/***/ }),
+/* 25 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__electronic__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(2);
+
+
+
+
+
+
+class FourKeys extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
+  constructor(port, key) {
+    super();
+    this.args = {
+      port: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__core_type__["a" /* defineNumber */])(port),
+      key: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__core_type__["b" /* defineString */])(key)
+    };
+  }
+
+  getData(callback) {
+    // 拿到协议组装器，组装协议
+    let buf = __WEBPACK_IMPORTED_MODULE_1__core_utils__["a" /* default */].composer(__WEBPACK_IMPORTED_MODULE_3__protocol_cmd__["a" /* default */].readFourKeys, [this.args.port, this.args.key]);
+    //执行
+    __WEBPACK_IMPORTED_MODULE_4__communicate_command__["a" /* default */].execRead(buf, callback);
+    return this;
+  }
+
+  //参数戳：描述port slot id 需传参的个数
+  static argsStamp() {
+    return 2;
+  }
+
+  //主控支持戳：描述各主控的支持情况
+  //orion 不支持
+  static supportStamp() {
+    return '1111';
+  }
+
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (FourKeys);
+
+/***/ }),
+/* 26 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__base_RgbLedBase__ = __webpack_require__(8);
+
+
+class FourLed extends __WEBPACK_IMPORTED_MODULE_0__base_RgbLedBase__["a" /* default */] {
+  constructor(port) {
+    super(port, 2);
+  }
+
+  //参数戳：描述port slot id 需传参的个数
+  static argsStamp() {
+    return 1;
+  }
+
+  //主控支持戳：描述各主控的支持情况
+  static supportStamp() {
+    return '1111';
+  }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (FourLed);
+
+/***/ }),
+/* 27 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__electronic__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(2);
+
+
+
+
+
+
+class Gas extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
+  constructor(port) {
+    super();
+    this.args = {
+      port: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__core_type__["a" /* defineNumber */])(port)
+    };
+  }
+
+  getData(callback) {
+    // 拿到协议组装器，组装协议
+    let buf = __WEBPACK_IMPORTED_MODULE_1__core_utils__["a" /* default */].composer(__WEBPACK_IMPORTED_MODULE_3__protocol_cmd__["a" /* default */].readGas, [this.args.port]);
+    //执行
+    __WEBPACK_IMPORTED_MODULE_4__communicate_command__["a" /* default */].execRead(buf, callback);
+    return this;
+  }
+
+  //参数戳：描述port slot id 需传参的个数
+  static argsStamp() {
+    return 1;
+  }
+
+  //主控支持戳：描述各主控的支持情况
+  static supportStamp() {
+    return '1111';
+  }
+
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (Gas);
+
+/***/ }),
+/* 28 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__electronic__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(2);
+
+
+
+
+
+
+class Gyro extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
+  constructor(port, axis) {
+    super();
+    this.args = {
+      port: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__core_type__["a" /* defineNumber */])(port),
+      axis: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__core_type__["b" /* defineString */])(axis)
+    };
+  }
+
+  getData(callback) {
+    // 拿到协议组装器，组装协议
+    let buf = __WEBPACK_IMPORTED_MODULE_1__core_utils__["a" /* default */].composer(__WEBPACK_IMPORTED_MODULE_3__protocol_cmd__["a" /* default */].readGyro, [this.args.port, this.args.axis]);
+    //执行
+    __WEBPACK_IMPORTED_MODULE_4__communicate_command__["a" /* default */].execRead(buf, callback);
+    return this;
+  }
+
+  //参数戳：描述port slot id 需传参的个数
+  static argsStamp() {
+    return 2;
+  }
+
+  //主控支持戳：描述各主控的支持情况
+  //orion 不支持
+  static supportStamp() {
+    return '1110';
+  }
+
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (Gyro);
+
+/***/ }),
+/* 29 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__electronic__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(2);
+
+
+
+
+
+
+class Humiture extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
+  constructor(port, type) {
+    super();
+    this.args = {
+      port: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__core_type__["a" /* defineNumber */])(port),
+      type: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__core_type__["a" /* defineNumber */])(type)
+    };
+  }
+
+  getData(callback) {
+    // 拿到协议组装器，组装协议
+    let buf = __WEBPACK_IMPORTED_MODULE_1__core_utils__["a" /* default */].composer(__WEBPACK_IMPORTED_MODULE_3__protocol_cmd__["a" /* default */].readHumiture, [this.args.port, this.args.type]);
+    //执行
+    __WEBPACK_IMPORTED_MODULE_4__communicate_command__["a" /* default */].execRead(buf, callback);
+    return this;
+  }
+
+  //参数戳：描述port slot id 需传参的个数
+  static argsStamp() {
+    return 2;
+  }
+
+  //主控支持戳：描述各主控的支持情况
+  //orion 不支持
+  static supportStamp() {
+    return '1111';
+  }
+
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (Humiture);
+
+/***/ }),
+/* 30 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__electronic__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(2);
+
+
+
+
+
+
+class Joystick extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
+  constructor(port, axis) {
+    super();
+    this.args = {
+      port: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__core_type__["a" /* defineNumber */])(port),
+      axis: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__core_type__["b" /* defineString */])(axis)
+    };
+  }
+
+  getData(callback) {
+    // 拿到协议组装器，组装协议
+    let buf = __WEBPACK_IMPORTED_MODULE_1__core_utils__["a" /* default */].composer(__WEBPACK_IMPORTED_MODULE_3__protocol_cmd__["a" /* default */].readJoystick, [this.args.port, this.args.axis]);
+    //执行
+    __WEBPACK_IMPORTED_MODULE_4__communicate_command__["a" /* default */].execRead(buf, callback);
+    return this;
+  }
+
+  //参数戳：描述port slot id 需传参的个数
+  static argsStamp() {
+    return 1;
+  }
+
+  //主控支持戳：描述各主控的支持情况
+  static supportStamp() {
+    return '1111';
+  }
+
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (Joystick);
+
+/***/ }),
+/* 31 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__base_LedMatrixBase__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(2);
+
+
+
+
+
+
+class LedMatrixChar extends __WEBPACK_IMPORTED_MODULE_2__base_LedMatrixBase__["a" /* default */] {
+  /**
+   * @constructor
+   */
+  constructor(port) {
+    super(port);
+    //扩充参数
+    Object.assign(this.args, {
+      x: null,
+      y: null,
+      char: null
+    });
+  }
+
+  x(xAxis) {
+    this.args.x = xAxis;
+    return this;
+  }
+
+  y(yAxis) {
+    this.args.y = yAxis;
+    return this;
+  }
+
+  showChar(str) {
+    this.args.char = str;
+    //组装buf
+    let buf = __WEBPACK_IMPORTED_MODULE_1__core_utils__["a" /* default */].composer(__WEBPACK_IMPORTED_MODULE_3__protocol_cmd__["a" /* default */].setLedMatrixChar, [this.args.port, this.args.x, this.args.y, this.args.char]);
+    __WEBPACK_IMPORTED_MODULE_4__communicate_command__["a" /* default */].execWrite(buf);
+    return this;
+  }
+
+  //参数戳：描述port slot id 需传参的个数
+  static argsStamp() {
+    return 1;
+  }
+
+  //主控支持戳：描述各主控的支持情况
+  //orion 不支持
+  static supportStamp() {
+    return '1110';
+  }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (LedMatrixChar);
+
+/***/ }),
+/* 32 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_utils__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__base_LedMatrixBase__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__protocol_cmd__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__communicate_command__ = __webpack_require__(2);
+// import { defineNumber } from '../core/type';
+
+
+
+
+
+class LedMatrixEmotion extends __WEBPACK_IMPORTED_MODULE_1__base_LedMatrixBase__["a" /* default */] {
+  /**
+   * @constructor
+   */
+  constructor(port) {
+    super(port);
+    //参数
+    Object.assign(this.args, {
+      x: null,
+      y: null,
+      emotion: null
+    });
+  }
+
+  x(xAxis) {
+    this.args.x = xAxis;
+    return this;
+  }
+
+  y(yAxis) {
+    this.args.y = yAxis;
+    return this;
+  }
+
+  showEmotion(emotion) {
+    this.args.emotion = emotion;
+    //组装buf
+    let buf = __WEBPACK_IMPORTED_MODULE_0__core_utils__["a" /* default */].composer(__WEBPACK_IMPORTED_MODULE_2__protocol_cmd__["a" /* default */].setLedMatrixEmotion, [this.args.port, this.args.x, this.args.y, this.args.emotion]);
+    //执行
+    __WEBPACK_IMPORTED_MODULE_3__communicate_command__["a" /* default */].execWrite(buf);
+    return this;
+  }
+
+  //参数戳：描述port slot id 需传参的个数
+  static argsStamp() {
+    return 1;
+  }
+
+  //主控支持戳：描述各主控的支持情况
+  //orion 不支持
+  static supportStamp() {
+    return '1110';
+  }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (LedMatrixEmotion);
+
+/***/ }),
+/* 33 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__base_LedMatrixBase__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(2);
+
+
+
+
+
+
+class LedMatrixNumber extends __WEBPACK_IMPORTED_MODULE_2__base_LedMatrixBase__["a" /* default */] {
+  /**
+   * @constructor
+   */
+  constructor(port) {
+    super(port);
+    Object.assign(this.args, {
+      number: null
+    });
+  }
+
+  showNumber(number) {
+    this.args.number = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__core_type__["a" /* defineNumber */])(number);
+    //组装buf
+    let buf = __WEBPACK_IMPORTED_MODULE_1__core_utils__["a" /* default */].composer(__WEBPACK_IMPORTED_MODULE_3__protocol_cmd__["a" /* default */].setLedMatrixNumber, [this.args.port, this.args.number]);
+    //执行
+    __WEBPACK_IMPORTED_MODULE_4__communicate_command__["a" /* default */].execWrite(buf);
+    return this;
+  }
+  //参数戳：描述port slot id 需传参的个数
+  static argsStamp() {
+    return 1;
+  }
+
+  //主控支持戳：描述各主控的支持情况
+  //orion 不支持
+  static supportStamp() {
+    return '1110';
+  }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (LedMatrixNumber);
+
+/***/ }),
+/* 34 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__base_LedMatrixBase__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(2);
+
+
+
+
+
+
+class LedMatrixTime extends __WEBPACK_IMPORTED_MODULE_2__base_LedMatrixBase__["a" /* default */] {
+  /**
+   * @constructor
+   */
+  constructor(port) {
+    super(port);
+    Object.assign(this.args, {
+      separator: null,
+      hour: null,
+      minute: null
+    });
+  }
+
+  separator(separator) {
+    this.args.separator = separator;
+    return this;
+  }
+
+  hour(h) {
+    this.args.hour = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__core_type__["a" /* defineNumber */])(h);
+    return this;
+  }
+
+  minute(m) {
+    this.args.minute = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__core_type__["a" /* defineNumber */])(m);
+    return this;
+  }
+
+  showTime() {
+    //组装buf
+    let buf = __WEBPACK_IMPORTED_MODULE_1__core_utils__["a" /* default */].composer(__WEBPACK_IMPORTED_MODULE_3__protocol_cmd__["a" /* default */].setLedMatrixTime, [this.args.port, this.args.separator, this.args.hour, this.args.minute]);
+    __WEBPACK_IMPORTED_MODULE_4__communicate_command__["a" /* default */].execWrite(buf);
+    return this;
+  }
+
+  //参数戳：描述port slot id 需传参的个数
+  static argsStamp() {
+    return 1;
+  }
+
+  //主控支持戳：描述各主控的支持情况
+  //orion 不支持
+  static supportStamp() {
+    return '1110';
+  }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (LedMatrixTime);
+
+/***/ }),
+/* 35 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__base_RgbLedBase__ = __webpack_require__(8);
+
+
+class LedPanelOnBoard extends __WEBPACK_IMPORTED_MODULE_0__base_RgbLedBase__["a" /* default */] {
+  constructor() {
+    super(0, 2);
+  }
+
+  //参数戳：描述port slot id 需传参的个数
+  static argsStamp() {
+    return 0;
+  }
+
+  //主控支持戳：描述各主控的支持情况
+  static supportStamp() {
+    return '1111';
+  }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (LedPanelOnBoard);
+
+/***/ }),
+/* 36 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__electronic__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(2);
+
+
+
+
+
+
+class Light extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
+  constructor(port) {
+    super();
+    this.args = {
+      port: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__core_type__["a" /* defineNumber */])(port)
+    };
+  }
+
+  getData(callback) {
+    // 拿到协议组装器，组装协议
+    let buf = __WEBPACK_IMPORTED_MODULE_1__core_utils__["a" /* default */].composer(__WEBPACK_IMPORTED_MODULE_3__protocol_cmd__["a" /* default */].readLight, [this.args.port]);
+    //执行
+    __WEBPACK_IMPORTED_MODULE_4__communicate_command__["a" /* default */].execRead(buf, callback);
+    return this;
+  }
+
+  //参数戳：描述port slot id 需传参的个数
+  static argsStamp() {
+    return 1;
+  }
+
+  //主控支持戳：描述各主控的支持情况
+  static supportStamp() {
+    return '1111';
+  }
+
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (Light);
+
+/***/ }),
+/* 37 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__electronic__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(2);
+
+
+
+
+
+
+class LimitSwitch extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
+  constructor(port, slot) {
+    super();
+    this.args = {
+      port: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__core_type__["a" /* defineNumber */])(port),
+      slot: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__core_type__["a" /* defineNumber */])(slot)
+    };
+  }
+
+  getData(callback) {
+    // 拿到协议组装器，组装协议
+    let buf = __WEBPACK_IMPORTED_MODULE_1__core_utils__["a" /* default */].composer(__WEBPACK_IMPORTED_MODULE_3__protocol_cmd__["a" /* default */].readLimitSwitch, [this.args.port, this.args.slot]);
+    //执行
+    __WEBPACK_IMPORTED_MODULE_4__communicate_command__["a" /* default */].execRead(buf, callback);
+    // Command.getSensorValue('ultrasonic', buf, callback);
+    return this;
+  }
+
+  //参数戳：描述port slot id 需传参的个数
+  static argsStamp() {
+    return 2;
+  }
+
+  //主控支持戳：描述各主控的支持情况
+  static supportStamp() {
+    return '1111';
+  }
+
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (LimitSwitch);
+
+/***/ }),
+/* 38 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__electronic__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(2);
+
+
+
+
+
+
+class LineFollower extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
+  constructor(port) {
+    super();
+    this.args = {
+      port: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__core_type__["a" /* defineNumber */])(port)
+    };
+  }
+
+  getData(callback) {
+    // 拿到协议组装器，组装协议
+    let buf = __WEBPACK_IMPORTED_MODULE_1__core_utils__["a" /* default */].composer(__WEBPACK_IMPORTED_MODULE_3__protocol_cmd__["a" /* default */].readLineFollower, [this.args.port]);
+    //执行
+    __WEBPACK_IMPORTED_MODULE_4__communicate_command__["a" /* default */].execRead(buf, callback);
+    // Command.getSensorValue('ultrasonic', buf, callback);
+    return this;
+  }
+
+  //参数戳：描述port slot id 需传参的个数
+  static argsStamp() {
+    return 1;
+  }
+
+  //主控支持戳：描述各主控的支持情况
+  static supportStamp() {
+    return '1111';
+  }
+
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (LineFollower);
+
+/***/ }),
+/* 39 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__electronic__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(2);
+
+
+
+
+
+
+class Pirmotion extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
+  constructor(port) {
+    super();
+    this.args = {
+      port: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__core_type__["a" /* defineNumber */])(port)
+    };
+  }
+
+  getData(callback) {
+    // 拿到协议组装器，组装协议
+    let buf = __WEBPACK_IMPORTED_MODULE_1__core_utils__["a" /* default */].composer(__WEBPACK_IMPORTED_MODULE_3__protocol_cmd__["a" /* default */].readPirmotion, [this.args.port]);
+    //执行
+    __WEBPACK_IMPORTED_MODULE_4__communicate_command__["a" /* default */].execRead(buf, callback);
+    // Command.getSensorValue('ultrasonic', buf, callback);
+    return this;
+  }
+
+  //参数戳：描述port slot id 需传参的个数
+  static argsStamp() {
+    return 1;
+  }
+
+  //主控支持戳：描述各主控的支持情况
+  static supportStamp() {
+    return '1111';
+  }
+
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (Pirmotion);
+
+/***/ }),
+/* 40 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__electronic__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(2);
+
+
+
+
+
+
+class Potentionmeter extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
+  constructor(port) {
+    super();
+    this.args = {
+      port: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__core_type__["a" /* defineNumber */])(port)
+    };
+  }
+
+  getData(callback) {
+    // 拿到协议组装器，组装协议
+    let buf = __WEBPACK_IMPORTED_MODULE_1__core_utils__["a" /* default */].composer(__WEBPACK_IMPORTED_MODULE_3__protocol_cmd__["a" /* default */].readPotentionmeter, [this.args.port]);
+    //执行
+    __WEBPACK_IMPORTED_MODULE_4__communicate_command__["a" /* default */].execRead(buf, callback);
+    return this;
+  }
+
+  //参数戳：描述port slot id 需传参的个数
+  static argsStamp() {
+    return 1;
+  }
+
+  //主控支持戳：描述各主控的支持情况
+  static supportStamp() {
+    return '1111';
+  }
+
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (Potentionmeter);
+
+/***/ }),
+/* 41 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__electronic__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(2);
+
+
+
+
+
+
+class Reset extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
+  constructor(callback) {
+    super();
+    this.reset(callback);
+  }
+
+  reset(callback) {
+    // 拿到协议组装器，组装协议
+    let buf = __WEBPACK_IMPORTED_MODULE_1__core_utils__["a" /* default */].composer(__WEBPACK_IMPORTED_MODULE_3__protocol_cmd__["a" /* default */].reset, []);
+    //执行
+    __WEBPACK_IMPORTED_MODULE_4__communicate_command__["a" /* default */].execRead(buf, callback);
+    return this;
+  }
+
+  //参数戳：描述 port slot id 需传参的个数
+  static argsStamp() {
+    return 0;
+  }
+
+  //主控支持戳：描述各主控的支持情况
+  static supportStamp() {
+    return '1111';
+  }
+
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (Reset);
+
+/***/ }),
+/* 42 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__base_RgbLedBase__ = __webpack_require__(8);
+
+
+class RgbLed extends __WEBPACK_IMPORTED_MODULE_0__base_RgbLedBase__["a" /* default */] {
+  constructor(port, slot) {
+    super(port, slot);
+  }
+
+  //参数戳：描述port slot id 需传参的个数
+  static argsStamp() {
+    return 2;
+  }
+
+  //主控支持戳：描述各主控的支持情况
+  static supportStamp() {
+    return '1111';
+  }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (RgbLed);
+
+/***/ }),
+/* 43 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__base_RgbLedBase__ = __webpack_require__(8);
+// import { defineNumber } from '../core/type';
+
+
+class RgbLedOnBoard extends __WEBPACK_IMPORTED_MODULE_0__base_RgbLedBase__["a" /* default */] {
+  constructor() {
+    super(0, 2);
+  }
+
+  //参数戳：描述port slot id 需传参的个数
+  static argsStamp() {
+    return 0;
+  }
+
+  //主控支持戳：描述各主控的支持情况
+  static supportStamp() {
+    return '0100';
+  }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (RgbLedOnBoard);
+
+/***/ }),
+/* 44 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__electronic__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(2);
+
+
+
+
+
+
+// 作为闭包内容不开放
+class SevenSegment extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
+  /**
+   * Buzzer类，声音模块
+   * @constructor
+   */
+  constructor(port) {
+    super();
+    this.args = {
+      port: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__core_type__["a" /* defineNumber */])(port),
+      number: null
+    };
+  }
+  /**
+   * @param {string} beat - 声音音节
+   */
+  showNumber(number) {
+    this.args.number = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__core_type__["a" /* defineNumber */])(number);
+    let buf = __WEBPACK_IMPORTED_MODULE_1__core_utils__["a" /* default */].composer(__WEBPACK_IMPORTED_MODULE_3__protocol_cmd__["a" /* default */].setSevenSegment, [this.args.port, this.args.number]);
+    __WEBPACK_IMPORTED_MODULE_4__communicate_command__["a" /* default */].execWrite(buf);
+    return this;
+  }
+
+  //参数戳：描述port slot id 需传参的个数
+  static argsStamp() {
+    return 1;
+  }
+
+  //主控支持戳：描述各主控的支持情况
+  static supportStamp() {
+    return '1111';
+  }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (SevenSegment);
+
+/***/ }),
+/* 45 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__electronic__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(2);
+
+
+
+
+
+
+// 作为闭包内容不开放
+class Shutter extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
+  /**
+   * Buzzer类，声音模块
+   * @constructor
+   */
+  constructor(port) {
+    super();
+    this.args = {
+      port: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__core_type__["a" /* defineNumber */])(port),
+      action: null
+    };
+  }
+
+  /**
+   * @param {string} actionId - 动作id  0: 按下快门; 1: 松开快门; 2: 聚焦; 3: 停止聚焦
+   */
+  action(actionId) {
+    this.args.action = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__core_type__["b" /* defineString */])(actionId);
+    // 拿到协议组装器，组装协议
+    let buf = __WEBPACK_IMPORTED_MODULE_1__core_utils__["a" /* default */].composer(__WEBPACK_IMPORTED_MODULE_3__protocol_cmd__["a" /* default */].setShutter, [this.args.port, this.args.action]);
+    //执行
+    __WEBPACK_IMPORTED_MODULE_4__communicate_command__["a" /* default */].execWrite(buf);
+    return this;
+  }
+
+  //参数戳：描述port slot id 需传参的个数
+  static argsStamp() {
+    return 1;
+  }
+
+  //主控支持戳：描述各主控的支持情况
+  static supportStamp() {
+    return '1111';
+  }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (Shutter);
+
+/***/ }),
+/* 46 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__electronic__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(2);
+
+
+
+
+
+
+class Sound extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
+  constructor(port) {
+    super();
+    this.args = {
+      port: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__core_type__["a" /* defineNumber */])(port)
+    };
+  }
+
+  getData(callback) {
+    // 拿到协议组装器，组装协议
+    let buf = __WEBPACK_IMPORTED_MODULE_1__core_utils__["a" /* default */].composer(__WEBPACK_IMPORTED_MODULE_3__protocol_cmd__["a" /* default */].readSound, [this.args.port]);
+    //执行
+    __WEBPACK_IMPORTED_MODULE_4__communicate_command__["a" /* default */].execRead(buf, callback);
+    return this;
+  }
+
+  //参数戳：描述port slot id 需传参的个数
+  static argsStamp() {
+    return 1;
+  }
+
+  //主控支持戳：描述各主控的支持情况
+  static supportStamp() {
+    return '1111';
+  }
+
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (Sound);
+
+/***/ }),
+/* 47 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__electronic__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(2);
+
+
+
+
+
+
+class Temperature extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
+  constructor(port, slot) {
+    super();
+    this.args = {
+      port: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__core_type__["a" /* defineNumber */])(port),
+      slot: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__core_type__["a" /* defineNumber */])(slot)
+    };
+  }
+
+  getData(callback) {
+    // 拿到协议组装器，组装协议
+    let buf = __WEBPACK_IMPORTED_MODULE_1__core_utils__["a" /* default */].composer(__WEBPACK_IMPORTED_MODULE_3__protocol_cmd__["a" /* default */].readTemperature, [this.args.port, this.args.slot]);
+    //执行
+    __WEBPACK_IMPORTED_MODULE_4__communicate_command__["a" /* default */].execRead(buf, callback);
+    // Command.getSensorValue('ultrasonic', buf, callback);
+    return this;
+  }
+
+  //参数戳：描述port slot id 需传参的个数
+  static argsStamp() {
+    return 2;
+  }
+
+  //主控支持戳：描述各主控的支持情况
+  static supportStamp() {
+    return '1111';
+  }
+
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (Temperature);
+
+/***/ }),
+/* 48 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__electronic__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(2);
+
+
+
+
+
+
+class TemperatureOnBoard extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
+  constructor() {
+    super();
+  }
+
+  getData(callback) {
+    // 拿到协议组装器，组装协议
+    let buf = __WEBPACK_IMPORTED_MODULE_1__core_utils__["a" /* default */].composer(__WEBPACK_IMPORTED_MODULE_3__protocol_cmd__["a" /* default */].readTemperatureOnBoard);
+    //执行
+    __WEBPACK_IMPORTED_MODULE_4__communicate_command__["a" /* default */].execRead(buf, callback);
+    return this;
+  }
+
+  //参数戳：描述port slot id 需传参的个数
+  static argsStamp() {
+    return 0;
+  }
+
+  //主控支持戳：描述各主控的支持情况
+  //只有 auriga 支持 
+  static supportStamp() {
+    return '0100';
+  }
+
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (TemperatureOnBoard);
+
+/***/ }),
+/* 49 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__electronic__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(2);
+
+
+
+
+
+
+class Touch extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
+  constructor(port) {
+    super();
+    this.args = {
+      port: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__core_type__["a" /* defineNumber */])(port)
+    };
+  }
+
+  getData(callback) {
+    // 拿到协议组装器，组装协议
+    let buf = __WEBPACK_IMPORTED_MODULE_1__core_utils__["a" /* default */].composer(__WEBPACK_IMPORTED_MODULE_3__protocol_cmd__["a" /* default */].readTouch, [this.args.port]);
+    //执行
+    __WEBPACK_IMPORTED_MODULE_4__communicate_command__["a" /* default */].execRead(buf, callback);
+    return this;
+  }
+
+  //参数戳：描述port slot id 需传参的个数
+  static argsStamp() {
+    return 1;
+  }
+
+  //主控支持戳：描述各主控的支持情况
+  static supportStamp() {
+    return '1111';
+  }
+
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (Touch);
+
+/***/ }),
+/* 50 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__electronic__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(2);
+
+
+
+
+
+
+class Ultrasonic extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
+  constructor(port) {
+    super();
+    this.args = {
+      port: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__core_type__["a" /* defineNumber */])(port)
+    };
+  }
+
+  getData(callback) {
+    // 拿到协议组装器，组装协议
+    let buf = __WEBPACK_IMPORTED_MODULE_1__core_utils__["a" /* default */].composer(__WEBPACK_IMPORTED_MODULE_3__protocol_cmd__["a" /* default */].readUltrasonic, [this.args.port]);
+    //执行
+    __WEBPACK_IMPORTED_MODULE_4__communicate_command__["a" /* default */].execRead(buf, callback);
+    // Command.getSensorValue('ultrasonic', buf, callback);
+    return this;
+  }
+
+  //参数戳：描述port slot id 需传参的个数
+  static argsStamp() {
+    return 1;
+  }
+
+  //主控支持戳：描述各主控的支持情况
+  static supportStamp() {
+    return '1111';
+  }
+
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (Ultrasonic);
+
+/***/ }),
+/* 51 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__electronic__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(2);
+
+
+
+
+
+
+class Version extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
+  constructor(callback) {
+    super();
+    this.version(callback);
+  }
+
+  version(callback) {
+    // 拿到协议组装器，组装协议
+    let buf = __WEBPACK_IMPORTED_MODULE_1__core_utils__["a" /* default */].composer(__WEBPACK_IMPORTED_MODULE_3__protocol_cmd__["a" /* default */].readVersion, []);
+    //执行
+    __WEBPACK_IMPORTED_MODULE_4__communicate_command__["a" /* default */].execRead(buf, callback);
+    return this;
+  }
+
+  //参数戳：描述port slot id 需传参的个数
+  static argsStamp() {
+    return 0;
+  }
+
+  //主控支持戳：描述各主控的支持情况
+  static supportStamp() {
+    return '1111';
+  }
+
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (Version);
+
+/***/ }),
+/* 52 */,
+/* 53 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mcore__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__orion__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__auriga__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__megaPi__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__neuron__ = __webpack_require__(15);
+
+
+
+
+
+
+const boards = {
+  "Mcore": __WEBPACK_IMPORTED_MODULE_0__mcore__["a" /* default */],
+  "Orion": __WEBPACK_IMPORTED_MODULE_1__orion__["a" /* default */],
+  "Auriga": __WEBPACK_IMPORTED_MODULE_2__auriga__["a" /* default */],
+  "MegaPi": __WEBPACK_IMPORTED_MODULE_3__megaPi__["a" /* default */],
+  "Neuron": __WEBPACK_IMPORTED_MODULE_4__neuron__["a" /* default */]
+};
+
+function Sensorium(boardName, opts) {
+  //匹配对应的板子
+  let board = boards[boardName];
+  if (typeof board == 'undefined') {
+    throw new Error('sorry, the board could not be supported!');
+  }
+  //TO IMPROVE: 需释放上一次板子实例
+  return new board(opts);
+}
+
+if (typeof window != "undefined") {
+  window.Sensorium = Sensorium;
+}
+// cmd
+// module.exports = Sensorium;
+/* harmony default export */ __webpack_exports__["default"] = (Sensorium);
+
+/***/ }),
+/* 54 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__base_EncoderMotorBase__ = __webpack_require__(55);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(2);
+
+
+
+
+
+
+class EncoderMotor extends __WEBPACK_IMPORTED_MODULE_2__base_EncoderMotorBase__["a" /* default */] {
+
+  /**
+   * DC Motor
+   * @constructor
+   * @param {number} port
+   */
+  constructor(port, slot) {
+    super(port, slot);
+  }
+
+  //参数戳：描述port slot id 需传参的个数
+  static argsStamp() {
+    return 2;
+  }
+
+  //主控支持戳：描述各主控的支持情况
+  static supportStamp() {
+    return '0101';
+  }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (EncoderMotor);
+
+/***/ }),
+/* 55 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__MotorBase__ = __webpack_require__(19);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(2);
+
+
+
+
+
+
+class EncoderMotorBase extends __WEBPACK_IMPORTED_MODULE_2__MotorBase__["a" /* default */] {
+  /**
+   * EncoderMotorBase
+   * @constructor
+   * @param {number} port
+   */
+  constructor(port, slot) {
+    super(port, slot);
+    Object.assign(this.args, {
+      angle: 0
+    });
+  }
+
+  /**
+   * set angle offset to last angle position
+   * @param  {[type]} angle [description]
+   * @return {[type]}       [description]
+   */
+  offsetAngle(angle) {
+    this.args.angle = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__core_type__["a" /* defineNumber */])(angle, 0);
+    return this;
+  }
+
+  /**
+   * dcMoter run
+   * @return {Object} the instance
+   */
+  run() {
+    //组装buf
+    let buf = __WEBPACK_IMPORTED_MODULE_1__core_utils__["a" /* default */].composer(__WEBPACK_IMPORTED_MODULE_3__protocol_cmd__["a" /* default */].setEncoderMotor, [this.args.port, this.args.speed, this.args.angle]);
+    //执行
+    __WEBPACK_IMPORTED_MODULE_4__communicate_command__["a" /* default */].execWrite(buf);
+    return this;
+  }
+
+  /**
+   * dcMoter run reversely
+   * @return {Object} the instance
+   */
+  runReverse() {
+    this.offsetAngle(-1 * this.args.angle);
+    return this.run();
+  }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (EncoderMotorBase);
+
+/***/ }),
+/* 56 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__base_MotorBase__ = __webpack_require__(19);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(2);
+
+
+
+
+
+
+class StepperMotor extends __WEBPACK_IMPORTED_MODULE_2__base_MotorBase__["a" /* default */] {
+
+  /**
+   * DC Motor
+   * @constructor
+   * @param {number} port
+   */
+  constructor(port) {
+    super(port);
+    Object.assign(this.args, {
+      distance: 0
+    });
+  }
+
+  /**
+   * set distance
+   * @param  {Number} speed
+   * @return {Object} the instance
+   */
+  distance(distance) {
+    this.args.distance = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__core_type__["a" /* defineNumber */])(distance, 0);
+    return this;
+  }
+
+  /**
+   * dcMoter run
+   * @return {Object} the instance
+   */
+  run() {
+    //组装buf
+    let buf = __WEBPACK_IMPORTED_MODULE_1__core_utils__["a" /* default */].composer(__WEBPACK_IMPORTED_MODULE_3__protocol_cmd__["a" /* default */].setDcMotor, [this.args.port, this.args.speed, this.args.distance]);
+    //执行
+    __WEBPACK_IMPORTED_MODULE_4__communicate_command__["a" /* default */].execWrite(buf);
+    return this;
+  }
+
+  /**
+   * dcMoter run reversely
+   * @return {Object} the instance
+   */
+  runReverse() {
+    this.speed(-1 * this.args.distance);
+    return this.run();
+  }
+
+  //参数戳：描述port slot id 需传参的个数
+  static argsStamp() {
+    return 1;
+  }
+
+  //主控支持戳：描述各主控的支持情况
+  static supportStamp() {
+    return '0111';
+  }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (StepperMotor);
+
+/***/ }),
+/* 57 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__electronic__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(2);
+
+
+
+
+
+
+class ServoMotor extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
+
+  /**
+   * ServoMotor
+   * @constructor
+   * @param {number} port
+   */
+  constructor(port, slot) {
+    super();
+    this.args = {
+      port: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__core_type__["a" /* defineNumber */])(port),
+      slot: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__core_type__["a" /* defineNumber */])(slot),
+      angle: 0
+    };
+  }
+
+  /**
+   * set angle of degree
+   * @param  {Number} degree
+   * @return {Object} the instance
+   */
+  angle(degree) {
+    this.args.angle = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__core_type__["a" /* defineNumber */])(degree, 0);
+    return this;
+  }
+
+  /**
+   * go to the start
+   * @return {[type]} [description]
+   */
+  toStart() {
+    this.angle(180);
+    return this.go();
+  }
+
+  /**
+   * go to the end
+   * @return {[type]} [description]
+   */
+  toEnd() {
+    this.angle(0);
+    return this.go();
+  }
+
+  go() {
+    let buf = __WEBPACK_IMPORTED_MODULE_1__core_utils__["a" /* default */].composer(__WEBPACK_IMPORTED_MODULE_3__protocol_cmd__["a" /* default */].setServoMotor, [this.args.port, this.args.slot, this.args.angle]);
+    //执行
+    __WEBPACK_IMPORTED_MODULE_4__communicate_command__["a" /* default */].execWrite(buf);
+    return this;
+  }
+
+  //参数戳：描述port slot id 需传参的个数
+  static argsStamp() {
+    return 2;
+  }
+
+  //主控支持戳：描述各主控的支持情况
+  static supportStamp() {
+    return '1111';
+  }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (ServoMotor);
 
 /***/ })
 /******/ ]);

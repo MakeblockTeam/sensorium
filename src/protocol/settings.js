@@ -1,4 +1,4 @@
-var Settings = {
+const Settings = {
     // 数据发送与接收相关
     // 回复数据的index位置
     READ_BYTES_INDEX: 2,
@@ -6,6 +6,7 @@ var Settings = {
     DEFAULT_CONF : {
 
     },
+    SUPPORTLIST: ['Mcore', 'Auriga', 'MegaPi', 'Orion', 'Neuron']
 };
 
-module.exports = Settings;
+export default Settings;

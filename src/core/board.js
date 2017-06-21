@@ -2,21 +2,61 @@
  * @fileOverview board 用做通信基类，连接收和发送接口.
  * @author Hyman
  */
+//es6 module
+import Transport from '../communicate/transport';
+import parse from './parse';
+// const Command = require('../communicate/command');
+import Settings from'../protocol/settings';
 
-var Transport =  require('../communicate/transport');
-var parse =  require('./parse');
-var Settings =  require('../protocol/settings');
-var _ = require('underscore');
+const createModuleId = function (eModule, args){
+  args = [...args]; //转数组
+  let name = eModule.name;
+  let argsStamp = eModule.argsStamp();
+  let argsLength = args.length;
+  if(argsLength < argsStamp){
+    //参数不足
+    console.warn(`there's lack of ${argsStamp-argsLength} argument(s), and ${eModule.name} may not work as a result`);
+  }else if(argsLength > argsStamp){
+    //参数多余
+    args.splice(argsStamp);
+  }
+  return [name].concat(...args).join('_').toLowerCase();
+}
 
+// 超类： 具备发送、接收方法
 class Board {
+  constructor(conf){
+    this._config = null;
+    //连接
+    this.connecting = {};
+    this.init(conf);
+  }
 
   init(conf) {
-    this._config = _.extend(Settings.DEFAULT_CONF, conf || {});
-    this.setTransport(this._config.transport);
+    this._config = Object.assign(Settings.DEFAULT_CONF, conf || {});
+    this.setTransport(this._config.transport || {});
 
     // 启动数据监听
-    this.onReceived();
-  };
+    // this.onReceived();
+  }
+
+  /**
+   * 电子模块实例工厂
+   * @param  {Function} eModule 电子模块类
+   * @param  {Array-Like} args    [port, slot, id...]
+   * @return {Object}         电子模块实例
+   */
+  eModuleFactory(eModule, args){
+    let id = createModuleId(eModule, args);
+    if(this.connecting[id]){
+      return this.connecting[id];
+    }else{
+      let emodule = new eModule(...args);
+      // 保存模块
+      this.connecting[id] = emodule;
+      return emodule;
+    }
+  }
 
   /**
    * 存储通信的通道
@@ -35,30 +75,14 @@ class Board {
    *  }
    */
   setTransport(transport) {
-    this.transport = transport;
-    Transport.set(this.transport);
-  };
-
-  /**
-   * 注册主板发送数据通道
-   * @param  {[type]} command [description]
-   */
-  send(command) {
-    this.transport.send(command);
-    return utils.intStrToHexStr(command);
-  };
-
-  /**
-   * 定义数据接收通道
-   * parse 是解析器
-   */
-  onReceived() {
-    if(this.transport) {
-      this.transport.onReceived(parse);
+    if(transport && typeof transport.send == 'function' && typeof transport.receive == 'function' ){
+      Transport.send = transport.send;
+      Transport.receive = transport.receive;
+    }else{
+      // console.warn('')
     }
   }
 }
 
-let board = new Board();
-
-module.exports = board;
+// module.exports = Board;
+export default Board;

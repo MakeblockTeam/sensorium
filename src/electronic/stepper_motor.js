@@ -4,7 +4,7 @@ import MotorBase from './base/MotorBase';
 import protocolAssembler from '../protocol/cmd';
 import Command from '../communicate/command';
 
-class DcMotor extends MotorBase {
+class StepperMotor extends MotorBase {
 
   /**
    * DC Motor
@@ -13,6 +13,19 @@ class DcMotor extends MotorBase {
    */
   constructor(port) {
     super(port);
+    Object.assign(this.args, {
+      distance: 0
+    })
+  }
+
+  /**
+   * set distance
+   * @param  {Number} speed
+   * @return {Object} the instance
+   */
+  distance(distance){
+    this.args.distance = defineNumber(distance, 0);
+    return this;
   }
 
   /**
@@ -21,7 +34,7 @@ class DcMotor extends MotorBase {
    */
   run() {
     //组装buf
-    let buf = Utils.composer(protocolAssembler.setDcMotor, [this.args.port, this.args.speed]);
+    let buf = Utils.composer(protocolAssembler.setDcMotor, [this.args.port, this.args.speed, this.args.distance]);
     //执行
     Command.execWrite(buf);
     return this;
@@ -32,7 +45,7 @@ class DcMotor extends MotorBase {
    * @return {Object} the instance
    */
   runReverse() {
-    this.speed(-1 * this.args.speed);
+    this.speed(-1 * this.args.distance);
     return this.run();
   }
 
@@ -43,8 +56,8 @@ class DcMotor extends MotorBase {
 
   //主控支持戳：描述各主控的支持情况
   static supportStamp(){
-    return '1111';
+    return '0111';
   }
 }
 
-export default DcMotor;
+export default StepperMotor;

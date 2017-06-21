@@ -1,46 +1,77 @@
-var DcMotor = require('./dc_motor');
-var RgbLed = require('./rgb_led');
-var Ultrasonic = require('./ultrasonic');
-var LedPanel = require('./led_panel');
-var Buzzer = require('./Buzzer');
+import DcMotor from './dc_motor';
+import StepperMotor from './stepper_motor';
+import EncoderMotor from './encoder_motor';
+import EncoderMotorOnBoard from './encoder_motor_on_board';
+import ServoMotor from './servo_motor';
+import FourLed from './four_led';
+import RgbLed from './rgb_led';
+import LedPanelOnBoard from './led_panel_on_board';
+import RgbLedOnBoard from './rgb_led_on_board';
+import LedMatrixChar from './led_matrix_char';
+import LedMatrixTime from './led_matrix_time';
+import LedMatrixEmotion from './led_matrix_emotion';
+import LedMatrixNumber from './led_matrix_number';
+import Buzzer from './buzzer';
+import SevenSegment from './seven_segment';
+import Shutter from './shutter';
 
-// rgb led 
-function rgbLed(port, slot) {
-  return new RgbLed(port, slot);
-}
+import Reset from './reset';
+import Version from './version';
+import Ultrasonic from './ultrasonic';
+import Temperature from './temperature';
+import Light from './light';
+import Potentionmeter from './potentionmeter';
+import Joystick from './joystick';
+import Gyro from './gyro';
+import Sound from './sound';
+import TemperatureOnBoard from './temperature_on_board';
+import Pirmotion from './pirmotion';
+import LineFollower from './line_follower';
+import LimitSwitch from './limit_switch';
+import Compass from './compass';
+import Humiture from './humiture';
+import Flame from './flame';
+import Gas from './gas';
+import Touch from './touch';
+import FourKeys from './four_keys';
+// import EncoderMotorOnBoard from './encoder_motor_on_board';
 
-function rgbLedOnBoard() {
-  return new RgbLed(0, 2);
-}
+export default {
+  DcMotor,
+  StepperMotor,
+  EncoderMotor,
+  EncoderMotorOnBoard,
+  ServoMotor,
+  FourLed,
+  RgbLed,
+  LedPanelOnBoard,
+  RgbLedOnBoard,
+  LedMatrixChar,
+  LedMatrixTime,
+  LedMatrixEmotion,
+  LedMatrixNumber,
+  Buzzer,
+  SevenSegment,
+  Shutter,
 
-function fourLed(port) {
-  return new RgbLed(port, 2);
-}
-
-// motor
-function dcMotor(port) {
-  return new DcMotor(port);
-}
-
-
-function ledPanel() {
-  return new LedPanel(...arguments);
-}
-
-function ultrasonic() {
-  return new Ultrasonic(...arguments);
-}
-
-function buzzer() {
-  return new Buzzer(...arguments);
-}
-
-module.exports = {
-  dcMotor,
-  rgbLed,
-  rgbLedOnBoard,
-  fourLed,
-  ultrasonic,
-  ledPanel,
-  buzzer
+  Reset, //实现待验证
+  Version, //实现待验证
+  Ultrasonic,
+  Temperature,
+  Light,
+  Potentionmeter,
+  Joystick,
+  Gyro,
+  Sound,
+  TemperatureOnBoard,
+  Pirmotion,
+  LineFollower,
+  LimitSwitch,
+  Compass,
+  Humiture,
+  Flame,
+  Gas,
+  Touch,
+  FourKeys,
+  EncoderMotorOnBoard
 };

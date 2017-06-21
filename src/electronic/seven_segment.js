@@ -3,47 +3,33 @@ import Utils from '../core/utils';
 import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
 import Command from '../communicate/command';
-class Buzzer extends Electronic {
+
+// 作为闭包内容不开放
+class SevenSegment extends Electronic {
   /**
    * Buzzer类，声音模块
    * @constructor
    */
-  constructor() {
+  constructor(port) {
     super();
     this.args = {
-      tone: null,
-      beat: null
-    }
-  }
-
-  /**
-   * @param {string} tone - 声音音调
-   */
-  tone(tone) {
-    this.args.tone = defineString(tone.toUpperCase());
-    return this;
+      port: defineNumber(port),
+      number: null
+    };
   }
   /**
    * @param {string} beat - 声音音节
    */
-  beat(beat) {
-    this.args.beat = defineNumber(beat);
-    return this;
-  }
-  /**
-   * 播放声音
-   */
-  play() {
-    // 拿到协议组装器，组装协议
-    let buf = Utils.composer(protocolAssembler.setTone, [this.args.port, this.args.action]);
-    //执行
+  showNumber(number) {
+    this.args.number = defineNumber(number);
+    let buf = Utils.composer(protocolAssembler.setSevenSegment, [this.args.port, this.args.number]);
     Command.execWrite(buf);
     return this;
   }
 
   //参数戳：描述port slot id 需传参的个数
   static argsStamp(){
-    return 0;
+    return 1;
   }
 
   //主控支持戳：描述各主控的支持情况
@@ -52,4 +38,4 @@ class Buzzer extends Electronic {
   }
 }
 
-export default Buzzer;
+export default SevenSegment;

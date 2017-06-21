@@ -1,50 +1,38 @@
 import { defineNumber } from '../core/type';
 import Utils from '../core/utils';
-import MotorBase from './base/MotorBase';
+import LedMatrixBase from './base/LedMatrixBase';
 import protocolAssembler from '../protocol/cmd';
 import Command from '../communicate/command';
 
-class DcMotor extends MotorBase {
-
+class LedMatrixNumber extends LedMatrixBase {
   /**
-   * DC Motor
    * @constructor
-   * @param {number} port
    */
   constructor(port) {
     super(port);
+    Object.assign(this.args, {
+      number: null
+    });
   }
 
-  /**
-   * dcMoter run
-   * @return {Object} the instance
-   */
-  run() {
+  showNumber(number){
+    this.args.number = defineNumber(number);
     //组装buf
-    let buf = Utils.composer(protocolAssembler.setDcMotor, [this.args.port, this.args.speed]);
+    let buf = Utils.composer(protocolAssembler.setLedMatrixNumber, [this.args.port, this.args.number]);
     //执行
     Command.execWrite(buf);
     return this;
   }
-
-  /**
-   * dcMoter run reversely
-   * @return {Object} the instance
-   */
-  runReverse() {
-    this.speed(-1 * this.args.speed);
-    return this.run();
-  }
-
   //参数戳：描述port slot id 需传参的个数
   static argsStamp(){
     return 1;
   }
 
   //主控支持戳：描述各主控的支持情况
+  //orion 不支持
   static supportStamp(){
-    return '1111';
+    return '1110';
   }
 }
 
-export default DcMotor;
+export default LedMatrixNumber;

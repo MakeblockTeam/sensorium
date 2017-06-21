@@ -1,8 +1,8 @@
 /**
  * @fileOverview 负责实际的数据解析
  */
-var PromiseList = require("../core/promise");
-var utils = require("../core/utils");
+import PromiseList from "../core/promise";
+import Utils from "../core/utils";
 
 function Parse() {
   this.buffer = [];
@@ -15,7 +15,7 @@ function Parse() {
   // this.buffer: 历史缓存数据
   // 记录数据和历史数据分开记录
   this.doParse = function(buffData, callback) {
-    var data  = utils.arrayFromArrayBuffer(buffData);
+    var data  = Utils.arrayFromArrayBuffer(buffData);
     data = this.buffer.concat(data);
     this.buffer = [];
 
@@ -95,7 +95,7 @@ function Parse() {
       case 4:
         // 字符串
         var bytes = buf.splice(3, buf[2]);
-        result = utils.bytesToString(bytes);
+        result = Utils.bytesToString(bytes);
         break;
       case "2":
       case "5":
@@ -136,7 +136,7 @@ function Parse() {
         (num & 0x7fffff) | 0x800000;
       return s * m * Math.pow(2, e - 150);
     };
-    var intValue = utils.bytesToInt(intArray);
+    var intValue = Utils.bytesToInt(intArray);
     // TOFIX
     if (intValue < 100000 && intValue > 0) {
       result = intValue;
@@ -149,4 +149,4 @@ function Parse() {
 
 let parse = new Parse();
 
-module.exports = parse;
+export default parse;

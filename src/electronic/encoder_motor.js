@@ -1,26 +1,29 @@
-const { defineNumber } = require('../core/type');
-const Motor = require('./motor');
+import { defineNumber } from '../core/type';
+import Utils from '../core/utils';
+import EncoderMotorBase from './base/EncoderMotorBase';
+import protocolAssembler from '../protocol/cmd';
+import Command from '../communicate/command';
 
-class EncoderMotor extends Motor {
+class EncoderMotor extends EncoderMotorBase {
 
   /**
    * DC Motor
    * @constructor
    * @param {number} port
-   * @param {number} slot
    */
   constructor(port, slot) {
-    super(port);
-    this.angle = 0;
+    super(port, slot);
   }
 
-  offset(value) {
-    this.angle = defineNumber(value, this.angle);
+  //参数戳：描述port slot id 需传参的个数
+  static argsStamp(){
+    return 2;
   }
 
-  _run() {
-    this.api.setEncoderMotor(this.port, this.slot, this.speed, this.angle);
+  //主控支持戳：描述各主控的支持情况
+  static supportStamp(){
+    return '0101';
   }
 }
 
-module.exports = DcMotor;
+export default EncoderMotor;

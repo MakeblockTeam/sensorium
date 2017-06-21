@@ -1,11 +1,14 @@
 /**
  * @fileOverview 协议发送基类.
  */
-var ValueWrapper = require("../core/value_wrapper");
-var utils = require("../core/utils");
-var PromiseList = require("../core/promise");
-var Transport = require('./transport');
-var Api = require("../protocol/api");
+//es6 module
+import Transport from './transport';
+import ValueWrapper from '../core/value_wrapper';
+import { utils as Utils} from '../core/utils';
+import PromiseList from '../core/promise';
+
+// var Transport = require('./transport');
+// var Api = require("../protocol/api");
 
 class Command {
   constructor() {
@@ -20,12 +23,30 @@ class Command {
   }
 
   /**
+   * 执行 buf 协议
+   * @param  {Array}   buf      协议
+   * @param  {Function} callback 回调
+   * @return {[type]}            [description]
+   */
+  exec(buf, callback){
+    console.log(buf);
+  }
+  
+  execRead(buf, callback){
+    Transport.send(buf);
+  }
+
+  execWrite(buf, callback){
+    Transport.send(buf);
+  }
+
+  /**
    * Get sensor's value.
    * @param  {String}   deviceType the sensor's type.
-   * @param  {Object}   options    config options, such as port, slot etc.
+   * @param  {Array}   buf    buf assembles from arguments such as port, slot etc.
    * @param  {Function} callback   the function to be excuted.
    */
-  getSensorValue(deviceType, options, callback) {
+  getSensorValue(deviceType, buf, callback) {
     if (callback == undefined && typeof(options) == 'function') {
       callback = options;
       options = {};
@@ -33,11 +54,11 @@ class Command {
     var params = {};
     params.deviceType = deviceType;
     params.callback = callback;
-    params.port = options.port;
-    params.slot = options.slot || 2;
+    // params.port = options.port;
+    // params.slot = options.slot || 2;
     var valueWrapper = new ValueWrapper();
     var index = PromiseList.add(deviceType, callback, valueWrapper);
-    params.index = index;
+    // params.index = index;
     // 发送读取指令
     this._doGetSensorValue(params);
     if (this.CONFIG.OPEN_RESNET_MODE) {
@@ -46,9 +67,11 @@ class Command {
     }
     return valueWrapper;
   };
+  
   _doGetSensorValue(params) {
-    var that = this;
-    this._readBlockStatus(params);
+    
+
+    // this._readBlockStatus(params);
 
     // 模拟传感器回传数据
     // setTimeout(function() {
@@ -60,18 +83,18 @@ class Command {
    * Read module's value.
    * @param  {object} params command params.
    */
-  _readBlockStatus(params) {
-    this.api = new Api(Transport.get());
+  // _readBlockStatus(params) {
+  //   this.api = new Api(Transport.get());
 
-    var deviceType = params.deviceType;
-    var index = params.index;
-    var port = params.port;
-    var slot = params.slot || null;
-    var funcName = 'this.api.read' + utils.upperCaseFirstLetter(deviceType);
-    var paramsStr = '(' + index + ',' + port + ',' + slot + ')';
-    var func = funcName + paramsStr;
-    eval(func);
-  };
+  //   var deviceType = params.deviceType;
+  //   var index = params.index;
+  //   var port = params.port;
+  //   var slot = params.slot || null;
+  //   var funcName = 'this.api.read' + utils.upperCaseFirstLetter(deviceType);
+  //   var paramsStr = '(' + index + ',' + port + ',' + slot + ')';
+  //   var func = funcName + paramsStr;
+  //   eval(func);
+  // };
 
   /**
    * Command sending timeout handler.
@@ -113,6 +136,4 @@ class Command {
   };
 }
 
-var command = new Command();
-
-module.exports = command;
+export default new Command();

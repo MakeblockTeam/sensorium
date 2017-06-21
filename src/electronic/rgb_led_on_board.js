@@ -1,19 +1,20 @@
+// import { defineNumber } from '../core/type';
 import RgbLedBase from './base/RgbLedBase';
 
-class RgbLed extends RgbLedBase {
-  constructor(port, slot){
-    super(port, slot);
+class RgbLedOnBoard extends RgbLedBase {
+  constructor(){
+    super(0, 2);
   }
 
   //参数戳：描述port slot id 需传参的个数
   static argsStamp(){
-    return 2;
+    return 0;
   }
 
   //主控支持戳：描述各主控的支持情况
   static supportStamp(){
-    return '1111';
+    return '0100';
   }
 }
 
-export default RgbLed;
+export default RgbLedOnBoard;

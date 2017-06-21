@@ -3,47 +3,36 @@ import Utils from '../core/utils';
 import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
 import Command from '../communicate/command';
-class Buzzer extends Electronic {
+
+// 作为闭包内容不开放
+class Shutter extends Electronic {
   /**
    * Buzzer类，声音模块
    * @constructor
    */
-  constructor() {
+  constructor(port) {
     super();
     this.args = {
-      tone: null,
-      beat: null
-    }
+      port: defineNumber(port),
+      action: null
+    };
   }
 
   /**
-   * @param {string} tone - 声音音调
+   * @param {string} actionId - 动作id  0: 按下快门; 1: 松开快门; 2: 聚焦; 3: 停止聚焦
    */
-  tone(tone) {
-    this.args.tone = defineString(tone.toUpperCase());
-    return this;
-  }
-  /**
-   * @param {string} beat - 声音音节
-   */
-  beat(beat) {
-    this.args.beat = defineNumber(beat);
-    return this;
-  }
-  /**
-   * 播放声音
-   */
-  play() {
+  action(actionId) {
+    this.args.action = defineString(actionId);
     // 拿到协议组装器，组装协议
-    let buf = Utils.composer(protocolAssembler.setTone, [this.args.port, this.args.action]);
+    let buf = Utils.composer(protocolAssembler.setShutter, [this.args.port, this.args.action]);
     //执行
     Command.execWrite(buf);
     return this;
   }
-
+  
   //参数戳：描述port slot id 需传参的个数
   static argsStamp(){
-    return 0;
+    return 1;
   }
 
   //主控支持戳：描述各主控的支持情况
@@ -52,4 +41,4 @@ class Buzzer extends Electronic {
   }
 }
 
-export default Buzzer;
+export default Shutter;
