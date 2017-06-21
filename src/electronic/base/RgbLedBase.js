@@ -70,7 +70,7 @@ class RgbLedBase extends Electronic {
     //组装协议
     let buf = bufComposer(this.args);
     //执行
-    Command.exec(buf);
+    Command.execWrite(buf);
     return this;
   }
 
@@ -84,7 +84,7 @@ class RgbLedBase extends Electronic {
     //组装协议
     let buf = bufComposer(this.args);
     //执行
-    Command.exec(buf);
+    Command.execWrite(buf);
     return this;
   }
 
@@ -110,7 +110,7 @@ class RgbLedBase extends Electronic {
     //组装协议
     let buf = bufComposer(this.args);
     //执行
-    Command.exec(buf);
+    Command.execWrite(buf);
     return this;
   }
 
@@ -122,7 +122,7 @@ class RgbLedBase extends Electronic {
     //组装协议
     let buf = bufComposer(this.args);
     //执行
-    Command.exec(buf);
+    Command.execWrite(buf);
     return this;
   }
 
@@ -134,7 +134,7 @@ class RgbLedBase extends Electronic {
     //组装协议
     let buf = bufComposer(this.args);
     //执行
-    Command.exec(buf);
+    Command.execWrite(buf);
     return this;
   }
 }

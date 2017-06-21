@@ -32,7 +32,7 @@ class LedMatrixChar extends LedMatrixBase {
     this.args.char = str;
     //组装buf
     let buf = Utils.composer(protocolAssembler.setLedMatrixChar, [this.args.port, this.args.x, this.args.y, this.args.char]);
-    Command.exec(buf);
+    Command.execWrite(buf);
     return this;
   }
 

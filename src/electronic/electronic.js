@@ -1,10 +1,3 @@
-const { defineNumber } = require('../core/type');
-const Transport = require('../communicate/transport');
-const Api = require("../protocol/api");
-
-// 通过一个全局变量保存实例
-let POOL = {};
-
 class Electronic {
   /**
    * Electron类，电子模块基类

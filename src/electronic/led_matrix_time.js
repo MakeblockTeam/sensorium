@@ -35,7 +35,7 @@ class LedMatrixTime extends LedMatrixBase {
   showTime(){
     //组装buf
     let buf = Utils.composer(protocolAssembler.setLedMatrixTime, [this.args.port, this.args.separator, this.args.hour, this.args.minute]);
-    Command.exec(buf);
+    Command.execWrite(buf);
     return this;
   }
 

@@ -1,11 +1,11 @@
-import { defineNumber } from '../core/type';
+import { defineNumber, defineString } from '../core/type';
 import Utils from '../core/utils';
 import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
 import Command from '../communicate/command';
 
 class Joystick extends Electronic {
-  constructor(port) {
+  constructor(port, axis) {
     super();
     this.args = {
       port: defineNumber(port),

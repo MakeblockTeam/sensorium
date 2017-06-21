@@ -1,21 +1,47 @@
 import { defineNumber } from '../core/type';
 import Utils from '../core/utils';
-import Electronic from './electronic';
+import EncoderMotorBase from './base/EncoderMotorBase';
 import protocolAssembler from '../protocol/cmd';
 import Command from '../communicate/command';
 
-class EncoderMotorOnBoard extends Electronic {
-  constructor(port, slot) {
-    super();
-    this.args = {
-      slot: defineNumber(port),
-      type: defineNumber(slot)
-    };
+const bufComposer = function(args){
+  return Utils.composer(protocolAssembler.readEncoderMotorOnBoard, [args.slot, args.type]);
+}
+
+class EncoderMotorOnBoard extends EncoderMotorBase {
+  /**
+   * EncoderMotorOnBoard
+   * @constructor
+   * @param {number} port
+   */
+  constructor(slot) {
+    super(slot);
+    Object.assign(this.args, {
+      type: null
+    });
   }
 
-  getData(callback) {
-    // 拿到协议组装器，组装协议
-    let buf = Utils.composer(protocolAssembler.readEncoderMotorOnBoard, [this.args.slot, this.args.type]);
+  /**
+   * get speed to the start position
+   * @param  {Function} callback 
+   */
+  readSpeed(callback){
+    this.args.type = 0x02;
+    //组装buf
+    let buf = bufComposer(this.args);
+    //执行
+    Command.execRead(buf, callback);
+    return this;
+  }
+
+  /**
+   * get angle offset to the start position
+   * @param  {Function} callback 
+   */
+  readAngle(callback){
+    this.args.type = 0x01;
+    //组装buf
+    let buf = bufComposer(this.args);
     //执行
     Command.execRead(buf, callback);
     return this;
@@ -23,15 +49,14 @@ class EncoderMotorOnBoard extends Electronic {
 
   //参数戳：描述port slot id 需传参的个数
   static argsStamp(){
-    return 2;
+    return 1;
   }
 
   //主控支持戳：描述各主控的支持情况
   //auriga megapi 支持
   static supportStamp(){
-    return '0110';
+    return '0101';
   }
-
 }
 
 export default EncoderMotorOnBoard;

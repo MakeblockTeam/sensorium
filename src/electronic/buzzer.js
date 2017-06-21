@@ -37,7 +37,7 @@ class Buzzer extends Electronic {
     // 拿到协议组装器，组装协议
     let buf = Utils.composer(protocolAssembler.setTone, [this.args.port, this.args.action]);
     //执行
-    Command.exec(buf);
+    Command.execWrite(buf);
     return this;
   }
 

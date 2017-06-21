@@ -20,7 +20,7 @@ class LedMatrixNumber extends LedMatrixBase {
     //组装buf
     let buf = Utils.composer(protocolAssembler.setLedMatrixNumber, [this.args.port, this.args.number]);
     //执行
-    Command.exec(buf);
+    Command.execWrite(buf);
     return this;
   }
   //参数戳：描述port slot id 需传参的个数

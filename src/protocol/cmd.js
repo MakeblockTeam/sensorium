@@ -16,13 +16,18 @@ function bufAssembler(obj, ...args){
   const modes = [0x01, 0x02, 0x04];
   const bufHead = [0xff,0x55];
   let bufLength = 0;
+  let bufAttr;
   //todo：完善抛错提示
-  if(modes.indexOf(obj.mode) === -1){
-    throw new Error(`mode should be one of ${modes}`);
-  }else if(obj.mode != 0x04 && typeof obj.id === 'undefined'){
-    throw new Error(`id should not be empty`);
+  if(obj.mode == 0x04){
+    bufAttr = new Array(obj.index || 0, obj.mode);
+  }else{
+    if(modes.indexOf(obj.mode) === -1){
+      throw new Error(`mode should be one of ${modes}`);
+    }else if(typeof obj.id === 'undefined'){
+      throw new Error(`id should not be empty`);
+    }
+    bufAttr = new Array(obj.index || 0, obj.mode, obj.id);
   }
-  const bufAttr = new Array(obj.index || 0, obj.mode, obj.id);
   //to fix:
   bufLength = bufAttr.length + args.length;
   return bufHead.concat([bufLength], bufAttr, args);
@@ -48,10 +53,47 @@ function protocolAssembler() {
    * @example
    *     ff 55 07 00 02 3d 00 01 64 00
    */
-  this.setEncoderMotorOnBoard = function(slot, speed) {
-    speed = Utils.limitValue(speed);
-    return bufAssembler({mode: 0x02, id: 0x3d}, 0, slot, speed & 0xff, (speed >> 8) & 0xff);
+  //TO COMFIRM: 缺少一个 angle
+  // this.setEncoderMotorOnBoard = function(slot, speed) {
+  //   let port = 0x00;
+  //   speed = Utils.limitValue(speed);
+  //   return bufAssembler({mode: 0x02, id: 0x3d}, port, slot, speed & 0xff, (speed >> 8) & 0xff);
+  // };
+
+  /**
+   * Set encoder motor speed.
+   * @param {number} slot  slot number, vailable is: 1,2
+   * @param {number} speed speed, the range is -255 ~ 255
+   * @example
+   *     ff 55 07 00 02 3d 00 01 64 00
+   */
+  this.setEncoderMotorOnBoard = function(slot, speed, angle) {
+    let port = 0x00; //板载 port 为 0
+    return this.setEncoderMotor(port, slot, speed, angle);
   };
+
+  /**
+   * set encoder motor.
+   * @param  {Number} index [description]
+   * @param  {Number} port  vailable: 1,2,3,4
+   * @param  {Number} slot  vailable: 1，2
+   * @param  {Number} speed  0 ~ 300, 单位：rpm（每分钟转多少圈）
+   * @param  {Float} angle  相对位移, -2147483648 ~ 2147483647
+   * @example
+   * ff 55 0b 00 02 0c 08 01 96 00 00 00 34 44
+   */
+  this.setEncoderMotor = function(port, slot, speed, angle) {
+    port = port || 0x08; //I2C地址，目前无意义(软件稳定后可能会重新设计)，用来占位
+    speed = Utils.limitValue(speed, [0, 300]);
+    let byte4Array = Utils.float32ToBytes(angle);
+    return bufAssembler(
+      {mode: 0x02, id: 0x0c}, 
+      port, 
+      slot, 
+      speed & 0xff,
+      (speed >> 8) & 0xff,
+      ...byte4Array);
+  }
 
   /**
    * Set both left speed and right speed with one command.
@@ -193,16 +235,7 @@ function protocolAssembler() {
    */
   this.setServoMotor = function(port, slot, degree) {
     degree = Utils.limitValue(degree, [0, 180]);
-    var a = [
-      0xff,0x55,
-      0x06, 0,
-      0x02,
-      0x0b,
-      port,
-      slot,
-      degree
-    ];
-    return transport.send(a);
+    return bufAssembler({mode: 0x02, id: 0x0b}, port, slot, degree);
   };
 
   /**
@@ -215,10 +248,11 @@ function protocolAssembler() {
   this.setSevenSegment = function(port, number) {
     number = Utils.limitValue(number, [-999, 9999]);
     var byte4Array = Utils.float32ToBytes(number);
-    return bufAssembler({mode: 0x02, id: 0x09}, port, byte4Array[0],
-      byte4Array[1],
-      byte4Array[2],
-      byte4Array[3]);
+    return bufAssembler({mode: 0x02, id: 0x09}, port, ...byte4Array);
+      // byte4Array[0],
+      // byte4Array[1],
+      // byte4Array[2],
+      // byte4Array[3]);
   };
 
   /**
@@ -296,11 +330,11 @@ function protocolAssembler() {
    */
   this.setLedMatrixNumber = function(port, number) {
     var byte4Array = Utils.float32ToBytes(number);
-    return bufAssembler({mode: 0x02, id: 0x29}, port, 0x04,
-      byte4Array[0],
-      byte4Array[1],
-      byte4Array[2],
-      byte4Array[3]);
+    return bufAssembler({mode: 0x02, id: 0x29}, port, 0x04, ...byte4Array);
+      // byte4Array[0],
+      // byte4Array[1],
+      // byte4Array[2],
+      // byte4Array[3]);
   };
 
   /**
@@ -354,36 +388,6 @@ function protocolAssembler() {
       (TONE[tone] >> 8) & 0xff,
       (BEAT[beat] & 0xff),
       (BEAT[beat] >> 8) & 0xff);
-  };
-
-  /**
-   * set encoder motor.
-   * @param  {Number} index [description]
-   * @param  {Number} port  vailable: 1,2,3,4
-   * @param  {Number} slot  vailable: 1，2
-   * @param  {Number} speed  0 ~ 300, 单位：rpm（每分钟转多少圈）
-   * @param  {Float} angle  相对位移, -2147483648 ~ 2147483647
-   * @example
-   * ff 55 0b 00 02 0c 08 01 96 00 00 00 34 44
-   */
-  this.setEncoderMotor = function(port, slot, speed, angle) {
-    speed = Utils.limitValue(speed, [0, 300]);
-    var byte4Array = Utils.float32ToBytes(angle);
-    var a = [
-      0xff,0x55,
-      0x0b, 0,
-      0x02,
-      0x0c,
-      0x08,
-      slot,
-      speed & 0xff,
-      (speed >> 8) & 0xff,
-      byte4Array[0],
-      byte4Array[1],
-      byte4Array[2],
-      byte4Array[3]
-    ];
-    return transport.send(a);
   };
 
   /**
@@ -626,16 +630,7 @@ function protocolAssembler() {
    * ff 55 06 00 01 3d 00 01 02
    */
   this.readEncoderMotorOnBoard = function(slot, type) {
-    var port = 0x00; //板载 port
-    // var a = [
-    //   0xff,0x55,
-    //   0x06, index,
-    //   0x01,
-    //   0x3d,
-    //   0x00,
-    //   slot,
-    //   type
-    // ];
+    let port = 0x00; //板载 port
     return bufAssembler({mode: 0x01, id: 0x3d}, port, slot, type);
   };
 

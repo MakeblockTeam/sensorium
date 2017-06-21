@@ -21,9 +21,9 @@ class SevenSegment extends Electronic {
    * @param {string} beat - 声音音节
    */
   showNumber(number) {
-    this.args.number = defineNumber(number);debugger
+    this.args.number = defineNumber(number);
     let buf = Utils.composer(protocolAssembler.setSevenSegment, [this.args.port, this.args.number]);
-    Command.exec(buf);
+    Command.execWrite(buf);
     return this;
   }
 

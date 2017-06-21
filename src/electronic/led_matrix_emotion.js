@@ -33,7 +33,7 @@ class LedMatrixEmotion extends LedMatrixBase {
     //组装buf
     let buf = Utils.composer(protocolAssembler.setLedMatrixEmotion, [this.args.port, this.args.x, this.args.y, this.args.emotion]);
     //执行
-    Command.exec(buf);
+    Command.execWrite(buf);
     return this;
   }
 
