@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 53);
+/******/ 	return __webpack_require__(__webpack_require__.s = 56);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -412,10 +412,10 @@ let defineNumber = defineType('number'),
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__transport__ = __webpack_require__(10);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_value_wrapper__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__transport__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_value_wrapper__ = __webpack_require__(20);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__core_utils__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__core_promise__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__core_promise__ = __webpack_require__(12);
 /**
  * @fileOverview 协议发送基类.
  */
@@ -1330,8 +1330,8 @@ const Settings = {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__communicate_transport__ = __webpack_require__(10);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__parse__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__communicate_transport__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__parse__ = __webpack_require__(19);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__protocol_settings__ = __webpack_require__(5);
 /**
  * @fileOverview board 用做通信基类，连接收和发送接口.
@@ -1608,41 +1608,41 @@ class RgbLedBase extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__dc_motor__ = __webpack_require__(22);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__stepper_motor__ = __webpack_require__(56);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__encoder_motor__ = __webpack_require__(54);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__encoder_motor_on_board__ = __webpack_require__(23);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__servo_motor__ = __webpack_require__(57);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__four_led__ = __webpack_require__(26);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__rgb_led__ = __webpack_require__(42);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__led_panel_on_board__ = __webpack_require__(35);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__rgb_led_on_board__ = __webpack_require__(43);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__led_matrix_char__ = __webpack_require__(31);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__led_matrix_time__ = __webpack_require__(34);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__led_matrix_emotion__ = __webpack_require__(32);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__led_matrix_number__ = __webpack_require__(33);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__buzzer__ = __webpack_require__(20);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__seven_segment__ = __webpack_require__(44);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__shutter__ = __webpack_require__(45);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__reset__ = __webpack_require__(41);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__version__ = __webpack_require__(51);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__ultrasonic__ = __webpack_require__(50);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__temperature__ = __webpack_require__(47);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__light__ = __webpack_require__(36);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__potentionmeter__ = __webpack_require__(40);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__joystick__ = __webpack_require__(30);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__gyro__ = __webpack_require__(28);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__sound__ = __webpack_require__(46);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__temperature_on_board__ = __webpack_require__(48);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__pirmotion__ = __webpack_require__(39);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__line_follower__ = __webpack_require__(38);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__limit_switch__ = __webpack_require__(37);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__compass__ = __webpack_require__(21);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__humiture__ = __webpack_require__(29);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__flame__ = __webpack_require__(24);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_32__gas__ = __webpack_require__(27);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_33__touch__ = __webpack_require__(49);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_34__four_keys__ = __webpack_require__(25);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__dc_motor__ = __webpack_require__(23);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__stepper_motor__ = __webpack_require__(50);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__encoder_motor__ = __webpack_require__(24);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__encoder_motor_on_board__ = __webpack_require__(25);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__servo_motor__ = __webpack_require__(46);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__four_led__ = __webpack_require__(28);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__rgb_led__ = __webpack_require__(44);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__led_panel_on_board__ = __webpack_require__(37);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__rgb_led_on_board__ = __webpack_require__(45);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__led_matrix_char__ = __webpack_require__(33);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__led_matrix_time__ = __webpack_require__(36);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__led_matrix_emotion__ = __webpack_require__(34);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__led_matrix_number__ = __webpack_require__(35);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__buzzer__ = __webpack_require__(21);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__seven_segment__ = __webpack_require__(47);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__shutter__ = __webpack_require__(48);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__reset__ = __webpack_require__(43);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__version__ = __webpack_require__(55);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__ultrasonic__ = __webpack_require__(54);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__temperature__ = __webpack_require__(51);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__light__ = __webpack_require__(38);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__potentionmeter__ = __webpack_require__(42);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__joystick__ = __webpack_require__(32);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__gyro__ = __webpack_require__(30);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__sound__ = __webpack_require__(49);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__temperature_on_board__ = __webpack_require__(52);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__pirmotion__ = __webpack_require__(41);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__line_follower__ = __webpack_require__(40);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__limit_switch__ = __webpack_require__(39);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__compass__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__humiture__ = __webpack_require__(31);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__flame__ = __webpack_require__(26);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_32__gas__ = __webpack_require__(29);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_33__touch__ = __webpack_require__(53);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_34__four_keys__ = __webpack_require__(27);
 
 
 
@@ -1726,6 +1726,63 @@ class RgbLedBase extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__electronic__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__electronic___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__electronic__);
+
+
+
+class MotorBase extends __WEBPACK_IMPORTED_MODULE_1__electronic___default.a {
+
+  /**
+   * Motor base class
+   * @constructor
+   * @param {number} port
+   * @param {number} slot
+   */
+  constructor(port, slot) {
+    super();
+    this.args = {
+      port: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__core_type__["a" /* defineNumber */])(port),
+      slot: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__core_type__["a" /* defineNumber */])(slot),
+      speed: 0
+    };
+  }
+
+  /**
+   * speed
+   * @param  {Number} speed
+   * @return {Object} the instance
+   */
+  speed(speed) {
+    this.args.speed = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__core_type__["a" /* defineNumber */])(speed, 0);
+    return this;
+  }
+
+  /**
+   * this interface does nothing
+   */
+  run() {
+    return this;
+  }
+
+  /**
+   * stop motor
+   */
+  stop() {
+    this.speed(0);
+    this.run();
+    return this;
+  }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (MotorBase);
+
+/***/ }),
+/* 11 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
 /**
  * @fileOverview 存储指令的传输通道：蓝牙，串口，2.4G等，一个单例。
  */
@@ -1740,7 +1797,7 @@ let Transport = {
 /* harmony default export */ __webpack_exports__["a"] = (Transport);
 
 /***/ }),
-/* 11 */
+/* 12 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1791,7 +1848,70 @@ const PromiseList = {
 /* harmony default export */ __webpack_exports__["a"] = (PromiseList);
 
 /***/ }),
-/* 12 */
+/* 13 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__MotorBase__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(2);
+
+
+
+
+
+
+class EncoderMotorBase extends __WEBPACK_IMPORTED_MODULE_2__MotorBase__["a" /* default */] {
+  /**
+   * EncoderMotorBase
+   * @constructor
+   * @param {number} port
+   */
+  constructor(port, slot) {
+    super(port, slot);
+    Object.assign(this.args, {
+      angle: 0
+    });
+  }
+
+  /**
+   * set angle offset to last angle position
+   * @param  {[type]} angle [description]
+   * @return {[type]}       [description]
+   */
+  offsetAngle(angle) {
+    this.args.angle = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__core_type__["a" /* defineNumber */])(angle, 0);
+    return this;
+  }
+
+  /**
+   * dcMoter run
+   * @return {Object} the instance
+   */
+  run() {
+    //组装buf
+    let buf = __WEBPACK_IMPORTED_MODULE_1__core_utils__["a" /* default */].composer(__WEBPACK_IMPORTED_MODULE_3__protocol_cmd__["a" /* default */].setEncoderMotor, [this.args.port, this.args.speed, this.args.angle]);
+    //执行
+    __WEBPACK_IMPORTED_MODULE_4__communicate_command__["a" /* default */].execWrite(buf);
+    return this;
+  }
+
+  /**
+   * dcMoter run reversely
+   * @return {Object} the instance
+   */
+  runReverse() {
+    this.offsetAngle(-1 * this.args.angle);
+    return this.run();
+  }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (EncoderMotorBase);
+
+/***/ }),
+/* 14 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1828,7 +1948,7 @@ class Auriga extends __WEBPACK_IMPORTED_MODULE_0__core_Board__["a" /* default */
 /* harmony default export */ __webpack_exports__["a"] = (Auriga);
 
 /***/ }),
-/* 13 */
+/* 15 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1865,7 +1985,7 @@ class Mcore extends __WEBPACK_IMPORTED_MODULE_0__core_Board__["a" /* default */]
 /* harmony default export */ __webpack_exports__["a"] = (Mcore);
 
 /***/ }),
-/* 14 */
+/* 16 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1902,7 +2022,7 @@ class MegaPi extends __WEBPACK_IMPORTED_MODULE_0__core_Board__["a" /* default */
 /* harmony default export */ __webpack_exports__["a"] = (MegaPi);
 
 /***/ }),
-/* 15 */
+/* 17 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1914,7 +2034,7 @@ const Neuron = {};
 /* harmony default export */ __webpack_exports__["a"] = (Neuron);
 
 /***/ }),
-/* 16 */
+/* 18 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1951,11 +2071,11 @@ class Orion extends __WEBPACK_IMPORTED_MODULE_0__core_Board__["a" /* default */]
 /* harmony default export */ __webpack_exports__["a"] = (Orion);
 
 /***/ }),
-/* 17 */
+/* 19 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_promise__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_promise__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
 /**
  * @fileOverview 负责实际的数据解析
@@ -2109,7 +2229,7 @@ let parse = new Parse();
 /* unused harmony default export */ var _unused_webpack_default_export = (parse);
 
 /***/ }),
-/* 18 */
+/* 20 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2137,64 +2257,7 @@ ValueWrapper.prototype.setValue = function (value) {
 /* harmony default export */ __webpack_exports__["a"] = (ValueWrapper);
 
 /***/ }),
-/* 19 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__electronic__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__electronic___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__electronic__);
-
-
-
-class MotorBase extends __WEBPACK_IMPORTED_MODULE_1__electronic___default.a {
-
-  /**
-   * Motor base class
-   * @constructor
-   * @param {number} port
-   * @param {number} slot
-   */
-  constructor(port, slot) {
-    super();
-    this.args = {
-      port: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__core_type__["a" /* defineNumber */])(port),
-      slot: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__core_type__["a" /* defineNumber */])(slot),
-      speed: 0
-    };
-  }
-
-  /**
-   * speed
-   * @param  {Number} speed
-   * @return {Object} the instance
-   */
-  speed(speed) {
-    this.args.speed = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__core_type__["a" /* defineNumber */])(speed, 0);
-    return this;
-  }
-
-  /**
-   * this interface does nothing
-   */
-  run() {
-    return this;
-  }
-
-  /**
-   * stop motor
-   */
-  stop() {
-    this.speed(0);
-    this.run();
-    return this;
-  }
-}
-
-/* harmony default export */ __webpack_exports__["a"] = (MotorBase);
-
-/***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2261,7 +2324,7 @@ class Buzzer extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
 /* harmony default export */ __webpack_exports__["a"] = (Buzzer);
 
 /***/ }),
-/* 21 */
+/* 22 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2310,13 +2373,13 @@ class Compass extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
 /* harmony default export */ __webpack_exports__["a"] = (Compass);
 
 /***/ }),
-/* 22 */
+/* 23 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__base_MotorBase__ = __webpack_require__(19);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__base_MotorBase__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(2);
 
@@ -2371,13 +2434,53 @@ class DcMotor extends __WEBPACK_IMPORTED_MODULE_2__base_MotorBase__["a" /* defau
 /* harmony default export */ __webpack_exports__["a"] = (DcMotor);
 
 /***/ }),
-/* 23 */
+/* 24 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__base_EncoderMotorBase__ = __webpack_require__(55);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__base_EncoderMotorBase__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(2);
+
+
+
+
+
+
+class EncoderMotor extends __WEBPACK_IMPORTED_MODULE_2__base_EncoderMotorBase__["a" /* default */] {
+
+  /**
+   * DC Motor
+   * @constructor
+   * @param {number} port
+   */
+  constructor(port, slot) {
+    super(port, slot);
+  }
+
+  //参数戳：描述port slot id 需传参的个数
+  static argsStamp() {
+    return 2;
+  }
+
+  //主控支持戳：描述各主控的支持情况
+  static supportStamp() {
+    return '0101';
+  }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (EncoderMotor);
+
+/***/ }),
+/* 25 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__base_EncoderMotorBase__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(2);
 
@@ -2444,7 +2547,7 @@ class EncoderMotorOnBoard extends __WEBPACK_IMPORTED_MODULE_2__base_EncoderMotor
 /* harmony default export */ __webpack_exports__["a"] = (EncoderMotorOnBoard);
 
 /***/ }),
-/* 24 */
+/* 26 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2491,7 +2594,7 @@ class Flame extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
 /* harmony default export */ __webpack_exports__["a"] = (Flame);
 
 /***/ }),
-/* 25 */
+/* 27 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2540,7 +2643,7 @@ class FourKeys extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
 /* harmony default export */ __webpack_exports__["a"] = (FourKeys);
 
 /***/ }),
-/* 26 */
+/* 28 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2566,7 +2669,7 @@ class FourLed extends __WEBPACK_IMPORTED_MODULE_0__base_RgbLedBase__["a" /* defa
 /* harmony default export */ __webpack_exports__["a"] = (FourLed);
 
 /***/ }),
-/* 27 */
+/* 29 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2613,7 +2716,7 @@ class Gas extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
 /* harmony default export */ __webpack_exports__["a"] = (Gas);
 
 /***/ }),
-/* 28 */
+/* 30 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2662,7 +2765,7 @@ class Gyro extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
 /* harmony default export */ __webpack_exports__["a"] = (Gyro);
 
 /***/ }),
-/* 29 */
+/* 31 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2711,7 +2814,7 @@ class Humiture extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
 /* harmony default export */ __webpack_exports__["a"] = (Humiture);
 
 /***/ }),
-/* 30 */
+/* 32 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2759,7 +2862,7 @@ class Joystick extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
 /* harmony default export */ __webpack_exports__["a"] = (Joystick);
 
 /***/ }),
-/* 31 */
+/* 33 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2821,7 +2924,7 @@ class LedMatrixChar extends __WEBPACK_IMPORTED_MODULE_2__base_LedMatrixBase__["a
 /* harmony default export */ __webpack_exports__["a"] = (LedMatrixChar);
 
 /***/ }),
-/* 32 */
+/* 34 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2883,7 +2986,7 @@ class LedMatrixEmotion extends __WEBPACK_IMPORTED_MODULE_1__base_LedMatrixBase__
 /* harmony default export */ __webpack_exports__["a"] = (LedMatrixEmotion);
 
 /***/ }),
-/* 33 */
+/* 35 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2932,7 +3035,7 @@ class LedMatrixNumber extends __WEBPACK_IMPORTED_MODULE_2__base_LedMatrixBase__[
 /* harmony default export */ __webpack_exports__["a"] = (LedMatrixNumber);
 
 /***/ }),
-/* 34 */
+/* 36 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2997,7 +3100,7 @@ class LedMatrixTime extends __WEBPACK_IMPORTED_MODULE_2__base_LedMatrixBase__["a
 /* harmony default export */ __webpack_exports__["a"] = (LedMatrixTime);
 
 /***/ }),
-/* 35 */
+/* 37 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3023,7 +3126,7 @@ class LedPanelOnBoard extends __WEBPACK_IMPORTED_MODULE_0__base_RgbLedBase__["a"
 /* harmony default export */ __webpack_exports__["a"] = (LedPanelOnBoard);
 
 /***/ }),
-/* 36 */
+/* 38 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3070,7 +3173,7 @@ class Light extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
 /* harmony default export */ __webpack_exports__["a"] = (Light);
 
 /***/ }),
-/* 37 */
+/* 39 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3119,7 +3222,7 @@ class LimitSwitch extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
 /* harmony default export */ __webpack_exports__["a"] = (LimitSwitch);
 
 /***/ }),
-/* 38 */
+/* 40 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3167,7 +3270,7 @@ class LineFollower extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
 /* harmony default export */ __webpack_exports__["a"] = (LineFollower);
 
 /***/ }),
-/* 39 */
+/* 41 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3215,7 +3318,7 @@ class Pirmotion extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
 /* harmony default export */ __webpack_exports__["a"] = (Pirmotion);
 
 /***/ }),
-/* 40 */
+/* 42 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3262,7 +3365,7 @@ class Potentionmeter extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a
 /* harmony default export */ __webpack_exports__["a"] = (Potentionmeter);
 
 /***/ }),
-/* 41 */
+/* 43 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3307,7 +3410,7 @@ class Reset extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
 /* harmony default export */ __webpack_exports__["a"] = (Reset);
 
 /***/ }),
-/* 42 */
+/* 44 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3333,7 +3436,7 @@ class RgbLed extends __WEBPACK_IMPORTED_MODULE_0__base_RgbLedBase__["a" /* defau
 /* harmony default export */ __webpack_exports__["a"] = (RgbLed);
 
 /***/ }),
-/* 43 */
+/* 45 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3360,617 +3463,7 @@ class RgbLedOnBoard extends __WEBPACK_IMPORTED_MODULE_0__base_RgbLedBase__["a" /
 /* harmony default export */ __webpack_exports__["a"] = (RgbLedOnBoard);
 
 /***/ }),
-/* 44 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__electronic__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(2);
-
-
-
-
-
-
-// 作为闭包内容不开放
-class SevenSegment extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
-  /**
-   * Buzzer类，声音模块
-   * @constructor
-   */
-  constructor(port) {
-    super();
-    this.args = {
-      port: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__core_type__["a" /* defineNumber */])(port),
-      number: null
-    };
-  }
-  /**
-   * @param {string} beat - 声音音节
-   */
-  showNumber(number) {
-    this.args.number = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__core_type__["a" /* defineNumber */])(number);
-    let buf = __WEBPACK_IMPORTED_MODULE_1__core_utils__["a" /* default */].composer(__WEBPACK_IMPORTED_MODULE_3__protocol_cmd__["a" /* default */].setSevenSegment, [this.args.port, this.args.number]);
-    __WEBPACK_IMPORTED_MODULE_4__communicate_command__["a" /* default */].execWrite(buf);
-    return this;
-  }
-
-  //参数戳：描述port slot id 需传参的个数
-  static argsStamp() {
-    return 1;
-  }
-
-  //主控支持戳：描述各主控的支持情况
-  static supportStamp() {
-    return '1111';
-  }
-}
-
-/* harmony default export */ __webpack_exports__["a"] = (SevenSegment);
-
-/***/ }),
-/* 45 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__electronic__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(2);
-
-
-
-
-
-
-// 作为闭包内容不开放
-class Shutter extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
-  /**
-   * Buzzer类，声音模块
-   * @constructor
-   */
-  constructor(port) {
-    super();
-    this.args = {
-      port: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__core_type__["a" /* defineNumber */])(port),
-      action: null
-    };
-  }
-
-  /**
-   * @param {string} actionId - 动作id  0: 按下快门; 1: 松开快门; 2: 聚焦; 3: 停止聚焦
-   */
-  action(actionId) {
-    this.args.action = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__core_type__["b" /* defineString */])(actionId);
-    // 拿到协议组装器，组装协议
-    let buf = __WEBPACK_IMPORTED_MODULE_1__core_utils__["a" /* default */].composer(__WEBPACK_IMPORTED_MODULE_3__protocol_cmd__["a" /* default */].setShutter, [this.args.port, this.args.action]);
-    //执行
-    __WEBPACK_IMPORTED_MODULE_4__communicate_command__["a" /* default */].execWrite(buf);
-    return this;
-  }
-
-  //参数戳：描述port slot id 需传参的个数
-  static argsStamp() {
-    return 1;
-  }
-
-  //主控支持戳：描述各主控的支持情况
-  static supportStamp() {
-    return '1111';
-  }
-}
-
-/* harmony default export */ __webpack_exports__["a"] = (Shutter);
-
-/***/ }),
 /* 46 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__electronic__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(2);
-
-
-
-
-
-
-class Sound extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
-  constructor(port) {
-    super();
-    this.args = {
-      port: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__core_type__["a" /* defineNumber */])(port)
-    };
-  }
-
-  getData(callback) {
-    // 拿到协议组装器，组装协议
-    let buf = __WEBPACK_IMPORTED_MODULE_1__core_utils__["a" /* default */].composer(__WEBPACK_IMPORTED_MODULE_3__protocol_cmd__["a" /* default */].readSound, [this.args.port]);
-    //执行
-    __WEBPACK_IMPORTED_MODULE_4__communicate_command__["a" /* default */].execRead(buf, callback);
-    return this;
-  }
-
-  //参数戳：描述port slot id 需传参的个数
-  static argsStamp() {
-    return 1;
-  }
-
-  //主控支持戳：描述各主控的支持情况
-  static supportStamp() {
-    return '1111';
-  }
-
-}
-
-/* harmony default export */ __webpack_exports__["a"] = (Sound);
-
-/***/ }),
-/* 47 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__electronic__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(2);
-
-
-
-
-
-
-class Temperature extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
-  constructor(port, slot) {
-    super();
-    this.args = {
-      port: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__core_type__["a" /* defineNumber */])(port),
-      slot: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__core_type__["a" /* defineNumber */])(slot)
-    };
-  }
-
-  getData(callback) {
-    // 拿到协议组装器，组装协议
-    let buf = __WEBPACK_IMPORTED_MODULE_1__core_utils__["a" /* default */].composer(__WEBPACK_IMPORTED_MODULE_3__protocol_cmd__["a" /* default */].readTemperature, [this.args.port, this.args.slot]);
-    //执行
-    __WEBPACK_IMPORTED_MODULE_4__communicate_command__["a" /* default */].execRead(buf, callback);
-    // Command.getSensorValue('ultrasonic', buf, callback);
-    return this;
-  }
-
-  //参数戳：描述port slot id 需传参的个数
-  static argsStamp() {
-    return 2;
-  }
-
-  //主控支持戳：描述各主控的支持情况
-  static supportStamp() {
-    return '1111';
-  }
-
-}
-
-/* harmony default export */ __webpack_exports__["a"] = (Temperature);
-
-/***/ }),
-/* 48 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__electronic__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(2);
-
-
-
-
-
-
-class TemperatureOnBoard extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
-  constructor() {
-    super();
-  }
-
-  getData(callback) {
-    // 拿到协议组装器，组装协议
-    let buf = __WEBPACK_IMPORTED_MODULE_1__core_utils__["a" /* default */].composer(__WEBPACK_IMPORTED_MODULE_3__protocol_cmd__["a" /* default */].readTemperatureOnBoard);
-    //执行
-    __WEBPACK_IMPORTED_MODULE_4__communicate_command__["a" /* default */].execRead(buf, callback);
-    return this;
-  }
-
-  //参数戳：描述port slot id 需传参的个数
-  static argsStamp() {
-    return 0;
-  }
-
-  //主控支持戳：描述各主控的支持情况
-  //只有 auriga 支持 
-  static supportStamp() {
-    return '0100';
-  }
-
-}
-
-/* harmony default export */ __webpack_exports__["a"] = (TemperatureOnBoard);
-
-/***/ }),
-/* 49 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__electronic__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(2);
-
-
-
-
-
-
-class Touch extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
-  constructor(port) {
-    super();
-    this.args = {
-      port: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__core_type__["a" /* defineNumber */])(port)
-    };
-  }
-
-  getData(callback) {
-    // 拿到协议组装器，组装协议
-    let buf = __WEBPACK_IMPORTED_MODULE_1__core_utils__["a" /* default */].composer(__WEBPACK_IMPORTED_MODULE_3__protocol_cmd__["a" /* default */].readTouch, [this.args.port]);
-    //执行
-    __WEBPACK_IMPORTED_MODULE_4__communicate_command__["a" /* default */].execRead(buf, callback);
-    return this;
-  }
-
-  //参数戳：描述port slot id 需传参的个数
-  static argsStamp() {
-    return 1;
-  }
-
-  //主控支持戳：描述各主控的支持情况
-  static supportStamp() {
-    return '1111';
-  }
-
-}
-
-/* harmony default export */ __webpack_exports__["a"] = (Touch);
-
-/***/ }),
-/* 50 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__electronic__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(2);
-
-
-
-
-
-
-class Ultrasonic extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
-  constructor(port) {
-    super();
-    this.args = {
-      port: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__core_type__["a" /* defineNumber */])(port)
-    };
-  }
-
-  getData(callback) {
-    // 拿到协议组装器，组装协议
-    let buf = __WEBPACK_IMPORTED_MODULE_1__core_utils__["a" /* default */].composer(__WEBPACK_IMPORTED_MODULE_3__protocol_cmd__["a" /* default */].readUltrasonic, [this.args.port]);
-    //执行
-    __WEBPACK_IMPORTED_MODULE_4__communicate_command__["a" /* default */].execRead(buf, callback);
-    // Command.getSensorValue('ultrasonic', buf, callback);
-    return this;
-  }
-
-  //参数戳：描述port slot id 需传参的个数
-  static argsStamp() {
-    return 1;
-  }
-
-  //主控支持戳：描述各主控的支持情况
-  static supportStamp() {
-    return '1111';
-  }
-
-}
-
-/* harmony default export */ __webpack_exports__["a"] = (Ultrasonic);
-
-/***/ }),
-/* 51 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__electronic__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(2);
-
-
-
-
-
-
-class Version extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
-  constructor(callback) {
-    super();
-    this.version(callback);
-  }
-
-  version(callback) {
-    // 拿到协议组装器，组装协议
-    let buf = __WEBPACK_IMPORTED_MODULE_1__core_utils__["a" /* default */].composer(__WEBPACK_IMPORTED_MODULE_3__protocol_cmd__["a" /* default */].readVersion, []);
-    //执行
-    __WEBPACK_IMPORTED_MODULE_4__communicate_command__["a" /* default */].execRead(buf, callback);
-    return this;
-  }
-
-  //参数戳：描述port slot id 需传参的个数
-  static argsStamp() {
-    return 0;
-  }
-
-  //主控支持戳：描述各主控的支持情况
-  static supportStamp() {
-    return '1111';
-  }
-
-}
-
-/* harmony default export */ __webpack_exports__["a"] = (Version);
-
-/***/ }),
-/* 52 */,
-/* 53 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mcore__ = __webpack_require__(13);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__orion__ = __webpack_require__(16);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__auriga__ = __webpack_require__(12);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__megaPi__ = __webpack_require__(14);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__neuron__ = __webpack_require__(15);
-
-
-
-
-
-
-const boards = {
-  "Mcore": __WEBPACK_IMPORTED_MODULE_0__mcore__["a" /* default */],
-  "Orion": __WEBPACK_IMPORTED_MODULE_1__orion__["a" /* default */],
-  "Auriga": __WEBPACK_IMPORTED_MODULE_2__auriga__["a" /* default */],
-  "MegaPi": __WEBPACK_IMPORTED_MODULE_3__megaPi__["a" /* default */],
-  "Neuron": __WEBPACK_IMPORTED_MODULE_4__neuron__["a" /* default */]
-};
-
-function Sensorium(boardName, opts) {
-  //匹配对应的板子
-  let board = boards[boardName];
-  if (typeof board == 'undefined') {
-    throw new Error('sorry, the board could not be supported!');
-  }
-  //TO IMPROVE: 需释放上一次板子实例
-  return new board(opts);
-}
-
-if (typeof window != "undefined") {
-  window.Sensorium = Sensorium;
-}
-// cmd
-// module.exports = Sensorium;
-/* harmony default export */ __webpack_exports__["default"] = (Sensorium);
-
-/***/ }),
-/* 54 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__base_EncoderMotorBase__ = __webpack_require__(55);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(2);
-
-
-
-
-
-
-class EncoderMotor extends __WEBPACK_IMPORTED_MODULE_2__base_EncoderMotorBase__["a" /* default */] {
-
-  /**
-   * DC Motor
-   * @constructor
-   * @param {number} port
-   */
-  constructor(port, slot) {
-    super(port, slot);
-  }
-
-  //参数戳：描述port slot id 需传参的个数
-  static argsStamp() {
-    return 2;
-  }
-
-  //主控支持戳：描述各主控的支持情况
-  static supportStamp() {
-    return '0101';
-  }
-}
-
-/* harmony default export */ __webpack_exports__["a"] = (EncoderMotor);
-
-/***/ }),
-/* 55 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__MotorBase__ = __webpack_require__(19);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(2);
-
-
-
-
-
-
-class EncoderMotorBase extends __WEBPACK_IMPORTED_MODULE_2__MotorBase__["a" /* default */] {
-  /**
-   * EncoderMotorBase
-   * @constructor
-   * @param {number} port
-   */
-  constructor(port, slot) {
-    super(port, slot);
-    Object.assign(this.args, {
-      angle: 0
-    });
-  }
-
-  /**
-   * set angle offset to last angle position
-   * @param  {[type]} angle [description]
-   * @return {[type]}       [description]
-   */
-  offsetAngle(angle) {
-    this.args.angle = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__core_type__["a" /* defineNumber */])(angle, 0);
-    return this;
-  }
-
-  /**
-   * dcMoter run
-   * @return {Object} the instance
-   */
-  run() {
-    //组装buf
-    let buf = __WEBPACK_IMPORTED_MODULE_1__core_utils__["a" /* default */].composer(__WEBPACK_IMPORTED_MODULE_3__protocol_cmd__["a" /* default */].setEncoderMotor, [this.args.port, this.args.speed, this.args.angle]);
-    //执行
-    __WEBPACK_IMPORTED_MODULE_4__communicate_command__["a" /* default */].execWrite(buf);
-    return this;
-  }
-
-  /**
-   * dcMoter run reversely
-   * @return {Object} the instance
-   */
-  runReverse() {
-    this.offsetAngle(-1 * this.args.angle);
-    return this.run();
-  }
-}
-
-/* harmony default export */ __webpack_exports__["a"] = (EncoderMotorBase);
-
-/***/ }),
-/* 56 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__base_MotorBase__ = __webpack_require__(19);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(2);
-
-
-
-
-
-
-class StepperMotor extends __WEBPACK_IMPORTED_MODULE_2__base_MotorBase__["a" /* default */] {
-
-  /**
-   * DC Motor
-   * @constructor
-   * @param {number} port
-   */
-  constructor(port) {
-    super(port);
-    Object.assign(this.args, {
-      distance: 0
-    });
-  }
-
-  /**
-   * set distance
-   * @param  {Number} speed
-   * @return {Object} the instance
-   */
-  distance(distance) {
-    this.args.distance = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__core_type__["a" /* defineNumber */])(distance, 0);
-    return this;
-  }
-
-  /**
-   * dcMoter run
-   * @return {Object} the instance
-   */
-  run() {
-    //组装buf
-    let buf = __WEBPACK_IMPORTED_MODULE_1__core_utils__["a" /* default */].composer(__WEBPACK_IMPORTED_MODULE_3__protocol_cmd__["a" /* default */].setDcMotor, [this.args.port, this.args.speed, this.args.distance]);
-    //执行
-    __WEBPACK_IMPORTED_MODULE_4__communicate_command__["a" /* default */].execWrite(buf);
-    return this;
-  }
-
-  /**
-   * dcMoter run reversely
-   * @return {Object} the instance
-   */
-  runReverse() {
-    this.speed(-1 * this.args.distance);
-    return this.run();
-  }
-
-  //参数戳：描述port slot id 需传参的个数
-  static argsStamp() {
-    return 1;
-  }
-
-  //主控支持戳：描述各主控的支持情况
-  static supportStamp() {
-    return '0111';
-  }
-}
-
-/* harmony default export */ __webpack_exports__["a"] = (StepperMotor);
-
-/***/ }),
-/* 57 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4049,6 +3542,512 @@ class ServoMotor extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
 }
 
 /* harmony default export */ __webpack_exports__["a"] = (ServoMotor);
+
+/***/ }),
+/* 47 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__electronic__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(2);
+
+
+
+
+
+
+// 作为闭包内容不开放
+class SevenSegment extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
+  /**
+   * Buzzer类，声音模块
+   * @constructor
+   */
+  constructor(port) {
+    super();
+    this.args = {
+      port: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__core_type__["a" /* defineNumber */])(port),
+      number: null
+    };
+  }
+  /**
+   * @param {string} beat - 声音音节
+   */
+  showNumber(number) {
+    this.args.number = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__core_type__["a" /* defineNumber */])(number);
+    let buf = __WEBPACK_IMPORTED_MODULE_1__core_utils__["a" /* default */].composer(__WEBPACK_IMPORTED_MODULE_3__protocol_cmd__["a" /* default */].setSevenSegment, [this.args.port, this.args.number]);
+    __WEBPACK_IMPORTED_MODULE_4__communicate_command__["a" /* default */].execWrite(buf);
+    return this;
+  }
+
+  //参数戳：描述port slot id 需传参的个数
+  static argsStamp() {
+    return 1;
+  }
+
+  //主控支持戳：描述各主控的支持情况
+  static supportStamp() {
+    return '1111';
+  }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (SevenSegment);
+
+/***/ }),
+/* 48 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__electronic__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(2);
+
+
+
+
+
+
+// 作为闭包内容不开放
+class Shutter extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
+  /**
+   * Buzzer类，声音模块
+   * @constructor
+   */
+  constructor(port) {
+    super();
+    this.args = {
+      port: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__core_type__["a" /* defineNumber */])(port),
+      action: null
+    };
+  }
+
+  /**
+   * @param {string} actionId - 动作id  0: 按下快门; 1: 松开快门; 2: 聚焦; 3: 停止聚焦
+   */
+  action(actionId) {
+    this.args.action = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__core_type__["b" /* defineString */])(actionId);
+    // 拿到协议组装器，组装协议
+    let buf = __WEBPACK_IMPORTED_MODULE_1__core_utils__["a" /* default */].composer(__WEBPACK_IMPORTED_MODULE_3__protocol_cmd__["a" /* default */].setShutter, [this.args.port, this.args.action]);
+    //执行
+    __WEBPACK_IMPORTED_MODULE_4__communicate_command__["a" /* default */].execWrite(buf);
+    return this;
+  }
+
+  //参数戳：描述port slot id 需传参的个数
+  static argsStamp() {
+    return 1;
+  }
+
+  //主控支持戳：描述各主控的支持情况
+  static supportStamp() {
+    return '1111';
+  }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (Shutter);
+
+/***/ }),
+/* 49 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__electronic__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(2);
+
+
+
+
+
+
+class Sound extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
+  constructor(port) {
+    super();
+    this.args = {
+      port: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__core_type__["a" /* defineNumber */])(port)
+    };
+  }
+
+  getData(callback) {
+    // 拿到协议组装器，组装协议
+    let buf = __WEBPACK_IMPORTED_MODULE_1__core_utils__["a" /* default */].composer(__WEBPACK_IMPORTED_MODULE_3__protocol_cmd__["a" /* default */].readSound, [this.args.port]);
+    //执行
+    __WEBPACK_IMPORTED_MODULE_4__communicate_command__["a" /* default */].execRead(buf, callback);
+    return this;
+  }
+
+  //参数戳：描述port slot id 需传参的个数
+  static argsStamp() {
+    return 1;
+  }
+
+  //主控支持戳：描述各主控的支持情况
+  static supportStamp() {
+    return '1111';
+  }
+
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (Sound);
+
+/***/ }),
+/* 50 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__base_MotorBase__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(2);
+
+
+
+
+
+
+class StepperMotor extends __WEBPACK_IMPORTED_MODULE_2__base_MotorBase__["a" /* default */] {
+
+  /**
+   * DC Motor
+   * @constructor
+   * @param {number} port
+   */
+  constructor(port) {
+    super(port);
+    Object.assign(this.args, {
+      distance: 0
+    });
+  }
+
+  /**
+   * set distance
+   * @param  {Number} speed
+   * @return {Object} the instance
+   */
+  distance(distance) {
+    this.args.distance = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__core_type__["a" /* defineNumber */])(distance, 0);
+    return this;
+  }
+
+  /**
+   * dcMoter run
+   * @return {Object} the instance
+   */
+  run() {
+    //组装buf
+    let buf = __WEBPACK_IMPORTED_MODULE_1__core_utils__["a" /* default */].composer(__WEBPACK_IMPORTED_MODULE_3__protocol_cmd__["a" /* default */].setDcMotor, [this.args.port, this.args.speed, this.args.distance]);
+    //执行
+    __WEBPACK_IMPORTED_MODULE_4__communicate_command__["a" /* default */].execWrite(buf);
+    return this;
+  }
+
+  /**
+   * dcMoter run reversely
+   * @return {Object} the instance
+   */
+  runReverse() {
+    this.speed(-1 * this.args.distance);
+    return this.run();
+  }
+
+  //参数戳：描述port slot id 需传参的个数
+  static argsStamp() {
+    return 1;
+  }
+
+  //主控支持戳：描述各主控的支持情况
+  static supportStamp() {
+    return '0111';
+  }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (StepperMotor);
+
+/***/ }),
+/* 51 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__electronic__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(2);
+
+
+
+
+
+
+class Temperature extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
+  constructor(port, slot) {
+    super();
+    this.args = {
+      port: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__core_type__["a" /* defineNumber */])(port),
+      slot: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__core_type__["a" /* defineNumber */])(slot)
+    };
+  }
+
+  getData(callback) {
+    // 拿到协议组装器，组装协议
+    let buf = __WEBPACK_IMPORTED_MODULE_1__core_utils__["a" /* default */].composer(__WEBPACK_IMPORTED_MODULE_3__protocol_cmd__["a" /* default */].readTemperature, [this.args.port, this.args.slot]);
+    //执行
+    __WEBPACK_IMPORTED_MODULE_4__communicate_command__["a" /* default */].execRead(buf, callback);
+    // Command.getSensorValue('ultrasonic', buf, callback);
+    return this;
+  }
+
+  //参数戳：描述port slot id 需传参的个数
+  static argsStamp() {
+    return 2;
+  }
+
+  //主控支持戳：描述各主控的支持情况
+  static supportStamp() {
+    return '1111';
+  }
+
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (Temperature);
+
+/***/ }),
+/* 52 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__electronic__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(2);
+
+
+
+
+
+
+class TemperatureOnBoard extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
+  constructor() {
+    super();
+  }
+
+  getData(callback) {
+    // 拿到协议组装器，组装协议
+    let buf = __WEBPACK_IMPORTED_MODULE_1__core_utils__["a" /* default */].composer(__WEBPACK_IMPORTED_MODULE_3__protocol_cmd__["a" /* default */].readTemperatureOnBoard);
+    //执行
+    __WEBPACK_IMPORTED_MODULE_4__communicate_command__["a" /* default */].execRead(buf, callback);
+    return this;
+  }
+
+  //参数戳：描述port slot id 需传参的个数
+  static argsStamp() {
+    return 0;
+  }
+
+  //主控支持戳：描述各主控的支持情况
+  //只有 auriga 支持 
+  static supportStamp() {
+    return '0100';
+  }
+
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (TemperatureOnBoard);
+
+/***/ }),
+/* 53 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__electronic__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(2);
+
+
+
+
+
+
+class Touch extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
+  constructor(port) {
+    super();
+    this.args = {
+      port: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__core_type__["a" /* defineNumber */])(port)
+    };
+  }
+
+  getData(callback) {
+    // 拿到协议组装器，组装协议
+    let buf = __WEBPACK_IMPORTED_MODULE_1__core_utils__["a" /* default */].composer(__WEBPACK_IMPORTED_MODULE_3__protocol_cmd__["a" /* default */].readTouch, [this.args.port]);
+    //执行
+    __WEBPACK_IMPORTED_MODULE_4__communicate_command__["a" /* default */].execRead(buf, callback);
+    return this;
+  }
+
+  //参数戳：描述port slot id 需传参的个数
+  static argsStamp() {
+    return 1;
+  }
+
+  //主控支持戳：描述各主控的支持情况
+  static supportStamp() {
+    return '1111';
+  }
+
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (Touch);
+
+/***/ }),
+/* 54 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__electronic__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(2);
+
+
+
+
+
+
+class Ultrasonic extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
+  constructor(port) {
+    super();
+    this.args = {
+      port: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__core_type__["a" /* defineNumber */])(port)
+    };
+  }
+
+  getData(callback) {
+    // 拿到协议组装器，组装协议
+    let buf = __WEBPACK_IMPORTED_MODULE_1__core_utils__["a" /* default */].composer(__WEBPACK_IMPORTED_MODULE_3__protocol_cmd__["a" /* default */].readUltrasonic, [this.args.port]);
+    //执行
+    __WEBPACK_IMPORTED_MODULE_4__communicate_command__["a" /* default */].execRead(buf, callback);
+    // Command.getSensorValue('ultrasonic', buf, callback);
+    return this;
+  }
+
+  //参数戳：描述port slot id 需传参的个数
+  static argsStamp() {
+    return 1;
+  }
+
+  //主控支持戳：描述各主控的支持情况
+  static supportStamp() {
+    return '1111';
+  }
+
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (Ultrasonic);
+
+/***/ }),
+/* 55 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__electronic__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(2);
+
+
+
+
+
+
+class Version extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
+  constructor(callback) {
+    super();
+    this.version(callback);
+  }
+
+  version(callback) {
+    // 拿到协议组装器，组装协议
+    let buf = __WEBPACK_IMPORTED_MODULE_1__core_utils__["a" /* default */].composer(__WEBPACK_IMPORTED_MODULE_3__protocol_cmd__["a" /* default */].readVersion, []);
+    //执行
+    __WEBPACK_IMPORTED_MODULE_4__communicate_command__["a" /* default */].execRead(buf, callback);
+    return this;
+  }
+
+  //参数戳：描述port slot id 需传参的个数
+  static argsStamp() {
+    return 0;
+  }
+
+  //主控支持戳：描述各主控的支持情况
+  static supportStamp() {
+    return '1111';
+  }
+
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (Version);
+
+/***/ }),
+/* 56 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mcore__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__orion__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__auriga__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__megaPi__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__neuron__ = __webpack_require__(17);
+
+
+
+
+
+
+const boards = {
+  "Mcore": __WEBPACK_IMPORTED_MODULE_0__mcore__["a" /* default */],
+  "Orion": __WEBPACK_IMPORTED_MODULE_1__orion__["a" /* default */],
+  "Auriga": __WEBPACK_IMPORTED_MODULE_2__auriga__["a" /* default */],
+  "MegaPi": __WEBPACK_IMPORTED_MODULE_3__megaPi__["a" /* default */],
+  "Neuron": __WEBPACK_IMPORTED_MODULE_4__neuron__["a" /* default */]
+};
+
+function Sensorium(boardName, opts) {
+  //匹配对应的板子
+  let board = boards[boardName];
+  if (typeof board == 'undefined') {
+    throw new Error('sorry, the board could not be supported!');
+  }
+  //TO IMPROVE: 需释放上一次板子实例
+  return new board(opts);
+}
+
+if (typeof window != "undefined") {
+  window.Sensorium = Sensorium;
+}
+// cmd
+// module.exports = Sensorium;
+/* harmony default export */ __webpack_exports__["default"] = (Sensorium);
 
 /***/ })
 /******/ ]);
