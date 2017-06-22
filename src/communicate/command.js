@@ -1,14 +1,18 @@
 /**
- * @fileOverview 协议发送基类.
+ * @fileOverview 调度类
+ * 负责协议收发调度
  */
 //es6 module
 import Transport from './transport';
 import ValueWrapper from '../core/value_wrapper';
-import { utils as Utils} from '../core/utils';
 import PromiseList from '../core/promise';
+import Parse from '../core/parse';
 
-// var Transport = require('./transport');
-// var Api = require("../protocol/api");
+const OPEN_RESNET_MODE = false;
+const RESENT_COUNT = 1;
+const COMMAND_SEND_TIMEOUT = 1000;
+
+const MAX_RECORD = 255;
 
 class Command {
   constructor() {
@@ -20,25 +24,67 @@ class Command {
       // 读值指令超时的设定
       COMMAND_SEND_TIMEOUT: 1000,
     };
+    this.writeRecord = {};
+    this.wIndex = 0;
+    this.readRecord = {};
+    this.rIndex = 0;
   }
 
-  /**
-   * 执行 buf 协议
-   * @param  {Array}   buf      协议
-   * @param  {Function} callback 回调
-   * @return {[type]}            [description]
-   */
-  exec(buf, callback){
-    console.log(buf);
+  getSafetyIndex(){
+    if(this.rIndex >= MAX_RECORD){
+      this.rIndex = 0;
+    };
+    return this.rIndex++;
   }
-  
-  execRead(buf, callback){
-    Transport.send(buf);
+
+  exec(buf){
+    // console.log(buf);
+    Transport.send(buf); //借助通信管道发送
   }
 
   execWrite(buf, callback){
-    Transport.send(buf);
+    if(typeof callback == 'function'){
+      let index = getSafetyIndex();
+      this.writeRecord[index] = {
+        callback: callback,
+        index: index
+      }
+    };
+    this.exec(buf);
   }
+
+  execRead(buf, callback){
+    if(typeof callback == 'function'){
+      let index = getSafetyIndex();
+      this.readRecord[index] = {
+        callback: callback,
+        index: index
+      }
+      //修改索引值
+      buf.splice(3, 1, index);
+    }
+    this.exec(buf);
+  }
+
+  /**
+   * parse the buffer and callback
+   * @param  {Array} buff buffer responsed from transportion
+   * @return {Undefined}
+   */
+  doParse(buff){
+    let buffer = Parse.doParse(buff);
+    if(!buffer) { //一次失败的解析
+      //do nothing
+    }else if(buffer.length == 0){ //write 结果
+      this.writeRecord[index].callback();
+    }else{ //read 结果
+      let index = buffer[0];
+      let value = Parse.getResult(buffer);
+      this.readRecord[index].callback(value);
+    }
+  }
+
+  
 
   /**
    * Get sensor's value.
@@ -71,7 +117,7 @@ class Command {
   _doGetSensorValue(params) {
     
 
-    // this._readBlockStatus(params);
+    this._readBlockStatus(params);
 
     // 模拟传感器回传数据
     // setTimeout(function() {
@@ -83,18 +129,18 @@ class Command {
    * Read module's value.
    * @param  {object} params command params.
    */
-  // _readBlockStatus(params) {
-  //   this.api = new Api(Transport.get());
+  _readBlockStatus(params) {
+    this.api = new Api(Transport.get());
 
-  //   var deviceType = params.deviceType;
-  //   var index = params.index;
-  //   var port = params.port;
-  //   var slot = params.slot || null;
-  //   var funcName = 'this.api.read' + utils.upperCaseFirstLetter(deviceType);
-  //   var paramsStr = '(' + index + ',' + port + ',' + slot + ')';
-  //   var func = funcName + paramsStr;
-  //   eval(func);
-  // };
+    var deviceType = params.deviceType;
+    var index = params.index;
+    var port = params.port;
+    var slot = params.slot || null;
+    var funcName = 'this.api.read' + utils.upperCaseFirstLetter(deviceType);
+    var paramsStr = '(' + index + ',' + port + ',' + slot + ')';
+    var func = funcName + paramsStr;
+    eval(func);
+  };
 
   /**
    * Command sending timeout handler.

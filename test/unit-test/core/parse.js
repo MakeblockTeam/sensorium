@@ -18,13 +18,38 @@ describe('test doParse', function() {
   });
 
   // 接收到完整数据
-  it('should parse the complete data', function() {
+  it('should parse the complete data1', function() {
     var mock_receive_data = [
       [0xff, 0x55, 0x00, 0x02, 0xe6, 0x9e, 0x16, 0x41, 0x0d, 0x0a]
     ];
     for (var i in mock_receive_data) {
       parse.doParse(mock_receive_data[i], null, function(buf) {
         assert.equal(buf.length, 6);
+      })
+    }
+  });
+
+  // 接收到完整数据
+  it('should parse the complete data2', function() {
+    var mock_receive_data = [
+      [0xff, 0x55, 0x0d, 0x0a]
+    ];
+    for (var i in mock_receive_data) {
+      parse.doParse(mock_receive_data[i], null, function(buf) {
+        assert.equal(buf.length, 0);
+      })
+    }
+  });
+
+  // 接收到的数据有丢失
+  it('should parse the lost data', function() {
+    var mock_receive_data = [
+      [0xff, 0x55, 0x00, 0x02, 0xe6],
+      [0xff, 0x55, 0x00, 0x02, 0xe6, 0x9e, 0x16, 0x41, 0x0d, 0x0a]
+    ];
+    for (var i in mock_receive_data) {
+      parse.doParse(mock_receive_data[i], null, function(buf) {
+        assert.equal(buf.length, 0);
       })
     }
   });

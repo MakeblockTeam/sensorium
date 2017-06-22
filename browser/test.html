@@ -34,12 +34,14 @@
       var transport = {
         send: function(buf) {
           console.log(buf);
+          //serialPort.send(buf);
         },
-
-        receive: function(parse) {
-          // serialPort.on('data', function(buff) {
-          //   parse.doParse(buff);
-          // });
+    
+        addListener: function(parse) {
+          serialPort.on('data', function(buff) {
+            parse.doParse(buff);
+          });
+          // ble.startListenReceivedData(func_success, func_fail);
         }
       };
 
@@ -49,7 +51,7 @@
       //装上收发功能
       mcore.setTransport({
         send: transport.send,
-        receive: transport.receive
+        addListener: transport.addListener
       });
       
       exec(mcore);

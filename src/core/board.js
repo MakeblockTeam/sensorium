@@ -4,9 +4,8 @@
  */
 //es6 module
 import Transport from '../communicate/transport';
-import parse from './parse';
-// const Command = require('../communicate/command');
-import Settings from'../protocol/settings';
+import doParse from '../communicate/command';
+import Settings from '../protocol/settings';
 
 const createModuleId = function (eModule, args){
   args = [...args]; //转数组
@@ -67,17 +66,18 @@ class Board {
    *      console.log(buf);
    *    },
    *
-   *    onReceived: function(parse) {
+   *    onReceive: function(parse) {
    *      serialPort.on('data', function(buff) {
    *        parse.doParse(buff);
    *      });
    *    }
    *  }
    */
+  //防止重复 setTransport 导致事件监听绑定多次
   setTransport(transport) {
-    if(transport && typeof transport.send == 'function' && typeof transport.receive == 'function' ){
+    if(transport && typeof transport.send == 'function' && typeof transport.addListener == 'function' ){
       Transport.send = transport.send;
-      Transport.receive = transport.receive;
+      transport.addListener(doParse);
     }else{
       // console.warn('')
     }
