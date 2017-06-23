@@ -353,6 +353,188 @@
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__transport__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_promise2__ = __webpack_require__(57);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_promise2___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__core_promise2__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__core_parse__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__core_parse___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__core_parse__);
+/**
+ * @fileOverview 调度类
+ * 负责协议收发调度
+ */
+//es6 module
+
+// import ValueWrapper from '../core/value_wrapper';
+
+
+
+const OPEN_RESNET_MODE = false;
+const RESENT_COUNT = 1;
+const COMMAND_SEND_TIMEOUT = 1000;
+
+const MAX_RECORD = 255;
+
+class Command {
+  constructor() {
+    this.CONFIG = {
+      // 开启超时重发
+      OPEN_RESNET_MODE: false,
+      // 超时重发的次数
+      RESENT_COUNT: 1,
+      // 读值指令超时的设定
+      COMMAND_SEND_TIMEOUT: 1000
+    };
+    this.lastWrite = {
+      time: 0,
+      buf: null
+    };
+  }
+
+  exec(buf) {
+    // console.log(buf);
+    __WEBPACK_IMPORTED_MODULE_0__transport__["a" /* default */].send(buf); //借助通信管道发送
+  }
+
+  execWrite(buf, callback) {
+    let time = new Date().getTime();
+    let bufStr = buf.join('_');
+    if (this.lastWrite.buf != bufStr || time - this.lastWrite.time > 40) {
+      this.lastWrite.buf = bufStr;
+      this.lastWrite.time = time;
+      this.exec(buf);
+    }
+    this.exec(buf);
+  }
+
+  execRead(buf, callback) {
+    __WEBPACK_IMPORTED_MODULE_1__core_promise2__["default"].addRequest(this.exec.bind(this), buf, callback);
+  }
+
+  execReadCallback(index, value) {
+    __WEBPACK_IMPORTED_MODULE_1__core_promise2__["default"].execCallback(...arguments);
+  }
+
+  /**
+   * parse the buffer and callback
+   * @param  {Array} buff buffer responsed from transportion
+   * @return {Undefined}
+   */
+  doParse(buff) {
+    let buffer = __WEBPACK_IMPORTED_MODULE_2__core_parse__["default"].doParse(buff);
+    if (!buffer) {//一次失败的解析
+      //do nothing
+    } else if (buffer.length == 0) {//write 结果
+      //do nothing
+    } else {
+      //read 结果
+      let index = buffer[0];
+      let value = __WEBPACK_IMPORTED_MODULE_2__core_parse__["default"].getResult(buffer);
+      this.execReadCallback(index, value);
+    }
+  }
+
+  /**
+   * Get sensor's value.
+   * @param  {String}   deviceType the sensor's type.
+   * @param  {Array}   buf    buf assembles from arguments such as port, slot etc.
+   * @param  {Function} callback   the function to be excuted.
+   */
+  getSensorValue(deviceType, buf, callback) {
+    if (callback == undefined && typeof options == 'function') {
+      callback = options;
+      options = {};
+    }
+    var params = {};
+    params.deviceType = deviceType;
+    params.callback = callback;
+    // params.port = options.port;
+    // params.slot = options.slot || 2;
+    var valueWrapper = new ValueWrapper();
+    var index = __WEBPACK_IMPORTED_MODULE_1__core_promise2__["default"].add(deviceType, callback, valueWrapper);
+    // params.index = index;
+    // 发送读取指令
+    this._doGetSensorValue(params);
+    if (this.CONFIG.OPEN_RESNET_MODE) {
+      // 执行超时检测
+      this._handlerCommandSendTimeout(params);
+    }
+    return valueWrapper;
+  }
+
+  _doGetSensorValue(params) {
+
+    this._readBlockStatus(params);
+
+    // 模拟传感器回传数据
+    // setTimeout(function() {
+    //   that.sensorCallback(params.index, 111);
+    // }, 1000)
+  }
+
+  /**
+   * Read module's value.
+   * @param  {object} params command params.
+   */
+  _readBlockStatus(params) {
+    this.api = new Api(__WEBPACK_IMPORTED_MODULE_0__transport__["a" /* default */].get());
+
+    var deviceType = params.deviceType;
+    var index = params.index;
+    var port = params.port;
+    var slot = params.slot || null;
+    var funcName = 'this.api.read' + utils.upperCaseFirstLetter(deviceType);
+    var paramsStr = '(' + index + ',' + port + ',' + slot + ')';
+    var func = funcName + paramsStr;
+    eval(func);
+  }
+
+  /**
+   * Command sending timeout handler.
+   * @param  {Object} params params.
+   */
+  _handlerCommandSendTimeout(params) {
+    var that = this;
+    var promiseItem = __WEBPACK_IMPORTED_MODULE_1__core_promise2__["default"].requestList[params.index];
+    setTimeout(function () {
+      if (promiseItem.hasReceivedValue) {
+        // 成功拿到数据，不进行处理
+        return;
+      } else {
+        // 超过规定的时间，还没有拿到数据，需要进行超时重发处理
+        if (promiseItem.resentCount >= that.CONFIG.RESENT_COUNT) {
+          // 如果重发的次数大于规定次数,则终止重发
+          console.log("【resend ends】");
+          return;
+        } else {
+          console.log('【resend】:' + params.index);
+          promiseItem.resentCount = promiseItem.resentCount || 0;
+          promiseItem.resentCount++;
+          that._doGetSensorValue(params);
+          that._handlerCommandSendTimeout(params);
+        }
+      }
+    }, that.CONFIG.COMMAND_SEND_TIMEOUT);
+  }
+
+  /**
+   * Get value form sensor and put the value to user's callback.
+   * @param  {Number} index  the index of sensor's request command in promiseList
+   * @param  {Number} result the value of sensor.
+   */
+  sensorCallback(index, result) {
+    var deviceType = __WEBPACK_IMPORTED_MODULE_1__core_promise2__["default"].getType(index);
+    console.debug(deviceType + ": " + result);
+    __WEBPACK_IMPORTED_MODULE_1__core_promise2__["default"].receiveValue(index, result);
+  }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (new Command());
+
+/***/ }),
+/* 2 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return defineNumber; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return defineString; });
 /* unused harmony export defineArray */
@@ -406,200 +588,6 @@ let defineNumber = defineType('number'),
     defineObject = defineType('object');
 
 
-
-/***/ }),
-/* 2 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__transport__ = __webpack_require__(11);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_value_wrapper__ = __webpack_require__(20);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__core_promise__ = __webpack_require__(12);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__core_parse__ = __webpack_require__(19);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__core_parse___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__core_parse__);
-/**
- * @fileOverview 调度类
- * 负责协议收发调度
- */
-//es6 module
-
-
-
-
-
-const OPEN_RESNET_MODE = false;
-const RESENT_COUNT = 1;
-const COMMAND_SEND_TIMEOUT = 1000;
-
-const MAX_RECORD = 255;
-
-class Command {
-  constructor() {
-    this.CONFIG = {
-      // 开启超时重发
-      OPEN_RESNET_MODE: false,
-      // 超时重发的次数
-      RESENT_COUNT: 1,
-      // 读值指令超时的设定
-      COMMAND_SEND_TIMEOUT: 1000
-    };
-    this.writeRecord = {};
-    this.wIndex = 0;
-    this.readRecord = {};
-    this.rIndex = 0;
-  }
-
-  getSafetyIndex() {
-    if (this.rIndex >= MAX_RECORD) {
-      this.rIndex = 0;
-    };
-    return this.rIndex++;
-  }
-
-  exec(buf) {
-    // console.log(buf);
-    __WEBPACK_IMPORTED_MODULE_0__transport__["a" /* default */].send(buf); //借助通信管道发送
-  }
-
-  execWrite(buf, callback) {
-    if (typeof callback == 'function') {
-      let index = getSafetyIndex();
-      this.writeRecord[index] = {
-        callback: callback,
-        index: index
-      };
-    };
-    this.exec(buf);
-  }
-
-  execRead(buf, callback) {
-    if (typeof callback == 'function') {
-      let index = getSafetyIndex();
-      this.readRecord[index] = {
-        callback: callback,
-        index: index
-        //修改索引值
-      };buf.splice(3, 1, index);
-    }
-    this.exec(buf);
-  }
-
-  /**
-   * parse the buffer and callback
-   * @param  {Array} buff buffer responsed from transportion
-   * @return {Undefined}
-   */
-  doParse(buff) {
-    let buffer = __WEBPACK_IMPORTED_MODULE_3__core_parse__["default"].doParse(buff);
-    if (!buffer) {//一次失败的解析
-      //do nothing
-    } else if (buffer.length == 0) {
-      //write 结果
-      this.writeRecord[index].callback();
-    } else {
-      //read 结果
-      let index = buffer[0];
-      let value = __WEBPACK_IMPORTED_MODULE_3__core_parse__["default"].getResult(buffer);
-      this.readRecord[index].callback(value);
-    }
-  }
-
-  /**
-   * Get sensor's value.
-   * @param  {String}   deviceType the sensor's type.
-   * @param  {Array}   buf    buf assembles from arguments such as port, slot etc.
-   * @param  {Function} callback   the function to be excuted.
-   */
-  getSensorValue(deviceType, buf, callback) {
-    if (callback == undefined && typeof options == 'function') {
-      callback = options;
-      options = {};
-    }
-    var params = {};
-    params.deviceType = deviceType;
-    params.callback = callback;
-    // params.port = options.port;
-    // params.slot = options.slot || 2;
-    var valueWrapper = new __WEBPACK_IMPORTED_MODULE_1__core_value_wrapper__["a" /* default */]();
-    var index = __WEBPACK_IMPORTED_MODULE_2__core_promise__["a" /* default */].add(deviceType, callback, valueWrapper);
-    // params.index = index;
-    // 发送读取指令
-    this._doGetSensorValue(params);
-    if (this.CONFIG.OPEN_RESNET_MODE) {
-      // 执行超时检测
-      this._handlerCommandSendTimeout(params);
-    }
-    return valueWrapper;
-  }
-
-  _doGetSensorValue(params) {
-
-    this._readBlockStatus(params);
-
-    // 模拟传感器回传数据
-    // setTimeout(function() {
-    //   that.sensorCallback(params.index, 111);
-    // }, 1000)
-  }
-
-  /**
-   * Read module's value.
-   * @param  {object} params command params.
-   */
-  _readBlockStatus(params) {
-    this.api = new Api(__WEBPACK_IMPORTED_MODULE_0__transport__["a" /* default */].get());
-
-    var deviceType = params.deviceType;
-    var index = params.index;
-    var port = params.port;
-    var slot = params.slot || null;
-    var funcName = 'this.api.read' + utils.upperCaseFirstLetter(deviceType);
-    var paramsStr = '(' + index + ',' + port + ',' + slot + ')';
-    var func = funcName + paramsStr;
-    eval(func);
-  }
-
-  /**
-   * Command sending timeout handler.
-   * @param  {Object} params params.
-   */
-  _handlerCommandSendTimeout(params) {
-    var that = this;
-    var promiseItem = __WEBPACK_IMPORTED_MODULE_2__core_promise__["a" /* default */].requestList[params.index];
-    setTimeout(function () {
-      if (promiseItem.hasReceivedValue) {
-        // 成功拿到数据，不进行处理
-        return;
-      } else {
-        // 超过规定的时间，还没有拿到数据，需要进行超时重发处理
-        if (promiseItem.resentCount >= that.CONFIG.RESENT_COUNT) {
-          // 如果重发的次数大于规定次数,则终止重发
-          console.log("【resend ends】");
-          return;
-        } else {
-          console.log('【resend】:' + params.index);
-          promiseItem.resentCount = promiseItem.resentCount || 0;
-          promiseItem.resentCount++;
-          that._doGetSensorValue(params);
-          that._handlerCommandSendTimeout(params);
-        }
-      }
-    }, that.CONFIG.COMMAND_SEND_TIMEOUT);
-  }
-
-  /**
-   * Get value form sensor and put the value to user's callback.
-   * @param  {Number} index  the index of sensor's request command in promiseList
-   * @param  {Number} result the value of sensor.
-   */
-  sensorCallback(index, result) {
-    var deviceType = __WEBPACK_IMPORTED_MODULE_2__core_promise__["a" /* default */].getType(index);
-    console.debug(deviceType + ": " + result);
-    __WEBPACK_IMPORTED_MODULE_2__core_promise__["a" /* default */].receiveValue(index, result);
-  }
-}
-
-/* harmony default export */ __webpack_exports__["a"] = (new Command());
 
 /***/ }),
 /* 3 */
@@ -1377,7 +1365,7 @@ const Settings = {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__communicate_transport__ = __webpack_require__(11);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__communicate_command__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__communicate_command__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__protocol_settings__ = __webpack_require__(5);
 /**
  * @fileOverview board 用做通信基类，连接收和发送接口.
@@ -1473,7 +1461,7 @@ class Board {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__electronic__);
@@ -1500,12 +1488,12 @@ class LedMatrixBase extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a 
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__electronic__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(1);
 
 
 
@@ -1772,7 +1760,7 @@ class RgbLedBase extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__electronic__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__electronic___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__electronic__);
 
@@ -1859,62 +1847,11 @@ let Transport = {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/**
- * @fileOverview PromiveList is sensor data's transfer station.
- * 用于处理传感器数据分发
- */
-
-const PromiseList = {
-    requestList: new Array(255),
-    index: 1,
-
-    add: function (type, callback, valueWrapper) {
-        this.index++;
-        if (this.index > 254) {
-            this.index = 1;
-        }
-        this.requestList[this.index] = {
-            type: type,
-            callback: callback,
-            valueWrapper: valueWrapper,
-            hasReceivedValue: false,
-            resentCount: 0
-        };
-        return this.index;
-    },
-
-    // 将值写到对应请求的值对象中，并且启动回调
-    receiveValue: function (index, value) {
-        var that = this;
-        if (this.requestList[index]) {
-            this.requestList[index].callback(value);
-            this.requestList[index].valueWrapper.setValue(value);
-            this.requestList[index].hasReceivedValue = true;
-        }
-    },
-
-    getType: function (index) {
-        if (this.requestList[index]) {
-            return this.requestList[index].type;
-        } else {
-            // console.warn("返回字节的索引值无法匹配");
-            return 0;
-        }
-    }
-};
-
-/* harmony default export */ __webpack_exports__["a"] = (PromiseList);
-
-/***/ }),
-/* 13 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__MotorBase__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(1);
 
 
 
@@ -1969,7 +1906,7 @@ class EncoderMotorBase extends __WEBPACK_IMPORTED_MODULE_2__MotorBase__["a" /* d
 /* harmony default export */ __webpack_exports__["a"] = (EncoderMotorBase);
 
 /***/ }),
-/* 14 */
+/* 13 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2006,7 +1943,7 @@ class Auriga extends __WEBPACK_IMPORTED_MODULE_0__core_Board__["a" /* default */
 /* harmony default export */ __webpack_exports__["a"] = (Auriga);
 
 /***/ }),
-/* 15 */
+/* 14 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2043,7 +1980,7 @@ class Mcore extends __WEBPACK_IMPORTED_MODULE_0__core_Board__["a" /* default */]
 /* harmony default export */ __webpack_exports__["a"] = (Mcore);
 
 /***/ }),
-/* 16 */
+/* 15 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2080,7 +2017,7 @@ class MegaPi extends __WEBPACK_IMPORTED_MODULE_0__core_Board__["a" /* default */
 /* harmony default export */ __webpack_exports__["a"] = (MegaPi);
 
 /***/ }),
-/* 17 */
+/* 16 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2092,7 +2029,7 @@ const Neuron = {};
 /* harmony default export */ __webpack_exports__["a"] = (Neuron);
 
 /***/ }),
-/* 18 */
+/* 17 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2129,50 +2066,24 @@ class Orion extends __WEBPACK_IMPORTED_MODULE_0__core_Board__["a" /* default */]
 /* harmony default export */ __webpack_exports__["a"] = (Orion);
 
 /***/ }),
-/* 19 */
+/* 18 */
 /***/ (function(module, exports) {
 
 throw new Error("Module build failed: SyntaxError: Unexpected token (79:6)\n\n\u001b[0m \u001b[90m 77 | \u001b[39m      } \n \u001b[90m 78 | \u001b[39m      \u001b[90m// the data we really want\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 79 | \u001b[39m      \u001b[36melse\u001b[39m {\n \u001b[90m    | \u001b[39m      \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 80 | \u001b[39m        \u001b[36mif\u001b[39m (isAllowRecv) {\n \u001b[90m 81 | \u001b[39m          \u001b[36mif\u001b[39m (recvLength \u001b[33m>=\u001b[39m \u001b[33mREC_BUF_MAX_LENGTH\u001b[39m) {\n \u001b[90m 82 | \u001b[39m            console\u001b[33m.\u001b[39mwarn(\u001b[32m\"receive buffer overflow!\"\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\n");
 
 /***/ }),
-/* 20 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/**
- * 用来存值、取值
- * valueWrapper是一个拥有存值、取值的类，每一个对象都将拥有这两个方法。
- *
- * 用来储存“读取数据”block对数据的请求，使用valueWrapper来完成程序变量的临时替代
- * 在蓝牙返回数据之后设置真实的值，然后继续程序执行。
- * 最终目的：取到程序块中请求的值
- *
- * 该技巧利用了对象的引用类型的原理，对象的属性值存在内存的某一个位置，后面值改变，内存
- * 中的值即跟着改变。
- */
-function ValueWrapper() {};
-
-ValueWrapper.prototype.toString = function () {
-    return this.val;
-};
-
-ValueWrapper.prototype.setValue = function (value) {
-    this.val = value;
-};
-
-/* harmony default export */ __webpack_exports__["a"] = (ValueWrapper);
-
-/***/ }),
+/* 19 */,
+/* 20 */,
 /* 21 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__electronic__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(1);
 
 
 
@@ -2234,12 +2145,12 @@ class Buzzer extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__electronic__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(1);
 
 
 
@@ -2283,11 +2194,11 @@ class Compass extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__base_MotorBase__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(1);
 
 
 
@@ -2344,11 +2255,11 @@ class DcMotor extends __WEBPACK_IMPORTED_MODULE_2__base_MotorBase__["a" /* defau
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__base_EncoderMotorBase__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__base_EncoderMotorBase__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(1);
 
 
 
@@ -2384,11 +2295,11 @@ class EncoderMotor extends __WEBPACK_IMPORTED_MODULE_2__base_EncoderMotorBase__[
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__base_EncoderMotorBase__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__base_EncoderMotorBase__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(1);
 
 
 
@@ -2457,12 +2368,12 @@ class EncoderMotorOnBoard extends __WEBPACK_IMPORTED_MODULE_2__base_EncoderMotor
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__electronic__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(1);
 
 
 
@@ -2504,12 +2415,12 @@ class Flame extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__electronic__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(1);
 
 
 
@@ -2579,12 +2490,12 @@ class FourLed extends __WEBPACK_IMPORTED_MODULE_0__base_RgbLedBase__["a" /* defa
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__electronic__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(1);
 
 
 
@@ -2626,12 +2537,12 @@ class Gas extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__electronic__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(1);
 
 
 
@@ -2675,12 +2586,12 @@ class Gyro extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__electronic__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(1);
 
 
 
@@ -2724,12 +2635,12 @@ class Humiture extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__electronic__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(1);
 
 
 
@@ -2772,11 +2683,11 @@ class Joystick extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__base_LedMatrixBase__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(1);
 
 
 
@@ -2837,7 +2748,7 @@ class LedMatrixChar extends __WEBPACK_IMPORTED_MODULE_2__base_LedMatrixBase__["a
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_utils__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__base_LedMatrixBase__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__protocol_cmd__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__communicate_command__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__communicate_command__ = __webpack_require__(1);
 // import { defineNumber } from '../core/type';
 
 
@@ -2896,11 +2807,11 @@ class LedMatrixEmotion extends __WEBPACK_IMPORTED_MODULE_1__base_LedMatrixBase__
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__base_LedMatrixBase__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(1);
 
 
 
@@ -2945,11 +2856,11 @@ class LedMatrixNumber extends __WEBPACK_IMPORTED_MODULE_2__base_LedMatrixBase__[
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__base_LedMatrixBase__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(1);
 
 
 
@@ -3036,12 +2947,12 @@ class LedPanelOnBoard extends __WEBPACK_IMPORTED_MODULE_0__base_RgbLedBase__["a"
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__electronic__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(1);
 
 
 
@@ -3065,11 +2976,13 @@ class Light extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
   }
 
   //参数戳：描述port slot id 需传参的个数
+  // argsLength
   static argsStamp() {
     return 1;
   }
 
   //主控支持戳：描述各主控的支持情况
+  // supportMainboards
   static supportStamp() {
     return '1111';
   }
@@ -3083,12 +2996,12 @@ class Light extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__electronic__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(1);
 
 
 
@@ -3132,12 +3045,12 @@ class LimitSwitch extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__electronic__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(1);
 
 
 
@@ -3180,12 +3093,12 @@ class LineFollower extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__electronic__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(1);
 
 
 
@@ -3228,12 +3141,12 @@ class Pirmotion extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__electronic__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(1);
 
 
 
@@ -3275,12 +3188,12 @@ class Potentionmeter extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__electronic__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(1);
 
 
 
@@ -3373,12 +3286,12 @@ class RgbLedOnBoard extends __WEBPACK_IMPORTED_MODULE_0__base_RgbLedBase__["a" /
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__electronic__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(1);
 
 
 
@@ -3454,12 +3367,12 @@ class ServoMotor extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__electronic__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(1);
 
 
 
@@ -3507,12 +3420,12 @@ class SevenSegment extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__electronic__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(1);
 
 
 
@@ -3563,12 +3476,12 @@ class Shutter extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__electronic__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(1);
 
 
 
@@ -3610,11 +3523,11 @@ class Sound extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__base_MotorBase__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(1);
 
 
 
@@ -3684,12 +3597,12 @@ class StepperMotor extends __WEBPACK_IMPORTED_MODULE_2__base_MotorBase__["a" /* 
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__electronic__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(1);
 
 
 
@@ -3733,12 +3646,12 @@ class Temperature extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__electronic__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(1);
 
 
 
@@ -3778,12 +3691,12 @@ class TemperatureOnBoard extends __WEBPACK_IMPORTED_MODULE_2__electronic___defau
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__electronic__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(1);
 
 
 
@@ -3825,12 +3738,12 @@ class Touch extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__electronic__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(1);
 
 
 
@@ -3873,12 +3786,12 @@ class Ultrasonic extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__electronic__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(1);
 
 
 
@@ -3919,11 +3832,11 @@ class Version extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mcore__ = __webpack_require__(15);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__orion__ = __webpack_require__(18);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__auriga__ = __webpack_require__(14);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__megaPi__ = __webpack_require__(16);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__neuron__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mcore__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__orion__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__auriga__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__megaPi__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__neuron__ = __webpack_require__(16);
 
 
 
@@ -3954,6 +3867,12 @@ if (typeof window != "undefined") {
 // cmd
 // module.exports = Sensorium;
 /* harmony default export */ __webpack_exports__["default"] = (Sensorium);
+
+/***/ }),
+/* 57 */
+/***/ (function(module, exports) {
+
+throw new Error("Module build failed: SyntaxError: Unexpected token, expected , (51:2)\n\n\u001b[0m \u001b[90m 49 | \u001b[39m\n \u001b[90m 50 | \u001b[39m  \u001b[90m//是否已满\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 51 | \u001b[39m  isOverflow\u001b[33m:\u001b[39m \u001b[36mfunction\u001b[39m(){\n \u001b[90m    | \u001b[39m  \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 52 | \u001b[39m    let keys \u001b[33m=\u001b[39m \u001b[33mObject\u001b[39m\u001b[33m.\u001b[39mkeys(\u001b[36mthis\u001b[39m\u001b[33m.\u001b[39mreadRecord)\u001b[33m;\u001b[39m\n \u001b[90m 53 | \u001b[39m    \u001b[36mreturn\u001b[39m keys\u001b[33m.\u001b[39mlength \u001b[33m==\u001b[39m \u001b[33mMAX_RECORD\u001b[39m\u001b[33m;\u001b[39m\n \u001b[90m 54 | \u001b[39m  }\u001b[0m\n");
 
 /***/ })
 /******/ ]);

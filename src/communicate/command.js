@@ -4,8 +4,8 @@
  */
 //es6 module
 import Transport from './transport';
-import ValueWrapper from '../core/value_wrapper';
-import PromiseList from '../core/promise';
+// import ValueWrapper from '../core/value_wrapper';
+import PromiseList from '../core/promise2';
 import Parse from '../core/parse';
 
 const OPEN_RESNET_MODE = false;
@@ -24,17 +24,10 @@ class Command {
       // 读值指令超时的设定
       COMMAND_SEND_TIMEOUT: 1000,
     };
-    this.writeRecord = {};
-    this.wIndex = 0;
-    this.readRecord = {};
-    this.rIndex = 0;
-  }
-
-  getSafetyIndex(){
-    if(this.rIndex >= MAX_RECORD){
-      this.rIndex = 0;
-    };
-    return this.rIndex++;
+    this.lastWrite = {
+      time: 0,
+      buf: null
+    }
   }
 
   exec(buf){
@@ -43,27 +36,22 @@ class Command {
   }
 
   execWrite(buf, callback){
-    if(typeof callback == 'function'){
-      let index = getSafetyIndex();
-      this.writeRecord[index] = {
-        callback: callback,
-        index: index
-      }
-    };
+    let time = (new Date()).getTime();
+    let bufStr = buf.join('_');
+    if(this.lastWrite.buf != bufStr || time - this.lastWrite.time > 40){
+      this.lastWrite.buf = bufStr;
+      this.lastWrite.time = time;
+      this.exec(buf);
+    }
     this.exec(buf);
   }
 
   execRead(buf, callback){
-    if(typeof callback == 'function'){
-      let index = getSafetyIndex();
-      this.readRecord[index] = {
-        callback: callback,
-        index: index
-      }
-      //修改索引值
-      buf.splice(3, 1, index);
-    }
-    this.exec(buf);
+    PromiseList.addRequest(this.exec.bind(this), buf, callback)
+  }
+
+  execReadCallback(index, value){
+    PromiseList.execCallback(...arguments);
   }
 
   /**
@@ -76,11 +64,11 @@ class Command {
     if(!buffer) { //一次失败的解析
       //do nothing
     }else if(buffer.length == 0){ //write 结果
-      this.writeRecord[index].callback();
+      //do nothing
     }else{ //read 结果
       let index = buffer[0];
       let value = Parse.getResult(buffer);
-      this.readRecord[index].callback(value);
+      this.execReadCallback(index, value);      
     }
   }
 
