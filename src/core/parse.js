@@ -1,62 +1,70 @@
 /**
- * @fileOverview 负责实际的数据解析
+ * @fileOverview 解析器负责数据解析
+ * 对外输出解析方法
  */
-import PromiseList from "../core/promise";
+// import PromiseList from "../core/promise";
 import Utils from "../core/utils";
 
-function Parse() {
-  this.buffer = [];
+// 获取到的最大指令长度
+const REC_BUF_MAX_LENGTH = 40;
+const BUF_START_FLAG = [0xff, 0x55];
+const BUF_END_FLAG = [0x0d, 0x0a];
 
-  // 获取到的最大指令长度
-  this.REC_BUF_LENGTH = 40;
+function checkStart(flag1, flag2){
+  return flag1 === BUF_START_FLAG[0] && flag2 === BUF_START_FLAG[1]
+}
+function checkEnd(flag1, flag2){
+  return flag1 === BUF_END_FLAG[0] && flag2 === BUF_END_FLAG[1];
+}
+
+// 目前所有的执行命令，如果是正常接收，都是统一回复  ff 55 0d 0a
+function Parse() {
+  this.cacheBuffer = [];
 
   // 解析从硬件传递过来的数据
   // data : 当前处理的数据
-  // this.buffer: 历史缓存数据
+  // this.cacheBuffer: 历史缓存数据
   // 记录数据和历史数据分开记录
-  this.doParse = function(buffData, callback) {
-    var data  = Utils.arrayFromArrayBuffer(buffData);
-    data = this.buffer.concat(data);
-    this.buffer = [];
 
+  /**
+   * parse buffer
+   * @param  {Array} buffData buffer that from the response
+   * @return {Array}          the parsed result
+   */
+  this.doParse = function(buffData) {
+    let recvLength = 0;
+    //是否允许接受
+    let isAllowRecv = false;
+    let tempBuf = [];
+
+    let data = Utils.arrayFromArrayBuffer(buffData);
+    data = this.cacheBuffer.concat(data);
     // parse buffer data
-    for (var i = 0; i < data.length; i++) {
-      this.buffer.push(parseInt(data[i]));
-      if (parseInt(data[i]) === 0x55 && parseInt(data[i - 1]) === 0xff) {
-        // start flag
-        this.recvLength = 0;
-        this.beginRecv = true;
-        this.tempBuf = [];
-      } else if (parseInt(data[i - 1]) === 0x0d && parseInt(data[i]) === 0x0a && this.tempBuf) {
-        // end flag
-        this.beginRecv = false;
-        var buf = this.tempBuf.slice(0, this.recvLength - 1);
-        // 解析正确的数据后，清空buffer
-        this.buffer = [];
-        if (buf.length == 0) {
-          // buf中没有数据
-          return false;
-        }
-
-        // 以下为有效数据, 获取返回字节流中的索引位
-        var dataIndex = buf[0];
-        var promiseType = PromiseList.getType(dataIndex);
-        if (promiseType || promiseType == 0) {
-
-          // 计算返回值，并注入
-          var result = this.getResult(buf, promiseType);
-          PromiseList.receiveValue(dataIndex, result);
-
-          // 为测试留接口
-          callback && callback(buf);
-        }
-      } else {
-        // normal
-        if (this.beginRecv) {
-          if (this.recvLength >= this.REC_BUF_LENGTH) {
-            console.log("receive buffer overflow!");
+    for (let i = 0; i < data.length; i++) {
+      let data1 = parseInt(data[i-1]),
+          data2 = parseInt(data[i]);
+      // start data
+      if (checkStart(data1, data2)) {
+        recvLength = 0;
+        isAllowRecv = true;
+        tempBuf = [];
+      } 
+      // end data
+      else if (checkStart(data1, data2)) {
+        isAllowRecv = false;
+        let resultBuf = tempBuf.slice(0, recvLength - 1);
+        // 解析正确的数据后，清空 buffer
+        this.cacheBuffer = [];
+        // 此轮解析结束
+        return resultBuf;
+      } 
+      // the data we really want
+      else {
+        if(isAllowRecv) {
+          if (recvLength >= REC_BUF_MAX_LENGTH) {
+            console.warn("receive buffer overflow!");
           }
-          this.tempBuf[this.recvLength++] = parseInt(data[i]);
+          tempBuf[recvLength++] = data2;
         }
       }
     }
@@ -78,8 +86,8 @@ function Parse() {
    */
   this.getResult = function(buf, type) {
     // 获取返回的数据类型
-    var dataType = buf[1];
-    var result = null;
+    let dataType = buf[1];
+    let result = null;
     switch (dataType) {
       case "1":
       case 1:
@@ -147,6 +155,4 @@ function Parse() {
   };
 }
 
-let parse = new Parse();
-
-export default parse;
+export default new Parse();

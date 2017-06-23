@@ -31,6 +31,7 @@
     "xml2js": "^0.4.17"
   },
   "dependencies": {
-    "mneurons": "^0.0.1"
+    "mneurons": "^0.0.1",
+    "serialport": "^4.0.7"
   }
 }
