@@ -5,15 +5,15 @@
 let Transport = {
   send: function(buf){
     console.log(buf);
-    serialPort.send(buf);
+    // serialPort.send(buf);
   },
 
   //old name is onReceive
   addListener: function(pipe){
-    serialPort.on('data', function(buff) {
-      console.log(buff);
-      pipe(buff);
-    });
+    // serialPort.on('data', function(buff) {
+    //   console.log(buff);
+    //   pipe(buff);
+    // });
     // ble.startListenReceivedData(function(buff){
     //   pipe(buff);
     // }, function(){

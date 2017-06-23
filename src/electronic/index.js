@@ -1,7 +1,7 @@
 import DcMotor from './dc_motor';
 import StepperMotor from './stepper_motor';
 import EncoderMotor from './encoder_motor';
-import EncoderMotorOnBoard from './encoder_motor_on_board';
+import EncoderMotorOnBoard from './encoder_motor_on_board';  //包含读值和写的接口
 import ServoMotor from './servo_motor';
 import FourLed from './four_led';
 import RgbLed from './rgb_led';
@@ -34,7 +34,11 @@ import Flame from './flame';
 import Gas from './gas';
 import Touch from './touch';
 import FourKeys from './four_keys';
-// import EncoderMotorOnBoard from './encoder_motor_on_board';
+import DigGPIO from './dig_GPIO';
+import AnalogGPIO from './analog_GPIO';
+import GPIOContinue from './GPIO_continue';
+import DoubleGPIO from './double_GPIO';
+import Runtime from './runtime';
 
 export default {
   DcMotor,
@@ -73,5 +77,9 @@ export default {
   Gas,
   Touch,
   FourKeys,
-  EncoderMotorOnBoard
+  DigGPIO,
+  AnalogGPIO,
+  GPIOContinue,
+  DoubleGPIO,
+  Runtime
 };

@@ -652,16 +652,16 @@ function protocolAssembler() {
    * @example
    * ff 55 04 00 01 1e 09
    */
-  // this.readDigGPIO = function(index, port) {
-  //   var a = [
-  //     0xff,0x55,
-  //     0x04, index,
-  //     0x01,
-  //     0x1e,
-  //     port,
-  //   ];
-  //   return transport.send(a);
-  // };
+  this.readDigGPIO = function(port) {
+    // var a = [
+    //   0xff,0x55,
+    //   0x04, index,
+    //   0x01,
+    //   0x1e,
+    //   port,
+    // ];
+    return bufAssembler({mode: 0x01, id: 0x1e}, port);
+  };
 
   /**
    * @param  {Number} index [description]
@@ -670,16 +670,16 @@ function protocolAssembler() {
    * @example
    * ff 55 04 00 01 1f 02
    */
-  // this.readAnalogGPIO = function(index, port) {
-  //   var a = [
-  //     0xff,0x55,
-  //     0x04, index,
-  //     0x01,
-  //     0x1f,
-  //     port,
-  //   ];
-  //   return transport.send(a);
-  // };
+  this.readAnalogGPIO = function(port) {
+    // var a = [
+    //   0xff,0x55,
+    //   0x04, index,
+    //   0x01,
+    //   0x1f,
+    //   port,
+    // ];
+    return bufAssembler({mode: 0x01, id: 0x1f}, port);
+  };
 
   /**
    * @param  {Number} index [description]
@@ -689,17 +689,17 @@ function protocolAssembler() {
    * @example
    * ff 55 05 00 01 25 0d 20 4e
    */
-  // this.readGPIOContinue = function(index, port, key) {
-  //   var a = [
-  //     0xff,0x55,
-  //     0x05, index,
-  //     0x01,
-  //     0x25,
-  //     port,
-  //     key,
-  //   ];
-  //   return transport.send(a);
-  // };
+  this.readGPIOContinue = function(port, key) {
+    // var a = [
+    //   0xff,0x55,
+    //   0x05, index,
+    //   0x01,
+    //   0x25,
+    //   port,
+    //   key,
+    // ];
+    return bufAssembler({mode: 0x01, id: 0x25}, port, key);
+  };
 
   /**
    * @param  {Number} index [description]
@@ -709,17 +709,17 @@ function protocolAssembler() {
    * @example
    * ff 55 05 00 01 24 45 40
    */
-  // this.readDoubleGPIO = function(index, port1, port2) {
-  //   var a = [
-  //     0xff,0x55,
-  //     0x05, index,
-  //     0x01,
-  //     0x24,
-  //     port1,
-  //     port2,
-  //   ];
-  //   return transport.send(a);
-  // };
+  this.readDoubleGPIO = function(port1, port2) {
+    // var a = [
+    //   0xff,0x55,
+    //   0x05, index,
+    //   0x01,
+    //   0x24,
+    //   port1,
+    //   port2,
+    // ];
+    return bufAssembler({mode: 0x01, id: 0x24}, port1, port2);
+  };
 
   /**
    * @param  {Number} index [description]
@@ -729,15 +729,15 @@ function protocolAssembler() {
    * @example
    * ff 55 03 00 01 32
    */
-  // this.readRuntime = function(index) {
-  //   var a = [
-  //     0xff,0x55,
-  //     0x03, index,
-  //     0x01,
-  //     0x32,
-  //   ];
-  //   return transport.send(a);
-  // };
+  this.readRuntime = function() {
+    // var a = [
+    //   0xff,0x55,
+    //   0x03, index,
+    //   0x01,
+    //   0x32,
+    // ];
+    return bufAssembler({mode: 0x01, id: 0x32});
+  };
 
   // this.readOntransportButton = function(index) {
   //   var a = [

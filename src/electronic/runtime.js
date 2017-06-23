@@ -4,15 +4,14 @@ import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
 import Command from '../communicate/command';
 
-class Version extends Electronic {
-  constructor(callback) {
+class Runtime extends Electronic {
+  constructor() {
     super();
-    this.version(callback);
   }
 
-  version(callback) {
+  getData(callback) {
     // 拿到协议组装器，组装协议
-    let buf = Utils.composer(protocolAssembler.readVersion);
+    let buf = Utils.composer(protocolAssembler.readRuntime);
     //执行
     Command.execRead(buf, callback);
     return this;
@@ -25,9 +24,9 @@ class Version extends Electronic {
 
   //主控支持戳：描述各主控的支持情况
   static supportStamp(){
-    return '1111';
+    return '00001';
   }
 
 }
 
-export default Version;
+export default Runtime;

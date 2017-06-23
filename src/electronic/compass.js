@@ -29,7 +29,7 @@ class Compass extends Electronic {
   //主控支持戳：描述各主控的支持情况
   //orion 不支持
   static supportStamp(){
-    return '1101';
+    return '1110';
   }
 
 }

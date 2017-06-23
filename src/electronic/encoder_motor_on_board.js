@@ -55,7 +55,7 @@ class EncoderMotorOnBoard extends EncoderMotorBase {
   //主控支持戳：描述各主控的支持情况
   //auriga megapi 支持
   static supportStamp(){
-    return '0101';
+    return '0110';
   }
 }
 

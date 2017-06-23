@@ -38,9 +38,9 @@
         },
     
         addListener: function(parse) {
-          serialPort.on('data', function(buff) {
-            parse.doParse(buff);
-          });
+          // serialPort.on('data', function(buff) {
+          //   parse.doParse(buff);
+          // });
           // ble.startListenReceivedData(func_success, func_fail);
         }
       };

@@ -339,10 +339,13 @@
   /**
    * 函数式编程
    * @param  {!Function} func 方法
-   * @param  {!Array} args 方法的参数数组
+   * @param  {Array} args 方法的参数数组
    * @return {*}      返回结果由方法决定
    */
   composer(func, args) {
+    if (!args) {
+      args = [];
+    }
     return func(...args);
   }
 
@@ -1127,16 +1130,16 @@ function protocolAssembler() {
    * @example
    * ff 55 04 00 01 1e 09
    */
-  // this.readDigGPIO = function(index, port) {
-  //   var a = [
-  //     0xff,0x55,
-  //     0x04, index,
-  //     0x01,
-  //     0x1e,
-  //     port,
-  //   ];
-  //   return transport.send(a);
-  // };
+  this.readDigGPIO = function (port) {
+    // var a = [
+    //   0xff,0x55,
+    //   0x04, index,
+    //   0x01,
+    //   0x1e,
+    //   port,
+    // ];
+    return bufAssembler({ mode: 0x01, id: 0x1e }, port);
+  };
 
   /**
    * @param  {Number} index [description]
@@ -1145,16 +1148,16 @@ function protocolAssembler() {
    * @example
    * ff 55 04 00 01 1f 02
    */
-  // this.readAnalogGPIO = function(index, port) {
-  //   var a = [
-  //     0xff,0x55,
-  //     0x04, index,
-  //     0x01,
-  //     0x1f,
-  //     port,
-  //   ];
-  //   return transport.send(a);
-  // };
+  this.readAnalogGPIO = function (port) {
+    // var a = [
+    //   0xff,0x55,
+    //   0x04, index,
+    //   0x01,
+    //   0x1f,
+    //   port,
+    // ];
+    return bufAssembler({ mode: 0x01, id: 0x1f }, port);
+  };
 
   /**
    * @param  {Number} index [description]
@@ -1164,17 +1167,17 @@ function protocolAssembler() {
    * @example
    * ff 55 05 00 01 25 0d 20 4e
    */
-  // this.readGPIOContinue = function(index, port, key) {
-  //   var a = [
-  //     0xff,0x55,
-  //     0x05, index,
-  //     0x01,
-  //     0x25,
-  //     port,
-  //     key,
-  //   ];
-  //   return transport.send(a);
-  // };
+  this.readGPIOContinue = function (port, key) {
+    // var a = [
+    //   0xff,0x55,
+    //   0x05, index,
+    //   0x01,
+    //   0x25,
+    //   port,
+    //   key,
+    // ];
+    return bufAssembler({ mode: 0x01, id: 0x25 }, port, key);
+  };
 
   /**
    * @param  {Number} index [description]
@@ -1184,17 +1187,17 @@ function protocolAssembler() {
    * @example
    * ff 55 05 00 01 24 45 40
    */
-  // this.readDoubleGPIO = function(index, port1, port2) {
-  //   var a = [
-  //     0xff,0x55,
-  //     0x05, index,
-  //     0x01,
-  //     0x24,
-  //     port1,
-  //     port2,
-  //   ];
-  //   return transport.send(a);
-  // };
+  this.readDoubleGPIO = function (port1, port2) {
+    // var a = [
+    //   0xff,0x55,
+    //   0x05, index,
+    //   0x01,
+    //   0x24,
+    //   port1,
+    //   port2,
+    // ];
+    return bufAssembler({ mode: 0x01, id: 0x24 }, port1, port2);
+  };
 
   /**
    * @param  {Number} index [description]
@@ -1204,15 +1207,15 @@ function protocolAssembler() {
    * @example
    * ff 55 03 00 01 32
    */
-  // this.readRuntime = function(index) {
-  //   var a = [
-  //     0xff,0x55,
-  //     0x03, index,
-  //     0x01,
-  //     0x32,
-  //   ];
-  //   return transport.send(a);
-  // };
+  this.readRuntime = function () {
+    // var a = [
+    //   0xff,0x55,
+    //   0x03, index,
+    //   0x01,
+    //   0x32,
+    // ];
+    return bufAssembler({ mode: 0x01, id: 0x32 });
+  };
 
   // this.readOntransportButton = function(index) {
   //   var a = [
@@ -1267,7 +1270,7 @@ const Settings = {
     READ_BYTES_INDEX: 2,
     // 数据发送默认的驱动driver: makeblockhd, cordova
     DEFAULT_CONF: {},
-    SUPPORTLIST: ['Mcore', 'Auriga', 'MegaPi', 'Orion', 'Neuron']
+    SUPPORTLIST: ['Mcore', 'Auriga', 'MegaPi', 'Orion', 'Arduino', 'Neuron']
 };
 
 /* harmony default export */ __webpack_exports__["a"] = (Settings);
@@ -1590,6 +1593,15 @@ class RgbLedBase extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_32__gas__ = __webpack_require__(28);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_33__touch__ = __webpack_require__(52);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_34__four_keys__ = __webpack_require__(26);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_35__dig_GPIO__ = __webpack_require__(58);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_36__analog_GPIO__ = __webpack_require__(57);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_37__GPIO_continue__ = __webpack_require__(56);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_38__double_GPIO__ = __webpack_require__(59);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_39__runtime__ = __webpack_require__(60);
+
+
+
+ //包含读值和写的接口
 
 
 
@@ -1626,7 +1638,7 @@ class RgbLedBase extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
 
 
 
-// import EncoderMotorOnBoard from './encoder_motor_on_board';
+
 
 /* harmony default export */ __webpack_exports__["a"] = ({
   DcMotor: __WEBPACK_IMPORTED_MODULE_0__dc_motor__["a" /* default */],
@@ -1665,7 +1677,11 @@ class RgbLedBase extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
   Gas: __WEBPACK_IMPORTED_MODULE_32__gas__["a" /* default */],
   Touch: __WEBPACK_IMPORTED_MODULE_33__touch__["a" /* default */],
   FourKeys: __WEBPACK_IMPORTED_MODULE_34__four_keys__["a" /* default */],
-  EncoderMotorOnBoard: __WEBPACK_IMPORTED_MODULE_3__encoder_motor_on_board__["a" /* default */]
+  DigGPIO: __WEBPACK_IMPORTED_MODULE_35__dig_GPIO__["a" /* default */],
+  AnalogGPIO: __WEBPACK_IMPORTED_MODULE_36__analog_GPIO__["a" /* default */],
+  GPIOContinue: __WEBPACK_IMPORTED_MODULE_37__GPIO_continue__["a" /* default */],
+  DoubleGPIO: __WEBPACK_IMPORTED_MODULE_38__double_GPIO__["a" /* default */],
+  Runtime: __WEBPACK_IMPORTED_MODULE_39__runtime__["a" /* default */]
 });
 
 /***/ }),
@@ -1737,15 +1753,15 @@ class MotorBase extends __WEBPACK_IMPORTED_MODULE_1__electronic___default.a {
 let Transport = {
   send: function (buf) {
     console.log(buf);
-    serialPort.send(buf);
+    // serialPort.send(buf);
   },
 
   //old name is onReceive
   addListener: function (pipe) {
-    serialPort.on('data', function (buff) {
-      console.log(buff);
-      pipe(buff);
-    });
+    // serialPort.on('data', function(buff) {
+    //   console.log(buff);
+    //   pipe(buff);
+    // });
     // ble.startListenReceivedData(function(buff){
     //   pipe(buff);
     // }, function(){
@@ -2400,7 +2416,7 @@ class Compass extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
   //主控支持戳：描述各主控的支持情况
   //orion 不支持
   static supportStamp() {
-    return '1101';
+    return '1110';
   }
 
 }
@@ -2575,7 +2591,7 @@ class EncoderMotorOnBoard extends __WEBPACK_IMPORTED_MODULE_2__base_EncoderMotor
   //主控支持戳：描述各主控的支持情况
   //auriga megapi 支持
   static supportStamp() {
-    return '0101';
+    return '0110';
   }
 }
 
@@ -3426,7 +3442,7 @@ class Reset extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
 
   reset(callback) {
     // 拿到协议组装器，组装协议
-    let buf = __WEBPACK_IMPORTED_MODULE_1__core_utils__["a" /* default */].composer(__WEBPACK_IMPORTED_MODULE_3__protocol_cmd__["a" /* default */].reset, []);
+    let buf = __WEBPACK_IMPORTED_MODULE_1__core_utils__["a" /* default */].composer(__WEBPACK_IMPORTED_MODULE_3__protocol_cmd__["a" /* default */].reset);
     //执行
     __WEBPACK_IMPORTED_MODULE_4__communicate_command__["a" /* default */].execRead(buf, callback);
     return this;
@@ -4024,7 +4040,7 @@ class Version extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
 
   version(callback) {
     // 拿到协议组装器，组装协议
-    let buf = __WEBPACK_IMPORTED_MODULE_1__core_utils__["a" /* default */].composer(__WEBPACK_IMPORTED_MODULE_3__protocol_cmd__["a" /* default */].readVersion, []);
+    let buf = __WEBPACK_IMPORTED_MODULE_1__core_utils__["a" /* default */].composer(__WEBPACK_IMPORTED_MODULE_3__protocol_cmd__["a" /* default */].readVersion);
     //执行
     __WEBPACK_IMPORTED_MODULE_4__communicate_command__["a" /* default */].execRead(buf, callback);
     return this;
@@ -4083,8 +4099,241 @@ if (typeof window != "undefined") {
   window.Sensorium = Sensorium;
 }
 // cmd
-// module.exports = Sensorium;
 /* harmony default export */ __webpack_exports__["default"] = (Sensorium);
+
+/***/ }),
+/* 56 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__electronic__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(1);
+
+
+
+
+
+
+class GPIOContinue extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
+  constructor(port, key) {
+    super();
+    this.args = {
+      port: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__core_type__["a" /* defineNumber */])(port),
+      key: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__core_type__["a" /* defineNumber */])(key)
+    };
+  }
+
+  getData(callback) {
+    // 拿到协议组装器，组装协议
+    let buf = __WEBPACK_IMPORTED_MODULE_1__core_utils__["a" /* default */].composer(__WEBPACK_IMPORTED_MODULE_3__protocol_cmd__["a" /* default */].readGPIOContinue, [this.args.port, this.args.key]);
+    //执行
+    __WEBPACK_IMPORTED_MODULE_4__communicate_command__["a" /* default */].execRead(buf, callback);
+    return this;
+  }
+
+  //参数戳：描述port slot id 需传参的个数
+  static argsStamp() {
+    return 2;
+  }
+
+  //主控支持戳：描述各主控的支持情况
+  static supportStamp() {
+    return '00001';
+  }
+
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (GPIOContinue);
+
+/***/ }),
+/* 57 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__electronic__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(1);
+
+
+
+
+
+
+class AnalogGPIO extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
+  constructor(port) {
+    super();
+    this.args = {
+      port: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__core_type__["a" /* defineNumber */])(port)
+    };
+  }
+
+  getData(callback) {
+    // 拿到协议组装器，组装协议
+    let buf = __WEBPACK_IMPORTED_MODULE_1__core_utils__["a" /* default */].composer(__WEBPACK_IMPORTED_MODULE_3__protocol_cmd__["a" /* default */].readAnalogGPIO, [this.args.port]);
+    //执行
+    __WEBPACK_IMPORTED_MODULE_4__communicate_command__["a" /* default */].execRead(buf, callback);
+    return this;
+  }
+
+  //参数戳：描述port slot id 需传参的个数
+  static argsStamp() {
+    return 1;
+  }
+
+  //主控支持戳：描述各主控的支持情况
+  static supportStamp() {
+    return '00001';
+  }
+
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (AnalogGPIO);
+
+/***/ }),
+/* 58 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__electronic__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(1);
+
+
+
+
+
+
+class DigGPIO extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
+  constructor(port) {
+    super();
+    this.args = {
+      port: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__core_type__["a" /* defineNumber */])(port)
+    };
+  }
+
+  getData(callback) {
+    // 拿到协议组装器，组装协议
+    let buf = __WEBPACK_IMPORTED_MODULE_1__core_utils__["a" /* default */].composer(__WEBPACK_IMPORTED_MODULE_3__protocol_cmd__["a" /* default */].readDigGPIO, [this.args.port]);
+    //执行
+    __WEBPACK_IMPORTED_MODULE_4__communicate_command__["a" /* default */].execRead(buf, callback);
+    return this;
+  }
+
+  //参数戳：描述port slot id 需传参的个数
+  static argsStamp() {
+    return 1;
+  }
+
+  //主控支持戳：描述各主控的支持情况
+  static supportStamp() {
+    return '00001';
+  }
+
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (DigGPIO);
+
+/***/ }),
+/* 59 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__electronic__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(1);
+
+
+
+
+
+
+class DoubleGPIO extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
+  constructor(port1, port2) {
+    super();
+    this.args = {
+      port1: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__core_type__["a" /* defineNumber */])(port1),
+      port2: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__core_type__["a" /* defineNumber */])(port2)
+    };
+  }
+
+  getData(callback) {
+    // 拿到协议组装器，组装协议
+    let buf = __WEBPACK_IMPORTED_MODULE_1__core_utils__["a" /* default */].composer(__WEBPACK_IMPORTED_MODULE_3__protocol_cmd__["a" /* default */].readDoubleGPIO, [this.args.port1, this.args.port2]);
+    //执行
+    __WEBPACK_IMPORTED_MODULE_4__communicate_command__["a" /* default */].execRead(buf, callback);
+    return this;
+  }
+
+  //参数戳：描述port slot id 需传参的个数
+  static argsStamp() {
+    return 2;
+  }
+
+  //主控支持戳：描述各主控的支持情况
+  static supportStamp() {
+    return '00001';
+  }
+
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (DoubleGPIO);
+
+/***/ }),
+/* 60 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_type__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__electronic___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__electronic__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__protocol_cmd__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__communicate_command__ = __webpack_require__(1);
+
+
+
+
+
+
+class Runtime extends __WEBPACK_IMPORTED_MODULE_2__electronic___default.a {
+  constructor() {
+    super();
+  }
+
+  getData(callback) {
+    // 拿到协议组装器，组装协议
+    let buf = __WEBPACK_IMPORTED_MODULE_1__core_utils__["a" /* default */].composer(__WEBPACK_IMPORTED_MODULE_3__protocol_cmd__["a" /* default */].readRuntime);
+    //执行
+    __WEBPACK_IMPORTED_MODULE_4__communicate_command__["a" /* default */].execRead(buf, callback);
+    return this;
+  }
+
+  //参数戳：描述port slot id 需传参的个数
+  static argsStamp() {
+    return 0;
+  }
+
+  //主控支持戳：描述各主控的支持情况
+  static supportStamp() {
+    return '00001';
+  }
+
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (Runtime);
 
 /***/ })
 /******/ ]);

@@ -26,5 +26,4 @@ if(typeof window != "undefined") {
   window.Sensorium = Sensorium;
 }
 // cmd
-// module.exports = Sensorium;
 export default Sensorium;

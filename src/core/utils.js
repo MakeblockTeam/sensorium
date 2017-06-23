@@ -266,10 +266,13 @@ export default {
   /**
    * 函数式编程
    * @param  {!Function} func 方法
-   * @param  {!Array} args 方法的参数数组
+   * @param  {Array} args 方法的参数数组
    * @return {*}      返回结果由方法决定
    */
   composer(func, args){
+    if(!args) {
+      args = [];
+    }
     return func(...args);
   }
 
