@@ -10,11 +10,11 @@ module.exports = {
     loaders: [
       {
         test: /\.(js|jsx)$/,
-        use: 'babel-loader',
-        // query: {
-        //   plugins: ['transform-runtime'],
-        //   presets: ['es2015', 'stage-0']
-        // },
+        loader: 'babel-loader',
+        query: {
+          plugins: ['transform-runtime'],
+          presets: ['es2015', 'stage-0']
+        },
         exclude: /node_modules/
       }
     ]

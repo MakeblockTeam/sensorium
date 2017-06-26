@@ -35,14 +35,13 @@ const RequestControl = {
    */
   createSafeIndex: function() {
     if (this.index >= MAX_RECORD) {
-      let i = null;
-      for(i of MAX_RECORD){
+      for(let i =0; i < MAX_RECORD; i++){
         if(!this.readRecord[i]){
           return i;
         }
       }
       //没有索引
-      return i;
+      return null;
     };
     return this.index++;
   },

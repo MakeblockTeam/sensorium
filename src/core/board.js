@@ -4,20 +4,21 @@
  */
 //es6 module
 import Transport from '../communicate/transport';
-import doParse from '../communicate/command';
+import pipe from '../communicate/command';
 import Settings from '../protocol/settings';
+
 
 const createModuleId = function (eModule, args){
   args = [...args]; //转数组
   let name = eModule.name;
-  let argsStamp = eModule.argsStamp();
+  let expectLength = eModule.length;
   let argsLength = args.length;
-  if(argsLength < argsStamp){
+  if(argsLength < expectLength){
     //参数不足
-    console.warn(`there's lack of ${argsStamp-argsLength} argument(s), and ${eModule.name} may not work as a result`);
-  }else if(argsLength > argsStamp){
+    console.warn(`there's lack of ${expectLength-argsLength} argument(s), and ${eModule.name} may not work as a result`);
+  }else if(argsLength > expectLength){
     //参数多余
-    args.splice(argsStamp);
+    args.splice(expectLength);
   }
   return [name].concat(...args).join('_').toLowerCase();
 }
@@ -34,9 +35,6 @@ class Board {
   init(conf) {
     this._config = Object.assign(Settings.DEFAULT_CONF, conf || {});
     this.setTransport(this._config.transport || {});
-
-    // 启动数据监听
-    // this.onReceived();
   }
 
   /**
@@ -77,7 +75,7 @@ class Board {
   setTransport(transport) {
     if(transport && typeof transport.send == 'function' && typeof transport.addListener == 'function' ){
       Transport.send = transport.send;
-      transport.addListener(doParse);
+      transport.addListener(pipe);
     }else{
       // console.warn('')
     }
