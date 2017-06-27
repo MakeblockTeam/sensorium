@@ -49,6 +49,7 @@ class Command {
    */
   pipe(buff){
     let buffer = Parse.doParse(buff);
+    // console.log(buffer[0], buff);
     if(!buffer) { //一次失败的解析
       //do nothing
     }else if(buffer.length == 0){ //write 结果
@@ -56,7 +57,6 @@ class Command {
     }else{ //read 结果
       let index = buffer[0];
       let value = Parse.getResult(buffer);
-      console.log('pipe the buff: ', this);
       this.emitCallback(index, value);      
     }
   }
