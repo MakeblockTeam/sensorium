@@ -1,5 +1,5 @@
 /**
- * 对电子模块各个类实例的方法可用性测试，而不测试其功能正确
+ * 对电子模块各个类实例的方法可用性测试
  * @Jeremy
  */
 import eModuleList from "../../src/electronic/index";

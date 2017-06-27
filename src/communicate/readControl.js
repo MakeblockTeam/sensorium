@@ -1,8 +1,6 @@
-// dispatcher
 //当前问题：发送请求超过 255 个时，进行了暴力覆盖。但是根据协议 index 大小，又只能识别 255 条请求
 
 // 控制方案一(待整理):
-//目前的问题：超过 255 个传感器时，进行了暴力覆盖
 //首先其 exec 将被控制执行，需完成以下动作后才执行：
 //1、加入监听列队（第二队）时，先做监听列队分析————对一队列剔除哪些位于中间的、占位较多的监听器到垃圾箱
 //2、一旦有数据返回，触发对应监听器，同时做关联分析，砍掉一批。同时清空垃圾箱
@@ -20,13 +18,12 @@
 
 // import ValueWrapper from '../core/value_wrapper';
 /**
- * @fileOverview PromiveList is sensor data's transfer station.
- * 用于处理传感器数据分发
+ * read request controler
  */
 const MAX_RECORD = 255;
 const OVERTIME = 2000;
 
-const RequestControl = {
+const ReadControl = {
   readRecord: {},
   index: 0,
   /**
@@ -100,7 +97,7 @@ const RequestControl = {
     }
   },
   /**
-   * 移除已执行回调的和超时未回调的
+   * 移除超时未回调的
    * @return {[type]} [description]
    */
   removeOvertimeRequest: function(){
@@ -134,9 +131,10 @@ const RequestControl = {
    * @param  {Number} value request result
    */
   callbackProxy: function(index, value){
+    console.log(index);
     this.readRecord[index].callback(value);
     this.removeRecord(index);
   }
 };
 
-export default RequestControl;
+export default ReadControl;

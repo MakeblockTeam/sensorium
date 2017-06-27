@@ -4,23 +4,13 @@
  */
 //es6 module
 import Transport from './transport';
-import RequestControl from './requestControl';
+import ReadControl from './readControl';
+import WriteControl from './writeControl';
 import Parse from '../core/parse';
-
-// 开启超时重发
-const OPEN_RESNET_MODE = false;
-// 超时重发的次数
-const RESENT_COUNT = 1;
-// 读值指令超时的设定
-const COMMAND_SEND_TIMEOUT = 1000;
 
 class Command {
   constructor() {
-    //上次写记录
-    this.lastWrite = {
-      time: 0,
-      buf: null
-    }
+    
   }
   /**
    * execute buffer
@@ -38,14 +28,7 @@ class Command {
    * @return {[type]}            [description]
    */
   execWrite(buf){
-    let time = (new Date()).getTime();
-    let bufStr = buf.join('_');
-    if(this.lastWrite.buf != bufStr || time - this.lastWrite.time > 40){
-      this.lastWrite.buf = bufStr;
-      this.lastWrite.time = time;
-      this.exec(buf);
-    }
-    //TODO: 谨慎执行超时重发
+    WriteControl.addRequest(this.exec.bind(this), buf);
   }
 
   /**
@@ -55,7 +38,7 @@ class Command {
    * @return {[type]}            [description]
    */
   execRead(buf, callback){
-    RequestControl.addRequest(this.exec.bind(this), buf, callback);
+    ReadControl.addRequest(this.exec.bind(this), buf, callback);
     //TODO: 谨慎执行超时重发
   }
 
@@ -73,12 +56,13 @@ class Command {
     }else{ //read 结果
       let index = buffer[0];
       let value = Parse.getResult(buffer);
+      console.log('pipe the buff: ', this);
       this.emitCallback(index, value);      
     }
   }
 
   emitCallback(index, value){
-    RequestControl.callbackProxy(...arguments);
+    ReadControl.callbackProxy(...arguments);
   }
 }
 

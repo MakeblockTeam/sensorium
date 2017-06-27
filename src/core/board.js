@@ -4,7 +4,7 @@
  */
 //es6 module
 import Transport from '../communicate/transport';
-import pipe from '../communicate/command';
+import Command from '../communicate/command';
 import Settings from '../protocol/settings';
 
 
@@ -75,7 +75,7 @@ class Board {
   setTransport(transport) {
     if(transport && typeof transport.send == 'function' && typeof transport.addListener == 'function' ){
       Transport.send = transport.send;
-      transport.addListener(pipe);
+      transport.addListener(Command.pipe.bind(Command));
     }else{
       // console.warn('')
     }

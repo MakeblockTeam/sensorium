@@ -506,9 +506,13 @@ var _transport = __webpack_require__(63);
 
 var _transport2 = _interopRequireDefault(_transport);
 
-var _requestControl = __webpack_require__(121);
+var _readControl = __webpack_require__(164);
 
-var _requestControl2 = _interopRequireDefault(_requestControl);
+var _readControl2 = _interopRequireDefault(_readControl);
+
+var _writeControl = __webpack_require__(165);
+
+var _writeControl2 = _interopRequireDefault(_writeControl);
 
 var _parse = __webpack_require__(122);
 
@@ -516,27 +520,14 @@ var _parse2 = _interopRequireDefault(_parse);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// 开启超时重发
-var OPEN_RESNET_MODE = false;
-// 超时重发的次数
 /**
  * @fileOverview 调度类
  * 负责协议收发调度
  */
 //es6 module
-var RESENT_COUNT = 1;
-// 读值指令超时的设定
-var COMMAND_SEND_TIMEOUT = 1000;
-
 var Command = function () {
   function Command() {
     (0, _classCallCheck3.default)(this, Command);
-
-    //上次写记录
-    this.lastWrite = {
-      time: 0,
-      buf: null
-    };
   }
   /**
    * execute buffer
@@ -561,14 +552,7 @@ var Command = function () {
   }, {
     key: 'execWrite',
     value: function execWrite(buf) {
-      var time = new Date().getTime();
-      var bufStr = buf.join('_');
-      if (this.lastWrite.buf != bufStr || time - this.lastWrite.time > 40) {
-        this.lastWrite.buf = bufStr;
-        this.lastWrite.time = time;
-        this.exec(buf);
-      }
-      //TODO: 谨慎执行超时重发
+      _writeControl2.default.addRequest(this.exec.bind(this), buf);
     }
 
     /**
@@ -581,7 +565,7 @@ var Command = function () {
   }, {
     key: 'execRead',
     value: function execRead(buf, callback) {
-      _requestControl2.default.addRequest(this.exec.bind(this), buf, callback);
+      _readControl2.default.addRequest(this.exec.bind(this), buf, callback);
       //TODO: 谨慎执行超时重发
     }
 
@@ -609,7 +593,7 @@ var Command = function () {
   }, {
     key: 'emitCallback',
     value: function emitCallback(index, value) {
-      _requestControl2.default.callbackProxy.apply(_requestControl2.default, arguments);
+      _readControl2.default.callbackProxy.apply(_readControl2.default, arguments);
     }
   }]);
   return Command;
@@ -2992,30 +2976,38 @@ __webpack_require__(54)(String, 'String', function(iterated){
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-/**
- * @fileOverview 存储指令的传输通道：蓝牙，串口，2.4G等，一个单例。
- */
-//输出单例
+
+var _serialport = __webpack_require__(193);
+
+var _serialport2 = _interopRequireDefault(_serialport);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// const serialport = require('serialport');
+
+//单例
 var Transport = {
   send: function send(buf) {
-    console.log(buf);
-    // serialPort.send(buf);
+    console.log('transport send: ', buf);
+    _serialport2.default.send(buf);
   },
 
   //old name is onReceive
   addListener: function addListener(pipe) {
-    // serialPort.on('data', function(buff) {
-    //   console.log(buff);
-    //   pipe(buff);
-    // });
+    _serialport2.default.on('data', function (buff) {
+      console.log(buff);
+      pipe(buff);
+    });
     // ble.startListenReceivedData(function(buff){
     //   pipe(buff);
     // }, function(){
     //   console.log('failure');
     // });
   }
-};
-
+}; /**
+    * @fileOverview 存储指令的传输通道：蓝牙，串口，2.4G等，一个单例。
+    */
+//eg.
 exports.default = Transport;
 
 /***/ }),
@@ -4456,166 +4448,7 @@ module.exports = { "default": __webpack_require__(77), __esModule: true };
 module.exports = { "default": __webpack_require__(78), __esModule: true };
 
 /***/ }),
-/* 121 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _keys = __webpack_require__(117);
-
-var _keys2 = _interopRequireDefault(_keys);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-// dispatcher
-//当前问题：发送请求超过 255 个时，进行了暴力覆盖。但是根据协议 index 大小，又只能识别 255 条请求
-
-// 控制方案一(待整理):
-//目前的问题：超过 255 个传感器时，进行了暴力覆盖
-//首先其 exec 将被控制执行，需完成以下动作后才执行：
-//1、加入监听列队（第二队）时，先做监听列队分析————对一队列剔除哪些位于中间的、占位较多的监听器到垃圾箱
-//2、一旦有数据返回，触发对应监听器，同时做关联分析，砍掉一批。同时清空垃圾箱
-//3、执行这个 exec
-//4、直到第二队也到达 255.
-//5、选出列队一空缺的位置（指针拨到1，表明1需要彻底清理）
-
-// 控制方案二:
-//1、允许快速产生 255 条请求（或采用一定的节流方案）
-//2、将请求保存在一个队列中（保存请求发起时间）
-//3、再新增请求时，检查是否满队列，若满执行第6条。必须满足队列中有空位让出——也求是请求有返回值回来——才能进入队列中
-//4、新增请求占领空位（需计算空位index），并执行发送
-//5、后续请求依次遵循这个规则
-//6、满队列的情况下，新增请求时清空那些超时（2s?）的请求，再进入
-
-// import ValueWrapper from '../core/value_wrapper';
-/**
- * @fileOverview PromiveList is sensor data's transfer station.
- * 用于处理传感器数据分发
- */
-var MAX_RECORD = 255;
-var OVERTIME = 2000;
-
-var RequestControl = {
-  readRecord: {},
-  index: 0,
-  /**
-   * create a safty index between 0~254
-   * @return {Number|Null} return index
-   */
-  createSafeIndex: function createSafeIndex() {
-    if (this.index >= MAX_RECORD) {
-      for (var i = 0; i < MAX_RECORD; i++) {
-        if (!this.readRecord[i]) {
-          return i;
-        }
-      }
-      //没有索引
-      return null;
-    };
-    return this.index++;
-  },
-
-  /**
-   * @return {Boolean}
-   */
-  isOverflow: function isOverflow() {
-    var keys = (0, _keys2.default)(this.readRecord);
-    return keys.length == MAX_RECORD;
-  },
-
-  /**
-   * add a record of time and callback
-   * @param  {Number}   index    
-   * @param  {Function} callback [description]
-   */
-  addRecord: function addRecord(index, callback) {
-    this.readRecord[index] = {
-      time: new Date().getTime(),
-      callback: callback
-    };
-  },
-  /**
-   * remove a record with index
-   * @param  {Number} index record index
-   */
-  removeRecord: function removeRecord(index) {
-    delete this.readRecord[index];
-  },
-
-  /**
-   * this function is drived by 
-   * @param {Function}   execFunc  addRequest execute as proxy
-   * @param {Array}   buf      rj25 buffer
-   * @param {Function} callback [description]
-   */
-  addRequest: function addRequest(execFunc, buf, callback) {
-    var isFull = this.isOverflow();
-    if (!isFull) {
-      //创建索引号
-      var index = this.createSafeIndex();
-      //记录
-      this.addRecord(index, callback);
-      //执行发送
-      this.execSend(execFunc, index, buf);
-    } else {
-      //清除超时
-      var result = this.removeOvertimeRequest();
-      if (result) {
-        this.addRequest.apply(this, arguments);
-      } else {
-        //TODO: 挂起请求，稍后再发
-        console.warn('this request was ignored');
-      };
-    }
-  },
-  /**
-   * 移除已执行回调的和超时未回调的
-   * @return {[type]} [description]
-   */
-  removeOvertimeRequest: function removeOvertimeRequest() {
-    var time = new Date().getTime();
-    var count = 0;
-    for (var index in this.readRecord) {
-      if (time - this.readRecord[index].time > OVERTIME) {
-        count++;
-        this.removeRecord(index);
-      }
-    }
-    return count;
-  },
-
-  /**
-   * 执行发送
-   * @param  {Function} execFunc  
-   * @param  {Number} index    [description]
-   * @param  {[type]} buf      [description]
-   * @return {[type]}          [description]
-   */
-  execSend: function execSend(execFunc, index, buf) {
-    //amand the index of the buf due to the rj25 protocol
-    buf.splice(3, 1, index);
-    execFunc(buf);
-  },
-
-  /**
-   * execute the callback of the request
-   * @param  {Number} index request index
-   * @param  {Number} value request result
-   */
-  callbackProxy: function callbackProxy(index, value) {
-    this.readRecord[index].callback(value);
-    this.removeRecord(index);
-  }
-};
-
-exports.default = RequestControl;
-
-/***/ }),
+/* 121 */,
 /* 122 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8512,6 +8345,2861 @@ if (typeof window != "undefined") {
 }
 // cmd
 exports.default = Sensorium;
+
+/***/ }),
+/* 164 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _keys = __webpack_require__(117);
+
+var _keys2 = _interopRequireDefault(_keys);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//当前问题：发送请求超过 255 个时，进行了暴力覆盖。但是根据协议 index 大小，又只能识别 255 条请求
+
+// 控制方案一(待整理):
+//首先其 exec 将被控制执行，需完成以下动作后才执行：
+//1、加入监听列队（第二队）时，先做监听列队分析————对一队列剔除哪些位于中间的、占位较多的监听器到垃圾箱
+//2、一旦有数据返回，触发对应监听器，同时做关联分析，砍掉一批。同时清空垃圾箱
+//3、执行这个 exec
+//4、直到第二队也到达 255.
+//5、选出列队一空缺的位置（指针拨到1，表明1需要彻底清理）
+
+// 控制方案二:
+//1、允许快速产生 255 条请求（或采用一定的节流方案）
+//2、将请求保存在一个队列中（保存请求发起时间）
+//3、再新增请求时，检查是否满队列，若满执行第6条。必须满足队列中有空位让出——也求是请求有返回值回来——才能进入队列中
+//4、新增请求占领空位（需计算空位index），并执行发送
+//5、后续请求依次遵循这个规则
+//6、满队列的情况下，新增请求时清空那些超时（2s?）的请求，再进入
+
+// import ValueWrapper from '../core/value_wrapper';
+/**
+ * read request controler
+ */
+var MAX_RECORD = 255;
+var OVERTIME = 2000;
+
+var ReadControl = {
+  readRecord: {},
+  index: 0,
+  /**
+   * create a safty index between 0~254
+   * @return {Number|Null} return index
+   */
+  createSafeIndex: function createSafeIndex() {
+    if (this.index >= MAX_RECORD) {
+      for (var i = 0; i < MAX_RECORD; i++) {
+        if (!this.readRecord[i]) {
+          return i;
+        }
+      }
+      //没有索引
+      return null;
+    };
+    return this.index++;
+  },
+
+  /**
+   * @return {Boolean}
+   */
+  isOverflow: function isOverflow() {
+    var keys = (0, _keys2.default)(this.readRecord);
+    return keys.length == MAX_RECORD;
+  },
+
+  /**
+   * add a record of time and callback
+   * @param  {Number}   index    
+   * @param  {Function} callback [description]
+   */
+  addRecord: function addRecord(index, callback) {
+    this.readRecord[index] = {
+      time: new Date().getTime(),
+      callback: callback
+    };
+  },
+  /**
+   * remove a record with index
+   * @param  {Number} index record index
+   */
+  removeRecord: function removeRecord(index) {
+    delete this.readRecord[index];
+  },
+
+  /**
+   * this function is drived by 
+   * @param {Function}   execFunc  addRequest execute as proxy
+   * @param {Array}   buf      rj25 buffer
+   * @param {Function} callback [description]
+   */
+  addRequest: function addRequest(execFunc, buf, callback) {
+    var isFull = this.isOverflow();
+    if (!isFull) {
+      //创建索引号
+      var index = this.createSafeIndex();
+      //记录
+      this.addRecord(index, callback);
+      //执行发送
+      this.execSend(execFunc, index, buf);
+    } else {
+      //清除超时
+      var result = this.removeOvertimeRequest();
+      if (result) {
+        this.addRequest.apply(this, arguments);
+      } else {
+        //TODO: 挂起请求，稍后再发
+        console.warn('this request was ignored');
+      };
+    }
+  },
+  /**
+   * 移除超时未回调的
+   * @return {[type]} [description]
+   */
+  removeOvertimeRequest: function removeOvertimeRequest() {
+    var time = new Date().getTime();
+    var count = 0;
+    for (var index in this.readRecord) {
+      if (time - this.readRecord[index].time > OVERTIME) {
+        count++;
+        this.removeRecord(index);
+      }
+    }
+    return count;
+  },
+
+  /**
+   * 执行发送
+   * @param  {Function} execFunc  
+   * @param  {Number} index    [description]
+   * @param  {[type]} buf      [description]
+   * @return {[type]}          [description]
+   */
+  execSend: function execSend(execFunc, index, buf) {
+    //amand the index of the buf due to the rj25 protocol
+    buf.splice(3, 1, index);
+    execFunc(buf);
+  },
+
+  /**
+   * execute the callback of the request
+   * @param  {Number} index request index
+   * @param  {Number} value request result
+   */
+  callbackProxy: function callbackProxy(index, value) {
+    this.readRecord[index].callback(value);
+    this.removeRecord(index);
+  }
+};
+
+exports.default = ReadControl;
+
+/***/ }),
+/* 165 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+/**
+ * write request controler
+ */
+var TIME_INTERVAL = 50;
+
+var WriteControl = {
+  writeRecord: {},
+  /**
+   * this function is drived by 
+   * @param {Function}   execFunc  addRequest execute as proxy
+   * @param {Array}   buf      rj25 buffer
+   * @param {Function} callback [description]
+   */
+  addRequest: function addRequest(execFunc, buf) {
+    var time = new Date().getTime();
+    var bufStr = buf.join('_');
+    if (this.writeRecord.buf != bufStr || time - this.writeRecord.time > TIME_INTERVAL) {
+      this.writeRecord.buf = bufStr;
+      this.writeRecord.time = time;
+      execFunc(buf);
+    }
+  }
+};
+
+exports.default = WriteControl;
+
+/***/ }),
+/* 166 */
+/***/ (function(module, exports) {
+
+module.exports = require("fs");
+
+/***/ }),
+/* 167 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+// modified from https://github.com/es-shims/es5-shim
+var has = Object.prototype.hasOwnProperty;
+var toStr = Object.prototype.toString;
+var slice = Array.prototype.slice;
+var isArgs = __webpack_require__(175);
+var isEnumerable = Object.prototype.propertyIsEnumerable;
+var hasDontEnumBug = !isEnumerable.call({ toString: null }, 'toString');
+var hasProtoEnumBug = isEnumerable.call(function () {}, 'prototype');
+var dontEnums = [
+	'toString',
+	'toLocaleString',
+	'valueOf',
+	'hasOwnProperty',
+	'isPrototypeOf',
+	'propertyIsEnumerable',
+	'constructor'
+];
+var equalsConstructorPrototype = function (o) {
+	var ctor = o.constructor;
+	return ctor && ctor.prototype === o;
+};
+var excludedKeys = {
+	$console: true,
+	$external: true,
+	$frame: true,
+	$frameElement: true,
+	$frames: true,
+	$innerHeight: true,
+	$innerWidth: true,
+	$outerHeight: true,
+	$outerWidth: true,
+	$pageXOffset: true,
+	$pageYOffset: true,
+	$parent: true,
+	$scrollLeft: true,
+	$scrollTop: true,
+	$scrollX: true,
+	$scrollY: true,
+	$self: true,
+	$webkitIndexedDB: true,
+	$webkitStorageInfo: true,
+	$window: true
+};
+var hasAutomationEqualityBug = (function () {
+	/* global window */
+	if (typeof window === 'undefined') { return false; }
+	for (var k in window) {
+		try {
+			if (!excludedKeys['$' + k] && has.call(window, k) && window[k] !== null && typeof window[k] === 'object') {
+				try {
+					equalsConstructorPrototype(window[k]);
+				} catch (e) {
+					return true;
+				}
+			}
+		} catch (e) {
+			return true;
+		}
+	}
+	return false;
+}());
+var equalsConstructorPrototypeIfNotBuggy = function (o) {
+	/* global window */
+	if (typeof window === 'undefined' || !hasAutomationEqualityBug) {
+		return equalsConstructorPrototype(o);
+	}
+	try {
+		return equalsConstructorPrototype(o);
+	} catch (e) {
+		return false;
+	}
+};
+
+var keysShim = function keys(object) {
+	var isObject = object !== null && typeof object === 'object';
+	var isFunction = toStr.call(object) === '[object Function]';
+	var isArguments = isArgs(object);
+	var isString = isObject && toStr.call(object) === '[object String]';
+	var theKeys = [];
+
+	if (!isObject && !isFunction && !isArguments) {
+		throw new TypeError('Object.keys called on a non-object');
+	}
+
+	var skipProto = hasProtoEnumBug && isFunction;
+	if (isString && object.length > 0 && !has.call(object, 0)) {
+		for (var i = 0; i < object.length; ++i) {
+			theKeys.push(String(i));
+		}
+	}
+
+	if (isArguments && object.length > 0) {
+		for (var j = 0; j < object.length; ++j) {
+			theKeys.push(String(j));
+		}
+	} else {
+		for (var name in object) {
+			if (!(skipProto && name === 'prototype') && has.call(object, name)) {
+				theKeys.push(String(name));
+			}
+		}
+	}
+
+	if (hasDontEnumBug) {
+		var skipConstructor = equalsConstructorPrototypeIfNotBuggy(object);
+
+		for (var k = 0; k < dontEnums.length; ++k) {
+			if (!(skipConstructor && dontEnums[k] === 'constructor') && has.call(object, dontEnums[k])) {
+				theKeys.push(dontEnums[k]);
+			}
+		}
+	}
+	return theKeys;
+};
+
+keysShim.shim = function shimObjectKeys() {
+	if (Object.keys) {
+		var keysWorksWithArguments = (function () {
+			// Safari 5.0 bug
+			return (Object.keys(arguments) || '').length === 2;
+		}(1, 2));
+		if (!keysWorksWithArguments) {
+			var originalKeys = Object.keys;
+			Object.keys = function keys(object) {
+				if (isArgs(object)) {
+					return originalKeys(slice.call(object));
+				} else {
+					return originalKeys(object);
+				}
+			};
+		}
+	} else {
+		Object.keys = keysShim;
+	}
+	return Object.keys || keysShim;
+};
+
+module.exports = keysShim;
+
+
+/***/ }),
+/* 168 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var keys = __webpack_require__(167);
+var foreach = __webpack_require__(180);
+var hasSymbols = typeof Symbol === 'function' && typeof Symbol() === 'symbol';
+
+var toStr = Object.prototype.toString;
+
+var isFunction = function (fn) {
+	return typeof fn === 'function' && toStr.call(fn) === '[object Function]';
+};
+
+var arePropertyDescriptorsSupported = function () {
+	var obj = {};
+	try {
+		Object.defineProperty(obj, 'x', { enumerable: false, value: obj });
+        /* eslint-disable no-unused-vars, no-restricted-syntax */
+        for (var _ in obj) { return false; }
+        /* eslint-enable no-unused-vars, no-restricted-syntax */
+		return obj.x === obj;
+	} catch (e) { /* this is IE 8. */
+		return false;
+	}
+};
+var supportsDescriptors = Object.defineProperty && arePropertyDescriptorsSupported();
+
+var defineProperty = function (object, name, value, predicate) {
+	if (name in object && (!isFunction(predicate) || !predicate())) {
+		return;
+	}
+	if (supportsDescriptors) {
+		Object.defineProperty(object, name, {
+			configurable: true,
+			enumerable: false,
+			value: value,
+			writable: true
+		});
+	} else {
+		object[name] = value;
+	}
+};
+
+var defineProperties = function (object, map) {
+	var predicates = arguments.length > 2 ? arguments[2] : {};
+	var props = keys(map);
+	if (hasSymbols) {
+		props = props.concat(Object.getOwnPropertySymbols(map));
+	}
+	foreach(props, function (name) {
+		defineProperty(object, name, map[name], predicates[name]);
+	});
+};
+
+defineProperties.supportsDescriptors = !!supportsDescriptors;
+
+module.exports = defineProperties;
+
+
+/***/ }),
+/* 169 */
+/***/ (function(module, exports) {
+
+function webpackEmptyContext(req) {
+	throw new Error("Cannot find module '" + req + "'.");
+}
+webpackEmptyContext.keys = function() { return []; };
+webpackEmptyContext.resolve = webpackEmptyContext;
+module.exports = webpackEmptyContext;
+webpackEmptyContext.id = 169;
+
+/***/ }),
+/* 170 */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+/**
+ * This is the common logic for both the Node.js and web browser
+ * implementations of `debug()`.
+ *
+ * Expose `debug()` as the module.
+ */
+
+exports = module.exports = createDebug.debug = createDebug['default'] = createDebug;
+exports.coerce = coerce;
+exports.disable = disable;
+exports.enable = enable;
+exports.enabled = enabled;
+exports.humanize = __webpack_require__(179);
+
+/**
+ * The currently active debug mode names, and names to skip.
+ */
+
+exports.names = [];
+exports.skips = [];
+
+/**
+ * Map of special "%n" handling functions, for the debug "format" argument.
+ *
+ * Valid key names are a single, lower or upper-case letter, i.e. "n" and "N".
+ */
+
+exports.formatters = {};
+
+/**
+ * Previous log timestamp.
+ */
+
+var prevTime;
+
+/**
+ * Select a color.
+ * @param {String} namespace
+ * @return {Number}
+ * @api private
+ */
+
+function selectColor(namespace) {
+  var hash = 0, i;
+
+  for (i in namespace) {
+    hash  = ((hash << 5) - hash) + namespace.charCodeAt(i);
+    hash |= 0; // Convert to 32bit integer
+  }
+
+  return exports.colors[Math.abs(hash) % exports.colors.length];
+}
+
+/**
+ * Create a debugger with the given `namespace`.
+ *
+ * @param {String} namespace
+ * @return {Function}
+ * @api public
+ */
+
+function createDebug(namespace) {
+
+  function debug() {
+    // disabled?
+    if (!debug.enabled) return;
+
+    var self = debug;
+
+    // set `diff` timestamp
+    var curr = +new Date();
+    var ms = curr - (prevTime || curr);
+    self.diff = ms;
+    self.prev = prevTime;
+    self.curr = curr;
+    prevTime = curr;
+
+    // turn the `arguments` into a proper Array
+    var args = new Array(arguments.length);
+    for (var i = 0; i < args.length; i++) {
+      args[i] = arguments[i];
+    }
+
+    args[0] = exports.coerce(args[0]);
+
+    if ('string' !== typeof args[0]) {
+      // anything else let's inspect with %O
+      args.unshift('%O');
+    }
+
+    // apply any `formatters` transformations
+    var index = 0;
+    args[0] = args[0].replace(/%([a-zA-Z%])/g, function(match, format) {
+      // if we encounter an escaped % then don't increase the array index
+      if (match === '%%') return match;
+      index++;
+      var formatter = exports.formatters[format];
+      if ('function' === typeof formatter) {
+        var val = args[index];
+        match = formatter.call(self, val);
+
+        // now we need to remove `args[index]` since it's inlined in the `format`
+        args.splice(index, 1);
+        index--;
+      }
+      return match;
+    });
+
+    // apply env-specific formatting (colors, etc.)
+    exports.formatArgs.call(self, args);
+
+    var logFn = debug.log || exports.log || console.log.bind(console);
+    logFn.apply(self, args);
+  }
+
+  debug.namespace = namespace;
+  debug.enabled = exports.enabled(namespace);
+  debug.useColors = exports.useColors();
+  debug.color = selectColor(namespace);
+
+  // env-specific initialization logic for debug instances
+  if ('function' === typeof exports.init) {
+    exports.init(debug);
+  }
+
+  return debug;
+}
+
+/**
+ * Enables a debug mode by namespaces. This can include modes
+ * separated by a colon and wildcards.
+ *
+ * @param {String} namespaces
+ * @api public
+ */
+
+function enable(namespaces) {
+  exports.save(namespaces);
+
+  exports.names = [];
+  exports.skips = [];
+
+  var split = (typeof namespaces === 'string' ? namespaces : '').split(/[\s,]+/);
+  var len = split.length;
+
+  for (var i = 0; i < len; i++) {
+    if (!split[i]) continue; // ignore empty strings
+    namespaces = split[i].replace(/\*/g, '.*?');
+    if (namespaces[0] === '-') {
+      exports.skips.push(new RegExp('^' + namespaces.substr(1) + '$'));
+    } else {
+      exports.names.push(new RegExp('^' + namespaces + '$'));
+    }
+  }
+}
+
+/**
+ * Disable debug output.
+ *
+ * @api public
+ */
+
+function disable() {
+  exports.enable('');
+}
+
+/**
+ * Returns true if the given mode name is enabled, false otherwise.
+ *
+ * @param {String} name
+ * @return {Boolean}
+ * @api public
+ */
+
+function enabled(name) {
+  var i, len;
+  for (i = 0, len = exports.skips.length; i < len; i++) {
+    if (exports.skips[i].test(name)) {
+      return false;
+    }
+  }
+  for (i = 0, len = exports.names.length; i < len; i++) {
+    if (exports.names[i].test(name)) {
+      return true;
+    }
+  }
+  return false;
+}
+
+/**
+ * Coerce `val`.
+ *
+ * @param {Mixed} val
+ * @return {Mixed}
+ * @api private
+ */
+
+function coerce(val) {
+  if (val instanceof Error) return val.stack || val.message;
+  return val;
+}
+
+
+/***/ }),
+/* 171 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+// modified from https://github.com/es-shims/es6-shim
+var keys = __webpack_require__(167);
+var bind = __webpack_require__(177);
+var canBeObject = function (obj) {
+	return typeof obj !== 'undefined' && obj !== null;
+};
+var hasSymbols = __webpack_require__(187)();
+var toObject = Object;
+var push = bind.call(Function.call, Array.prototype.push);
+var propIsEnumerable = bind.call(Function.call, Object.prototype.propertyIsEnumerable);
+var originalGetSymbols = hasSymbols ? Object.getOwnPropertySymbols : null;
+
+module.exports = function assign(target, source1) {
+	if (!canBeObject(target)) { throw new TypeError('target must be an object'); }
+	var objTarget = toObject(target);
+	var s, source, i, props, syms, value, key;
+	for (s = 1; s < arguments.length; ++s) {
+		source = toObject(arguments[s]);
+		props = keys(source);
+		var getSymbols = hasSymbols && (Object.getOwnPropertySymbols || originalGetSymbols);
+		if (getSymbols) {
+			syms = getSymbols(source);
+			for (i = 0; i < syms.length; ++i) {
+				key = syms[i];
+				if (propIsEnumerable(source, key)) {
+					push(props, key);
+				}
+			}
+		}
+		for (i = 0; i < props.length; ++i) {
+			key = props[i];
+			value = source[key];
+			if (propIsEnumerable(source, key)) {
+				objTarget[key] = value;
+			}
+		}
+	}
+	return objTarget;
+};
+
+
+/***/ }),
+/* 172 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var implementation = __webpack_require__(171);
+
+var lacksProperEnumerationOrder = function () {
+	if (!Object.assign) {
+		return false;
+	}
+	// v8, specifically in node 4.x, has a bug with incorrect property enumeration order
+	// note: this does not detect the bug unless there's 20 characters
+	var str = 'abcdefghijklmnopqrst';
+	var letters = str.split('');
+	var map = {};
+	for (var i = 0; i < letters.length; ++i) {
+		map[letters[i]] = letters[i];
+	}
+	var obj = Object.assign({}, map);
+	var actual = '';
+	for (var k in obj) {
+		actual += k;
+	}
+	return str !== actual;
+};
+
+var assignHasPendingExceptions = function () {
+	if (!Object.assign || !Object.preventExtensions) {
+		return false;
+	}
+	// Firefox 37 still has "pending exception" logic in its Object.assign implementation,
+	// which is 72% slower than our shim, and Firefox 40's native implementation.
+	var thrower = Object.preventExtensions({ 1: 2 });
+	try {
+		Object.assign(thrower, 'xy');
+	} catch (e) {
+		return thrower[1] === 'y';
+	}
+	return false;
+};
+
+module.exports = function getPolyfill() {
+	if (!Object.assign) {
+		return implementation;
+	}
+	if (lacksProperEnumerationOrder()) {
+		return implementation;
+	}
+	if (assignHasPendingExceptions()) {
+		return implementation;
+	}
+	return Object.assign;
+};
+
+
+/***/ }),
+/* 173 */
+/***/ (function(module, exports) {
+
+module.exports = require("path");
+
+/***/ }),
+/* 174 */
+/***/ (function(module, exports) {
+
+module.exports = require("util");
+
+/***/ }),
+/* 175 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var toStr = Object.prototype.toString;
+
+module.exports = function isArguments(value) {
+	var str = toStr.call(value);
+	var isArgs = str === '[object Arguments]';
+	if (!isArgs) {
+		isArgs = str !== '[object Array]' &&
+			value !== null &&
+			typeof value === 'object' &&
+			typeof value.length === 'number' &&
+			value.length >= 0 &&
+			toStr.call(value.callee) === '[object Function]';
+	}
+	return isArgs;
+};
+
+
+/***/ }),
+/* 176 */
+/***/ (function(module, exports) {
+
+var ERROR_MESSAGE = 'Function.prototype.bind called on incompatible ';
+var slice = Array.prototype.slice;
+var toStr = Object.prototype.toString;
+var funcType = '[object Function]';
+
+module.exports = function bind(that) {
+    var target = this;
+    if (typeof target !== 'function' || toStr.call(target) !== funcType) {
+        throw new TypeError(ERROR_MESSAGE + target);
+    }
+    var args = slice.call(arguments, 1);
+
+    var bound;
+    var binder = function () {
+        if (this instanceof bound) {
+            var result = target.apply(
+                this,
+                args.concat(slice.call(arguments))
+            );
+            if (Object(result) === result) {
+                return result;
+            }
+            return this;
+        } else {
+            return target.apply(
+                that,
+                args.concat(slice.call(arguments))
+            );
+        }
+    };
+
+    var boundLength = Math.max(0, target.length - args.length);
+    var boundArgs = [];
+    for (var i = 0; i < boundLength; i++) {
+        boundArgs.push('$' + i);
+    }
+
+    bound = Function('binder', 'return function (' + boundArgs.join(',') + '){ return binder.apply(this,arguments); }')(binder);
+
+    if (target.prototype) {
+        var Empty = function Empty() {};
+        Empty.prototype = target.prototype;
+        bound.prototype = new Empty();
+        Empty.prototype = null;
+    }
+
+    return bound;
+};
+
+
+/***/ }),
+/* 177 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var implementation = __webpack_require__(176);
+
+module.exports = Function.prototype.bind || implementation;
+
+
+/***/ }),
+/* 178 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(__filename) {
+/**
+ * Module dependencies.
+ */
+
+var fs = __webpack_require__(166)
+  , path = __webpack_require__(173)
+  , join = path.join
+  , dirname = path.dirname
+  , exists = fs.existsSync || path.existsSync
+  , defaults = {
+        arrow: process.env.NODE_BINDINGS_ARROW || ' → '
+      , compiled: process.env.NODE_BINDINGS_COMPILED_DIR || 'compiled'
+      , platform: process.platform
+      , arch: process.arch
+      , version: process.versions.node
+      , bindings: 'bindings.node'
+      , try: [
+          // node-gyp's linked version in the "build" dir
+          [ 'module_root', 'build', 'bindings' ]
+          // node-waf and gyp_addon (a.k.a node-gyp)
+        , [ 'module_root', 'build', 'Debug', 'bindings' ]
+        , [ 'module_root', 'build', 'Release', 'bindings' ]
+          // Debug files, for development (legacy behavior, remove for node v0.9)
+        , [ 'module_root', 'out', 'Debug', 'bindings' ]
+        , [ 'module_root', 'Debug', 'bindings' ]
+          // Release files, but manually compiled (legacy behavior, remove for node v0.9)
+        , [ 'module_root', 'out', 'Release', 'bindings' ]
+        , [ 'module_root', 'Release', 'bindings' ]
+          // Legacy from node-waf, node <= 0.4.x
+        , [ 'module_root', 'build', 'default', 'bindings' ]
+          // Production "Release" buildtype binary (meh...)
+        , [ 'module_root', 'compiled', 'version', 'platform', 'arch', 'bindings' ]
+        ]
+    }
+
+/**
+ * The main `bindings()` function loads the compiled bindings for a given module.
+ * It uses V8's Error API to determine the parent filename that this function is
+ * being invoked from, which is then used to find the root directory.
+ */
+
+function bindings (opts) {
+
+  // Argument surgery
+  if (typeof opts == 'string') {
+    opts = { bindings: opts }
+  } else if (!opts) {
+    opts = {}
+  }
+  opts.__proto__ = defaults
+
+  // Get the module root
+  if (!opts.module_root) {
+    opts.module_root = exports.getRoot(exports.getFileName())
+  }
+
+  // Ensure the given bindings name ends with .node
+  if (path.extname(opts.bindings) != '.node') {
+    opts.bindings += '.node'
+  }
+
+  var tries = []
+    , i = 0
+    , l = opts.try.length
+    , n
+    , b
+    , err
+
+  for (; i<l; i++) {
+    n = join.apply(null, opts.try[i].map(function (p) {
+      return opts[p] || p
+    }))
+    tries.push(n)
+    try {
+      b = opts.path ? /*require.resolve*/(!(function webpackMissingModule() { var e = new Error("Cannot find module \".\""); e.code = 'MODULE_NOT_FOUND'; throw e; }())) : !(function webpackMissingModule() { var e = new Error("Cannot find module \".\""); e.code = 'MODULE_NOT_FOUND'; throw e; }())
+      if (!opts.path) {
+        b.path = n
+      }
+      return b
+    } catch (e) {
+      if (!/not find/i.test(e.message)) {
+        throw e
+      }
+    }
+  }
+
+  err = new Error('Could not locate the bindings file. Tried:\n'
+    + tries.map(function (a) { return opts.arrow + a }).join('\n'))
+  err.tries = tries
+  throw err
+}
+module.exports = exports = bindings
+
+
+/**
+ * Gets the filename of the JavaScript file that invokes this function.
+ * Used to help find the root directory of a module.
+ * Optionally accepts an filename argument to skip when searching for the invoking filename
+ */
+
+exports.getFileName = function getFileName (calling_file) {
+  var origPST = Error.prepareStackTrace
+    , origSTL = Error.stackTraceLimit
+    , dummy = {}
+    , fileName
+
+  Error.stackTraceLimit = 10
+
+  Error.prepareStackTrace = function (e, st) {
+    for (var i=0, l=st.length; i<l; i++) {
+      fileName = st[i].getFileName()
+      if (fileName !== __filename) {
+        if (calling_file) {
+            if (fileName !== calling_file) {
+              return
+            }
+        } else {
+          return
+        }
+      }
+    }
+  }
+
+  // run the 'prepareStackTrace' function above
+  Error.captureStackTrace(dummy)
+  dummy.stack
+
+  // cleanup
+  Error.prepareStackTrace = origPST
+  Error.stackTraceLimit = origSTL
+
+  return fileName
+}
+
+/**
+ * Gets the root directory of a module, given an arbitrary filename
+ * somewhere in the module tree. The "root directory" is the directory
+ * containing the `package.json` file.
+ *
+ *   In:  /home/nate/node-native-module/lib/index.js
+ *   Out: /home/nate/node-native-module
+ */
+
+exports.getRoot = function getRoot (file) {
+  var dir = dirname(file)
+    , prev
+  while (true) {
+    if (dir === '.') {
+      // Avoids an infinite loop in rare cases, like the REPL
+      dir = process.cwd()
+    }
+    if (exists(join(dir, 'package.json')) || exists(join(dir, 'node_modules'))) {
+      // Found the 'package.json' file or 'node_modules' dir; we're done
+      return dir
+    }
+    if (prev === dir) {
+      // Got to the top
+      throw new Error('Could not find module root given file: "' + file
+                    + '". Do you have a `package.json` file? ')
+    }
+    // Try the parent dir next
+    prev = dir
+    dir = join(dir, '..')
+  }
+}
+
+/* WEBPACK VAR INJECTION */}.call(exports, "/index.js"))
+
+/***/ }),
+/* 179 */
+/***/ (function(module, exports) {
+
+/**
+ * Helpers.
+ */
+
+var s = 1000;
+var m = s * 60;
+var h = m * 60;
+var d = h * 24;
+var y = d * 365.25;
+
+/**
+ * Parse or format the given `val`.
+ *
+ * Options:
+ *
+ *  - `long` verbose formatting [false]
+ *
+ * @param {String|Number} val
+ * @param {Object} [options]
+ * @throws {Error} throw an error if val is not a non-empty string or a number
+ * @return {String|Number}
+ * @api public
+ */
+
+module.exports = function(val, options) {
+  options = options || {};
+  var type = typeof val;
+  if (type === 'string' && val.length > 0) {
+    return parse(val);
+  } else if (type === 'number' && isNaN(val) === false) {
+    return options.long ? fmtLong(val) : fmtShort(val);
+  }
+  throw new Error(
+    'val is not a non-empty string or a valid number. val=' +
+      JSON.stringify(val)
+  );
+};
+
+/**
+ * Parse the given `str` and return milliseconds.
+ *
+ * @param {String} str
+ * @return {Number}
+ * @api private
+ */
+
+function parse(str) {
+  str = String(str);
+  if (str.length > 100) {
+    return;
+  }
+  var match = /^((?:\d+)?\.?\d+) *(milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|years?|yrs?|y)?$/i.exec(
+    str
+  );
+  if (!match) {
+    return;
+  }
+  var n = parseFloat(match[1]);
+  var type = (match[2] || 'ms').toLowerCase();
+  switch (type) {
+    case 'years':
+    case 'year':
+    case 'yrs':
+    case 'yr':
+    case 'y':
+      return n * y;
+    case 'days':
+    case 'day':
+    case 'd':
+      return n * d;
+    case 'hours':
+    case 'hour':
+    case 'hrs':
+    case 'hr':
+    case 'h':
+      return n * h;
+    case 'minutes':
+    case 'minute':
+    case 'mins':
+    case 'min':
+    case 'm':
+      return n * m;
+    case 'seconds':
+    case 'second':
+    case 'secs':
+    case 'sec':
+    case 's':
+      return n * s;
+    case 'milliseconds':
+    case 'millisecond':
+    case 'msecs':
+    case 'msec':
+    case 'ms':
+      return n;
+    default:
+      return undefined;
+  }
+}
+
+/**
+ * Short format for `ms`.
+ *
+ * @param {Number} ms
+ * @return {String}
+ * @api private
+ */
+
+function fmtShort(ms) {
+  if (ms >= d) {
+    return Math.round(ms / d) + 'd';
+  }
+  if (ms >= h) {
+    return Math.round(ms / h) + 'h';
+  }
+  if (ms >= m) {
+    return Math.round(ms / m) + 'm';
+  }
+  if (ms >= s) {
+    return Math.round(ms / s) + 's';
+  }
+  return ms + 'ms';
+}
+
+/**
+ * Long format for `ms`.
+ *
+ * @param {Number} ms
+ * @return {String}
+ * @api private
+ */
+
+function fmtLong(ms) {
+  return plural(ms, d, 'day') ||
+    plural(ms, h, 'hour') ||
+    plural(ms, m, 'minute') ||
+    plural(ms, s, 'second') ||
+    ms + ' ms';
+}
+
+/**
+ * Pluralization helper.
+ */
+
+function plural(ms, n, name) {
+  if (ms < n) {
+    return;
+  }
+  if (ms < n * 1.5) {
+    return Math.floor(ms / n) + ' ' + name;
+  }
+  return Math.ceil(ms / n) + ' ' + name + 's';
+}
+
+
+/***/ }),
+/* 180 */
+/***/ (function(module, exports) {
+
+
+var hasOwn = Object.prototype.hasOwnProperty;
+var toString = Object.prototype.toString;
+
+module.exports = function forEach (obj, fn, ctx) {
+    if (toString.call(fn) !== '[object Function]') {
+        throw new TypeError('iterator must be a function');
+    }
+    var l = obj.length;
+    if (l === +l) {
+        for (var i = 0; i < l; i++) {
+            fn.call(ctx, obj[i], i, obj);
+        }
+    } else {
+        for (var k in obj) {
+            if (hasOwn.call(obj, k)) {
+                fn.call(ctx, obj[k], k, obj);
+            }
+        }
+    }
+};
+
+
+
+/***/ }),
+/* 181 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/**
+ * This is the web browser implementation of `debug()`.
+ *
+ * Expose `debug()` as the module.
+ */
+
+exports = module.exports = __webpack_require__(170);
+exports.log = log;
+exports.formatArgs = formatArgs;
+exports.save = save;
+exports.load = load;
+exports.useColors = useColors;
+exports.storage = 'undefined' != typeof chrome
+               && 'undefined' != typeof chrome.storage
+                  ? chrome.storage.local
+                  : localstorage();
+
+/**
+ * Colors.
+ */
+
+exports.colors = [
+  'lightseagreen',
+  'forestgreen',
+  'goldenrod',
+  'dodgerblue',
+  'darkorchid',
+  'crimson'
+];
+
+/**
+ * Currently only WebKit-based Web Inspectors, Firefox >= v31,
+ * and the Firebug extension (any Firefox version) are known
+ * to support "%c" CSS customizations.
+ *
+ * TODO: add a `localStorage` variable to explicitly enable/disable colors
+ */
+
+function useColors() {
+  // NB: In an Electron preload script, document will be defined but not fully
+  // initialized. Since we know we're in Chrome, we'll just detect this case
+  // explicitly
+  if (typeof window !== 'undefined' && window.process && window.process.type === 'renderer') {
+    return true;
+  }
+
+  // is webkit? http://stackoverflow.com/a/16459606/376773
+  // document is undefined in react-native: https://github.com/facebook/react-native/pull/1632
+  return (typeof document !== 'undefined' && document.documentElement && document.documentElement.style && document.documentElement.style.WebkitAppearance) ||
+    // is firebug? http://stackoverflow.com/a/398120/376773
+    (typeof window !== 'undefined' && window.console && (window.console.firebug || (window.console.exception && window.console.table))) ||
+    // is firefox >= v31?
+    // https://developer.mozilla.org/en-US/docs/Tools/Web_Console#Styling_messages
+    (typeof navigator !== 'undefined' && navigator.userAgent && navigator.userAgent.toLowerCase().match(/firefox\/(\d+)/) && parseInt(RegExp.$1, 10) >= 31) ||
+    // double check webkit in userAgent just in case we are in a worker
+    (typeof navigator !== 'undefined' && navigator.userAgent && navigator.userAgent.toLowerCase().match(/applewebkit\/(\d+)/));
+}
+
+/**
+ * Map %j to `JSON.stringify()`, since no Web Inspectors do that by default.
+ */
+
+exports.formatters.j = function(v) {
+  try {
+    return JSON.stringify(v);
+  } catch (err) {
+    return '[UnexpectedJSONParseError]: ' + err.message;
+  }
+};
+
+
+/**
+ * Colorize log arguments if enabled.
+ *
+ * @api public
+ */
+
+function formatArgs(args) {
+  var useColors = this.useColors;
+
+  args[0] = (useColors ? '%c' : '')
+    + this.namespace
+    + (useColors ? ' %c' : ' ')
+    + args[0]
+    + (useColors ? '%c ' : ' ')
+    + '+' + exports.humanize(this.diff);
+
+  if (!useColors) return;
+
+  var c = 'color: ' + this.color;
+  args.splice(1, 0, c, 'color: inherit')
+
+  // the final "%c" is somewhat tricky, because there could be other
+  // arguments passed either before or after the %c, so we need to
+  // figure out the correct index to insert the CSS into
+  var index = 0;
+  var lastC = 0;
+  args[0].replace(/%[a-zA-Z%]/g, function(match) {
+    if ('%%' === match) return;
+    index++;
+    if ('%c' === match) {
+      // we only are interested in the *last* %c
+      // (the user may have provided their own)
+      lastC = index;
+    }
+  });
+
+  args.splice(lastC, 0, c);
+}
+
+/**
+ * Invokes `console.log()` when available.
+ * No-op when `console.log` is not a "function".
+ *
+ * @api public
+ */
+
+function log() {
+  // this hackery is required for IE8/9, where
+  // the `console.log` function doesn't have 'apply'
+  return 'object' === typeof console
+    && console.log
+    && Function.prototype.apply.call(console.log, console, arguments);
+}
+
+/**
+ * Save `namespaces`.
+ *
+ * @param {String} namespaces
+ * @api private
+ */
+
+function save(namespaces) {
+  try {
+    if (null == namespaces) {
+      exports.storage.removeItem('debug');
+    } else {
+      exports.storage.debug = namespaces;
+    }
+  } catch(e) {}
+}
+
+/**
+ * Load `namespaces`.
+ *
+ * @return {String} returns the previously persisted debug modes
+ * @api private
+ */
+
+function load() {
+  var r;
+  try {
+    r = exports.storage.debug;
+  } catch(e) {}
+
+  // If debug isn't set in LS, and we're in Electron, try to load $DEBUG
+  if (!r && typeof process !== 'undefined' && 'env' in process) {
+    r = process.env.DEBUG;
+  }
+
+  return r;
+}
+
+/**
+ * Enable namespaces listed in `localStorage.debug` initially.
+ */
+
+exports.enable(load());
+
+/**
+ * Localstorage attempts to return the localstorage.
+ *
+ * This is necessary because safari throws
+ * when a user disables cookies/localstorage
+ * and you attempt to access it.
+ *
+ * @return {LocalStorage}
+ * @api private
+ */
+
+function localstorage() {
+  try {
+    return window.localStorage;
+  } catch (e) {}
+}
+
+
+/***/ }),
+/* 182 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/**
+ * Detect Electron renderer process, which is node, but we should
+ * treat as a browser.
+ */
+
+if (typeof process !== 'undefined' && process.type === 'renderer') {
+  module.exports = __webpack_require__(181);
+} else {
+  module.exports = __webpack_require__(183);
+}
+
+
+/***/ }),
+/* 183 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/**
+ * Module dependencies.
+ */
+
+var tty = __webpack_require__(197);
+var util = __webpack_require__(174);
+
+/**
+ * This is the Node.js implementation of `debug()`.
+ *
+ * Expose `debug()` as the module.
+ */
+
+exports = module.exports = __webpack_require__(170);
+exports.init = init;
+exports.log = log;
+exports.formatArgs = formatArgs;
+exports.save = save;
+exports.load = load;
+exports.useColors = useColors;
+
+/**
+ * Colors.
+ */
+
+exports.colors = [6, 2, 3, 4, 5, 1];
+
+/**
+ * Build up the default `inspectOpts` object from the environment variables.
+ *
+ *   $ DEBUG_COLORS=no DEBUG_DEPTH=10 DEBUG_SHOW_HIDDEN=enabled node script.js
+ */
+
+exports.inspectOpts = Object.keys(process.env).filter(function (key) {
+  return /^debug_/i.test(key);
+}).reduce(function (obj, key) {
+  // camel-case
+  var prop = key
+    .substring(6)
+    .toLowerCase()
+    .replace(/_([a-z])/g, function (_, k) { return k.toUpperCase() });
+
+  // coerce string value into JS value
+  var val = process.env[key];
+  if (/^(yes|on|true|enabled)$/i.test(val)) val = true;
+  else if (/^(no|off|false|disabled)$/i.test(val)) val = false;
+  else if (val === 'null') val = null;
+  else val = Number(val);
+
+  obj[prop] = val;
+  return obj;
+}, {});
+
+/**
+ * The file descriptor to write the `debug()` calls to.
+ * Set the `DEBUG_FD` env variable to override with another value. i.e.:
+ *
+ *   $ DEBUG_FD=3 node script.js 3>debug.log
+ */
+
+var fd = parseInt(process.env.DEBUG_FD, 10) || 2;
+
+if (1 !== fd && 2 !== fd) {
+  util.deprecate(function(){}, 'except for stderr(2) and stdout(1), any other usage of DEBUG_FD is deprecated. Override debug.log if you want to use a different log function (https://git.io/debug_fd)')()
+}
+
+var stream = 1 === fd ? process.stdout :
+             2 === fd ? process.stderr :
+             createWritableStdioStream(fd);
+
+/**
+ * Is stdout a TTY? Colored output is enabled when `true`.
+ */
+
+function useColors() {
+  return 'colors' in exports.inspectOpts
+    ? Boolean(exports.inspectOpts.colors)
+    : tty.isatty(fd);
+}
+
+/**
+ * Map %o to `util.inspect()`, all on a single line.
+ */
+
+exports.formatters.o = function(v) {
+  this.inspectOpts.colors = this.useColors;
+  return util.inspect(v, this.inspectOpts)
+    .replace(/\s*\n\s*/g, ' ');
+};
+
+/**
+ * Map %o to `util.inspect()`, allowing multiple lines if needed.
+ */
+
+exports.formatters.O = function(v) {
+  this.inspectOpts.colors = this.useColors;
+  return util.inspect(v, this.inspectOpts);
+};
+
+/**
+ * Adds ANSI color escape codes if enabled.
+ *
+ * @api public
+ */
+
+function formatArgs(args) {
+  var name = this.namespace;
+  var useColors = this.useColors;
+
+  if (useColors) {
+    var c = this.color;
+    var prefix = '  \u001b[3' + c + ';1m' + name + ' ' + '\u001b[0m';
+
+    args[0] = prefix + args[0].split('\n').join('\n' + prefix);
+    args.push('\u001b[3' + c + 'm+' + exports.humanize(this.diff) + '\u001b[0m');
+  } else {
+    args[0] = new Date().toUTCString()
+      + ' ' + name + ' ' + args[0];
+  }
+}
+
+/**
+ * Invokes `util.format()` with the specified arguments and writes to `stream`.
+ */
+
+function log() {
+  return stream.write(util.format.apply(util, arguments) + '\n');
+}
+
+/**
+ * Save `namespaces`.
+ *
+ * @param {String} namespaces
+ * @api private
+ */
+
+function save(namespaces) {
+  if (null == namespaces) {
+    // If you set a process.env field to null or undefined, it gets cast to the
+    // string 'null' or 'undefined'. Just delete instead.
+    delete process.env.DEBUG;
+  } else {
+    process.env.DEBUG = namespaces;
+  }
+}
+
+/**
+ * Load `namespaces`.
+ *
+ * @return {String} returns the previously persisted debug modes
+ * @api private
+ */
+
+function load() {
+  return process.env.DEBUG;
+}
+
+/**
+ * Copied from `node/src/node.js`.
+ *
+ * XXX: It's lame that node doesn't expose this API out-of-the-box. It also
+ * relies on the undocumented `tty_wrap.guessHandleType()` which is also lame.
+ */
+
+function createWritableStdioStream (fd) {
+  var stream;
+  var tty_wrap = process.binding('tty_wrap');
+
+  // Note stream._type is used for test-module-load-list.js
+
+  switch (tty_wrap.guessHandleType(fd)) {
+    case 'TTY':
+      stream = new tty.WriteStream(fd);
+      stream._type = 'tty';
+
+      // Hack to have stream not keep the event loop alive.
+      // See https://github.com/joyent/node/issues/1726
+      if (stream._handle && stream._handle.unref) {
+        stream._handle.unref();
+      }
+      break;
+
+    case 'FILE':
+      var fs = __webpack_require__(166);
+      stream = new fs.SyncWriteStream(fd, { autoClose: false });
+      stream._type = 'fs';
+      break;
+
+    case 'PIPE':
+    case 'TCP':
+      var net = __webpack_require__(195);
+      stream = new net.Socket({
+        fd: fd,
+        readable: false,
+        writable: true
+      });
+
+      // FIXME Should probably have an option in net.Socket to create a
+      // stream from an existing fd which is writable only. But for now
+      // we'll just add this hack and set the `readable` member to false.
+      // Test: ./node test/fixtures/echo.js < /etc/passwd
+      stream.readable = false;
+      stream.read = null;
+      stream._type = 'pipe';
+
+      // FIXME Hack to have stream not keep the event loop alive.
+      // See https://github.com/joyent/node/issues/1726
+      if (stream._handle && stream._handle.unref) {
+        stream._handle.unref();
+      }
+      break;
+
+    default:
+      // Probably an error on in uv_guess_handle()
+      throw new Error('Implement me. Unknown stream file type!');
+  }
+
+  // For supporting legacy API we put the FD here.
+  stream.fd = fd;
+
+  stream._isStdio = true;
+
+  return stream;
+}
+
+/**
+ * Init logic for `debug` instances.
+ *
+ * Create a new `inspectOpts` object in case `useColors` is set
+ * differently for a particular `debug` instance.
+ */
+
+function init (debug) {
+  debug.inspectOpts = {};
+
+  var keys = Object.keys(exports.inspectOpts);
+  for (var i = 0; i < keys.length; i++) {
+    debug.inspectOpts[keys[i]] = exports.inspectOpts[keys[i]];
+  }
+}
+
+/**
+ * Enable namespaces listed in `process.env.DEBUG` initially.
+ */
+
+exports.enable(load());
+
+
+/***/ }),
+/* 184 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var Mutation = global.MutationObserver || global.WebKitMutationObserver;
+
+var scheduleDrain;
+
+if (process.browser) {
+  if (Mutation) {
+    var called = 0;
+    var observer = new Mutation(nextTick);
+    var element = global.document.createTextNode('');
+    observer.observe(element, {
+      characterData: true
+    });
+    scheduleDrain = function () {
+      element.data = (called = ++called % 2);
+    };
+  } else if (!global.setImmediate && typeof global.MessageChannel !== 'undefined') {
+    var channel = new global.MessageChannel();
+    channel.port1.onmessage = nextTick;
+    scheduleDrain = function () {
+      channel.port2.postMessage(0);
+    };
+  } else if ('document' in global && 'onreadystatechange' in global.document.createElement('script')) {
+    scheduleDrain = function () {
+
+      // Create a <script> element; its readystatechange event will be fired asynchronously once it is inserted
+      // into the document. Do so, thus queuing up the task. Remember to clean up once it's been called.
+      var scriptEl = global.document.createElement('script');
+      scriptEl.onreadystatechange = function () {
+        nextTick();
+
+        scriptEl.onreadystatechange = null;
+        scriptEl.parentNode.removeChild(scriptEl);
+        scriptEl = null;
+      };
+      global.document.documentElement.appendChild(scriptEl);
+    };
+  } else {
+    scheduleDrain = function () {
+      setTimeout(nextTick, 0);
+    };
+  }
+} else {
+  scheduleDrain = function () {
+    process.nextTick(nextTick);
+  };
+}
+
+var draining;
+var queue = [];
+//named nextTick for less confusing stack traces
+function nextTick() {
+  draining = true;
+  var i, oldQueue;
+  var len = queue.length;
+  while (len) {
+    oldQueue = queue;
+    queue = [];
+    i = -1;
+    while (++i < len) {
+      oldQueue[i]();
+    }
+    len = queue.length;
+  }
+  draining = false;
+}
+
+module.exports = immediate;
+function immediate(task) {
+  if (queue.push(task) === 1 && !draining) {
+    scheduleDrain();
+  }
+}
+
+
+/***/ }),
+/* 185 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var immediate = __webpack_require__(184);
+
+/* istanbul ignore next */
+function INTERNAL() {}
+
+var handlers = {};
+
+var REJECTED = ['REJECTED'];
+var FULFILLED = ['FULFILLED'];
+var PENDING = ['PENDING'];
+/* istanbul ignore else */
+if (!process.browser) {
+  // in which we actually take advantage of JS scoping
+  var UNHANDLED = ['UNHANDLED'];
+}
+
+module.exports = Promise;
+
+function Promise(resolver) {
+  if (typeof resolver !== 'function') {
+    throw new TypeError('resolver must be a function');
+  }
+  this.state = PENDING;
+  this.queue = [];
+  this.outcome = void 0;
+  /* istanbul ignore else */
+  if (!process.browser) {
+    this.handled = UNHANDLED;
+  }
+  if (resolver !== INTERNAL) {
+    safelyResolveThenable(this, resolver);
+  }
+}
+
+Promise.prototype.catch = function (onRejected) {
+  return this.then(null, onRejected);
+};
+Promise.prototype.then = function (onFulfilled, onRejected) {
+  if (typeof onFulfilled !== 'function' && this.state === FULFILLED ||
+    typeof onRejected !== 'function' && this.state === REJECTED) {
+    return this;
+  }
+  var promise = new this.constructor(INTERNAL);
+  /* istanbul ignore else */
+  if (!process.browser) {
+    if (this.handled === UNHANDLED) {
+      this.handled = null;
+    }
+  }
+  if (this.state !== PENDING) {
+    var resolver = this.state === FULFILLED ? onFulfilled : onRejected;
+    unwrap(promise, resolver, this.outcome);
+  } else {
+    this.queue.push(new QueueItem(promise, onFulfilled, onRejected));
+  }
+
+  return promise;
+};
+function QueueItem(promise, onFulfilled, onRejected) {
+  this.promise = promise;
+  if (typeof onFulfilled === 'function') {
+    this.onFulfilled = onFulfilled;
+    this.callFulfilled = this.otherCallFulfilled;
+  }
+  if (typeof onRejected === 'function') {
+    this.onRejected = onRejected;
+    this.callRejected = this.otherCallRejected;
+  }
+}
+QueueItem.prototype.callFulfilled = function (value) {
+  handlers.resolve(this.promise, value);
+};
+QueueItem.prototype.otherCallFulfilled = function (value) {
+  unwrap(this.promise, this.onFulfilled, value);
+};
+QueueItem.prototype.callRejected = function (value) {
+  handlers.reject(this.promise, value);
+};
+QueueItem.prototype.otherCallRejected = function (value) {
+  unwrap(this.promise, this.onRejected, value);
+};
+
+function unwrap(promise, func, value) {
+  immediate(function () {
+    var returnValue;
+    try {
+      returnValue = func(value);
+    } catch (e) {
+      return handlers.reject(promise, e);
+    }
+    if (returnValue === promise) {
+      handlers.reject(promise, new TypeError('Cannot resolve promise with itself'));
+    } else {
+      handlers.resolve(promise, returnValue);
+    }
+  });
+}
+
+handlers.resolve = function (self, value) {
+  var result = tryCatch(getThen, value);
+  if (result.status === 'error') {
+    return handlers.reject(self, result.value);
+  }
+  var thenable = result.value;
+
+  if (thenable) {
+    safelyResolveThenable(self, thenable);
+  } else {
+    self.state = FULFILLED;
+    self.outcome = value;
+    var i = -1;
+    var len = self.queue.length;
+    while (++i < len) {
+      self.queue[i].callFulfilled(value);
+    }
+  }
+  return self;
+};
+handlers.reject = function (self, error) {
+  self.state = REJECTED;
+  self.outcome = error;
+  /* istanbul ignore else */
+  if (!process.browser) {
+    if (self.handled === UNHANDLED) {
+      immediate(function () {
+        if (self.handled === UNHANDLED) {
+          process.emit('unhandledRejection', error, self);
+        }
+      });
+    }
+  }
+  var i = -1;
+  var len = self.queue.length;
+  while (++i < len) {
+    self.queue[i].callRejected(error);
+  }
+  return self;
+};
+
+function getThen(obj) {
+  // Make sure we only access the accessor once as required by the spec
+  var then = obj && obj.then;
+  if (obj && (typeof obj === 'object' || typeof obj === 'function') && typeof then === 'function') {
+    return function appyThen() {
+      then.apply(obj, arguments);
+    };
+  }
+}
+
+function safelyResolveThenable(self, thenable) {
+  // Either fulfill, reject or reject with error
+  var called = false;
+  function onError(value) {
+    if (called) {
+      return;
+    }
+    called = true;
+    handlers.reject(self, value);
+  }
+
+  function onSuccess(value) {
+    if (called) {
+      return;
+    }
+    called = true;
+    handlers.resolve(self, value);
+  }
+
+  function tryToUnwrap() {
+    thenable(onSuccess, onError);
+  }
+
+  var result = tryCatch(tryToUnwrap);
+  if (result.status === 'error') {
+    onError(result.value);
+  }
+}
+
+function tryCatch(func, value) {
+  var out = {};
+  try {
+    out.value = func(value);
+    out.status = 'success';
+  } catch (e) {
+    out.status = 'error';
+    out.value = e;
+  }
+  return out;
+}
+
+Promise.resolve = resolve;
+function resolve(value) {
+  if (value instanceof this) {
+    return value;
+  }
+  return handlers.resolve(new this(INTERNAL), value);
+}
+
+Promise.reject = reject;
+function reject(reason) {
+  var promise = new this(INTERNAL);
+  return handlers.reject(promise, reason);
+}
+
+Promise.all = all;
+function all(iterable) {
+  var self = this;
+  if (Object.prototype.toString.call(iterable) !== '[object Array]') {
+    return this.reject(new TypeError('must be an array'));
+  }
+
+  var len = iterable.length;
+  var called = false;
+  if (!len) {
+    return this.resolve([]);
+  }
+
+  var values = new Array(len);
+  var resolved = 0;
+  var i = -1;
+  var promise = new this(INTERNAL);
+
+  while (++i < len) {
+    allResolver(iterable[i], i);
+  }
+  return promise;
+  function allResolver(value, i) {
+    self.resolve(value).then(resolveFromAll, function (error) {
+      if (!called) {
+        called = true;
+        handlers.reject(promise, error);
+      }
+    });
+    function resolveFromAll(outValue) {
+      values[i] = outValue;
+      if (++resolved === len && !called) {
+        called = true;
+        handlers.resolve(promise, values);
+      }
+    }
+  }
+}
+
+Promise.race = race;
+function race(iterable) {
+  var self = this;
+  if (Object.prototype.toString.call(iterable) !== '[object Array]') {
+    return this.reject(new TypeError('must be an array'));
+  }
+
+  var len = iterable.length;
+  var called = false;
+  if (!len) {
+    return this.resolve([]);
+  }
+
+  var i = -1;
+  var promise = new this(INTERNAL);
+
+  while (++i < len) {
+    resolver(iterable[i]);
+  }
+  return promise;
+  function resolver(value) {
+    self.resolve(value).then(function (response) {
+      if (!called) {
+        called = true;
+        handlers.resolve(promise, response);
+      }
+    }, function (error) {
+      if (!called) {
+        called = true;
+        handlers.reject(promise, error);
+      }
+    });
+  }
+}
+
+
+/***/ }),
+/* 186 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+if (typeof global.Promise !== 'function') {
+  global.Promise = __webpack_require__(185);
+}
+
+
+/***/ }),
+/* 187 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var keys = __webpack_require__(167);
+
+module.exports = function hasSymbols() {
+	if (typeof Symbol !== 'function' || typeof Object.getOwnPropertySymbols !== 'function') { return false; }
+	if (typeof Symbol.iterator === 'symbol') { return true; }
+
+	var obj = {};
+	var sym = Symbol('test');
+	var symObj = Object(sym);
+	if (typeof sym === 'string') { return false; }
+
+	if (Object.prototype.toString.call(sym) !== '[object Symbol]') { return false; }
+	if (Object.prototype.toString.call(symObj) !== '[object Symbol]') { return false; }
+
+	// temp disabled per https://github.com/ljharb/object.assign/issues/17
+	// if (sym instanceof Symbol) { return false; }
+	// temp disabled per https://github.com/WebReflection/get-own-property-symbols/issues/4
+	// if (!(symObj instanceof Symbol)) { return false; }
+
+	var symVal = 42;
+	obj[sym] = symVal;
+	for (sym in obj) { return false; }
+	if (keys(obj).length !== 0) { return false; }
+	if (typeof Object.keys === 'function' && Object.keys(obj).length !== 0) { return false; }
+
+	if (typeof Object.getOwnPropertyNames === 'function' && Object.getOwnPropertyNames(obj).length !== 0) { return false; }
+
+	var syms = Object.getOwnPropertySymbols(obj);
+	if (syms.length !== 1 || syms[0] !== sym) { return false; }
+
+	if (!Object.prototype.propertyIsEnumerable.call(obj, sym)) { return false; }
+
+	if (typeof Object.getOwnPropertyDescriptor === 'function') {
+		var descriptor = Object.getOwnPropertyDescriptor(obj, sym);
+		if (descriptor.value !== symVal || descriptor.enumerable !== true) { return false; }
+	}
+
+	return true;
+};
+
+
+/***/ }),
+/* 188 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var defineProperties = __webpack_require__(168);
+
+var implementation = __webpack_require__(171);
+var getPolyfill = __webpack_require__(172);
+var shim = __webpack_require__(189);
+
+var polyfill = getPolyfill();
+
+defineProperties(polyfill, {
+	implementation: implementation,
+	getPolyfill: getPolyfill,
+	shim: shim
+});
+
+module.exports = polyfill;
+
+
+/***/ }),
+/* 189 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var define = __webpack_require__(168);
+var getPolyfill = __webpack_require__(172);
+
+module.exports = function shimAssign() {
+	var polyfill = getPolyfill();
+	define(
+		Object,
+		{ assign: polyfill },
+		{ assign: function () { return Object.assign !== polyfill; } }
+	);
+	return polyfill;
+};
+
+
+/***/ }),
+/* 190 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var bindings = __webpack_require__(178)('serialport.node');
+var listUnix = __webpack_require__(191);
+
+var linux = process.platform !== 'win32' && process.platform !== 'darwin';
+
+function listLinux(callback) {
+  callback = callback || function(err) {
+    if (err) { this.emit('error', err) }
+  }.bind(this);
+  return listUnix(callback);
+};
+
+var platformOptions = {};
+if (process.platform !== 'win32') {
+  platformOptions = {
+    vmin: 1,
+    vtime: 0
+  };
+}
+
+module.exports = {
+  close: bindings.close,
+  drain: bindings.drain,
+  flush: bindings.flush,
+  list: linux ? listLinux : bindings.list,
+  open: bindings.open,
+  SerialportPoller: bindings.SerialportPoller,
+  set: bindings.set,
+  update: bindings.update,
+  write: bindings.write,
+  platformOptions: platformOptions
+};
+
+
+/***/ }),
+/* 191 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+__webpack_require__(186);
+var childProcess = __webpack_require__(194);
+var fs = __webpack_require__(166);
+var path = __webpack_require__(173);
+
+function promisify(func) {
+  return function(arg) {
+    return new Promise(function(resolve, reject) {
+      func(arg, function(err, data) {
+        if (err) {
+          return reject(err);
+        }
+        resolve(data);
+      });
+    });
+  };
+}
+
+function promisedFilter(func) {
+  return function(data) {
+    var shouldKeep = data.map(func);
+    return Promise.all(shouldKeep).then(function(keep) {
+      return data.filter(function(path, index) {
+        return keep[index];
+      });
+    });
+  };
+}
+
+var statAsync = promisify(fs.stat);
+var readdirAsync = promisify(fs.readdir);
+var execAsync = promisify(childProcess.exec);
+
+function udevParser(output) {
+  var udevInfo = output.split('\n').reduce(function(info, line) {
+    if (!line || line.trim() === '') {
+      return info;
+    }
+    var parts = line.split('=').map(function(part) {
+      return part.trim();
+    });
+
+    info[parts[0].toLowerCase()] = parts[1];
+
+    return info;
+  }, {});
+
+  var pnpId;
+  if (udevInfo.devlinks) {
+    udevInfo.devlinks.split(' ').forEach(function(path) {
+      if (path.indexOf('/by-id/') === -1) { return }
+      pnpId = path.substring(path.lastIndexOf('/') + 1);
+    });
+  }
+
+  var vendorId = udevInfo.id_vendor_id;
+  if (vendorId && vendorId.substring(0, 2) !== '0x') {
+    vendorId = '0x' + vendorId;
+  }
+
+  var productId = udevInfo.id_model_id;
+  if (productId && productId.substring(0, 2) !== '0x') {
+    productId = '0x' + productId;
+  }
+
+  return {
+    comName: udevInfo.devname,
+    manufacturer: udevInfo.id_vendor,
+    serialNumber: udevInfo.id_serial,
+    pnpId: pnpId,
+    vendorId: vendorId,
+    productId: productId
+  };
+}
+
+function checkPathAndDevice(path) {
+  // get only serial port names
+  if (!(/(tty(S|ACM|USB|AMA|MFD)|rfcomm)/).test(path)) {
+    return false;
+  }
+  return statAsync(path).then(function(stats) {
+    return stats.isCharacterDevice();
+  });
+}
+
+function lookupPort(file) {
+  var udevadm = 'udevadm info --query=property -p $(udevadm info -q path -n ' + file + ')';
+  return execAsync(udevadm).then(udevParser);
+}
+
+function listUnix(callback) {
+  var dirName = '/dev';
+  readdirAsync(dirName)
+    .catch(function(err) {
+      // if this directory is not found we just pretend everything is OK
+      // TODO Depreciated this check?
+      if (err.errno === 34) {
+        return [];
+      }
+      throw err;
+    })
+    .then(function(data) { return data.map(function(file) { return path.join(dirName, file) }) })
+    .then(promisedFilter(checkPathAndDevice))
+    .then(function(data) { return Promise.all(data.map(lookupPort)) })
+    .then(function(data) { callback(null, data) }, function(err) { callback(err) });
+}
+
+module.exports = listUnix;
+
+
+/***/ }),
+/* 192 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+// Copyright 2011 Chris Williams <chris@iterativedesigns.com>
+
+module.exports = {
+  raw: function(emitter, buffer) {
+    emitter.emit('data', buffer);
+  },
+
+  // encoding: ascii utf8 utf16le ucs2 base64 binary hex
+  // More: http://nodejs.org/api/buffer.html#buffer_buffer
+  readline: function(delimiter, encoding) {
+    if (typeof delimiter === 'undefined' || delimiter === null) { delimiter = '\r' }
+    if (typeof encoding === 'undefined' || encoding === null) { encoding = 'utf8' }
+    // Delimiter buffer saved in closure
+    var data = '';
+    return function(emitter, buffer) {
+      // Collect data
+      data += buffer.toString(encoding);
+      // Split collected data by delimiter
+      var parts = data.split(delimiter);
+      data = parts.pop();
+      parts.forEach(function(part) {
+        emitter.emit('data', part);
+      });
+    };
+  },
+
+  // Emit a data event every `length` bytes
+  byteLength: function(length) {
+    var data = new Buffer(0);
+    return function(emitter, buffer) {
+      data = Buffer.concat([data, buffer]);
+      while (data.length >= length) {
+        var out = data.slice(0, length);
+        data = data.slice(length);
+        emitter.emit('data', out);
+      }
+    };
+  },
+
+  // Emit a data event each time a byte sequence (delimiter is an array of byte) is found
+  // Sample usage : byteDelimiter([10, 13])
+  byteDelimiter: function(delimiter) {
+    if (Object.prototype.toString.call(delimiter) !== '[object Array]') {
+      delimiter = [ delimiter ];
+    }
+    var buf = [];
+    var nextDelimIndex = 0;
+    return function(emitter, buffer) {
+      for (var i = 0; i < buffer.length; i++) {
+        buf[buf.length] = buffer[i];
+        if (buf[buf.length - 1] === delimiter[nextDelimIndex]) {
+          nextDelimIndex++;
+        }
+        if (nextDelimIndex === delimiter.length) {
+          emitter.emit('data', buf);
+          buf = [];
+          nextDelimIndex = 0;
+        }
+      }
+    };
+  }
+};
+
+
+/***/ }),
+/* 193 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+// Copyright 2011 Chris Williams <chris@iterativedesigns.com>
+
+// 3rd Party Dependencies
+var debug = __webpack_require__(182)('serialport');
+
+// shims
+var assign = __webpack_require__(188).getPolyfill();
+
+// Internal Dependencies
+var SerialPortBinding = __webpack_require__(190);
+var parsers = __webpack_require__(192);
+
+// Built-ins Dependencies
+var fs = __webpack_require__(166);
+var stream = __webpack_require__(196);
+var util = __webpack_require__(174);
+
+//  VALIDATION ARRAYS
+var DATABITS = [5, 6, 7, 8];
+var STOPBITS = [1, 1.5, 2];
+var PARITY = ['none', 'even', 'mark', 'odd', 'space'];
+var FLOWCONTROLS = ['xon', 'xoff', 'xany', 'rtscts'];
+var SET_OPTIONS = ['brk', 'cts', 'dtr', 'dts', 'rts'];
+
+// Stuff from ReadStream, refactored for our usage:
+var kPoolSize = 40 * 1024;
+var kMinPoolSpace = 128;
+
+var defaultSettings = {
+  baudRate: 9600,
+  autoOpen: true,
+  parity: 'none',
+  xon: false,
+  xoff: false,
+  xany: false,
+  rtscts: false,
+  hupcl: true,
+  dataBits: 8,
+  stopBits: 1,
+  bufferSize: 64 * 1024,
+  lock: true,
+  parser: parsers.raw,
+  platformOptions: SerialPortBinding.platformOptions
+};
+
+var defaultSetFlags = {
+  brk: false,
+  cts: false,
+  dtr: true,
+  dts: false,
+  rts: true
+};
+
+// deprecate the lowercase version of these options next major release
+var LOWERCASE_OPTIONS = [
+  'baudRate',
+  'dataBits',
+  'stopBits',
+  'bufferSize',
+  'platformOptions'
+];
+
+function correctOptions(options) {
+  LOWERCASE_OPTIONS.forEach(function(name) {
+    var lowerName = name.toLowerCase();
+    if (options.hasOwnProperty(lowerName)) {
+      var value = options[lowerName];
+      delete options[lowerName];
+      options[name] = value;
+    }
+  });
+  return options;
+}
+
+function SerialPort(path, options, callback) {
+  if (typeof callback === 'boolean') {
+    throw new TypeError('`openImmediately` is now called `autoOpen` and is a property of options');
+  }
+
+  if (typeof options === 'function') {
+    callback = options;
+    options = {};
+  }
+
+  options = options || {};
+
+  stream.Stream.call(this);
+
+  if (!path) {
+    throw new TypeError('No path specified');
+  }
+
+  this.path = path;
+
+  var correctedOptions = correctOptions(options);
+  var settings = assign({}, defaultSettings, correctedOptions);
+
+  if (typeof settings.baudRate !== 'number') {
+    throw new TypeError('Invalid "baudRate" must be a number got: ' + settings.baudRate);
+  }
+
+  if (DATABITS.indexOf(settings.dataBits) === -1) {
+    throw new TypeError('Invalid "databits": ' + settings.dataBits);
+  }
+
+  if (STOPBITS.indexOf(settings.stopBits) === -1) {
+    throw new TypeError('Invalid "stopbits": ' + settings.stopbits);
+  }
+
+  if (PARITY.indexOf(settings.parity) === -1) {
+    throw new TypeError('Invalid "parity": ' + settings.parity);
+  }
+
+  FLOWCONTROLS.forEach(function(control) {
+    if (typeof settings[control] !== 'boolean') {
+      throw new TypeError('Invalid "' + control + '" is not boolean');
+    }
+  });
+
+  settings.disconnectedCallback = this._disconnected.bind(this);
+  settings.dataCallback = settings.parser.bind(this, this);
+
+  this.fd = null;
+  this.paused = true;
+  this.opening = false;
+  this.closing = false;
+
+  if (process.platform !== 'win32') {
+    this.bufferSize = settings.bufferSize;
+    this.readable = true;
+    this.reading = false;
+  }
+
+  this.options = settings;
+
+  if (this.options.autoOpen) {
+    // is nextTick necessary?
+    process.nextTick(this.open.bind(this, callback));
+  }
+}
+
+util.inherits(SerialPort, stream.Stream);
+
+SerialPort.prototype._error = function(error, callback) {
+  if (callback) {
+    callback.call(this, error);
+  } else {
+    this.emit('error', error);
+  }
+};
+
+SerialPort.prototype.open = function(callback) {
+  if (this.isOpen()) {
+    return this._error(new Error('Port is already open'), callback);
+  }
+
+  if (this.opening) {
+    return this._error(new Error('Port is opening'), callback);
+  }
+
+  this.paused = true;
+  this.readable = true;
+  this.reading = false;
+  this.opening = true;
+
+  SerialPortBinding.open(this.path, this.options, function(err, fd) {
+    this.opening = false;
+    if (err) {
+      debug('SerialPortBinding.open had an error', err);
+      return this._error(err, callback);
+    }
+    this.fd = fd;
+    this.paused = false;
+
+    if (process.platform !== 'win32') {
+      this.serialPoller = new SerialPortBinding.SerialportPoller(this.fd, function(err) {
+        if (!err) {
+          this._read();
+        } else {
+          this._disconnected(err);
+        }
+      }.bind(this));
+      this.serialPoller.start();
+    }
+
+    this.emit('open');
+    if (callback) { callback.call(this, null) }
+  }.bind(this));
+};
+
+SerialPort.prototype.update = function(options, callback) {
+  if (!this.isOpen()) {
+    debug('update attempted, but port is not open');
+    return this._error(new Error('Port is not open'), callback);
+  }
+
+  var correctedOptions = correctOptions(options);
+  var settings = assign({}, defaultSettings, correctedOptions);
+  this.options.baudRate = settings.baudRate;
+
+  SerialPortBinding.update(this.fd, this.options, function(err) {
+    if (err) {
+      return this._error(err, callback);
+    }
+    if (callback) { callback.call(this, null) }
+  }.bind(this));
+};
+
+SerialPort.prototype.isOpen = function() {
+  return this.fd !== null && !this.closing;
+};
+
+SerialPort.prototype.write = function(buffer, callback) {
+  if (!this.isOpen()) {
+    debug('write attempted, but port is not open');
+    return this._error(new Error('Port is not open'), callback);
+  }
+
+  if (!Buffer.isBuffer(buffer)) {
+    buffer = new Buffer(buffer);
+  }
+
+  debug('write ' + buffer.length + ' bytes of data');
+  SerialPortBinding.write(this.fd, buffer, function(err) {
+    if (err) {
+      debug('SerialPortBinding.write had an error', err);
+      return this._error(err, callback);
+    }
+    if (callback) { callback.call(this, null) }
+  }.bind(this));
+};
+
+if (process.platform !== 'win32') {
+  SerialPort.prototype._read = function() {
+    if (!this.readable || this.paused || this.reading || this.closing) {
+      return;
+    }
+
+    this.reading = true;
+
+    if (!this.pool || this.pool.length - this.pool.used < kMinPoolSpace) {
+      // discard the old pool. Can't add to the free list because
+      // users might have references to slices on it.
+      this.pool = new Buffer(kPoolSize);
+      this.pool.used = 0;
+    }
+
+    // Grab another reference to the pool in the case that while we're in the
+    // thread pool another read() finishes up the pool, and allocates a new
+    // one.
+    var toRead = Math.min(this.pool.length - this.pool.used, ~~this.bufferSize);
+    var start = this.pool.used;
+
+    var _afterRead = function(err, bytesRead, readPool, bytesRequested) {
+      this.reading = false;
+      if (err) {
+        if (err.code && err.code === 'EAGAIN') {
+          if (this.isOpen()) {
+            this.serialPoller.start();
+          }
+        // handle edge case were mac/unix doesn't clearly know the error.
+        } else if (err.code && (err.code === 'EBADF' || err.code === 'ENXIO' || (err.errno === -1 || err.code === 'UNKNOWN'))) {
+          this._disconnected(err);
+        } else {
+          this.fd = null;
+          this.readable = false;
+          this.emit('error', err);
+        }
+        return;
+      }
+
+      // Since we will often not read the number of bytes requested,
+      // let's mark the ones we didn't need as available again.
+      this.pool.used -= bytesRequested - bytesRead;
+
+      if (bytesRead === 0) {
+        if (this.isOpen()) {
+          this.serialPoller.start();
+        }
+      } else {
+        var b = this.pool.slice(start, start + bytesRead);
+
+        // do not emit events if the stream is paused
+        if (this.paused) {
+          if (!this.buffer) {
+            this.buffer = new Buffer(0);
+          }
+          this.buffer = Buffer.concat([this.buffer, b]);
+          return;
+        }
+        this._emitData(b);
+
+        // do not emit events anymore after we declared the stream unreadable
+        if (!this.readable) {
+          return;
+        }
+        this._read();
+      }
+    }.bind(this);
+
+    fs.read(this.fd, this.pool, this.pool.used, toRead, null, function(err, bytesRead) {
+      var readPool = this.pool;
+      var bytesRequested = toRead;
+      _afterRead(err, bytesRead, readPool, bytesRequested);
+    }.bind(this));
+
+    this.pool.used += toRead;
+  };
+
+  SerialPort.prototype._emitData = function(data) {
+    this.options.dataCallback(data);
+  };
+
+  SerialPort.prototype.pause = function() {
+    this.paused = true;
+  };
+
+  SerialPort.prototype.resume = function() {
+    this.paused = false;
+
+    if (this.buffer) {
+      var buffer = this.buffer;
+      this.buffer = null;
+      this._emitData(buffer);
+    }
+
+    // No longer open?
+    if (!this.isOpen()) {
+      return;
+    }
+
+    this._read();
+  };
+} // if !'win32'
+
+SerialPort.prototype._disconnected = function(err) {
+  this.paused = true;
+  this.emit('disconnect', err);
+  if (this.closing) {
+    return;
+  }
+
+  if (this.fd === null) {
+    return;
+  }
+
+  this.closing = true;
+  if (process.platform !== 'win32') {
+    this.readable = false;
+    this.serialPoller.close();
+  }
+
+  SerialPortBinding.close(this.fd, function(err) {
+    this.closing = false;
+    if (err) {
+      debug('Disconnect close completed with error: ', err);
+    }
+    this.fd = null;
+    this.emit('close');
+  }.bind(this));
+};
+
+SerialPort.prototype.close = function(callback) {
+  this.paused = true;
+
+  if (this.closing) {
+    debug('close attempted, but port is already closing');
+    return this._error(new Error('Port is not open'), callback);
+  }
+
+  if (!this.isOpen()) {
+    debug('close attempted, but port is not open');
+    return this._error(new Error('Port is not open'), callback);
+  }
+
+  this.closing = true;
+
+  // Stop polling before closing the port.
+  if (process.platform !== 'win32') {
+    this.readable = false;
+    this.serialPoller.close();
+  }
+  SerialPortBinding.close(this.fd, function(err) {
+    this.closing = false;
+    if (err) {
+      debug('SerialPortBinding.close had an error', err);
+      return this._error(err, callback);
+    }
+
+    this.fd = null;
+    this.emit('close');
+    if (callback) { callback.call(this, null) }
+  }.bind(this));
+};
+
+SerialPort.prototype.flush = function(callback) {
+  if (!this.isOpen()) {
+    debug('flush attempted, but port is not open');
+    return this._error(new Error('Port is not open'), callback);
+  }
+
+  SerialPortBinding.flush(this.fd, function(err, result) {
+    if (err) {
+      debug('SerialPortBinding.flush had an error', err);
+      return this._error(err, callback);
+    }
+    if (callback) { callback.call(this, null, result) }
+  }.bind(this));
+};
+
+SerialPort.prototype.set = function(options, callback) {
+  if (!this.isOpen()) {
+    debug('set attempted, but port is not open');
+    return this._error(new Error('Port is not open'), callback);
+  }
+
+  options = options || {};
+  if (!callback && typeof options === 'function') {
+    callback = options;
+    options = {};
+  }
+
+  var settings = {};
+  for (var i = SET_OPTIONS.length - 1; i >= 0; i--) {
+    var flag = SET_OPTIONS[i];
+    if (options[flag] !== undefined) {
+      settings[flag] = options[flag];
+    } else {
+      settings[flag] = defaultSetFlags[flag];
+    }
+  }
+
+  SerialPortBinding.set(this.fd, settings, function(err) {
+    if (err) {
+      debug('SerialPortBinding.set had an error', err);
+      return this._error(err, callback);
+    }
+    if (callback) { callback.call(this, null) }
+  }.bind(this));
+};
+
+SerialPort.prototype.drain = function(callback) {
+  if (!this.isOpen()) {
+    debug('drain attempted, but port is not open');
+    return this._error(new Error('Port is not open'), callback);
+  }
+
+  SerialPortBinding.drain(this.fd, function(err) {
+    if (err) {
+      debug('SerialPortBinding.drain had an error', err);
+      return this._error(err, callback);
+    }
+    if (callback) { callback.call(this, null) }
+  }.bind(this));
+};
+
+SerialPort.parsers = parsers;
+SerialPort.list = SerialPortBinding.list;
+
+// Write a depreciation warning once
+Object.defineProperty(SerialPort, 'SerialPort', {
+  get: function() {
+    console.warn('DEPRECATION: Please use `require(\'serialport\')` instead of `require(\'serialport\').SerialPort`');
+    Object.defineProperty(SerialPort, 'SerialPort', {
+      value: SerialPort
+    });
+    return SerialPort;
+  },
+  configurable: true
+});
+
+module.exports = SerialPort;
+
+
+/***/ }),
+/* 194 */
+/***/ (function(module, exports) {
+
+module.exports = require("child_process");
+
+/***/ }),
+/* 195 */
+/***/ (function(module, exports) {
+
+module.exports = require("net");
+
+/***/ }),
+/* 196 */
+/***/ (function(module, exports) {
+
+module.exports = require("stream");
+
+/***/ }),
+/* 197 */
+/***/ (function(module, exports) {
+
+module.exports = require("tty");
 
 /***/ })
 /******/ ]);

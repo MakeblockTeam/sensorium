@@ -25,6 +25,7 @@
     "babel-preset-stage-0": "^6.24.1",
     "blessed": "^0.1.81",
     "chai": "^3.5.0",
+    "events": "^1.1.1",
     "mocha": "^2.5.3",
     "serialport": "^4.0.7",
     "webpack": "^2.6.0",

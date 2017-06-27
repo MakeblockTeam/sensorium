@@ -50,8 +50,9 @@ function Parse() {
         tempBuf = [];
       } 
       // end data
-      else if (checkStart(data1, data2)) {
+      else if (checkEnd(data1, data2)) {
         isAllowRecv = false;
+        // console.log('doParse 3: ', tempBuf);
         let resultBuf = tempBuf.slice(0, recvLength - 1);
         // 解析正确的数据后，清空 buffer
         this.cacheBuffer = [];
