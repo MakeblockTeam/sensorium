@@ -1,11 +1,13 @@
 var blessed = require('blessed');
 var fs = require('fs');
 var Log = require('log');
+var sensorium = require('./browser/sensorium');
+
 // var dataman = require('test/dataman');
-var Mcore = require("./src/protocol/mcore");
-var Auriga = require("./src/protocol/auriga");
-var Orion = require("./src/protocol/orion");
-var logger = require('./src/log/log4js').logger;
+// var Mcore = require("./src/protocol/mcore");
+// var Auriga = require("./src/protocol/auriga");
+// var Orion = require("./src/protocol/orion");
+var logger = require('log4js').getLogger();
 var log = new Log('debug', fs.createWriteStream('cli.log'));
 
 var blocksTableColumns = ['{bold}Command{/bold}'];
@@ -103,18 +105,28 @@ var COLORS = ['red', 'green', 'blue', 'white', 'yellow'];
 
 //   blocksTable.setRows(rows);
 // }, 100);
+// var mcore = sensorium('Mcore');
+// mcore({
+//   send: function(){
 
-var mcore = new Mcore({
-    "driver": "serial"
-});
+//   },
+//   addListner: function(){
 
-var auriga = new Auriga({
-    "driver": "serial"
-});
+//   }
+// });
 
-var orion = new Orion({
-    "driver": "serial"
-});
+
+// var mcore = new Mcore({
+//     "driver": "serial"
+// });
+
+// var auriga = new Auriga({
+//     "driver": "serial"
+// });
+
+// var orion = new Orion({
+//     "driver": "serial"
+// });
 
 // Focus our element.
 codeBox.focus();

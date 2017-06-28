@@ -25,5 +25,6 @@ function Sensorium (boardName, opts){
 if(typeof window != "undefined") {
   window.Sensorium = Sensorium;
 }
-// cmd
+// es6
 export default Sensorium;
+// module.exports = Sensorium;
