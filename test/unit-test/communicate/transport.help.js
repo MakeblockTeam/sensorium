@@ -5,7 +5,6 @@ const Emitter = new Event.EventEmitter();
 //服务端
 function Server(time){
   this.messageTimeout = time || 30;
-
   this.request = function(buf){
     let this_ = this;
     let time = Math.floor(Math.random() * 20 - 10);
@@ -18,6 +17,7 @@ function Server(time){
 
   this.response = function(buf){
     let buff = [0xff, 0x55, buf[3], 0x02, 0xe6, 0x9e, 0x16, 0x41, 0x0d, 0x0a];
+    console.log('response', buf[3], buff);
     Emitter.emit('data', buff);
   }
 }
@@ -25,6 +25,7 @@ function Server(time){
 function SerialPort(){
   const server = new Server();
   this.send = function(buf){
+    console.log('SerialPort send', buf[3], buf);
     server.request(buf);
   }
   this.on = function(event, callback){
@@ -33,8 +34,6 @@ function SerialPort(){
     });
   };
 }
-
-// console.log(Command.pipe);
 
 const serialPort = new SerialPort();
 const Transport = {
@@ -46,7 +45,7 @@ const Transport = {
   //old name is onReceive
   addListener: function(pipe){
     serialPort.on('data', function(buff) {
-      // console.log('transport receive', buff);
+      // console.log('transport receive', buff[2], buff);
       pipe(buff);
     });
   }

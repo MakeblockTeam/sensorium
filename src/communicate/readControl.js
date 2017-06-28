@@ -131,7 +131,7 @@ const ReadControl = {
    * @param  {Number} value request result
    */
   callbackProxy: function(index, value){
-    // console.log(index, this.readRecord);
+    // console.log(index);
     this.readRecord[index].callback(value);
     this.removeRecord(index);
   }

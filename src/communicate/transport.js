@@ -2,7 +2,7 @@
  * @fileOverview 存储指令的传输通道：蓝牙，串口，2.4G等，一个单例。
  */
 //eg.
-// import serialPort from 'serialport';
+import serialPort from 'serialport';
 // const serialport = require('serialport');
 
 //单例
