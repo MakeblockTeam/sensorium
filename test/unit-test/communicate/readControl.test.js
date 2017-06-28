@@ -80,7 +80,6 @@ describe('test doParse', function() {
       if(i++ < 255){
         Cammand.execRead(UltrasonicProtocol, function(val){
           emitFunc(function(){
-            // console.log(Object.keys(ReadControl.readRecord).length);
             done();
           });
         });
@@ -92,7 +91,20 @@ describe('test doParse', function() {
 
   //模拟匀速(10ms/条)创建 256 条请求
   it('should create 256 readRecords and some of them will be ignored', function() {
-    
+    resetReadControlForTest();
+    let i = 0;
+    let emitFunc = throttler(366);
+    let timer = setInterval(function(){
+      if(i++ < 366){
+        Cammand.execRead(UltrasonicProtocol, function(val){
+          emitFunc(function(){
+            done();
+          });
+        });
+      }else{
+        clearInterval(timer);
+      }
+    }, 10);
   });
 
   //模拟随机速度(10~100ms/条)创建 255 条请求

@@ -1,7 +1,8 @@
 var blessed = require('blessed');
 var fs = require('fs');
 var Log = require('log');
-var sensorium = require('./browser/sensorium');
+var serialPort = require('serialport');
+var Sensorium = require('./browser/sensorium');
 
 // var dataman = require('test/dataman');
 // var Mcore = require("./src/protocol/mcore");
@@ -105,15 +106,17 @@ var COLORS = ['red', 'green', 'blue', 'white', 'yellow'];
 
 //   blocksTable.setRows(rows);
 // }, 100);
-// var mcore = sensorium('Mcore');
-// mcore({
-//   send: function(){
 
-//   },
-//   addListner: function(){
+var mcore = Sensorium('Mcore');
+console.log(serialPort);
+mcore.setTransport({
+  send: function(){
 
-//   }
-// });
+  },
+  addListner: function(){
+
+  }
+});
 
 
 // var mcore = new Mcore({

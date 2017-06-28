@@ -22,9 +22,7 @@ function Sensorium (boardName, opts){
   return new board(opts);
 }
 
-if(typeof window != "undefined") {
-  window.Sensorium = Sensorium;
-}
 // es6
-export default Sensorium;
-// module.exports = Sensorium;
+// export default Sensorium;
+// cmd
+module.exports = Sensorium;

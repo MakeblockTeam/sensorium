@@ -4,7 +4,9 @@ module.exports = {
   entry: './src/protocol/index.js',
   output: {
     path: path.resolve(__dirname, 'browser'),
-    filename: 'sensorium.js'
+    filename: 'sensorium.js',
+    library: "Sensorium",
+    libraryTarget: "umd"
   },
   module: {
     loaders: [

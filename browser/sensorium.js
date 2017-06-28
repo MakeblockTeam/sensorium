@@ -1,4 +1,14 @@
-/******/ (function(modules) { // webpackBootstrap
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(typeof exports === 'object' && typeof module === 'object')
+		module.exports = factory();
+	else if(typeof define === 'function' && define.amd)
+		define([], factory);
+	else if(typeof exports === 'object')
+		exports["Sensorium"] = factory();
+	else
+		root["Sensorium"] = factory();
+})(this, function() {
+return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
 /******/
@@ -3131,10 +3141,6 @@ exports.default = EncoderMotorBase;
 "use strict";
 
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
 var _mcore = __webpack_require__(66);
 
 var _mcore2 = _interopRequireDefault(_mcore);
@@ -3175,12 +3181,10 @@ function Sensorium(boardName, opts) {
   return new board(opts);
 }
 
-if (typeof window != "undefined") {
-  window.Sensorium = Sensorium;
-}
 // es6
-exports.default = Sensorium;
-// module.exports = Sensorium;
+// export default Sensorium;
+// cmd
+module.exports = Sensorium;
 
 /***/ }),
 /* 66 */
@@ -8537,4 +8541,5 @@ exports.default = Neuron;
 
 /***/ })
 /******/ ]);
+});
 //# sourceMappingURL=sensorium.js.map
