@@ -1888,9 +1888,9 @@ var Board = function () {
   }, {
     key: 'setTransport',
     value: function setTransport(transport) {
-      if (transport && typeof transport.send == 'function' && typeof transport.addListener == 'function') {
+      if (transport && typeof transport.send == 'function' && typeof transport.onReceived == 'function') {
         _transport2.default.send = transport.send;
-        transport.addListener(_command2.default.pipe.bind(_command2.default));
+        transport.onReceived(_command2.default.pipe.bind(_command2.default));
       } else {
         // console.warn('')
       }
@@ -2997,9 +2997,7 @@ var Transport = {
     // console.log('transport send: ', buf);
     serialPort.send(buf);
   },
-
-  //old name is onReceive
-  addListener: function addListener(pipe) {
+  onReceived: function onReceived(pipe) {
     serialPort.on('data', function (buff) {
       // console.log(buff);
       pipe(buff);

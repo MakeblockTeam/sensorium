@@ -37,7 +37,7 @@
           //serialPort.send(buf);
         },
     
-        addListener: function(parse) {
+        onReceived: function(parse) {
           // serialPort.on('data', function(buff) {
           //   parse.doParse(buff);
           // });
@@ -51,7 +51,7 @@
       //装上收发功能
       mcore.setTransport({
         send: transport.send,
-        addListener: transport.addListener
+        onReceived: transport.onReceived
       });
       
       exec(mcore);

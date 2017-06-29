@@ -73,9 +73,9 @@ class Board {
    */
   //防止重复 setTransport 导致事件监听绑定多次
   setTransport(transport) {
-    if(transport && typeof transport.send == 'function' && typeof transport.addListener == 'function' ){
+    if(transport && typeof transport.send == 'function' && typeof transport.onReceived == 'function' ){
       Transport.send = transport.send;
-      transport.addListener(Command.pipe.bind(Command));
+      transport.onReceived(Command.pipe.bind(Command));
     }else{
       // console.warn('')
     }
