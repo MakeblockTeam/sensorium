@@ -10,7 +10,7 @@ npm install
 ```
 
 # Generate library
-Generate `sensorium.js` width npm. The target file is `/browser`.
+Generate `sensorium.js` width npm. The target file is in `/browser`.
 
 ```
 webpack
@@ -19,30 +19,48 @@ webpack
 # Usage
 
 ## browser
-inclue the file `/browser/sensorium.js` in your project.
-
+included the file `/browser/sensorium.js` in your project.
+actually you also need [serialport.js](https://www.npmjs.com/package/serialport) included.
 ```
 <script src="sensorium.js"></script>
+<script src="serialport.js"></script>
 <script>
-    var mcore = new Mcore();
+  //firstly initialize the mainboard
+  var mcore = Sensorium('Mcore');
 
-    // set motor move.
-    mcore.setDcMotor(10, 255);
+  //secondly set transport through bluetooth or serialport like this:
+  var serialPort = new SerialPort('/dev/ttyUSB0', { baudRate:115200 });
 
-    // get ultrasonic sensor's value
-    mcore.getSensorValue('ultrasonic', {"port": 3}, function(val) { console.log(val);});
+  // set speed and run the motor.
+  mcore.DcMotor(1).speed(200).run();
+
+  // or run with 1000ms and then run reversely
+  mcore.DcMotor(1).speed(200).run();
+  setTimeout(function(){
+    mcore.DcMotor(1).runReverse();
+  }, 1000);
+
+  // read ultrasonic sensor's value
+  mcore.Ultrasonic(3).getData(function(val){ 
+    console.log(val);
+  });
 </script>
 
 ```
 ## node
+firstly install the dependencies or devDependencies like this:
+```
+npm install sensorium --save-dev
+npm install serialport --save-dev
+```
 
 ```js
 var Sensorium = require("sensorium");
+var SerialPort = require('serialport');
+var serialPort = new SerialPort('/dev/ttyUSB0', { baudRate:115200 });
 
 var transport = {
   send: function(buf) {
-    console.log(buf);
-
     serialPort.write(buf, function(err, results) {
       if (err) {
         console.warn(err);
@@ -51,124 +69,26 @@ var transport = {
     });
   },
 
-  onReceived: function(parse) {
+  onReceived: function(pipe) {
     serialPort.on('data', function(buff) {
-      parse.doParse(buff);
+      pipe(buff);
     });
   }
 };
 
-var auriga = new Sensorium.Auriga({
-  "transport": transport
+var auriga = Sensorium('Auriga');
+auriga.setTransport(transport);
+
+// or use Mcore
+// var mcore = Sensorium('Mcore');
+// mcore.setTransport(transport);
+
+// run DcMotor
+auriga.DcMotor(1).speed(200).run();
+
+// read ultrasonic sensor's value
+auriga.Ultrasonic(3).getData(function(val){ 
+  console.log(val);
 });
 
-var mcore = new Sensorium.Mcore({
-  "transport": transport
-});
-
-// 亮灯
-var ledPanel = auriga.ledPanel();
-ledPanel.turnOn(100,0,0);
-setTimeout(function() {
-  ledPanel.turnOff();
-}, 3000);
-
-// 获取超声波的值
-var ultrasonic = auriga.ultrasonic(7);
-setInterval(function() {
-  ultrasonic.onData(function(val) {
-    console.log(val);
-  });
-}, 500);
-
-
-// 神经元
-var engine = new Sensorium.Neuron({
-  "driver": {
-    send: function(buf) {
-      // 最后的数据走这里
-      serialPort.write(tempBuf);
-    },
-
-    onReceived: function(parse, driver) {
-      serialPort.on('data', function(data) {
-        parse.checksumRcvbuf(data, driver);
-      });
-    }
-  }
-})
-
 ```
-
-
-## cli test tool
-Use [blessed](https://github.com/chjj/blessed) for comandline tool.
-Connect your device to computer with usb, such as mbot.
-
-open the terminal and run cli tool
-
-```
-node cli.js
-```
-then input your method in the code area
-
-```
-mcore.setDcMotor(9, 200);
-
-mcore.setLed(0, 255, 0, 0);
-mcore.turnOffLed(0);
-
-mcore.setTone("C4", 250);
-
-setInterval(function(done) { mcore.getSensorValue('ultrasonic', {"port": 3}, function(val) { });done(); }, 500)
-
-setInterval(function() { mcore.getSensorValue('linefollower', {"port": 2}, function(val) { }); }, 500)
-```
-
-dobule click key `ESC` to close the cli tool.
-
-# Unit Test
-Use [mocha](http://mochajs.org/) for unit test.In the project root folder, type the command.
-
-```
-$ npm install mocha -g
-
-# 会自动搜寻 `test/` 目录下的 js 文件进行测试
-$ mocha
-
-# 测试某个文件
-$ mocha test/auriga_test.js
-
-# 测试某个文件中的某个用例
-$ mocha test/auriga_test.js -g "板载温度传感器"
-
-```
-
-# Api documention (temp)
-
-Use [jsdoc](http://usejsdoc.org/) for documention generation.
-```
-npm run doc
-```
-
-open `docs/api/index.html` in browser.
-
-# Api list
-http://km.makeblock.com/pages/viewpage.action?pageId=6685828
-
-
-```
-# package publish
-
-首次发布需要注册[npm](https://www.npmjs.com/)的账号，并在bash中添加用户信息
-
-```
-npm adduser
-Username: <your npm username>
-Password: <your npm password>
-Email: <your npm email>
-
-Logged in as <your username> on https://registry.npmjs.org/.
-```
-
-之后发布只需修改 `package.json` 的 `version`，并执行 `npm publish` 即可。
