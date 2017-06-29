@@ -1,8 +1,14 @@
 var blessed = require('blessed');
 var fs = require('fs');
 var Log = require('log');
-var Mcore = require("./src/protocol/mcore");
-var logger = require('./src/log/log4js').logger;
+var SerialPort = require('serialport');
+var Sensorium = require('./browser/sensorium');
+
+// var dataman = require('test/dataman');
+// var Mcore = require("./src/protocol/mcore");
+// var Auriga = require("./src/protocol/auriga");
+// var Orion = require("./src/protocol/orion");
+var logger = require('log4js').getLogger();
 var log = new Log('debug', fs.createWriteStream('cli.log'));
 
 var blocksTableColumns = ['{bold}Command{/bold}'];
@@ -101,9 +107,44 @@ var COLORS = ['red', 'green', 'blue', 'white', 'yellow'];
 //   blocksTable.setRows(rows);
 // }, 100);
 
-var mcore = new Mcore({
-    "driver": "serial"
+var mcore = Sensorium('Mcore');
+// console.log(typeof serialPort);
+var port = new SerialPort('/dev/ttyUSB0', { baudRate:115200 }); //linux
+ 
+port.on('open', function() {
+  port.write('main screen turn on', function(err) {
+    if (err) {
+      return console.log('Error on write: ', err.message);
+    }
+    console.log('message written');
+  });
 });
+// open errors will be emitted as an error event 
+port.on('error', function(err) {
+  console.log('Error: ', err.message);
+});
+
+// mcore.setTransport({
+//   send: function(){
+
+//   },
+//   addListner: function(){
+
+//   }
+// });
+
+
+// var mcore = new Mcore({
+//     "driver": "serial"
+// });
+
+// var auriga = new Auriga({
+//     "driver": "serial"
+// });
+
+// var orion = new Orion({
+//     "driver": "serial"
+// });
 
 // Focus our element.
 codeBox.focus();

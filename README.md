@@ -1,6 +1,8 @@
 #sensorium
 Sensorium is an api library for makeblock mainboards. It includes `mcore`, `orion`, `auriga` and  `megapi`.
 
+You can use it in browser, node enviroment.
+
 # Install
 
 ```
@@ -8,62 +10,85 @@ npm install
 ```
 
 # Generate library
-Generate `sensorium.js` width npm. The target file is `/browser`.
+Generate `sensorium.js` width npm. The target file is in `/browser`.
 
 ```
-npm run build
+webpack
 ```
 
 # Usage
 
 ## browser
-inclue the file `/browser/sensorium.js` in your project.
-
+included the file `/browser/sensorium.js` in your project.
+actually you also need [serialport.js](https://www.npmjs.com/package/serialport) included.
 ```
 <script src="sensorium.js"></script>
+<script src="serialport.js"></script>
 <script>
-    var mcore = new Mcore();
+  //firstly initialize the mainboard
+  var mcore = Sensorium('Mcore');
 
-    // set motor move.
-    mcore.setDcMotor(10, 255);
+  //secondly set transport through bluetooth or serialport like this:
+  var serialPort = new SerialPort('/dev/ttyUSB0', { baudRate:115200 });
 
-    // get ultrasonic sensor's value
-    mcore.getSensorValue('ultrasonic', 3, function(val) {
-        console.log(val);
-    })
+  // set speed and run the motor.
+  mcore.DcMotor(1).speed(200).run();
+
+  // or run with 1000ms and then run reversely
+  mcore.DcMotor(1).speed(200).run();
+  setTimeout(function(){
+    mcore.DcMotor(1).runReverse();
+  }, 1000);
+
+  // read ultrasonic sensor's value
+  mcore.Ultrasonic(3).getData(function(val){ 
+    console.log(val);
+  });
 </script>
 
 ```
-
-## cli test tool
-Use [blessed](https://github.com/chjj/blessed) for comandline tool.
-Connect your device to computer with usb, such as mbot.
-
-open the terminal and run cli tool
-
+## node
+firstly install the dependencies or devDependencies like this:
 ```
-node cli.js
-```
-then input your method in the code area
-
-```
-mcore.setDcMotor(9, 200);
+npm install sensorium --save-dev
+npm install serialport --save-dev
 ```
 
-# Unit Test
-Use [mocha](http://mochajs.org/) for unit test.In the project root folder, type the command.
+```js
+var Sensorium = require("sensorium");
+var SerialPort = require('serialport');
+var serialPort = new SerialPort('/dev/ttyUSB0', { baudRate:115200 });
+
+var transport = {
+  send: function(buf) {
+    serialPort.write(buf, function(err, results) {
+      if (err) {
+        console.warn(err);
+        return -1;
+      }
+    });
+  },
+
+  onReceived: function(pipe) {
+    serialPort.on('data', function(buff) {
+      pipe(buff);
+    });
+  }
+};
+
+var auriga = Sensorium('Auriga');
+auriga.setTransport(transport);
+
+// or use Mcore
+// var mcore = Sensorium('Mcore');
+// mcore.setTransport(transport);
+
+// run DcMotor
+auriga.DcMotor(1).speed(200).run();
+
+// read ultrasonic sensor's value
+auriga.Ultrasonic(3).getData(function(val){ 
+  console.log(val);
+});
 
 ```
-$ npm install mocha -g
-$ mocha
-```
-
-# Api documention
-
-Use [jsdoc](http://usejsdoc.org/) for documention generation.
-```
-npm run doc
-```
-
-open `docs/api/index.html` in browser.
-

@@ -1,9 +1,28 @@
-var Auriga = require("./auriga");
-var Mcore = require("./mcore");
-var Orion = require("./orion");
-var MegaPi = require("./megapi");
+import Mcore from './mcore';
+import Orion from './orion';
+import Auriga from './auriga';
+import MegaPi from './megaPi';
+import Neuron from './neuron';
 
-window.Auriga = Auriga;
-window.Mcore = Mcore;
-window.Orion = Orion;
-window.MegaPi = MegaPi;
+const boards = {
+    "Mcore":  Mcore,
+    "Orion":  Orion,
+    "Auriga": Auriga,
+    "MegaPi": MegaPi,
+    "Neuron": Neuron
+}
+
+function Sensorium (boardName, opts){
+  //匹配对应的板子
+  let board = boards[boardName];
+  if(typeof board == 'undefined'){
+    throw new Error('sorry, the board could not be supported!');
+  }
+  //TO IMPROVE: 需释放上一次板子实例
+  return new board(opts);
+}
+
+// es6
+// export default Sensorium;
+// cmd
+module.exports = Sensorium;

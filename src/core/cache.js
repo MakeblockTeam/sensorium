@@ -9,7 +9,6 @@ function Cache() {
         "version": "0e.103.12"
     };
 
-
     this.mockData = {};
 }
 

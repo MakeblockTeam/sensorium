@@ -13,30 +13,84 @@
 </head>
 <body>
     <div id="msg"></div>
-</body>
 
     <script>
+      // console.log = function(str) {
+      //     document.getElementById("msg").innerHTML += (str + '<br><br>');
+      // };
+      var appendResult = function(str){
+        document.getElementById("msg").innerHTML += (str + '<br><br>');
+      }
 
-        console.log = function(str) {
-            document.getElementById("msg").innerHTML += (str + '<br><br>');
-        };
+      var exec = function(board){
+        for(var name in board){
+          var api = board[name];
+          if(board.hasOwnProperty(name) && typeof api == 'function'){
+            console.log(api(1, 2));
+          }
+        }
+      }
 
-        // var auriga = new Auriga({
-        //     driver: 'makeblockhd'
-        // });
+      var transport = {
+        send: function(buf) {
+          console.log(buf);
+          //serialPort.send(buf);
+        },
+    
+        addListener: function(parse) {
+          // serialPort.on('data', function(buff) {
+          //   parse.doParse(buff);
+          // });
+          // ble.startListenReceivedData(func_success, func_fail);
+        }
+      };
 
-        // auriga.setFirmwareMode(1);
+      // //创建一个板子
+      var mcore = Sensorium('Mcore');
+      // debugger;
+      //装上收发功能
+      mcore.setTransport({
+        send: transport.send,
+        addListener: transport.addListener
+      });
+      
+      exec(mcore);
 
-        // auriga.getSensorValue("ultrasonic", {
-        //     port:6,
-        //     slot:1
-        // }, function(val) {
-        //     console.log(val);
-        // });
+      //SevenSegment
+      //连接并建立模块实例
+      mcore.SevenSegment(1);
+      //再次连接同一个模块，会调用已存在的模块实例
+      mcore.SevenSegment(1).showNumber(111);
 
-        var mcore = new Mcore({
-            driver: 'serial'
-        });
+      //DcMotor
+      //连接并建立模块实例
+      mcore.DcMotor(1);
+      //再次连接同一个模块，会调用已存在的模块实例
+      mcore.DcMotor(1).speed(111).run().runReverse().stop();
+
+
+      // var mcore = new Sensorium.Mcore({
+      //   "transport": transport
+      // });
+
+      // var auriga = new Sensorium.Auriga({
+      //   "transport": transport
+      // });
+
+      // var megaPi = new Sensorium.MegaPi({
+      //   "transport": transport
+      // });
+
+      // var orion = new Sensorium.Orion({
+      //   "transport": transport
+      // });
+
+      // mcore.dcMotor(1,1).start(100);
+
+      // mcore.ultrasonic(1,1).onData(function(val) {
+      //   console.log(val);
+      // });
 
     </script>
+</body>
 </html>
