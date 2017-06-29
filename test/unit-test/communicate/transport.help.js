@@ -16,14 +16,12 @@ const Transport = {
   send: function(buf){
     serialPort.send(buf);
   },
-
-  //old name is onReceive
-  addListener: function(pipe){
+  onReceived: function(pipe){
     serialPort.on('data', function(buff) {
       pipe(buff);
     });
   }
 };
 
-Transport.addListener(Command.pipe.bind(Command));
+Transport.onReceived(Command.pipe.bind(Command));
 export default Transport;
