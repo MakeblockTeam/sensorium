@@ -2,18 +2,15 @@ import Mcore from './mcore';
 import Orion from './orion';
 import Auriga from './auriga';
 import MegaPi from './megaPi';
-import Neuron from './neuron';
 
 const boards = {
     "Mcore":  Mcore,
     "Orion":  Orion,
     "Auriga": Auriga,
-    "MegaPi": MegaPi,
-    "Neuron": Neuron
+    "MegaPi": MegaPi
 }
 
-function Sensorium (boardName, opts){
-  //匹配对应的板子
+function Sensorium (boardName, opts) {
   let board = boards[boardName];
   if(typeof board == 'undefined'){
     throw new Error('sorry, the board could not be supported!');
@@ -22,7 +19,4 @@ function Sensorium (boardName, opts){
   return new board(opts);
 }
 
-// es6
-// export default Sensorium;
-// cmd
 module.exports = Sensorium;

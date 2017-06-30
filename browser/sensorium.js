@@ -513,13 +513,13 @@ var _transport = __webpack_require__(63);
 
 var _transport2 = _interopRequireDefault(_transport);
 
-var _readControl = __webpack_require__(115);
+var _read = __webpack_require__(115);
 
-var _readControl2 = _interopRequireDefault(_readControl);
+var _read2 = _interopRequireDefault(_read);
 
-var _writeControl = __webpack_require__(119);
+var _write = __webpack_require__(119);
 
-var _writeControl2 = _interopRequireDefault(_writeControl);
+var _write2 = _interopRequireDefault(_write);
 
 var _parse = __webpack_require__(120);
 
@@ -559,7 +559,7 @@ var Command = function () {
   }, {
     key: 'execWrite',
     value: function execWrite(buf) {
-      _writeControl2.default.addRequest(this.exec.bind(this), buf);
+      _write2.default.addRequest(this.exec.bind(this), buf);
     }
 
     /**
@@ -572,7 +572,7 @@ var Command = function () {
   }, {
     key: 'execRead',
     value: function execRead(buf, callback) {
-      _readControl2.default.addRequest(this.exec.bind(this), buf, callback);
+      _read2.default.addRequest(this.exec.bind(this), buf, callback);
       //TODO: 谨慎执行超时重发
     }
 
@@ -601,7 +601,7 @@ var Command = function () {
   }, {
     key: 'emitCallback',
     value: function emitCallback(index, value) {
-      _readControl2.default.callbackProxy.apply(_readControl2.default, arguments);
+      _read2.default.callbackProxy.apply(_read2.default, arguments);
     }
   }]);
   return Command;
@@ -751,20 +751,6 @@ function protocolAssembler() {
     speed = _utils2.default.limitValue(speed);
     return bufAssembler({ mode: 0x02, id: 0x0a }, port, speed & 0xff, speed >> 8 & 0xff);
   };
-
-  /**
-   * Set encoder motor speed.
-   * @param {number} slot  slot number, vailable is: 1,2
-   * @param {number} speed speed, the range is -255 ~ 255
-   * @example
-   *     ff 55 07 00 02 3d 00 01 64 00
-   */
-  //TO COMFIRM: 缺少一个 angle
-  // this.setEncoderMotorOnBoard = function(slot, speed) {
-  //   let port = 0x00;
-  //   speed = Utils.limitValue(speed);
-  //   return bufAssembler({mode: 0x02, id: 0x3d}, port, slot, speed & 0xff, (speed >> 8) & 0xff);
-  // };
 
   /**
    * Set encoder motor speed.
@@ -1437,26 +1423,13 @@ var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Electronic =
+
 /**
  * Electron类，电子模块基类
- * @param {number} port - 电子模块port口 
+ * @param {number} port - 电子模块port口
  * @param {number} slot - 电子模块slot口
  */
 function Electronic(port, slot) {
-  // port = defineNumber(port);
-  // slot = defineNumber(slot);
-  // let id = this.constructor.name + '_' + port + '_' + slot;
-  // let api = new Api(Transport.get());
-  // if(id in POOL) {
-  //   return POOL[id];
-  // } else {
-  //   this.port = port;
-  //   this.slot = slot;
-  //   this.api = api;
-  //   POOL[id] = this;
-  //   return this;
-  // }
-
   (0, _classCallCheck3.default)(this, Electronic);
 };
 
@@ -1716,7 +1689,7 @@ var Settings = {
     READ_BYTES_INDEX: 2,
     // 数据发送默认的驱动driver: makeblockhd, cordova
     DEFAULT_CONF: {},
-    SUPPORTLIST: ['Mcore', 'Auriga', 'MegaPi', 'Orion', 'Arduino', 'Neuron']
+    SUPPORTLIST: ['Mcore', 'Auriga', 'MegaPi', 'Orion', 'Arduino']
 };
 
 exports.default = Settings;
@@ -2985,29 +2958,12 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 /**
- * @fileOverview 存储指令的传输通道：蓝牙，串口，2.4G等，一个单例。
+ * @fileOverview 指令的传输通道：蓝牙，串口，2.4G。
  */
-//eg.
-// import serialPort from 'serialport';
-// const serialPort = require('serialport');
 
-//单例
 var Transport = {
-  send: function send(buf) {
-    // console.log('transport send: ', buf);
-    serialPort.send(buf);
-  },
-  onReceived: function onReceived(pipe) {
-    serialPort.on('data', function (buff) {
-      // console.log(buff);
-      pipe(buff);
-    });
-    // ble.startListenReceivedData(function(buff){
-    //   pipe(buff);
-    // }, function(){
-    //   console.log('failure');
-    // });
-  }
+  send: function send(buf) {},
+  onReceived: function onReceived(pipe) {}
 };
 
 exports.default = Transport;
@@ -3155,22 +3111,16 @@ var _megaPi = __webpack_require__(163);
 
 var _megaPi2 = _interopRequireDefault(_megaPi);
 
-var _neuron = __webpack_require__(164);
-
-var _neuron2 = _interopRequireDefault(_neuron);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var boards = {
   "Mcore": _mcore2.default,
   "Orion": _orion2.default,
   "Auriga": _auriga2.default,
-  "MegaPi": _megaPi2.default,
-  "Neuron": _neuron2.default
+  "MegaPi": _megaPi2.default
 };
 
 function Sensorium(boardName, opts) {
-  //匹配对应的板子
   var board = boards[boardName];
   if (typeof board == 'undefined') {
     throw new Error('sorry, the board could not be supported!');
@@ -3179,9 +3129,6 @@ function Sensorium(boardName, opts) {
   return new board(opts);
 }
 
-// es6
-// export default Sensorium;
-// cmd
 module.exports = Sensorium;
 
 /***/ }),
@@ -4246,7 +4193,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //5、后续请求依次遵循这个规则
 //6、满队列的情况下，新增请求时清空那些超时（2s?）的请求，再进入
 
-// import ValueWrapper from '../core/value_wrapper';
+
 /**
  * read request controler
  */
@@ -4283,7 +4230,7 @@ var ReadControl = {
 
   /**
    * add a record of time and callback
-   * @param  {Number}   index    
+   * @param  {Number}   index
    * @param  {Function} callback [description]
    */
   addRecord: function addRecord(index, callback) {
@@ -4301,7 +4248,7 @@ var ReadControl = {
   },
 
   /**
-   * this function is drived by 
+   * this function is drived by
    * @param {Function}   execFunc  addRequest execute as proxy
    * @param {Array}   buf      rj25 buffer
    * @param {Function} callback [description]
@@ -4344,7 +4291,7 @@ var ReadControl = {
 
   /**
    * 执行发送
-   * @param  {Function} execFunc  
+   * @param  {Function} execFunc
    * @param  {Number} index    [description]
    * @param  {[type]} buf      [description]
    * @return {[type]}          [description]
@@ -4407,14 +4354,14 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 /**
- * write request controler
+ * write request controler.
  */
 var TIME_INTERVAL = 50;
 
 var WriteControl = {
   writeRecord: {},
   /**
-   * this function is drived by 
+   * this function is drived by
    * @param {Function}   execFunc  addRequest execute as proxy
    * @param {Array}   buf      rj25 buffer
    * @param {Function} callback [description]
@@ -4659,46 +4606,24 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var DcMotor = function (_MotorBase) {
   (0, _inherits3.default)(DcMotor, _MotorBase);
 
-  /**
-   * DC Motor
-   * @constructor
-   * @param {number} port
-   */
   function DcMotor(port) {
     (0, _classCallCheck3.default)(this, DcMotor);
     return (0, _possibleConstructorReturn3.default)(this, (DcMotor.__proto__ || (0, _getPrototypeOf2.default)(DcMotor)).call(this, port));
   }
 
-  /**
-   * dcMoter run
-   * @return {Object} the instance
-   */
-
-
   (0, _createClass3.default)(DcMotor, [{
+    key: 'reverse',
+    value: function reverse() {
+      this.speed(-1 * this.args.speed);
+      return this;
+    }
+  }, {
     key: 'run',
     value: function run() {
-      //组装buf
       var buf = _utils2.default.composer(_cmd2.default.setDcMotor, [this.args.port, this.args.speed]);
-      //执行
       _command2.default.execWrite(buf);
       return this;
     }
-
-    /**
-     * dcMoter run reversely
-     * @return {Object} the instance
-     */
-
-  }, {
-    key: 'runReverse',
-    value: function runReverse() {
-      this.speed(-1 * this.args.speed);
-      return this.run();
-    }
-
-    //主控支持戳：描述各主控的支持情况
-
   }], [{
     key: 'supportStamp',
     value: function supportStamp() {
@@ -4768,11 +4693,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var StepperMotor = function (_MotorBase) {
   (0, _inherits3.default)(StepperMotor, _MotorBase);
 
-  /**
-   * DC Motor
-   * @constructor
-   * @param {number} port
-   */
   function StepperMotor(port) {
     (0, _classCallCheck3.default)(this, StepperMotor);
 
@@ -4799,34 +4719,23 @@ var StepperMotor = function (_MotorBase) {
     }
 
     /**
-     * dcMoter run
+     * run reversely
      * @return {Object} the instance
      */
 
+  }, {
+    key: 'reverse',
+    value: function reverse() {
+      this.speed(-1 * this.args.distance);
+      return this;
+    }
   }, {
     key: 'run',
     value: function run() {
-      //组装buf
       var buf = _utils2.default.composer(_cmd2.default.setDcMotor, [this.args.port, this.args.speed, this.args.distance]);
-      //执行
       _command2.default.execWrite(buf);
       return this;
     }
-
-    /**
-     * dcMoter run reversely
-     * @return {Object} the instance
-     */
-
-  }, {
-    key: 'runReverse',
-    value: function runReverse() {
-      this.speed(-1 * this.args.distance);
-      return this.run();
-    }
-
-    //主控支持戳：描述各主控的支持情况
-
   }], [{
     key: 'supportStamp',
     value: function supportStamp() {
@@ -4892,18 +4801,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var EncoderMotor = function (_EncoderMotorBase) {
   (0, _inherits3.default)(EncoderMotor, _EncoderMotorBase);
 
-  /**
-   * DC Motor
-   * @constructor
-   * @param {number} port
-   */
   function EncoderMotor(port, slot) {
     (0, _classCallCheck3.default)(this, EncoderMotor);
     return (0, _possibleConstructorReturn3.default)(this, (EncoderMotor.__proto__ || (0, _getPrototypeOf2.default)(EncoderMotor)).call(this, port, slot));
   }
-
-  //主控支持戳：描述各主控的支持情况
-
 
   (0, _createClass3.default)(EncoderMotor, null, [{
     key: 'supportStamp',
@@ -4978,11 +4879,6 @@ var bufComposer = function bufComposer(args) {
 var EncoderMotorOnBoard = function (_EncoderMotorBase) {
   (0, _inherits3.default)(EncoderMotorOnBoard, _EncoderMotorBase);
 
-  /**
-   * EncoderMotorOnBoard
-   * @constructor
-   * @param {number} port
-   */
   function EncoderMotorOnBoard(slot) {
     (0, _classCallCheck3.default)(this, EncoderMotorOnBoard);
 
@@ -4994,42 +4890,28 @@ var EncoderMotorOnBoard = function (_EncoderMotorBase) {
     return _this;
   }
 
-  /**
-   * get speed to the start position
-   * @param  {Function} callback 
-   */
-
-
   (0, _createClass3.default)(EncoderMotorOnBoard, [{
     key: 'readSpeed',
     value: function readSpeed(callback) {
       this.args.type = 0x02;
-      //组装buf
       var buf = bufComposer(this.args);
-      //执行
       _command2.default.execRead(buf, callback);
       return this;
     }
 
     /**
      * get angle offset to the start position
-     * @param  {Function} callback 
+     * @param  {Function} callback
      */
 
   }, {
     key: 'readAngle',
     value: function readAngle(callback) {
       this.args.type = 0x01;
-      //组装buf
       var buf = bufComposer(this.args);
-      //执行
       _command2.default.execRead(buf, callback);
       return this;
     }
-
-    //主控支持戳：描述各主控的支持情况
-    //auriga megapi 支持
-
   }], [{
     key: 'supportStamp',
     value: function supportStamp() {
@@ -5095,11 +4977,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var ServoMotor = function (_Electronic) {
   (0, _inherits3.default)(ServoMotor, _Electronic);
 
-  /**
-   * ServoMotor
-   * @constructor
-   * @param {number} port
-   */
   function ServoMotor(port, slot) {
     (0, _classCallCheck3.default)(this, ServoMotor);
 
@@ -5136,7 +5013,7 @@ var ServoMotor = function (_Electronic) {
     key: 'toStart',
     value: function toStart() {
       this.angle(180);
-      return this.go();
+      return this.run();
     }
 
     /**
@@ -5148,19 +5025,15 @@ var ServoMotor = function (_Electronic) {
     key: 'toEnd',
     value: function toEnd() {
       this.angle(0);
-      return this.go();
+      return this.run();
     }
   }, {
-    key: 'go',
-    value: function go() {
+    key: 'run',
+    value: function run() {
       var buf = _utils2.default.composer(_cmd2.default.setServoMotor, [this.args.port, this.args.slot, this.args.angle]);
-      //执行
       _command2.default.execWrite(buf);
       return this;
     }
-
-    //主控支持戳：描述各主控的支持情况
-
   }], [{
     key: 'supportStamp',
     value: function supportStamp() {
@@ -5217,9 +5090,6 @@ var FourLed = function (_RgbLedBase) {
     return (0, _possibleConstructorReturn3.default)(this, (FourLed.__proto__ || (0, _getPrototypeOf2.default)(FourLed)).call(this, port, 2));
   }
 
-  //主控支持戳：描述各主控的支持情况
-
-
   (0, _createClass3.default)(FourLed, null, [{
     key: 'supportStamp',
     value: function supportStamp() {
@@ -5275,9 +5145,6 @@ var RgbLed = function (_RgbLedBase) {
     (0, _classCallCheck3.default)(this, RgbLed);
     return (0, _possibleConstructorReturn3.default)(this, (RgbLed.__proto__ || (0, _getPrototypeOf2.default)(RgbLed)).call(this, port, slot));
   }
-
-  //主控支持戳：描述各主控的支持情况
-
 
   (0, _createClass3.default)(RgbLed, null, [{
     key: 'supportStamp',
@@ -5394,9 +5261,6 @@ var RgbLedOnBoard = function (_RgbLedBase) {
     return (0, _possibleConstructorReturn3.default)(this, (RgbLedOnBoard.__proto__ || (0, _getPrototypeOf2.default)(RgbLedOnBoard)).call(this, 0, 2));
   }
 
-  //主控支持戳：描述各主控的支持情况
-
-
   (0, _createClass3.default)(RgbLedOnBoard, null, [{
     key: 'supportStamp',
     value: function supportStamp() {
@@ -5404,8 +5268,7 @@ var RgbLedOnBoard = function (_RgbLedBase) {
     }
   }]);
   return RgbLedOnBoard;
-}(_RgbLedBase3.default); // import { defineNumber } from '../core/type';
-
+}(_RgbLedBase3.default);
 
 exports.default = RgbLedOnBoard;
 
@@ -5467,13 +5330,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var LedMatrixChar = function (_LedMatrixBase) {
   (0, _inherits3.default)(LedMatrixChar, _LedMatrixBase);
 
-  /**
-   * @constructor
-   */
   function LedMatrixChar(port) {
     (0, _classCallCheck3.default)(this, LedMatrixChar);
 
-    //扩充参数
     var _this = (0, _possibleConstructorReturn3.default)(this, (LedMatrixChar.__proto__ || (0, _getPrototypeOf2.default)(LedMatrixChar)).call(this, port));
 
     (0, _assign2.default)(_this.args, {
@@ -5497,18 +5356,18 @@ var LedMatrixChar = function (_LedMatrixBase) {
       return this;
     }
   }, {
-    key: 'showChar',
-    value: function showChar(str) {
-      this.args.char = str;
-      //组装buf
+    key: 'char',
+    value: function char(str) {
+      this.args.str = str;
+      return this;
+    }
+  }, {
+    key: 'run',
+    value: function run() {
       var buf = _utils2.default.composer(_cmd2.default.setLedMatrixChar, [this.args.port, this.args.x, this.args.y, this.args.char]);
       _command2.default.execWrite(buf);
       return this;
     }
-
-    //主控支持戳：描述各主控的支持情况
-    //orion 不支持
-
   }], [{
     key: 'supportStamp',
     value: function supportStamp() {
@@ -5578,9 +5437,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var LedMatrixTime = function (_LedMatrixBase) {
   (0, _inherits3.default)(LedMatrixTime, _LedMatrixBase);
 
-  /**
-   * @constructor
-   */
   function LedMatrixTime(port) {
     (0, _classCallCheck3.default)(this, LedMatrixTime);
 
@@ -5613,17 +5469,12 @@ var LedMatrixTime = function (_LedMatrixBase) {
       return this;
     }
   }, {
-    key: 'showTime',
-    value: function showTime() {
-      //组装buf
+    key: 'run',
+    value: function run() {
       var buf = _utils2.default.composer(_cmd2.default.setLedMatrixTime, [this.args.port, this.args.separator, this.args.hour, this.args.minute]);
       _command2.default.execWrite(buf);
       return this;
     }
-
-    //主控支持戳：描述各主控的支持情况
-    //orion 不支持
-
   }], [{
     key: 'supportStamp',
     value: function supportStamp() {
@@ -5688,17 +5539,12 @@ var _command2 = _interopRequireDefault(_command);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// import { defineNumber } from '../core/type';
 var LedMatrixEmotion = function (_LedMatrixBase) {
   (0, _inherits3.default)(LedMatrixEmotion, _LedMatrixBase);
 
-  /**
-   * @constructor
-   */
   function LedMatrixEmotion(port) {
     (0, _classCallCheck3.default)(this, LedMatrixEmotion);
 
-    //参数
     var _this = (0, _possibleConstructorReturn3.default)(this, (LedMatrixEmotion.__proto__ || (0, _getPrototypeOf2.default)(LedMatrixEmotion)).call(this, port));
 
     (0, _assign2.default)(_this.args, {
@@ -5722,19 +5568,18 @@ var LedMatrixEmotion = function (_LedMatrixBase) {
       return this;
     }
   }, {
-    key: 'showEmotion',
-    value: function showEmotion(emotion) {
-      this.args.emotion = emotion;
-      //组装buf
+    key: 'emotion',
+    value: function emotion(_emotion) {
+      this.args.emotion = _emotion;
+      return this;
+    }
+  }, {
+    key: 'run',
+    value: function run() {
       var buf = _utils2.default.composer(_cmd2.default.setLedMatrixEmotion, [this.args.port, this.args.x, this.args.y, this.args.emotion]);
-      //执行
       _command2.default.execWrite(buf);
       return this;
     }
-
-    //主控支持戳：描述各主控的支持情况
-    //orion 不支持
-
   }], [{
     key: 'supportStamp',
     value: function supportStamp() {
@@ -5804,9 +5649,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var LedMatrixNumber = function (_LedMatrixBase) {
   (0, _inherits3.default)(LedMatrixNumber, _LedMatrixBase);
 
-  /**
-   * @constructor
-   */
   function LedMatrixNumber(port) {
     (0, _classCallCheck3.default)(this, LedMatrixNumber);
 
@@ -5819,19 +5661,18 @@ var LedMatrixNumber = function (_LedMatrixBase) {
   }
 
   (0, _createClass3.default)(LedMatrixNumber, [{
-    key: 'showNumber',
-    value: function showNumber(number) {
-      this.args.number = (0, _type.defineNumber)(number);
-      //组装buf
+    key: 'number',
+    value: function number(num) {
+      this.args.number = (0, _type.defineNumber)(num);
+      return this;
+    }
+  }, {
+    key: 'run',
+    value: function run() {
       var buf = _utils2.default.composer(_cmd2.default.setLedMatrixNumber, [this.args.port, this.args.number]);
-      //执行
       _command2.default.execWrite(buf);
       return this;
     }
-
-    //主控支持戳：描述各主控的支持情况
-    //orion 不支持
-
   }], [{
     key: 'supportStamp',
     value: function supportStamp() {
@@ -5897,10 +5738,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var Buzzer = function (_Electronic) {
   (0, _inherits3.default)(Buzzer, _Electronic);
 
-  /**
-   * Buzzer类，声音模块
-   * @constructor
-   */
   function Buzzer() {
     (0, _classCallCheck3.default)(this, Buzzer);
 
@@ -5913,43 +5750,25 @@ var Buzzer = function (_Electronic) {
     return _this;
   }
 
-  /**
-   * @param {string} tone - 声音音调
-   */
-
-
   (0, _createClass3.default)(Buzzer, [{
     key: 'tone',
     value: function tone(_tone) {
       this.args.tone = (0, _type.defineString)(_tone.toUpperCase());
       return this;
     }
-    /**
-     * @param {string} beat - 声音音节
-     */
-
   }, {
     key: 'beat',
     value: function beat(_beat) {
       this.args.beat = (0, _type.defineNumber)(_beat);
       return this;
     }
-    /**
-     * 播放声音
-     */
-
   }, {
-    key: 'play',
-    value: function play() {
-      // 拿到协议组装器，组装协议
+    key: 'run',
+    value: function run() {
       var buf = _utils2.default.composer(_cmd2.default.setTone, [this.args.port, this.args.action]);
-      //执行
       _command2.default.execWrite(buf);
       return this;
     }
-
-    //主控支持戳：描述各主控的支持情况
-
   }], [{
     key: 'supportStamp',
     value: function supportStamp() {
@@ -6012,14 +5831,9 @@ var _command2 = _interopRequireDefault(_command);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// 作为闭包内容不开放
 var SevenSegment = function (_Electronic) {
   (0, _inherits3.default)(SevenSegment, _Electronic);
 
-  /**
-   * Buzzer类，声音模块
-   * @constructor
-   */
   function SevenSegment(port) {
     (0, _classCallCheck3.default)(this, SevenSegment);
 
@@ -6031,22 +5845,20 @@ var SevenSegment = function (_Electronic) {
     };
     return _this;
   }
-  /**
-   * @param {string} beat - 声音音节
-   */
-
 
   (0, _createClass3.default)(SevenSegment, [{
-    key: 'showNumber',
-    value: function showNumber(number) {
-      this.args.number = (0, _type.defineNumber)(number);
+    key: 'number',
+    value: function number(num) {
+      this.args.number = (0, _type.defineNumber)(num);
+      return this;
+    }
+  }, {
+    key: 'run',
+    value: function run() {
       var buf = _utils2.default.composer(_cmd2.default.setSevenSegment, [this.args.port, this.args.number]);
       _command2.default.execWrite(buf);
       return this;
     }
-
-    //主控支持戳：描述各主控的支持情况
-
   }], [{
     key: 'supportStamp',
     value: function supportStamp() {
@@ -6109,14 +5921,9 @@ var _command2 = _interopRequireDefault(_command);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// 作为闭包内容不开放
 var Shutter = function (_Electronic) {
   (0, _inherits3.default)(Shutter, _Electronic);
 
-  /**
-   * Buzzer类，声音模块
-   * @constructor
-   */
   function Shutter(port) {
     (0, _classCallCheck3.default)(this, Shutter);
 
@@ -6130,6 +5937,7 @@ var Shutter = function (_Electronic) {
   }
 
   /**
+   * set shutter mode
    * @param {string} actionId - 动作id  0: 按下快门; 1: 松开快门; 2: 聚焦; 3: 停止聚焦
    */
 
@@ -6138,15 +5946,15 @@ var Shutter = function (_Electronic) {
     key: 'action',
     value: function action(actionId) {
       this.args.action = (0, _type.defineString)(actionId);
-      // 拿到协议组装器，组装协议
+      return this;
+    }
+  }, {
+    key: 'run',
+    value: function run() {
       var buf = _utils2.default.composer(_cmd2.default.setShutter, [this.args.port, this.args.action]);
-      //执行
       _command2.default.execWrite(buf);
       return this;
     }
-
-    //主控支持戳：描述各主控的支持情况
-
   }], [{
     key: 'supportStamp',
     value: function supportStamp() {
@@ -6224,15 +6032,10 @@ var Reset = function (_Electronic) {
   (0, _createClass3.default)(Reset, [{
     key: 'reset',
     value: function reset(callback) {
-      // 拿到协议组装器，组装协议
       var buf = _utils2.default.composer(_cmd2.default.reset);
-      //执行
       _command2.default.execRead(buf, callback);
       return this;
     }
-
-    //主控支持戳：描述各主控的支持情况
-
   }], [{
     key: 'supportStamp',
     value: function supportStamp() {
@@ -6310,15 +6113,10 @@ var Version = function (_Electronic) {
   (0, _createClass3.default)(Version, [{
     key: 'version',
     value: function version(callback) {
-      // 拿到协议组装器，组装协议
       var buf = _utils2.default.composer(_cmd2.default.readVersion);
-      //执行
       _command2.default.execRead(buf, callback);
       return this;
     }
-
-    //主控支持戳：描述各主控的支持情况
-
   }], [{
     key: 'supportStamp',
     value: function supportStamp() {
@@ -6398,16 +6196,10 @@ var Ultrasonic = function (_Electronic) {
   (0, _createClass3.default)(Ultrasonic, [{
     key: 'getData',
     value: function getData(callback) {
-      // 拿到协议组装器，组装协议
       var buf = _utils2.default.composer(_cmd2.default.readUltrasonic, [this.args.port]);
-      //执行
       _command2.default.execRead(buf, callback);
-      // Command.getSensorValue('ultrasonic', buf, callback);
       return this;
     }
-
-    //主控支持戳：描述各主控的支持情况
-
   }], [{
     key: 'supportStamp',
     value: function supportStamp() {
@@ -6488,16 +6280,10 @@ var Temperature = function (_Electronic) {
   (0, _createClass3.default)(Temperature, [{
     key: 'getData',
     value: function getData(callback) {
-      // 拿到协议组装器，组装协议
       var buf = _utils2.default.composer(_cmd2.default.readTemperature, [this.args.port, this.args.slot]);
-      //执行
       _command2.default.execRead(buf, callback);
-      // Command.getSensorValue('ultrasonic', buf, callback);
       return this;
     }
-
-    //主控支持戳：描述各主控的支持情况
-
   }], [{
     key: 'supportStamp',
     value: function supportStamp() {
@@ -6577,16 +6363,10 @@ var Light = function (_Electronic) {
   (0, _createClass3.default)(Light, [{
     key: 'getData',
     value: function getData(callback) {
-      // 拿到协议组装器，组装协议
       var buf = _utils2.default.composer(_cmd2.default.readLight, [this.args.port]);
-      //执行
       _command2.default.execRead(buf, callback);
       return this;
     }
-
-    //主控支持戳：描述各主控的支持情况
-    // supportMainboards
-
   }], [{
     key: 'supportStamp',
     value: function supportStamp() {
@@ -6666,15 +6446,10 @@ var Potentionmeter = function (_Electronic) {
   (0, _createClass3.default)(Potentionmeter, [{
     key: 'getData',
     value: function getData(callback) {
-      // 拿到协议组装器，组装协议
       var buf = _utils2.default.composer(_cmd2.default.readPotentionmeter, [this.args.port]);
-      //执行
       _command2.default.execRead(buf, callback);
       return this;
     }
-
-    //主控支持戳：描述各主控的支持情况
-
   }], [{
     key: 'supportStamp',
     value: function supportStamp() {
@@ -6755,15 +6530,10 @@ var Joystick = function (_Electronic) {
   (0, _createClass3.default)(Joystick, [{
     key: 'getData',
     value: function getData(callback) {
-      // 拿到协议组装器，组装协议
       var buf = _utils2.default.composer(_cmd2.default.readJoystick, [this.args.port, this.args.axis]);
-      //执行
       _command2.default.execRead(buf, callback);
       return this;
     }
-
-    //主控支持戳：描述各主控的支持情况
-
   }], [{
     key: 'supportStamp',
     value: function supportStamp() {
@@ -6844,16 +6614,10 @@ var Gyro = function (_Electronic) {
   (0, _createClass3.default)(Gyro, [{
     key: 'getData',
     value: function getData(callback) {
-      // 拿到协议组装器，组装协议
       var buf = _utils2.default.composer(_cmd2.default.readGyro, [this.args.port, this.args.axis]);
-      //执行
       _command2.default.execRead(buf, callback);
       return this;
     }
-
-    //主控支持戳：描述各主控的支持情况
-    //orion 不支持
-
   }], [{
     key: 'supportStamp',
     value: function supportStamp() {
@@ -6933,9 +6697,7 @@ var Sound = function (_Electronic) {
   (0, _createClass3.default)(Sound, [{
     key: 'getData',
     value: function getData(callback) {
-      // 拿到协议组装器，组装协议
       var buf = _utils2.default.composer(_cmd2.default.readSound, [this.args.port]);
-      //执行
       _command2.default.execRead(buf, callback);
       return this;
     }
@@ -7015,16 +6777,10 @@ var TemperatureOnBoard = function (_Electronic) {
   (0, _createClass3.default)(TemperatureOnBoard, [{
     key: 'getData',
     value: function getData(callback) {
-      // 拿到协议组装器，组装协议
       var buf = _utils2.default.composer(_cmd2.default.readTemperatureOnBoard);
-      //执行
       _command2.default.execRead(buf, callback);
       return this;
     }
-
-    //主控支持戳：描述各主控的支持情况
-    //只有 auriga 支持 
-
   }], [{
     key: 'supportStamp',
     value: function supportStamp() {
@@ -7104,16 +6860,10 @@ var Pirmotion = function (_Electronic) {
   (0, _createClass3.default)(Pirmotion, [{
     key: 'getData',
     value: function getData(callback) {
-      // 拿到协议组装器，组装协议
       var buf = _utils2.default.composer(_cmd2.default.readPirmotion, [this.args.port]);
-      //执行
       _command2.default.execRead(buf, callback);
-      // Command.getSensorValue('ultrasonic', buf, callback);
       return this;
     }
-
-    //主控支持戳：描述各主控的支持情况
-
   }], [{
     key: 'supportStamp',
     value: function supportStamp() {
@@ -7193,16 +6943,10 @@ var LineFollower = function (_Electronic) {
   (0, _createClass3.default)(LineFollower, [{
     key: 'getData',
     value: function getData(callback) {
-      // 拿到协议组装器，组装协议
       var buf = _utils2.default.composer(_cmd2.default.readLineFollower, [this.args.port]);
-      //执行
       _command2.default.execRead(buf, callback);
-      // Command.getSensorValue('ultrasonic', buf, callback);
       return this;
     }
-
-    //主控支持戳：描述各主控的支持情况
-
   }], [{
     key: 'supportStamp',
     value: function supportStamp() {
@@ -7283,16 +7027,10 @@ var LimitSwitch = function (_Electronic) {
   (0, _createClass3.default)(LimitSwitch, [{
     key: 'getData',
     value: function getData(callback) {
-      // 拿到协议组装器，组装协议
       var buf = _utils2.default.composer(_cmd2.default.readLimitSwitch, [this.args.port, this.args.slot]);
-      //执行
       _command2.default.execRead(buf, callback);
-      // Command.getSensorValue('ultrasonic', buf, callback);
       return this;
     }
-
-    //主控支持戳：描述各主控的支持情况
-
   }], [{
     key: 'supportStamp',
     value: function supportStamp() {
@@ -7372,17 +7110,10 @@ var Compass = function (_Electronic) {
   (0, _createClass3.default)(Compass, [{
     key: 'getData',
     value: function getData(callback) {
-      // 拿到协议组装器，组装协议
       var buf = _utils2.default.composer(_cmd2.default.readCompass, [this.args.port]);
-      //执行
       _command2.default.execRead(buf, callback);
-      // Command.getSensorValue('ultrasonic', buf, callback);
       return this;
     }
-
-    //主控支持戳：描述各主控的支持情况
-    //orion 不支持
-
   }], [{
     key: 'supportStamp',
     value: function supportStamp() {
@@ -7463,16 +7194,10 @@ var Humiture = function (_Electronic) {
   (0, _createClass3.default)(Humiture, [{
     key: 'getData',
     value: function getData(callback) {
-      // 拿到协议组装器，组装协议
       var buf = _utils2.default.composer(_cmd2.default.readHumiture, [this.args.port, this.args.type]);
-      //执行
       _command2.default.execRead(buf, callback);
       return this;
     }
-
-    //主控支持戳：描述各主控的支持情况
-    //orion 不支持
-
   }], [{
     key: 'supportStamp',
     value: function supportStamp() {
@@ -7552,15 +7277,10 @@ var Flame = function (_Electronic) {
   (0, _createClass3.default)(Flame, [{
     key: 'getData',
     value: function getData(callback) {
-      // 拿到协议组装器，组装协议
       var buf = _utils2.default.composer(_cmd2.default.readFlame, [this.args.port]);
-      //执行
       _command2.default.execRead(buf, callback);
       return this;
     }
-
-    //主控支持戳：描述各主控的支持情况
-
   }], [{
     key: 'supportStamp',
     value: function supportStamp() {
@@ -7640,15 +7360,10 @@ var Gas = function (_Electronic) {
   (0, _createClass3.default)(Gas, [{
     key: 'getData',
     value: function getData(callback) {
-      // 拿到协议组装器，组装协议
       var buf = _utils2.default.composer(_cmd2.default.readGas, [this.args.port]);
-      //执行
       _command2.default.execRead(buf, callback);
       return this;
     }
-
-    //主控支持戳：描述各主控的支持情况
-
   }], [{
     key: 'supportStamp',
     value: function supportStamp() {
@@ -7728,15 +7443,10 @@ var Touch = function (_Electronic) {
   (0, _createClass3.default)(Touch, [{
     key: 'getData',
     value: function getData(callback) {
-      // 拿到协议组装器，组装协议
       var buf = _utils2.default.composer(_cmd2.default.readTouch, [this.args.port]);
-      //执行
       _command2.default.execRead(buf, callback);
       return this;
     }
-
-    //主控支持戳：描述各主控的支持情况
-
   }], [{
     key: 'supportStamp',
     value: function supportStamp() {
@@ -7817,16 +7527,10 @@ var FourKeys = function (_Electronic) {
   (0, _createClass3.default)(FourKeys, [{
     key: 'getData',
     value: function getData(callback) {
-      // 拿到协议组装器，组装协议
       var buf = _utils2.default.composer(_cmd2.default.readFourKeys, [this.args.port, this.args.key]);
-      //执行
       _command2.default.execRead(buf, callback);
       return this;
     }
-
-    //主控支持戳：描述各主控的支持情况
-    //orion 不支持
-
   }], [{
     key: 'supportStamp',
     value: function supportStamp() {
@@ -7906,15 +7610,10 @@ var DigGPIO = function (_Electronic) {
   (0, _createClass3.default)(DigGPIO, [{
     key: 'getData',
     value: function getData(callback) {
-      // 拿到协议组装器，组装协议
       var buf = _utils2.default.composer(_cmd2.default.readDigGPIO, [this.args.port]);
-      //执行
       _command2.default.execRead(buf, callback);
       return this;
     }
-
-    //主控支持戳：描述各主控的支持情况
-
   }], [{
     key: 'supportStamp',
     value: function supportStamp() {
@@ -7994,15 +7693,10 @@ var AnalogGPIO = function (_Electronic) {
   (0, _createClass3.default)(AnalogGPIO, [{
     key: 'getData',
     value: function getData(callback) {
-      // 拿到协议组装器，组装协议
       var buf = _utils2.default.composer(_cmd2.default.readAnalogGPIO, [this.args.port]);
-      //执行
       _command2.default.execRead(buf, callback);
       return this;
     }
-
-    //主控支持戳：描述各主控的支持情况
-
   }], [{
     key: 'supportStamp',
     value: function supportStamp() {
@@ -8083,15 +7777,10 @@ var GPIOContinue = function (_Electronic) {
   (0, _createClass3.default)(GPIOContinue, [{
     key: 'getData',
     value: function getData(callback) {
-      // 拿到协议组装器，组装协议
       var buf = _utils2.default.composer(_cmd2.default.readGPIOContinue, [this.args.port, this.args.key]);
-      //执行
       _command2.default.execRead(buf, callback);
       return this;
     }
-
-    //主控支持戳：描述各主控的支持情况
-
   }], [{
     key: 'supportStamp',
     value: function supportStamp() {
@@ -8172,15 +7861,10 @@ var DoubleGPIO = function (_Electronic) {
   (0, _createClass3.default)(DoubleGPIO, [{
     key: 'getData',
     value: function getData(callback) {
-      // 拿到协议组装器，组装协议
       var buf = _utils2.default.composer(_cmd2.default.readDoubleGPIO, [this.args.port1, this.args.port2]);
-      //执行
       _command2.default.execRead(buf, callback);
       return this;
     }
-
-    //主控支持戳：描述各主控的支持情况
-
   }], [{
     key: 'supportStamp',
     value: function supportStamp() {
@@ -8254,15 +7938,10 @@ var Runtime = function (_Electronic) {
   (0, _createClass3.default)(Runtime, [{
     key: 'getData',
     value: function getData(callback) {
-      // 拿到协议组装器，组装协议
       var buf = _utils2.default.composer(_cmd2.default.readRuntime);
-      //执行
       _command2.default.execRead(buf, callback);
       return this;
     }
-
-    //主控支持戳：描述各主控的支持情况
-
   }], [{
     key: 'supportStamp',
     value: function supportStamp() {
@@ -8519,23 +8198,6 @@ var MegaPi = function (_Board) {
 }(_Board3.default);
 
 exports.default = MegaPi;
-
-/***/ }),
-/* 164 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-// var Neuron = require('mneurons');
-// var Neuron = require('../../neurons-engine/lib/engine/logic');
-
-var Neuron = {};
-
-exports.default = Neuron;
 
 /***/ })
 /******/ ]);

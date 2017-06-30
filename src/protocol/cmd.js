@@ -53,20 +53,6 @@ function protocolAssembler() {
    * @example
    *     ff 55 07 00 02 3d 00 01 64 00
    */
-  //TO COMFIRM: 缺少一个 angle
-  // this.setEncoderMotorOnBoard = function(slot, speed) {
-  //   let port = 0x00;
-  //   speed = Utils.limitValue(speed);
-  //   return bufAssembler({mode: 0x02, id: 0x3d}, port, slot, speed & 0xff, (speed >> 8) & 0xff);
-  // };
-
-  /**
-   * Set encoder motor speed.
-   * @param {number} slot  slot number, vailable is: 1,2
-   * @param {number} speed speed, the range is -255 ~ 255
-   * @example
-   *     ff 55 07 00 02 3d 00 01 64 00
-   */
   this.setEncoderMotorOnBoard = function(slot, speed, angle) {
     let port = 0x00; //板载 port 为 0
     return this.setEncoderMotor(port, slot, speed, angle);
@@ -87,9 +73,9 @@ function protocolAssembler() {
     speed = Utils.limitValue(speed, [0, 300]);
     let byte4Array = Utils.float32ToBytes(angle);
     return bufAssembler(
-      {mode: 0x02, id: 0x0c}, 
-      port, 
-      slot, 
+      {mode: 0x02, id: 0x0c},
+      port,
+      slot,
       speed & 0xff,
       (speed >> 8) & 0xff,
       ...byte4Array);
@@ -106,7 +92,7 @@ function protocolAssembler() {
     leftSpeed = Utils.limitValue(leftSpeed);
     rightSpeed = Utils.limitValue(rightSpeed);
     return bufAssembler(
-      {mode: 0x02, id: 0x05}, 
+      {mode: 0x02, id: 0x05},
       leftSpeed & 0xff,
       (leftSpeed >> 8) & 0xff,
       rightSpeed & 0xff,
@@ -125,8 +111,8 @@ function protocolAssembler() {
     speed = Utils.limitValue(speed);
     port = 0; //板载虚拟摇杆 port = 00
     return bufAssembler(
-      {mode: 0x02, id: 0x34}, 
-      port, 
+      {mode: 0x02, id: 0x34},
+      port,
       turnExtent & 0xff,
       (turnExtent >> 8) & 0xff,
       speed & 0xff,
@@ -270,7 +256,7 @@ function protocolAssembler() {
       charAsciiArray.push(char[i].charCodeAt());
     }
 
-    return bufAssembler({mode: 0x02, id: 0x29}, port, 0x01, 
+    return bufAssembler({mode: 0x02, id: 0x29}, port, 0x01,
       xAxis,
       yAxis,
       char.length,
@@ -300,7 +286,7 @@ function protocolAssembler() {
     //   yAxis
     // ].concat(emotionData);
 
-    return bufAssembler({mode: 0x02, id: 0x29}, port, 0x02, 
+    return bufAssembler({mode: 0x02, id: 0x29}, port, 0x02,
       xAxis,
       yAxis,
       ...emotionData);
@@ -376,14 +362,14 @@ function protocolAssembler() {
       "E7": 2637,"F7": 2794,"G7": 3136,"A7": 3520,"B7": 3951,"C8": 4186,"D8":4699
     };
     const BEAT = {
-      eight: 125, 
-      quater: 250, 
-      half: 500, 
-      one: 1000, 
+      eight: 125,
+      quater: 250,
+      half: 500,
+      one: 1000,
       double: 2000
     }
 
-    return bufAssembler({mode: 0x02, id: 0x22}, 0x09, 
+    return bufAssembler({mode: 0x02, id: 0x22}, 0x09,
       (TONE[tone] & 0xff),
       (TONE[tone] >> 8) & 0xff,
       (BEAT[beat] & 0xff),

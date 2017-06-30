@@ -1,5 +1,5 @@
 #sensorium
-Sensorium is an api library for makeblock mainboards. It includes `mcore`, `orion`, `auriga` and  `megapi`.
+sensorium is an api library for makeblock mainboards. It includes `mcore`, `orion`, `auriga` and  `megapi`.
 
 You can use it in browser, node enviroment.
 
@@ -25,8 +25,9 @@ actually you also need [serialport.js](https://www.npmjs.com/package/serialport)
 <script src="sensorium.js"></script>
 <script src="serialport.js"></script>
 <script>
+
   //firstly initialize the mainboard
-  var mcore = Sensorium('Mcore');
+  var mcore = sensorium('Mcore');
 
   //secondly set transport through bluetooth or serialport like this:
   var serialPort = new SerialPort('/dev/ttyUSB0', { baudRate:115200 });
@@ -37,11 +38,11 @@ actually you also need [serialport.js](https://www.npmjs.com/package/serialport)
   // or run with 1000ms and then run reversely
   mcore.DcMotor(1).speed(200).run();
   setTimeout(function(){
-    mcore.DcMotor(1).runReverse();
+    mcore.DcMotor(1).reverse().run();
   }, 1000);
 
   // read ultrasonic sensor's value
-  mcore.Ultrasonic(3).getData(function(val){ 
+  mcore.Ultrasonic(3).getData(function(val){
     console.log(val);
   });
 </script>
@@ -55,7 +56,7 @@ npm install serialport --save-dev
 ```
 
 ```js
-var Sensorium = require("sensorium");
+var sensorium = require("sensorium");
 var SerialPort = require('serialport');
 var serialPort = new SerialPort('/dev/ttyUSB0', { baudRate:115200 });
 
@@ -76,18 +77,14 @@ var transport = {
   }
 };
 
-var auriga = Sensorium('Auriga');
+var auriga = sensorium('Auriga');   // 可选的主板有 'Mcore', 'Auriga', 'MegaPi', 'Orion', 'Arduino'
 auriga.setTransport(transport);
-
-// or use Mcore
-// var mcore = Sensorium('Mcore');
-// mcore.setTransport(transport);
 
 // run DcMotor
 auriga.DcMotor(1).speed(200).run();
 
 // read ultrasonic sensor's value
-auriga.Ultrasonic(3).getData(function(val){ 
+auriga.Ultrasonic(3).getData(function(val){
   console.log(val);
 });
 

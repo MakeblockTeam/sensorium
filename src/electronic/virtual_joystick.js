@@ -2,60 +2,37 @@ import { defineNumber } from '../core/type';
 import Utils from '../core/utils';
 import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
-import Command from '../communicate/command';
+import command from '../communicate/command';
 
 class VirtualJoystick extends Electronic {
 
-  /**
-   * ServoMotor
-   * @constructor
-   * @param {number} port
-   */
-  constructor(port, slot) {
+  constructor() {
     super();
+    // TODO: 加入args对象有什么好处？
     this.args = {
-      port: defineNumber(port),
-      slot: defineNumber(slot),
-      speed: 0
+      leftSpeed: 0,
+      rightSpeed: 0,
     };
   }
 
-  /**
-   * set speed
-   * @param  {Number} speed
-   * @return {Object} the instance
-   */
-  speed(speed){
-    this.args.speed = defineNumber(speed, 0);
+  speed(leftSpeed, rightSpeed) {
+    this.args.leftSpeed = defineNumber(leftSpeed, 0);
+    // TODO: 该方法与下列方法有什么区别?
+    // this.args.leftSpeed = leftSpeed || 0;
+    this.args.rightSpeed = defineNumber(rightSpeed, 0);
     return this;
   }
 
-  /**
-   * go to the start
-   * @return {[type]} [description]
-   */
-  toStart(){
-    this.angle(180);
-    return this.go();
-  }
-
-  /**
-   * go to the end
-   * @return {[type]} [description]
-   */
-  toEnd(){
-    this.angle(0);
-    return this.go();
-  }
-
-  go(){
-    let buf = Utils.composer(protocolAssembler.setServoMotor, [this.args.port, this.args.slot, this.args.angle]);
-    //执行
-    Command.execWrite(buf);
+  run() {
+    let buf = Utils.composer(protocolAssembler.setJoystick, [this.args.leftSpeed, this.args.rightSpeed]);
+    command.execWrite(buf);
     return this;
   }
 
-  //主控支持戳：描述各主控的支持情况
+  stop() {
+    this.speed(0,0).start();
+  }
+
   static supportStamp(){
     return '0110';
   }

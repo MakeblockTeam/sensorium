@@ -16,7 +16,7 @@
 //5、后续请求依次遵循这个规则
 //6、满队列的情况下，新增请求时清空那些超时（2s?）的请求，再进入
 
-// import ValueWrapper from '../core/value_wrapper';
+
 /**
  * read request controler
  */
@@ -53,7 +53,7 @@ const ReadControl = {
 
   /**
    * add a record of time and callback
-   * @param  {Number}   index    
+   * @param  {Number}   index
    * @param  {Function} callback [description]
    */
   addRecord: function(index, callback){
@@ -71,7 +71,7 @@ const ReadControl = {
   },
 
   /**
-   * this function is drived by 
+   * this function is drived by
    * @param {Function}   execFunc  addRequest execute as proxy
    * @param {Array}   buf      rj25 buffer
    * @param {Function} callback [description]
@@ -114,7 +114,7 @@ const ReadControl = {
 
   /**
    * 执行发送
-   * @param  {Function} execFunc  
+   * @param  {Function} execFunc
    * @param  {Number} index    [description]
    * @param  {[type]} buf      [description]
    * @return {[type]}          [description]

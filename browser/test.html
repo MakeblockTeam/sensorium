@@ -24,9 +24,9 @@
 
       var exec = function(board){
         for(var name in board){
-          var api = board[name];
-          if(board.hasOwnProperty(name) && typeof api == 'function'){
-            console.log(api(1, 2));
+          var electronincModule = board[name];
+          if(board.hasOwnProperty(name) && typeof electronincModule == 'function'){
+            console.log(electronincModule(1, 2));
           }
         }
       }
@@ -34,10 +34,9 @@
       var transport = {
         send: function(buf) {
           console.log(buf);
-          //serialPort.send(buf);
         },
-    
-        onReceived: function(parse) {
+
+        onReceived: function(pipe) {
           // serialPort.on('data', function(buff) {
           //   parse.doParse(buff);
           // });
@@ -45,25 +44,19 @@
         }
       };
 
-      // //创建一个板子
       var mcore = Sensorium('Mcore');
-      // debugger;
-      //装上收发功能
+
       mcore.setTransport({
         send: transport.send,
         onReceived: transport.onReceived
       });
-      
+
       exec(mcore);
 
-      //SevenSegment
-      //连接并建立模块实例
       mcore.SevenSegment(1);
       //再次连接同一个模块，会调用已存在的模块实例
       mcore.SevenSegment(1).showNumber(111);
 
-      //DcMotor
-      //连接并建立模块实例
       mcore.DcMotor(1);
       //再次连接同一个模块，会调用已存在的模块实例
       mcore.DcMotor(1).speed(111).run().runReverse().stop();

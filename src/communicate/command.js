@@ -4,13 +4,13 @@
  */
 //es6 module
 import Transport from './transport';
-import ReadControl from './readControl';
-import WriteControl from './writeControl';
+import ReadControl from './read';
+import WriteControl from './write';
 import Parse from '../core/parse';
 
 class Command {
   constructor() {
-    
+
   }
   /**
    * execute buffer
@@ -57,7 +57,7 @@ class Command {
     }else{ //read 结果
       let index = buffer[0];
       let value = Parse.getResult(buffer);
-      this.emitCallback(index, value);      
+      this.emitCallback(index, value);
     }
   }
 

@@ -2,12 +2,10 @@ import { defineNumber } from '../core/type';
 import Utils from '../core/utils';
 import LedMatrixBase from './base/LedMatrixBase';
 import protocolAssembler from '../protocol/cmd';
-import Command from '../communicate/command';
+import command from '../communicate/command';
 
 class LedMatrixTime extends LedMatrixBase {
-  /**
-   * @constructor
-   */
+
   constructor(port) {
     super(port);
     Object.assign(this.args, {
@@ -26,21 +24,18 @@ class LedMatrixTime extends LedMatrixBase {
     this.args.hour = defineNumber(h);
     return this;
   }
-  
+
   minute(m){
     this.args.minute = defineNumber(m);
     return this;
   }
 
-  showTime(){
-    //组装buf
+  run(){
     let buf = Utils.composer(protocolAssembler.setLedMatrixTime, [this.args.port, this.args.separator, this.args.hour, this.args.minute]);
-    Command.execWrite(buf);
+    command.execWrite(buf);
     return this;
   }
 
-  //主控支持戳：描述各主控的支持情况
-  //orion 不支持
   static supportStamp(){
     return '1110';
   }

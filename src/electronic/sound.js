@@ -2,7 +2,7 @@ import { defineNumber } from '../core/type';
 import Utils from '../core/utils';
 import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
-import Command from '../communicate/command';
+import command from '../communicate/command';
 
 class Sound extends Electronic {
   constructor(port) {
@@ -13,10 +13,8 @@ class Sound extends Electronic {
   }
 
   getData(callback) {
-    // 拿到协议组装器，组装协议
     let buf = Utils.composer(protocolAssembler.readSound, [this.args.port]);
-    //执行
-    Command.execRead(buf, callback);
+    command.execRead(buf, callback);
     return this;
   }
 
