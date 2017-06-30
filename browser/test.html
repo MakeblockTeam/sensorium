@@ -55,11 +55,11 @@
 
       mcore.SevenSegment(1);
       //再次连接同一个模块，会调用已存在的模块实例
-      mcore.SevenSegment(1).showNumber(111);
+      mcore.SevenSegment(1).number(111).run();
 
       mcore.DcMotor(1);
       //再次连接同一个模块，会调用已存在的模块实例
-      mcore.DcMotor(1).speed(111).run().runReverse().stop();
+      mcore.DcMotor(1).speed(111).run().reverse().stop();
 
 
       // var mcore = new Sensorium.Mcore({

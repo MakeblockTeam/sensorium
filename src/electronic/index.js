@@ -1,4 +1,5 @@
 import DcMotor from './dc_motor';
+import VirtualJoystick from './virtual_joystick';
 import StepperMotor from './stepper_motor';
 import EncoderMotor from './encoder_motor';
 import EncoderMotorOnBoard from './encoder_motor_on_board';  //包含读值和写的接口
@@ -26,8 +27,8 @@ import Gyro from './gyro';
 import Sound from './sound';
 import TemperatureOnBoard from './temperature_on_board';
 import Pirmotion from './pirmotion';
-import LineFollower from './line_follower';
 import LimitSwitch from './limit_switch';
+import LineFollower from './line_follower';
 import Compass from './compass';
 import Humiture from './humiture';
 import Flame from './flame';
@@ -57,6 +58,7 @@ export default {
   Buzzer,
   SevenSegment,
   Shutter,
+  VirtualJoystick,
 
   Reset, //实现待验证
   Version, //实现待验证

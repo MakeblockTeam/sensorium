@@ -30,11 +30,11 @@ class VirtualJoystick extends Electronic {
   }
 
   stop() {
-    this.speed(0,0).start();
+    this.speed(0,0).run();
   }
 
   static supportStamp(){
-    return '0110';
+    return '1111';
   }
 }
 

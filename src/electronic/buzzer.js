@@ -13,11 +13,19 @@ class Buzzer extends Electronic {
     }
   }
 
+  /**
+   * set tone
+   * @param  {String} tone tone string, such as "C5"
+   */
   tone(tone) {
     this.args.tone = defineString(tone.toUpperCase());
     return this;
   }
 
+  /**
+   * set beat
+   * @param  {Number} beat such as 250, 1000
+   */
   beat(beat) {
     this.args.beat = defineNumber(beat);
     return this;

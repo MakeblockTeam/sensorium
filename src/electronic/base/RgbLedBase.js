@@ -2,7 +2,7 @@ import { defineNumber } from '../../core/type';
 import Utils from '../../core/utils';
 import Electronic from '../electronic';
 import protocolAssembler from '../../protocol/cmd';
-import Command from '../../communicate/command';
+import command from '../../communicate/command';
 
 let bufComposer = function(obj){
   let args = [obj.port, obj.slot, obj.ledPosition, ...obj.rgb];
@@ -27,7 +27,7 @@ class RgbLedBase extends Electronic {
 
   /**
    * set led position
-   * @param {number} position 
+   * @param {number} position
    */
   position(position) {
     this.args.ledPosition = defineNumber(position, this.args.ledPosition);
@@ -36,7 +36,7 @@ class RgbLedBase extends Electronic {
 
   /**
    * set led red value
-   * @param {number} value 0 ~ 255 
+   * @param {number} value 0 ~ 255
    */
   r(value) {
     this.args.rgb[0] = defineNumber(value, this.args.rgb[0]);
@@ -45,7 +45,7 @@ class RgbLedBase extends Electronic {
 
   /**
    * set led green value
-   * @param {number} value 0 ~ 255 
+   * @param {number} value 0 ~ 255
    */
   g(value) {
     this.args.rgb[1] = defineNumber(value, this.args.rgb[1]);
@@ -54,7 +54,7 @@ class RgbLedBase extends Electronic {
 
   /**
    * set blue red value
-   * @param {number} value 0 ~ 255 
+   * @param {number} value 0 ~ 255
    */
   b(value) {
     this.args.rgb[2] = defineNumber(value, this.args.rgb[2]);
@@ -65,12 +65,9 @@ class RgbLedBase extends Electronic {
    * turn on led
    * @param {number} position
    */
-  turnOn(position) {
-    this.args.position(position);
-    //组装协议
+  turnOn() {
     let buf = bufComposer(this.args);
-    //执行
-    Command.execWrite(buf);
+    command.execWrite(buf);
     return this;
   }
 
@@ -78,13 +75,10 @@ class RgbLedBase extends Electronic {
    * turn off led
    * @param {number} position
    */
-  turnOff(position) {
-    this.args.position(position);
+  turnOff() {
     this.args.rgb = [0, 0, 0];
-    //组装协议
     let buf = bufComposer(this.args);
-    //执行
-    Command.execWrite(buf);
+    command.execWrite(buf);
     return this;
   }
 
@@ -110,7 +104,7 @@ class RgbLedBase extends Electronic {
     //组装协议
     let buf = bufComposer(this.args);
     //执行
-    Command.execWrite(buf);
+    command.execWrite(buf);
     return this;
   }
 
@@ -122,7 +116,7 @@ class RgbLedBase extends Electronic {
     //组装协议
     let buf = bufComposer(this.args);
     //执行
-    Command.execWrite(buf);
+    command.execWrite(buf);
     return this;
   }
 
@@ -134,7 +128,7 @@ class RgbLedBase extends Electronic {
     //组装协议
     let buf = bufComposer(this.args);
     //执行
-    Command.execWrite(buf);
+    command.execWrite(buf);
     return this;
   }
 }

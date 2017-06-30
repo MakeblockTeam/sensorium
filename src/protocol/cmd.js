@@ -361,19 +361,12 @@ function protocolAssembler() {
       "F6": 1397,"G6": 1568,"A6": 1760,"B6": 1976,"C7": 2093,"D7": 2349,
       "E7": 2637,"F7": 2794,"G7": 3136,"A7": 3520,"B7": 3951,"C8": 4186,"D8":4699
     };
-    const BEAT = {
-      eight: 125,
-      quater: 250,
-      half: 500,
-      one: 1000,
-      double: 2000
-    }
 
     return bufAssembler({mode: 0x02, id: 0x22}, 0x09,
       (TONE[tone] & 0xff),
       (TONE[tone] >> 8) & 0xff,
-      (BEAT[beat] & 0xff),
-      (BEAT[beat] >> 8) & 0xff);
+      (beat & 0xff),
+      (beat >> 8) & 0xff);
   };
 
   /**

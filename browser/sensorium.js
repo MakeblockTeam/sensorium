@@ -1036,15 +1036,8 @@ function protocolAssembler() {
       "F6": 1397, "G6": 1568, "A6": 1760, "B6": 1976, "C7": 2093, "D7": 2349,
       "E7": 2637, "F7": 2794, "G7": 3136, "A7": 3520, "B7": 3951, "C8": 4186, "D8": 4699
     };
-    var BEAT = {
-      eight: 125,
-      quater: 250,
-      half: 500,
-      one: 1000,
-      double: 2000
-    };
 
-    return bufAssembler({ mode: 0x02, id: 0x22 }, 0x09, TONE[tone] & 0xff, TONE[tone] >> 8 & 0xff, BEAT[beat] & 0xff, BEAT[beat] >> 8 & 0xff);
+    return bufAssembler({ mode: 0x02, id: 0x22 }, 0x09, TONE[tone] & 0xff, TONE[tone] >> 8 & 0xff, beat & 0xff, beat >> 8 & 0xff);
   };
 
   /**
@@ -1919,159 +1912,163 @@ var _dc_motor = __webpack_require__(121);
 
 var _dc_motor2 = _interopRequireDefault(_dc_motor);
 
-var _stepper_motor = __webpack_require__(122);
+var _virtual_joystick = __webpack_require__(122);
+
+var _virtual_joystick2 = _interopRequireDefault(_virtual_joystick);
+
+var _stepper_motor = __webpack_require__(123);
 
 var _stepper_motor2 = _interopRequireDefault(_stepper_motor);
 
-var _encoder_motor = __webpack_require__(123);
+var _encoder_motor = __webpack_require__(124);
 
 var _encoder_motor2 = _interopRequireDefault(_encoder_motor);
 
-var _encoder_motor_on_board = __webpack_require__(124);
+var _encoder_motor_on_board = __webpack_require__(125);
 
 var _encoder_motor_on_board2 = _interopRequireDefault(_encoder_motor_on_board);
 
-var _servo_motor = __webpack_require__(125);
+var _servo_motor = __webpack_require__(126);
 
 var _servo_motor2 = _interopRequireDefault(_servo_motor);
 
-var _four_led = __webpack_require__(126);
+var _four_led = __webpack_require__(127);
 
 var _four_led2 = _interopRequireDefault(_four_led);
 
-var _rgb_led = __webpack_require__(127);
+var _rgb_led = __webpack_require__(128);
 
 var _rgb_led2 = _interopRequireDefault(_rgb_led);
 
-var _led_panel_on_board = __webpack_require__(128);
+var _led_panel_on_board = __webpack_require__(129);
 
 var _led_panel_on_board2 = _interopRequireDefault(_led_panel_on_board);
 
-var _rgb_led_on_board = __webpack_require__(129);
+var _rgb_led_on_board = __webpack_require__(130);
 
 var _rgb_led_on_board2 = _interopRequireDefault(_rgb_led_on_board);
 
-var _led_matrix_char = __webpack_require__(130);
+var _led_matrix_char = __webpack_require__(131);
 
 var _led_matrix_char2 = _interopRequireDefault(_led_matrix_char);
 
-var _led_matrix_time = __webpack_require__(131);
+var _led_matrix_time = __webpack_require__(132);
 
 var _led_matrix_time2 = _interopRequireDefault(_led_matrix_time);
 
-var _led_matrix_emotion = __webpack_require__(132);
+var _led_matrix_emotion = __webpack_require__(133);
 
 var _led_matrix_emotion2 = _interopRequireDefault(_led_matrix_emotion);
 
-var _led_matrix_number = __webpack_require__(133);
+var _led_matrix_number = __webpack_require__(134);
 
 var _led_matrix_number2 = _interopRequireDefault(_led_matrix_number);
 
-var _buzzer = __webpack_require__(134);
+var _buzzer = __webpack_require__(135);
 
 var _buzzer2 = _interopRequireDefault(_buzzer);
 
-var _seven_segment = __webpack_require__(135);
+var _seven_segment = __webpack_require__(136);
 
 var _seven_segment2 = _interopRequireDefault(_seven_segment);
 
-var _shutter = __webpack_require__(136);
+var _shutter = __webpack_require__(137);
 
 var _shutter2 = _interopRequireDefault(_shutter);
 
-var _reset = __webpack_require__(137);
+var _reset = __webpack_require__(138);
 
 var _reset2 = _interopRequireDefault(_reset);
 
-var _version = __webpack_require__(138);
+var _version = __webpack_require__(139);
 
 var _version2 = _interopRequireDefault(_version);
 
-var _ultrasonic = __webpack_require__(139);
+var _ultrasonic = __webpack_require__(140);
 
 var _ultrasonic2 = _interopRequireDefault(_ultrasonic);
 
-var _temperature = __webpack_require__(140);
+var _temperature = __webpack_require__(141);
 
 var _temperature2 = _interopRequireDefault(_temperature);
 
-var _light = __webpack_require__(141);
+var _light = __webpack_require__(142);
 
 var _light2 = _interopRequireDefault(_light);
 
-var _potentionmeter = __webpack_require__(142);
+var _potentionmeter = __webpack_require__(143);
 
 var _potentionmeter2 = _interopRequireDefault(_potentionmeter);
 
-var _joystick = __webpack_require__(143);
+var _joystick = __webpack_require__(144);
 
 var _joystick2 = _interopRequireDefault(_joystick);
 
-var _gyro = __webpack_require__(144);
+var _gyro = __webpack_require__(145);
 
 var _gyro2 = _interopRequireDefault(_gyro);
 
-var _sound = __webpack_require__(145);
+var _sound = __webpack_require__(146);
 
 var _sound2 = _interopRequireDefault(_sound);
 
-var _temperature_on_board = __webpack_require__(146);
+var _temperature_on_board = __webpack_require__(147);
 
 var _temperature_on_board2 = _interopRequireDefault(_temperature_on_board);
 
-var _pirmotion = __webpack_require__(147);
+var _pirmotion = __webpack_require__(148);
 
 var _pirmotion2 = _interopRequireDefault(_pirmotion);
-
-var _line_follower = __webpack_require__(148);
-
-var _line_follower2 = _interopRequireDefault(_line_follower);
 
 var _limit_switch = __webpack_require__(149);
 
 var _limit_switch2 = _interopRequireDefault(_limit_switch);
 
-var _compass = __webpack_require__(150);
+var _line_follower = __webpack_require__(150);
+
+var _line_follower2 = _interopRequireDefault(_line_follower);
+
+var _compass = __webpack_require__(151);
 
 var _compass2 = _interopRequireDefault(_compass);
 
-var _humiture = __webpack_require__(151);
+var _humiture = __webpack_require__(152);
 
 var _humiture2 = _interopRequireDefault(_humiture);
 
-var _flame = __webpack_require__(152);
+var _flame = __webpack_require__(153);
 
 var _flame2 = _interopRequireDefault(_flame);
 
-var _gas = __webpack_require__(153);
+var _gas = __webpack_require__(154);
 
 var _gas2 = _interopRequireDefault(_gas);
 
-var _touch = __webpack_require__(154);
+var _touch = __webpack_require__(155);
 
 var _touch2 = _interopRequireDefault(_touch);
 
-var _four_keys = __webpack_require__(155);
+var _four_keys = __webpack_require__(156);
 
 var _four_keys2 = _interopRequireDefault(_four_keys);
 
-var _dig_GPIO = __webpack_require__(156);
+var _dig_GPIO = __webpack_require__(157);
 
 var _dig_GPIO2 = _interopRequireDefault(_dig_GPIO);
 
-var _analog_GPIO = __webpack_require__(157);
+var _analog_GPIO = __webpack_require__(158);
 
 var _analog_GPIO2 = _interopRequireDefault(_analog_GPIO);
 
-var _GPIO_continue = __webpack_require__(158);
+var _GPIO_continue = __webpack_require__(159);
 
 var _GPIO_continue2 = _interopRequireDefault(_GPIO_continue);
 
-var _double_GPIO = __webpack_require__(159);
+var _double_GPIO = __webpack_require__(160);
 
 var _double_GPIO2 = _interopRequireDefault(_double_GPIO);
 
-var _runtime = __webpack_require__(160);
+var _runtime = __webpack_require__(161);
 
 var _runtime2 = _interopRequireDefault(_runtime);
 
@@ -2095,6 +2092,7 @@ exports.default = {
   Buzzer: _buzzer2.default,
   SevenSegment: _seven_segment2.default,
   Shutter: _shutter2.default,
+  VirtualJoystick: _virtual_joystick2.default,
 
   Reset: _reset2.default, //实现待验证
   Version: _version2.default, //实现待验证
@@ -2206,7 +2204,7 @@ var RgbLedBase = function (_Electronic) {
 
   /**
    * set led position
-   * @param {number} position 
+   * @param {number} position
    */
 
 
@@ -2219,7 +2217,7 @@ var RgbLedBase = function (_Electronic) {
 
     /**
      * set led red value
-     * @param {number} value 0 ~ 255 
+     * @param {number} value 0 ~ 255
      */
 
   }, {
@@ -2231,7 +2229,7 @@ var RgbLedBase = function (_Electronic) {
 
     /**
      * set led green value
-     * @param {number} value 0 ~ 255 
+     * @param {number} value 0 ~ 255
      */
 
   }, {
@@ -2243,7 +2241,7 @@ var RgbLedBase = function (_Electronic) {
 
     /**
      * set blue red value
-     * @param {number} value 0 ~ 255 
+     * @param {number} value 0 ~ 255
      */
 
   }, {
@@ -2260,11 +2258,8 @@ var RgbLedBase = function (_Electronic) {
 
   }, {
     key: 'turnOn',
-    value: function turnOn(position) {
-      this.args.position(position);
-      //组装协议
+    value: function turnOn() {
       var buf = bufComposer(this.args);
-      //执行
       _command2.default.execWrite(buf);
       return this;
     }
@@ -2276,12 +2271,9 @@ var RgbLedBase = function (_Electronic) {
 
   }, {
     key: 'turnOff',
-    value: function turnOff(position) {
-      this.args.position(position);
+    value: function turnOff() {
       this.args.rgb = [0, 0, 0];
-      //组装协议
       var buf = bufComposer(this.args);
-      //执行
       _command2.default.execWrite(buf);
       return this;
     }
@@ -2703,8 +2695,7 @@ var MotorBase = function (_Electronic) {
   }, {
     key: 'stop',
     value: function stop() {
-      this.speed(0);
-      this.run();
+      this.speed(0).run();
       return this;
     }
   }]);
@@ -3099,15 +3090,15 @@ var _mcore = __webpack_require__(66);
 
 var _mcore2 = _interopRequireDefault(_mcore);
 
-var _orion = __webpack_require__(161);
+var _orion = __webpack_require__(162);
 
 var _orion2 = _interopRequireDefault(_orion);
 
-var _auriga = __webpack_require__(162);
+var _auriga = __webpack_require__(163);
 
 var _auriga2 = _interopRequireDefault(_auriga);
 
-var _megaPi = __webpack_require__(163);
+var _megaPi = __webpack_require__(164);
 
 var _megaPi2 = _interopRequireDefault(_megaPi);
 
@@ -4646,6 +4637,105 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _getPrototypeOf = __webpack_require__(1);
+
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+var _classCallCheck2 = __webpack_require__(0);
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = __webpack_require__(4);
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _possibleConstructorReturn2 = __webpack_require__(2);
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = __webpack_require__(3);
+
+var _inherits3 = _interopRequireDefault(_inherits2);
+
+var _type = __webpack_require__(7);
+
+var _utils = __webpack_require__(5);
+
+var _utils2 = _interopRequireDefault(_utils);
+
+var _electronic = __webpack_require__(9);
+
+var _electronic2 = _interopRequireDefault(_electronic);
+
+var _cmd = __webpack_require__(8);
+
+var _cmd2 = _interopRequireDefault(_cmd);
+
+var _command = __webpack_require__(6);
+
+var _command2 = _interopRequireDefault(_command);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var VirtualJoystick = function (_Electronic) {
+  (0, _inherits3.default)(VirtualJoystick, _Electronic);
+
+  function VirtualJoystick() {
+    (0, _classCallCheck3.default)(this, VirtualJoystick);
+
+    // TODO: 加入args对象有什么好处？
+    var _this = (0, _possibleConstructorReturn3.default)(this, (VirtualJoystick.__proto__ || (0, _getPrototypeOf2.default)(VirtualJoystick)).call(this));
+
+    _this.args = {
+      leftSpeed: 0,
+      rightSpeed: 0
+    };
+    return _this;
+  }
+
+  (0, _createClass3.default)(VirtualJoystick, [{
+    key: 'speed',
+    value: function speed(leftSpeed, rightSpeed) {
+      this.args.leftSpeed = (0, _type.defineNumber)(leftSpeed, 0);
+      // TODO: 该方法与下列方法有什么区别?
+      // this.args.leftSpeed = leftSpeed || 0;
+      this.args.rightSpeed = (0, _type.defineNumber)(rightSpeed, 0);
+      return this;
+    }
+  }, {
+    key: 'run',
+    value: function run() {
+      var buf = _utils2.default.composer(_cmd2.default.setJoystick, [this.args.leftSpeed, this.args.rightSpeed]);
+      _command2.default.execWrite(buf);
+      return this;
+    }
+  }, {
+    key: 'stop',
+    value: function stop() {
+      this.speed(0, 0).run();
+    }
+  }], [{
+    key: 'supportStamp',
+    value: function supportStamp() {
+      return '1111';
+    }
+  }]);
+  return VirtualJoystick;
+}(_electronic2.default);
+
+exports.default = VirtualJoystick;
+
+/***/ }),
+/* 123 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
 var _assign = __webpack_require__(15);
 
 var _assign2 = _interopRequireDefault(_assign);
@@ -4748,7 +4838,7 @@ var StepperMotor = function (_MotorBase) {
 exports.default = StepperMotor;
 
 /***/ }),
-/* 123 */
+/* 124 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4818,7 +4908,7 @@ var EncoderMotor = function (_EncoderMotorBase) {
 exports.default = EncoderMotor;
 
 /***/ }),
-/* 124 */
+/* 125 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4924,7 +5014,7 @@ var EncoderMotorOnBoard = function (_EncoderMotorBase) {
 exports.default = EncoderMotorOnBoard;
 
 /***/ }),
-/* 125 */
+/* 126 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5046,7 +5136,7 @@ var ServoMotor = function (_Electronic) {
 exports.default = ServoMotor;
 
 /***/ }),
-/* 126 */
+/* 127 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5102,7 +5192,7 @@ var FourLed = function (_RgbLedBase) {
 exports.default = FourLed;
 
 /***/ }),
-/* 127 */
+/* 128 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5158,7 +5248,7 @@ var RgbLed = function (_RgbLedBase) {
 exports.default = RgbLed;
 
 /***/ }),
-/* 128 */
+/* 129 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5217,7 +5307,7 @@ var LedPanelOnBoard = function (_RgbLedBase) {
 exports.default = LedPanelOnBoard;
 
 /***/ }),
-/* 129 */
+/* 130 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5273,7 +5363,7 @@ var RgbLedOnBoard = function (_RgbLedBase) {
 exports.default = RgbLedOnBoard;
 
 /***/ }),
-/* 130 */
+/* 131 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5380,7 +5470,7 @@ var LedMatrixChar = function (_LedMatrixBase) {
 exports.default = LedMatrixChar;
 
 /***/ }),
-/* 131 */
+/* 132 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5487,7 +5577,7 @@ var LedMatrixTime = function (_LedMatrixBase) {
 exports.default = LedMatrixTime;
 
 /***/ }),
-/* 132 */
+/* 133 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5592,7 +5682,7 @@ var LedMatrixEmotion = function (_LedMatrixBase) {
 exports.default = LedMatrixEmotion;
 
 /***/ }),
-/* 133 */
+/* 134 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5685,7 +5775,7 @@ var LedMatrixNumber = function (_LedMatrixBase) {
 exports.default = LedMatrixNumber;
 
 /***/ }),
-/* 134 */
+/* 135 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5750,12 +5840,24 @@ var Buzzer = function (_Electronic) {
     return _this;
   }
 
+  /**
+   * set tone
+   * @param  {String} tone tone string, such as "C5"
+   */
+
+
   (0, _createClass3.default)(Buzzer, [{
     key: 'tone',
     value: function tone(_tone) {
       this.args.tone = (0, _type.defineString)(_tone.toUpperCase());
       return this;
     }
+
+    /**
+     * set beat
+     * @param  {Number} beat such as 250, 1000
+     */
+
   }, {
     key: 'beat',
     value: function beat(_beat) {
@@ -5781,7 +5883,7 @@ var Buzzer = function (_Electronic) {
 exports.default = Buzzer;
 
 /***/ }),
-/* 135 */
+/* 136 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5871,7 +5973,7 @@ var SevenSegment = function (_Electronic) {
 exports.default = SevenSegment;
 
 /***/ }),
-/* 136 */
+/* 137 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5967,7 +6069,7 @@ var Shutter = function (_Electronic) {
 exports.default = Shutter;
 
 /***/ }),
-/* 137 */
+/* 138 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6048,7 +6150,7 @@ var Reset = function (_Electronic) {
 exports.default = Reset;
 
 /***/ }),
-/* 138 */
+/* 139 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6129,7 +6231,7 @@ var Version = function (_Electronic) {
 exports.default = Version;
 
 /***/ }),
-/* 139 */
+/* 140 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6212,7 +6314,7 @@ var Ultrasonic = function (_Electronic) {
 exports.default = Ultrasonic;
 
 /***/ }),
-/* 140 */
+/* 141 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6296,7 +6398,7 @@ var Temperature = function (_Electronic) {
 exports.default = Temperature;
 
 /***/ }),
-/* 141 */
+/* 142 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6379,7 +6481,7 @@ var Light = function (_Electronic) {
 exports.default = Light;
 
 /***/ }),
-/* 142 */
+/* 143 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6462,7 +6564,7 @@ var Potentionmeter = function (_Electronic) {
 exports.default = Potentionmeter;
 
 /***/ }),
-/* 143 */
+/* 144 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6546,7 +6648,7 @@ var Joystick = function (_Electronic) {
 exports.default = Joystick;
 
 /***/ }),
-/* 144 */
+/* 145 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6630,7 +6732,7 @@ var Gyro = function (_Electronic) {
 exports.default = Gyro;
 
 /***/ }),
-/* 145 */
+/* 146 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6716,7 +6818,7 @@ var Sound = function (_Electronic) {
 exports.default = Sound;
 
 /***/ }),
-/* 146 */
+/* 147 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6793,7 +6895,7 @@ var TemperatureOnBoard = function (_Electronic) {
 exports.default = TemperatureOnBoard;
 
 /***/ }),
-/* 147 */
+/* 148 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6874,89 +6976,6 @@ var Pirmotion = function (_Electronic) {
 }(_electronic2.default);
 
 exports.default = Pirmotion;
-
-/***/ }),
-/* 148 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _getPrototypeOf = __webpack_require__(1);
-
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
-
-var _classCallCheck2 = __webpack_require__(0);
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = __webpack_require__(4);
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-var _possibleConstructorReturn2 = __webpack_require__(2);
-
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-var _inherits2 = __webpack_require__(3);
-
-var _inherits3 = _interopRequireDefault(_inherits2);
-
-var _type = __webpack_require__(7);
-
-var _utils = __webpack_require__(5);
-
-var _utils2 = _interopRequireDefault(_utils);
-
-var _electronic = __webpack_require__(9);
-
-var _electronic2 = _interopRequireDefault(_electronic);
-
-var _cmd = __webpack_require__(8);
-
-var _cmd2 = _interopRequireDefault(_cmd);
-
-var _command = __webpack_require__(6);
-
-var _command2 = _interopRequireDefault(_command);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var LineFollower = function (_Electronic) {
-  (0, _inherits3.default)(LineFollower, _Electronic);
-
-  function LineFollower(port) {
-    (0, _classCallCheck3.default)(this, LineFollower);
-
-    var _this = (0, _possibleConstructorReturn3.default)(this, (LineFollower.__proto__ || (0, _getPrototypeOf2.default)(LineFollower)).call(this));
-
-    _this.args = {
-      port: (0, _type.defineNumber)(port)
-    };
-    return _this;
-  }
-
-  (0, _createClass3.default)(LineFollower, [{
-    key: 'getData',
-    value: function getData(callback) {
-      var buf = _utils2.default.composer(_cmd2.default.readLineFollower, [this.args.port]);
-      _command2.default.execRead(buf, callback);
-      return this;
-    }
-  }], [{
-    key: 'supportStamp',
-    value: function supportStamp() {
-      return '1111';
-    }
-  }]);
-  return LineFollower;
-}(_electronic2.default);
-
-exports.default = LineFollower;
 
 /***/ }),
 /* 149 */
@@ -7093,6 +7112,89 @@ var _command2 = _interopRequireDefault(_command);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var LineFollower = function (_Electronic) {
+  (0, _inherits3.default)(LineFollower, _Electronic);
+
+  function LineFollower(port) {
+    (0, _classCallCheck3.default)(this, LineFollower);
+
+    var _this = (0, _possibleConstructorReturn3.default)(this, (LineFollower.__proto__ || (0, _getPrototypeOf2.default)(LineFollower)).call(this));
+
+    _this.args = {
+      port: (0, _type.defineNumber)(port)
+    };
+    return _this;
+  }
+
+  (0, _createClass3.default)(LineFollower, [{
+    key: 'getData',
+    value: function getData(callback) {
+      var buf = _utils2.default.composer(_cmd2.default.readLineFollower, [this.args.port]);
+      _command2.default.execRead(buf, callback);
+      return this;
+    }
+  }], [{
+    key: 'supportStamp',
+    value: function supportStamp() {
+      return '1111';
+    }
+  }]);
+  return LineFollower;
+}(_electronic2.default);
+
+exports.default = LineFollower;
+
+/***/ }),
+/* 151 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _getPrototypeOf = __webpack_require__(1);
+
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+var _classCallCheck2 = __webpack_require__(0);
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = __webpack_require__(4);
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _possibleConstructorReturn2 = __webpack_require__(2);
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = __webpack_require__(3);
+
+var _inherits3 = _interopRequireDefault(_inherits2);
+
+var _type = __webpack_require__(7);
+
+var _utils = __webpack_require__(5);
+
+var _utils2 = _interopRequireDefault(_utils);
+
+var _electronic = __webpack_require__(9);
+
+var _electronic2 = _interopRequireDefault(_electronic);
+
+var _cmd = __webpack_require__(8);
+
+var _cmd2 = _interopRequireDefault(_cmd);
+
+var _command = __webpack_require__(6);
+
+var _command2 = _interopRequireDefault(_command);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 var Compass = function (_Electronic) {
   (0, _inherits3.default)(Compass, _Electronic);
 
@@ -7126,7 +7228,7 @@ var Compass = function (_Electronic) {
 exports.default = Compass;
 
 /***/ }),
-/* 151 */
+/* 152 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7210,7 +7312,7 @@ var Humiture = function (_Electronic) {
 exports.default = Humiture;
 
 /***/ }),
-/* 152 */
+/* 153 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7293,7 +7395,7 @@ var Flame = function (_Electronic) {
 exports.default = Flame;
 
 /***/ }),
-/* 153 */
+/* 154 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7376,7 +7478,7 @@ var Gas = function (_Electronic) {
 exports.default = Gas;
 
 /***/ }),
-/* 154 */
+/* 155 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7459,7 +7561,7 @@ var Touch = function (_Electronic) {
 exports.default = Touch;
 
 /***/ }),
-/* 155 */
+/* 156 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7543,7 +7645,7 @@ var FourKeys = function (_Electronic) {
 exports.default = FourKeys;
 
 /***/ }),
-/* 156 */
+/* 157 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7626,7 +7728,7 @@ var DigGPIO = function (_Electronic) {
 exports.default = DigGPIO;
 
 /***/ }),
-/* 157 */
+/* 158 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7709,7 +7811,7 @@ var AnalogGPIO = function (_Electronic) {
 exports.default = AnalogGPIO;
 
 /***/ }),
-/* 158 */
+/* 159 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7793,7 +7895,7 @@ var GPIOContinue = function (_Electronic) {
 exports.default = GPIOContinue;
 
 /***/ }),
-/* 159 */
+/* 160 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7877,7 +7979,7 @@ var DoubleGPIO = function (_Electronic) {
 exports.default = DoubleGPIO;
 
 /***/ }),
-/* 160 */
+/* 161 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7954,7 +8056,7 @@ var Runtime = function (_Electronic) {
 exports.default = Runtime;
 
 /***/ }),
-/* 161 */
+/* 162 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8036,7 +8138,7 @@ var Orion = function (_Board) {
 exports.default = Orion;
 
 /***/ }),
-/* 162 */
+/* 163 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8118,7 +8220,7 @@ var Auriga = function (_Board) {
 exports.default = Auriga;
 
 /***/ }),
-/* 163 */
+/* 164 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
