@@ -5,7 +5,6 @@ class RgbLed extends RgbLedBase {
     super(port, slot);
   }
 
-  //主控支持戳：描述各主控的支持情况
   static supportStamp(){
     return '1111';
   }

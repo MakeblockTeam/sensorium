@@ -5,12 +5,7 @@ const {
 const Electronic = require('./electronic');
 const { setSevenSegment } = require('../protocol/cmd');
 
-// 作为闭包内容不开放
 class ButtonOnBoard extends Electronic {
-  /**
-   * Buzzer类，声音模块
-   * @constructor
-   */
   constructor() {
     super();
     this.args = {
@@ -18,9 +13,6 @@ class ButtonOnBoard extends Electronic {
     };
   }
 
-  /**
-   * @param {string} tone - 声音音调
-   */
   checkStatus(status) {
     this.args.status = defineString(status);
     this._run();
@@ -28,15 +20,10 @@ class ButtonOnBoard extends Electronic {
   }
 
   _run() {
-    // 拿到参数
-    // 拿到协议组装器，组装协议
     let buf = composer(setSevenSegment, [this.args.port, this.args.action]);
-    // 用板子发送协议
     board.send(buf);
   }
 
-  //主控支持戳：描述各主控的支持情况
-  //只有 mcore 支持
   static supportStamp(){
     return '1000';
   }

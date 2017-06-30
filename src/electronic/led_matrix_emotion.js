@@ -1,16 +1,12 @@
-// import { defineNumber } from '../core/type';
 import Utils from '../core/utils';
 import LedMatrixBase from './base/LedMatrixBase';
 import protocolAssembler from '../protocol/cmd';
-import Command from '../communicate/command';
+import command from '../communicate/command';
 
 class LedMatrixEmotion extends LedMatrixBase {
-  /**
-   * @constructor
-   */
   constructor(port) {
     super(port);
-    //参数
+
     Object.assign(this.args, {
       x: null,
       y: null,
@@ -28,17 +24,17 @@ class LedMatrixEmotion extends LedMatrixBase {
     return this;
   }
 
-  showEmotion(emotion){
+  emotion(emotion) {
     this.args.emotion = emotion;
-    //组装buf
-    let buf = Utils.composer(protocolAssembler.setLedMatrixEmotion, [this.args.port, this.args.x, this.args.y, this.args.emotion]);
-    //执行
-    Command.execWrite(buf);
     return this;
   }
 
-  //主控支持戳：描述各主控的支持情况
-  //orion 不支持
+  run(){
+    let buf = Utils.composer(protocolAssembler.setLedMatrixEmotion, [this.args.port, this.args.x, this.args.y, this.args.emotion]);
+    command.execWrite(buf);
+    return this;
+  }
+
   static supportStamp(){
     return '1110';
   }

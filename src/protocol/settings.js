@@ -6,7 +6,7 @@ const Settings = {
     DEFAULT_CONF : {
 
     },
-    SUPPORTLIST: ['Mcore', 'Auriga', 'MegaPi', 'Orion', 'Arduino', 'Neuron']
+    SUPPORTLIST: ['Mcore', 'Auriga', 'MegaPi', 'Orion', 'Arduino']
 };
 
 export default Settings;

@@ -2,15 +2,10 @@ import { defineNumber } from '../core/type';
 import Utils from '../core/utils';
 import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
-import Command from '../communicate/command';
+import command from '../communicate/command';
 
 class ServoMotor extends Electronic {
 
-  /**
-   * ServoMotor
-   * @constructor
-   * @param {number} port
-   */
   constructor(port, slot) {
     super();
     this.args = {
@@ -36,7 +31,7 @@ class ServoMotor extends Electronic {
    */
   toStart(){
     this.angle(180);
-    return this.go();
+    return this.run();
   }
 
   /**
@@ -45,17 +40,15 @@ class ServoMotor extends Electronic {
    */
   toEnd(){
     this.angle(0);
-    return this.go();
+    return this.run();
   }
 
-  go(){
+  run(){
     let buf = Utils.composer(protocolAssembler.setServoMotor, [this.args.port, this.args.slot, this.args.angle]);
-    //执行
-    Command.execWrite(buf);
+    command.execWrite(buf);
     return this;
   }
 
-  //主控支持戳：描述各主控的支持情况
   static supportStamp(){
     return '1111';
   }
