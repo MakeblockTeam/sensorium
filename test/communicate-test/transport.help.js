@@ -1,4 +1,4 @@
-import Command from '../../../src/communicate/command';
+import Command from '../../src/communicate/command';
 import Server from './parent';
 
 function SerialPort(){

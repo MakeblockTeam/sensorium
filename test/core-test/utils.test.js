@@ -1,4 +1,4 @@
-var utils = require("../../../src/core/utils");
+var utils = require("../../src/core/utils");
 var assert = require('chai').assert;
 
 describe('test limitValue', function() {

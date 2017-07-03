@@ -1,5 +1,5 @@
-import utils  from "../../../src/core/utils";
-import Parse  from "../../../src/core/parse";
+import utils  from "../../src/core/utils";
+import Parse  from "../../src/core/parse";
 import chai from 'chai';
 const expect = chai.expect;
 var assert = require('chai').assert;

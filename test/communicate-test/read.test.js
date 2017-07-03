@@ -2,8 +2,8 @@
  * 假设是可靠传输
  */
 import Transport from './transport.help';
-import Cammand from '../../../src/communicate/command';
-import Read from '../../../src/communicate/read';
+import Cammand from '../../src/communicate/command';
+import Read from '../../src/communicate/read';
 import chai from 'chai';
 const expect = chai.expect;
 

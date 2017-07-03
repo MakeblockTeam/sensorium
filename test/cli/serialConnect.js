@@ -22,6 +22,7 @@ SerialPort.list(function(err, ports) {
           onReceived: function(pipe) {
             serialPort.on('data', function(buff) {
               console.log('[' + buff.join(',') + ']');
+              pipe(buff);
             });
           }
         });
@@ -40,3 +41,5 @@ module.exports = auriga;
 // auriga.RgbLedOnBoard().green();
 // auriga.RgbLedOnBoard().red();
 // auriga.RgbLedOnBoard().blue();
+// auriga.Ultrasonic(6).getData(function(buf){console.log(buf)})
+// var n = 0; while(n < 257){n++; auriga.Ultrasonic(6).getData(function(buf){console.log(buf);})}
