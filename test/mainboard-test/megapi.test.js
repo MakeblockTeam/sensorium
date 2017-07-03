@@ -3,7 +3,7 @@
  * @Jeremy
  */
 
-import MegaPi from "../../src/protocol/megapi";
+import MegaPi from "../../src/mainboard/megapi";
 import eModuleList from "../../src/electronic/index";
 import chai from 'chai';
 const expect = chai.expect;

@@ -5,7 +5,7 @@
 //es6 module
 import Transport from '../communicate/transport';
 import Command from '../communicate/command';
-import Settings from '../protocol/settings';
+import Settings from '../mainboard/settings';
 
 
 const createModuleId = function (eModule, args){

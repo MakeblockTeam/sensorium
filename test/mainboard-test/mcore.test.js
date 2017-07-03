@@ -3,7 +3,7 @@
  * @Jeremy
  */
 
-import Mcore from "../../src/protocol/mcore";
+import Mcore from "../../src/mainboard/mcore";
 import eModuleList from "../../src/electronic/index";
 import chai from 'chai';
 const expect = chai.expect;

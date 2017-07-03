@@ -1,7 +1,7 @@
 const path = require('path');
 
 module.exports = {
-  entry: './src/protocol/index.js',
+  entry: './src/mainboard/index.js',
   output: {
     path: path.resolve(__dirname, 'browser'),
     filename: 'sensorium.js',

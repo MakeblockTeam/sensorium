@@ -3,7 +3,7 @@
  * @Jeremy
  */
 
-import Orion from "../../src/protocol/orion";
+import Orion from "../../src/mainboard/orion";
 import eModuleList from "../../src/electronic/index";
 import chai from 'chai';
 const expect = chai.expect;

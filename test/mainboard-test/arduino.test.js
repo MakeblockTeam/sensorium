@@ -3,7 +3,7 @@
  * @Jeremy
  */
 
-import Arduino from "../../src/protocol/arduino";
+import Arduino from "../../src/mainboard/arduino";
 import eModuleList from "../../src/electronic/index";
 import chai from 'chai';
 const expect = chai.expect;

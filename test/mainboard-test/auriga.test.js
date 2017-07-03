@@ -2,7 +2,7 @@
  * 对电子模块各个类实例的方法可用性测试，而不测试其功能正确
  * @Jeremy
  */
-import Auriga from "../../src/protocol/auriga";
+import Auriga from "../../src/mainboard/auriga";
 import eModuleList from "../../src/electronic/index";
 import chai from 'chai';
 const expect = chai.expect;
