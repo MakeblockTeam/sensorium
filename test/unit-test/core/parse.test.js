@@ -1,7 +1,8 @@
-var utils = require("../../../src/core/utils");
-var Parse = require("../../../src/core/parse");
+import utils  from "../../../src/core/utils";
+import Parse  from "../../../src/core/parse";
+import chai from 'chai';
+const expect = chai.expect;
 var assert = require('chai').assert;
-var parse = new Parse();
 
 describe('test doParse', function() {
   // 接收到残缺数据
@@ -11,31 +12,31 @@ describe('test doParse', function() {
       [0x0a]
     ];
     for (var i in mock_receive_data) {
-      parse.doParse(mock_receive_data[i], null, function(buf) {
+      Parse.doParse(mock_receive_data[i], null, function(buf) {
         assert.equal(buf.length, 6);
       })
     }
   });
 
-  // 接收到完整数据
+  // 接收到完整数据1
   it('should parse the complete data1', function() {
     var mock_receive_data = [
       [0xff, 0x55, 0x00, 0x02, 0xe6, 0x9e, 0x16, 0x41, 0x0d, 0x0a]
     ];
     for (var i in mock_receive_data) {
-      parse.doParse(mock_receive_data[i], null, function(buf) {
+      Parse.doParse(mock_receive_data[i], null, function(buf) {
         assert.equal(buf.length, 6);
       })
     }
   });
 
-  // 接收到完整数据
+  // 接收到完整数据2
   it('should parse the complete data2', function() {
     var mock_receive_data = [
       [0xff, 0x55, 0x0d, 0x0a]
     ];
     for (var i in mock_receive_data) {
-      parse.doParse(mock_receive_data[i], null, function(buf) {
+      Parse.doParse(mock_receive_data[i], null, function(buf) {
         assert.equal(buf.length, 0);
       })
     }
@@ -48,7 +49,7 @@ describe('test doParse', function() {
       [0xff, 0x55, 0x00, 0x02, 0xe6, 0x9e, 0x16, 0x41, 0x0d, 0x0a]
     ];
     for (var i in mock_receive_data) {
-      parse.doParse(mock_receive_data[i], null, function(buf) {
+      Parse.doParse(mock_receive_data[i], null, function(buf) {
         assert.equal(buf.length, 0);
       })
     }
@@ -61,7 +62,7 @@ describe('test doParse', function() {
       [0x00, 0x02, 0xe6, 0x9e, 0x16, 0x41, 0x0d, 0x0a],
     ];
     for (var i in mock_receive_data) {
-      parse.doParse(mock_receive_data[i], null, function(buf) {
+      Parse.doParse(mock_receive_data[i], null, function(buf) {
         assert.equal(buf.length, 6);
       })
     }
@@ -74,7 +75,7 @@ describe('test doParse', function() {
       [0x00, 0x02, 0xe6, 0x9e, 0x16, 0x41, 0x0d, 0x0a]
     ];
     for (var i in mock_receive_data) {
-      parse.doParse(mock_receive_data[i], null, function(buf) {
+      Parse.doParse(mock_receive_data[i], null, function(buf) {
         assert.equal(buf.length, 6);
       })
     }
@@ -84,7 +85,7 @@ describe('test doParse', function() {
 describe('test getResult', function() {
   it('should get value "09.01.002"', function() {
     var data = [0x00, 0x04, 0x09, 0x30, 0x39, 0x2E, 0x30, 0x31, 0x2E, 0x30, 0x30, 0x32];
-    var version = parse.getResult(data);
+    var version = Parse.getResult(data);
     assert.equal(version, "09.01.002");
   });
 });

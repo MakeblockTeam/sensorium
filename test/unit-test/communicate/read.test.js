@@ -3,7 +3,7 @@
  */
 import Transport from './transport.help';
 import Cammand from '../../../src/communicate/command';
-import ReadControl from '../../../src/communicate/readControl';
+import Read from '../../../src/communicate/read';
 import chai from 'chai';
 const expect = chai.expect;
 
@@ -11,10 +11,10 @@ const expect = chai.expect;
 Cammand.exec = function(buf){
   Transport.send(buf);
 }
-//重置 ReadControl
-const resetReadControlForTest = function(){
-  ReadControl.readRecord = {};
-  ReadControl.index = 0;
+//重置 Read
+const resetReadForTest = function(){
+  Read.readRecord = {};
+  Read.index = 0;
 }
 const throttler = function(num){
   let NUM = num;
@@ -36,9 +36,9 @@ describe('test doParse', function() {
   //模拟发送 1 条请求
   it('should create 1 readRecord', function(done) {
     let CaseReadNumber = 1;
-    resetReadControlForTest();
+    resetReadForTest();
     Cammand.execRead(UltrasonicProtocol, function(val){
-      let count = Object.keys(ReadControl.readRecord).length;
+      let count = Object.keys(Read.readRecord).length;
       expect(count).to.eql(CaseReadNumber);
       done();
     }); //ff 55 04 00 01 01 06
@@ -47,7 +47,7 @@ describe('test doParse', function() {
   //模拟快速创建 25 条请求
   it(`should create 25 readRecords`, function(done) {
     let CaseReadNumber = 25;
-    resetReadControlForTest();
+    resetReadForTest();
     let emitFunc = throttler(CaseReadNumber);
     let count = 0;
     for(let i = 0; i < CaseReadNumber; i++){
@@ -64,7 +64,7 @@ describe('test doParse', function() {
   //模拟快速创建 255 条请求
   //预期能执行 255 次请求回调
   it('快速创建 255 条请求, 预期执行 255 次请求回调', function(done) {
-    resetReadControlForTest();
+    resetReadForTest();
     let CaseReadNumber = 255;
     let emitFunc = throttler(CaseReadNumber);
     let count = 0;
@@ -82,7 +82,7 @@ describe('test doParse', function() {
   // 模拟匀速(20ms/条)创建 255 条请求
   // 预期执行 255 次请求回调
   it('匀速(20ms/条)创建 255 条请求，预期执行不超过 255 次请求回调', function(done) {
-    resetReadControlForTest();
+    resetReadForTest();
     this.timeout(6000);
     let CaseReadNumber = 255;
     let isDone = false;
@@ -108,7 +108,7 @@ describe('test doParse', function() {
   //模拟匀速(60ms/条)创建 100 条请求
   it('模拟匀速(60ms/条)创建 100 条请求，预期执行不超过 100 次请求回调', function() {
     this.timeout(6000);
-    resetReadControlForTest();
+    resetReadForTest();
     let CaseReadNumber = 100;
     let isDone = false;
     let count = 0; //回调计数
