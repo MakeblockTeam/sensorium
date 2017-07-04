@@ -154,6 +154,7 @@ function protocolAssembler() {
     r = Utils.limitValue(r, [0, 255]);
     g = Utils.limitValue(g, [0, 255]);
     b = Utils.limitValue(b, [0, 255]);
+    position = Utils.limitValue(position, [0]);
     return bufAssembler({mode: 0x02, id: 0x08}, port, slot, position, r, g, b);
   };
 
