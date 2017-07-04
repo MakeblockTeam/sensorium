@@ -44,7 +44,7 @@ describe('interface:', function() {
     setTimeout(function() {
       console.log("启动时间：4秒～～～OK！");
       done();
-    }, 4000);
+    }, 1000);
   });
 
   drivenData.forEach(function(d) {
@@ -65,6 +65,23 @@ describe('interface:', function() {
         let currentCmd = Utils.intStrToHexStr(currentArrayCmd);
         var presetOrder = d.caseSummary[2]; //对应的预设值
         assert.equal(currentCmd, presetOrder);
+        done();
+      } else if (d.caseSummary[0] == "send-argsLoop:") {
+        let args_arr = d.caseSummary[1].split(",");
+        let presetOrders =  d.caseSummary[4].split(",");
+        for(let i = 0; i < args_arr.length; i++){
+          let arg = parseInt(args_arr[i]);
+          console.log(args_arr);
+          console.log(d.caseSummary[3]);
+          var sendOrder = eval(d.caseSummary[3]); //相应的接口发送的实际指令
+          let currentArrayCmd = Utils.composer(protocolAssembler.setDcMotor, [sendOrder.args.port, sendOrder.args.speed]);
+          let currentCmd = Utils.intStrToHexStr(currentArrayCmd);
+          var presetOrder = presetOrders[i]; //对应的预设值  
+          console.log(presetOrder);
+          console.log(currentCmd);
+          assert.equal(currentCmd, presetOrder);
+          // done();
+        }
         done();
       }
     });

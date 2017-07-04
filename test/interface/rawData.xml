@@ -236,4 +236,21 @@
 </step>
 </steps>
 </testcase>
+
+<testcase internalid="42021" name="设置直流电机M1在速度取值正常范围内，即【100,255，150,0,-100，-255,-150】">
+	<node_order><![CDATA[1009]]></node_order>
+	<externalid><![CDATA[1422]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	send-argsLoop:`100,255,150,0,-100,-255,-150`setDcMotor`mcore.DcMotor(9).speed(arg)`ff 55 06 00 02 0a 09 64 00,ff 55 06 00 02 0a 09 ff 00,ff 55 06 00 02 0a 09 96 00,ff 55 06 00 02 0a 09 00 00,ff 55 06 00 02 0a 09 9c ff,ff 55 06 00 02 0a 09 01 ff,ff 55 06 00 02 0a 09 6a ff</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
 </testsuite>
