@@ -1,32 +1,30 @@
-const {
-  defineNumber,
-  defineString
-} = require('../core/type');
-const Electronic = require('./electronic');
-const { setSevenSegment } = require('../protocol/cmd');
+//暂未完成，待确认需求
+import { defineNumber } from '../core/type';
+import Utils from '../core/utils';
+import Electronic from './electronic';
+import protocolAssembler from '../protocol/cmd';
+import command from '../communicate/command';
 
-class ButtonOnBoard extends Electronic {
-  constructor() {
+class ServoMotor extends Electronic {
+
+  constructor(port, slot) {
     super();
     this.args = {
-      status: null
+      port: defineNumber(port),
+      slot: defineNumber(slot),
+      angle: 0
     };
   }
 
-  checkStatus(status) {
-    this.args.status = defineString(status);
-    this._run();
+  run(){
+    let buf = Utils.composer(protocolAssembler.ButtonOnBoard, [this.args.port, this.args.slot, this.args.angle]);
+    command.execWrite(buf);
     return this;
   }
 
-  _run() {
-    let buf = composer(setSevenSegment, [this.args.port, this.args.action]);
-    board.send(buf);
-  }
-
   static supportStamp(){
-    return '1000';
+    return '1111';
   }
 }
 
-module.exports = ButtonOnBoard;
+export default ButtonOnBoard;

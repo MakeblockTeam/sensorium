@@ -71,7 +71,7 @@ describe('【auriga_最新固件 协议测试】', function() {
     });
 
     describe('外接编码电机：auriga.EncoderMotor(1～4, 1/2, 0～300, 720)', function() {
-      let ports = [0, 300, 301, -1];
+      let ports = [1, 2, 3, 4];
       for(let i = 0; i < ports.length; i++){
         let port = ports[i];
         it(`外接编码电机port${port} slot1 速度150 角度720`, function() {

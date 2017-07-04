@@ -1,14 +1,13 @@
 import { defineNumber } from '../core/type';
 import Utils from '../core/utils';
-import Electronic from './electronic';
+import Electronic from './Electronic';
 import protocolAssembler from '../protocol/cmd';
 import command from '../communicate/command';
 
-class VirtualJoystick extends Electronic {
+class VirtualJoystickForBoard extends Electronic {
 
   constructor() {
     super();
-    // TODO: 加入args对象有什么好处？
     this.args = {
       leftSpeed: 0,
       rightSpeed: 0,
@@ -16,10 +15,18 @@ class VirtualJoystick extends Electronic {
   }
 
   speed(leftSpeed, rightSpeed) {
-    this.args.leftSpeed = defineNumber(leftSpeed, 0);
-    // TODO: 该方法与下列方法有什么区别?
-    // this.args.leftSpeed = leftSpeed || 0;
-    this.args.rightSpeed = defineNumber(rightSpeed, 0);
+    this.args.leftSpeed = leftSpeed || 0;
+    this.args.rightSpeed = rightSpeed || 0;
+    return this;
+  }
+
+  leftSpeed(speed){
+    this.args.leftSpeed = speed || 0;
+    return this;
+  }
+
+  rightSpeed(speed){
+    this.args.rightSpeed = speed || 0;
     return this;
   }
 
@@ -30,7 +37,7 @@ class VirtualJoystick extends Electronic {
   }
 
   stop() {
-    this.speed(0,0).run();
+    return this.speed(0,0).run();
   }
 
   static supportStamp(){
@@ -38,4 +45,4 @@ class VirtualJoystick extends Electronic {
   }
 }
 
-export default VirtualJoystick;
+export default VirtualJoystickForBoard;

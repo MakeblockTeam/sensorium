@@ -39,8 +39,7 @@ class MotorBase extends Electronic {
    * stop motor
    */
   stop() {
-    this.speed(0).run();
-    return this;
+    return this.speed(0).run();
   }
 }
 

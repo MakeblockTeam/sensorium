@@ -101,13 +101,13 @@ function protocolAssembler() {
 
   /**
    * Set speed for balance mode, the port is on transport, value is 0.
-   * @param {number} turnDegree turn extend, -255 ~ 255
+   * @param {number} turnRange turn extend, -255 ~ 255
    * @param {number} speed      speed, -255 ~ 255
    * @example
    *     ff 55 08 00 02 34 00 64 00 64 00
    */
-  this.setVirtualJoystickForBalance = function(turnExtent, speed) {
-    turnExtent = Utils.limitValue(turnExtent);
+  this.setVirtualJoystickForBalance = function(turnRange, speed) {
+    turnExtent = Utils.limitValue(turnRange);
     speed = Utils.limitValue(speed);
     port = 0; //板载虚拟摇杆 port = 00
     return bufAssembler(
@@ -718,16 +718,6 @@ function protocolAssembler() {
     // ];
     return bufAssembler({mode: 0x01, id: 0x32});
   };
-
-  // this.readOntransportButton = function(index) {
-  //   var a = [
-  //     0xff,0x55,
-  //     0x03, index,
-  //     0x01,
-  //     0x32,
-  //   ];
-  //   return transport.send(a);
-  // };
 }
 
 export default new protocolAssembler();

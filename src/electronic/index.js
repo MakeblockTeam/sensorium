@@ -1,5 +1,6 @@
 import DcMotor from './dc_motor';
-import VirtualJoystick from './virtual_joystick';
+import VirtualJoystickForBoard from './virtual_joystick_for_board';
+import VirtualJoystickForBalance from './virtual_joystick_for_balance';
 import StepperMotor from './stepper_motor';
 import EncoderMotor from './encoder_motor';
 import EncoderMotorOnBoard from './encoder_motor_on_board';  //包含读值和写的接口
@@ -22,7 +23,7 @@ import Ultrasonic from './ultrasonic';
 import Temperature from './temperature';
 import Light from './light';
 import Potentionmeter from './potentionmeter';
-import Joystick from './joystick';
+import Joystick from './joystick'; //读值
 import Gyro from './gyro';
 import Sound from './sound';
 import TemperatureOnBoard from './temperature_on_board';
@@ -43,6 +44,8 @@ import Runtime from './runtime';
 
 export default {
   DcMotor,
+  VirtualJoystickForBoard,
+  VirtualJoystickForBalance,
   StepperMotor,
   EncoderMotor,
   EncoderMotorOnBoard,
@@ -58,7 +61,6 @@ export default {
   Buzzer,
   SevenSegment,
   Shutter,
-  VirtualJoystick,
 
   Reset, //实现待验证
   Version, //实现待验证
