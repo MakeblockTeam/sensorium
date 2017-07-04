@@ -32,9 +32,7 @@ class EncoderMotorBase extends MotorBase {
    * @return {Object} the instance
    */
   run() {
-    //组装buf
-    let buf = Utils.composer(protocolAssembler.setEncoderMotor, [this.args.port, this.args.speed, this.args.angle]);
-    //执行
+    let buf = Utils.composer(protocolAssembler.setEncoderMotor, [this.args.port, this.args.slot, this.args.speed, this.args.angle]);
     Command.execWrite(buf);
     return this;
   }
@@ -43,7 +41,7 @@ class EncoderMotorBase extends MotorBase {
    * dcMoter run reversely
    * @return {Object} the instance
    */
-  runReverse() {
+  reverse() {
     this.offsetAngle(-1 * this.args.angle);
     return this.run();
   }

@@ -4,207 +4,106 @@ const dataman = require('./dataman');
 import Utils from '../../src/core/utils';
 import protocolAssembler from '../../src/protocol/cmd';
 import Auriga from '../../src/mainboard/auriga';
+import Command from '../../src/communicate/command';
 import chai from 'chai';
 const expect = chai.expect;
+
+function captureWriteBuf(run){
+  let capturedBuf;
+  //override
+  Command.execWrite = function(buf){
+    capturedBuf = buf;
+    return;
+  }
+  run();
+  let currentCmd = capturedBuf.map(function(val){
+    let newVal = val.toString(16);
+    return newVal.length == 1? '0'+newVal : newVal;
+  });
+  return currentCmd.join(' ');
+}
 
 let auriga = new Auriga();
 
 describe('【auriga_最新固件 协议测试】', function() {
   describe('#执行协议部分', function() {
     describe('直流电机：auriga.DcMotor(1／2/3/4).speed(-255～255)', function() {
-      it('设置直流电机端口1速度为255', function() {
-        let dcMotor = auriga.DcMotor(1).speed(255);
-        let targetCmd = dataman.auriga.write.dcMotor[0];
-        let currentCmd = Utils.composer(protocolAssembler.setDcMotor, [dcMotor.args.port, dcMotor.args.speed]);
-        expect(currentCmd).to.equal(targetCmd);
-      });
+      //生成 5 个测试用例
+      for(let i = 1; i < 6; i++){
+        it(`设置直流电机端口${i}速度为255`, function() {
+          let dcMotor = auriga.DcMotor(i).speed(255);
+          let targetCmd = dataman.auriga.write.dcMotor[i-1];
+          let currentCmd = captureWriteBuf(dcMotor.run.bind(dcMotor));
+          expect(currentCmd).to.equal(targetCmd);
+        });
+      }
 
-      it('设置直流电机端口2速度为255', function() {
-        let dcMotor = auriga.DcMotor(2).speed(255);
-        let targetCmd = dataman.auriga.write.dcMotor[1];
-
-        let currentCmd = Utils.composer(protocolAssembler.setDcMotor, [dcMotor.args.port, dcMotor.args.speed]);
-        expect(currentCmd).to.equal(targetCmd);
-      });
-
-      it('设置直流电机端口3速度为255', function() {
-        let dcMotor = auriga.DcMotor(3).speed(255);
-        let targetCmd = dataman.auriga.write.dcMotor[2];
-        let currentCmd = Utils.composer(protocolAssembler.setDcMotor, [dcMotor.args.port, dcMotor.args.speed]);
-        expect(currentCmd).to.equal(targetCmd);
-      });
-
-      it('设置直流电机端口4速度为255', function() {
-        let dcMotor = auriga.DcMotor(4).speed(255);
-        let targetCmd = dataman.auriga.write.dcMotor[3];
-        let currentCmd = Utils.composer(protocolAssembler.setDcMotor, [dcMotor.args.port, dcMotor.args.speed]);
-        expect(currentCmd).to.equal(targetCmd);
-      });
-
-      it('设置直流电机端口5（错误端口）速度为255', function() {
-        let dcMotor = auriga.DcMotor(5).speed(255);
-        let targetCmd = dataman.auriga.write.dcMotor[4];
-        let currentCmd = Utils.composer(protocolAssembler.setDcMotor, [dcMotor.args.port, dcMotor.args.speed]);
-        expect(currentCmd).to.equal(targetCmd);
-      });
-
-      it('设置直流电机端口1速度为-255', function() {
-        let dcMotor = auriga.DcMotor(1).speed(-255);
-        let targetCmd = dataman.auriga.write.dcMotor[5];
-        let currentCmd = Utils.composer(protocolAssembler.setDcMotor, [dcMotor.args.port, dcMotor.args.speed]);
-        expect(currentCmd).to.equal(targetCmd);
-      });
-
-      it('设置直流电机端口1速度为100', function() {
-        let dcMotor = auriga.DcMotor(1).speed(100);
-        let targetCmd = dataman.auriga.write.dcMotor[6];
-        let currentCmd = Utils.composer(protocolAssembler.setDcMotor, [dcMotor.args.port, dcMotor.args.speed]);
-        expect(currentCmd).to.equal(targetCmd);
-      });
-
-      it('设置直流电机端口1速度为256', function() {
-        let dcMotor = auriga.DcMotor(1).speed(256);
-        let targetCmd = dataman.auriga.write.dcMotor[7];
-        let currentCmd = Utils.composer(protocolAssembler.setDcMotor, [dcMotor.args.port, dcMotor.args.speed]);
-        expect(currentCmd).to.equal(targetCmd);
-      });
-
-      it('设置直流电机端口1速度为-256', function() {
-        let dcMotor = auriga.DcMotor(1).speed(-256);
-        let targetCmd = dataman.auriga.write.dcMotor[8];
-        let currentCmd = Utils.composer(protocolAssembler.setDcMotor, [dcMotor.args.port, dcMotor.args.speed]);
-        expect(currentCmd).to.equal(targetCmd);
-      });
+      let speeds = [-255, 100, 256, -256];
+      for(let i = 0, speed; speed = speeds[i]; i++){
+        it(`设置直流电机端口速度为${speed}`, function() {
+          let dcMotor = auriga.DcMotor(1).speed(speed);
+          let targetCmd = dataman.auriga.write.dcMotor[i+5];
+          let currentCmd = captureWriteBuf(dcMotor.run.bind(dcMotor));
+          expect(currentCmd).to.equal(targetCmd);
+        });
+      }
     });
 
-    describe('板载编码电机：setEncoderMotorOnBoard(1/2,-255～255)', function() {
-      it('板载编码电机slot口1速度100', function() {
-        var targetCmd = dataman.auriga.write.encoderMotorBoard[0];
-        var cmd = auriga.setEncoderMotorOnBoard(1, 100);
-        assert.equal(targetCmd, cmd);
-      });
+    describe('板载编码电机：auriga.EncoderMotorOnBoard(1/2,-255～255)', function() {
+      let speeds = [100, 255, -255, 0, 256, -256];
+      for(let i = 0, speed; speed = speeds[i]; i++){
+        it(`板载编码电机slot口1速度 ${speed}`, function() {
+          let dcMotor = auriga.DcMotor(1).speed(speed);
+          let targetCmd = dataman.auriga.write.dcMotor[i];
+          let currentCmd = captureWriteBuf(dcMotor.run.bind(dcMotor));
+          expect(currentCmd).to.equal(targetCmd);
+        });
+      }
 
       it('板载编码电机slot口2速度100', function() {
         var targetCmd = dataman.auriga.write.encoderMotorBoard[1];
         var cmd = auriga.setEncoderMotorOnBoard(2, 100);
         assert.equal(targetCmd, cmd);
       });
-
-      it('板载编码电机slot口1速度255', function() {
-        var targetCmd = dataman.auriga.write.encoderMotorBoard[2];
-        var cmd = auriga.setEncoderMotorOnBoard(1, 255);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('板载编码电机slot口1速度-255', function() {
-        var targetCmd = dataman.auriga.write.encoderMotorBoard[3];
-        var cmd = auriga.setEncoderMotorOnBoard(1, -255);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('板载编码电机slot口1速度0', function() {
-        var targetCmd = dataman.auriga.write.encoderMotorBoard[4];
-        var cmd = auriga.setEncoderMotorOnBoard(1, 0);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('板载编码电机slot口1速度256', function() {
-        var targetCmd = dataman.auriga.write.encoderMotorBoard[5];
-        var cmd = auriga.setEncoderMotorOnBoard(1, 256);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('板载编码电机slot口1速度-256', function() {
-        var targetCmd = dataman.auriga.write.encoderMotorBoard[6];
-        var cmd = auriga.setEncoderMotorOnBoard(1, -256);
-        assert.equal(targetCmd, cmd);
-      });
     });
 
-    describe('外接编码电机：setEncoderMotor(1～4, 1/2, 0～300, 720)', function() {
-      it('外接编码电机port1 slot1 速度为150角度为720', function() {
-        var targetCmd = dataman.auriga.write.encoder[0];
-        var cmd = auriga.setEncoderMotor(1, 1, 150, 720);
-        assert.equal(targetCmd, cmd);
+    describe('外接编码电机：auriga.EncoderMotor(1～4, 1/2, 0～300, 720)', function() {
+      let ports = [0, 300, 301, -1];
+      for(let i = 0, port; port = ports[i]; i++){
+        it(`外接编码电机port${port} slot1 速度150 角度720`, function() {
+          let encoderMotor = auriga.EncoderMotor(port, 1).speed(150).offsetAngle(720);
+          let targetCmd = dataman.auriga.write.encoder[i];
+          let currentCmd = captureWriteBuf(encoderMotor.run.bind(encoderMotor));
+          expect(currentCmd).to.equal(targetCmd);
+        });
+      }
+
+      it(`外接编码电机port1 slot2 速度150 角度720`, function() {
+        let encoderMotor = auriga.EncoderMotor(1, 2).speed(150).offsetAngle(720);
+        let targetCmd = dataman.auriga.write.encoder[4];
+        let currentCmd = captureWriteBuf(encoderMotor.run.bind(encoderMotor));
+        expect(currentCmd).to.equal(targetCmd);
       });
 
-      it('外接编码电机port2 slot1 速度为150角度为720', function() {
-        var targetCmd = dataman.auriga.write.encoder[1];
-        var cmd = auriga.setEncoderMotor(2, 1, 150, 720);
-        assert.equal(targetCmd, cmd);
-      });
+      let speeds = [0, 300, 301, -1];
+      for(let i = 0, speed; speed = speeds[i]; i++){
+        it(`外接编码电机port1 slot1 速度${speed} 角度720`, function() {
+          let encoderMotor = auriga.EncoderMotor(1, 1).speed(speed).offsetAngle(720);
+          let targetCmd = dataman.auriga.write.encoder[i + 5];
+          let currentCmd = captureWriteBuf(encoderMotor.run.bind(encoderMotor));
+          expect(currentCmd).to.equal(targetCmd);
+        });
+      }
 
-      it('外接编码电机port3 slot1 速度为150角度为720', function() {
-        var targetCmd = dataman.auriga.write.encoder[2];
-        var cmd = auriga.setEncoderMotor(3, 1, 150, 720);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('外接编码电机port4 slot1 速度为150角度为720', function() {
-        var targetCmd = dataman.auriga.write.encoder[3];
-        var cmd = auriga.setEncoderMotor(4, 1, 150, 720);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('外接编码电机port1 slot2 速度为150角度为720', function() {
-        var targetCmd = dataman.auriga.write.encoder[4];
-        var cmd = auriga.setEncoderMotor(1, 2, 150, 720);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('外接编码电机port1 slot1 速度为0角度为720', function() {
-        var targetCmd = dataman.auriga.write.encoder[5];
-        var cmd = auriga.setEncoderMotor(1, 1, 0, 720);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('外接编码电机port1 slot1 速度为300角度为720', function() {
-        var targetCmd = dataman.auriga.write.encoder[6];
-        var cmd = auriga.setEncoderMotor(1, 1, 300, 720);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('外接编码电机port1 slot1 速度为301角度为720', function() {
-        var targetCmd = dataman.auriga.write.encoder[7];
-        var cmd = auriga.setEncoderMotor(1, 1, 301, 720);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('外接编码电机port1 slot1 速度为-1角度为720', function() {
-        var targetCmd = dataman.auriga.write.encoder[8];
-        var cmd = auriga.setEncoderMotor(1, 1, -1, 720);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('外接编码电机port1 slot1 速度为150角度为0', function() {
-        var targetCmd = dataman.auriga.write.encoder[9];
-        var cmd = auriga.setEncoderMotor(1, 1, 150, 0);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('外接编码电机port1 slot1 速度为150角度为2147483647', function() {
-        var targetCmd = dataman.auriga.write.encoder[10];
-        var cmd = auriga.setEncoderMotor(1, 1, 150, 2147483647);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('外接编码电机port1 slot1 速度为150角度为-2147483648', function() {
-        var targetCmd = dataman.auriga.write.encoder[11];
-        var cmd = auriga.setEncoderMotor(1, 1, 150, -2147483648);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('外接编码电机port1 slot1 速度为150角度为2147483648', function() {
-        var targetCmd = dataman.auriga.write.encoder[12];
-        var cmd = auriga.setEncoderMotor(1, 1, 150, 2147483648);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('外接编码电机port1 slot1 速度为150角度为-2147483649', function() {
-        var targetCmd = dataman.auriga.write.encoder[13];
-        var cmd = auriga.setEncoderMotor(1, 1, 150, -2147483649);
-        assert.equal(targetCmd, cmd);
-      });
+      let angles = [0, 2147483647, -2147483648, 2147483648, -2147483649];
+      for(let i = 0, angle; angle = angles[i]; i++){
+        it(`外接编码电机port1 slot1 速度150 角度${angle}`, function() {
+          let encoderMotor = auriga.EncoderMotor(1, 1).speed(150).offsetAngle(angle);
+          let targetCmd = dataman.auriga.write.encoder[i + 9];
+          let currentCmd = captureWriteBuf(encoderMotor.run.bind(encoderMotor));
+          expect(currentCmd).to.equal(targetCmd);
+        });
+      }
     });
 
     describe('摇杆1：setJoystick(-255～255,-255～255)', function() {
