@@ -2,25 +2,38 @@
  * @fileOverview  do interface-test for sensorium 
  *[为sensorium库做接口测试，测试用例由testlink上导出，运行命令：node transform.js后即可得到]
  */
+import Utils from '../../src/core/utils';
+import protocolAssembler from '../../src/protocol/cmd';
+import Auriga from '../../src/mainboard/auriga';
+import mCore from '../../src/mainboard/mcore';
+import chai from 'chai';
+const expect = chai.expect;
+
+let auriga = new Auriga();
+let mcore = new mCore();
 var assert = require('chai').assert;
 var fs=require('fs');
 
-var Auriga = require("../../src/protocol/auriga");
-var auriga = new Auriga({
-  "driver": "serial"
-});
-var Orion = require("../../src/protocol/orion");
-var orion = new Orion({
-  "driver": "serial"
-});
-var mCore = require("../../src/protocol/mcore");
-var mcore = new mCore({
-  "driver": "serial"
-});
-var MegaPi = require("../../src/protocol/megapi");
-var megapi = new MegaPi({
-  "driver": "serial"
-});
+// var Auriga = require("../../src/protocol/auriga");
+// var auriga = new Auriga({
+//   "driver": "serial"
+// });
+// var Orion = require("../../src/protocol/orion");
+// var orion = new Orion({
+//   "driver": "serial"
+// });
+// var mCore = require("../../src/protocol/mcore");
+// var mcore = new mCore({
+//   "driver": "serial"
+// });
+// var MegaPi = require("../../src/protocol/megapi");
+// var megapi = new MegaPi({
+//   "driver": "serial"
+// });
+
+
+
+
 
 var availableData=__dirname + "/availableData.json";
 var temporaryData=JSON.parse(fs.readFileSync( availableData));//读取json文件
@@ -48,8 +61,10 @@ describe('interface:', function() {
       } else if (d.caseSummary[0] == "send:") {
         //console.log(eval(d.caseSummary[j][0]),d.caseSummary[j][1]);//注意！添加这一句，等于是开启一条新线程
         var sendOrder = eval(d.caseSummary[1]); //相应的接口发送的实际指令
+        let currentArrayCmd = Utils.composer(protocolAssembler.setDcMotor, [sendOrder.args.port, sendOrder.args.speed]);
+        let currentCmd = Utils.intStrToHexStr(currentArrayCmd);
         var presetOrder = d.caseSummary[2]; //对应的预设值
-        assert.equal(sendOrder, presetOrder);
+        assert.equal(currentCmd, presetOrder);
         done();
       }
     });

@@ -50,6 +50,7 @@ Transform.transformData = function() { //callback
 
             var _case_ = result_s.testcase[t_case];
             var summaryToStr = JSON.stringify(_case_.summary); //现将摘要转为字符
+            console.log(summaryToStr);
             if (summaryToStr == "[\"\"]") {
               //并非接口测试用例；
             } else {
@@ -60,8 +61,8 @@ Transform.transformData = function() { //callback
               extractedXml_ss.caseSummary = [];
 
               if (summaryToStr.indexOf("receive:") > 0 || summaryToStr.indexOf("send:") > 0) { //针对返回值的验证用例
-                var summaryToSub = summaryToStr.substring(9, summaryToStr.length - 8); //将摘要中前后多余的<p>\r\n\t等字符除去 
-                // console.log(summaryToStr);
+                var summaryToSub = summaryToStr.substring(11, summaryToStr.length - 10); //将摘要中前后多余的<p>\r\n\t等字符除去 
+                console.log(summaryToStr);
                 extractedXml_ss.caseSummary = summaryToSub.split("`"); //提取用例摘要
               }else {
                 console.log("====== ! 用例： " + _case_.$.name + " 的接口摘要描写有误 ！======");
