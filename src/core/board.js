@@ -27,7 +27,9 @@ const createModuleId = function (eModule, args){
 class Board {
   constructor(conf){
     this._config = null;
-    //连接
+    //固件模式
+    this.firmModes = {};
+    //已连接元件
     this.connecting = {};
     this.init(conf);
   }
@@ -55,22 +57,6 @@ class Board {
     }
   }
 
-  /**
-   * 存储通信的通道
-   * @param {Object} transport json object.
-   * @example
-   * {
-   *    send: function(buf) {
-   *      console.log(buf);
-   *    },
-   *
-   *    onReceive: function(parse) {
-   *      serialPort.on('data', function(buff) {
-   *        parse.doParse(buff);
-   *      });
-   *    }
-   *  }
-   */
   //防止重复 setTransport 导致事件监听绑定多次
   setTransport(transport) {
     if(transport && typeof transport.send == 'function' && typeof transport.onReceived == 'function' ){
@@ -80,7 +66,14 @@ class Board {
       // console.warn('')
     }
   }
+
+  setFirmMode(){
+
+  }
+
+  getFirmMode(){
+
+  }
 }
 
-// module.exports = Board;
 export default Board;

@@ -10,6 +10,7 @@ class Auriga extends Board{
     //继承 Board
     super(conf);
     let this_ = this;
+    this.firmModes = Settings.FIRM_MODES;
     // 置空已连接块
     this.connecting = {};
     // 挂载电子模块
@@ -22,6 +23,18 @@ class Auriga extends Board{
         };
       }
     }
+  }
+
+  setFirmMode(){
+
+  }
+
+  getFirmMode(){
+
+  }
+
+  getVoltage(){
+    
   }
 }
 

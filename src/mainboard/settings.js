@@ -6,6 +6,13 @@ const Settings = {
     DEFAULT_CONF : {
 
     },
+    FIRM_MODES: {
+    	bluetooth: 0x00,
+    	autoAvoider: 0x01,
+    	balancer: 0x02,
+    	infrared: 0x03,
+    	lineFollower: 0x04
+    }
     SUPPORTLIST: ['Mcore', 'Auriga', 'MegaPi', 'Orion', 'Arduino']
 };
 
