@@ -4,7 +4,7 @@ import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
 import command from '../communicate/command';
 
-class VirtualJoystickForBoard extends Electronic {
+class VirtualJoystick extends Electronic {
 
   constructor() {
     super();
@@ -45,4 +45,4 @@ class VirtualJoystickForBoard extends Electronic {
   }
 }
 
-export default VirtualJoystickForBoard;
+export default VirtualJoystick;

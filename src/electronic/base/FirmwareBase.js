@@ -18,13 +18,11 @@ class Firmware extends Electronic {
    * @param {Number} mode 0、1、2、3、4
    */
   setMode(){
-    // let subCmd = 0x11;
     let buf = Utils.composer(protocolAssembler.setFirmwareMode, [this.args.subCmd, this.args.mode]);
     command.execWrite(buf);
   }
 
   getMode(callback){
-    // let subCmd = 0x71;
     let buf = Utils.composer(protocolAssembler.readFirmwareMode, [this.args.subCmd]);
     command.execRead(buf, callback);
   }

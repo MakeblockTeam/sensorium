@@ -133,120 +133,34 @@ describe('【auriga_最新固件 协议测试】', function() {
       }
     });
 
-    describe('摇杆1：setJoystick(-255～255,-255～255)', function() {
-      it('app虚拟摇杆1左轮速度100右轮速度100', function() {
-        var targetCmd = dataman.auriga.write.joystick[0];
-        var cmd = auriga.setJoystick(100, 100); //leftSpeed, rightSpeed
-
-        let encoderMotor = auriga.Joystick().leftSpeed(150).rightSpeed(100);
-        let currentCmd = captureWriteBuf(encoderMotor.run.bind(encoderMotor));
-        expect(currentCmd).to.equal(targetCmd);
-      });
-
-      it('app虚拟摇杆1左轮速度255右轮速度255', function() {
-        var targetCmd = dataman.auriga.write.joystick[1];
-        var cmd = auriga.setJoystick(255, 255);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('app虚拟摇杆1左轮速度-255右轮速度-255', function() {
-        var targetCmd = dataman.auriga.write.joystick[2];
-        var cmd = auriga.setJoystick(-255, -255);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('app虚拟摇杆1左轮速度0右轮速度150', function() {
-        var targetCmd = dataman.auriga.write.joystick[3];
-        var cmd = auriga.setJoystick(0, 150);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('app虚拟摇杆1左轮速度-100右轮速度100', function() {
-        var targetCmd = dataman.auriga.write.joystick[4];
-        var cmd = auriga.setJoystick(-100, 100);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('app虚拟摇杆1左轮速度150右轮速度0', function() {
-        var targetCmd = dataman.auriga.write.joystick[5];
-        var cmd = auriga.setJoystick(150, 0);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('app虚拟摇杆1左轮速度100右轮速度-100', function() {
-        var targetCmd = dataman.auriga.write.joystick[6];
-        var cmd = auriga.setJoystick(100, -100);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('app虚拟摇杆1左轮速度256右轮速度256', function() {
-        var targetCmd = dataman.auriga.write.joystick[7];
-        var cmd = auriga.setJoystick(256, 256);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('app虚拟摇杆1左轮速度-256右轮速度-256', function() {
-        var targetCmd = dataman.auriga.write.joystick[8];
-        var cmd = auriga.setJoystick(-256, -256);
-        assert.equal(targetCmd, cmd);
-      });
+    describe('摇杆1：VirtualJoystick(-255～255,-255～255)', function() {
+      let leftSpeeds =  [100, 255, -255, 0, -100, 150, 100, 256, -256];
+      let rightSpeeds = [100, 255, -255, 150, 100, 0, -100, 256, -256];
+      for (let i = 0; i < rightSpeeds.length; i++) {
+        let left = leftSpeeds[i];
+        let right = rightSpeeds[i];
+        it(`app虚拟摇杆1 左轮速度 ${left} 右轮速度 ${right}`, function() {
+          let joystick = auriga.VirtualJoystick(1, 1).leftSpeed(left).rightSpeed(right);
+          let targetCmd = dataman.auriga.write.joystick[i];
+          let currentCmd = captureWriteBuf(joystick.run.bind(joystick));
+          expect(currentCmd).to.equal(targetCmd);
+        });
+      }
     });
 
-    describe('摇杆2：setVirtualJoystickForBalance(-255~255,-255~255)', function() {
-      it('app虚拟摇杆2拐弯100速度100', function() {
-        var targetCmd = dataman.auriga.write.virtualJoystickForBalance[0];
-        var cmd = auriga.setVirtualJoystickForBalance(100, 100);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('app虚拟摇杆2拐弯255速度255', function() {
-        var targetCmd = dataman.auriga.write.virtualJoystickForBalance[1];
-        var cmd = auriga.setVirtualJoystickForBalance(255, 255);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('app虚拟摇杆2拐弯-255速度-255', function() {
-        var targetCmd = dataman.auriga.write.virtualJoystickForBalance[2];
-        var cmd = auriga.setVirtualJoystickForBalance(-255, -255);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('app虚拟摇杆2拐弯0速度150', function() {
-        var targetCmd = dataman.auriga.write.virtualJoystickForBalance[3];
-        var cmd = auriga.setVirtualJoystickForBalance(0, 150);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('app虚拟摇杆2拐弯-100速度100', function() {
-        var targetCmd = dataman.auriga.write.virtualJoystickForBalance[4];
-        var cmd = auriga.setVirtualJoystickForBalance(-100, 100);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('app虚拟摇杆2拐弯150速度0', function() {
-        var targetCmd = dataman.auriga.write.virtualJoystickForBalance[5];
-        var cmd = auriga.setVirtualJoystickForBalance(150, 0);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('app虚拟摇杆2拐弯100速度-100', function() {
-        var targetCmd = dataman.auriga.write.virtualJoystickForBalance[6];
-        var cmd = auriga.setVirtualJoystickForBalance(100, -100);
-        assert.equal(targetCmd, cmd);
-      });
-
-
-      it('app虚拟摇杆2拐弯256速度256', function() {
-        var targetCmd = dataman.auriga.write.virtualJoystickForBalance[7];
-        var cmd = auriga.setVirtualJoystickForBalance(256, 256);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('app虚拟摇杆2拐弯-256速度-256', function() {
-        var targetCmd = dataman.auriga.write.virtualJoystickForBalance[8];
-        var cmd = auriga.setVirtualJoystickForBalance(-256, -256);
-        assert.equal(targetCmd, cmd);
-      });
+    describe('摇杆2：VirtualJoystickForBalance(-255~255,-255~255)', function() {
+      let turnRanges = [100, 255, -255, 0,   -100, 150, 100,  256, -256];
+      let speeds =     [100, 255, -255, 150, 100,  0,   -100, 256, -256];
+      for (let i = 0; i < speeds.length; i++) {
+        let speed = speeds[i];
+        let turnRange = turnRanges[i];
+        it(`app虚拟摇杆2 拐弯 ${turnRange} 速度 ${speed}`, function() {
+          let joystick = auriga.VirtualJoystickForBalance(1, 1).speed(speed).turnRange(turnRange);
+          let targetCmd = dataman.auriga.write.virtualJoystickForBalance[i];
+          let currentCmd = captureWriteBuf(joystick.run.bind(joystick));
+          expect(currentCmd).to.equal(targetCmd);
+        });
+      }
     });
 
     describe('步进电机：setStepperMotor(1~4,0~3000,-2147483648~2147483647)', function() {
@@ -538,146 +452,73 @@ describe('【auriga_最新固件 协议测试】', function() {
       }
     });
 
-    describe('数字舵机：setServoMotor(6~10,1/2,0~180)', function() {
-      it('数字舵机在端口6 slot1 旋转角度90', function() {
-        var targetCmd = dataman.auriga.write.servo[0];
-        var cmd = auriga.setServoMotor(6, 1, 90);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('数字舵机在端口7 slot1 旋转角度90', function() {
-        var targetCmd = dataman.auriga.write.servo[1];
-        var cmd = auriga.setServoMotor(7, 1, 90);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('数字舵机在端口8 slot1 旋转角度90', function() {
-        var targetCmd = dataman.auriga.write.servo[2];
-        var cmd = auriga.setServoMotor(8, 1, 90);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('数字舵机在端口9 slot1 旋转角度90', function() {
-        var targetCmd = dataman.auriga.write.servo[3];
-        var cmd = auriga.setServoMotor(9, 1, 90);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('数字舵机在端口10 slot1 旋转角度90', function() {
-        var targetCmd = dataman.auriga.write.servo[4];
-        var cmd = auriga.setServoMotor(10, 1, 90);
-        assert.equal(targetCmd, cmd);
-      });
+    describe('数字舵机：ServoMotor(6~10,1/2,0~180)', function() {
+      let ports = [6, 7, 8, 9, 10];
+      for (let i = 0; i < ports.length; i++) {
+        let port = ports[i];
+        it(`数字舵机在 port${port} slot1 旋转角度 90`, function() {
+          let servoMotor = auriga.ServoMotor(port, 1).angle(90);
+          let targetCmd = dataman.auriga.write.servo[i];
+          let currentCmd = captureWriteBuf(servoMotor.run.bind(servoMotor));
+          expect(currentCmd).to.equal(targetCmd);
+        });
+      }
 
       it('数字舵机在端口6 slot2 旋转角度90', function() {
-        var targetCmd = dataman.auriga.write.servo[5];
-        var cmd = auriga.setServoMotor(6, 2, 90);
-        assert.equal(targetCmd, cmd);
+        let servoMotor = auriga.ServoMotor(6, 2).angle(90);
+        let targetCmd = dataman.auriga.write.servo[5];
+        let currentCmd = captureWriteBuf(servoMotor.run.bind(servoMotor));
+        expect(currentCmd).to.equal(targetCmd);
       });
 
-      it('数字舵机在端口6 slot1 旋转角度0', function() {
-        var targetCmd = dataman.auriga.write.servo[6];
-        var cmd = auriga.setServoMotor(6, 1, 0);
-        assert.equal(targetCmd, cmd);
+      let angles = [0, 180, 181, -1];
+      for (let i = 0; i < angles.length; i++) {
+        let angle = angles[i];
+        it(`数字舵机在端口6 slot1 旋转角度 ${angle}`, function() {
+          let servoMotor = auriga.ServoMotor(6, 1).angle(angle);
+          let targetCmd = dataman.auriga.write.servo[i+6];
+          let currentCmd = captureWriteBuf(servoMotor.run.bind(servoMotor));
+          expect(currentCmd).to.equal(targetCmd);
+        });
+      }
+
+      it(`数字舵机在端口6 slot1 旋转角度 跳到 0 度`, function() {
+        let servoMotor = auriga.ServoMotor(6, 1);
+        let targetCmd = dataman.auriga.write.servo[6];
+        let currentCmd = captureWriteBuf(servoMotor.toStart.bind(servoMotor));
+        expect(currentCmd).to.equal(targetCmd);
       });
 
-      it('数字舵机在端口6 slot1 旋转角度180', function() {
-        var targetCmd = dataman.auriga.write.servo[7];
-        var cmd = auriga.setServoMotor(6, 1, 180);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('数字舵机在端口6 slot1 旋转角度181', function() {
-        var targetCmd = dataman.auriga.write.servo[8];
-        var cmd = auriga.setServoMotor(6, 1, 181);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('数字舵机在端口6 slot1 旋转角度-1', function() {
-        var targetCmd = dataman.auriga.write.servo[9];
-        var cmd = auriga.setServoMotor(6, 1, -1);
-        assert.equal(targetCmd, cmd);
+      it(`数字舵机在端口6 slot1 旋转角度 跳到 180 度`, function() {
+        let servoMotor = auriga.ServoMotor(6, 1);
+        let targetCmd = dataman.auriga.write.servo[7];
+        let currentCmd = captureWriteBuf(servoMotor.toEnd.bind(servoMotor));
+        expect(currentCmd).to.equal(targetCmd);
       });
     });
 
-    describe('四位七段数码管：setSevenSegment(6～10，-2147483648～2147483647)', function() {
-      it('四位七段数码管在端口6 显示数值100', function() {
-        var targetCmd = dataman.auriga.write.sevenSegment[0];
-        var cmd = auriga.setSevenSegment(6, 100);
-        assert.equal(targetCmd, cmd);
-      });
+    describe('四位七段数码管：SevenSegment(6～10，-2147483648～2147483647)', function() {
+      let ports =   [6,   7,   8,   9,   10];
+      for (let i = 0; i < ports.length; i++) {
+        let port = ports[i];
+        it(`四位七段数码管在 port${port} 显示数值 100`, function() {
+          let sevenSegment = auriga.SevenSegment(port).number(100);
+          let targetCmd = dataman.auriga.write.sevenSegment[i];
+          let currentCmd = captureWriteBuf(sevenSegment.run.bind(sevenSegment));
+          expect(currentCmd).to.equal(targetCmd);
+        });
+      }
 
-      it('四位七段数码管在端口7 显示数值100', function() {
-        var targetCmd = dataman.auriga.write.sevenSegment[1];
-        var cmd = auriga.setSevenSegment(7, 100);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('四位七段数码管在端口8 显示数值200', function() {
-        var targetCmd = dataman.auriga.write.sevenSegment[2];
-        var cmd = auriga.setSevenSegment(8, 100);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('四位七段数码管在端口9 显示数值300', function() {
-        var targetCmd = dataman.auriga.write.sevenSegment[3];
-        var cmd = auriga.setSevenSegment(9, 100);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('四位七段数码管在端口10 显示数值400', function() {
-        var targetCmd = dataman.auriga.write.sevenSegment[4];
-        var cmd = auriga.setSevenSegment(10, 100);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('四位七段数码管在端口6 显示数值0', function() {
-        var targetCmd = dataman.auriga.write.sevenSegment[5];
-        var cmd = auriga.setSevenSegment(6, 0);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('四位七段数码管在端口6 显示数值-100', function() {
-        var targetCmd = dataman.auriga.write.sevenSegment[6];
-        var cmd = auriga.setSevenSegment(6, -100);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('四位七段数码管在端口6 显示数值2147483647', function() {
-        var targetCmd = dataman.auriga.write.sevenSegment[7];
-        var cmd = auriga.setSevenSegment(6, 2147483647);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('四位七段数码管在端口6 显示数值-2147483648', function() {
-        var targetCmd = dataman.auriga.write.sevenSegment[8];
-        var cmd = auriga.setSevenSegment(6, -2147483648);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('四位七段数码管在端口6 显示数值1.63', function() {
-        var targetCmd = dataman.auriga.write.sevenSegment[9];
-        var cmd = auriga.setSevenSegment(6, 1.63);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('四位七段数码管在端口6 显示数值10.678', function() {
-        var targetCmd = dataman.auriga.write.sevenSegment[10];
-        var cmd = auriga.setSevenSegment(6, 10.666);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('四位七段数码管在端口6 显示数值2147483648', function() {
-        var targetCmd = dataman.auriga.write.sevenSegment[11];
-        var cmd = auriga.setSevenSegment(6, 2147483648);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('四位七段数码管在端口6 显示数值-2147483649', function() {
-        var targetCmd = dataman.auriga.write.sevenSegment[12];
-        var cmd = auriga.setSevenSegment(6, -2147483649);
-        assert.equal(targetCmd, cmd);
-      });
+      let numbers = [0, -100, 2147483647, -2147483648, 1.63, 10.678, 2147483648, -2147483649];
+      for (let i = 0; i < numbers.length; i++) {
+        let number = numbers[i];
+        it(`四位七段数码管在port 6 显示数值 ${number}`, function() {
+          let sevenSegment = auriga.SevenSegment(6).number(number);
+          let targetCmd = dataman.auriga.write.sevenSegment[i+5];
+          let currentCmd = captureWriteBuf(sevenSegment.run.bind(sevenSegment));
+          expect(currentCmd).to.equal(targetCmd);
+        });
+      }
     });
 
 
@@ -1166,11 +1007,11 @@ describe('【auriga_最新固件 协议测试】', function() {
   //读指令:需要设备返回数据的指令
   describe('#读协议部分', function() {
 
-    describe('读取版本号:readVersion(0)', function() {
-      it(' 发送查询版本号的指令', function() {
-        var targetCmd = dataman.auriga.read.version[0];
-        var cmd = auriga.readVersion(0);
-        assert.equal(targetCmd, cmd);
+    describe('读取版本号: auriga.getVersion(0)', function() {
+      it('发送查询版本号的指令', function() {
+        let targetCmd = dataman.auriga.read.version[0];
+        let currentCmd = captureReadBuf(auriga.getVersion.bind(auriga));
+        expect(currentCmd).to.equal(targetCmd);
       });
 
 

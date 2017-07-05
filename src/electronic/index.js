@@ -1,5 +1,5 @@
 import DcMotor from './dc_motor';
-import VirtualJoystickForBoard from './virtual_joystick_for_board';
+import VirtualJoystick from './virtual_joystick';
 import VirtualJoystickForBalance from './virtual_joystick_for_balance';
 import StepperMotor from './stepper_motor';
 import EncoderMotor from './encoder_motor';
@@ -18,7 +18,6 @@ import SevenSegment from './seven_segment';
 import Shutter from './shutter';
 
 import Reset from './reset';
-import Version from './version';
 import Ultrasonic from './ultrasonic';
 import Temperature from './temperature';
 import Light from './light';
@@ -46,7 +45,7 @@ import Runtime from './runtime';
 
 export default {
   DcMotor,
-  VirtualJoystickForBoard,
+  VirtualJoystick,
   VirtualJoystickForBalance,
   StepperMotor,
   EncoderMotor,
@@ -65,7 +64,6 @@ export default {
   Shutter,
 
   Reset, //实现待验证
-  Version, //实现待验证
   Ultrasonic,
   Temperature,
   Light,

@@ -53,9 +53,10 @@ function protocolAssembler() {
    * @example
    *     ff 55 07 00 02 3d 00 01 64 00
    */
-  this.setEncoderMotorOnBoard = function(slot, speed, angle) {
-    let port = 0x00; //板载 port 为 0
-    return this.setEncoderMotor(port, slot, speed, angle);
+  this.setEncoderMotorOnBoard = function(slot, speed) {
+    speed = Utils.limitValue(speed);
+    let port = 0x00; //板载
+    return bufAssembler({mode: 0x02, id: 0x3d}, port, slot, speed & 0xff, (speed >> 8) & 0xff);
   };
 
   /**
@@ -107,9 +108,9 @@ function protocolAssembler() {
    *     ff 55 08 00 02 34 00 64 00 64 00
    */
   this.setVirtualJoystickForBalance = function(turnRange, speed) {
-    turnExtent = Utils.limitValue(turnRange);
+    let turnExtent = Utils.limitValue(turnRange);
+    let port = 0x00; //板载虚拟摇杆 port = 00
     speed = Utils.limitValue(speed);
-    port = 0; //板载虚拟摇杆 port = 00
     return bufAssembler(
       {mode: 0x02, id: 0x34},
       port,
@@ -236,10 +237,6 @@ function protocolAssembler() {
     number = Utils.limitValue(number, [-999, 9999]);
     var byte4Array = Utils.float32ToBytes(number);
     return bufAssembler({mode: 0x02, id: 0x09}, port, ...byte4Array);
-      // byte4Array[0],
-      // byte4Array[1],
-      // byte4Array[2],
-      // byte4Array[3]);
   };
 
   /**
@@ -590,14 +587,6 @@ function protocolAssembler() {
    * ff 55 05 00 01 16 03 01
    */
   this.readFourKeys = function(port, key) {
-    // var a = [
-    //   0xff,0x55,
-    //   0x05, index,
-    //   0x01,
-    //   0x16,
-    //   port,
-    //   key
-    // ];
     return bufAssembler({mode: 0x01, id: 0x16}, port, key);
   };
 
@@ -634,13 +623,6 @@ function protocolAssembler() {
    * ff 55 04 00 01 1e 09
    */
   this.readDigGPIO = function(port) {
-    // var a = [
-    //   0xff,0x55,
-    //   0x04, index,
-    //   0x01,
-    //   0x1e,
-    //   port,
-    // ];
     return bufAssembler({mode: 0x01, id: 0x1e}, port);
   };
 
@@ -652,13 +634,6 @@ function protocolAssembler() {
    * ff 55 04 00 01 1f 02
    */
   this.readAnalogGPIO = function(port) {
-    // var a = [
-    //   0xff,0x55,
-    //   0x04, index,
-    //   0x01,
-    //   0x1f,
-    //   port,
-    // ];
     return bufAssembler({mode: 0x01, id: 0x1f}, port);
   };
 
@@ -671,14 +646,6 @@ function protocolAssembler() {
    * ff 55 05 00 01 25 0d 20 4e
    */
   this.readGPIOContinue = function(port, key) {
-    // var a = [
-    //   0xff,0x55,
-    //   0x05, index,
-    //   0x01,
-    //   0x25,
-    //   port,
-    //   key,
-    // ];
     return bufAssembler({mode: 0x01, id: 0x25}, port, key);
   };
 
@@ -691,14 +658,6 @@ function protocolAssembler() {
    * ff 55 05 00 01 24 45 40
    */
   this.readDoubleGPIO = function(port1, port2) {
-    // var a = [
-    //   0xff,0x55,
-    //   0x05, index,
-    //   0x01,
-    //   0x24,
-    //   port1,
-    //   port2,
-    // ];
     return bufAssembler({mode: 0x01, id: 0x24}, port1, port2);
   };
 
@@ -711,12 +670,6 @@ function protocolAssembler() {
    * ff 55 03 00 01 32
    */
   this.readRuntime = function() {
-    // var a = [
-    //   0xff,0x55,
-    //   0x03, index,
-    //   0x01,
-    //   0x32,
-    // ];
     return bufAssembler({mode: 0x01, id: 0x32});
   };
 }

@@ -30,7 +30,7 @@ class ServoMotor extends Electronic {
    * @return {[type]} [description]
    */
   toStart(){
-    this.angle(180);
+    this.angle(0);
     return this.run();
   }
 
@@ -39,7 +39,7 @@ class ServoMotor extends Electronic {
    * @return {[type]} [description]
    */
   toEnd(){
-    this.angle(0);
+    this.angle(180);
     return this.run();
   }
 

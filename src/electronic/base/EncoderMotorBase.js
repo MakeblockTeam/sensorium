@@ -9,22 +9,10 @@ class EncoderMotorBase extends MotorBase {
    * EncoderMotorBase
    * @constructor
    * @param {number} port
+   * @param {number} slot
    */
   constructor(port, slot) {
     super(port, slot);
-    Object.assign(this.args, {
-      angle: 0
-    });
-  }
-
-  /**
-   * set angle offset to last angle position
-   * @param  {[type]} angle [description]
-   * @return {[type]}       [description]
-   */
-  offsetAngle(angle){
-    this.args.angle = defineNumber(angle, 0);
-    return this;
   }
 
   /**
@@ -32,7 +20,12 @@ class EncoderMotorBase extends MotorBase {
    * @return {Object} the instance
    */
   run() {
-    let buf = Utils.composer(protocolAssembler.setEncoderMotor, [this.args.port, this.args.slot, this.args.speed, this.args.angle]);
+    let buf;
+    if(this.args.port == 0){
+      buf = Utils.composer(protocolAssembler.setEncoderMotorOnBoard, [this.args.slot, this.args.speed]);
+    }else{
+      buf = Utils.composer(protocolAssembler.setEncoderMotor, [this.args.port, this.args.slot, this.args.speed, this.args.angle]);
+    }
     Command.execWrite(buf);
     return this;
   }
