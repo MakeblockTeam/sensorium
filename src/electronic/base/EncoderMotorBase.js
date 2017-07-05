@@ -28,7 +28,7 @@ class EncoderMotorBase extends MotorBase {
   }
 
   /**
-   * dcMoter run
+   * EncoderMotor run
    * @return {Object} the instance
    */
   run() {
@@ -38,7 +38,7 @@ class EncoderMotorBase extends MotorBase {
   }
 
   /**
-   * dcMoter run reversely
+   * EncoderMotor run reversely
    * @return {Object} the instance
    */
   reverse() {

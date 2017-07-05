@@ -28,7 +28,7 @@ class Board {
   constructor(conf){
     this._config = null;
     //固件模式
-    this.firmModes = {};
+    this.firmModes = [];
     //已连接元件
     this.connecting = {};
     this.init(conf);

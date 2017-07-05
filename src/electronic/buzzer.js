@@ -32,7 +32,7 @@ class Buzzer extends Electronic {
   }
 
   run() {
-    let buf = Utils.composer(protocolAssembler.setTone, [this.args.port, this.args.action]);
+    let buf = Utils.composer(protocolAssembler.setTone, [this.args.tone, this.args.beat]);
     command.execWrite(buf);
     return this;
   }

@@ -5,12 +5,17 @@ import protocolAssembler from '../protocol/cmd';
 import command from '../communicate/command';
 
 class Joystick extends Electronic {
-  constructor(port, axis) {
+  constructor(port) {
     super();
     this.args = {
       port: defineNumber(port),
-      axis: defineString(axis)
+      axis: 1
     };
+  }
+
+  axis(axis){
+    this.args.axis = defineNumber(axis, this.args.axis);
+    return this;
   }
 
   getData(callback) {

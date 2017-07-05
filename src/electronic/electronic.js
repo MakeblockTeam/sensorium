@@ -10,4 +10,4 @@ class Electronic {
   }
 }
 
-module.exports = Electronic;
+export default Electronic;

@@ -25,7 +25,9 @@ import Light from './light';
 import Potentionmeter from './potentionmeter';
 import Joystick from './joystick'; //读值
 import Gyro from './gyro';
+import GyroOnBoard from './Gyro_on_board';
 import Sound from './sound';
+import SoundOnBoard from './sound_on_board';
 import TemperatureOnBoard from './temperature_on_board';
 import Pirmotion from './pirmotion';
 import LimitSwitch from './limit_switch';
@@ -70,7 +72,9 @@ export default {
   Potentionmeter,
   Joystick,
   Gyro,
+  GyroOnBoard,
   Sound,
+  SoundOnBoard,
   TemperatureOnBoard,
   Pirmotion,
   LineFollower,

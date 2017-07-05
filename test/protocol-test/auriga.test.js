@@ -8,20 +8,41 @@ import Command from '../../src/communicate/command';
 import chai from 'chai';
 const expect = chai.expect;
 
-function captureWriteBuf(run){
+function captureWriteBuf(run) {
   let capturedBuf;
+  let execWrite_ = Command.execWrite;
   //override
-  Command.execWrite = function(buf){
+  Command.execWrite = function(buf) {
     capturedBuf = buf;
     return;
   }
   run();
-  let currentCmd = capturedBuf.map(function(val){
+  let currentCmd = capturedBuf.map(function(val) {
     let newVal = val.toString(16);
-    return newVal.length == 1? '0'+newVal : newVal;
+    return newVal.length == 1 ? '0' + newVal : newVal;
   });
+  // console.log('capturedBuf-------->', capturedBuf);
+  Command.execWrite = execWrite_;
   return currentCmd.join(' ');
 }
+
+function captureReadBuf(run) {
+  let capturedBuf;
+  let execRead_ = Command.execRead;
+  //override
+  Command.execRead = function(buf, callback) {
+    capturedBuf = buf;
+    return;
+  }
+  run();
+  let currentCmd = capturedBuf.map(function(val) {
+    let newVal = val.toString(16);
+    return newVal.length == 1 ? '0' + newVal : newVal;
+  });
+  Command.execRead = execRead_;
+  return currentCmd.join(' ');
+}
+
 
 let auriga = new Auriga();
 
@@ -29,8 +50,8 @@ describe('【auriga_最新固件 协议测试】', function() {
   describe('#执行协议部分', function() {
     describe('直流电机：auriga.DcMotor(1／2/3/4).speed(-255～255)', function() {
       //生成 5 个测试用例
-      let ports = [1,2,3,4,5];
-      for(let i = 0; i < ports.length; i++){
+      let ports = [1, 2, 3, 4, 5];
+      for (let i = 0; i < ports.length; i++) {
         let port = ports[i];
         it(`设置直流电机端口${i}速度为255`, function() {
           let dcMotor = auriga.DcMotor(port).speed(255);
@@ -41,10 +62,10 @@ describe('【auriga_最新固件 协议测试】', function() {
       }
 
       let speeds = [-255, 100, 256, -256];
-      for(let i = 0, speed; speed = speeds[i]; i++){
+      for (let i = 0, speed; speed = speeds[i]; i++) {
         it(`设置直流电机端口速度为${speed}`, function() {
           let dcMotor = auriga.DcMotor(1).speed(speed);
-          let targetCmd = dataman.auriga.write.dcMotor[i+5];
+          let targetCmd = dataman.auriga.write.dcMotor[i + 5];
           let currentCmd = captureWriteBuf(dcMotor.run.bind(dcMotor));
           expect(currentCmd).to.equal(targetCmd);
         });
@@ -53,26 +74,26 @@ describe('【auriga_最新固件 协议测试】', function() {
 
     describe('板载编码电机：auriga.EncoderMotorOnBoard(1/2,-255～255)', function() {
       let speeds = [100, 255, -255, 0, 256, -256];
-      for(let i = 0; i < speeds.length; i++){
+      for (let i = 0; i < speeds.length; i++) {
         let speed = speeds[i];
-        it(`板载编码电机slot口1速度 ${speed}`, function() {
-          let dcMotor = auriga.DcMotor(1).speed(speed);
-          let targetCmd = dataman.auriga.write.dcMotor[i];
-          let currentCmd = captureWriteBuf(dcMotor.run.bind(dcMotor));
+        it(`板载编码电机slot1 速度 ${speed}`, function() {
+          let encoderMotorOnBoard = auriga.EncoderMotorOnBoard(1).speed(speed);
+          let targetCmd = dataman.auriga.write.encoderMotorBoard[i];
+          let currentCmd = captureWriteBuf(encoderMotorOnBoard.run.bind(encoderMotorOnBoard));
           expect(currentCmd).to.equal(targetCmd);
         });
       }
-
-      it('板载编码电机slot口2速度100', function() {
-        var targetCmd = dataman.auriga.write.encoderMotorBoard[1];
-        var cmd = auriga.setEncoderMotorOnBoard(2, 100);
-        assert.equal(targetCmd, cmd);
+      it('板载编码电机slot2 速度100', function() {
+        let encoderMotorOnBoard = auriga.EncoderMotorOnBoard(2).speed(100);
+        let targetCmd = dataman.auriga.write.encoderMotorBoard[6];
+        let currentCmd = captureWriteBuf(encoderMotorOnBoard.run.bind(encoderMotorOnBoard));
+        expect(currentCmd).to.equal(targetCmd);
       });
     });
 
     describe('外接编码电机：auriga.EncoderMotor(1～4, 1/2, 0～300, 720)', function() {
       let ports = [1, 2, 3, 4];
-      for(let i = 0; i < ports.length; i++){
+      for (let i = 0; i < ports.length; i++) {
         let port = ports[i];
         it(`外接编码电机port${port} slot1 速度150 角度720`, function() {
           let encoderMotor = auriga.EncoderMotor(port, 1).speed(150).offsetAngle(720);
@@ -90,7 +111,7 @@ describe('【auriga_最新固件 协议测试】', function() {
       });
 
       let speeds = [0, 300, 301, -1];
-      for(let i = 0; i < speeds.length; i++){
+      for (let i = 0; i < speeds.length; i++) {
         let speed = speeds[i];
         it(`外接编码电机port1 slot1 速度${speed} 角度720`, function() {
           let encoderMotor = auriga.EncoderMotor(1, 1).speed(speed).offsetAngle(720);
@@ -101,7 +122,7 @@ describe('【auriga_最新固件 协议测试】', function() {
       }
 
       let angles = [0, 2147483647, -2147483648, 2147483648, -2147483649];
-      for(let i = 0; i < angles.length; i++){
+      for (let i = 0; i < angles.length; i++) {
         let angle = angles[i];
         it(`外接编码电机port1 slot1 速度150 角度${angle}`, function() {
           let encoderMotor = auriga.EncoderMotor(1, 1).speed(150).offsetAngle(angle);
@@ -115,7 +136,7 @@ describe('【auriga_最新固件 协议测试】', function() {
     describe('摇杆1：setJoystick(-255～255,-255～255)', function() {
       it('app虚拟摇杆1左轮速度100右轮速度100', function() {
         var targetCmd = dataman.auriga.write.joystick[0];
-        var cmd = auriga.setJoystick(100, 100);//leftSpeed, rightSpeed
+        var cmd = auriga.setJoystick(100, 100); //leftSpeed, rightSpeed
 
         let encoderMotor = auriga.Joystick().leftSpeed(150).rightSpeed(100);
         let currentCmd = captureWriteBuf(encoderMotor.run.bind(encoderMotor));
@@ -165,7 +186,7 @@ describe('【auriga_最新固件 协议测试】', function() {
       });
 
       it('app虚拟摇杆1左轮速度-256右轮速度-256', function() {
-        var targetCmd = dataman.auriga.write.joystick[8] ;
+        var targetCmd = dataman.auriga.write.joystick[8];
         var cmd = auriga.setJoystick(-256, -256);
         assert.equal(targetCmd, cmd);
       });
@@ -230,7 +251,7 @@ describe('【auriga_最新固件 协议测试】', function() {
 
     describe('步进电机：setStepperMotor(1~4,0~3000,-2147483648~2147483647)', function() {
       let ports = [1, 2, 3, 4];
-      for(let i = 0; i < ports.length; i++){
+      for (let i = 0; i < ports.length; i++) {
         let port = ports[i];
         it(`步进电机在端口${port} 速度为3000 位移为1000`, function() {
           let stepperMotor = auriga.StepperMotor(port).speed(3000).distance(1000);
@@ -241,31 +262,31 @@ describe('【auriga_最新固件 协议测试】', function() {
       }
 
       let speeds = [0, 1500, -1, 3001];
-      for(let i = 0; i < speeds.length; i++){
+      for (let i = 0; i < speeds.length; i++) {
         let speed = speeds[i];
         it(`步进电机在端口1 速度为${speed} 位移为1000`, function() {
           let stepperMotor = auriga.StepperMotor(1).speed(speed).distance(1000);
-          let targetCmd = dataman.auriga.write.stepperMotor[i+4];
+          let targetCmd = dataman.auriga.write.stepperMotor[i + 4];
           let currentCmd = captureWriteBuf(stepperMotor.run.bind(stepperMotor));
           expect(currentCmd).to.equal(targetCmd);
         });
       }
 
       let distances = [2147483647, -2147483648, 0, -2147483649, 2147483648];
-      for(let i = 0; i < distances.length; i++){
+      for (let i = 0; i < distances.length; i++) {
         let distance = distances[i];
         it(`步进电机在端口1 速度为3000 位移为${distance}`, function() {
           let stepperMotor = auriga.StepperMotor(1).speed(3000).distance(distance);
-          let targetCmd = dataman.auriga.write.stepperMotor[i+8];
+          let targetCmd = dataman.auriga.write.stepperMotor[i + 8];
           let currentCmd = captureWriteBuf(stepperMotor.run.bind(stepperMotor));
           expect(currentCmd).to.equal(targetCmd);
         });
       }
     });
 
-    describe('RGB LED灯条：RgbLed(6~10,1/2,0~12,0~255,0~255,0~255)', function() {    
+    describe('RGB LED灯条：RgbLed(6~10,1/2,0~12,0~255,0~255,0~255)', function() {
       let ports = [6, 7, 8, 9, 10];
-      for(let i = 0; i < ports.length; i++){
+      for (let i = 0; i < ports.length; i++) {
         let port = ports[i];
         it(`将端口号${port} slot1的灯条的全部位置上亮起红色`, function() {
           let rgbLed = auriga.RgbLed(port, 1).position(0);
@@ -276,11 +297,11 @@ describe('【auriga_最新固件 协议测试】', function() {
       }
 
       let positions = [0, 2, 13, -1];
-      for(let i = 0; i < positions.length; i++){
+      for (let i = 0; i < positions.length; i++) {
         let position = positions[i];
         it(`将端口号6 slot2 的灯条的 ${position}位置上亮起红色`, function() {
           let rgbLed = auriga.RgbLed(6, 2).position(position);
-          let targetCmd = dataman.auriga.write.led[i+5];
+          let targetCmd = dataman.auriga.write.led[i + 5];
           let currentCmd = captureWriteBuf(rgbLed.red.bind(rgbLed));
           expect(currentCmd).to.equal(targetCmd);
         });
@@ -294,11 +315,11 @@ describe('【auriga_最新固件 协议测试】', function() {
       });
 
       let colorsApi = ['blue', 'green', 'white'];
-      for(let i = 0; i < colorsApi.length; i++){
+      for (let i = 0; i < colorsApi.length; i++) {
         let color = colorsApi[i];
         it(`将端口号6 slot2 的灯条的全部位置上亮起${color}`, function() {
           let rgbLed = auriga.RgbLed(6, 2).position(0);
-          let targetCmd = dataman.auriga.write.led[i+10];
+          let targetCmd = dataman.auriga.write.led[i + 10];
           let currentCmd = captureWriteBuf(rgbLed[color].bind(rgbLed));
           expect(currentCmd).to.equal(targetCmd);
         });
@@ -326,9 +347,9 @@ describe('【auriga_最新固件 协议测试】', function() {
       });
     });
 
-    describe('板载灯盘：LedPanelOnBoard(0~12,0~255,0~255,0~255)', function() {    
+    describe('板载灯盘：LedPanelOnBoard(0~12,0~255,0~255,0~255)', function() {
       let positions = [0, 2, 13, -1];
-      for(let i = 0; i < positions.length; i++){
+      for (let i = 0; i < positions.length; i++) {
         let position = positions[i];
         it(`将端口号6 slot2 的灯条的 ${position}位置上亮起红色`, function() {
           let ledPanelOnBoard = auriga.LedPanelOnBoard(6).position(position);
@@ -401,7 +422,7 @@ describe('【auriga_最新固件 协议测试】', function() {
 
     describe('四键led灯：setFourLeds(6～10，0~4,0~255,0~255,0~255)', function() {
       let ports = [6, 7, 8, 9, 10];
-      for(let i = 0; i < ports.length; i++){
+      for (let i = 0; i < ports.length; i++) {
         let port = ports[i];
         it(`将端口号${port}上的四键led灯的全部位置上亮起红色`, function() {
           let fourLed = auriga.FourLed(port).position(0);
@@ -412,11 +433,11 @@ describe('【auriga_最新固件 协议测试】', function() {
       }
 
       let positions = [2, 5, -1];
-      for(let i = 0; i < positions.length; i++){
+      for (let i = 0; i < positions.length; i++) {
         let position = positions[i];
         it(`将端口6上的四键led灯的 ${position}位置上亮起红色`, function() {
           let fourLed = auriga.FourLed(6).position(position);
-          let targetCmd = dataman.auriga.write.fourLeds[i+5];
+          let targetCmd = dataman.auriga.write.fourLeds[i + 5];
           let currentCmd = captureWriteBuf(fourLed.red.bind(fourLed));
           expect(currentCmd).to.equal(targetCmd);
         });
@@ -501,54 +522,20 @@ describe('【auriga_最新固件 协议测试】', function() {
       // });
     });
 
-    describe('主板通用命令：setFirmwareMode(0～4)', function() {
-      it('主板通用命令-设置模式为蓝牙模式', function() {
-        var targetCmd = dataman.auriga.write.firmwareModeBlueTooth[0];
-        var cmd = auriga.setFirmwareMode(0);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it("主板通用命令-设置模式为自动避障", function() {
-        var targetCmd = dataman.auriga.write.firmwareModeObstacle[0];
-        var cmd = auriga.setFirmwareMode(1);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it("主板通用命令-设置模式为平衡车 ", function() {
-        var targetCmd = dataman.auriga.write.firmwareModeBalance[0];
-        var cmd = auriga.setFirmwareMode(2);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it("主板通用命令-设置模式为红外线 ", function() {
-        var targetCmd = dataman.auriga.write.firmwareModeInfrared[0];
-        var cmd = auriga.setFirmwareMode(3);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it("主板通用命令-设置模式为巡线 ", function() {
-        var targetCmd = dataman.auriga.write.firmwareModeLineFollow[0];
-        var cmd = auriga.setFirmwareMode(4);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it("主板通用命令-设置模式为5（错误模式参数） ", function() {
-        var targetCmd = dataman.auriga.write.firmwareModeWrong[0];
-        var cmd = auriga.setFirmwareMode(5);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it("主板通用命令-设置模式为-1（错误模式参数） ", function() {
-        var targetCmd = dataman.auriga.write.firmwareModeWrong[1];
-        var cmd = auriga.setFirmwareMode(-1);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it("主板通用命令-设置模式为3.5（错误模式参数） ", function() {
-        var targetCmd = dataman.auriga.write.firmwareModeWrong[2];
-        var cmd = auriga.setFirmwareMode(3.5);
-        assert.equal(targetCmd, cmd);
-      });
+    describe('主板通用命令：auriga.setFirmwareMode(0～4)', function() {
+      let modes =     [0,         1,        2,       3,       4,     5,        -1,        3.5];
+      let modeDescs = ['蓝牙模式', '自动避障', '平衡车', '红外线', '巡线', '错误模式', '错误模式', '错误模式'];
+      for (let i = 0; i < modes.length; i++) {
+        let mode = modes[i];
+        let desc = modeDescs[i];
+        it(`主板通用命令-设置模式为${desc}`, function() {
+          let targetCmd = dataman.auriga.write.firmwareMode[i];
+          let currentCmd = captureWriteBuf(function(){
+            auriga.setFirmwareMode(mode);
+          });
+          expect(currentCmd).to.equal(targetCmd);
+        });
+      }
     });
 
     describe('数字舵机：setServoMotor(6~10,1/2,0~180)', function() {
@@ -794,7 +781,7 @@ describe('【auriga_最新固件 协议测试】', function() {
       });
     });
 
-    // describe('表情面板-显示表情：setLedMatrixChar(6, 0, 0, "默认表情")', function() {
+  // describe('表情面板-显示表情：setLedMatrixChar(6, 0, 0, "默认表情")', function() {
     //   it("在端口6 x：0 y：0的表情面板上显示表情‘？？’", function() {
     //     var targetCmd = dataman.auriga.write.ledMatrixEmotion[0];
     //     var emotionData = [00, 00, 0x40, 0x48, 0x44, 0x42, 0x02, 0x02, 0x02, 0x02, 0x42, 0x44, 0x48, 0x40, 0x00, 0x00];
@@ -1038,7 +1025,7 @@ describe('【auriga_最新固件 协议测试】', function() {
     //     assert.equal(targetCmd, cmd);
     //   });
     // });
-    
+
 
     // describe('快门线模块：setShutter(6, 2)', function() {
     //   it('在端口6的快门线设置为按下快门00 ', function() {
@@ -1070,7 +1057,7 @@ describe('【auriga_最新固件 协议测试】', function() {
     //     var cmd = auriga.setShutter(10, 0);
     //     assert.equal(targetCmd, cmd);
     //   });
-      
+
     //   it('在端口6的快门线设置为松开快门01 ', function() {
     //     var targetCmd = dataman.auriga.write.shutter[5];
     //     var cmd = auriga.setShutter(6, 1);
@@ -1177,7 +1164,7 @@ describe('【auriga_最新固件 协议测试】', function() {
   });
 
   //读指令:需要设备返回数据的指令
-  describe('#它的读指令', function() {
+  describe('#读协议部分', function() {
 
     describe('读取版本号:readVersion(0)', function() {
       it(' 发送查询版本号的指令', function() {
@@ -1186,7 +1173,7 @@ describe('【auriga_最新固件 协议测试】', function() {
         assert.equal(targetCmd, cmd);
       });
 
-     
+
       it('检查返回的版本号是否为09.01.013', function(done) {
         var targetVersion = dataman.auriga.read.version[1];
         auriga.getSensorValue('version', function(result) {
@@ -1196,91 +1183,47 @@ describe('【auriga_最新固件 协议测试】', function() {
       });
     });
 
-    describe('超声波传感器：readUltrasonic(0,10)', function() {
-      
-      it('发送读取端口号6的超声波的指令', function() {
-        var targetCmd = dataman.auriga.read.ultrasonic[0];
-        var cmd = auriga.readUltrasonic(0, 6);
-        assert.equal(targetCmd, cmd);
-      });
+    describe('超声波传感器：Ultrasonic(6~10)', function() {
+      let ports = [6, 7, 8, 9, 10];
+      for (let i = 0; i < ports.length; i++) {
+        let port = ports[i];
+        it(`发送读取端口号${port} 的超声波的指令`, function() {
+          let ultrasonic = auriga.Ultrasonic(port);
+          let targetCmd = dataman.auriga.read.ultrasonic[i];
+          let currentCmd = captureReadBuf(ultrasonic.getData.bind(ultrasonic));
+          expect(currentCmd).to.equal(targetCmd);
+        });
+      }
 
-      it('发送读取端口号7的超声波的指令', function() {
-        var targetCmd = dataman.auriga.read.ultrasonic[1];
-        var cmd = auriga.readUltrasonic(0, 7);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('发送读取端口号8的超声波的指令', function() {
-        var targetCmd = dataman.auriga.read.ultrasonic[2];
-        var cmd = auriga.readUltrasonic(0, 8);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('发送读取端口号9的超声波的指令', function() {
-        var targetCmd = dataman.auriga.read.ultrasonic[3];
-        var cmd = auriga.readUltrasonic(0, 9);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('发送读取端口号10的超声波的指令', function() {
-        var targetCmd = dataman.auriga.read.ultrasonic[4];
-        var cmd = auriga.readUltrasonic(0, 10);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('it should be a number between 0~400', function(done) {
+      it('超声波取值范围是 0~400', function(done) {
         auriga.getSensorValue('ultrasonic', {
           "port": 6
         }, function(result) {
-          assert.isNumber(result);      //result is a number
-          assert.isAtLeast(result, 0);  //result >= 0
-          assert.isAtMost(result, 400);  //result <= 400
-          done();//setTimeout(done, 3000);
+          assert.isNumber(result); //result is a number
+          assert.isAtLeast(result, 0); //result >= 0
+          assert.isAtMost(result, 400); //result <= 400
+          done(); //setTimeout(done, 3000);
         });
       });
     });
 
-    describe('温度传感器：readTemperature(0,6～10,1/2)', function() {
-      it('发送读取端口6 slot1 上的温度的指令', function() {
-        var targetCmd = dataman.auriga.read.temperature[0];
-        var cmd = auriga.readTemperature(0, 6, 1);
-        console.log(cmd + ' has been sent');
-        assert.equal(targetCmd, cmd);
-      });
+    describe('温度传感器：readTemperature(6～10,1/2)', function() {
+      let ports = [6, 7, 8, 9, 10];
+      for (let i = 0; i < ports.length; i++) {
+        let port = ports[i];
+        it(`发送读取端口号${port} slot1 上的温度的指令`, function() {
+          let temperature = auriga.Temperature(port, 1);
+          let targetCmd = dataman.auriga.read.temperature[i];
+          let currentCmd = captureReadBuf(temperature.getData.bind(temperature));
+          expect(currentCmd).to.equal(targetCmd);
+        });
+      }
 
-      it('发送读取端口7 slot1 上的温度的指令', function() {
-        var targetCmd = dataman.auriga.read.temperature[1];
-        var cmd = auriga.readTemperature(0, 7, 1);
-        console.log(cmd + ' has been sent');
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('发送读取端口8 slot1 上的温度的指令', function() {
-        var targetCmd = dataman.auriga.read.temperature[2];
-        var cmd = auriga.readTemperature(0, 8, 1);
-        console.log(cmd + ' has been sent');
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('发送读取端口9 slot1 上的温度的指令', function() {
-        var targetCmd = dataman.auriga.read.temperature[3];
-        var cmd = auriga.readTemperature(0, 9, 1);
-        console.log(cmd + ' has been sent');
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('发送读取端口10 slot1 上的温度的指令', function() {
-        var targetCmd = dataman.auriga.read.temperature[4];
-        var cmd = auriga.readTemperature(0, 10, 1);
-        console.log(cmd + ' has been sent');
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('发送读取端口6 slot2 上的温度的指令', function() {
-        var targetCmd = dataman.auriga.read.temperature[5];
-        var cmd = auriga.readTemperature(0, 6, 2);
-        console.log(cmd + ' has been sent');
-        assert.equal(targetCmd, cmd);
+      it(`发送读取端口号6 slot2 上的温度的指令`, function() {
+        let temperature = auriga.Temperature(6, 2);
+        let targetCmd = dataman.auriga.read.temperature[5];
+        let currentCmd = captureReadBuf(temperature.getData.bind(temperature));
+        expect(currentCmd).to.equal(targetCmd);
       });
 
       it('it should be a number between -1024~1024 ', function(done) {
@@ -1289,150 +1232,82 @@ describe('【auriga_最新固件 协议测试】', function() {
           "port": 6,
           "slot": 1
         }, function(result) {
-          assert.isNumber(result);      //result is a number
-          assert.isAtLeast(result, -1024);  //result >= -1024
-          assert.isAtMost(result, 1024);  //result <= 1024
+          assert.isNumber(result); //result is a number
+          assert.isAtLeast(result, -1024); //result >= -1024
+          assert.isAtMost(result, 1024); //result <= 1024
           done();
         });
       });
     });
 
-    describe('光线传感器：readLight(0,6～12)', function() {
-      it('发送读取端口6的光线的指令', function() {
-        var targetCmd = dataman.auriga.read.light[0];
-        var cmd = auriga.readLight(0, 6);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('发送读取端口7的光线的指令', function() {
-        var targetCmd = dataman.auriga.read.light[1];
-        var cmd = auriga.readLight(0, 7);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('发送读取端口8的光线的指令', function() {
-        var targetCmd = dataman.auriga.read.light[2];
-        var cmd = auriga.readLight(0, 8);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('发送读取端口9的光线的指令', function() {
-        var targetCmd = dataman.auriga.read.light[3];
-        var cmd = auriga.readLight(0, 9);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('发送读取端口10的光线的指令', function() {
-        var targetCmd = dataman.auriga.read.light[4];
-        var cmd = auriga.readLight(0, 10);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('发送读取端口11的光线的指令', function() {
-        var targetCmd = dataman.auriga.read.light[5];
-        var cmd = auriga.readLight(0, 11);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('发送读取端口12的光线的指令', function() {
-        var targetCmd = dataman.auriga.read.light[6];
-        var cmd = auriga.readLight(0, 12);
-        assert.equal(targetCmd, cmd);
-      });
+    describe('光线传感器：readLight(6～12)', function() {
+      let ports = [6, 7, 8, 9, 10, 11, 12];
+      for (let i = 0; i < ports.length; i++) {
+        let port = ports[i];
+        it(`发送读取端口号${port} 的光线的指令`, function() {
+          let light = auriga.Light(port);
+          let targetCmd = dataman.auriga.read.light[i];
+          let currentCmd = captureReadBuf(light.getData.bind(light));
+          expect(currentCmd).to.equal(targetCmd);
+        });
+      }
 
       it('it should be a number between 0~1024', function(done) {
         var resultType;
         auriga.getSensorValue('light', {
           "port": 6
         }, function(result) {
-          assert.isNumber(result);      //result is a number
-          assert.isAtLeast(result, 0);  //result >= 0
-          assert.isAtMost(result, 1024);  //result <= 1024
+          assert.isNumber(result); //result is a number
+          assert.isAtLeast(result, 0); //result >= 0
+          assert.isAtMost(result, 1024); //result <= 1024
           done();
         });
       });
     });
 
-    describe('电位器传感器：readPotentionmeter(0,6)', function() {
-      it('发送读取端口 6 的电位器传感器的指令', function() {
-        var targetCmd = dataman.auriga.read.potentionmeter[0];
-        var cmd = auriga.readPotentionmeter(0, 6);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('发送读取端口 7 的电位器传感器的指令', function() {
-        var targetCmd = dataman.auriga.read.potentionmeter[1];
-        var cmd = auriga.readPotentionmeter(0, 7);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('发送读取端口 8 的电位器传感器的指令', function() {
-        var targetCmd = dataman.auriga.read.potentionmeter[2];
-        var cmd = auriga.readPotentionmeter(0, 8);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('发送读取端口 9 的电位器传感器的指令', function() {
-        var targetCmd = dataman.auriga.read.potentionmeter[3];
-        var cmd = auriga.readPotentionmeter(0, 9);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('发送读取端口 10 的电位器传感器的指令', function() {
-        var targetCmd = dataman.auriga.read.potentionmeter[4];
-        var cmd = auriga.readPotentionmeter(0, 10);
-        assert.equal(targetCmd, cmd);
-      });
+    describe('电位器传感器：Potentionmeter(6~10)', function() {
+      let ports = [6, 7, 8, 9, 10];
+      for (let i = 0; i < ports.length; i++) {
+        let port = ports[i];
+        it(`发送读取端口号${port} 的电位器传感器的指令`, function() {
+          let potentionmeter = auriga.Potentionmeter(port);
+          let targetCmd = dataman.auriga.read.potentionmeter[i];
+          let currentCmd = captureReadBuf(potentionmeter.getData.bind(potentionmeter));
+          expect(currentCmd).to.equal(targetCmd);
+        });
+      }
 
       it('it should be a number between 0~1000', function(done) {
         var resultType;
         auriga.getSensorValue('potentionmeter', {
           "port": 6
         }, function(result) {
-          assert.isNumber(result);      //result is a number
-          assert.isAtLeast(result, 0);  //result >= 0
-          assert.isAtMost(result, 1000);  //result <= 1000
+          assert.isNumber(result); //result is a number
+          assert.isAtLeast(result, 0); //result >= 0
+          assert.isAtMost(result, 1000); //result <= 1000
           done();
         });
       });
     });
 
-    describe('摇杆传感器：readJoystick(0,6,1)', function() {
-      it('发送读取端口 6 上的摇杆在 x 轴上的值的指令', function() {
-        var targetCmd = dataman.auriga.read.joystick[0];
-        var cmd = auriga.readJoystick(0, 6, 1);
-        assert.equal(targetCmd, cmd);
-      });
+    describe('摇杆传感器：Joystick(6~10).axis(1~2)', function() {
+      let ports = [6, 7, 8, 9, 10];
+      for (let i = 0; i < ports.length; i++) {
+        let port = ports[i];
+        it(`发送读取端口号${port} 上的摇杆在 x 轴上的值的指令`, function() {
+          let joystick = auriga.Joystick(port).axis(1);
+          let targetCmd = dataman.auriga.read.joystick[i];
+          let currentCmd = captureReadBuf(joystick.getData.bind(joystick));
+          expect(currentCmd).to.equal(targetCmd);
+        });
+      }
 
-      it('发送读取端口 7 上的摇杆在 x 轴上的值的指令', function() {
-        var targetCmd = dataman.auriga.read.joystick[1];
-        var cmd = auriga.readJoystick(0, 7, 1);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('发送读取端口 8 上的摇杆在 x 轴上的值的指令', function() {
-        var targetCmd = dataman.auriga.read.joystick[2];
-        var cmd = auriga.readJoystick(0, 8, 1);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('发送读取端口 9 上的摇杆在 x 轴上的值的指令', function() {
-        var targetCmd = dataman.auriga.read.joystick[3];
-        var cmd = auriga.readJoystick(0, 9, 1);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('发送读取端口 10 上的摇杆在 x 轴上的值的指令', function() {
-        var targetCmd = dataman.auriga.read.joystick[4];
-        var cmd = auriga.readJoystick(0, 10, 1);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('发送读取端口 6 上的摇杆在 y 轴上的值的指令', function() {
-        var targetCmd = dataman.auriga.read.joystick[5];
-        var cmd = auriga.readJoystick(0, 6, 2);
-        assert.equal(targetCmd, cmd);
-      });
+      it(`发送读取端口号6 上的摇杆在 y 轴上的值的指令`, function() {
+          let joystick = auriga.Joystick(6).axis(2);
+          let targetCmd = dataman.auriga.read.joystick[5];
+          let currentCmd = captureReadBuf(joystick.getData.bind(joystick));
+          expect(currentCmd).to.equal(targetCmd);
+        });
 
       it('it should be a number between -492~492', function(done) {
         var resultType;
@@ -1440,123 +1315,78 @@ describe('【auriga_最新固件 协议测试】', function() {
           "port": 6,
           "x": 1
         }, function(result) {
-          assert.isNumber(result);      //result is a number
-          assert.isAtLeast(result, -492);  //result >= -492
-          assert.isAtMost(result, 492);  //result <= 492
+          assert.isNumber(result); //result is a number
+          assert.isAtLeast(result, -492); //result >= -492
+          assert.isAtMost(result, 492); //result <= 492
           done();
         });
       });
     });
 
-    describe('姿态传感器（陀螺仪）：readGyro(0,1/0,1~3)', function() {
-      it('发送读取板载陀螺仪在 x 轴上的值的指令', function() {
-        var targetCmdOnboard = dataman.auriga.read.gyro[0];
-        var cmd = auriga.readGyro(0, 1, 1);
-        assert.equal(targetCmdOnboard, cmd);
-      });
+    describe('姿态传感器（陀螺仪）板载和外接：Gyro(0,1/0,1~3)', function() {
+      let axises = ['x', 'y', 'z'];
+      for (let i = 0; i < axises.length; i++) {
+        let axis = axises[i];
+        it(`发送读取板载陀螺仪在 ${axis} 轴上的值的指令`, function() {
+          let gyroOnBoard = auriga.GyroOnBoard().axis(i+1);
+          let targetCmd = dataman.auriga.read.gyro[i];
+          let currentCmd = captureReadBuf(gyroOnBoard.getData.bind(gyroOnBoard));
+          expect(currentCmd).to.equal(targetCmd);
+        });
+      }
 
-      it('发送读取板载陀螺仪在 y 轴上的值的指令', function() {
-        var targetCmdOnboard = dataman.auriga.read.gyro[1];
-        var cmd = auriga.readGyro(0, 1, 2);
-        assert.equal(targetCmdOnboard, cmd);
-      });
+      let ports = [6, 7, 8, 9, 10];
+      for (let i = 0; i < ports.length; i++) {
+        let port = ports[i];
+        it(`发送读取端口 ${port} 上的陀螺仪在 x 轴上的值的指令`, function() {
+          let gyro = auriga.Gyro(port).axis(1);
+          let targetCmd = dataman.auriga.read.gyro[i+3];
+          let currentCmd = captureReadBuf(gyro.getData.bind(gyro));
+          expect(currentCmd).to.equal(targetCmd);
+        });
+      }
 
-      it('发送读取板载陀螺仪在 z 轴上的值的指令', function() {
-        var targetCmdOnboard = dataman.auriga.read.gyro[2];
-        var cmd = auriga.readGyro(0, 1, 3);
-        assert.equal(targetCmdOnboard, cmd);
-      });
-
-      it('发送读取端口 6 上的陀螺仪在 x 轴上的值的指令', function() {
-        var targetCmdExternal = dataman.auriga.read.gyro[3];
-        var cmd = auriga.readGyro(0, 0, 1);
-        assert.equal(targetCmdExternal, cmd);
-      });
-
-      it('发送读取端口 7 上的陀螺仪在 x 轴上的值的指令', function() {
-        var targetCmdExternal = dataman.auriga.read.gyro[4];
-        var cmd = auriga.readGyro(0, 0, 1);
-        assert.equal(targetCmdExternal, cmd);
-      });
-
-      it('发送读取端口 8 上的陀螺仪在 x 轴上的值的指令', function() {
-        var targetCmdExternal = dataman.auriga.read.gyro[5];
-        var cmd = auriga.readGyro(0, 0, 1);
-        assert.equal(targetCmdExternal, cmd);
-      });
-
-      it('发送读取端口 9 上的陀螺仪在 x 轴上的值的指令', function() {
-        var targetCmdExternal = dataman.auriga.read.gyro[6];
-        var cmd = auriga.readGyro(0, 0, 1);
-        assert.equal(targetCmdExternal, cmd);
-      });
-
-      it('发送读取端口 10 上的陀螺仪在 x 轴上的值的指令', function() {
-        var targetCmdExternal = dataman.auriga.read.gyro[7];
-        var cmd = auriga.readGyro(0, 0, 1);
-        assert.equal(targetCmdExternal, cmd);
-      });
-
-      it('发送读取端口 6 上的陀螺仪在 y 轴上的值的指令', function() {
-        var targetCmdExternal = dataman.auriga.read.gyro[8];
-        var cmd = auriga.readGyro(0, 0, 2);
-        assert.equal(targetCmdExternal, cmd);
-      });
-
-      it('发送读取端口 6 上的陀螺仪在 z 轴上的值的指令', function() {
-        var targetCmdExternal = dataman.auriga.read.gyro[9];
-        var cmd = auriga.readGyro(0, 0, 3);
-        assert.equal(targetCmdExternal, cmd);
-      });
+      let yz = ['y', 'z'];
+      for (let i = 0; i < yz.length; i++) {
+        let axis = yz[i];
+        it(`发送读取端口 6 上的陀螺仪在 ${axis} 轴上的值的指令`, function() {
+          let gyro = auriga.Gyro(6).axis(i+2);
+          let targetCmd = dataman.auriga.read.gyro[i+8];
+          let currentCmd = captureReadBuf(gyro.getData.bind(gyro));
+          expect(currentCmd).to.equal(targetCmd);
+        });
+      }
 
       it('it should be a number between -180~180', function(done) {
         var resultType;
         auriga.getSensorValue('gyro', {
           "port": 0 //0表示外接；1表示板载
         }, function(result) {
-          assert.isNumber(result);      //result is a number
-          assert.isAtLeast(result, -180);  //result >= -180
-          assert.isAtMost(result, 180);  //result <= 180
+          assert.isNumber(result); //result is a number
+          assert.isAtLeast(result, -180); //result >= -180
+          assert.isAtMost(result, 180); //result <= 180
           done();
         });
       });
     });
 
-    describe('音量传感器：readSound(0,14／6～10)', function() {
-      it('发送读取端口6上的音量传感器的值的指令', function() {
-        var targetCmdOnboard = dataman.auriga.read.sound[0];
-        var cmd = auriga.readSound(0, 6);
-        assert.equal(targetCmdOnboard, cmd);
-      });
-
-      it('发送读取端口7上的音量传感器的值的指令', function() {
-        var targetCmdOnboard = dataman.auriga.read.sound[1];
-        var cmd = auriga.readSound(0, 7);
-        assert.equal(targetCmdOnboard, cmd);
-      });
-
-      it('发送读取端口8上的音量传感器的值的指令', function() {
-        var targetCmdOnboard = dataman.auriga.read.sound[2];
-        var cmd = auriga.readSound(0, 8);
-        assert.equal(targetCmdOnboard, cmd);
-      });
-
-      it('发送读取端口9上的音量传感器的值的指令', function() {
-        var targetCmdOnboard = dataman.auriga.read.sound[3];
-        var cmd = auriga.readSound(0, 9);
-        assert.equal(targetCmdOnboard, cmd);
-      });
-
-      it('发送读取端口10上的音量传感器的值的指令', function() {
-        var targetCmdOnboard = dataman.auriga.read.sound[4];
-        var cmd = auriga.readSound(0, 10);
-        assert.equal(targetCmdOnboard, cmd);
-      });
-      
+    describe('音量传感器(含板载)：Sound(0,14／6～10)', function() {
+      let ports = [6, 7, 8, 9, 10];
+      for (let i = 0; i < ports.length; i++) {
+        let port = ports[i];
+        it(`发送读取端口 ${port} 上的音量传感器的值的指令`, function() {
+          let sound = auriga.Sound(port);
+          let targetCmd = dataman.auriga.read.sound[i];
+          let currentCmd = captureReadBuf(sound.getData.bind(sound));
+          expect(currentCmd).to.equal(targetCmd);
+        });
+      }
+      //auriga 专有
       it('发送读取板载的音量传感器的值的指令', function() {
-        var targetCmdOnboard = dataman.auriga.read.sound[5];
-        var cmd = auriga.readSound(0, 14);
-        assert.equal(targetCmdOnboard, cmd);
+        let soundOnBoard = auriga.SoundOnBoard();
+        let targetCmd = dataman.auriga.read.sound[5];
+        let currentCmd = captureReadBuf(soundOnBoard.getData.bind(soundOnBoard));
+        expect(currentCmd).to.equal(targetCmd);
       });
 
       it('it should be a number between 0~1024', function(done) {
@@ -1564,156 +1394,100 @@ describe('【auriga_最新固件 协议测试】', function() {
         auriga.getSensorValue('sound', {
           "port": 6
         }, function(result) {
-          assert.isNumber(result);      //result is a number
-          assert.isAtLeast(result, 0);  //result >= 0
-          assert.isAtMost(result, 1024);  //result <= 1024
+          assert.isNumber(result); //result is a number
+          assert.isAtLeast(result, 0); //result >= 0
+          assert.isAtMost(result, 1024); //result <= 1024
           done();
         });
       });
     });
 
-    describe('板载温度传感器：readTemperatureOnBoard(0)', function() {
+    describe('板载温度传感器：TemperatureOnBoard(0)', function() {
       it('发送读取板载温度传感器的值的指令', function() {
-        var targetCmdOnboard = dataman.auriga.read.temperatureOnBoard[0];
-        var cmd = auriga.readTemperatureOnBoard(0);
-        assert.equal(targetCmdOnboard, cmd);
+        let targetCmd = dataman.auriga.read.temperatureOnBoard[0];
+        let temperatureOnBoard = auriga.TemperatureOnBoard();
+        let currentCmd = captureReadBuf(temperatureOnBoard.getData.bind(temperatureOnBoard));
+        expect(currentCmd).to.equal(targetCmd);
       });
 
       it('it should be a number between -1024～1024', function(done) {
         var resultType;
         auriga.getSensorValue('temperatureOnBoard', function(result) {
-          assert.isNumber(result);      //result is a number
-          assert.isAtLeast(result, -1024);  //result >= -1024
-          assert.isAtMost(result, 1024);  //result <= 1024
+          assert.isNumber(result); //result is a number
+          assert.isAtLeast(result, -1024); //result >= -1024
+          assert.isAtMost(result, 1024); //result <= 1024
           done();
         });
       });
     });
 
-    describe('被动式红外传感器：readPirmotion(0, 6)', function() {
-      it('发送读取端口 6 上的被动式红外传感器的值的指令', function() {
-        var targetCmd = dataman.auriga.read.pirmotion[0];
-        var cmd = auriga.readPirmotion(0, 6);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('发送读取端口 7 上的被动式红外传感器的值的指令', function() {
-        var targetCmd = dataman.auriga.read.pirmotion[1];
-        var cmd = auriga.readPirmotion(0, 7);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('发送读取端口 8 上的被动式红外传感器的值的指令', function() {
-        var targetCmd = dataman.auriga.read.pirmotion[2];
-        var cmd = auriga.readPirmotion(0, 8);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('发送读取端口 9 上的被动式红外传感器的值的指令', function() {
-        var targetCmd = dataman.auriga.read.pirmotion[3];
-        var cmd = auriga.readPirmotion(0, 9);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('发送读取端口 10 上的被动式红外传感器的值的指令', function() {
-        var targetCmd = dataman.auriga.read.pirmotion[4];
-        var cmd = auriga.readPirmotion(0, 10);
-        assert.equal(targetCmd, cmd);
-      });
+    describe('被动式红外传感器：Pirmotion(0, 6)', function() {
+      let ports = [6, 7, 8, 9, 10];
+      for (let i = 0; i < ports.length; i++) {
+        let port = ports[i];
+        it(`发送读取端口 ${port} 上的被动式红外传感器的值的指令`, function() {
+          let pirmotion = auriga.Pirmotion(port);
+          let targetCmd = dataman.auriga.read.pirmotion[i];
+          let currentCmd = captureReadBuf(pirmotion.getData.bind(pirmotion));
+          expect(currentCmd).to.equal(targetCmd);
+        });
+      }
 
       it('it should be 0 or 1 ', function(done) {
         var resultType;
         auriga.getSensorValue('pirmotion', {
           "port": 6
         }, function(result) {
-          assert.isNumber(result);      //result is a number
-          assert.oneOf(result,[0,1])    //result is 0 or 1
+          assert.isNumber(result); //result is a number
+          assert.oneOf(result, [0, 1]) //result is 0 or 1
           done();
         });
       });
     });
 
 
-    describe('巡线传感器：readLineFollower(0, 6~10)', function() {
-      it('发送读取端口 6 上的巡线传感器的值的指令', function() {
-        var targetCmd = dataman.auriga.read.lineFollower[0];
-        var cmd = auriga.readLineFollower(0, 6);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('发送读取端口 7 上的巡线传感器的值的指令', function() {
-        var targetCmd = dataman.auriga.read.lineFollower[1];
-        var cmd = auriga.readLineFollower(0, 7);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('发送读取端口 8 上的巡线传感器的值的指令', function() {
-        var targetCmd = dataman.auriga.read.lineFollower[2];
-        var cmd = auriga.readLineFollower(0, 8);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('发送读取端口 9 上的巡线传感器的值的指令', function() {
-        var targetCmd = dataman.auriga.read.lineFollower[3];
-        var cmd = auriga.readLineFollower(0, 9);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('发送读取端口 10 上的巡线传感器的值的指令', function() {
-        var targetCmd = dataman.auriga.read.lineFollower[4];
-        var cmd = auriga.readLineFollower(0, 10);
-        assert.equal(targetCmd, cmd);
-      });      
-
+    describe('巡线传感器：LineFollower(0, 6~10)', function() {
+      let ports = [6, 7, 8, 9, 10];
+      for (let i = 0; i < ports.length; i++) {
+        let port = ports[i];
+        it(`发送读取端口 ${port} 上的巡线传感器的值的指令`, function() {
+          let lineFollower = auriga.LineFollower(port);
+          let targetCmd = dataman.auriga.read.lineFollower[i];
+          let currentCmd = captureReadBuf(lineFollower.getData.bind(lineFollower));
+          expect(currentCmd).to.equal(targetCmd);
+        });
+      }
 
       it('it should be 0 or 1 or 2 or 3', function(done) {
         var resultType;
         auriga.getSensorValue('lineFollower', {
           "port": 6
         }, function(result) {
-          assert.isNumber(result);      //result is a number
-          assert.oneOf(result,[0,1,2,3])    //result is 0 or 1 or 2 or 3
+          assert.isNumber(result); //result is a number
+          assert.oneOf(result, [0, 1, 2, 3]) //result is 0 or 1 or 2 or 3
           done();
         });
       });
     });
 
 
-    describe('限位开关传感器：readLimitSwitch(0, 6～10, 1/2)', function() {
-      it('发送读取端口 6 slot 1 上的限位开关的值的指令', function() {
-        var targetCmd = dataman.auriga.read.limitSwitch[0];
-        var cmd = auriga.readLimitSwitch(0, 6, 1);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('发送读取端口 7 slot 1 上的限位开关的值的指令', function() {
-        var targetCmd = dataman.auriga.read.limitSwitch[1];
-        var cmd = auriga.readLimitSwitch(0, 7, 1);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('发送读取端口 8 slot 1 上的限位开关的值的指令', function() {
-        var targetCmd = dataman.auriga.read.limitSwitch[2];
-        var cmd = auriga.readLimitSwitch(0, 8, 1);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('发送读取端口 9 slot 1 上的限位开关的值的指令', function() {
-        var targetCmd = dataman.auriga.read.limitSwitch[3];
-        var cmd = auriga.readLimitSwitch(0, 9, 1);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('发送读取端口 10 slot 1 上的限位开关的值的指令', function() {
-        var targetCmd = dataman.auriga.read.limitSwitch[4];
-        var cmd = auriga.readLimitSwitch(0, 10, 1);
-        assert.equal(targetCmd, cmd);
-      });
+    describe('限位开关传感器：LimitSwitch(0, 6～10, 1/2)', function() {
+      let ports = [6, 7, 8, 9, 10];
+      for (let i = 0; i < ports.length; i++) {
+        let port = ports[i];
+        it(`发送读取端口 ${port} slot 1 上的限位开关的值的指令`, function() {
+          let limitSwitch = auriga.LimitSwitch(port, 1);
+          let targetCmd = dataman.auriga.read.limitSwitch[i];
+          let currentCmd = captureReadBuf(limitSwitch.getData.bind(limitSwitch));
+          expect(currentCmd).to.equal(targetCmd);
+        });
+      }
 
       it('发送读取端口 6 slot 2 上的限位开关的值的指令', function() {
-        var targetCmd = dataman.auriga.read.limitSwitch[5];
-        var cmd = auriga.readLimitSwitch(0, 6, 2);
-        assert.equal(targetCmd, cmd);
+        let limitSwitch = auriga.LimitSwitch(6, 1);
+          let targetCmd = dataman.auriga.read.limitSwitch[5];
+          let currentCmd = captureReadBuf(limitSwitch.getData.bind(limitSwitch));
+          expect(currentCmd).to.equal(targetCmd);
       });
 
       it('it should be  0 or 1', function(done) {
@@ -1722,319 +1496,196 @@ describe('【auriga_最新固件 协议测试】', function() {
           "port": 6,
           "slot": 2
         }, function(result) {
-          assert.isNumber(result);      //result is a number
-          assert.oneOf(result,[0,1])    //result is 0 or 1
+          assert.isNumber(result); //result is a number
+          assert.oneOf(result, [0, 1]) //result is 0 or 1
           done();
         });
       });
     });
 
-    describe('电子罗盘传感器：readCompass(0, 6)', function() {
-      it('发送读取端口 6 上的电子罗盘传感器的值的指令', function() {
-        var targetCmd = dataman.auriga.read.compass[0];
-        var cmd = auriga.readCompass(0, 6);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('发送读取端口 7 上的电子罗盘传感器的值的指令', function() {
-        var targetCmd = dataman.auriga.read.compass[1];
-        var cmd = auriga.readCompass(0, 7);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('发送读取端口 8 上的电子罗盘传感器的值的指令', function() {
-        var targetCmd = dataman.auriga.read.compass[2];
-        var cmd = auriga.readCompass(0, 8);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('发送读取端口 9 上的电子罗盘传感器的值的指令', function() {
-        var targetCmd = dataman.auriga.read.compass[3];
-        var cmd = auriga.readCompass(0, 9);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('发送读取端口 10 上的电子罗盘传感器的值的指令', function() {
-        var targetCmd = dataman.auriga.read.compass[4];
-        var cmd = auriga.readCompass(0, 10);
-        assert.equal(targetCmd, cmd);
-      });
+    describe('电子罗盘传感器：Compass(0, 6)', function() {
+      let ports = [6, 7, 8, 9, 10];
+      for (let i = 0; i < ports.length; i++) {
+        let port = ports[i];
+        it(`发送读取端口 ${port} 上的电子罗盘传感器的值的指令`, function() {
+          let compass = auriga.Compass(port, 1);
+          let targetCmd = dataman.auriga.read.compass[i];
+          let currentCmd = captureReadBuf(compass.getData.bind(compass));
+          expect(currentCmd).to.equal(targetCmd);
+        });
+      }
 
       it('it should be a number between 0-1024', function(done) {
         var resultType;
         auriga.getSensorValue('compass', {
           "port": 6
         }, function(result) {
-          assert.isNumber(result);      //result is a number
-          assert.isAtLeast(result, 0);  //result >= 0
-          assert.isAtMost(result, 1024);  //result <= 1024
+          assert.isNumber(result); //result is a number
+          assert.isAtLeast(result, 0); //result >= 0
+          assert.isAtMost(result, 1024); //result <= 1024
           done();
         });
       });
     });
 
 
-    describe('温湿度传感器：readHumiture(0, 6～10, 1／0)', function() {
-      it('发送读取端口 6 上的温湿度传感器上的温度的指令', function() {
-        var targetCmd = dataman.auriga.read.humiture[0];
-        var cmd = auriga.readHumiture(0, 6, 1);
-        assert.equal(targetCmd, cmd);
-      });
+    describe('温湿度传感器：Humiture(0, 6～10, 1／0)', function() {
+      let ports = [6, 7, 8, 9, 10];
+      for (let i = 0; i < ports.length; i++) {
+        let port = ports[i];
+        it(`发送读取端口 ${port} 上的温湿度传感器上的温度的指令`, function() {
+          let humiture = auriga.Humiture(port);
+          let targetCmd = dataman.auriga.read.humiture[i];
+          let currentCmd = captureReadBuf(humiture.getTemperature.bind(humiture));
+          expect(currentCmd).to.equal(targetCmd);
+        });
+      }
 
-      it('发送读取端口 7 上的温湿度传感器上的温度的指令', function() {
-        var targetCmd = dataman.auriga.read.humiture[1];
-        var cmd = auriga.readHumiture(0, 7, 1);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('发送读取端口 8 上的温湿度传感器上的温度的指令', function() {
-        var targetCmd = dataman.auriga.read.humiture[2];
-        var cmd = auriga.readHumiture(0, 8, 1);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('发送读取端口 9 上的温湿度传感器上的温度的指令', function() {
-        var targetCmd = dataman.auriga.read.humiture[3];
-        var cmd = auriga.readHumiture(0, 9, 1);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('发送读取端口 10 上的温湿度传感器上的温度的指令', function() {
-        var targetCmd = dataman.auriga.read.humiture[4];
-        var cmd = auriga.readHumiture(0, 10, 1);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('发送读取端口 6 上的温湿度传感器上的湿度的指令', function() {
-        var targetCmd = dataman.auriga.read.humiture[5];
-        var cmd = auriga.readHumiture(0, 6, 0);
-        assert.equal(targetCmd, cmd);
-      });
+      it(`发送读取端口 6 上的温湿度传感器上的湿度的指令`, function() {
+          let humiture = auriga.Humiture(6);
+          let targetCmd = dataman.auriga.read.humiture[5];
+          let currentCmd = captureReadBuf(humiture.getHumidity.bind(humiture));
+          expect(currentCmd).to.equal(targetCmd);
+        });
 
       it('it should be a number between -1024~1024', function(done) {
         var resultType;
         auriga.getSensorValue('humiture', {
           "port": 6
         }, function(result) {
-          assert.isNumber(result);      //result is a number
-          assert.isAtLeast(result, -1024);  //result >= -1024
-          assert.isAtMost(result, 1024);  //result <= 1024
+          assert.isNumber(result); //result is a number
+          assert.isAtLeast(result, -1024); //result >= -1024
+          assert.isAtMost(result, 1024); //result <= 1024
           done();
         });
       });
     });
 
 
-    describe('火焰传感器：readFlame(0, 6~10)', function() {
-      
-      it('发送读取端口 6 上的火焰传感器的值的指令' , function() {
-        var targetCmd = dataman.auriga.read.flame[0];
-        var cmd = auriga.readFlame(0, 6);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('发送读取端口 7 上的火焰传感器的值的指令' , function() {
-        var targetCmd = dataman.auriga.read.flame[1];
-        var cmd = auriga.readFlame(0, 7);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('发送读取端口 8 上的火焰传感器的值的指令' , function() {
-        var targetCmd = dataman.auriga.read.flame[2];
-        var cmd = auriga.readFlame(0, 8);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('发送读取端口 9 上的火焰传感器的值的指令' , function() {
-        var targetCmd = dataman.auriga.read.flame[3];
-        var cmd = auriga.readFlame(0, 9);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('发送读取端口 10 上的火焰传感器的值的指令' , function() {
-        var targetCmd = dataman.auriga.read.flame[4];
-        var cmd = auriga.readFlame(0, 10);
-        assert.equal(targetCmd, cmd);
-      });
+    describe('火焰传感器：Flame(0, 6~10)', function() {
+      let ports = [6, 7, 8, 9, 10];
+      for (let i = 0; i < ports.length; i++) {
+        let port = ports[i];
+        it(`发送读取端口 ${port} 上的火焰传感器的值的指令`, function() {
+          let flame = auriga.Flame(port);
+          let targetCmd = dataman.auriga.read.flame[i];
+          let currentCmd = captureReadBuf(flame.getData.bind(flame));
+          expect(currentCmd).to.equal(targetCmd);
+        });
+      }
 
       it('it should be a number between 0~1024', function(done) {
         var resultType;
         auriga.getSensorValue('flame', {
           "port": 6
         }, function(result) {
-          assert.isNumber(result);      //result is a number
-          assert.isAtLeast(result, 0);  //result >= 0
-          assert.isAtMost(result, 1024);  //result <= 1024
+          assert.isNumber(result); //result is a number
+          assert.isAtLeast(result, 0); //result >= 0
+          assert.isAtMost(result, 1024); //result <= 1024
           done();
         });
       });
     });
 
 
-    describe('气体传感器：readGas(0, 6~10)', function() {
-      
-      it('发送读取端口 6 上的气体传感器的值的指令', function() {
-        var targetCmd = dataman.auriga.read.gas[0];
-        var cmd = auriga.readGas(0, 6);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('发送读取端口 7 上的气体传感器的值的指令', function() {
-        var targetCmd = dataman.auriga.read.gas[1];
-        var cmd = auriga.readGas(0, 7);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('发送读取端口 8 上的气体传感器的值的指令', function() {
-        var targetCmd = dataman.auriga.read.gas[2];
-        var cmd = auriga.readGas(0, 8);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('发送读取端口 9 上的气体传感器的值的指令', function() {
-        var targetCmd = dataman.auriga.read.gas[3];
-        var cmd = auriga.readGas(0, 9);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('发送读取端口 10 上的气体传感器的值的指令', function() {
-        var targetCmd = dataman.auriga.read.gas[4];
-        var cmd = auriga.readGas(0, 10);
-        assert.equal(targetCmd, cmd);
-      });
+    describe('气体传感器：Gas(0, 6~10)', function() {
+      let ports = [6, 7, 8, 9, 10];
+      for (let i = 0; i < ports.length; i++) {
+        let port = ports[i];
+        it(`发送读取端口 ${port} 上的气体传感器的值的指令`, function() {
+          let gas = auriga.Gas(port);
+          let targetCmd = dataman.auriga.read.gas[i];
+          let currentCmd = captureReadBuf(gas.getData.bind(gas));
+          expect(currentCmd).to.equal(targetCmd);
+        });
+      }
 
       it('it should be a number between 0~1024', function(done) {
         var resultType;
         auriga.getSensorValue('gas', {
           "port": 6
         }, function(result) {
-          assert.isNumber(result);      //result is a number
-          assert.isAtLeast(result, 0);  //result >= 0
-          assert.isAtMost(result, 1024);  //result <= 1024
+          assert.isNumber(result); //result is a number
+          assert.isAtLeast(result, 0); //result >= 0
+          assert.isAtMost(result, 1024); //result <= 1024
           done();
         });
       });
     });
 
 
-    describe('触摸传感器：readTouch(0, 6～10)', function() {
-      it('发送读取端口 6 上的触摸传感器的值的指令', function() {
-        var targetCmd = dataman.auriga.read.touch[0];
-        var cmd = auriga.readTouch(0, 6);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('发送读取端口 7 上的触摸传感器的值的指令', function() {
-        var targetCmd = dataman.auriga.read.touch[1];
-        var cmd = auriga.readTouch(0, 7);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('发送读取端口 8 上的触摸传感器的值的指令', function() {
-        var targetCmd = dataman.auriga.read.touch[2];
-        var cmd = auriga.readTouch(0, 8);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('发送读取端口 9 上的触摸传感器的值的指令', function() {
-        var targetCmd = dataman.auriga.read.touch[3];
-        var cmd = auriga.readTouch(0, 9);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('发送读取端口 10 上的触摸传感器的值的指令', function() {
-        var targetCmd = dataman.auriga.read.touch[4];
-        var cmd = auriga.readTouch(0, 10);
-        assert.equal(targetCmd, cmd);
-      });
+    describe('触摸传感器：Touch(0, 6～10)', function() {
+      let ports = [6, 7, 8, 9, 10];
+      for (let i = 0; i < ports.length; i++) {
+        let port = ports[i];
+        it(`发送读取端口 ${port} 上的触摸传感器的值的指令`, function() {
+          let touch = auriga.Touch(port);
+          let targetCmd = dataman.auriga.read.touch[i];
+          let currentCmd = captureReadBuf(touch.getData.bind(touch));
+          expect(currentCmd).to.equal(targetCmd);
+        });
+      }
 
       it('it should be a number 0 or 1', function(done) {
         var resultType;
         auriga.getSensorValue('touch', {
           "port": 6
         }, function(result) {
-          assert.isNumber(result);      //result is a number
-          assert.oneOf(result,[0,1])    //result is 0 or 1
+          assert.isNumber(result); //result is a number
+          assert.oneOf(result, [0, 1]) //result is 0 or 1
           done();
         });
       });
     });
 
 
-    describe('按键传感器：readFourKeys(0, 6, 1)', function() {
-      it('发送读取端口 6 上第 1 个按键的按键传感器的值的指令', function() {
-        var targetCmd = dataman.auriga.read.fourKeys[0];
-        var cmd = auriga.readFourKeys(0, 6, 1);
-        assert.equal(targetCmd, cmd);
-      });
+    describe('按键传感器：FourKeys(0, 6, 1)', function() {
+      let ports = [6, 7, 8, 9, 10];
+      for (let i = 0; i < ports.length; i++) {
+        let port = ports[i];
+        it(`发送读取端口 ${port} 第 1 个按键的按键传感器的值的指令`, function() {
+          let fourKeys = auriga.FourKeys(port).key(1);
+          let targetCmd = dataman.auriga.read.fourKeys[i];
+          let currentCmd = captureReadBuf(fourKeys.getData.bind(fourKeys));
+          expect(currentCmd).to.equal(targetCmd);
+        });
+      }
 
-      it('发送读取端口 7 上第 1 个按键的按键传感器的值的指令', function() {
-        var targetCmd = dataman.auriga.read.fourKeys[1];
-        var cmd = auriga.readFourKeys(0, 7, 1);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('发送读取端口 8 上第 1 个按键的按键传感器的值的指令', function() {
-        var targetCmd = dataman.auriga.read.fourKeys[2];
-        var cmd = auriga.readFourKeys(0, 8, 1);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('发送读取端口 9 上第 1 个按键的按键传感器的值的指令', function() {
-        var targetCmd = dataman.auriga.read.fourKeys[3];
-        var cmd = auriga.readFourKeys(0, 9, 1);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('发送读取端口 10 上第 1 个按键的按键传感器的值的指令', function() {
-        var targetCmd = dataman.auriga.read.fourKeys[4];
-        var cmd = auriga.readFourKeys(0, 10, 1);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('发送读取端口 6 上第 2 个按键的按键传感器的值的指令', function() {
-        var targetCmd = dataman.auriga.read.fourKeys[5];
-        var cmd = auriga.readFourKeys(0, 6, 2);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('发送读取端口 6 上第 3 个按键的按键传感器的值的指令', function() {
-        var targetCmd = dataman.auriga.read.fourKeys[6];
-        var cmd = auriga.readFourKeys(0, 6, 3);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('发送读取端口 6 上第 4 个按键的按键传感器的值的指令', function() {
-        var targetCmd = dataman.auriga.read.fourKeys[7];
-        var cmd = auriga.readFourKeys(0, 6, 4);
-        assert.equal(targetCmd, cmd);
-      });
+      let keys = [2,3,4];
+      for (let i = 0; i < keys.length; i++) {
+        let key = keys[i];
+        it(`发送读取端口 6 第 ${key} 个按键的按键传感器的值的指令`, function() {
+          let fourKeys = auriga.FourKeys(6).key(i+2);
+          let targetCmd = dataman.auriga.read.fourKeys[i+5];
+          let currentCmd = captureReadBuf(fourKeys.getData.bind(fourKeys));
+          expect(currentCmd).to.equal(targetCmd);
+        });
+      }
 
       it('it should be 0 or 1 ', function(done) {
         var resultType;
         auriga.getSensorValue('fourKeys', {
           "port": 6
         }, function(result) {
-          assert.isNumber(result);      //result is a number
-          assert.oneOf(result,[0,1])    //result is 0 or 1
+          assert.isNumber(result); //result is a number
+          assert.oneOf(result, [0, 1]) //result is 0 or 1
           done();
         });
       });
     });
 
 
-    describe('读取板载编码电机的速度：readEncoderMotorOnBoard(0, 1／2, 2)', function() {
-      it('发送读取板载slot 1 上的速度的指令', function() {
-        var targetCmd = dataman.auriga.read.encoderMotorOnBoard[0];
-        var cmd = auriga.readEncoderMotorOnBoard(0, 1, 2);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('发送读取板载slot 2 上的速度的指令', function() {
-        var targetCmd = dataman.auriga.read.encoderMotorOnBoard[1];
-        var cmd = auriga.readEncoderMotorOnBoard(0, 2, 2);
-        assert.equal(targetCmd, cmd);
-      });
+    describe('读取板载编码电机的速度：EncoderMotorOnBoard(0, 1／2, 2)', function() {
+      let slots = [1, 2];
+      for (let i = 0; i < slots.length; i++) {
+        let slot = slots[i];
+        it(`发送读取板载slot ${slot} 上的速度的指令`, function() {
+          let encoderMotorOnBoard = auriga.EncoderMotorOnBoard(slot);
+          let targetCmd = dataman.auriga.read.encoderMotorOnBoard[i];
+          let currentCmd = captureReadBuf(encoderMotorOnBoard.getSpeed.bind(encoderMotorOnBoard));
+          expect(currentCmd).to.equal(targetCmd);
+        });
+      }
 
       it('it should be a number between 0~1024', function(done) {
         var resultType;
@@ -2042,27 +1693,26 @@ describe('【auriga_最新固件 协议测试】', function() {
           "port": 0,
           "slot": 1
         }, function(result) {
-          assert.isNumber(result);      //result is a number
-          assert.isAtLeast(result, 0);  //result >= 0
-          assert.isAtMost(result, 1024);  //result <= 1024
+          assert.isNumber(result); //result is a number
+          assert.isAtLeast(result, 0); //result >= 0
+          assert.isAtMost(result, 1024); //result <= 1024
           done();
         });
       });
     });
 
 
-    describe('读取板载编码电机的位置：readEncoderMotorOnBoard(0, 1／2, 1)', function() { 
-      it('发送读取板载slot 1 上的位置的指令', function() {
-        var targetCmd = dataman.auriga.read.encoderMotorOnBoard[2];
-        var cmd = auriga.readEncoderMotorOnBoard(0, 1, 1);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it('发送读取板载slot 2 上的位置的指令', function() {
-        var targetCmd = dataman.auriga.read.encoderMotorOnBoard[3];
-        var cmd = auriga.readEncoderMotorOnBoard(0, 2, 1);
-        assert.equal(targetCmd, cmd);
-      });
+    describe('读取板载编码电机的角度位置：EncoderMotorOnBoard(0, 1／2, 1)', function() {
+      let slots = [1, 2];
+      for (let i = 0; i < slots.length; i++) {
+        let slot = slots[i];
+        it(`发送读取板载slot ${slot} 上的位置的指令`, function() {
+          let encoderMotorOnBoard = auriga.EncoderMotorOnBoard(slot);
+          let targetCmd = dataman.auriga.read.encoderMotorOnBoard[i+2];
+          let currentCmd = captureReadBuf(encoderMotorOnBoard.getAngle.bind(encoderMotorOnBoard));
+          expect(currentCmd).to.equal(targetCmd);
+        });
+      }
 
       it('it should be a number between -2147483648~2147483647', function(done) {
         var resultType;
@@ -2070,20 +1720,20 @@ describe('【auriga_最新固件 协议测试】', function() {
           "port": 0,
           "slot": 1
         }, function(result) {
-          assert.isNumber(result);      //result is a number
-          assert.isAtLeast(result, -2147483648);  //result >= -2147483648
-          assert.isAtMost(result, 2147483647);  //result <= 2147483647
+          assert.isNumber(result); //result is a number
+          assert.isAtLeast(result, -2147483648); //result >= -2147483648
+          assert.isAtMost(result, 2147483647); //result <= 2147483647
           done();
         });
       });
     });
 
 
-    describe('主板通用命令-读取电压：readFirmwareMode(0, 112)', function() {
-      it('发送读取主板电压的指令', function() {
-        var targetVoltage = dataman.auriga.read.voltage[0];
-        var cmd = auriga.readFirmwareMode(0, 112);
-        assert.equal(targetVoltage, cmd);
+    describe('主板通用命令-读取电压：auriga.getVoltage(callback)', function() {
+      it(`发送读取主板电压的指令`, function() {
+        let targetCmd = dataman.auriga.read.voltage[0];
+        let currentCmd = captureReadBuf(auriga.getVoltage.bind(auriga));
+        expect(currentCmd).to.equal(targetCmd);
       });
 
       it('it should be a number between 0~255', function(done) {
@@ -2091,20 +1741,20 @@ describe('【auriga_最新固件 协议测试】', function() {
         auriga.getSensorValue('firmwareMode', {
           "type": 112
         }, function(result) {
-          assert.isNumber(result);      //result is a number
-          assert.isAtLeast(result, 0);  //result >= 0
-          assert.isAtMost(result, 255);  //result <= 255
+          assert.isNumber(result); //result is a number
+          assert.isAtLeast(result, 0); //result >= 0
+          assert.isAtMost(result, 255); //result <= 255
           done();
         });
       });
     });
 
 
-    describe('主板通用命令-读取模式：readFirmwareMode(0, 113)', function() {  
+    describe('主板通用命令-读取模式：auriga.getFirmwareMode(0, 113)', function() {
       it('发送读取主板模式的指令', function() {
-        var targetMode = dataman.auriga.read.mode[0];
-        var cmd = auriga.readFirmwareMode(0, 113);
-        assert.equal(targetMode, cmd);
+        let targetCmd = dataman.auriga.read.mode[0];
+        let currentCmd = captureReadBuf(auriga.getFirmwareMode.bind(auriga));
+        expect(currentCmd).to.equal(targetCmd);
       });
 
       it('it should be a number between 0～4', function(done) {
@@ -2112,13 +1762,12 @@ describe('【auriga_最新固件 协议测试】', function() {
         auriga.getSensorValue('firmwareMode', {
           "type": 113
         }, function(result) {
-          assert.isNumber(result);      //result is a number
-          assert.oneOf(result,[0,1,2,3.4])    //result is 0 /1/2/3/4
+          assert.isNumber(result); //result is a number
+          assert.oneOf(result, [0, 1, 2, 3.4]) //result is 0 /1/2/3/4
           done();
         });
       });
     });
-
     //智能舵机
   });
 });

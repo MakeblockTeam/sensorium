@@ -1,16 +1,25 @@
-import { defineNumber, defineString } from '../core/type';
+import { defineNumber } from '../core/type';
 import Utils from '../core/utils';
 import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
 import command from '../communicate/command';
 
 class FourKeys extends Electronic {
-  constructor(port, key) {
+  constructor(port) {
     super();
     this.args = {
       port: defineNumber(port),
-      key: defineString(key)
+      key: 1
     };
+  }
+
+  /**
+   * 键位
+   * @param  {Number} index 键位：1、2、3、4
+   */
+  key(index){
+    this.args.key = defineNumber(index, this.args.key);
+    return this;
   }
 
   getData(callback) {

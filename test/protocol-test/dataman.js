@@ -102,14 +102,24 @@ var Dataman = {
                 "ff 55 09 00 02 08 06 02 03 00 00 00",//15
                 "ff 55 09 00 02 08 06 02 05 00 00 00",//16
                 "ff 55 09 00 02 08 06 02 00 00 00 00"],//17========??========
-      firmwareModeBlueTooth: ["ff 55 05 00 02 3c 11 00"],
-      firmwareModeObstacle: ["ff 55 05 00 02 3c 11 01"],
-      firmwareModeBalance: ["ff 55 05 00 02 3c 11 02"],
-      firmwareModeInfrared: ["ff 55 05 00 02 3c 11 03"],
-      firmwareModeLineFollow: ["ff 55 05 00 02 3c 11 04"],
-      firmwareModeWrong: ["ff 55 05 00 02 3c 11 05",//0
-                          "ff 55 05 00 02 3c 11 ??",//=====-1=====
-                          "ff 55 05 00 02 3c 11 ??"],//=========3.5=======
+      firmwareMode: [
+                "ff 55 05 00 02 3c 11 00",
+                "ff 55 05 00 02 3c 11 01",
+                "ff 55 05 00 02 3c 11 02",
+                "ff 55 05 00 02 3c 11 03",
+                "ff 55 05 00 02 3c 11 04",
+                "ff 55 05 00 02 3c 11 05",
+                "ff 55 05 00 02 3c 11 -1",
+                "ff 55 05 00 02 3c 11 3.8" // 3.5
+      ],
+      // firmwareModeBlueTooth: ["],
+      // firmwareModeObstacle: ["],
+      // firmwareModeBalance: ["],
+      // firmwareModeInfrared: ["],
+      // firmwareModeLineFollow: ["],
+      // firmwareModeWrong: [05",//0
+      //                     ??",//=====-1=====
+      //                     ??"],//=========3.5=======
       servo: ["ff 55 06 00 02 0b 06 01 5a",//0
               "ff 55 06 00 02 0b 07 01 5a",//1
               "ff 55 06 00 02 0b 08 01 5a",//2
@@ -253,7 +263,7 @@ var Dataman = {
                   "ff 55 05 00 01 05 09 01",//3
                   "ff 55 05 00 01 05 0a 01",//4
                   "ff 55 05 00 01 05 06 02"],//5
-      gyro: ["ff 55 05 00 01 06 01 01", //0
+      gyro: [ "ff 55 05 00 01 06 01 01", //0
               "ff 55 05 00 01 06 01 02", //1
               "ff 55 05 00 01 06 01 03", //2
               "ff 55 05 00 01 06 00 01", //3

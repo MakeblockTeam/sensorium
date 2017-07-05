@@ -1,6 +1,7 @@
 var SerialPort = require('serialport');
 var Sensorium = require('../../browser/sensorium');
 
+// var auriga = Sensorium('Mcore');
 var auriga = Sensorium('Auriga');
 
 //获取连接口
@@ -41,5 +42,8 @@ module.exports = auriga;
 // auriga.RgbLedOnBoard().green();
 // auriga.RgbLedOnBoard().red();
 // auriga.RgbLedOnBoard().blue();
+// auriga.RgbLedOnBoard().white();
+// auriga.Buzzer().tone('C5').beat(250).run()
+// auriga.RgbLed(0,2).green()
 // auriga.Ultrasonic(6).getData(function(buf){console.log(buf)})
 // var n = 0; while(n < 257){n++; auriga.Ultrasonic(6).getData(function(buf){console.log(buf);})}

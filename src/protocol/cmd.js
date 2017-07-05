@@ -209,8 +209,8 @@ function protocolAssembler() {
    * @example
    *     ff 55 05 00 02 3c 11 00
    */
-  this.setFirmwareMode = function(mode) {
-    var sub = 0x11; // 0x11 means Auriga模式
+  this.setFirmwareMode = function(subCmd, mode) {
+    var sub = subCmd || 0x11; //Auriga是 0x11, megapi是 0x12
     return bufAssembler({mode: 0x02, id: 0x3c}, sub, mode);
   };
 
@@ -621,8 +621,9 @@ function protocolAssembler() {
    * @example
    * ff 55 04 00 01 3c 70
    */
-  this.readFirmwareMode = function(index, type) {
-    return bufAssembler({mode: 0x01, id: 0x3c}, type);
+  this.readFirmwareMode = function(subCmd) {
+    //auriga 电压(0x70) 模式(0x71), megapi模式(0x72) 比赛模式(0x75)
+    return bufAssembler({mode: 0x01, id: 0x3c}, subCmd);
   };
 
   /**

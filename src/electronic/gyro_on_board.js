@@ -4,15 +4,14 @@ import GyroBase from './base/GyroBase';
 import protocolAssembler from '../protocol/cmd';
 import command from '../communicate/command';
 
-class Gyro extends GyroBase {
-  constructor(port) {
-    //外接陀螺仪 port 始终传参为 0
-    super(0);
+class GyroOnBoard extends GyroBase {
+  constructor() {
+    super(1);
   }
 
   static supportStamp(){
-    return '1111';
+    return '0110';
   }
 }
 
-export default Gyro;
+export default GyroOnBoard;

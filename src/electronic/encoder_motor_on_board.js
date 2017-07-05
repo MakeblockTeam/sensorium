@@ -10,13 +10,13 @@ const bufComposer = function(args){
 
 class EncoderMotorOnBoard extends EncoderMotorBase {
   constructor(slot) {
-    super(slot);
+    super(0, slot);
     Object.assign(this.args, {
       type: null
     });
   }
 
-  readSpeed(callback){
+  getSpeed(callback){
     this.args.type = 0x02;
     let buf = bufComposer(this.args);
     command.execRead(buf, callback);
@@ -27,7 +27,7 @@ class EncoderMotorOnBoard extends EncoderMotorBase {
    * get angle offset to the start position
    * @param  {Function} callback
    */
-  readAngle(callback){
+  getAngle(callback){
     this.args.type = 0x01;
     let buf = bufComposer(this.args);
     command.execRead(buf, callback);
