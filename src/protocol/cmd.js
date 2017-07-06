@@ -360,7 +360,7 @@ function protocolAssembler() {
       "E7": 2637,"F7": 2794,"G7": 3136,"A7": 3520,"B7": 3951,"C8": 4186,"D8":4699
     };
 
-    return bufAssembler({mode: 0x02, id: 0x22}, 0x09,
+    return bufAssembler({mode: 0x02, id: 0x22},
       (TONE[tone] & 0xff),
       (TONE[tone] >> 8) & 0xff,
       (beat & 0xff),

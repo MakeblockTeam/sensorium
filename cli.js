@@ -1,7 +1,11 @@
-var blessed = require('blessed');
-var fs = require('fs');
-var Log = require('log');
-var auriga = require('./test/cli/serialConnect');
+const blessed = require('blessed');
+const fs = require('fs');
+const Log = require('log');
+const serialConnect = require('./test/cli/serialConnect');
+const Sensorium = require('./browser/sensorium');
+const auriga = Sensorium('Auriga');
+serialConnect(auriga);
+
 var logger = require('log4js').getLogger();
 var log = new Log('debug', fs.createWriteStream('cli.log'));
 

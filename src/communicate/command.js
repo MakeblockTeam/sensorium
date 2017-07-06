@@ -4,8 +4,8 @@
  */
 //es6 module
 import Transport from './transport';
-import ReadControl from './read';
-import WriteControl from './write';
+import Read from './read';
+import Write from './write';
 import Parse from '../core/parse';
 
 class Command {
@@ -18,7 +18,6 @@ class Command {
    * @return {[type]}     [description]
    */
   exec(buf){
-    // console.log(buf);
     Transport.send(buf); //借助通信管道发送
   }
 
@@ -28,7 +27,7 @@ class Command {
    * @return {[type]}            [description]
    */
   execWrite(buf){
-    WriteControl.addRequest(this.exec.bind(this), buf);
+    Write.addRequest(this.exec.bind(this), buf);
   }
 
   /**
@@ -38,7 +37,7 @@ class Command {
    * @return {[type]}            [description]
    */
   execRead(buf, callback){
-    ReadControl.addRequest(this.exec.bind(this), buf, callback);
+    Read.addRequest(this.exec.bind(this), buf, callback);
     //TODO: 谨慎执行超时重发
   }
 
@@ -49,12 +48,12 @@ class Command {
    */
   pipe(buff){
     let buffer = Parse.doParse(buff);
-    // console.log(buffer[0], buff);
-    if(!buffer) { //一次失败的解析
+    if(!buffer) { //解析后无正确解析
       //do nothing
     }else if(buffer.length == 0){ //write 结果
       //do nothing
     }else{ //read 结果
+      // console.log('after parse ------>', buffer[0], buff);
       let index = buffer[0];
       let value = Parse.getResult(buffer);
       this.emitCallback(index, value);
@@ -62,7 +61,7 @@ class Command {
   }
 
   emitCallback(index, value){
-    ReadControl.callbackProxy(...arguments);
+    Read.callbackProxy.apply(Read, arguments);
   }
 }
 

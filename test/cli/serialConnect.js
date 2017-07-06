@@ -1,49 +1,45 @@
 var SerialPort = require('serialport');
-var Sensorium = require('../../browser/sensorium');
 
-// var auriga = Sensorium('Mcore');
-var auriga = Sensorium('Auriga');
+function serialConnect(mainboard) {
+  //获取连接口
+  //建立连接
+  //设置主控板 transport
+  SerialPort.list(function(err, ports) {
+    let serialportName;
+    ports.forEach(function(port) {
+      let portName = port.comName;
+      // console.log(port.comName);
+      if (/usb|ama|com/g.test(portName.toLowerCase())) {
+        serialportName = portName;
+        return false;
+      }
+    });
+    serialPort = new SerialPort(serialportName, {
+      baudRate: 115200
+    }); //linux
+    serialPort.on('open', function() {
+      //设置 mainboard transport 方式
+      mainboard.setTransport({
+        send: function(buf) {
+          console.log('send ----->', buf);
+          serialPort.write(buf);
+        },
 
-//获取连接口
-//建立连接
-//设置主控板 transport
-SerialPort.list(function(err, ports) {
-  ports.forEach(function(port) {
-    let portName = port.comName;
-    // console.log(port.comName);
-    if (/usb/g.test(portName)) {
-      serialPort = new SerialPort(portName, { baudRate: 115200 }); //linux
-      serialPort.on('open', function() {
-        //设置 auriga transport 方式
-        auriga.setTransport({
-          send: function(buf) {
-            serialPort.write(buf);
-          },
-
-          onReceived: function(pipe) {
-            serialPort.on('data', function(buff) {
-              console.log('[' + buff.join(',') + ']');
-              pipe(buff);
-            });
-          }
-        });
+        onReceived: function(pipe) {
+          console.log('onReceived binder <-----');
+          serialPort.on('data', function(buff) {
+            console.log('onReceived then pipe ----->', '[' + buff.join(',') + ']');
+            pipe(buff);
+          });
+        }
       });
-      // open errors will be emitted as an error event 
-      serialPort.on('error', function(err) {
-        console.log('Error: ', err.message);
-      });
-    }
+    });
+    // open errors will be emitted as an error event 
+    serialPort.on('error', function(err) {
+      console.log('Error: ', err.message);
+    });
   });
-});
 
-module.exports = auriga;
+}
 
-
-// auriga.RgbLedOnBoard().green();
-// auriga.RgbLedOnBoard().red();
-// auriga.RgbLedOnBoard().blue();
-// auriga.RgbLedOnBoard().white();
-// auriga.Buzzer().tone('C5').beat(250).run()
-// auriga.RgbLed(0,2).green()
-// auriga.Ultrasonic(6).getData(function(buf){console.log(buf)})
-// var n = 0; while(n < 257){n++; auriga.Ultrasonic(6).getData(function(buf){console.log(buf);})}
+module.exports = serialConnect;

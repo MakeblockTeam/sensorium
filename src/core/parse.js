@@ -25,7 +25,6 @@ function Parse() {
   // data : 当前处理的数据
   // this.cacheBuffer: 历史缓存数据
   // 记录数据和历史数据分开记录
-
   /**
    * parse buffer
    * @param  {Array} buffData buffer that from the response
@@ -38,11 +37,12 @@ function Parse() {
     let tempBuf = [];
 
     let data = Utils.arrayFromArrayBuffer(buffData);
-    data = this.cacheBuffer.concat(data);
-    // parse buffer data
-    for (let i = 0; i < data.length; i++) {
-      let data1 = parseInt(data[i-1]),
-          data2 = parseInt(data[i]);
+    let newdata = this.cacheBuffer.concat(data);
+    this.cacheBuffer = newdata;
+    // parse buffer newdata
+    for (let i = 0; i < newdata.length; i++) {
+      let data1 = parseInt(newdata[i-1]),
+          data2 = parseInt(newdata[i]);
       // start data
       if (checkStart(data1, data2)) {
         recvLength = 0;
@@ -51,11 +51,17 @@ function Parse() {
       } 
       // end data
       else if (checkEnd(data1, data2)) {
-        isAllowRecv = false;
-        // console.log('doParse 3: ', tempBuf);
+        //没有头部但有尾部 - 说明是无效数据
+        if(!isAllowRecv){
+          this.cacheBuffer = [];
+          return undefined;
+        }else{
+          isAllowRecv = false;
+        }
         let resultBuf = tempBuf.slice(0, recvLength - 1);
         // 解析正确的数据后，清空 buffer
         this.cacheBuffer = [];
+        // console.log('doParse resultBuf ---->', resultBuf);
         // 此轮解析结束
         return resultBuf;
       } 

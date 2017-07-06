@@ -20,14 +20,14 @@
 /**
  * read request controler
  */
-const MAX_RECORD = 255;
+const MAX_RECORD = 256;
 const OVERTIME = 2000;
 
-const ReadControl = {
+const Read = {
   readRecord: {},
   index: 0,
   /**
-   * create a safty index between 0~254
+   * create a safty index between 0~255
    * @return {Number|Null} return index
    */
   createSafeIndex: function() {
@@ -61,6 +61,7 @@ const ReadControl = {
       time: (new Date()).getTime(),
       callback: callback
     }
+    console.log('this.addRecord[index] ------>', this.readRecord[index]);
   },
   /**
    * remove a record with index
@@ -131,10 +132,11 @@ const ReadControl = {
    * @param  {Number} value request result
    */
   callbackProxy: function(index, value){
-    // console.log(index);
-    this.readRecord[index].callback(value);
-    this.removeRecord(index);
+    if(this.readRecord[index]){
+      this.readRecord[index].callback(value);
+      this.removeRecord(index);
+    }
   }
 };
 
-export default ReadControl;
+export default Read;
