@@ -3,7 +3,7 @@ const fs = require('fs');
 const Log = require('log');
 const serialConnect = require('./test/cli/serialConnect');
 const Sensorium = require('./browser/sensorium');
-const auriga = Sensorium('Auriga');
+const auriga = new Sensorium('Auriga');
 serialConnect(auriga);
 
 var logger = require('log4js').getLogger();

@@ -1,6 +1,6 @@
 const Sensorium = require('../browser/sensorium');
 const serialConnect = require('./cli/serialConnect');
-const auriga = Sensorium('Auriga');
+const auriga = new Sensorium('Auriga');
 serialConnect(auriga);
 auriga.Ultrasonic(6).getData(function(val){console.log('传感器获取值', val)})
 
