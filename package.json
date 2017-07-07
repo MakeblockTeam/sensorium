@@ -2,7 +2,7 @@
   "name": "sensorium",
   "version": "0.1.5",
   "description": "mainboards protocol api",
-  "main": "./browser/index.js",
+  "main": "browser/sensorium.js",
   "directories": {
     "doc": "docs",
     "test": "test"
