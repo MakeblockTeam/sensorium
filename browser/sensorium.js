@@ -4392,8 +4392,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 /**
  * read request controler
  */
+//最大记录数
 var MAX_RECORD = 256;
-var OVERTIME = 2000;
+//超时时间
+var OVERTIME = 1000;
 
 var Read = {
   readRecord: {},
@@ -4433,7 +4435,6 @@ var Read = {
       time: new Date().getTime(),
       callback: callback
     };
-    console.log('this.addRecord[index] ------>', this.readRecord[index]);
   },
   /**
    * remove a record with index
@@ -4464,8 +4465,8 @@ var Read = {
       if (result) {
         this.addRequest.apply(this, arguments);
       } else {
-        //TODO: 挂起请求，稍后再发
-        console.warn('this request was ignored');
+        //TODO: 忽略请求？挂起请求？
+        console.warn('[' + buf.join(',') + '] request was ignored');
       };
     }
   },
@@ -4479,7 +4480,7 @@ var Read = {
     for (var index in this.readRecord) {
       if (time - this.readRecord[index].time > OVERTIME) {
         count++;
-        this.removeRecord(index);
+        this.callbackProxy(index, null);
       }
     }
     return count;

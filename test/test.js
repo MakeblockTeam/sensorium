@@ -12,7 +12,7 @@ auriga.Ultrasonic(6).getData(function(val){console.log('传感器获取值', val
 // auriga.Buzzer().tone('C5').beat(500).run()
 // auriga.RgbLed(0,2).green().red().white()
 // auriga.Ultrasonic(6).getData(function(buf){console.log(buf)})
-// var n = 0; while(n < 257){n++; auriga.Ultrasonic(6).getData(function(buf){console.log('callback ---->', buf);})}
-// var n = 0; while(n < 254){n++; auriga.Ultrasonic(6).getData(function(buf){console.log('callback ---->', buf);})}
-// var n = 0; while(n < 20){n++; auriga.Ultrasonic(6).getData(function(buf){})}
+// var n = 0; while(n < 257){n++; auriga.Ultrasonic(6).getData(function(val){console.log('sensor value ---->', val);})}
+// var n = 0; while(n < 254){n++; auriga.Ultrasonic(6).getData(function(val){console.log('sensor value ---->', val);})}
+// var n = 0; while(n < 20){n++; auriga.Ultrasonic(6).getData(function(val){console.log('sensor value ---->', val)})}
 

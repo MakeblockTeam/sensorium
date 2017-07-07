@@ -20,8 +20,10 @@
 /**
  * read request controler
  */
+//最大记录数
 const MAX_RECORD = 256;
-const OVERTIME = 2000;
+//超时时间
+const OVERTIME = 1000;
 
 const Read = {
   readRecord: {},
@@ -61,7 +63,6 @@ const Read = {
       time: (new Date()).getTime(),
       callback: callback
     }
-    console.log('this.addRecord[index] ------>', this.readRecord[index]);
   },
   /**
    * remove a record with index
@@ -92,8 +93,8 @@ const Read = {
       if(result){
         this.addRequest(...arguments);
       }else{
-        //TODO: 挂起请求，稍后再发
-        console.warn('this request was ignored');
+        //TODO: 忽略请求？挂起请求？
+        console.warn(`[${buf.join(',')}] request was ignored`);
       };
     }
   },
@@ -107,7 +108,7 @@ const Read = {
     for(let index in this.readRecord){
       if(time - this.readRecord[index].time > OVERTIME){
         count++;
-        this.removeRecord(index);
+        this.callbackProxy(index, null);
       }
     }
     return count;
