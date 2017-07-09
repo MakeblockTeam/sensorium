@@ -1,6 +1,7 @@
 import Board from '../core/Board';
 import electronics from '../electronic/index';
-import Firmware from '../electronic/base/FirmwareBase';
+import Mode from './firmware/mode';
+import Version from './firmware/version';
 import Settings from './settings';
 //支持位置
 const SUPPORT_INDEX = Settings.SUPPORTLIST.indexOf('MegaPi');
@@ -11,8 +12,10 @@ class MegaPi extends Board{
     //继承 Board
     super(conf);
     let this_ = this;
-    //固件模式
-    this.firmModes = Settings.FIRM_MODES;
+    //固件当前模式
+    this.currentMode = null;
+    //固件版本
+    this.version = null;
     // 置空已连接块
     this.connecting = {};
     // 挂载电子模块
@@ -27,23 +30,38 @@ class MegaPi extends Board{
   }
 
   /**
+   * 获取版本号，所有主控板支持
+   * @param  {!Function} callback
+   */
+  getVersion(callback){
+    let this_ = this;
+    if(this.version){
+      typeof callback == 'function' && callback(this.version);    
+    }else{
+      Version.getVersion(function(val){
+        this_.version = val;
+        typeof callback == 'function' && (this.version);
+      });
+    }
+  }
+
+  /**
    * 设置固件模式
    * @param {Number} mode 0、1、2、3、4
    */
-  setFirmMode(mode){
+  setFirmwareMode(mode){
     let subCmd = 0x12;
-    let firm = new Firmware(subCmd, mode);
-    firm.setMode();
+    Mode.setMode(subCmd, mode);
     return this;
   }
   /**
    * 获取固件模式
    * @param  {Function} callback 取值后回调函数
    */
-  getFirmMode(callback){
+  //TODO: 数据缓存
+  getFirmwareMode(callback){
     let subCmd = 0x72;
-    let firm = new Firmware(subCmd);
-    firm.getMode(callback);
+    Mode.getMode(subCmd, callback);
     return this;
   }
 }

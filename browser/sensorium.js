@@ -16,9 +16,9 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	function __webpack_require__(moduleId) {
 /******/
 /******/ 		// Check if module is in cache
-/******/ 		if(installedModules[moduleId]) {
+/******/ 		if(installedModules[moduleId])
 /******/ 			return installedModules[moduleId].exports;
-/******/ 		}
+/******/
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = installedModules[moduleId] = {
 /******/ 			i: moduleId,
@@ -42,6 +42,9 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/ 	// expose the module cache
 /******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// identity function for calling harmony imports with the correct context
+/******/ 	__webpack_require__.i = function(value) { return value; };
 /******/
 /******/ 	// define getter function for harmony exports
 /******/ 	__webpack_require__.d = function(exports, name, getter) {
@@ -70,7 +73,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 69);
+/******/ 	return __webpack_require__(__webpack_require__.s = 170);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -92,30 +95,40 @@ exports.default = function (instance, Constructor) {
 /* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = { "default": __webpack_require__(76), __esModule: true };
-
-/***/ }),
-/* 2 */
-/***/ (function(module, exports, __webpack_require__) {
-
 "use strict";
 
 
 exports.__esModule = true;
 
-var _typeof2 = __webpack_require__(29);
+var _defineProperty = __webpack_require__(122);
 
-var _typeof3 = _interopRequireDefault(_typeof2);
+var _defineProperty2 = _interopRequireDefault(_defineProperty);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = function (self, call) {
-  if (!self) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+exports.default = function () {
+  function defineProperties(target, props) {
+    for (var i = 0; i < props.length; i++) {
+      var descriptor = props[i];
+      descriptor.enumerable = descriptor.enumerable || false;
+      descriptor.configurable = true;
+      if ("value" in descriptor) descriptor.writable = true;
+      (0, _defineProperty2.default)(target, descriptor.key, descriptor);
+    }
   }
 
-  return call && ((typeof call === "undefined" ? "undefined" : (0, _typeof3.default)(call)) === "object" || typeof call === "function") ? call : self;
-};
+  return function (Constructor, protoProps, staticProps) {
+    if (protoProps) defineProperties(Constructor.prototype, protoProps);
+    if (staticProps) defineProperties(Constructor, staticProps);
+    return Constructor;
+  };
+}();
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = { "default": __webpack_require__(130), __esModule: true };
 
 /***/ }),
 /* 3 */
@@ -126,15 +139,15 @@ exports.default = function (self, call) {
 
 exports.__esModule = true;
 
-var _setPrototypeOf = __webpack_require__(99);
+var _setPrototypeOf = __webpack_require__(123);
 
 var _setPrototypeOf2 = _interopRequireDefault(_setPrototypeOf);
 
-var _create = __webpack_require__(103);
+var _create = __webpack_require__(121);
 
 var _create2 = _interopRequireDefault(_create);
 
-var _typeof2 = __webpack_require__(29);
+var _typeof2 = __webpack_require__(34);
 
 var _typeof3 = _interopRequireDefault(_typeof2);
 
@@ -165,29 +178,19 @@ exports.default = function (subClass, superClass) {
 
 exports.__esModule = true;
 
-var _defineProperty = __webpack_require__(109);
+var _typeof2 = __webpack_require__(34);
 
-var _defineProperty2 = _interopRequireDefault(_defineProperty);
+var _typeof3 = _interopRequireDefault(_typeof2);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = function () {
-  function defineProperties(target, props) {
-    for (var i = 0; i < props.length; i++) {
-      var descriptor = props[i];
-      descriptor.enumerable = descriptor.enumerable || false;
-      descriptor.configurable = true;
-      if ("value" in descriptor) descriptor.writable = true;
-      (0, _defineProperty2.default)(target, descriptor.key, descriptor);
-    }
+exports.default = function (self, call) {
+  if (!self) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
   }
 
-  return function (Constructor, protoProps, staticProps) {
-    if (protoProps) defineProperties(Constructor.prototype, protoProps);
-    if (staticProps) defineProperties(Constructor, staticProps);
-    return Constructor;
-  };
-}();
+  return call && ((typeof call === "undefined" ? "undefined" : (0, _typeof3.default)(call)) === "object" || typeof call === "function") ? call : self;
+};
 
 /***/ }),
 /* 5 */
@@ -200,11 +203,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _toConsumableArray2 = __webpack_require__(32);
+var _toConsumableArray2 = __webpack_require__(33);
 
 var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
 
-var _typeof2 = __webpack_require__(29);
+var _typeof2 = __webpack_require__(34);
 
 var _typeof3 = _interopRequireDefault(_typeof2);
 
@@ -505,23 +508,23 @@ var _classCallCheck2 = __webpack_require__(0);
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-var _createClass2 = __webpack_require__(4);
+var _createClass2 = __webpack_require__(1);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _transport = __webpack_require__(64);
+var _transport = __webpack_require__(53);
 
 var _transport2 = _interopRequireDefault(_transport);
 
-var _read = __webpack_require__(121);
+var _read = __webpack_require__(74);
 
 var _read2 = _interopRequireDefault(_read);
 
-var _write = __webpack_require__(122);
+var _write = __webpack_require__(75);
 
 var _write2 = _interopRequireDefault(_write);
 
-var _parse = __webpack_require__(123);
+var _parse = __webpack_require__(76);
 
 var _parse2 = _interopRequireDefault(_parse);
 
@@ -616,81 +619,10 @@ exports.default = new Command();
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.defineObject = exports.defineBoolean = exports.defineArray = exports.defineString = exports.defineNumber = undefined;
-
-var _typeof2 = __webpack_require__(29);
-
-var _typeof3 = _interopRequireDefault(_typeof2);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/**
- * 对传入参数进行初始化
- */
-function defineType(type) {
-    return function (param, defaultValue) {
-        if (arguments.length < 2 && typeof param === 'undefined') {
-            return;
-        }
-        if (typeof defaultValue === 'undefinded') {
-            switch (type) {
-                case 'number':
-                    defaultValue = 0;
-                    break;
-                case 'string':
-                    defaultValue = '';
-                    break;
-                case 'array':
-                    defaultValue = [];
-                    break;
-                case 'boolean':
-                    defaultValue = false;
-                    break;
-                case 'object':
-                    defaultValue = {};
-                    break;
-                default:
-                    defaultValue = 0;
-                    break;
-            }
-        }
-        var value = defaultValue;
-        var condition = type === 'boolean' ? (typeof param === 'undefined' ? 'undefined' : (0, _typeof3.default)(param)) === type : (typeof param === 'undefined' ? 'undefined' : (0, _typeof3.default)(param)) === type || param === 1 || param === 0;
-        if (condition) {
-            value = param;
-        } else {
-            console.warn('param \'' + param + '\' is not a ' + type + '!');
-        }
-        return value;
-    };
-};
-
-var defineNumber = defineType('number'),
-    defineString = defineType('string'),
-    defineArray = defineType('array'),
-    defineBoolean = defineType('boolean'),
-    defineObject = defineType('object');
-
-exports.defineNumber = defineNumber;
-exports.defineString = defineString;
-exports.defineArray = defineArray;
-exports.defineBoolean = defineBoolean;
-exports.defineObject = defineObject;
-
-/***/ }),
-/* 8 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _toConsumableArray2 = __webpack_require__(32);
+var _toConsumableArray2 = __webpack_require__(33);
 
 var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
 
@@ -1347,6 +1279,77 @@ function protocolAssembler() {
 exports.default = new protocolAssembler();
 
 /***/ }),
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.defineObject = exports.defineBoolean = exports.defineArray = exports.defineString = exports.defineNumber = undefined;
+
+var _typeof2 = __webpack_require__(34);
+
+var _typeof3 = _interopRequireDefault(_typeof2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/**
+ * 对传入参数进行初始化
+ */
+function defineType(type) {
+    return function (param, defaultValue) {
+        if (arguments.length < 2 && typeof param === 'undefined') {
+            return;
+        }
+        if (typeof defaultValue === 'undefinded') {
+            switch (type) {
+                case 'number':
+                    defaultValue = 0;
+                    break;
+                case 'string':
+                    defaultValue = '';
+                    break;
+                case 'array':
+                    defaultValue = [];
+                    break;
+                case 'boolean':
+                    defaultValue = false;
+                    break;
+                case 'object':
+                    defaultValue = {};
+                    break;
+                default:
+                    defaultValue = 0;
+                    break;
+            }
+        }
+        var value = defaultValue;
+        var condition = type === 'boolean' ? (typeof param === 'undefined' ? 'undefined' : (0, _typeof3.default)(param)) === type : (typeof param === 'undefined' ? 'undefined' : (0, _typeof3.default)(param)) === type || param === 1 || param === 0;
+        if (condition) {
+            value = param;
+        } else {
+            console.warn('param \'' + param + '\' is not a ' + type + '!');
+        }
+        return value;
+    };
+};
+
+var defineNumber = defineType('number'),
+    defineString = defineType('string'),
+    defineArray = defineType('array'),
+    defineBoolean = defineType('boolean'),
+    defineObject = defineType('object');
+
+exports.defineNumber = defineNumber;
+exports.defineString = defineString;
+exports.defineArray = defineArray;
+exports.defineBoolean = defineBoolean;
+exports.defineObject = defineObject;
+
+/***/ }),
 /* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1387,9 +1390,9 @@ if(typeof __e == 'number')__e = core; // eslint-disable-line no-undef
 /* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var store      = __webpack_require__(40)('wks')
-  , uid        = __webpack_require__(28)
-  , Symbol     = __webpack_require__(12).Symbol
+var store      = __webpack_require__(47)('wks')
+  , uid        = __webpack_require__(36)
+  , Symbol     = __webpack_require__(14).Symbol
   , USE_SYMBOL = typeof Symbol == 'function';
 
 var $exports = module.exports = function(name){
@@ -1401,21 +1404,18 @@ $exports.store = store;
 
 /***/ }),
 /* 12 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-// https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
-var global = module.exports = typeof window != 'undefined' && window.Math == Math
-  ? window : typeof self != 'undefined' && self.Math == Math ? self : Function('return this')();
-if(typeof __g == 'number')__g = global; // eslint-disable-line no-undef
+module.exports = { "default": __webpack_require__(127), __esModule: true };
 
 /***/ }),
 /* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var global    = __webpack_require__(12)
+var global    = __webpack_require__(14)
   , core      = __webpack_require__(10)
-  , ctx       = __webpack_require__(42)
-  , hide      = __webpack_require__(20)
+  , ctx       = __webpack_require__(39)
+  , hide      = __webpack_require__(22)
   , PROTOTYPE = 'prototype';
 
 var $export = function(type, name, source){
@@ -1476,14 +1476,23 @@ module.exports = $export;
 
 /***/ }),
 /* 14 */
+/***/ (function(module, exports) {
+
+// https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
+var global = module.exports = typeof window != 'undefined' && window.Math == Math
+  ? window : typeof self != 'undefined' && self.Math == Math ? self : Function('return this')();
+if(typeof __g == 'number')__g = global; // eslint-disable-line no-undef
+
+/***/ }),
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var anObject       = __webpack_require__(21)
-  , IE8_DOM_DEFINE = __webpack_require__(56)
-  , toPrimitive    = __webpack_require__(43)
+var anObject       = __webpack_require__(20)
+  , IE8_DOM_DEFINE = __webpack_require__(59)
+  , toPrimitive    = __webpack_require__(49)
   , dP             = Object.defineProperty;
 
-exports.f = __webpack_require__(18) ? Object.defineProperty : function defineProperty(O, P, Attributes){
+exports.f = __webpack_require__(16) ? Object.defineProperty : function defineProperty(O, P, Attributes){
   anObject(O);
   P = toPrimitive(P, true);
   anObject(Attributes);
@@ -1496,13 +1505,16 @@ exports.f = __webpack_require__(18) ? Object.defineProperty : function definePro
 };
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = { "default": __webpack_require__(106), __esModule: true };
+// Thank's IE8 for his funny defineProperty
+module.exports = !__webpack_require__(21)(function(){
+  return Object.defineProperty({}, 'a', {get: function(){ return 7; }}).a != 7;
+});
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, exports) {
 
 var hasOwnProperty = {}.hasOwnProperty;
@@ -1511,111 +1523,18 @@ module.exports = function(it, key){
 };
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // to indexed object, toObject with fallback for non-array-like ES3 strings
-var IObject = __webpack_require__(53)
-  , defined = __webpack_require__(36);
+var IObject = __webpack_require__(60)
+  , defined = __webpack_require__(40);
 module.exports = function(it){
   return IObject(defined(it));
 };
 
 /***/ }),
-/* 18 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// Thank's IE8 for his funny defineProperty
-module.exports = !__webpack_require__(22)(function(){
-  return Object.defineProperty({}, 'a', {get: function(){ return 7; }}).a != 7;
-});
-
-/***/ }),
 /* 19 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// 19.1.2.14 / 15.2.3.14 Object.keys(O)
-var $keys       = __webpack_require__(52)
-  , enumBugKeys = __webpack_require__(41);
-
-module.exports = Object.keys || function keys(O){
-  return $keys(O, enumBugKeys);
-};
-
-/***/ }),
-/* 20 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var dP         = __webpack_require__(14)
-  , createDesc = __webpack_require__(25);
-module.exports = __webpack_require__(18) ? function(object, key, value){
-  return dP.f(object, key, createDesc(1, value));
-} : function(object, key, value){
-  object[key] = value;
-  return object;
-};
-
-/***/ }),
-/* 21 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var isObject = __webpack_require__(24);
-module.exports = function(it){
-  if(!isObject(it))throw TypeError(it + ' is not an object!');
-  return it;
-};
-
-/***/ }),
-/* 22 */
-/***/ (function(module, exports) {
-
-module.exports = function(exec){
-  try {
-    return !!exec();
-  } catch(e){
-    return true;
-  }
-};
-
-/***/ }),
-/* 23 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// 7.1.13 ToObject(argument)
-var defined = __webpack_require__(36);
-module.exports = function(it){
-  return Object(defined(it));
-};
-
-/***/ }),
-/* 24 */
-/***/ (function(module, exports) {
-
-module.exports = function(it){
-  return typeof it === 'object' ? it !== null : typeof it === 'function';
-};
-
-/***/ }),
-/* 25 */
-/***/ (function(module, exports) {
-
-module.exports = function(bitmap, value){
-  return {
-    enumerable  : !(bitmap & 1),
-    configurable: !(bitmap & 2),
-    writable    : !(bitmap & 4),
-    value       : value
-  };
-};
-
-/***/ }),
-/* 26 */
-/***/ (function(module, exports) {
-
-module.exports = {};
-
-/***/ }),
-/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1637,50 +1556,91 @@ var Settings = {
 exports.default = Settings;
 
 /***/ }),
-/* 28 */
-/***/ (function(module, exports) {
-
-var id = 0
-  , px = Math.random();
-module.exports = function(key){
-  return 'Symbol('.concat(key === undefined ? '' : key, ')_', (++id + px).toString(36));
-};
-
-/***/ }),
-/* 29 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
-
-
-exports.__esModule = true;
-
-var _iterator = __webpack_require__(78);
-
-var _iterator2 = _interopRequireDefault(_iterator);
-
-var _symbol = __webpack_require__(88);
-
-var _symbol2 = _interopRequireDefault(_symbol);
-
-var _typeof = typeof _symbol2.default === "function" && typeof _iterator2.default === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof _symbol2.default === "function" && obj.constructor === _symbol2.default && obj !== _symbol2.default.prototype ? "symbol" : typeof obj; };
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = typeof _symbol2.default === "function" && _typeof(_iterator2.default) === "symbol" ? function (obj) {
-  return typeof obj === "undefined" ? "undefined" : _typeof(obj);
-} : function (obj) {
-  return obj && typeof _symbol2.default === "function" && obj.constructor === _symbol2.default && obj !== _symbol2.default.prototype ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof(obj);
+var isObject = __webpack_require__(24);
+module.exports = function(it){
+  if(!isObject(it))throw TypeError(it + ' is not an object!');
+  return it;
 };
 
 /***/ }),
-/* 30 */
+/* 21 */
 /***/ (function(module, exports) {
 
-exports.f = {}.propertyIsEnumerable;
+module.exports = function(exec){
+  try {
+    return !!exec();
+  } catch(e){
+    return true;
+  }
+};
 
 /***/ }),
-/* 31 */
+/* 22 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var dP         = __webpack_require__(15)
+  , createDesc = __webpack_require__(26);
+module.exports = __webpack_require__(16) ? function(object, key, value){
+  return dP.f(object, key, createDesc(1, value));
+} : function(object, key, value){
+  object[key] = value;
+  return object;
+};
+
+/***/ }),
+/* 23 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// 19.1.2.14 / 15.2.3.14 Object.keys(O)
+var $keys       = __webpack_require__(65)
+  , enumBugKeys = __webpack_require__(41);
+
+module.exports = Object.keys || function keys(O){
+  return $keys(O, enumBugKeys);
+};
+
+/***/ }),
+/* 24 */
+/***/ (function(module, exports) {
+
+module.exports = function(it){
+  return typeof it === 'object' ? it !== null : typeof it === 'function';
+};
+
+/***/ }),
+/* 25 */
+/***/ (function(module, exports) {
+
+module.exports = {};
+
+/***/ }),
+/* 26 */
+/***/ (function(module, exports) {
+
+module.exports = function(bitmap, value){
+  return {
+    enumerable  : !(bitmap & 1),
+    configurable: !(bitmap & 2),
+    writable    : !(bitmap & 4),
+    value       : value
+  };
+};
+
+/***/ }),
+/* 27 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// 7.1.13 ToObject(argument)
+var defined = __webpack_require__(40);
+module.exports = function(it){
+  return Object(defined(it));
+};
+
+/***/ }),
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1690,7 +1650,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _assign = __webpack_require__(15);
+var _assign = __webpack_require__(12);
 
 var _assign2 = _interopRequireDefault(_assign);
 
@@ -1698,15 +1658,15 @@ var _classCallCheck2 = __webpack_require__(0);
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-var _createClass2 = __webpack_require__(4);
+var _createClass2 = __webpack_require__(1);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _toConsumableArray2 = __webpack_require__(32);
+var _toConsumableArray2 = __webpack_require__(33);
 
 var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
 
-var _transport = __webpack_require__(64);
+var _transport = __webpack_require__(53);
 
 var _transport2 = _interopRequireDefault(_transport);
 
@@ -1714,21 +1674,12 @@ var _command = __webpack_require__(6);
 
 var _command2 = _interopRequireDefault(_command);
 
-var _settings = __webpack_require__(27);
+var _settings = __webpack_require__(19);
 
 var _settings2 = _interopRequireDefault(_settings);
 
-var _VersionBase = __webpack_require__(124);
-
-var _VersionBase2 = _interopRequireDefault(_VersionBase);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/**
- * @fileOverview board 用做通信基类，连接收和发送接口.
- * @author Hyman
- */
-//es6 module
 var createModuleId = function createModuleId(eModule, args) {
   var _ref;
 
@@ -1747,15 +1698,17 @@ var createModuleId = function createModuleId(eModule, args) {
 };
 
 // 超类： 具备发送、接收方法
+/**
+ * @fileOverview board 用做通信基类，连接收和发送接口.
+ * @author Hyman
+ */
+//es6 module
 
 var Board = function () {
   function Board(conf) {
     (0, _classCallCheck3.default)(this, Board);
 
     this._config = null;
-
-    //固件模式
-    this.firmModes = [];
     //已连接元件
     this.connecting = {};
     this.init(conf);
@@ -1801,19 +1754,6 @@ var Board = function () {
         // console.warn('')
       }
     }
-
-    /**
-     * 获取版本号，所有主控板支持
-     * @param  {Function} callback [description]
-     * @return {[type]}            [description]
-     */
-
-  }, {
-    key: 'getVersion',
-    value: function getVersion(callback) {
-      var version = new _VersionBase2.default();
-      version.getVersion(callback);
-    }
   }]);
   return Board;
 }();
@@ -1821,34 +1761,7 @@ var Board = function () {
 exports.default = Board;
 
 /***/ }),
-/* 32 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-exports.__esModule = true;
-
-var _from = __webpack_require__(112);
-
-var _from2 = _interopRequireDefault(_from);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = function (arr) {
-  if (Array.isArray(arr)) {
-    for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) {
-      arr2[i] = arr[i];
-    }
-
-    return arr2;
-  } else {
-    return (0, _from2.default)(arr);
-  }
-};
-
-/***/ }),
-/* 33 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1858,240 +1771,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _dc_motor = __webpack_require__(125);
-
-var _dc_motor2 = _interopRequireDefault(_dc_motor);
-
-var _virtual_joystick = __webpack_require__(126);
-
-var _virtual_joystick2 = _interopRequireDefault(_virtual_joystick);
-
-var _virtual_joystick_for_balance = __webpack_require__(127);
-
-var _virtual_joystick_for_balance2 = _interopRequireDefault(_virtual_joystick_for_balance);
-
-var _stepper_motor = __webpack_require__(128);
-
-var _stepper_motor2 = _interopRequireDefault(_stepper_motor);
-
-var _encoder_motor = __webpack_require__(129);
-
-var _encoder_motor2 = _interopRequireDefault(_encoder_motor);
-
-var _encoder_motor_on_board = __webpack_require__(130);
-
-var _encoder_motor_on_board2 = _interopRequireDefault(_encoder_motor_on_board);
-
-var _servo_motor = __webpack_require__(131);
-
-var _servo_motor2 = _interopRequireDefault(_servo_motor);
-
-var _four_led = __webpack_require__(132);
-
-var _four_led2 = _interopRequireDefault(_four_led);
-
-var _rgb_led = __webpack_require__(133);
-
-var _rgb_led2 = _interopRequireDefault(_rgb_led);
-
-var _led_panel_on_board = __webpack_require__(134);
-
-var _led_panel_on_board2 = _interopRequireDefault(_led_panel_on_board);
-
-var _rgb_led_on_board = __webpack_require__(135);
-
-var _rgb_led_on_board2 = _interopRequireDefault(_rgb_led_on_board);
-
-var _led_matrix_char = __webpack_require__(136);
-
-var _led_matrix_char2 = _interopRequireDefault(_led_matrix_char);
-
-var _led_matrix_time = __webpack_require__(137);
-
-var _led_matrix_time2 = _interopRequireDefault(_led_matrix_time);
-
-var _led_matrix_emotion = __webpack_require__(138);
-
-var _led_matrix_emotion2 = _interopRequireDefault(_led_matrix_emotion);
-
-var _led_matrix_number = __webpack_require__(139);
-
-var _led_matrix_number2 = _interopRequireDefault(_led_matrix_number);
-
-var _buzzer = __webpack_require__(140);
-
-var _buzzer2 = _interopRequireDefault(_buzzer);
-
-var _seven_segment = __webpack_require__(141);
-
-var _seven_segment2 = _interopRequireDefault(_seven_segment);
-
-var _shutter = __webpack_require__(142);
-
-var _shutter2 = _interopRequireDefault(_shutter);
-
-var _reset = __webpack_require__(143);
-
-var _reset2 = _interopRequireDefault(_reset);
-
-var _ultrasonic = __webpack_require__(144);
-
-var _ultrasonic2 = _interopRequireDefault(_ultrasonic);
-
-var _temperature = __webpack_require__(145);
-
-var _temperature2 = _interopRequireDefault(_temperature);
-
-var _light = __webpack_require__(146);
-
-var _light2 = _interopRequireDefault(_light);
-
-var _potentionmeter = __webpack_require__(147);
-
-var _potentionmeter2 = _interopRequireDefault(_potentionmeter);
-
-var _joystick = __webpack_require__(148);
-
-var _joystick2 = _interopRequireDefault(_joystick);
-
-var _gyro = __webpack_require__(149);
-
-var _gyro2 = _interopRequireDefault(_gyro);
-
-var _Gyro_on_board = __webpack_require__(150);
-
-var _Gyro_on_board2 = _interopRequireDefault(_Gyro_on_board);
-
-var _sound = __webpack_require__(151);
-
-var _sound2 = _interopRequireDefault(_sound);
-
-var _sound_on_board = __webpack_require__(152);
-
-var _sound_on_board2 = _interopRequireDefault(_sound_on_board);
-
-var _temperature_on_board = __webpack_require__(153);
-
-var _temperature_on_board2 = _interopRequireDefault(_temperature_on_board);
-
-var _pirmotion = __webpack_require__(154);
-
-var _pirmotion2 = _interopRequireDefault(_pirmotion);
-
-var _limit_switch = __webpack_require__(155);
-
-var _limit_switch2 = _interopRequireDefault(_limit_switch);
-
-var _line_follower = __webpack_require__(156);
-
-var _line_follower2 = _interopRequireDefault(_line_follower);
-
-var _compass = __webpack_require__(157);
-
-var _compass2 = _interopRequireDefault(_compass);
-
-var _humiture = __webpack_require__(158);
-
-var _humiture2 = _interopRequireDefault(_humiture);
-
-var _flame = __webpack_require__(159);
-
-var _flame2 = _interopRequireDefault(_flame);
-
-var _gas = __webpack_require__(160);
-
-var _gas2 = _interopRequireDefault(_gas);
-
-var _touch = __webpack_require__(161);
-
-var _touch2 = _interopRequireDefault(_touch);
-
-var _four_keys = __webpack_require__(162);
-
-var _four_keys2 = _interopRequireDefault(_four_keys);
-
-var _dig_GPIO = __webpack_require__(163);
-
-var _dig_GPIO2 = _interopRequireDefault(_dig_GPIO);
-
-var _analog_GPIO = __webpack_require__(164);
-
-var _analog_GPIO2 = _interopRequireDefault(_analog_GPIO);
-
-var _GPIO_continue = __webpack_require__(165);
-
-var _GPIO_continue2 = _interopRequireDefault(_GPIO_continue);
-
-var _double_GPIO = __webpack_require__(166);
-
-var _double_GPIO2 = _interopRequireDefault(_double_GPIO);
-
-var _runtime = __webpack_require__(167);
-
-var _runtime2 = _interopRequireDefault(_runtime);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = {
-  DcMotor: _dc_motor2.default,
-  VirtualJoystick: _virtual_joystick2.default,
-  VirtualJoystickForBalance: _virtual_joystick_for_balance2.default,
-  StepperMotor: _stepper_motor2.default,
-  EncoderMotor: _encoder_motor2.default,
-  EncoderMotorOnBoard: _encoder_motor_on_board2.default,
-  ServoMotor: _servo_motor2.default,
-  FourLed: _four_led2.default,
-  RgbLed: _rgb_led2.default,
-  LedPanelOnBoard: _led_panel_on_board2.default,
-  RgbLedOnBoard: _rgb_led_on_board2.default,
-  LedMatrixChar: _led_matrix_char2.default,
-  LedMatrixTime: _led_matrix_time2.default,
-  LedMatrixEmotion: _led_matrix_emotion2.default,
-  LedMatrixNumber: _led_matrix_number2.default,
-  Buzzer: _buzzer2.default,
-  SevenSegment: _seven_segment2.default,
-  Shutter: _shutter2.default,
-
-  Reset: _reset2.default, //实现待验证
-  Ultrasonic: _ultrasonic2.default,
-  Temperature: _temperature2.default,
-  Light: _light2.default,
-  Potentionmeter: _potentionmeter2.default,
-  Joystick: _joystick2.default,
-  Gyro: _gyro2.default,
-  GyroOnBoard: _Gyro_on_board2.default,
-  Sound: _sound2.default,
-  SoundOnBoard: _sound_on_board2.default,
-  TemperatureOnBoard: _temperature_on_board2.default,
-  Pirmotion: _pirmotion2.default,
-  LineFollower: _line_follower2.default,
-  LimitSwitch: _limit_switch2.default,
-  Compass: _compass2.default,
-  Humiture: _humiture2.default,
-  Flame: _flame2.default,
-  Gas: _gas2.default,
-  Touch: _touch2.default,
-  FourKeys: _four_keys2.default,
-  DigGPIO: _dig_GPIO2.default,
-  AnalogGPIO: _analog_GPIO2.default,
-  GPIOContinue: _GPIO_continue2.default,
-  DoubleGPIO: _double_GPIO2.default,
-  Runtime: _runtime2.default
-}; //读值
-//包含读值和写的接口
-
-/***/ }),
-/* 34 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _getPrototypeOf = __webpack_require__(1);
+var _getPrototypeOf = __webpack_require__(2);
 
 var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
 
@@ -2099,11 +1779,7 @@ var _classCallCheck2 = __webpack_require__(0);
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-var _createClass2 = __webpack_require__(4);
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-var _possibleConstructorReturn2 = __webpack_require__(2);
+var _possibleConstructorReturn2 = __webpack_require__(4);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
@@ -2111,11 +1787,7 @@ var _inherits2 = __webpack_require__(3);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _toConsumableArray2 = __webpack_require__(32);
-
-var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
-
-var _type = __webpack_require__(7);
+var _type = __webpack_require__(8);
 
 var _utils = __webpack_require__(5);
 
@@ -2125,7 +1797,76 @@ var _electronic = __webpack_require__(9);
 
 var _electronic2 = _interopRequireDefault(_electronic);
 
-var _cmd = __webpack_require__(8);
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var LedMatrixBase = function (_Electronic) {
+  (0, _inherits3.default)(LedMatrixBase, _Electronic);
+
+  /**
+   * LedMatrix 类，led模块
+   */
+  function LedMatrixBase(port) {
+    (0, _classCallCheck3.default)(this, LedMatrixBase);
+
+    var _this = (0, _possibleConstructorReturn3.default)(this, (LedMatrixBase.__proto__ || (0, _getPrototypeOf2.default)(LedMatrixBase)).call(this));
+
+    _this.args = {
+      port: (0, _type.defineNumber)(port)
+    };
+    return _this;
+  }
+
+  return LedMatrixBase;
+}(_electronic2.default);
+
+exports.default = LedMatrixBase;
+
+/***/ }),
+/* 30 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _getPrototypeOf = __webpack_require__(2);
+
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+var _classCallCheck2 = __webpack_require__(0);
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = __webpack_require__(1);
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _possibleConstructorReturn2 = __webpack_require__(4);
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = __webpack_require__(3);
+
+var _inherits3 = _interopRequireDefault(_inherits2);
+
+var _toConsumableArray2 = __webpack_require__(33);
+
+var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
+
+var _type = __webpack_require__(8);
+
+var _utils = __webpack_require__(5);
+
+var _utils2 = _interopRequireDefault(_utils);
+
+var _electronic = __webpack_require__(9);
+
+var _electronic2 = _interopRequireDefault(_electronic);
+
+var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
@@ -2141,9 +1882,7 @@ var bufComposer = function bufComposer(obj) {
 };
 
 var commandWrite = function commandWrite(obj) {
-  var _console;
-
-  (_console = console).log.apply(_console, ['led ------->', obj.ledPosition].concat((0, _toConsumableArray3.default)(obj.rgb)));
+  // console.log('led ------->', obj.ledPosition, ...obj.rgb);
   var buf = bufComposer(obj);
   _command2.default.execWrite(buf);
 };
@@ -2320,7 +2059,7 @@ var RgbLedBase = function (_Electronic) {
 exports.default = RgbLedBase;
 
 /***/ }),
-/* 35 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2330,252 +2069,353 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _getPrototypeOf = __webpack_require__(1);
+var _dc_motor = __webpack_require__(82);
 
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+var _dc_motor2 = _interopRequireDefault(_dc_motor);
+
+var _virtual_joystick = __webpack_require__(118);
+
+var _virtual_joystick2 = _interopRequireDefault(_virtual_joystick);
+
+var _virtual_joystick_for_balance = __webpack_require__(119);
+
+var _virtual_joystick_for_balance2 = _interopRequireDefault(_virtual_joystick_for_balance);
+
+var _stepper_motor = __webpack_require__(113);
+
+var _stepper_motor2 = _interopRequireDefault(_stepper_motor);
+
+var _encoder_motor = __webpack_require__(85);
+
+var _encoder_motor2 = _interopRequireDefault(_encoder_motor);
+
+var _encoder_motor_on_board = __webpack_require__(86);
+
+var _encoder_motor_on_board2 = _interopRequireDefault(_encoder_motor_on_board);
+
+var _servo_motor = __webpack_require__(108);
+
+var _servo_motor2 = _interopRequireDefault(_servo_motor);
+
+var _four_led = __webpack_require__(89);
+
+var _four_led2 = _interopRequireDefault(_four_led);
+
+var _rgb_led = __webpack_require__(105);
+
+var _rgb_led2 = _interopRequireDefault(_rgb_led);
+
+var _led_panel_on_board = __webpack_require__(98);
+
+var _led_panel_on_board2 = _interopRequireDefault(_led_panel_on_board);
+
+var _rgb_led_on_board = __webpack_require__(106);
+
+var _rgb_led_on_board2 = _interopRequireDefault(_rgb_led_on_board);
+
+var _led_matrix_char = __webpack_require__(94);
+
+var _led_matrix_char2 = _interopRequireDefault(_led_matrix_char);
+
+var _led_matrix_time = __webpack_require__(97);
+
+var _led_matrix_time2 = _interopRequireDefault(_led_matrix_time);
+
+var _led_matrix_emotion = __webpack_require__(95);
+
+var _led_matrix_emotion2 = _interopRequireDefault(_led_matrix_emotion);
+
+var _led_matrix_number = __webpack_require__(96);
+
+var _led_matrix_number2 = _interopRequireDefault(_led_matrix_number);
+
+var _buzzer = __webpack_require__(80);
+
+var _buzzer2 = _interopRequireDefault(_buzzer);
+
+var _seven_segment = __webpack_require__(109);
+
+var _seven_segment2 = _interopRequireDefault(_seven_segment);
+
+var _shutter = __webpack_require__(110);
+
+var _shutter2 = _interopRequireDefault(_shutter);
+
+var _reset = __webpack_require__(104);
+
+var _reset2 = _interopRequireDefault(_reset);
+
+var _ultrasonic = __webpack_require__(117);
+
+var _ultrasonic2 = _interopRequireDefault(_ultrasonic);
+
+var _temperature = __webpack_require__(114);
+
+var _temperature2 = _interopRequireDefault(_temperature);
+
+var _light = __webpack_require__(99);
+
+var _light2 = _interopRequireDefault(_light);
+
+var _potentionmeter = __webpack_require__(103);
+
+var _potentionmeter2 = _interopRequireDefault(_potentionmeter);
+
+var _joystick = __webpack_require__(93);
+
+var _joystick2 = _interopRequireDefault(_joystick);
+
+var _gyro = __webpack_require__(91);
+
+var _gyro2 = _interopRequireDefault(_gyro);
+
+var _Gyro_on_board = __webpack_require__(78);
+
+var _Gyro_on_board2 = _interopRequireDefault(_Gyro_on_board);
+
+var _sound = __webpack_require__(111);
+
+var _sound2 = _interopRequireDefault(_sound);
+
+var _sound_on_board = __webpack_require__(112);
+
+var _sound_on_board2 = _interopRequireDefault(_sound_on_board);
+
+var _temperature_on_board = __webpack_require__(115);
+
+var _temperature_on_board2 = _interopRequireDefault(_temperature_on_board);
+
+var _pirmotion = __webpack_require__(102);
+
+var _pirmotion2 = _interopRequireDefault(_pirmotion);
+
+var _limit_switch = __webpack_require__(100);
+
+var _limit_switch2 = _interopRequireDefault(_limit_switch);
+
+var _line_follower = __webpack_require__(101);
+
+var _line_follower2 = _interopRequireDefault(_line_follower);
+
+var _compass = __webpack_require__(81);
+
+var _compass2 = _interopRequireDefault(_compass);
+
+var _humiture = __webpack_require__(92);
+
+var _humiture2 = _interopRequireDefault(_humiture);
+
+var _flame = __webpack_require__(87);
+
+var _flame2 = _interopRequireDefault(_flame);
+
+var _gas = __webpack_require__(90);
+
+var _gas2 = _interopRequireDefault(_gas);
+
+var _touch = __webpack_require__(116);
+
+var _touch2 = _interopRequireDefault(_touch);
+
+var _four_keys = __webpack_require__(88);
+
+var _four_keys2 = _interopRequireDefault(_four_keys);
+
+var _dig_GPIO = __webpack_require__(83);
+
+var _dig_GPIO2 = _interopRequireDefault(_dig_GPIO);
+
+var _analog_GPIO = __webpack_require__(79);
+
+var _analog_GPIO2 = _interopRequireDefault(_analog_GPIO);
+
+var _GPIO_continue = __webpack_require__(77);
+
+var _GPIO_continue2 = _interopRequireDefault(_GPIO_continue);
+
+var _double_GPIO = __webpack_require__(84);
+
+var _double_GPIO2 = _interopRequireDefault(_double_GPIO);
+
+var _runtime = __webpack_require__(107);
+
+var _runtime2 = _interopRequireDefault(_runtime);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+  DcMotor: _dc_motor2.default,
+  VirtualJoystick: _virtual_joystick2.default,
+  VirtualJoystickForBalance: _virtual_joystick_for_balance2.default,
+  StepperMotor: _stepper_motor2.default,
+  EncoderMotor: _encoder_motor2.default,
+  EncoderMotorOnBoard: _encoder_motor_on_board2.default,
+  ServoMotor: _servo_motor2.default,
+  FourLed: _four_led2.default,
+  RgbLed: _rgb_led2.default,
+  LedPanelOnBoard: _led_panel_on_board2.default,
+  RgbLedOnBoard: _rgb_led_on_board2.default,
+  LedMatrixChar: _led_matrix_char2.default,
+  LedMatrixTime: _led_matrix_time2.default,
+  LedMatrixEmotion: _led_matrix_emotion2.default,
+  LedMatrixNumber: _led_matrix_number2.default,
+  Buzzer: _buzzer2.default,
+  SevenSegment: _seven_segment2.default,
+  Shutter: _shutter2.default,
+
+  Reset: _reset2.default, //实现待验证
+  Ultrasonic: _ultrasonic2.default,
+  Temperature: _temperature2.default,
+  Light: _light2.default,
+  Potentionmeter: _potentionmeter2.default,
+  Joystick: _joystick2.default,
+  Gyro: _gyro2.default,
+  GyroOnBoard: _Gyro_on_board2.default,
+  Sound: _sound2.default,
+  SoundOnBoard: _sound_on_board2.default,
+  TemperatureOnBoard: _temperature_on_board2.default,
+  Pirmotion: _pirmotion2.default,
+  LineFollower: _line_follower2.default,
+  LimitSwitch: _limit_switch2.default,
+  Compass: _compass2.default,
+  Humiture: _humiture2.default,
+  Flame: _flame2.default,
+  Gas: _gas2.default,
+  Touch: _touch2.default,
+  FourKeys: _four_keys2.default,
+  DigGPIO: _dig_GPIO2.default,
+  AnalogGPIO: _analog_GPIO2.default,
+  GPIOContinue: _GPIO_continue2.default,
+  DoubleGPIO: _double_GPIO2.default,
+  Runtime: _runtime2.default
+}; //读值
+//包含读值和写的接口
+
+/***/ }),
+/* 32 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
 var _classCallCheck2 = __webpack_require__(0);
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-var _possibleConstructorReturn2 = __webpack_require__(2);
+var _createClass2 = __webpack_require__(1);
 
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _inherits2 = __webpack_require__(3);
-
-var _inherits3 = _interopRequireDefault(_inherits2);
-
-var _type = __webpack_require__(7);
+var _type = __webpack_require__(8);
 
 var _utils = __webpack_require__(5);
 
 var _utils2 = _interopRequireDefault(_utils);
 
-var _electronic = __webpack_require__(9);
+var _cmd = __webpack_require__(7);
 
-var _electronic2 = _interopRequireDefault(_electronic);
+var _cmd2 = _interopRequireDefault(_cmd);
+
+var _command = __webpack_require__(6);
+
+var _command2 = _interopRequireDefault(_command);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var LedMatrixBase = function (_Electronic) {
-  (0, _inherits3.default)(LedMatrixBase, _Electronic);
-
-  /**
-   * LedMatrix 类，led模块
-   */
-  function LedMatrixBase(port) {
-    (0, _classCallCheck3.default)(this, LedMatrixBase);
-
-    var _this = (0, _possibleConstructorReturn3.default)(this, (LedMatrixBase.__proto__ || (0, _getPrototypeOf2.default)(LedMatrixBase)).call(this));
-
-    _this.args = {
-      port: (0, _type.defineNumber)(port)
-    };
-    return _this;
+var Version = function () {
+  function Version() {
+    (0, _classCallCheck3.default)(this, Version);
   }
 
-  return LedMatrixBase;
-}(_electronic2.default);
+  (0, _createClass3.default)(Version, [{
+    key: 'getVersion',
+    value: function getVersion(callback) {
+      var buf = _utils2.default.composer(_cmd2.default.readVersion);
+      _command2.default.execRead(buf, callback);
+      return this;
+    }
+  }]);
+  return Version;
+}();
 
-exports.default = LedMatrixBase;
+exports.default = new Version();
+
+/***/ }),
+/* 33 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+exports.__esModule = true;
+
+var _from = __webpack_require__(120);
+
+var _from2 = _interopRequireDefault(_from);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = function (arr) {
+  if (Array.isArray(arr)) {
+    for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) {
+      arr2[i] = arr[i];
+    }
+
+    return arr2;
+  } else {
+    return (0, _from2.default)(arr);
+  }
+};
+
+/***/ }),
+/* 34 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+exports.__esModule = true;
+
+var _iterator = __webpack_require__(125);
+
+var _iterator2 = _interopRequireDefault(_iterator);
+
+var _symbol = __webpack_require__(124);
+
+var _symbol2 = _interopRequireDefault(_symbol);
+
+var _typeof = typeof _symbol2.default === "function" && typeof _iterator2.default === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof _symbol2.default === "function" && obj.constructor === _symbol2.default && obj !== _symbol2.default.prototype ? "symbol" : typeof obj; };
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = typeof _symbol2.default === "function" && _typeof(_iterator2.default) === "symbol" ? function (obj) {
+  return typeof obj === "undefined" ? "undefined" : _typeof(obj);
+} : function (obj) {
+  return obj && typeof _symbol2.default === "function" && obj.constructor === _symbol2.default && obj !== _symbol2.default.prototype ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof(obj);
+};
+
+/***/ }),
+/* 35 */
+/***/ (function(module, exports) {
+
+exports.f = {}.propertyIsEnumerable;
 
 /***/ }),
 /* 36 */
 /***/ (function(module, exports) {
 
-// 7.2.1 RequireObjectCoercible(argument)
-module.exports = function(it){
-  if(it == undefined)throw TypeError("Can't call method on  " + it);
-  return it;
+var id = 0
+  , px = Math.random();
+module.exports = function(key){
+  return 'Symbol('.concat(key === undefined ? '' : key, ')_', (++id + px).toString(36));
 };
 
 /***/ }),
 /* 37 */
-/***/ (function(module, exports) {
-
-var toString = {}.toString;
-
-module.exports = function(it){
-  return toString.call(it).slice(8, -1);
-};
-
-/***/ }),
-/* 38 */
-/***/ (function(module, exports) {
-
-// 7.1.4 ToInteger
-var ceil  = Math.ceil
-  , floor = Math.floor;
-module.exports = function(it){
-  return isNaN(it = +it) ? 0 : (it > 0 ? floor : ceil)(it);
-};
-
-/***/ }),
-/* 39 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var shared = __webpack_require__(40)('keys')
-  , uid    = __webpack_require__(28);
-module.exports = function(key){
-  return shared[key] || (shared[key] = uid(key));
-};
-
-/***/ }),
-/* 40 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var global = __webpack_require__(12)
-  , SHARED = '__core-js_shared__'
-  , store  = global[SHARED] || (global[SHARED] = {});
-module.exports = function(key){
-  return store[key] || (store[key] = {});
-};
-
-/***/ }),
-/* 41 */
-/***/ (function(module, exports) {
-
-// IE 8- don't enum bug keys
-module.exports = (
-  'constructor,hasOwnProperty,isPrototypeOf,propertyIsEnumerable,toLocaleString,toString,valueOf'
-).split(',');
-
-/***/ }),
-/* 42 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// optional / simple context binding
-var aFunction = __webpack_require__(74);
-module.exports = function(fn, that, length){
-  aFunction(fn);
-  if(that === undefined)return fn;
-  switch(length){
-    case 1: return function(a){
-      return fn.call(that, a);
-    };
-    case 2: return function(a, b){
-      return fn.call(that, a, b);
-    };
-    case 3: return function(a, b, c){
-      return fn.call(that, a, b, c);
-    };
-  }
-  return function(/* ...args */){
-    return fn.apply(that, arguments);
-  };
-};
-
-/***/ }),
-/* 43 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// 7.1.1 ToPrimitive(input [, PreferredType])
-var isObject = __webpack_require__(24);
-// instead of the ES6 spec version, we didn't implement @@toPrimitive case
-// and the second argument - flag - preferred type is a string
-module.exports = function(it, S){
-  if(!isObject(it))return it;
-  var fn, val;
-  if(S && typeof (fn = it.toString) == 'function' && !isObject(val = fn.call(it)))return val;
-  if(typeof (fn = it.valueOf) == 'function' && !isObject(val = fn.call(it)))return val;
-  if(!S && typeof (fn = it.toString) == 'function' && !isObject(val = fn.call(it)))return val;
-  throw TypeError("Can't convert object to primitive value");
-};
-
-/***/ }),
-/* 44 */
-/***/ (function(module, exports) {
-
-module.exports = true;
-
-/***/ }),
-/* 45 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// 19.1.2.2 / 15.2.3.5 Object.create(O [, Properties])
-var anObject    = __webpack_require__(21)
-  , dPs         = __webpack_require__(82)
-  , enumBugKeys = __webpack_require__(41)
-  , IE_PROTO    = __webpack_require__(39)('IE_PROTO')
-  , Empty       = function(){ /* empty */ }
-  , PROTOTYPE   = 'prototype';
-
-// Create object with fake `null` prototype: use iframe Object with cleared prototype
-var createDict = function(){
-  // Thrash, waste and sodomy: IE GC bug
-  var iframe = __webpack_require__(57)('iframe')
-    , i      = enumBugKeys.length
-    , lt     = '<'
-    , gt     = '>'
-    , iframeDocument;
-  iframe.style.display = 'none';
-  __webpack_require__(83).appendChild(iframe);
-  iframe.src = 'javascript:'; // eslint-disable-line no-script-url
-  // createDict = iframe.contentWindow.Object;
-  // html.removeChild(iframe);
-  iframeDocument = iframe.contentWindow.document;
-  iframeDocument.open();
-  iframeDocument.write(lt + 'script' + gt + 'document.F=Object' + lt + '/script' + gt);
-  iframeDocument.close();
-  createDict = iframeDocument.F;
-  while(i--)delete createDict[PROTOTYPE][enumBugKeys[i]];
-  return createDict();
-};
-
-module.exports = Object.create || function create(O, Properties){
-  var result;
-  if(O !== null){
-    Empty[PROTOTYPE] = anObject(O);
-    result = new Empty;
-    Empty[PROTOTYPE] = null;
-    // add "__proto__" for Object.getPrototypeOf polyfill
-    result[IE_PROTO] = O;
-  } else result = createDict();
-  return Properties === undefined ? result : dPs(result, Properties);
-};
-
-
-/***/ }),
-/* 46 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var def = __webpack_require__(14).f
-  , has = __webpack_require__(16)
-  , TAG = __webpack_require__(11)('toStringTag');
-
-module.exports = function(it, tag, stat){
-  if(it && !has(it = stat ? it : it.prototype, TAG))def(it, TAG, {configurable: true, value: tag});
-};
-
-/***/ }),
-/* 47 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports.f = __webpack_require__(11);
-
-/***/ }),
-/* 48 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var global         = __webpack_require__(12)
-  , core           = __webpack_require__(10)
-  , LIBRARY        = __webpack_require__(44)
-  , wksExt         = __webpack_require__(47)
-  , defineProperty = __webpack_require__(14).f;
-module.exports = function(name){
-  var $Symbol = core.Symbol || (core.Symbol = LIBRARY ? {} : global.Symbol || {});
-  if(name.charAt(0) != '_' && !(name in $Symbol))defineProperty($Symbol, name, {value: wksExt.f(name)});
-};
-
-/***/ }),
-/* 49 */
-/***/ (function(module, exports) {
-
-exports.f = Object.getOwnPropertySymbols;
-
-/***/ }),
-/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2585,7 +2425,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _getPrototypeOf = __webpack_require__(1);
+var _getPrototypeOf = __webpack_require__(2);
 
 var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
 
@@ -2593,11 +2433,11 @@ var _classCallCheck2 = __webpack_require__(0);
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-var _createClass2 = __webpack_require__(4);
+var _createClass2 = __webpack_require__(1);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _possibleConstructorReturn2 = __webpack_require__(2);
+var _possibleConstructorReturn2 = __webpack_require__(4);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
@@ -2605,7 +2445,7 @@ var _inherits2 = __webpack_require__(3);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _type = __webpack_require__(7);
+var _type = __webpack_require__(8);
 
 var _electronic = __webpack_require__(9);
 
@@ -2675,83 +2515,571 @@ var MotorBase = function (_Electronic) {
 exports.default = MotorBase;
 
 /***/ }),
+/* 38 */
+/***/ (function(module, exports) {
+
+var toString = {}.toString;
+
+module.exports = function(it){
+  return toString.call(it).slice(8, -1);
+};
+
+/***/ }),
+/* 39 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// optional / simple context binding
+var aFunction = __webpack_require__(135);
+module.exports = function(fn, that, length){
+  aFunction(fn);
+  if(that === undefined)return fn;
+  switch(length){
+    case 1: return function(a){
+      return fn.call(that, a);
+    };
+    case 2: return function(a, b){
+      return fn.call(that, a, b);
+    };
+    case 3: return function(a, b, c){
+      return fn.call(that, a, b, c);
+    };
+  }
+  return function(/* ...args */){
+    return fn.apply(that, arguments);
+  };
+};
+
+/***/ }),
+/* 40 */
+/***/ (function(module, exports) {
+
+// 7.2.1 RequireObjectCoercible(argument)
+module.exports = function(it){
+  if(it == undefined)throw TypeError("Can't call method on  " + it);
+  return it;
+};
+
+/***/ }),
+/* 41 */
+/***/ (function(module, exports) {
+
+// IE 8- don't enum bug keys
+module.exports = (
+  'constructor,hasOwnProperty,isPrototypeOf,propertyIsEnumerable,toLocaleString,toString,valueOf'
+).split(',');
+
+/***/ }),
+/* 42 */
+/***/ (function(module, exports) {
+
+module.exports = true;
+
+/***/ }),
+/* 43 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// 19.1.2.2 / 15.2.3.5 Object.create(O [, Properties])
+var anObject    = __webpack_require__(20)
+  , dPs         = __webpack_require__(151)
+  , enumBugKeys = __webpack_require__(41)
+  , IE_PROTO    = __webpack_require__(46)('IE_PROTO')
+  , Empty       = function(){ /* empty */ }
+  , PROTOTYPE   = 'prototype';
+
+// Create object with fake `null` prototype: use iframe Object with cleared prototype
+var createDict = function(){
+  // Thrash, waste and sodomy: IE GC bug
+  var iframe = __webpack_require__(58)('iframe')
+    , i      = enumBugKeys.length
+    , lt     = '<'
+    , gt     = '>'
+    , iframeDocument;
+  iframe.style.display = 'none';
+  __webpack_require__(141).appendChild(iframe);
+  iframe.src = 'javascript:'; // eslint-disable-line no-script-url
+  // createDict = iframe.contentWindow.Object;
+  // html.removeChild(iframe);
+  iframeDocument = iframe.contentWindow.document;
+  iframeDocument.open();
+  iframeDocument.write(lt + 'script' + gt + 'document.F=Object' + lt + '/script' + gt);
+  iframeDocument.close();
+  createDict = iframeDocument.F;
+  while(i--)delete createDict[PROTOTYPE][enumBugKeys[i]];
+  return createDict();
+};
+
+module.exports = Object.create || function create(O, Properties){
+  var result;
+  if(O !== null){
+    Empty[PROTOTYPE] = anObject(O);
+    result = new Empty;
+    Empty[PROTOTYPE] = null;
+    // add "__proto__" for Object.getPrototypeOf polyfill
+    result[IE_PROTO] = O;
+  } else result = createDict();
+  return Properties === undefined ? result : dPs(result, Properties);
+};
+
+
+/***/ }),
+/* 44 */
+/***/ (function(module, exports) {
+
+exports.f = Object.getOwnPropertySymbols;
+
+/***/ }),
+/* 45 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var def = __webpack_require__(15).f
+  , has = __webpack_require__(17)
+  , TAG = __webpack_require__(11)('toStringTag');
+
+module.exports = function(it, tag, stat){
+  if(it && !has(it = stat ? it : it.prototype, TAG))def(it, TAG, {configurable: true, value: tag});
+};
+
+/***/ }),
+/* 46 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var shared = __webpack_require__(47)('keys')
+  , uid    = __webpack_require__(36);
+module.exports = function(key){
+  return shared[key] || (shared[key] = uid(key));
+};
+
+/***/ }),
+/* 47 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var global = __webpack_require__(14)
+  , SHARED = '__core-js_shared__'
+  , store  = global[SHARED] || (global[SHARED] = {});
+module.exports = function(key){
+  return store[key] || (store[key] = {});
+};
+
+/***/ }),
+/* 48 */
+/***/ (function(module, exports) {
+
+// 7.1.4 ToInteger
+var ceil  = Math.ceil
+  , floor = Math.floor;
+module.exports = function(it){
+  return isNaN(it = +it) ? 0 : (it > 0 ? floor : ceil)(it);
+};
+
+/***/ }),
+/* 49 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// 7.1.1 ToPrimitive(input [, PreferredType])
+var isObject = __webpack_require__(24);
+// instead of the ES6 spec version, we didn't implement @@toPrimitive case
+// and the second argument - flag - preferred type is a string
+module.exports = function(it, S){
+  if(!isObject(it))return it;
+  var fn, val;
+  if(S && typeof (fn = it.toString) == 'function' && !isObject(val = fn.call(it)))return val;
+  if(typeof (fn = it.valueOf) == 'function' && !isObject(val = fn.call(it)))return val;
+  if(!S && typeof (fn = it.toString) == 'function' && !isObject(val = fn.call(it)))return val;
+  throw TypeError("Can't convert object to primitive value");
+};
+
+/***/ }),
+/* 50 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var global         = __webpack_require__(14)
+  , core           = __webpack_require__(10)
+  , LIBRARY        = __webpack_require__(42)
+  , wksExt         = __webpack_require__(51)
+  , defineProperty = __webpack_require__(15).f;
+module.exports = function(name){
+  var $Symbol = core.Symbol || (core.Symbol = LIBRARY ? {} : global.Symbol || {});
+  if(name.charAt(0) != '_' && !(name in $Symbol))defineProperty($Symbol, name, {value: wksExt.f(name)});
+};
+
+/***/ }),
 /* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = { "default": __webpack_require__(70), __esModule: true };
+exports.f = __webpack_require__(11);
 
 /***/ }),
 /* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var has          = __webpack_require__(16)
-  , toIObject    = __webpack_require__(17)
-  , arrayIndexOf = __webpack_require__(72)(false)
-  , IE_PROTO     = __webpack_require__(39)('IE_PROTO');
-
-module.exports = function(object, names){
-  var O      = toIObject(object)
-    , i      = 0
-    , result = []
-    , key;
-  for(key in O)if(key != IE_PROTO)has(O, key) && result.push(key);
-  // Don't enum bug & hidden keys
-  while(names.length > i)if(has(O, key = names[i++])){
-    ~arrayIndexOf(result, key) || result.push(key);
-  }
-  return result;
-};
+module.exports = { "default": __webpack_require__(131), __esModule: true };
 
 /***/ }),
 /* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
-// fallback for non-array-like ES3 and non-enumerable old V8 strings
-var cof = __webpack_require__(37);
-module.exports = Object('z').propertyIsEnumerable(0) ? Object : function(it){
-  return cof(it) == 'String' ? it.split('') : Object(it);
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+/**
+ * @fileOverview 指令的传输通道：蓝牙，串口，2.4G。
+ */
+
+var Transport = {
+  send: function send(buf) {},
+  onReceived: function onReceived(pipe) {}
 };
+
+exports.default = Transport;
 
 /***/ }),
 /* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
-// 7.1.15 ToLength
-var toInteger = __webpack_require__(38)
-  , min       = Math.min;
-module.exports = function(it){
-  return it > 0 ? min(toInteger(it), 0x1fffffffffffff) : 0; // pow(2, 53) - 1 == 9007199254740991
-};
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _getPrototypeOf = __webpack_require__(2);
+
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+var _classCallCheck2 = __webpack_require__(0);
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = __webpack_require__(1);
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _possibleConstructorReturn2 = __webpack_require__(4);
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = __webpack_require__(3);
+
+var _inherits3 = _interopRequireDefault(_inherits2);
+
+var _type = __webpack_require__(8);
+
+var _utils = __webpack_require__(5);
+
+var _utils2 = _interopRequireDefault(_utils);
+
+var _MotorBase2 = __webpack_require__(37);
+
+var _MotorBase3 = _interopRequireDefault(_MotorBase2);
+
+var _cmd = __webpack_require__(7);
+
+var _cmd2 = _interopRequireDefault(_cmd);
+
+var _command = __webpack_require__(6);
+
+var _command2 = _interopRequireDefault(_command);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var EncoderMotorBase = function (_MotorBase) {
+  (0, _inherits3.default)(EncoderMotorBase, _MotorBase);
+
+  /**
+   * EncoderMotorBase
+   * @constructor
+   * @param {number} port
+   * @param {number} slot
+   */
+  function EncoderMotorBase(port, slot) {
+    (0, _classCallCheck3.default)(this, EncoderMotorBase);
+    return (0, _possibleConstructorReturn3.default)(this, (EncoderMotorBase.__proto__ || (0, _getPrototypeOf2.default)(EncoderMotorBase)).call(this, port, slot));
+  }
+
+  /**
+   * EncoderMotor run
+   * @return {Object} the instance
+   */
+
+
+  (0, _createClass3.default)(EncoderMotorBase, [{
+    key: 'run',
+    value: function run() {
+      var buf = void 0;
+      if (this.args.port == 0) {
+        buf = _utils2.default.composer(_cmd2.default.setEncoderMotorOnBoard, [this.args.slot, this.args.speed]);
+      } else {
+        buf = _utils2.default.composer(_cmd2.default.setEncoderMotor, [this.args.port, this.args.slot, this.args.speed, this.args.angle]);
+      }
+      _command2.default.execWrite(buf);
+      return this;
+    }
+
+    /**
+     * EncoderMotor run reversely
+     * @return {Object} the instance
+     */
+
+  }, {
+    key: 'reverse',
+    value: function reverse() {
+      this.offsetAngle(-1 * this.args.angle);
+      return this.run();
+    }
+  }]);
+  return EncoderMotorBase;
+}(_MotorBase3.default);
+
+exports.default = EncoderMotorBase;
 
 /***/ }),
 /* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
-// most Object methods by ES6 should accept primitives
-var $export = __webpack_require__(13)
-  , core    = __webpack_require__(10)
-  , fails   = __webpack_require__(22);
-module.exports = function(KEY, exec){
-  var fn  = (core.Object || {})[KEY] || Object[KEY]
-    , exp = {};
-  exp[KEY] = exec(fn);
-  $export($export.S + $export.F * fails(function(){ fn(1); }), 'Object', exp);
-};
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _getPrototypeOf = __webpack_require__(2);
+
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+var _classCallCheck2 = __webpack_require__(0);
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = __webpack_require__(1);
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _possibleConstructorReturn2 = __webpack_require__(4);
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = __webpack_require__(3);
+
+var _inherits3 = _interopRequireDefault(_inherits2);
+
+var _type = __webpack_require__(8);
+
+var _utils = __webpack_require__(5);
+
+var _utils2 = _interopRequireDefault(_utils);
+
+var _electronic = __webpack_require__(9);
+
+var _electronic2 = _interopRequireDefault(_electronic);
+
+var _cmd = __webpack_require__(7);
+
+var _cmd2 = _interopRequireDefault(_cmd);
+
+var _command = __webpack_require__(6);
+
+var _command2 = _interopRequireDefault(_command);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var GyroBase = function (_Electronic) {
+  (0, _inherits3.default)(GyroBase, _Electronic);
+
+  function GyroBase(port) {
+    (0, _classCallCheck3.default)(this, GyroBase);
+
+    var _this = (0, _possibleConstructorReturn3.default)(this, (GyroBase.__proto__ || (0, _getPrototypeOf2.default)(GyroBase)).call(this));
+
+    _this.args = {
+      port: (0, _type.defineNumber)(port),
+      axis: 0
+    };
+    return _this;
+  }
+
+  (0, _createClass3.default)(GyroBase, [{
+    key: 'axis',
+    value: function axis(_axis) {
+      this.args.axis = (0, _type.defineNumber)(_axis, this.args.axis);
+      return this;
+    }
+  }, {
+    key: 'getData',
+    value: function getData(callback) {
+      var buf = _utils2.default.composer(_cmd2.default.readGyro, [this.args.port, this.args.axis]);
+      _command2.default.execRead(buf, callback);
+      return this;
+    }
+  }]);
+  return GyroBase;
+}(_electronic2.default);
+
+exports.default = GyroBase;
 
 /***/ }),
 /* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = !__webpack_require__(18) && !__webpack_require__(22)(function(){
-  return Object.defineProperty(__webpack_require__(57)('div'), 'a', {get: function(){ return 7; }}).a != 7;
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
 });
+
+var _getPrototypeOf = __webpack_require__(2);
+
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+var _classCallCheck2 = __webpack_require__(0);
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = __webpack_require__(1);
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _possibleConstructorReturn2 = __webpack_require__(4);
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = __webpack_require__(3);
+
+var _inherits3 = _interopRequireDefault(_inherits2);
+
+var _type = __webpack_require__(8);
+
+var _utils = __webpack_require__(5);
+
+var _utils2 = _interopRequireDefault(_utils);
+
+var _electronic = __webpack_require__(9);
+
+var _electronic2 = _interopRequireDefault(_electronic);
+
+var _cmd = __webpack_require__(7);
+
+var _cmd2 = _interopRequireDefault(_cmd);
+
+var _command = __webpack_require__(6);
+
+var _command2 = _interopRequireDefault(_command);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var SoundBase = function (_Electronic) {
+  (0, _inherits3.default)(SoundBase, _Electronic);
+
+  function SoundBase(port) {
+    (0, _classCallCheck3.default)(this, SoundBase);
+
+    var _this = (0, _possibleConstructorReturn3.default)(this, (SoundBase.__proto__ || (0, _getPrototypeOf2.default)(SoundBase)).call(this));
+
+    _this.args = {
+      port: (0, _type.defineNumber)(port)
+    };
+    return _this;
+  }
+
+  (0, _createClass3.default)(SoundBase, [{
+    key: 'getData',
+    value: function getData(callback) {
+      var buf = _utils2.default.composer(_cmd2.default.readSound, [this.args.port]);
+      _command2.default.execRead(buf, callback);
+      return this;
+    }
+  }]);
+  return SoundBase;
+}(_electronic2.default);
+
+exports.default = SoundBase;
 
 /***/ }),
 /* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _classCallCheck2 = __webpack_require__(0);
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = __webpack_require__(1);
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _utils = __webpack_require__(5);
+
+var _utils2 = _interopRequireDefault(_utils);
+
+var _cmd = __webpack_require__(7);
+
+var _cmd2 = _interopRequireDefault(_cmd);
+
+var _command = __webpack_require__(6);
+
+var _command2 = _interopRequireDefault(_command);
+
+var _settings = __webpack_require__(19);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Mode = function () {
+  function Mode() {
+    (0, _classCallCheck3.default)(this, Mode);
+  }
+
+  /**
+   * 设置固件模式
+   * @param {Number} mode 0、1、2、3、4
+   */
+
+
+  (0, _createClass3.default)(Mode, [{
+    key: 'setMode',
+    value: function setMode(subCmd, mode) {
+      var buf = _utils2.default.composer(_cmd2.default.setFirmwareMode, [subCmd, mode]);
+      _command2.default.execWrite(buf);
+    }
+  }, {
+    key: 'getMode',
+    value: function getMode(subCmd, callback) {
+      var buf = _utils2.default.composer(_cmd2.default.readFirmwareMode, [subCmd]);
+      _command2.default.execRead(buf, callback);
+    }
+
+    /**
+     * 获取固件模式列表
+     * @return {Array} 模式列表
+     */
+
+  }, {
+    key: 'getModesList',
+    value: function getModesList() {
+      return _settings.FIRM_MODES;
+    }
+  }]);
+  return Mode;
+}();
+
+exports.default = new Mode();
+
+/***/ }),
+/* 58 */
+/***/ (function(module, exports, __webpack_require__) {
+
 var isObject = __webpack_require__(24)
-  , document = __webpack_require__(12).document
+  , document = __webpack_require__(14).document
   // in old IE typeof document.createElement is 'object'
   , is = isObject(document) && isObject(document.createElement);
 module.exports = function(it){
@@ -2759,61 +3087,38 @@ module.exports = function(it){
 };
 
 /***/ }),
-/* 58 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// 19.1.2.9 / 15.2.3.2 Object.getPrototypeOf(O)
-var has         = __webpack_require__(16)
-  , toObject    = __webpack_require__(23)
-  , IE_PROTO    = __webpack_require__(39)('IE_PROTO')
-  , ObjectProto = Object.prototype;
-
-module.exports = Object.getPrototypeOf || function(O){
-  O = toObject(O);
-  if(has(O, IE_PROTO))return O[IE_PROTO];
-  if(typeof O.constructor == 'function' && O instanceof O.constructor){
-    return O.constructor.prototype;
-  } return O instanceof Object ? ObjectProto : null;
-};
-
-/***/ }),
 /* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
-
-var $at  = __webpack_require__(80)(true);
-
-// 21.1.3.27 String.prototype[@@iterator]()
-__webpack_require__(60)(String, 'String', function(iterated){
-  this._t = String(iterated); // target
-  this._i = 0;                // next index
-// 21.1.5.2.1 %StringIteratorPrototype%.next()
-}, function(){
-  var O     = this._t
-    , index = this._i
-    , point;
-  if(index >= O.length)return {value: undefined, done: true};
-  point = $at(O, index);
-  this._i += point.length;
-  return {value: point, done: false};
+module.exports = !__webpack_require__(16) && !__webpack_require__(21)(function(){
+  return Object.defineProperty(__webpack_require__(58)('div'), 'a', {get: function(){ return 7; }}).a != 7;
 });
 
 /***/ }),
 /* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
+// fallback for non-array-like ES3 and non-enumerable old V8 strings
+var cof = __webpack_require__(38);
+module.exports = Object('z').propertyIsEnumerable(0) ? Object : function(it){
+  return cof(it) == 'String' ? it.split('') : Object(it);
+};
+
+/***/ }),
+/* 61 */
+/***/ (function(module, exports, __webpack_require__) {
+
 "use strict";
 
-var LIBRARY        = __webpack_require__(44)
+var LIBRARY        = __webpack_require__(42)
   , $export        = __webpack_require__(13)
-  , redefine       = __webpack_require__(61)
-  , hide           = __webpack_require__(20)
-  , has            = __webpack_require__(16)
-  , Iterators      = __webpack_require__(26)
-  , $iterCreate    = __webpack_require__(81)
-  , setToStringTag = __webpack_require__(46)
-  , getPrototypeOf = __webpack_require__(58)
+  , redefine       = __webpack_require__(67)
+  , hide           = __webpack_require__(22)
+  , has            = __webpack_require__(17)
+  , Iterators      = __webpack_require__(25)
+  , $iterCreate    = __webpack_require__(145)
+  , setToStringTag = __webpack_require__(45)
+  , getPrototypeOf = __webpack_require__(64)
   , ITERATOR       = __webpack_require__(11)('iterator')
   , BUGGY          = !([].keys && 'next' in [].keys()) // Safari has buggy iterators w/o `next`
   , FF_ITERATOR    = '@@iterator'
@@ -2876,36 +3181,18 @@ module.exports = function(Base, NAME, Constructor, next, DEFAULT, IS_SET, FORCED
 };
 
 /***/ }),
-/* 61 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(20);
-
-/***/ }),
 /* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
-// 19.1.2.7 / 15.2.3.4 Object.getOwnPropertyNames(O)
-var $keys      = __webpack_require__(52)
-  , hiddenKeys = __webpack_require__(41).concat('length', 'prototype');
-
-exports.f = Object.getOwnPropertyNames || function getOwnPropertyNames(O){
-  return $keys(O, hiddenKeys);
-};
-
-/***/ }),
-/* 63 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var pIE            = __webpack_require__(30)
-  , createDesc     = __webpack_require__(25)
-  , toIObject      = __webpack_require__(17)
-  , toPrimitive    = __webpack_require__(43)
-  , has            = __webpack_require__(16)
-  , IE8_DOM_DEFINE = __webpack_require__(56)
+var pIE            = __webpack_require__(35)
+  , createDesc     = __webpack_require__(26)
+  , toIObject      = __webpack_require__(18)
+  , toPrimitive    = __webpack_require__(49)
+  , has            = __webpack_require__(17)
+  , IE8_DOM_DEFINE = __webpack_require__(59)
   , gOPD           = Object.getOwnPropertyDescriptor;
 
-exports.f = __webpack_require__(18) ? gOPD : function getOwnPropertyDescriptor(O, P){
+exports.f = __webpack_require__(16) ? gOPD : function getOwnPropertyDescriptor(O, P){
   O = toIObject(O);
   P = toPrimitive(P, true);
   if(IE8_DOM_DEFINE)try {
@@ -2915,379 +3202,88 @@ exports.f = __webpack_require__(18) ? gOPD : function getOwnPropertyDescriptor(O
 };
 
 /***/ }),
+/* 63 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// 19.1.2.7 / 15.2.3.4 Object.getOwnPropertyNames(O)
+var $keys      = __webpack_require__(65)
+  , hiddenKeys = __webpack_require__(41).concat('length', 'prototype');
+
+exports.f = Object.getOwnPropertyNames || function getOwnPropertyNames(O){
+  return $keys(O, hiddenKeys);
+};
+
+/***/ }),
 /* 64 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+// 19.1.2.9 / 15.2.3.2 Object.getPrototypeOf(O)
+var has         = __webpack_require__(17)
+  , toObject    = __webpack_require__(27)
+  , IE_PROTO    = __webpack_require__(46)('IE_PROTO')
+  , ObjectProto = Object.prototype;
 
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-/**
- * @fileOverview 指令的传输通道：蓝牙，串口，2.4G。
- */
-
-var Transport = {
-  send: function send(buf) {},
-  onReceived: function onReceived(pipe) {}
+module.exports = Object.getPrototypeOf || function(O){
+  O = toObject(O);
+  if(has(O, IE_PROTO))return O[IE_PROTO];
+  if(typeof O.constructor == 'function' && O instanceof O.constructor){
+    return O.constructor.prototype;
+  } return O instanceof Object ? ObjectProto : null;
 };
-
-exports.default = Transport;
 
 /***/ }),
 /* 65 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+var has          = __webpack_require__(17)
+  , toIObject    = __webpack_require__(18)
+  , arrayIndexOf = __webpack_require__(137)(false)
+  , IE_PROTO     = __webpack_require__(46)('IE_PROTO');
 
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _getPrototypeOf = __webpack_require__(1);
-
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
-
-var _classCallCheck2 = __webpack_require__(0);
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = __webpack_require__(4);
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-var _possibleConstructorReturn2 = __webpack_require__(2);
-
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-var _inherits2 = __webpack_require__(3);
-
-var _inherits3 = _interopRequireDefault(_inherits2);
-
-var _type = __webpack_require__(7);
-
-var _utils = __webpack_require__(5);
-
-var _utils2 = _interopRequireDefault(_utils);
-
-var _MotorBase2 = __webpack_require__(50);
-
-var _MotorBase3 = _interopRequireDefault(_MotorBase2);
-
-var _cmd = __webpack_require__(8);
-
-var _cmd2 = _interopRequireDefault(_cmd);
-
-var _command = __webpack_require__(6);
-
-var _command2 = _interopRequireDefault(_command);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var EncoderMotorBase = function (_MotorBase) {
-  (0, _inherits3.default)(EncoderMotorBase, _MotorBase);
-
-  /**
-   * EncoderMotorBase
-   * @constructor
-   * @param {number} port
-   * @param {number} slot
-   */
-  function EncoderMotorBase(port, slot) {
-    (0, _classCallCheck3.default)(this, EncoderMotorBase);
-    return (0, _possibleConstructorReturn3.default)(this, (EncoderMotorBase.__proto__ || (0, _getPrototypeOf2.default)(EncoderMotorBase)).call(this, port, slot));
+module.exports = function(object, names){
+  var O      = toIObject(object)
+    , i      = 0
+    , result = []
+    , key;
+  for(key in O)if(key != IE_PROTO)has(O, key) && result.push(key);
+  // Don't enum bug & hidden keys
+  while(names.length > i)if(has(O, key = names[i++])){
+    ~arrayIndexOf(result, key) || result.push(key);
   }
-
-  /**
-   * EncoderMotor run
-   * @return {Object} the instance
-   */
-
-
-  (0, _createClass3.default)(EncoderMotorBase, [{
-    key: 'run',
-    value: function run() {
-      var buf = void 0;
-      if (this.args.port == 0) {
-        buf = _utils2.default.composer(_cmd2.default.setEncoderMotorOnBoard, [this.args.slot, this.args.speed]);
-      } else {
-        buf = _utils2.default.composer(_cmd2.default.setEncoderMotor, [this.args.port, this.args.slot, this.args.speed, this.args.angle]);
-      }
-      _command2.default.execWrite(buf);
-      return this;
-    }
-
-    /**
-     * EncoderMotor run reversely
-     * @return {Object} the instance
-     */
-
-  }, {
-    key: 'reverse',
-    value: function reverse() {
-      this.offsetAngle(-1 * this.args.angle);
-      return this.run();
-    }
-  }]);
-  return EncoderMotorBase;
-}(_MotorBase3.default);
-
-exports.default = EncoderMotorBase;
+  return result;
+};
 
 /***/ }),
 /* 66 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _getPrototypeOf = __webpack_require__(1);
-
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
-
-var _classCallCheck2 = __webpack_require__(0);
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = __webpack_require__(4);
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-var _possibleConstructorReturn2 = __webpack_require__(2);
-
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-var _inherits2 = __webpack_require__(3);
-
-var _inherits3 = _interopRequireDefault(_inherits2);
-
-var _type = __webpack_require__(7);
-
-var _utils = __webpack_require__(5);
-
-var _utils2 = _interopRequireDefault(_utils);
-
-var _electronic = __webpack_require__(9);
-
-var _electronic2 = _interopRequireDefault(_electronic);
-
-var _cmd = __webpack_require__(8);
-
-var _cmd2 = _interopRequireDefault(_cmd);
-
-var _command = __webpack_require__(6);
-
-var _command2 = _interopRequireDefault(_command);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var GyroBase = function (_Electronic) {
-  (0, _inherits3.default)(GyroBase, _Electronic);
-
-  function GyroBase(port) {
-    (0, _classCallCheck3.default)(this, GyroBase);
-
-    var _this = (0, _possibleConstructorReturn3.default)(this, (GyroBase.__proto__ || (0, _getPrototypeOf2.default)(GyroBase)).call(this));
-
-    _this.args = {
-      port: (0, _type.defineNumber)(port),
-      axis: 0
-    };
-    return _this;
-  }
-
-  (0, _createClass3.default)(GyroBase, [{
-    key: 'axis',
-    value: function axis(_axis) {
-      this.args.axis = (0, _type.defineNumber)(_axis, this.args.axis);
-      return this;
-    }
-  }, {
-    key: 'getData',
-    value: function getData(callback) {
-      var buf = _utils2.default.composer(_cmd2.default.readGyro, [this.args.port, this.args.axis]);
-      _command2.default.execRead(buf, callback);
-      return this;
-    }
-  }]);
-  return GyroBase;
-}(_electronic2.default);
-
-exports.default = GyroBase;
+// most Object methods by ES6 should accept primitives
+var $export = __webpack_require__(13)
+  , core    = __webpack_require__(10)
+  , fails   = __webpack_require__(21);
+module.exports = function(KEY, exec){
+  var fn  = (core.Object || {})[KEY] || Object[KEY]
+    , exp = {};
+  exp[KEY] = exec(fn);
+  $export($export.S + $export.F * fails(function(){ fn(1); }), 'Object', exp);
+};
 
 /***/ }),
 /* 67 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _getPrototypeOf = __webpack_require__(1);
-
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
-
-var _classCallCheck2 = __webpack_require__(0);
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = __webpack_require__(4);
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-var _possibleConstructorReturn2 = __webpack_require__(2);
-
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-var _inherits2 = __webpack_require__(3);
-
-var _inherits3 = _interopRequireDefault(_inherits2);
-
-var _type = __webpack_require__(7);
-
-var _utils = __webpack_require__(5);
-
-var _utils2 = _interopRequireDefault(_utils);
-
-var _electronic = __webpack_require__(9);
-
-var _electronic2 = _interopRequireDefault(_electronic);
-
-var _cmd = __webpack_require__(8);
-
-var _cmd2 = _interopRequireDefault(_cmd);
-
-var _command = __webpack_require__(6);
-
-var _command2 = _interopRequireDefault(_command);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var SoundBase = function (_Electronic) {
-  (0, _inherits3.default)(SoundBase, _Electronic);
-
-  function SoundBase(port) {
-    (0, _classCallCheck3.default)(this, SoundBase);
-
-    var _this = (0, _possibleConstructorReturn3.default)(this, (SoundBase.__proto__ || (0, _getPrototypeOf2.default)(SoundBase)).call(this));
-
-    _this.args = {
-      port: (0, _type.defineNumber)(port)
-    };
-    return _this;
-  }
-
-  (0, _createClass3.default)(SoundBase, [{
-    key: 'getData',
-    value: function getData(callback) {
-      var buf = _utils2.default.composer(_cmd2.default.readSound, [this.args.port]);
-      _command2.default.execRead(buf, callback);
-      return this;
-    }
-  }]);
-  return SoundBase;
-}(_electronic2.default);
-
-exports.default = SoundBase;
+module.exports = __webpack_require__(22);
 
 /***/ }),
 /* 68 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _getPrototypeOf = __webpack_require__(1);
-
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
-
-var _classCallCheck2 = __webpack_require__(0);
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = __webpack_require__(4);
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-var _possibleConstructorReturn2 = __webpack_require__(2);
-
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-var _inherits2 = __webpack_require__(3);
-
-var _inherits3 = _interopRequireDefault(_inherits2);
-
-var _type = __webpack_require__(7);
-
-var _utils = __webpack_require__(5);
-
-var _utils2 = _interopRequireDefault(_utils);
-
-var _electronic = __webpack_require__(9);
-
-var _electronic2 = _interopRequireDefault(_electronic);
-
-var _cmd = __webpack_require__(8);
-
-var _cmd2 = _interopRequireDefault(_cmd);
-
-var _command = __webpack_require__(6);
-
-var _command2 = _interopRequireDefault(_command);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var Firmware = function (_Electronic) {
-  (0, _inherits3.default)(Firmware, _Electronic);
-
-  function Firmware(subCmd, mode) {
-    (0, _classCallCheck3.default)(this, Firmware);
-
-    var _this = (0, _possibleConstructorReturn3.default)(this, (Firmware.__proto__ || (0, _getPrototypeOf2.default)(Firmware)).call(this));
-
-    _this.args = {
-      subCmd: subCmd,
-      mode: mode
-    };
-    return _this;
-  }
-
-  /**
-   * 设置固件模式
-   * @param {Number} mode 0、1、2、3、4
-   */
-
-
-  (0, _createClass3.default)(Firmware, [{
-    key: 'setMode',
-    value: function setMode() {
-      var buf = _utils2.default.composer(_cmd2.default.setFirmwareMode, [this.args.subCmd, this.args.mode]);
-      _command2.default.execWrite(buf);
-    }
-  }, {
-    key: 'getMode',
-    value: function getMode(callback) {
-      var buf = _utils2.default.composer(_cmd2.default.readFirmwareMode, [this.args.subCmd]);
-      _command2.default.execRead(buf, callback);
-    }
-  }]);
-  return Firmware;
-}(_electronic2.default);
-
-exports.default = Firmware;
+// 7.1.15 ToLength
+var toInteger = __webpack_require__(48)
+  , min       = Math.min;
+module.exports = function(it){
+  return it > 0 ? min(toInteger(it), 0x1fffffffffffff) : 0; // pow(2, 53) - 1 == 9007199254740991
+};
 
 /***/ }),
 /* 69 */
@@ -3295,150 +3291,25 @@ exports.default = Firmware;
 
 "use strict";
 
+var $at  = __webpack_require__(154)(true);
 
-var _keys = __webpack_require__(51);
-
-var _keys2 = _interopRequireDefault(_keys);
-
-var _classCallCheck2 = __webpack_require__(0);
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = __webpack_require__(4);
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-var _mcore = __webpack_require__(75);
-
-var _mcore2 = _interopRequireDefault(_mcore);
-
-var _orion = __webpack_require__(168);
-
-var _orion2 = _interopRequireDefault(_orion);
-
-var _auriga = __webpack_require__(169);
-
-var _auriga2 = _interopRequireDefault(_auriga);
-
-var _megaPi = __webpack_require__(170);
-
-var _megaPi2 = _interopRequireDefault(_megaPi);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var boards = {
-  "auriga": _auriga2.default,
-  "mcore": _mcore2.default,
-  "megapi": _megaPi2.default,
-  "orion": _orion2.default
-
-  /**
-   * 构造函数返回值，改变了构造函数实例
-   * Sensorium 原型方法只能统一用静态方法代替
-   */
-};
-var Sensorium = function () {
-  /**
-   * @constructor
-   * @param {String} boardName 主控板名，忽略大小写
-   * @param {Object} opts     (optional)
-   */
-  function Sensorium(boardName, opts) {
-    (0, _classCallCheck3.default)(this, Sensorium);
-
-    var board = boards[boardName.toLowerCase()];
-    if (typeof board == 'undefined') {
-      throw new Error('sorry, the board ' + boardName + ' could not be supported!');
-    }
-    return new board(opts);
-  }
-
-  (0, _createClass3.default)(Sensorium, null, [{
-    key: 'version',
-    value: function version() {
-      return '0.1.5';
-    }
-  }, {
-    key: 'supportedMainBoard',
-    value: function supportedMainBoard() {
-      return (0, _keys2.default)(boards);
-    }
-  }]);
-  return Sensorium;
-}();
-
-module.exports = Sensorium;
-
-/***/ }),
-/* 70 */
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__(71);
-module.exports = __webpack_require__(10).Object.keys;
-
-/***/ }),
-/* 71 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// 19.1.2.14 Object.keys(O)
-var toObject = __webpack_require__(23)
-  , $keys    = __webpack_require__(19);
-
-__webpack_require__(55)('keys', function(){
-  return function keys(it){
-    return $keys(toObject(it));
-  };
+// 21.1.3.27 String.prototype[@@iterator]()
+__webpack_require__(61)(String, 'String', function(iterated){
+  this._t = String(iterated); // target
+  this._i = 0;                // next index
+// 21.1.5.2.1 %StringIteratorPrototype%.next()
+}, function(){
+  var O     = this._t
+    , index = this._i
+    , point;
+  if(index >= O.length)return {value: undefined, done: true};
+  point = $at(O, index);
+  this._i += point.length;
+  return {value: point, done: false};
 });
 
 /***/ }),
-/* 72 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// false -> Array#indexOf
-// true  -> Array#includes
-var toIObject = __webpack_require__(17)
-  , toLength  = __webpack_require__(54)
-  , toIndex   = __webpack_require__(73);
-module.exports = function(IS_INCLUDES){
-  return function($this, el, fromIndex){
-    var O      = toIObject($this)
-      , length = toLength(O.length)
-      , index  = toIndex(fromIndex, length)
-      , value;
-    // Array#includes uses SameValueZero equality algorithm
-    if(IS_INCLUDES && el != el)while(length > index){
-      value = O[index++];
-      if(value != value)return true;
-    // Array#toIndex ignores holes, Array#includes - not
-    } else for(;length > index; index++)if(IS_INCLUDES || index in O){
-      if(O[index] === el)return IS_INCLUDES || index || 0;
-    } return !IS_INCLUDES && -1;
-  };
-};
-
-/***/ }),
-/* 73 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var toInteger = __webpack_require__(38)
-  , max       = Math.max
-  , min       = Math.min;
-module.exports = function(index, length){
-  index = toInteger(index);
-  return index < 0 ? max(index + length, 0) : min(index, length);
-};
-
-/***/ }),
-/* 74 */
-/***/ (function(module, exports) {
-
-module.exports = function(it){
-  if(typeof it != 'function')throw TypeError(it + ' is not a function!');
-  return it;
-};
-
-/***/ }),
-/* 75 */
+/* 70 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3448,7 +3319,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _getPrototypeOf = __webpack_require__(1);
+var _getPrototypeOf = __webpack_require__(2);
 
 var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
 
@@ -3456,7 +3327,11 @@ var _classCallCheck2 = __webpack_require__(0);
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-var _possibleConstructorReturn2 = __webpack_require__(2);
+var _createClass2 = __webpack_require__(1);
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _possibleConstructorReturn2 = __webpack_require__(4);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
@@ -3464,15 +3339,173 @@ var _inherits2 = __webpack_require__(3);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _Board2 = __webpack_require__(31);
+var _Board2 = __webpack_require__(28);
 
 var _Board3 = _interopRequireDefault(_Board2);
 
-var _index = __webpack_require__(33);
+var _index = __webpack_require__(31);
 
 var _index2 = _interopRequireDefault(_index);
 
-var _settings = __webpack_require__(27);
+var _mode = __webpack_require__(57);
+
+var _mode2 = _interopRequireDefault(_mode);
+
+var _version = __webpack_require__(32);
+
+var _version2 = _interopRequireDefault(_version);
+
+var _settings = __webpack_require__(19);
+
+var _settings2 = _interopRequireDefault(_settings);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//支持位置
+var SUPPORT_INDEX = _settings2.default.SUPPORTLIST.indexOf('Auriga');
+
+var Auriga = function (_Board) {
+  (0, _inherits3.default)(Auriga, _Board);
+
+  function Auriga(conf) {
+    (0, _classCallCheck3.default)(this, Auriga);
+
+    var _this = (0, _possibleConstructorReturn3.default)(this, (Auriga.__proto__ || (0, _getPrototypeOf2.default)(Auriga)).call(this, conf));
+    //继承 Board
+
+
+    var this_ = _this;
+    //固件当前模式
+    _this.currentMode = null;
+    //固件版本
+    _this.version = null;
+    // 置空已连接块
+    _this.connecting = {};
+    // 挂载电子模块
+
+    var _loop = function _loop(name) {
+      var eModule = _index2.default[name];
+      if (eModule.supportStamp().charAt(SUPPORT_INDEX) === '1') {
+        _this[name] = function () {
+          return this_.eModuleFactory(eModule, arguments);
+        };
+      }
+    };
+
+    for (var name in _index2.default) {
+      _loop(name);
+    }
+    return _this;
+  }
+
+  /**
+   * 获取版本号，所有主控板支持
+   * @param  {!Function} callback
+   */
+
+
+  (0, _createClass3.default)(Auriga, [{
+    key: 'getVersion',
+    value: function getVersion(callback) {
+      var this_ = this;
+      if (this.version) {
+        typeof callback == 'function' && callback(this.version);
+      } else {
+        _version2.default.getVersion(function (val) {
+          this_.version = val;
+          typeof callback == 'function' && this.version;
+        });
+      }
+    }
+
+    /**
+     * 设置固件模式
+     * @param {Number} mode 0、1、2、3、4
+     */
+
+  }, {
+    key: 'setFirmwareMode',
+    value: function setFirmwareMode(mode) {
+      var subCmd = 0x11;
+      _mode2.default.setMode(subCmd, mode);
+      return this;
+    }
+    /**
+     * 获取固件模式
+     * @param  {Function} callback 取值后回调函数
+     */
+    //TODO: 数据缓存
+
+  }, {
+    key: 'getFirmwareMode',
+    value: function getFirmwareMode(callback) {
+      var subCmd = 0x71;
+      _mode2.default.getMode(subCmd, callback);
+      return this;
+    }
+
+    /**
+     * 获取固件电压
+     * @param  {Function} callback 取值后回调函数
+     */
+
+  }, {
+    key: 'getVoltage',
+    value: function getVoltage(callback) {
+      var subCmd = 0x70;
+      _mode2.default.getMode(subCmd, callback);
+      return this;
+    }
+  }]);
+  return Auriga;
+}(_Board3.default);
+
+exports.default = Auriga;
+
+/***/ }),
+/* 71 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _getPrototypeOf = __webpack_require__(2);
+
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+var _classCallCheck2 = __webpack_require__(0);
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = __webpack_require__(1);
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _possibleConstructorReturn2 = __webpack_require__(4);
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = __webpack_require__(3);
+
+var _inherits3 = _interopRequireDefault(_inherits2);
+
+var _Board2 = __webpack_require__(28);
+
+var _Board3 = _interopRequireDefault(_Board2);
+
+var _index = __webpack_require__(31);
+
+var _index2 = _interopRequireDefault(_index);
+
+var _version = __webpack_require__(32);
+
+var _version2 = _interopRequireDefault(_version);
+
+var _settings = __webpack_require__(19);
 
 var _settings2 = _interopRequireDefault(_settings);
 
@@ -3494,6 +3527,8 @@ var Mcore = function (_Board) {
 
 
     var this_ = _this;
+    //固件版本
+    _this.version = null;
     // 置空已连接块
     _this.connecting = {};
     // 挂载电子模块
@@ -3501,7 +3536,6 @@ var Mcore = function (_Board) {
     var _loop = function _loop(name) {
       var eModule = _index2.default[name];
       if (eModule.supportStamp().charAt(SUPPORT_INDEX) === '1') {
-        // when use mcore.rgbLed(port, slot)
         _this[name] = function () {
           return this_.eModuleFactory(eModule, arguments);
         };
@@ -3514,911 +3548,33 @@ var Mcore = function (_Board) {
     return _this;
   }
 
+  /**
+   * 获取版本号，所有主控板支持
+   * @param  {!Function} callback
+   */
+
+
+  (0, _createClass3.default)(Mcore, [{
+    key: 'getVersion',
+    value: function getVersion(callback) {
+      var this_ = this;
+      if (this.version) {
+        typeof callback == 'function' && callback(this.version);
+      } else {
+        _version2.default.getVersion(function (val) {
+          this_.version = val;
+          typeof callback == 'function' && this.version;
+        });
+      }
+    }
+  }]);
   return Mcore;
 }(_Board3.default);
 
 exports.default = Mcore;
 
 /***/ }),
-/* 76 */
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__(77);
-module.exports = __webpack_require__(10).Object.getPrototypeOf;
-
-/***/ }),
-/* 77 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// 19.1.2.9 Object.getPrototypeOf(O)
-var toObject        = __webpack_require__(23)
-  , $getPrototypeOf = __webpack_require__(58);
-
-__webpack_require__(55)('getPrototypeOf', function(){
-  return function getPrototypeOf(it){
-    return $getPrototypeOf(toObject(it));
-  };
-});
-
-/***/ }),
-/* 78 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = { "default": __webpack_require__(79), __esModule: true };
-
-/***/ }),
-/* 79 */
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__(59);
-__webpack_require__(84);
-module.exports = __webpack_require__(47).f('iterator');
-
-/***/ }),
-/* 80 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var toInteger = __webpack_require__(38)
-  , defined   = __webpack_require__(36);
-// true  -> String#at
-// false -> String#codePointAt
-module.exports = function(TO_STRING){
-  return function(that, pos){
-    var s = String(defined(that))
-      , i = toInteger(pos)
-      , l = s.length
-      , a, b;
-    if(i < 0 || i >= l)return TO_STRING ? '' : undefined;
-    a = s.charCodeAt(i);
-    return a < 0xd800 || a > 0xdbff || i + 1 === l || (b = s.charCodeAt(i + 1)) < 0xdc00 || b > 0xdfff
-      ? TO_STRING ? s.charAt(i) : a
-      : TO_STRING ? s.slice(i, i + 2) : (a - 0xd800 << 10) + (b - 0xdc00) + 0x10000;
-  };
-};
-
-/***/ }),
-/* 81 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var create         = __webpack_require__(45)
-  , descriptor     = __webpack_require__(25)
-  , setToStringTag = __webpack_require__(46)
-  , IteratorPrototype = {};
-
-// 25.1.2.1.1 %IteratorPrototype%[@@iterator]()
-__webpack_require__(20)(IteratorPrototype, __webpack_require__(11)('iterator'), function(){ return this; });
-
-module.exports = function(Constructor, NAME, next){
-  Constructor.prototype = create(IteratorPrototype, {next: descriptor(1, next)});
-  setToStringTag(Constructor, NAME + ' Iterator');
-};
-
-/***/ }),
-/* 82 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var dP       = __webpack_require__(14)
-  , anObject = __webpack_require__(21)
-  , getKeys  = __webpack_require__(19);
-
-module.exports = __webpack_require__(18) ? Object.defineProperties : function defineProperties(O, Properties){
-  anObject(O);
-  var keys   = getKeys(Properties)
-    , length = keys.length
-    , i = 0
-    , P;
-  while(length > i)dP.f(O, P = keys[i++], Properties[P]);
-  return O;
-};
-
-/***/ }),
-/* 83 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(12).document && document.documentElement;
-
-/***/ }),
-/* 84 */
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__(85);
-var global        = __webpack_require__(12)
-  , hide          = __webpack_require__(20)
-  , Iterators     = __webpack_require__(26)
-  , TO_STRING_TAG = __webpack_require__(11)('toStringTag');
-
-for(var collections = ['NodeList', 'DOMTokenList', 'MediaList', 'StyleSheetList', 'CSSRuleList'], i = 0; i < 5; i++){
-  var NAME       = collections[i]
-    , Collection = global[NAME]
-    , proto      = Collection && Collection.prototype;
-  if(proto && !proto[TO_STRING_TAG])hide(proto, TO_STRING_TAG, NAME);
-  Iterators[NAME] = Iterators.Array;
-}
-
-/***/ }),
-/* 85 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var addToUnscopables = __webpack_require__(86)
-  , step             = __webpack_require__(87)
-  , Iterators        = __webpack_require__(26)
-  , toIObject        = __webpack_require__(17);
-
-// 22.1.3.4 Array.prototype.entries()
-// 22.1.3.13 Array.prototype.keys()
-// 22.1.3.29 Array.prototype.values()
-// 22.1.3.30 Array.prototype[@@iterator]()
-module.exports = __webpack_require__(60)(Array, 'Array', function(iterated, kind){
-  this._t = toIObject(iterated); // target
-  this._i = 0;                   // next index
-  this._k = kind;                // kind
-// 22.1.5.2.1 %ArrayIteratorPrototype%.next()
-}, function(){
-  var O     = this._t
-    , kind  = this._k
-    , index = this._i++;
-  if(!O || index >= O.length){
-    this._t = undefined;
-    return step(1);
-  }
-  if(kind == 'keys'  )return step(0, index);
-  if(kind == 'values')return step(0, O[index]);
-  return step(0, [index, O[index]]);
-}, 'values');
-
-// argumentsList[@@iterator] is %ArrayProto_values% (9.4.4.6, 9.4.4.7)
-Iterators.Arguments = Iterators.Array;
-
-addToUnscopables('keys');
-addToUnscopables('values');
-addToUnscopables('entries');
-
-/***/ }),
-/* 86 */
-/***/ (function(module, exports) {
-
-module.exports = function(){ /* empty */ };
-
-/***/ }),
-/* 87 */
-/***/ (function(module, exports) {
-
-module.exports = function(done, value){
-  return {value: value, done: !!done};
-};
-
-/***/ }),
-/* 88 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = { "default": __webpack_require__(89), __esModule: true };
-
-/***/ }),
-/* 89 */
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__(90);
-__webpack_require__(96);
-__webpack_require__(97);
-__webpack_require__(98);
-module.exports = __webpack_require__(10).Symbol;
-
-/***/ }),
-/* 90 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-// ECMAScript 6 symbols shim
-var global         = __webpack_require__(12)
-  , has            = __webpack_require__(16)
-  , DESCRIPTORS    = __webpack_require__(18)
-  , $export        = __webpack_require__(13)
-  , redefine       = __webpack_require__(61)
-  , META           = __webpack_require__(91).KEY
-  , $fails         = __webpack_require__(22)
-  , shared         = __webpack_require__(40)
-  , setToStringTag = __webpack_require__(46)
-  , uid            = __webpack_require__(28)
-  , wks            = __webpack_require__(11)
-  , wksExt         = __webpack_require__(47)
-  , wksDefine      = __webpack_require__(48)
-  , keyOf          = __webpack_require__(92)
-  , enumKeys       = __webpack_require__(93)
-  , isArray        = __webpack_require__(94)
-  , anObject       = __webpack_require__(21)
-  , toIObject      = __webpack_require__(17)
-  , toPrimitive    = __webpack_require__(43)
-  , createDesc     = __webpack_require__(25)
-  , _create        = __webpack_require__(45)
-  , gOPNExt        = __webpack_require__(95)
-  , $GOPD          = __webpack_require__(63)
-  , $DP            = __webpack_require__(14)
-  , $keys          = __webpack_require__(19)
-  , gOPD           = $GOPD.f
-  , dP             = $DP.f
-  , gOPN           = gOPNExt.f
-  , $Symbol        = global.Symbol
-  , $JSON          = global.JSON
-  , _stringify     = $JSON && $JSON.stringify
-  , PROTOTYPE      = 'prototype'
-  , HIDDEN         = wks('_hidden')
-  , TO_PRIMITIVE   = wks('toPrimitive')
-  , isEnum         = {}.propertyIsEnumerable
-  , SymbolRegistry = shared('symbol-registry')
-  , AllSymbols     = shared('symbols')
-  , OPSymbols      = shared('op-symbols')
-  , ObjectProto    = Object[PROTOTYPE]
-  , USE_NATIVE     = typeof $Symbol == 'function'
-  , QObject        = global.QObject;
-// Don't use setters in Qt Script, https://github.com/zloirock/core-js/issues/173
-var setter = !QObject || !QObject[PROTOTYPE] || !QObject[PROTOTYPE].findChild;
-
-// fallback for old Android, https://code.google.com/p/v8/issues/detail?id=687
-var setSymbolDesc = DESCRIPTORS && $fails(function(){
-  return _create(dP({}, 'a', {
-    get: function(){ return dP(this, 'a', {value: 7}).a; }
-  })).a != 7;
-}) ? function(it, key, D){
-  var protoDesc = gOPD(ObjectProto, key);
-  if(protoDesc)delete ObjectProto[key];
-  dP(it, key, D);
-  if(protoDesc && it !== ObjectProto)dP(ObjectProto, key, protoDesc);
-} : dP;
-
-var wrap = function(tag){
-  var sym = AllSymbols[tag] = _create($Symbol[PROTOTYPE]);
-  sym._k = tag;
-  return sym;
-};
-
-var isSymbol = USE_NATIVE && typeof $Symbol.iterator == 'symbol' ? function(it){
-  return typeof it == 'symbol';
-} : function(it){
-  return it instanceof $Symbol;
-};
-
-var $defineProperty = function defineProperty(it, key, D){
-  if(it === ObjectProto)$defineProperty(OPSymbols, key, D);
-  anObject(it);
-  key = toPrimitive(key, true);
-  anObject(D);
-  if(has(AllSymbols, key)){
-    if(!D.enumerable){
-      if(!has(it, HIDDEN))dP(it, HIDDEN, createDesc(1, {}));
-      it[HIDDEN][key] = true;
-    } else {
-      if(has(it, HIDDEN) && it[HIDDEN][key])it[HIDDEN][key] = false;
-      D = _create(D, {enumerable: createDesc(0, false)});
-    } return setSymbolDesc(it, key, D);
-  } return dP(it, key, D);
-};
-var $defineProperties = function defineProperties(it, P){
-  anObject(it);
-  var keys = enumKeys(P = toIObject(P))
-    , i    = 0
-    , l = keys.length
-    , key;
-  while(l > i)$defineProperty(it, key = keys[i++], P[key]);
-  return it;
-};
-var $create = function create(it, P){
-  return P === undefined ? _create(it) : $defineProperties(_create(it), P);
-};
-var $propertyIsEnumerable = function propertyIsEnumerable(key){
-  var E = isEnum.call(this, key = toPrimitive(key, true));
-  if(this === ObjectProto && has(AllSymbols, key) && !has(OPSymbols, key))return false;
-  return E || !has(this, key) || !has(AllSymbols, key) || has(this, HIDDEN) && this[HIDDEN][key] ? E : true;
-};
-var $getOwnPropertyDescriptor = function getOwnPropertyDescriptor(it, key){
-  it  = toIObject(it);
-  key = toPrimitive(key, true);
-  if(it === ObjectProto && has(AllSymbols, key) && !has(OPSymbols, key))return;
-  var D = gOPD(it, key);
-  if(D && has(AllSymbols, key) && !(has(it, HIDDEN) && it[HIDDEN][key]))D.enumerable = true;
-  return D;
-};
-var $getOwnPropertyNames = function getOwnPropertyNames(it){
-  var names  = gOPN(toIObject(it))
-    , result = []
-    , i      = 0
-    , key;
-  while(names.length > i){
-    if(!has(AllSymbols, key = names[i++]) && key != HIDDEN && key != META)result.push(key);
-  } return result;
-};
-var $getOwnPropertySymbols = function getOwnPropertySymbols(it){
-  var IS_OP  = it === ObjectProto
-    , names  = gOPN(IS_OP ? OPSymbols : toIObject(it))
-    , result = []
-    , i      = 0
-    , key;
-  while(names.length > i){
-    if(has(AllSymbols, key = names[i++]) && (IS_OP ? has(ObjectProto, key) : true))result.push(AllSymbols[key]);
-  } return result;
-};
-
-// 19.4.1.1 Symbol([description])
-if(!USE_NATIVE){
-  $Symbol = function Symbol(){
-    if(this instanceof $Symbol)throw TypeError('Symbol is not a constructor!');
-    var tag = uid(arguments.length > 0 ? arguments[0] : undefined);
-    var $set = function(value){
-      if(this === ObjectProto)$set.call(OPSymbols, value);
-      if(has(this, HIDDEN) && has(this[HIDDEN], tag))this[HIDDEN][tag] = false;
-      setSymbolDesc(this, tag, createDesc(1, value));
-    };
-    if(DESCRIPTORS && setter)setSymbolDesc(ObjectProto, tag, {configurable: true, set: $set});
-    return wrap(tag);
-  };
-  redefine($Symbol[PROTOTYPE], 'toString', function toString(){
-    return this._k;
-  });
-
-  $GOPD.f = $getOwnPropertyDescriptor;
-  $DP.f   = $defineProperty;
-  __webpack_require__(62).f = gOPNExt.f = $getOwnPropertyNames;
-  __webpack_require__(30).f  = $propertyIsEnumerable;
-  __webpack_require__(49).f = $getOwnPropertySymbols;
-
-  if(DESCRIPTORS && !__webpack_require__(44)){
-    redefine(ObjectProto, 'propertyIsEnumerable', $propertyIsEnumerable, true);
-  }
-
-  wksExt.f = function(name){
-    return wrap(wks(name));
-  }
-}
-
-$export($export.G + $export.W + $export.F * !USE_NATIVE, {Symbol: $Symbol});
-
-for(var symbols = (
-  // 19.4.2.2, 19.4.2.3, 19.4.2.4, 19.4.2.6, 19.4.2.8, 19.4.2.9, 19.4.2.10, 19.4.2.11, 19.4.2.12, 19.4.2.13, 19.4.2.14
-  'hasInstance,isConcatSpreadable,iterator,match,replace,search,species,split,toPrimitive,toStringTag,unscopables'
-).split(','), i = 0; symbols.length > i; )wks(symbols[i++]);
-
-for(var symbols = $keys(wks.store), i = 0; symbols.length > i; )wksDefine(symbols[i++]);
-
-$export($export.S + $export.F * !USE_NATIVE, 'Symbol', {
-  // 19.4.2.1 Symbol.for(key)
-  'for': function(key){
-    return has(SymbolRegistry, key += '')
-      ? SymbolRegistry[key]
-      : SymbolRegistry[key] = $Symbol(key);
-  },
-  // 19.4.2.5 Symbol.keyFor(sym)
-  keyFor: function keyFor(key){
-    if(isSymbol(key))return keyOf(SymbolRegistry, key);
-    throw TypeError(key + ' is not a symbol!');
-  },
-  useSetter: function(){ setter = true; },
-  useSimple: function(){ setter = false; }
-});
-
-$export($export.S + $export.F * !USE_NATIVE, 'Object', {
-  // 19.1.2.2 Object.create(O [, Properties])
-  create: $create,
-  // 19.1.2.4 Object.defineProperty(O, P, Attributes)
-  defineProperty: $defineProperty,
-  // 19.1.2.3 Object.defineProperties(O, Properties)
-  defineProperties: $defineProperties,
-  // 19.1.2.6 Object.getOwnPropertyDescriptor(O, P)
-  getOwnPropertyDescriptor: $getOwnPropertyDescriptor,
-  // 19.1.2.7 Object.getOwnPropertyNames(O)
-  getOwnPropertyNames: $getOwnPropertyNames,
-  // 19.1.2.8 Object.getOwnPropertySymbols(O)
-  getOwnPropertySymbols: $getOwnPropertySymbols
-});
-
-// 24.3.2 JSON.stringify(value [, replacer [, space]])
-$JSON && $export($export.S + $export.F * (!USE_NATIVE || $fails(function(){
-  var S = $Symbol();
-  // MS Edge converts symbol values to JSON as {}
-  // WebKit converts symbol values to JSON as null
-  // V8 throws on boxed symbols
-  return _stringify([S]) != '[null]' || _stringify({a: S}) != '{}' || _stringify(Object(S)) != '{}';
-})), 'JSON', {
-  stringify: function stringify(it){
-    if(it === undefined || isSymbol(it))return; // IE8 returns string on undefined
-    var args = [it]
-      , i    = 1
-      , replacer, $replacer;
-    while(arguments.length > i)args.push(arguments[i++]);
-    replacer = args[1];
-    if(typeof replacer == 'function')$replacer = replacer;
-    if($replacer || !isArray(replacer))replacer = function(key, value){
-      if($replacer)value = $replacer.call(this, key, value);
-      if(!isSymbol(value))return value;
-    };
-    args[1] = replacer;
-    return _stringify.apply($JSON, args);
-  }
-});
-
-// 19.4.3.4 Symbol.prototype[@@toPrimitive](hint)
-$Symbol[PROTOTYPE][TO_PRIMITIVE] || __webpack_require__(20)($Symbol[PROTOTYPE], TO_PRIMITIVE, $Symbol[PROTOTYPE].valueOf);
-// 19.4.3.5 Symbol.prototype[@@toStringTag]
-setToStringTag($Symbol, 'Symbol');
-// 20.2.1.9 Math[@@toStringTag]
-setToStringTag(Math, 'Math', true);
-// 24.3.3 JSON[@@toStringTag]
-setToStringTag(global.JSON, 'JSON', true);
-
-/***/ }),
-/* 91 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var META     = __webpack_require__(28)('meta')
-  , isObject = __webpack_require__(24)
-  , has      = __webpack_require__(16)
-  , setDesc  = __webpack_require__(14).f
-  , id       = 0;
-var isExtensible = Object.isExtensible || function(){
-  return true;
-};
-var FREEZE = !__webpack_require__(22)(function(){
-  return isExtensible(Object.preventExtensions({}));
-});
-var setMeta = function(it){
-  setDesc(it, META, {value: {
-    i: 'O' + ++id, // object ID
-    w: {}          // weak collections IDs
-  }});
-};
-var fastKey = function(it, create){
-  // return primitive with prefix
-  if(!isObject(it))return typeof it == 'symbol' ? it : (typeof it == 'string' ? 'S' : 'P') + it;
-  if(!has(it, META)){
-    // can't set metadata to uncaught frozen object
-    if(!isExtensible(it))return 'F';
-    // not necessary to add metadata
-    if(!create)return 'E';
-    // add missing metadata
-    setMeta(it);
-  // return object ID
-  } return it[META].i;
-};
-var getWeak = function(it, create){
-  if(!has(it, META)){
-    // can't set metadata to uncaught frozen object
-    if(!isExtensible(it))return true;
-    // not necessary to add metadata
-    if(!create)return false;
-    // add missing metadata
-    setMeta(it);
-  // return hash weak collections IDs
-  } return it[META].w;
-};
-// add metadata on freeze-family methods calling
-var onFreeze = function(it){
-  if(FREEZE && meta.NEED && isExtensible(it) && !has(it, META))setMeta(it);
-  return it;
-};
-var meta = module.exports = {
-  KEY:      META,
-  NEED:     false,
-  fastKey:  fastKey,
-  getWeak:  getWeak,
-  onFreeze: onFreeze
-};
-
-/***/ }),
-/* 92 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var getKeys   = __webpack_require__(19)
-  , toIObject = __webpack_require__(17);
-module.exports = function(object, el){
-  var O      = toIObject(object)
-    , keys   = getKeys(O)
-    , length = keys.length
-    , index  = 0
-    , key;
-  while(length > index)if(O[key = keys[index++]] === el)return key;
-};
-
-/***/ }),
-/* 93 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// all enumerable object keys, includes symbols
-var getKeys = __webpack_require__(19)
-  , gOPS    = __webpack_require__(49)
-  , pIE     = __webpack_require__(30);
-module.exports = function(it){
-  var result     = getKeys(it)
-    , getSymbols = gOPS.f;
-  if(getSymbols){
-    var symbols = getSymbols(it)
-      , isEnum  = pIE.f
-      , i       = 0
-      , key;
-    while(symbols.length > i)if(isEnum.call(it, key = symbols[i++]))result.push(key);
-  } return result;
-};
-
-/***/ }),
-/* 94 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// 7.2.2 IsArray(argument)
-var cof = __webpack_require__(37);
-module.exports = Array.isArray || function isArray(arg){
-  return cof(arg) == 'Array';
-};
-
-/***/ }),
-/* 95 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// fallback for IE11 buggy Object.getOwnPropertyNames with iframe and window
-var toIObject = __webpack_require__(17)
-  , gOPN      = __webpack_require__(62).f
-  , toString  = {}.toString;
-
-var windowNames = typeof window == 'object' && window && Object.getOwnPropertyNames
-  ? Object.getOwnPropertyNames(window) : [];
-
-var getWindowNames = function(it){
-  try {
-    return gOPN(it);
-  } catch(e){
-    return windowNames.slice();
-  }
-};
-
-module.exports.f = function getOwnPropertyNames(it){
-  return windowNames && toString.call(it) == '[object Window]' ? getWindowNames(it) : gOPN(toIObject(it));
-};
-
-
-/***/ }),
-/* 96 */
-/***/ (function(module, exports) {
-
-
-
-/***/ }),
-/* 97 */
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__(48)('asyncIterator');
-
-/***/ }),
-/* 98 */
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__(48)('observable');
-
-/***/ }),
-/* 99 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = { "default": __webpack_require__(100), __esModule: true };
-
-/***/ }),
-/* 100 */
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__(101);
-module.exports = __webpack_require__(10).Object.setPrototypeOf;
-
-/***/ }),
-/* 101 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// 19.1.3.19 Object.setPrototypeOf(O, proto)
-var $export = __webpack_require__(13);
-$export($export.S, 'Object', {setPrototypeOf: __webpack_require__(102).set});
-
-/***/ }),
-/* 102 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// Works with __proto__ only. Old v8 can't work with null proto objects.
-/* eslint-disable no-proto */
-var isObject = __webpack_require__(24)
-  , anObject = __webpack_require__(21);
-var check = function(O, proto){
-  anObject(O);
-  if(!isObject(proto) && proto !== null)throw TypeError(proto + ": can't set as prototype!");
-};
-module.exports = {
-  set: Object.setPrototypeOf || ('__proto__' in {} ? // eslint-disable-line
-    function(test, buggy, set){
-      try {
-        set = __webpack_require__(42)(Function.call, __webpack_require__(63).f(Object.prototype, '__proto__').set, 2);
-        set(test, []);
-        buggy = !(test instanceof Array);
-      } catch(e){ buggy = true; }
-      return function setPrototypeOf(O, proto){
-        check(O, proto);
-        if(buggy)O.__proto__ = proto;
-        else set(O, proto);
-        return O;
-      };
-    }({}, false) : undefined),
-  check: check
-};
-
-/***/ }),
-/* 103 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = { "default": __webpack_require__(104), __esModule: true };
-
-/***/ }),
-/* 104 */
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__(105);
-var $Object = __webpack_require__(10).Object;
-module.exports = function create(P, D){
-  return $Object.create(P, D);
-};
-
-/***/ }),
-/* 105 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var $export = __webpack_require__(13)
-// 19.1.2.2 / 15.2.3.5 Object.create(O [, Properties])
-$export($export.S, 'Object', {create: __webpack_require__(45)});
-
-/***/ }),
-/* 106 */
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__(107);
-module.exports = __webpack_require__(10).Object.assign;
-
-/***/ }),
-/* 107 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// 19.1.3.1 Object.assign(target, source)
-var $export = __webpack_require__(13);
-
-$export($export.S + $export.F, 'Object', {assign: __webpack_require__(108)});
-
-/***/ }),
-/* 108 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-// 19.1.2.1 Object.assign(target, source, ...)
-var getKeys  = __webpack_require__(19)
-  , gOPS     = __webpack_require__(49)
-  , pIE      = __webpack_require__(30)
-  , toObject = __webpack_require__(23)
-  , IObject  = __webpack_require__(53)
-  , $assign  = Object.assign;
-
-// should work with symbols and should have deterministic property order (V8 bug)
-module.exports = !$assign || __webpack_require__(22)(function(){
-  var A = {}
-    , B = {}
-    , S = Symbol()
-    , K = 'abcdefghijklmnopqrst';
-  A[S] = 7;
-  K.split('').forEach(function(k){ B[k] = k; });
-  return $assign({}, A)[S] != 7 || Object.keys($assign({}, B)).join('') != K;
-}) ? function assign(target, source){ // eslint-disable-line no-unused-vars
-  var T     = toObject(target)
-    , aLen  = arguments.length
-    , index = 1
-    , getSymbols = gOPS.f
-    , isEnum     = pIE.f;
-  while(aLen > index){
-    var S      = IObject(arguments[index++])
-      , keys   = getSymbols ? getKeys(S).concat(getSymbols(S)) : getKeys(S)
-      , length = keys.length
-      , j      = 0
-      , key;
-    while(length > j)if(isEnum.call(S, key = keys[j++]))T[key] = S[key];
-  } return T;
-} : $assign;
-
-/***/ }),
-/* 109 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = { "default": __webpack_require__(110), __esModule: true };
-
-/***/ }),
-/* 110 */
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__(111);
-var $Object = __webpack_require__(10).Object;
-module.exports = function defineProperty(it, key, desc){
-  return $Object.defineProperty(it, key, desc);
-};
-
-/***/ }),
-/* 111 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var $export = __webpack_require__(13);
-// 19.1.2.4 / 15.2.3.6 Object.defineProperty(O, P, Attributes)
-$export($export.S + $export.F * !__webpack_require__(18), 'Object', {defineProperty: __webpack_require__(14).f});
-
-/***/ }),
-/* 112 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = { "default": __webpack_require__(113), __esModule: true };
-
-/***/ }),
-/* 113 */
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__(59);
-__webpack_require__(114);
-module.exports = __webpack_require__(10).Array.from;
-
-/***/ }),
-/* 114 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var ctx            = __webpack_require__(42)
-  , $export        = __webpack_require__(13)
-  , toObject       = __webpack_require__(23)
-  , call           = __webpack_require__(115)
-  , isArrayIter    = __webpack_require__(116)
-  , toLength       = __webpack_require__(54)
-  , createProperty = __webpack_require__(117)
-  , getIterFn      = __webpack_require__(118);
-
-$export($export.S + $export.F * !__webpack_require__(120)(function(iter){ Array.from(iter); }), 'Array', {
-  // 22.1.2.1 Array.from(arrayLike, mapfn = undefined, thisArg = undefined)
-  from: function from(arrayLike/*, mapfn = undefined, thisArg = undefined*/){
-    var O       = toObject(arrayLike)
-      , C       = typeof this == 'function' ? this : Array
-      , aLen    = arguments.length
-      , mapfn   = aLen > 1 ? arguments[1] : undefined
-      , mapping = mapfn !== undefined
-      , index   = 0
-      , iterFn  = getIterFn(O)
-      , length, result, step, iterator;
-    if(mapping)mapfn = ctx(mapfn, aLen > 2 ? arguments[2] : undefined, 2);
-    // if object isn't iterable or it's array with default iterator - use simple case
-    if(iterFn != undefined && !(C == Array && isArrayIter(iterFn))){
-      for(iterator = iterFn.call(O), result = new C; !(step = iterator.next()).done; index++){
-        createProperty(result, index, mapping ? call(iterator, mapfn, [step.value, index], true) : step.value);
-      }
-    } else {
-      length = toLength(O.length);
-      for(result = new C(length); length > index; index++){
-        createProperty(result, index, mapping ? mapfn(O[index], index) : O[index]);
-      }
-    }
-    result.length = index;
-    return result;
-  }
-});
-
-
-/***/ }),
-/* 115 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// call something on iterator step with safe closing on error
-var anObject = __webpack_require__(21);
-module.exports = function(iterator, fn, value, entries){
-  try {
-    return entries ? fn(anObject(value)[0], value[1]) : fn(value);
-  // 7.4.6 IteratorClose(iterator, completion)
-  } catch(e){
-    var ret = iterator['return'];
-    if(ret !== undefined)anObject(ret.call(iterator));
-    throw e;
-  }
-};
-
-/***/ }),
-/* 116 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// check on default Array iterator
-var Iterators  = __webpack_require__(26)
-  , ITERATOR   = __webpack_require__(11)('iterator')
-  , ArrayProto = Array.prototype;
-
-module.exports = function(it){
-  return it !== undefined && (Iterators.Array === it || ArrayProto[ITERATOR] === it);
-};
-
-/***/ }),
-/* 117 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var $defineProperty = __webpack_require__(14)
-  , createDesc      = __webpack_require__(25);
-
-module.exports = function(object, index, value){
-  if(index in object)$defineProperty.f(object, index, createDesc(0, value));
-  else object[index] = value;
-};
-
-/***/ }),
-/* 118 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var classof   = __webpack_require__(119)
-  , ITERATOR  = __webpack_require__(11)('iterator')
-  , Iterators = __webpack_require__(26);
-module.exports = __webpack_require__(10).getIteratorMethod = function(it){
-  if(it != undefined)return it[ITERATOR]
-    || it['@@iterator']
-    || Iterators[classof(it)];
-};
-
-/***/ }),
-/* 119 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// getting tag from 19.1.3.6 Object.prototype.toString()
-var cof = __webpack_require__(37)
-  , TAG = __webpack_require__(11)('toStringTag')
-  // ES3 wrong here
-  , ARG = cof(function(){ return arguments; }()) == 'Arguments';
-
-// fallback for IE11 Script Access Denied error
-var tryGet = function(it, key){
-  try {
-    return it[key];
-  } catch(e){ /* empty */ }
-};
-
-module.exports = function(it){
-  var O, T, B;
-  return it === undefined ? 'Undefined' : it === null ? 'Null'
-    // @@toStringTag case
-    : typeof (T = tryGet(O = Object(it), TAG)) == 'string' ? T
-    // builtinTag case
-    : ARG ? cof(O)
-    // ES3 arguments fallback
-    : (B = cof(O)) == 'Object' && typeof O.callee == 'function' ? 'Arguments' : B;
-};
-
-/***/ }),
-/* 120 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var ITERATOR     = __webpack_require__(11)('iterator')
-  , SAFE_CLOSING = false;
-
-try {
-  var riter = [7][ITERATOR]();
-  riter['return'] = function(){ SAFE_CLOSING = true; };
-  Array.from(riter, function(){ throw 2; });
-} catch(e){ /* empty */ }
-
-module.exports = function(exec, skipClosing){
-  if(!skipClosing && !SAFE_CLOSING)return false;
-  var safe = false;
-  try {
-    var arr  = [7]
-      , iter = arr[ITERATOR]();
-    iter.next = function(){ return {done: safe = true}; };
-    arr[ITERATOR] = function(){ return iter; };
-    exec(arr);
-  } catch(e){ /* empty */ }
-  return safe;
-};
-
-/***/ }),
-/* 121 */
+/* 72 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4428,12 +3584,270 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _keys = __webpack_require__(51);
+var _getPrototypeOf = __webpack_require__(2);
+
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+var _classCallCheck2 = __webpack_require__(0);
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = __webpack_require__(1);
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _possibleConstructorReturn2 = __webpack_require__(4);
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = __webpack_require__(3);
+
+var _inherits3 = _interopRequireDefault(_inherits2);
+
+var _Board2 = __webpack_require__(28);
+
+var _Board3 = _interopRequireDefault(_Board2);
+
+var _index = __webpack_require__(31);
+
+var _index2 = _interopRequireDefault(_index);
+
+var _mode = __webpack_require__(57);
+
+var _mode2 = _interopRequireDefault(_mode);
+
+var _version = __webpack_require__(32);
+
+var _version2 = _interopRequireDefault(_version);
+
+var _settings = __webpack_require__(19);
+
+var _settings2 = _interopRequireDefault(_settings);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//支持位置
+var SUPPORT_INDEX = _settings2.default.SUPPORTLIST.indexOf('MegaPi');
+
+//实现一个板子就注册一个板子名称
+
+var MegaPi = function (_Board) {
+  (0, _inherits3.default)(MegaPi, _Board);
+
+  function MegaPi(conf) {
+    (0, _classCallCheck3.default)(this, MegaPi);
+
+    var _this = (0, _possibleConstructorReturn3.default)(this, (MegaPi.__proto__ || (0, _getPrototypeOf2.default)(MegaPi)).call(this, conf));
+    //继承 Board
+
+
+    var this_ = _this;
+    //固件当前模式
+    _this.currentMode = null;
+    //固件版本
+    _this.version = null;
+    // 置空已连接块
+    _this.connecting = {};
+    // 挂载电子模块
+
+    var _loop = function _loop(name) {
+      var eModule = _index2.default[name];
+      if (eModule.supportStamp().charAt(SUPPORT_INDEX) === '1') {
+        _this[name] = function () {
+          return this_.eModuleFactory(eModule, arguments);
+        };
+      }
+    };
+
+    for (var name in _index2.default) {
+      _loop(name);
+    }
+    return _this;
+  }
+
+  /**
+   * 获取版本号，所有主控板支持
+   * @param  {!Function} callback
+   */
+
+
+  (0, _createClass3.default)(MegaPi, [{
+    key: 'getVersion',
+    value: function getVersion(callback) {
+      var this_ = this;
+      if (this.version) {
+        typeof callback == 'function' && callback(this.version);
+      } else {
+        _version2.default.getVersion(function (val) {
+          this_.version = val;
+          typeof callback == 'function' && this.version;
+        });
+      }
+    }
+
+    /**
+     * 设置固件模式
+     * @param {Number} mode 0、1、2、3、4
+     */
+
+  }, {
+    key: 'setFirmwareMode',
+    value: function setFirmwareMode(mode) {
+      var subCmd = 0x12;
+      _mode2.default.setMode(subCmd, mode);
+      return this;
+    }
+    /**
+     * 获取固件模式
+     * @param  {Function} callback 取值后回调函数
+     */
+    //TODO: 数据缓存
+
+  }, {
+    key: 'getFirmwareMode',
+    value: function getFirmwareMode(callback) {
+      var subCmd = 0x72;
+      _mode2.default.getMode(subCmd, callback);
+      return this;
+    }
+  }]);
+  return MegaPi;
+}(_Board3.default);
+
+exports.default = MegaPi;
+
+/***/ }),
+/* 73 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _getPrototypeOf = __webpack_require__(2);
+
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+var _classCallCheck2 = __webpack_require__(0);
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = __webpack_require__(1);
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _possibleConstructorReturn2 = __webpack_require__(4);
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = __webpack_require__(3);
+
+var _inherits3 = _interopRequireDefault(_inherits2);
+
+var _Board2 = __webpack_require__(28);
+
+var _Board3 = _interopRequireDefault(_Board2);
+
+var _index = __webpack_require__(31);
+
+var _index2 = _interopRequireDefault(_index);
+
+var _version = __webpack_require__(32);
+
+var _version2 = _interopRequireDefault(_version);
+
+var _settings = __webpack_require__(19);
+
+var _settings2 = _interopRequireDefault(_settings);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//支持位置
+var SUPPORT_INDEX = _settings2.default.SUPPORTLIST.indexOf('Orion');
+
+//实现一个板子就注册一个板子名称
+
+var Orion = function (_Board) {
+  (0, _inherits3.default)(Orion, _Board);
+
+  function Orion(conf) {
+    (0, _classCallCheck3.default)(this, Orion);
+
+    var _this = (0, _possibleConstructorReturn3.default)(this, (Orion.__proto__ || (0, _getPrototypeOf2.default)(Orion)).call(this, conf));
+    //继承 Board
+
+
+    var this_ = _this;
+    //固件版本
+    _this.version = null;
+    // 置空已连接块
+    _this.connecting = {};
+    // 挂载电子模块
+
+    var _loop = function _loop(name) {
+      var eModule = _index2.default[name];
+      if (eModule.supportStamp().charAt(SUPPORT_INDEX) === '1') {
+        _this[name] = function () {
+          return this_.eModuleFactory(eModule, arguments);
+        };
+      }
+    };
+
+    for (var name in _index2.default) {
+      _loop(name);
+    }
+    return _this;
+  }
+
+  /**
+   * 获取版本号，所有主控板支持
+   * @param  {!Function} callback
+   */
+
+
+  (0, _createClass3.default)(Orion, [{
+    key: 'getVersion',
+    value: function getVersion(callback) {
+      var this_ = this;
+      if (this.version) {
+        typeof callback == 'function' && callback(this.version);
+      } else {
+        _version2.default.getVersion(function (val) {
+          this_.version = val;
+          typeof callback == 'function' && this.version;
+        });
+      }
+    }
+  }]);
+  return Orion;
+}(_Board3.default);
+
+exports.default = Orion;
+
+/***/ }),
+/* 74 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _keys = __webpack_require__(52);
 
 var _keys2 = _interopRequireDefault(_keys);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * @fileOverview 通信
+ * @author jeremy
+ */
 //当前问题：发送请求超过 255 个时，进行了暴力覆盖。但是根据协议 index 大小，又只能识别 255 条请求
 
 // 控制方案一(待整理):
@@ -4579,7 +3993,7 @@ var Read = {
 exports.default = Read;
 
 /***/ }),
-/* 122 */
+/* 75 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4615,7 +4029,7 @@ var WriteControl = {
 exports.default = WriteControl;
 
 /***/ }),
-/* 123 */
+/* 76 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4794,7 +4208,7 @@ function Parse() {
 exports.default = new Parse();
 
 /***/ }),
-/* 124 */
+/* 77 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4804,7 +4218,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _getPrototypeOf = __webpack_require__(1);
+var _getPrototypeOf = __webpack_require__(2);
 
 var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
 
@@ -4812,11 +4226,11 @@ var _classCallCheck2 = __webpack_require__(0);
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-var _createClass2 = __webpack_require__(4);
+var _createClass2 = __webpack_require__(1);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _possibleConstructorReturn2 = __webpack_require__(2);
+var _possibleConstructorReturn2 = __webpack_require__(4);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
@@ -4824,7 +4238,7 @@ var _inherits2 = __webpack_require__(3);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _type = __webpack_require__(7);
+var _type = __webpack_require__(8);
 
 var _utils = __webpack_require__(5);
 
@@ -4834,7 +4248,7 @@ var _electronic = __webpack_require__(9);
 
 var _electronic2 = _interopRequireDefault(_electronic);
 
-var _cmd = __webpack_require__(8);
+var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
@@ -4844,29 +4258,41 @@ var _command2 = _interopRequireDefault(_command);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var VersionBase = function (_Electronic) {
-  (0, _inherits3.default)(VersionBase, _Electronic);
+var GPIOContinue = function (_Electronic) {
+  (0, _inherits3.default)(GPIOContinue, _Electronic);
 
-  function VersionBase() {
-    (0, _classCallCheck3.default)(this, VersionBase);
-    return (0, _possibleConstructorReturn3.default)(this, (VersionBase.__proto__ || (0, _getPrototypeOf2.default)(VersionBase)).call(this));
+  function GPIOContinue(port, key) {
+    (0, _classCallCheck3.default)(this, GPIOContinue);
+
+    var _this = (0, _possibleConstructorReturn3.default)(this, (GPIOContinue.__proto__ || (0, _getPrototypeOf2.default)(GPIOContinue)).call(this));
+
+    _this.args = {
+      port: (0, _type.defineNumber)(port),
+      key: (0, _type.defineNumber)(key)
+    };
+    return _this;
   }
 
-  (0, _createClass3.default)(VersionBase, [{
-    key: 'getVersion',
-    value: function getVersion(callback) {
-      var buf = _utils2.default.composer(_cmd2.default.readVersion);
+  (0, _createClass3.default)(GPIOContinue, [{
+    key: 'getData',
+    value: function getData(callback) {
+      var buf = _utils2.default.composer(_cmd2.default.readGPIOContinue, [this.args.port, this.args.key]);
       _command2.default.execRead(buf, callback);
       return this;
     }
+  }], [{
+    key: 'supportStamp',
+    value: function supportStamp() {
+      return '00001';
+    }
   }]);
-  return VersionBase;
+  return GPIOContinue;
 }(_electronic2.default);
 
-exports.default = VersionBase;
+exports.default = GPIOContinue;
 
 /***/ }),
-/* 125 */
+/* 78 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4876,7 +4302,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _getPrototypeOf = __webpack_require__(1);
+var _getPrototypeOf = __webpack_require__(2);
 
 var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
 
@@ -4884,11 +4310,11 @@ var _classCallCheck2 = __webpack_require__(0);
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-var _createClass2 = __webpack_require__(4);
+var _createClass2 = __webpack_require__(1);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _possibleConstructorReturn2 = __webpack_require__(2);
+var _possibleConstructorReturn2 = __webpack_require__(4);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
@@ -4896,17 +4322,361 @@ var _inherits2 = __webpack_require__(3);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _type = __webpack_require__(7);
+var _type = __webpack_require__(8);
 
 var _utils = __webpack_require__(5);
 
 var _utils2 = _interopRequireDefault(_utils);
 
-var _MotorBase2 = __webpack_require__(50);
+var _GyroBase2 = __webpack_require__(55);
+
+var _GyroBase3 = _interopRequireDefault(_GyroBase2);
+
+var _cmd = __webpack_require__(7);
+
+var _cmd2 = _interopRequireDefault(_cmd);
+
+var _command = __webpack_require__(6);
+
+var _command2 = _interopRequireDefault(_command);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var GyroOnBoard = function (_GyroBase) {
+  (0, _inherits3.default)(GyroOnBoard, _GyroBase);
+
+  function GyroOnBoard() {
+    (0, _classCallCheck3.default)(this, GyroOnBoard);
+    return (0, _possibleConstructorReturn3.default)(this, (GyroOnBoard.__proto__ || (0, _getPrototypeOf2.default)(GyroOnBoard)).call(this, 1));
+  }
+
+  (0, _createClass3.default)(GyroOnBoard, null, [{
+    key: 'supportStamp',
+    value: function supportStamp() {
+      return '0110';
+    }
+  }]);
+  return GyroOnBoard;
+}(_GyroBase3.default);
+
+exports.default = GyroOnBoard;
+
+/***/ }),
+/* 79 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _getPrototypeOf = __webpack_require__(2);
+
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+var _classCallCheck2 = __webpack_require__(0);
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = __webpack_require__(1);
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _possibleConstructorReturn2 = __webpack_require__(4);
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = __webpack_require__(3);
+
+var _inherits3 = _interopRequireDefault(_inherits2);
+
+var _type = __webpack_require__(8);
+
+var _utils = __webpack_require__(5);
+
+var _utils2 = _interopRequireDefault(_utils);
+
+var _electronic = __webpack_require__(9);
+
+var _electronic2 = _interopRequireDefault(_electronic);
+
+var _cmd = __webpack_require__(7);
+
+var _cmd2 = _interopRequireDefault(_cmd);
+
+var _command = __webpack_require__(6);
+
+var _command2 = _interopRequireDefault(_command);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var AnalogGPIO = function (_Electronic) {
+  (0, _inherits3.default)(AnalogGPIO, _Electronic);
+
+  function AnalogGPIO(port) {
+    (0, _classCallCheck3.default)(this, AnalogGPIO);
+
+    var _this = (0, _possibleConstructorReturn3.default)(this, (AnalogGPIO.__proto__ || (0, _getPrototypeOf2.default)(AnalogGPIO)).call(this));
+
+    _this.args = {
+      port: (0, _type.defineNumber)(port)
+    };
+    return _this;
+  }
+
+  (0, _createClass3.default)(AnalogGPIO, [{
+    key: 'getData',
+    value: function getData(callback) {
+      var buf = _utils2.default.composer(_cmd2.default.readAnalogGPIO, [this.args.port]);
+      _command2.default.execRead(buf, callback);
+      return this;
+    }
+  }], [{
+    key: 'supportStamp',
+    value: function supportStamp() {
+      return '00001';
+    }
+  }]);
+  return AnalogGPIO;
+}(_electronic2.default);
+
+exports.default = AnalogGPIO;
+
+/***/ }),
+/* 80 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _getPrototypeOf = __webpack_require__(2);
+
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+var _classCallCheck2 = __webpack_require__(0);
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = __webpack_require__(1);
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _possibleConstructorReturn2 = __webpack_require__(4);
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = __webpack_require__(3);
+
+var _inherits3 = _interopRequireDefault(_inherits2);
+
+var _type = __webpack_require__(8);
+
+var _utils = __webpack_require__(5);
+
+var _utils2 = _interopRequireDefault(_utils);
+
+var _electronic = __webpack_require__(9);
+
+var _electronic2 = _interopRequireDefault(_electronic);
+
+var _cmd = __webpack_require__(7);
+
+var _cmd2 = _interopRequireDefault(_cmd);
+
+var _command = __webpack_require__(6);
+
+var _command2 = _interopRequireDefault(_command);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Buzzer = function (_Electronic) {
+  (0, _inherits3.default)(Buzzer, _Electronic);
+
+  function Buzzer() {
+    (0, _classCallCheck3.default)(this, Buzzer);
+
+    var _this = (0, _possibleConstructorReturn3.default)(this, (Buzzer.__proto__ || (0, _getPrototypeOf2.default)(Buzzer)).call(this));
+
+    _this.args = {
+      tone: null,
+      beat: null
+    };
+    return _this;
+  }
+
+  /**
+   * set tone
+   * @param  {String} tone tone string, such as "C5"
+   */
+
+
+  (0, _createClass3.default)(Buzzer, [{
+    key: 'tone',
+    value: function tone(_tone) {
+      this.args.tone = (0, _type.defineString)(_tone.toUpperCase());
+      return this;
+    }
+
+    /**
+     * set beat
+     * @param  {Number} beat such as 250, 1000
+     */
+
+  }, {
+    key: 'beat',
+    value: function beat(_beat) {
+      this.args.beat = (0, _type.defineNumber)(_beat);
+      return this;
+    }
+  }, {
+    key: 'run',
+    value: function run() {
+      var buf = _utils2.default.composer(_cmd2.default.setTone, [this.args.tone, this.args.beat]);
+      _command2.default.execWrite(buf);
+      return this;
+    }
+  }], [{
+    key: 'supportStamp',
+    value: function supportStamp() {
+      return '1111';
+    }
+  }]);
+  return Buzzer;
+}(_electronic2.default);
+
+exports.default = Buzzer;
+
+/***/ }),
+/* 81 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _getPrototypeOf = __webpack_require__(2);
+
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+var _classCallCheck2 = __webpack_require__(0);
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = __webpack_require__(1);
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _possibleConstructorReturn2 = __webpack_require__(4);
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = __webpack_require__(3);
+
+var _inherits3 = _interopRequireDefault(_inherits2);
+
+var _type = __webpack_require__(8);
+
+var _utils = __webpack_require__(5);
+
+var _utils2 = _interopRequireDefault(_utils);
+
+var _electronic = __webpack_require__(9);
+
+var _electronic2 = _interopRequireDefault(_electronic);
+
+var _cmd = __webpack_require__(7);
+
+var _cmd2 = _interopRequireDefault(_cmd);
+
+var _command = __webpack_require__(6);
+
+var _command2 = _interopRequireDefault(_command);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Compass = function (_Electronic) {
+  (0, _inherits3.default)(Compass, _Electronic);
+
+  function Compass(port) {
+    (0, _classCallCheck3.default)(this, Compass);
+
+    var _this = (0, _possibleConstructorReturn3.default)(this, (Compass.__proto__ || (0, _getPrototypeOf2.default)(Compass)).call(this));
+
+    _this.args = {
+      port: (0, _type.defineNumber)(port)
+    };
+    return _this;
+  }
+
+  (0, _createClass3.default)(Compass, [{
+    key: 'getData',
+    value: function getData(callback) {
+      var buf = _utils2.default.composer(_cmd2.default.readCompass, [this.args.port]);
+      _command2.default.execRead(buf, callback);
+      return this;
+    }
+  }], [{
+    key: 'supportStamp',
+    value: function supportStamp() {
+      return '1110';
+    }
+  }]);
+  return Compass;
+}(_electronic2.default);
+
+exports.default = Compass;
+
+/***/ }),
+/* 82 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _getPrototypeOf = __webpack_require__(2);
+
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+var _classCallCheck2 = __webpack_require__(0);
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = __webpack_require__(1);
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _possibleConstructorReturn2 = __webpack_require__(4);
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = __webpack_require__(3);
+
+var _inherits3 = _interopRequireDefault(_inherits2);
+
+var _type = __webpack_require__(8);
+
+var _utils = __webpack_require__(5);
+
+var _utils2 = _interopRequireDefault(_utils);
+
+var _MotorBase2 = __webpack_require__(37);
 
 var _MotorBase3 = _interopRequireDefault(_MotorBase2);
 
-var _cmd = __webpack_require__(8);
+var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
@@ -4949,7 +4719,7 @@ var DcMotor = function (_MotorBase) {
 exports.default = DcMotor;
 
 /***/ }),
-/* 126 */
+/* 83 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4959,7 +4729,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _getPrototypeOf = __webpack_require__(1);
+var _getPrototypeOf = __webpack_require__(2);
 
 var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
 
@@ -4967,11 +4737,11 @@ var _classCallCheck2 = __webpack_require__(0);
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-var _createClass2 = __webpack_require__(4);
+var _createClass2 = __webpack_require__(1);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _possibleConstructorReturn2 = __webpack_require__(2);
+var _possibleConstructorReturn2 = __webpack_require__(4);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
@@ -4979,7 +4749,7 @@ var _inherits2 = __webpack_require__(3);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _type = __webpack_require__(7);
+var _type = __webpack_require__(8);
 
 var _utils = __webpack_require__(5);
 
@@ -4989,7 +4759,7 @@ var _electronic = __webpack_require__(9);
 
 var _electronic2 = _interopRequireDefault(_electronic);
 
-var _cmd = __webpack_require__(8);
+var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
@@ -4999,65 +4769,40 @@ var _command2 = _interopRequireDefault(_command);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var VirtualJoystick = function (_Electronic) {
-  (0, _inherits3.default)(VirtualJoystick, _Electronic);
+var DigGPIO = function (_Electronic) {
+  (0, _inherits3.default)(DigGPIO, _Electronic);
 
-  function VirtualJoystick() {
-    (0, _classCallCheck3.default)(this, VirtualJoystick);
+  function DigGPIO(port) {
+    (0, _classCallCheck3.default)(this, DigGPIO);
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (VirtualJoystick.__proto__ || (0, _getPrototypeOf2.default)(VirtualJoystick)).call(this));
+    var _this = (0, _possibleConstructorReturn3.default)(this, (DigGPIO.__proto__ || (0, _getPrototypeOf2.default)(DigGPIO)).call(this));
 
     _this.args = {
-      leftSpeed: 0,
-      rightSpeed: 0
+      port: (0, _type.defineNumber)(port)
     };
     return _this;
   }
 
-  (0, _createClass3.default)(VirtualJoystick, [{
-    key: 'speed',
-    value: function speed(leftSpeed, rightSpeed) {
-      this.args.leftSpeed = leftSpeed || 0;
-      this.args.rightSpeed = rightSpeed || 0;
+  (0, _createClass3.default)(DigGPIO, [{
+    key: 'getData',
+    value: function getData(callback) {
+      var buf = _utils2.default.composer(_cmd2.default.readDigGPIO, [this.args.port]);
+      _command2.default.execRead(buf, callback);
       return this;
-    }
-  }, {
-    key: 'leftSpeed',
-    value: function leftSpeed(speed) {
-      this.args.leftSpeed = speed || 0;
-      return this;
-    }
-  }, {
-    key: 'rightSpeed',
-    value: function rightSpeed(speed) {
-      this.args.rightSpeed = speed || 0;
-      return this;
-    }
-  }, {
-    key: 'run',
-    value: function run() {
-      var buf = _utils2.default.composer(_cmd2.default.setJoystick, [this.args.leftSpeed, this.args.rightSpeed]);
-      _command2.default.execWrite(buf);
-      return this;
-    }
-  }, {
-    key: 'stop',
-    value: function stop() {
-      return this.speed(0, 0).run();
     }
   }], [{
     key: 'supportStamp',
     value: function supportStamp() {
-      return '1111';
+      return '00001';
     }
   }]);
-  return VirtualJoystick;
+  return DigGPIO;
 }(_electronic2.default);
 
-exports.default = VirtualJoystick;
+exports.default = DigGPIO;
 
 /***/ }),
-/* 127 */
+/* 84 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5067,7 +4812,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _getPrototypeOf = __webpack_require__(1);
+var _getPrototypeOf = __webpack_require__(2);
 
 var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
 
@@ -5075,11 +4820,11 @@ var _classCallCheck2 = __webpack_require__(0);
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-var _createClass2 = __webpack_require__(4);
+var _createClass2 = __webpack_require__(1);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _possibleConstructorReturn2 = __webpack_require__(2);
+var _possibleConstructorReturn2 = __webpack_require__(4);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
@@ -5087,7 +4832,7 @@ var _inherits2 = __webpack_require__(3);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _type = __webpack_require__(7);
+var _type = __webpack_require__(8);
 
 var _utils = __webpack_require__(5);
 
@@ -5097,7 +4842,7 @@ var _electronic = __webpack_require__(9);
 
 var _electronic2 = _interopRequireDefault(_electronic);
 
-var _cmd = __webpack_require__(8);
+var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
@@ -5107,70 +4852,41 @@ var _command2 = _interopRequireDefault(_command);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var VirtualJoystickForBalance = function (_Electronic) {
-  (0, _inherits3.default)(VirtualJoystickForBalance, _Electronic);
+var DoubleGPIO = function (_Electronic) {
+  (0, _inherits3.default)(DoubleGPIO, _Electronic);
 
-  function VirtualJoystickForBalance() {
-    (0, _classCallCheck3.default)(this, VirtualJoystickForBalance);
+  function DoubleGPIO(port1, port2) {
+    (0, _classCallCheck3.default)(this, DoubleGPIO);
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (VirtualJoystickForBalance.__proto__ || (0, _getPrototypeOf2.default)(VirtualJoystickForBalance)).call(this));
+    var _this = (0, _possibleConstructorReturn3.default)(this, (DoubleGPIO.__proto__ || (0, _getPrototypeOf2.default)(DoubleGPIO)).call(this));
 
     _this.args = {
-      speed: 0,
-      turnRange: 0
+      port1: (0, _type.defineNumber)(port1),
+      port2: (0, _type.defineNumber)(port2)
     };
     return _this;
   }
 
-  (0, _createClass3.default)(VirtualJoystickForBalance, [{
-    key: 'speed',
-    value: function speed(leftSpeed) {
-      this.args.speed = leftSpeed || 0;
+  (0, _createClass3.default)(DoubleGPIO, [{
+    key: 'getData',
+    value: function getData(callback) {
+      var buf = _utils2.default.composer(_cmd2.default.readDoubleGPIO, [this.args.port1, this.args.port2]);
+      _command2.default.execRead(buf, callback);
       return this;
-    }
-  }, {
-    key: 'turnRange',
-    value: function turnRange(range) {
-      this.args.turnRange = range || 0;
-      return this;
-    }
-  }, {
-    key: 'run',
-    value: function run() {
-      var buf = _utils2.default.composer(_cmd2.default.setVirtualJoystickForBalance, [this.args.turnRange, this.args.speed]);
-      _command2.default.execWrite(buf);
-      return this;
-    }
-
-    /**
-     * run reversely
-     * @return {Object} the instance
-     */
-
-  }, {
-    key: 'reverse',
-    value: function reverse() {
-      this.speed(-1 * this.args.speed);
-      return this.run();
-    }
-  }, {
-    key: 'stop',
-    value: function stop() {
-      return this.speed(0).run();
     }
   }], [{
     key: 'supportStamp',
     value: function supportStamp() {
-      return '0110';
+      return '00001';
     }
   }]);
-  return VirtualJoystickForBalance;
+  return DoubleGPIO;
 }(_electronic2.default);
 
-exports.default = VirtualJoystickForBalance;
+exports.default = DoubleGPIO;
 
 /***/ }),
-/* 128 */
+/* 85 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5180,11 +4896,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _assign = __webpack_require__(15);
+var _assign = __webpack_require__(12);
 
 var _assign2 = _interopRequireDefault(_assign);
 
-var _getPrototypeOf = __webpack_require__(1);
+var _getPrototypeOf = __webpack_require__(2);
 
 var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
 
@@ -5192,11 +4908,11 @@ var _classCallCheck2 = __webpack_require__(0);
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-var _createClass2 = __webpack_require__(4);
+var _createClass2 = __webpack_require__(1);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _possibleConstructorReturn2 = __webpack_require__(2);
+var _possibleConstructorReturn2 = __webpack_require__(4);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
@@ -5204,129 +4920,17 @@ var _inherits2 = __webpack_require__(3);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _type = __webpack_require__(7);
+var _type = __webpack_require__(8);
 
 var _utils = __webpack_require__(5);
 
 var _utils2 = _interopRequireDefault(_utils);
 
-var _MotorBase2 = __webpack_require__(50);
-
-var _MotorBase3 = _interopRequireDefault(_MotorBase2);
-
-var _cmd = __webpack_require__(8);
-
-var _cmd2 = _interopRequireDefault(_cmd);
-
-var _command = __webpack_require__(6);
-
-var _command2 = _interopRequireDefault(_command);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var StepperMotor = function (_MotorBase) {
-  (0, _inherits3.default)(StepperMotor, _MotorBase);
-
-  function StepperMotor(port) {
-    (0, _classCallCheck3.default)(this, StepperMotor);
-
-    var _this = (0, _possibleConstructorReturn3.default)(this, (StepperMotor.__proto__ || (0, _getPrototypeOf2.default)(StepperMotor)).call(this, port));
-
-    (0, _assign2.default)(_this.args, {
-      distance: 0
-    });
-    return _this;
-  }
-
-  /**
-   * set distance
-   * @param  {Number} speed
-   * @return {Object} the instance
-   */
-
-
-  (0, _createClass3.default)(StepperMotor, [{
-    key: 'distance',
-    value: function distance(_distance) {
-      this.args.distance = (0, _type.defineNumber)(_distance, 0);
-      return this;
-    }
-
-    /**
-     * run reversely
-     * @return {Object} the instance
-     */
-
-  }, {
-    key: 'reverse',
-    value: function reverse() {
-      this.speed(-1 * this.args.distance);
-      return this;
-    }
-  }, {
-    key: 'run',
-    value: function run() {
-      var buf = _utils2.default.composer(_cmd2.default.setStepperMotor, [this.args.port, this.args.speed, this.args.distance]);
-      _command2.default.execWrite(buf);
-      return this;
-    }
-  }], [{
-    key: 'supportStamp',
-    value: function supportStamp() {
-      return '0111';
-    }
-  }]);
-  return StepperMotor;
-}(_MotorBase3.default);
-
-exports.default = StepperMotor;
-
-/***/ }),
-/* 129 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _assign = __webpack_require__(15);
-
-var _assign2 = _interopRequireDefault(_assign);
-
-var _getPrototypeOf = __webpack_require__(1);
-
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
-
-var _classCallCheck2 = __webpack_require__(0);
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = __webpack_require__(4);
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-var _possibleConstructorReturn2 = __webpack_require__(2);
-
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-var _inherits2 = __webpack_require__(3);
-
-var _inherits3 = _interopRequireDefault(_inherits2);
-
-var _type = __webpack_require__(7);
-
-var _utils = __webpack_require__(5);
-
-var _utils2 = _interopRequireDefault(_utils);
-
-var _EncoderMotorBase2 = __webpack_require__(65);
+var _EncoderMotorBase2 = __webpack_require__(54);
 
 var _EncoderMotorBase3 = _interopRequireDefault(_EncoderMotorBase2);
 
-var _cmd = __webpack_require__(8);
+var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
@@ -5375,7 +4979,7 @@ var EncoderMotor = function (_EncoderMotorBase) {
 exports.default = EncoderMotor;
 
 /***/ }),
-/* 130 */
+/* 86 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5385,11 +4989,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _assign = __webpack_require__(15);
+var _assign = __webpack_require__(12);
 
 var _assign2 = _interopRequireDefault(_assign);
 
-var _getPrototypeOf = __webpack_require__(1);
+var _getPrototypeOf = __webpack_require__(2);
 
 var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
 
@@ -5397,11 +5001,11 @@ var _classCallCheck2 = __webpack_require__(0);
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-var _createClass2 = __webpack_require__(4);
+var _createClass2 = __webpack_require__(1);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _possibleConstructorReturn2 = __webpack_require__(2);
+var _possibleConstructorReturn2 = __webpack_require__(4);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
@@ -5409,17 +5013,17 @@ var _inherits2 = __webpack_require__(3);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _type = __webpack_require__(7);
+var _type = __webpack_require__(8);
 
 var _utils = __webpack_require__(5);
 
 var _utils2 = _interopRequireDefault(_utils);
 
-var _EncoderMotorBase2 = __webpack_require__(65);
+var _EncoderMotorBase2 = __webpack_require__(54);
 
 var _EncoderMotorBase3 = _interopRequireDefault(_EncoderMotorBase2);
 
-var _cmd = __webpack_require__(8);
+var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
@@ -5481,7 +5085,7 @@ var EncoderMotorOnBoard = function (_EncoderMotorBase) {
 exports.default = EncoderMotorOnBoard;
 
 /***/ }),
-/* 131 */
+/* 87 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5491,7 +5095,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _getPrototypeOf = __webpack_require__(1);
+var _getPrototypeOf = __webpack_require__(2);
 
 var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
 
@@ -5499,11 +5103,11 @@ var _classCallCheck2 = __webpack_require__(0);
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-var _createClass2 = __webpack_require__(4);
+var _createClass2 = __webpack_require__(1);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _possibleConstructorReturn2 = __webpack_require__(2);
+var _possibleConstructorReturn2 = __webpack_require__(4);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
@@ -5511,7 +5115,7 @@ var _inherits2 = __webpack_require__(3);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _type = __webpack_require__(7);
+var _type = __webpack_require__(8);
 
 var _utils = __webpack_require__(5);
 
@@ -5521,7 +5125,1740 @@ var _electronic = __webpack_require__(9);
 
 var _electronic2 = _interopRequireDefault(_electronic);
 
-var _cmd = __webpack_require__(8);
+var _cmd = __webpack_require__(7);
+
+var _cmd2 = _interopRequireDefault(_cmd);
+
+var _command = __webpack_require__(6);
+
+var _command2 = _interopRequireDefault(_command);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Flame = function (_Electronic) {
+  (0, _inherits3.default)(Flame, _Electronic);
+
+  function Flame(port) {
+    (0, _classCallCheck3.default)(this, Flame);
+
+    var _this = (0, _possibleConstructorReturn3.default)(this, (Flame.__proto__ || (0, _getPrototypeOf2.default)(Flame)).call(this));
+
+    _this.args = {
+      port: (0, _type.defineNumber)(port)
+    };
+    return _this;
+  }
+
+  (0, _createClass3.default)(Flame, [{
+    key: 'getData',
+    value: function getData(callback) {
+      var buf = _utils2.default.composer(_cmd2.default.readFlame, [this.args.port]);
+      _command2.default.execRead(buf, callback);
+      return this;
+    }
+  }], [{
+    key: 'supportStamp',
+    value: function supportStamp() {
+      return '1111';
+    }
+  }]);
+  return Flame;
+}(_electronic2.default);
+
+exports.default = Flame;
+
+/***/ }),
+/* 88 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _getPrototypeOf = __webpack_require__(2);
+
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+var _classCallCheck2 = __webpack_require__(0);
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = __webpack_require__(1);
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _possibleConstructorReturn2 = __webpack_require__(4);
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = __webpack_require__(3);
+
+var _inherits3 = _interopRequireDefault(_inherits2);
+
+var _type = __webpack_require__(8);
+
+var _utils = __webpack_require__(5);
+
+var _utils2 = _interopRequireDefault(_utils);
+
+var _electronic = __webpack_require__(9);
+
+var _electronic2 = _interopRequireDefault(_electronic);
+
+var _cmd = __webpack_require__(7);
+
+var _cmd2 = _interopRequireDefault(_cmd);
+
+var _command = __webpack_require__(6);
+
+var _command2 = _interopRequireDefault(_command);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var FourKeys = function (_Electronic) {
+  (0, _inherits3.default)(FourKeys, _Electronic);
+
+  function FourKeys(port) {
+    (0, _classCallCheck3.default)(this, FourKeys);
+
+    var _this = (0, _possibleConstructorReturn3.default)(this, (FourKeys.__proto__ || (0, _getPrototypeOf2.default)(FourKeys)).call(this));
+
+    _this.args = {
+      port: (0, _type.defineNumber)(port),
+      key: 1
+    };
+    return _this;
+  }
+
+  /**
+   * 键位
+   * @param  {Number} index 键位：1、2、3、4
+   */
+
+
+  (0, _createClass3.default)(FourKeys, [{
+    key: 'key',
+    value: function key(index) {
+      this.args.key = (0, _type.defineNumber)(index, this.args.key);
+      return this;
+    }
+  }, {
+    key: 'getData',
+    value: function getData(callback) {
+      var buf = _utils2.default.composer(_cmd2.default.readFourKeys, [this.args.port, this.args.key]);
+      _command2.default.execRead(buf, callback);
+      return this;
+    }
+  }], [{
+    key: 'supportStamp',
+    value: function supportStamp() {
+      return '1111';
+    }
+  }]);
+  return FourKeys;
+}(_electronic2.default);
+
+exports.default = FourKeys;
+
+/***/ }),
+/* 89 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _getPrototypeOf = __webpack_require__(2);
+
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+var _classCallCheck2 = __webpack_require__(0);
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = __webpack_require__(1);
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _possibleConstructorReturn2 = __webpack_require__(4);
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = __webpack_require__(3);
+
+var _inherits3 = _interopRequireDefault(_inherits2);
+
+var _RgbLedBase2 = __webpack_require__(30);
+
+var _RgbLedBase3 = _interopRequireDefault(_RgbLedBase2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var FourLed = function (_RgbLedBase) {
+  (0, _inherits3.default)(FourLed, _RgbLedBase);
+
+  function FourLed(port) {
+    (0, _classCallCheck3.default)(this, FourLed);
+    return (0, _possibleConstructorReturn3.default)(this, (FourLed.__proto__ || (0, _getPrototypeOf2.default)(FourLed)).call(this, port, 2));
+  }
+
+  (0, _createClass3.default)(FourLed, null, [{
+    key: 'supportStamp',
+    value: function supportStamp() {
+      return '1111';
+    }
+  }]);
+  return FourLed;
+}(_RgbLedBase3.default);
+
+exports.default = FourLed;
+
+/***/ }),
+/* 90 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _getPrototypeOf = __webpack_require__(2);
+
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+var _classCallCheck2 = __webpack_require__(0);
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = __webpack_require__(1);
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _possibleConstructorReturn2 = __webpack_require__(4);
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = __webpack_require__(3);
+
+var _inherits3 = _interopRequireDefault(_inherits2);
+
+var _type = __webpack_require__(8);
+
+var _utils = __webpack_require__(5);
+
+var _utils2 = _interopRequireDefault(_utils);
+
+var _electronic = __webpack_require__(9);
+
+var _electronic2 = _interopRequireDefault(_electronic);
+
+var _cmd = __webpack_require__(7);
+
+var _cmd2 = _interopRequireDefault(_cmd);
+
+var _command = __webpack_require__(6);
+
+var _command2 = _interopRequireDefault(_command);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Gas = function (_Electronic) {
+  (0, _inherits3.default)(Gas, _Electronic);
+
+  function Gas(port) {
+    (0, _classCallCheck3.default)(this, Gas);
+
+    var _this = (0, _possibleConstructorReturn3.default)(this, (Gas.__proto__ || (0, _getPrototypeOf2.default)(Gas)).call(this));
+
+    _this.args = {
+      port: (0, _type.defineNumber)(port)
+    };
+    return _this;
+  }
+
+  (0, _createClass3.default)(Gas, [{
+    key: 'getData',
+    value: function getData(callback) {
+      var buf = _utils2.default.composer(_cmd2.default.readGas, [this.args.port]);
+      _command2.default.execRead(buf, callback);
+      return this;
+    }
+  }], [{
+    key: 'supportStamp',
+    value: function supportStamp() {
+      return '1111';
+    }
+  }]);
+  return Gas;
+}(_electronic2.default);
+
+exports.default = Gas;
+
+/***/ }),
+/* 91 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _getPrototypeOf = __webpack_require__(2);
+
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+var _classCallCheck2 = __webpack_require__(0);
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = __webpack_require__(1);
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _possibleConstructorReturn2 = __webpack_require__(4);
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = __webpack_require__(3);
+
+var _inherits3 = _interopRequireDefault(_inherits2);
+
+var _type = __webpack_require__(8);
+
+var _utils = __webpack_require__(5);
+
+var _utils2 = _interopRequireDefault(_utils);
+
+var _GyroBase2 = __webpack_require__(55);
+
+var _GyroBase3 = _interopRequireDefault(_GyroBase2);
+
+var _cmd = __webpack_require__(7);
+
+var _cmd2 = _interopRequireDefault(_cmd);
+
+var _command = __webpack_require__(6);
+
+var _command2 = _interopRequireDefault(_command);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Gyro = function (_GyroBase) {
+  (0, _inherits3.default)(Gyro, _GyroBase);
+
+  function Gyro(port) {
+    (0, _classCallCheck3.default)(this, Gyro);
+
+    //外接陀螺仪 port 始终传参为 0
+    return (0, _possibleConstructorReturn3.default)(this, (Gyro.__proto__ || (0, _getPrototypeOf2.default)(Gyro)).call(this, 0));
+  }
+
+  (0, _createClass3.default)(Gyro, null, [{
+    key: 'supportStamp',
+    value: function supportStamp() {
+      return '1111';
+    }
+  }]);
+  return Gyro;
+}(_GyroBase3.default);
+
+exports.default = Gyro;
+
+/***/ }),
+/* 92 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _getPrototypeOf = __webpack_require__(2);
+
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+var _classCallCheck2 = __webpack_require__(0);
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = __webpack_require__(1);
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _possibleConstructorReturn2 = __webpack_require__(4);
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = __webpack_require__(3);
+
+var _inherits3 = _interopRequireDefault(_inherits2);
+
+var _type = __webpack_require__(8);
+
+var _utils = __webpack_require__(5);
+
+var _utils2 = _interopRequireDefault(_utils);
+
+var _electronic = __webpack_require__(9);
+
+var _electronic2 = _interopRequireDefault(_electronic);
+
+var _cmd = __webpack_require__(7);
+
+var _cmd2 = _interopRequireDefault(_cmd);
+
+var _command = __webpack_require__(6);
+
+var _command2 = _interopRequireDefault(_command);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var commandRead = function commandRead(args, callback) {
+  var buf = _utils2.default.composer(_cmd2.default.readHumiture, [args.port, args.type]);
+  _command2.default.execRead(buf, callback);
+};
+
+var Humiture = function (_Electronic) {
+  (0, _inherits3.default)(Humiture, _Electronic);
+
+  function Humiture(port) {
+    (0, _classCallCheck3.default)(this, Humiture);
+
+    var _this = (0, _possibleConstructorReturn3.default)(this, (Humiture.__proto__ || (0, _getPrototypeOf2.default)(Humiture)).call(this));
+
+    _this.args = {
+      port: (0, _type.defineNumber)(port),
+      type: 0
+    };
+    return _this;
+  }
+
+  (0, _createClass3.default)(Humiture, [{
+    key: 'getHumidity',
+    value: function getHumidity(callback) {
+      this.args.type = 0;
+      commandRead(this.args, callback);
+      return this;
+    }
+  }, {
+    key: 'getTemperature',
+    value: function getTemperature(callback) {
+      this.args.type = 1;
+      commandRead(this.args, callback);
+      return this;
+    }
+  }], [{
+    key: 'supportStamp',
+    value: function supportStamp() {
+      return '1111';
+    }
+  }]);
+  return Humiture;
+}(_electronic2.default);
+
+exports.default = Humiture;
+
+/***/ }),
+/* 93 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _getPrototypeOf = __webpack_require__(2);
+
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+var _classCallCheck2 = __webpack_require__(0);
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = __webpack_require__(1);
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _possibleConstructorReturn2 = __webpack_require__(4);
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = __webpack_require__(3);
+
+var _inherits3 = _interopRequireDefault(_inherits2);
+
+var _type = __webpack_require__(8);
+
+var _utils = __webpack_require__(5);
+
+var _utils2 = _interopRequireDefault(_utils);
+
+var _electronic = __webpack_require__(9);
+
+var _electronic2 = _interopRequireDefault(_electronic);
+
+var _cmd = __webpack_require__(7);
+
+var _cmd2 = _interopRequireDefault(_cmd);
+
+var _command = __webpack_require__(6);
+
+var _command2 = _interopRequireDefault(_command);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Joystick = function (_Electronic) {
+  (0, _inherits3.default)(Joystick, _Electronic);
+
+  function Joystick(port) {
+    (0, _classCallCheck3.default)(this, Joystick);
+
+    var _this = (0, _possibleConstructorReturn3.default)(this, (Joystick.__proto__ || (0, _getPrototypeOf2.default)(Joystick)).call(this));
+
+    _this.args = {
+      port: (0, _type.defineNumber)(port),
+      axis: 1
+    };
+    return _this;
+  }
+
+  (0, _createClass3.default)(Joystick, [{
+    key: 'axis',
+    value: function axis(_axis) {
+      this.args.axis = (0, _type.defineNumber)(_axis, this.args.axis);
+      return this;
+    }
+  }, {
+    key: 'getData',
+    value: function getData(callback) {
+      var buf = _utils2.default.composer(_cmd2.default.readJoystick, [this.args.port, this.args.axis]);
+      _command2.default.execRead(buf, callback);
+      return this;
+    }
+  }], [{
+    key: 'supportStamp',
+    value: function supportStamp() {
+      return '1111';
+    }
+  }]);
+  return Joystick;
+}(_electronic2.default);
+
+exports.default = Joystick;
+
+/***/ }),
+/* 94 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _assign = __webpack_require__(12);
+
+var _assign2 = _interopRequireDefault(_assign);
+
+var _getPrototypeOf = __webpack_require__(2);
+
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+var _classCallCheck2 = __webpack_require__(0);
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = __webpack_require__(1);
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _possibleConstructorReturn2 = __webpack_require__(4);
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = __webpack_require__(3);
+
+var _inherits3 = _interopRequireDefault(_inherits2);
+
+var _type = __webpack_require__(8);
+
+var _utils = __webpack_require__(5);
+
+var _utils2 = _interopRequireDefault(_utils);
+
+var _LedMatrixBase2 = __webpack_require__(29);
+
+var _LedMatrixBase3 = _interopRequireDefault(_LedMatrixBase2);
+
+var _cmd = __webpack_require__(7);
+
+var _cmd2 = _interopRequireDefault(_cmd);
+
+var _command = __webpack_require__(6);
+
+var _command2 = _interopRequireDefault(_command);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var LedMatrixChar = function (_LedMatrixBase) {
+  (0, _inherits3.default)(LedMatrixChar, _LedMatrixBase);
+
+  function LedMatrixChar(port) {
+    (0, _classCallCheck3.default)(this, LedMatrixChar);
+
+    var _this = (0, _possibleConstructorReturn3.default)(this, (LedMatrixChar.__proto__ || (0, _getPrototypeOf2.default)(LedMatrixChar)).call(this, port));
+
+    (0, _assign2.default)(_this.args, {
+      x: null,
+      y: null,
+      char: null
+    });
+    return _this;
+  }
+
+  (0, _createClass3.default)(LedMatrixChar, [{
+    key: 'x',
+    value: function x(xAxis) {
+      this.args.x = xAxis;
+      return this;
+    }
+  }, {
+    key: 'y',
+    value: function y(yAxis) {
+      this.args.y = yAxis;
+      return this;
+    }
+  }, {
+    key: 'char',
+    value: function char(str) {
+      this.args.str = str;
+      return this;
+    }
+  }, {
+    key: 'run',
+    value: function run() {
+      var buf = _utils2.default.composer(_cmd2.default.setLedMatrixChar, [this.args.port, this.args.x, this.args.y, this.args.char]);
+      _command2.default.execWrite(buf);
+      return this;
+    }
+  }], [{
+    key: 'supportStamp',
+    value: function supportStamp() {
+      return '1110';
+    }
+  }]);
+  return LedMatrixChar;
+}(_LedMatrixBase3.default);
+
+exports.default = LedMatrixChar;
+
+/***/ }),
+/* 95 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _assign = __webpack_require__(12);
+
+var _assign2 = _interopRequireDefault(_assign);
+
+var _getPrototypeOf = __webpack_require__(2);
+
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+var _classCallCheck2 = __webpack_require__(0);
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = __webpack_require__(1);
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _possibleConstructorReturn2 = __webpack_require__(4);
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = __webpack_require__(3);
+
+var _inherits3 = _interopRequireDefault(_inherits2);
+
+var _utils = __webpack_require__(5);
+
+var _utils2 = _interopRequireDefault(_utils);
+
+var _LedMatrixBase2 = __webpack_require__(29);
+
+var _LedMatrixBase3 = _interopRequireDefault(_LedMatrixBase2);
+
+var _cmd = __webpack_require__(7);
+
+var _cmd2 = _interopRequireDefault(_cmd);
+
+var _command = __webpack_require__(6);
+
+var _command2 = _interopRequireDefault(_command);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var LedMatrixEmotion = function (_LedMatrixBase) {
+  (0, _inherits3.default)(LedMatrixEmotion, _LedMatrixBase);
+
+  function LedMatrixEmotion(port) {
+    (0, _classCallCheck3.default)(this, LedMatrixEmotion);
+
+    var _this = (0, _possibleConstructorReturn3.default)(this, (LedMatrixEmotion.__proto__ || (0, _getPrototypeOf2.default)(LedMatrixEmotion)).call(this, port));
+
+    (0, _assign2.default)(_this.args, {
+      x: null,
+      y: null,
+      emotion: null
+    });
+    return _this;
+  }
+
+  (0, _createClass3.default)(LedMatrixEmotion, [{
+    key: 'x',
+    value: function x(xAxis) {
+      this.args.x = xAxis;
+      return this;
+    }
+  }, {
+    key: 'y',
+    value: function y(yAxis) {
+      this.args.y = yAxis;
+      return this;
+    }
+  }, {
+    key: 'emotion',
+    value: function emotion(_emotion) {
+      this.args.emotion = _emotion;
+      return this;
+    }
+  }, {
+    key: 'run',
+    value: function run() {
+      var buf = _utils2.default.composer(_cmd2.default.setLedMatrixEmotion, [this.args.port, this.args.x, this.args.y, this.args.emotion]);
+      _command2.default.execWrite(buf);
+      return this;
+    }
+  }], [{
+    key: 'supportStamp',
+    value: function supportStamp() {
+      return '1110';
+    }
+  }]);
+  return LedMatrixEmotion;
+}(_LedMatrixBase3.default);
+
+exports.default = LedMatrixEmotion;
+
+/***/ }),
+/* 96 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _assign = __webpack_require__(12);
+
+var _assign2 = _interopRequireDefault(_assign);
+
+var _getPrototypeOf = __webpack_require__(2);
+
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+var _classCallCheck2 = __webpack_require__(0);
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = __webpack_require__(1);
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _possibleConstructorReturn2 = __webpack_require__(4);
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = __webpack_require__(3);
+
+var _inherits3 = _interopRequireDefault(_inherits2);
+
+var _type = __webpack_require__(8);
+
+var _utils = __webpack_require__(5);
+
+var _utils2 = _interopRequireDefault(_utils);
+
+var _LedMatrixBase2 = __webpack_require__(29);
+
+var _LedMatrixBase3 = _interopRequireDefault(_LedMatrixBase2);
+
+var _cmd = __webpack_require__(7);
+
+var _cmd2 = _interopRequireDefault(_cmd);
+
+var _command = __webpack_require__(6);
+
+var _command2 = _interopRequireDefault(_command);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var LedMatrixNumber = function (_LedMatrixBase) {
+  (0, _inherits3.default)(LedMatrixNumber, _LedMatrixBase);
+
+  function LedMatrixNumber(port) {
+    (0, _classCallCheck3.default)(this, LedMatrixNumber);
+
+    var _this = (0, _possibleConstructorReturn3.default)(this, (LedMatrixNumber.__proto__ || (0, _getPrototypeOf2.default)(LedMatrixNumber)).call(this, port));
+
+    (0, _assign2.default)(_this.args, {
+      number: null
+    });
+    return _this;
+  }
+
+  (0, _createClass3.default)(LedMatrixNumber, [{
+    key: 'number',
+    value: function number(num) {
+      this.args.number = (0, _type.defineNumber)(num);
+      return this;
+    }
+  }, {
+    key: 'run',
+    value: function run() {
+      var buf = _utils2.default.composer(_cmd2.default.setLedMatrixNumber, [this.args.port, this.args.number]);
+      _command2.default.execWrite(buf);
+      return this;
+    }
+  }], [{
+    key: 'supportStamp',
+    value: function supportStamp() {
+      return '1110';
+    }
+  }]);
+  return LedMatrixNumber;
+}(_LedMatrixBase3.default);
+
+exports.default = LedMatrixNumber;
+
+/***/ }),
+/* 97 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _assign = __webpack_require__(12);
+
+var _assign2 = _interopRequireDefault(_assign);
+
+var _getPrototypeOf = __webpack_require__(2);
+
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+var _classCallCheck2 = __webpack_require__(0);
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = __webpack_require__(1);
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _possibleConstructorReturn2 = __webpack_require__(4);
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = __webpack_require__(3);
+
+var _inherits3 = _interopRequireDefault(_inherits2);
+
+var _type = __webpack_require__(8);
+
+var _utils = __webpack_require__(5);
+
+var _utils2 = _interopRequireDefault(_utils);
+
+var _LedMatrixBase2 = __webpack_require__(29);
+
+var _LedMatrixBase3 = _interopRequireDefault(_LedMatrixBase2);
+
+var _cmd = __webpack_require__(7);
+
+var _cmd2 = _interopRequireDefault(_cmd);
+
+var _command = __webpack_require__(6);
+
+var _command2 = _interopRequireDefault(_command);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var LedMatrixTime = function (_LedMatrixBase) {
+  (0, _inherits3.default)(LedMatrixTime, _LedMatrixBase);
+
+  function LedMatrixTime(port) {
+    (0, _classCallCheck3.default)(this, LedMatrixTime);
+
+    var _this = (0, _possibleConstructorReturn3.default)(this, (LedMatrixTime.__proto__ || (0, _getPrototypeOf2.default)(LedMatrixTime)).call(this, port));
+
+    (0, _assign2.default)(_this.args, {
+      separator: null,
+      hour: null,
+      minute: null
+    });
+    return _this;
+  }
+
+  (0, _createClass3.default)(LedMatrixTime, [{
+    key: 'separator',
+    value: function separator(_separator) {
+      this.args.separator = _separator;
+      return this;
+    }
+  }, {
+    key: 'hour',
+    value: function hour(h) {
+      this.args.hour = (0, _type.defineNumber)(h);
+      return this;
+    }
+  }, {
+    key: 'minute',
+    value: function minute(m) {
+      this.args.minute = (0, _type.defineNumber)(m);
+      return this;
+    }
+  }, {
+    key: 'run',
+    value: function run() {
+      var buf = _utils2.default.composer(_cmd2.default.setLedMatrixTime, [this.args.port, this.args.separator, this.args.hour, this.args.minute]);
+      _command2.default.execWrite(buf);
+      return this;
+    }
+  }], [{
+    key: 'supportStamp',
+    value: function supportStamp() {
+      return '1110';
+    }
+  }]);
+  return LedMatrixTime;
+}(_LedMatrixBase3.default);
+
+exports.default = LedMatrixTime;
+
+/***/ }),
+/* 98 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _getPrototypeOf = __webpack_require__(2);
+
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+var _classCallCheck2 = __webpack_require__(0);
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = __webpack_require__(1);
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _possibleConstructorReturn2 = __webpack_require__(4);
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = __webpack_require__(3);
+
+var _inherits3 = _interopRequireDefault(_inherits2);
+
+var _RgbLedBase2 = __webpack_require__(30);
+
+var _RgbLedBase3 = _interopRequireDefault(_RgbLedBase2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var LedPanelOnBoard = function (_RgbLedBase) {
+  (0, _inherits3.default)(LedPanelOnBoard, _RgbLedBase);
+
+  function LedPanelOnBoard() {
+    (0, _classCallCheck3.default)(this, LedPanelOnBoard);
+    return (0, _possibleConstructorReturn3.default)(this, (LedPanelOnBoard.__proto__ || (0, _getPrototypeOf2.default)(LedPanelOnBoard)).call(this, 0, 2));
+  }
+
+  //主控支持戳：描述各主控的支持情况
+
+
+  (0, _createClass3.default)(LedPanelOnBoard, null, [{
+    key: 'supportStamp',
+    value: function supportStamp() {
+      return '1111';
+    }
+  }]);
+  return LedPanelOnBoard;
+}(_RgbLedBase3.default);
+
+exports.default = LedPanelOnBoard;
+
+/***/ }),
+/* 99 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _getPrototypeOf = __webpack_require__(2);
+
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+var _classCallCheck2 = __webpack_require__(0);
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = __webpack_require__(1);
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _possibleConstructorReturn2 = __webpack_require__(4);
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = __webpack_require__(3);
+
+var _inherits3 = _interopRequireDefault(_inherits2);
+
+var _type = __webpack_require__(8);
+
+var _utils = __webpack_require__(5);
+
+var _utils2 = _interopRequireDefault(_utils);
+
+var _electronic = __webpack_require__(9);
+
+var _electronic2 = _interopRequireDefault(_electronic);
+
+var _cmd = __webpack_require__(7);
+
+var _cmd2 = _interopRequireDefault(_cmd);
+
+var _command = __webpack_require__(6);
+
+var _command2 = _interopRequireDefault(_command);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Light = function (_Electronic) {
+  (0, _inherits3.default)(Light, _Electronic);
+
+  function Light(port) {
+    (0, _classCallCheck3.default)(this, Light);
+
+    var _this = (0, _possibleConstructorReturn3.default)(this, (Light.__proto__ || (0, _getPrototypeOf2.default)(Light)).call(this));
+
+    _this.args = {
+      port: (0, _type.defineNumber)(port)
+    };
+    return _this;
+  }
+
+  (0, _createClass3.default)(Light, [{
+    key: 'getData',
+    value: function getData(callback) {
+      var buf = _utils2.default.composer(_cmd2.default.readLight, [this.args.port]);
+      _command2.default.execRead(buf, callback);
+      return this;
+    }
+  }], [{
+    key: 'supportStamp',
+    value: function supportStamp() {
+      return '1111';
+    }
+  }]);
+  return Light;
+}(_electronic2.default);
+
+exports.default = Light;
+
+/***/ }),
+/* 100 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _getPrototypeOf = __webpack_require__(2);
+
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+var _classCallCheck2 = __webpack_require__(0);
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = __webpack_require__(1);
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _possibleConstructorReturn2 = __webpack_require__(4);
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = __webpack_require__(3);
+
+var _inherits3 = _interopRequireDefault(_inherits2);
+
+var _type = __webpack_require__(8);
+
+var _utils = __webpack_require__(5);
+
+var _utils2 = _interopRequireDefault(_utils);
+
+var _electronic = __webpack_require__(9);
+
+var _electronic2 = _interopRequireDefault(_electronic);
+
+var _cmd = __webpack_require__(7);
+
+var _cmd2 = _interopRequireDefault(_cmd);
+
+var _command = __webpack_require__(6);
+
+var _command2 = _interopRequireDefault(_command);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var LimitSwitch = function (_Electronic) {
+  (0, _inherits3.default)(LimitSwitch, _Electronic);
+
+  function LimitSwitch(port, slot) {
+    (0, _classCallCheck3.default)(this, LimitSwitch);
+
+    var _this = (0, _possibleConstructorReturn3.default)(this, (LimitSwitch.__proto__ || (0, _getPrototypeOf2.default)(LimitSwitch)).call(this));
+
+    _this.args = {
+      port: (0, _type.defineNumber)(port),
+      slot: (0, _type.defineNumber)(slot)
+    };
+    return _this;
+  }
+
+  (0, _createClass3.default)(LimitSwitch, [{
+    key: 'getData',
+    value: function getData(callback) {
+      var buf = _utils2.default.composer(_cmd2.default.readLimitSwitch, [this.args.port, this.args.slot]);
+      _command2.default.execRead(buf, callback);
+      return this;
+    }
+  }], [{
+    key: 'supportStamp',
+    value: function supportStamp() {
+      return '1111';
+    }
+  }]);
+  return LimitSwitch;
+}(_electronic2.default);
+
+exports.default = LimitSwitch;
+
+/***/ }),
+/* 101 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _getPrototypeOf = __webpack_require__(2);
+
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+var _classCallCheck2 = __webpack_require__(0);
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = __webpack_require__(1);
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _possibleConstructorReturn2 = __webpack_require__(4);
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = __webpack_require__(3);
+
+var _inherits3 = _interopRequireDefault(_inherits2);
+
+var _type = __webpack_require__(8);
+
+var _utils = __webpack_require__(5);
+
+var _utils2 = _interopRequireDefault(_utils);
+
+var _electronic = __webpack_require__(9);
+
+var _electronic2 = _interopRequireDefault(_electronic);
+
+var _cmd = __webpack_require__(7);
+
+var _cmd2 = _interopRequireDefault(_cmd);
+
+var _command = __webpack_require__(6);
+
+var _command2 = _interopRequireDefault(_command);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var LineFollower = function (_Electronic) {
+  (0, _inherits3.default)(LineFollower, _Electronic);
+
+  function LineFollower(port) {
+    (0, _classCallCheck3.default)(this, LineFollower);
+
+    var _this = (0, _possibleConstructorReturn3.default)(this, (LineFollower.__proto__ || (0, _getPrototypeOf2.default)(LineFollower)).call(this));
+
+    _this.args = {
+      port: (0, _type.defineNumber)(port)
+    };
+    return _this;
+  }
+
+  (0, _createClass3.default)(LineFollower, [{
+    key: 'getData',
+    value: function getData(callback) {
+      var buf = _utils2.default.composer(_cmd2.default.readLineFollower, [this.args.port]);
+      _command2.default.execRead(buf, callback);
+      return this;
+    }
+  }], [{
+    key: 'supportStamp',
+    value: function supportStamp() {
+      return '1111';
+    }
+  }]);
+  return LineFollower;
+}(_electronic2.default);
+
+exports.default = LineFollower;
+
+/***/ }),
+/* 102 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _getPrototypeOf = __webpack_require__(2);
+
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+var _classCallCheck2 = __webpack_require__(0);
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = __webpack_require__(1);
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _possibleConstructorReturn2 = __webpack_require__(4);
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = __webpack_require__(3);
+
+var _inherits3 = _interopRequireDefault(_inherits2);
+
+var _type = __webpack_require__(8);
+
+var _utils = __webpack_require__(5);
+
+var _utils2 = _interopRequireDefault(_utils);
+
+var _electronic = __webpack_require__(9);
+
+var _electronic2 = _interopRequireDefault(_electronic);
+
+var _cmd = __webpack_require__(7);
+
+var _cmd2 = _interopRequireDefault(_cmd);
+
+var _command = __webpack_require__(6);
+
+var _command2 = _interopRequireDefault(_command);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Pirmotion = function (_Electronic) {
+  (0, _inherits3.default)(Pirmotion, _Electronic);
+
+  function Pirmotion(port) {
+    (0, _classCallCheck3.default)(this, Pirmotion);
+
+    var _this = (0, _possibleConstructorReturn3.default)(this, (Pirmotion.__proto__ || (0, _getPrototypeOf2.default)(Pirmotion)).call(this));
+
+    _this.args = {
+      port: (0, _type.defineNumber)(port)
+    };
+    return _this;
+  }
+
+  (0, _createClass3.default)(Pirmotion, [{
+    key: 'getData',
+    value: function getData(callback) {
+      var buf = _utils2.default.composer(_cmd2.default.readPirmotion, [this.args.port]);
+      _command2.default.execRead(buf, callback);
+      return this;
+    }
+  }], [{
+    key: 'supportStamp',
+    value: function supportStamp() {
+      return '1111';
+    }
+  }]);
+  return Pirmotion;
+}(_electronic2.default);
+
+exports.default = Pirmotion;
+
+/***/ }),
+/* 103 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _getPrototypeOf = __webpack_require__(2);
+
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+var _classCallCheck2 = __webpack_require__(0);
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = __webpack_require__(1);
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _possibleConstructorReturn2 = __webpack_require__(4);
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = __webpack_require__(3);
+
+var _inherits3 = _interopRequireDefault(_inherits2);
+
+var _type = __webpack_require__(8);
+
+var _utils = __webpack_require__(5);
+
+var _utils2 = _interopRequireDefault(_utils);
+
+var _electronic = __webpack_require__(9);
+
+var _electronic2 = _interopRequireDefault(_electronic);
+
+var _cmd = __webpack_require__(7);
+
+var _cmd2 = _interopRequireDefault(_cmd);
+
+var _command = __webpack_require__(6);
+
+var _command2 = _interopRequireDefault(_command);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Potentionmeter = function (_Electronic) {
+  (0, _inherits3.default)(Potentionmeter, _Electronic);
+
+  function Potentionmeter(port) {
+    (0, _classCallCheck3.default)(this, Potentionmeter);
+
+    var _this = (0, _possibleConstructorReturn3.default)(this, (Potentionmeter.__proto__ || (0, _getPrototypeOf2.default)(Potentionmeter)).call(this));
+
+    _this.args = {
+      port: (0, _type.defineNumber)(port)
+    };
+    return _this;
+  }
+
+  (0, _createClass3.default)(Potentionmeter, [{
+    key: 'getData',
+    value: function getData(callback) {
+      var buf = _utils2.default.composer(_cmd2.default.readPotentionmeter, [this.args.port]);
+      _command2.default.execRead(buf, callback);
+      return this;
+    }
+  }], [{
+    key: 'supportStamp',
+    value: function supportStamp() {
+      return '1111';
+    }
+  }]);
+  return Potentionmeter;
+}(_electronic2.default);
+
+exports.default = Potentionmeter;
+
+/***/ }),
+/* 104 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _getPrototypeOf = __webpack_require__(2);
+
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+var _classCallCheck2 = __webpack_require__(0);
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = __webpack_require__(1);
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _possibleConstructorReturn2 = __webpack_require__(4);
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = __webpack_require__(3);
+
+var _inherits3 = _interopRequireDefault(_inherits2);
+
+var _type = __webpack_require__(8);
+
+var _utils = __webpack_require__(5);
+
+var _utils2 = _interopRequireDefault(_utils);
+
+var _electronic = __webpack_require__(9);
+
+var _electronic2 = _interopRequireDefault(_electronic);
+
+var _cmd = __webpack_require__(7);
+
+var _cmd2 = _interopRequireDefault(_cmd);
+
+var _command = __webpack_require__(6);
+
+var _command2 = _interopRequireDefault(_command);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Reset = function (_Electronic) {
+  (0, _inherits3.default)(Reset, _Electronic);
+
+  function Reset(callback) {
+    (0, _classCallCheck3.default)(this, Reset);
+
+    var _this = (0, _possibleConstructorReturn3.default)(this, (Reset.__proto__ || (0, _getPrototypeOf2.default)(Reset)).call(this));
+
+    _this.reset(callback);
+    return _this;
+  }
+
+  (0, _createClass3.default)(Reset, [{
+    key: 'reset',
+    value: function reset(callback) {
+      var buf = _utils2.default.composer(_cmd2.default.reset);
+      _command2.default.execRead(buf, callback);
+      return this;
+    }
+  }], [{
+    key: 'supportStamp',
+    value: function supportStamp() {
+      return '1111';
+    }
+  }]);
+  return Reset;
+}(_electronic2.default);
+
+exports.default = Reset;
+
+/***/ }),
+/* 105 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _getPrototypeOf = __webpack_require__(2);
+
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+var _classCallCheck2 = __webpack_require__(0);
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = __webpack_require__(1);
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _possibleConstructorReturn2 = __webpack_require__(4);
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = __webpack_require__(3);
+
+var _inherits3 = _interopRequireDefault(_inherits2);
+
+var _RgbLedBase2 = __webpack_require__(30);
+
+var _RgbLedBase3 = _interopRequireDefault(_RgbLedBase2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var RgbLed = function (_RgbLedBase) {
+  (0, _inherits3.default)(RgbLed, _RgbLedBase);
+
+  function RgbLed(port, slot) {
+    (0, _classCallCheck3.default)(this, RgbLed);
+    return (0, _possibleConstructorReturn3.default)(this, (RgbLed.__proto__ || (0, _getPrototypeOf2.default)(RgbLed)).call(this, port, slot));
+  }
+
+  (0, _createClass3.default)(RgbLed, null, [{
+    key: 'supportStamp',
+    value: function supportStamp() {
+      return '1111';
+    }
+  }]);
+  return RgbLed;
+}(_RgbLedBase3.default);
+
+exports.default = RgbLed;
+
+/***/ }),
+/* 106 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _getPrototypeOf = __webpack_require__(2);
+
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+var _classCallCheck2 = __webpack_require__(0);
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = __webpack_require__(1);
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _possibleConstructorReturn2 = __webpack_require__(4);
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = __webpack_require__(3);
+
+var _inherits3 = _interopRequireDefault(_inherits2);
+
+var _RgbLedBase2 = __webpack_require__(30);
+
+var _RgbLedBase3 = _interopRequireDefault(_RgbLedBase2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var RgbLedOnBoard = function (_RgbLedBase) {
+  (0, _inherits3.default)(RgbLedOnBoard, _RgbLedBase);
+
+  function RgbLedOnBoard() {
+    (0, _classCallCheck3.default)(this, RgbLedOnBoard);
+    return (0, _possibleConstructorReturn3.default)(this, (RgbLedOnBoard.__proto__ || (0, _getPrototypeOf2.default)(RgbLedOnBoard)).call(this, 0, 2));
+  }
+
+  (0, _createClass3.default)(RgbLedOnBoard, null, [{
+    key: 'supportStamp',
+    value: function supportStamp() {
+      return '0100';
+    }
+  }]);
+  return RgbLedOnBoard;
+}(_RgbLedBase3.default);
+
+exports.default = RgbLedOnBoard;
+
+/***/ }),
+/* 107 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _getPrototypeOf = __webpack_require__(2);
+
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+var _classCallCheck2 = __webpack_require__(0);
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = __webpack_require__(1);
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _possibleConstructorReturn2 = __webpack_require__(4);
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = __webpack_require__(3);
+
+var _inherits3 = _interopRequireDefault(_inherits2);
+
+var _type = __webpack_require__(8);
+
+var _utils = __webpack_require__(5);
+
+var _utils2 = _interopRequireDefault(_utils);
+
+var _electronic = __webpack_require__(9);
+
+var _electronic2 = _interopRequireDefault(_electronic);
+
+var _cmd = __webpack_require__(7);
+
+var _cmd2 = _interopRequireDefault(_cmd);
+
+var _command = __webpack_require__(6);
+
+var _command2 = _interopRequireDefault(_command);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Runtime = function (_Electronic) {
+  (0, _inherits3.default)(Runtime, _Electronic);
+
+  function Runtime() {
+    (0, _classCallCheck3.default)(this, Runtime);
+    return (0, _possibleConstructorReturn3.default)(this, (Runtime.__proto__ || (0, _getPrototypeOf2.default)(Runtime)).call(this));
+  }
+
+  (0, _createClass3.default)(Runtime, [{
+    key: 'getData',
+    value: function getData(callback) {
+      var buf = _utils2.default.composer(_cmd2.default.readRuntime);
+      _command2.default.execRead(buf, callback);
+      return this;
+    }
+  }], [{
+    key: 'supportStamp',
+    value: function supportStamp() {
+      return '00001';
+    }
+  }]);
+  return Runtime;
+}(_electronic2.default);
+
+exports.default = Runtime;
+
+/***/ }),
+/* 108 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _getPrototypeOf = __webpack_require__(2);
+
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+var _classCallCheck2 = __webpack_require__(0);
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = __webpack_require__(1);
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _possibleConstructorReturn2 = __webpack_require__(4);
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = __webpack_require__(3);
+
+var _inherits3 = _interopRequireDefault(_inherits2);
+
+var _type = __webpack_require__(8);
+
+var _utils = __webpack_require__(5);
+
+var _utils2 = _interopRequireDefault(_utils);
+
+var _electronic = __webpack_require__(9);
+
+var _electronic2 = _interopRequireDefault(_electronic);
+
+var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
@@ -5603,7 +6940,7 @@ var ServoMotor = function (_Electronic) {
 exports.default = ServoMotor;
 
 /***/ }),
-/* 132 */
+/* 109 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5613,7 +6950,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _getPrototypeOf = __webpack_require__(1);
+var _getPrototypeOf = __webpack_require__(2);
 
 var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
 
@@ -5621,11 +6958,11 @@ var _classCallCheck2 = __webpack_require__(0);
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-var _createClass2 = __webpack_require__(4);
+var _createClass2 = __webpack_require__(1);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _possibleConstructorReturn2 = __webpack_require__(2);
+var _possibleConstructorReturn2 = __webpack_require__(4);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
@@ -5633,646 +6970,7 @@ var _inherits2 = __webpack_require__(3);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _RgbLedBase2 = __webpack_require__(34);
-
-var _RgbLedBase3 = _interopRequireDefault(_RgbLedBase2);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var FourLed = function (_RgbLedBase) {
-  (0, _inherits3.default)(FourLed, _RgbLedBase);
-
-  function FourLed(port) {
-    (0, _classCallCheck3.default)(this, FourLed);
-    return (0, _possibleConstructorReturn3.default)(this, (FourLed.__proto__ || (0, _getPrototypeOf2.default)(FourLed)).call(this, port, 2));
-  }
-
-  (0, _createClass3.default)(FourLed, null, [{
-    key: 'supportStamp',
-    value: function supportStamp() {
-      return '1111';
-    }
-  }]);
-  return FourLed;
-}(_RgbLedBase3.default);
-
-exports.default = FourLed;
-
-/***/ }),
-/* 133 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _getPrototypeOf = __webpack_require__(1);
-
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
-
-var _classCallCheck2 = __webpack_require__(0);
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = __webpack_require__(4);
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-var _possibleConstructorReturn2 = __webpack_require__(2);
-
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-var _inherits2 = __webpack_require__(3);
-
-var _inherits3 = _interopRequireDefault(_inherits2);
-
-var _RgbLedBase2 = __webpack_require__(34);
-
-var _RgbLedBase3 = _interopRequireDefault(_RgbLedBase2);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var RgbLed = function (_RgbLedBase) {
-  (0, _inherits3.default)(RgbLed, _RgbLedBase);
-
-  function RgbLed(port, slot) {
-    (0, _classCallCheck3.default)(this, RgbLed);
-    return (0, _possibleConstructorReturn3.default)(this, (RgbLed.__proto__ || (0, _getPrototypeOf2.default)(RgbLed)).call(this, port, slot));
-  }
-
-  (0, _createClass3.default)(RgbLed, null, [{
-    key: 'supportStamp',
-    value: function supportStamp() {
-      return '1111';
-    }
-  }]);
-  return RgbLed;
-}(_RgbLedBase3.default);
-
-exports.default = RgbLed;
-
-/***/ }),
-/* 134 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _getPrototypeOf = __webpack_require__(1);
-
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
-
-var _classCallCheck2 = __webpack_require__(0);
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = __webpack_require__(4);
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-var _possibleConstructorReturn2 = __webpack_require__(2);
-
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-var _inherits2 = __webpack_require__(3);
-
-var _inherits3 = _interopRequireDefault(_inherits2);
-
-var _RgbLedBase2 = __webpack_require__(34);
-
-var _RgbLedBase3 = _interopRequireDefault(_RgbLedBase2);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var LedPanelOnBoard = function (_RgbLedBase) {
-  (0, _inherits3.default)(LedPanelOnBoard, _RgbLedBase);
-
-  function LedPanelOnBoard() {
-    (0, _classCallCheck3.default)(this, LedPanelOnBoard);
-    return (0, _possibleConstructorReturn3.default)(this, (LedPanelOnBoard.__proto__ || (0, _getPrototypeOf2.default)(LedPanelOnBoard)).call(this, 0, 2));
-  }
-
-  //主控支持戳：描述各主控的支持情况
-
-
-  (0, _createClass3.default)(LedPanelOnBoard, null, [{
-    key: 'supportStamp',
-    value: function supportStamp() {
-      return '1111';
-    }
-  }]);
-  return LedPanelOnBoard;
-}(_RgbLedBase3.default);
-
-exports.default = LedPanelOnBoard;
-
-/***/ }),
-/* 135 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _getPrototypeOf = __webpack_require__(1);
-
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
-
-var _classCallCheck2 = __webpack_require__(0);
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = __webpack_require__(4);
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-var _possibleConstructorReturn2 = __webpack_require__(2);
-
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-var _inherits2 = __webpack_require__(3);
-
-var _inherits3 = _interopRequireDefault(_inherits2);
-
-var _RgbLedBase2 = __webpack_require__(34);
-
-var _RgbLedBase3 = _interopRequireDefault(_RgbLedBase2);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var RgbLedOnBoard = function (_RgbLedBase) {
-  (0, _inherits3.default)(RgbLedOnBoard, _RgbLedBase);
-
-  function RgbLedOnBoard() {
-    (0, _classCallCheck3.default)(this, RgbLedOnBoard);
-    return (0, _possibleConstructorReturn3.default)(this, (RgbLedOnBoard.__proto__ || (0, _getPrototypeOf2.default)(RgbLedOnBoard)).call(this, 0, 2));
-  }
-
-  (0, _createClass3.default)(RgbLedOnBoard, null, [{
-    key: 'supportStamp',
-    value: function supportStamp() {
-      return '0100';
-    }
-  }]);
-  return RgbLedOnBoard;
-}(_RgbLedBase3.default);
-
-exports.default = RgbLedOnBoard;
-
-/***/ }),
-/* 136 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _assign = __webpack_require__(15);
-
-var _assign2 = _interopRequireDefault(_assign);
-
-var _getPrototypeOf = __webpack_require__(1);
-
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
-
-var _classCallCheck2 = __webpack_require__(0);
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = __webpack_require__(4);
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-var _possibleConstructorReturn2 = __webpack_require__(2);
-
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-var _inherits2 = __webpack_require__(3);
-
-var _inherits3 = _interopRequireDefault(_inherits2);
-
-var _type = __webpack_require__(7);
-
-var _utils = __webpack_require__(5);
-
-var _utils2 = _interopRequireDefault(_utils);
-
-var _LedMatrixBase2 = __webpack_require__(35);
-
-var _LedMatrixBase3 = _interopRequireDefault(_LedMatrixBase2);
-
-var _cmd = __webpack_require__(8);
-
-var _cmd2 = _interopRequireDefault(_cmd);
-
-var _command = __webpack_require__(6);
-
-var _command2 = _interopRequireDefault(_command);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var LedMatrixChar = function (_LedMatrixBase) {
-  (0, _inherits3.default)(LedMatrixChar, _LedMatrixBase);
-
-  function LedMatrixChar(port) {
-    (0, _classCallCheck3.default)(this, LedMatrixChar);
-
-    var _this = (0, _possibleConstructorReturn3.default)(this, (LedMatrixChar.__proto__ || (0, _getPrototypeOf2.default)(LedMatrixChar)).call(this, port));
-
-    (0, _assign2.default)(_this.args, {
-      x: null,
-      y: null,
-      char: null
-    });
-    return _this;
-  }
-
-  (0, _createClass3.default)(LedMatrixChar, [{
-    key: 'x',
-    value: function x(xAxis) {
-      this.args.x = xAxis;
-      return this;
-    }
-  }, {
-    key: 'y',
-    value: function y(yAxis) {
-      this.args.y = yAxis;
-      return this;
-    }
-  }, {
-    key: 'char',
-    value: function char(str) {
-      this.args.str = str;
-      return this;
-    }
-  }, {
-    key: 'run',
-    value: function run() {
-      var buf = _utils2.default.composer(_cmd2.default.setLedMatrixChar, [this.args.port, this.args.x, this.args.y, this.args.char]);
-      _command2.default.execWrite(buf);
-      return this;
-    }
-  }], [{
-    key: 'supportStamp',
-    value: function supportStamp() {
-      return '1110';
-    }
-  }]);
-  return LedMatrixChar;
-}(_LedMatrixBase3.default);
-
-exports.default = LedMatrixChar;
-
-/***/ }),
-/* 137 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _assign = __webpack_require__(15);
-
-var _assign2 = _interopRequireDefault(_assign);
-
-var _getPrototypeOf = __webpack_require__(1);
-
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
-
-var _classCallCheck2 = __webpack_require__(0);
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = __webpack_require__(4);
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-var _possibleConstructorReturn2 = __webpack_require__(2);
-
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-var _inherits2 = __webpack_require__(3);
-
-var _inherits3 = _interopRequireDefault(_inherits2);
-
-var _type = __webpack_require__(7);
-
-var _utils = __webpack_require__(5);
-
-var _utils2 = _interopRequireDefault(_utils);
-
-var _LedMatrixBase2 = __webpack_require__(35);
-
-var _LedMatrixBase3 = _interopRequireDefault(_LedMatrixBase2);
-
-var _cmd = __webpack_require__(8);
-
-var _cmd2 = _interopRequireDefault(_cmd);
-
-var _command = __webpack_require__(6);
-
-var _command2 = _interopRequireDefault(_command);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var LedMatrixTime = function (_LedMatrixBase) {
-  (0, _inherits3.default)(LedMatrixTime, _LedMatrixBase);
-
-  function LedMatrixTime(port) {
-    (0, _classCallCheck3.default)(this, LedMatrixTime);
-
-    var _this = (0, _possibleConstructorReturn3.default)(this, (LedMatrixTime.__proto__ || (0, _getPrototypeOf2.default)(LedMatrixTime)).call(this, port));
-
-    (0, _assign2.default)(_this.args, {
-      separator: null,
-      hour: null,
-      minute: null
-    });
-    return _this;
-  }
-
-  (0, _createClass3.default)(LedMatrixTime, [{
-    key: 'separator',
-    value: function separator(_separator) {
-      this.args.separator = _separator;
-      return this;
-    }
-  }, {
-    key: 'hour',
-    value: function hour(h) {
-      this.args.hour = (0, _type.defineNumber)(h);
-      return this;
-    }
-  }, {
-    key: 'minute',
-    value: function minute(m) {
-      this.args.minute = (0, _type.defineNumber)(m);
-      return this;
-    }
-  }, {
-    key: 'run',
-    value: function run() {
-      var buf = _utils2.default.composer(_cmd2.default.setLedMatrixTime, [this.args.port, this.args.separator, this.args.hour, this.args.minute]);
-      _command2.default.execWrite(buf);
-      return this;
-    }
-  }], [{
-    key: 'supportStamp',
-    value: function supportStamp() {
-      return '1110';
-    }
-  }]);
-  return LedMatrixTime;
-}(_LedMatrixBase3.default);
-
-exports.default = LedMatrixTime;
-
-/***/ }),
-/* 138 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _assign = __webpack_require__(15);
-
-var _assign2 = _interopRequireDefault(_assign);
-
-var _getPrototypeOf = __webpack_require__(1);
-
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
-
-var _classCallCheck2 = __webpack_require__(0);
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = __webpack_require__(4);
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-var _possibleConstructorReturn2 = __webpack_require__(2);
-
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-var _inherits2 = __webpack_require__(3);
-
-var _inherits3 = _interopRequireDefault(_inherits2);
-
-var _utils = __webpack_require__(5);
-
-var _utils2 = _interopRequireDefault(_utils);
-
-var _LedMatrixBase2 = __webpack_require__(35);
-
-var _LedMatrixBase3 = _interopRequireDefault(_LedMatrixBase2);
-
-var _cmd = __webpack_require__(8);
-
-var _cmd2 = _interopRequireDefault(_cmd);
-
-var _command = __webpack_require__(6);
-
-var _command2 = _interopRequireDefault(_command);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var LedMatrixEmotion = function (_LedMatrixBase) {
-  (0, _inherits3.default)(LedMatrixEmotion, _LedMatrixBase);
-
-  function LedMatrixEmotion(port) {
-    (0, _classCallCheck3.default)(this, LedMatrixEmotion);
-
-    var _this = (0, _possibleConstructorReturn3.default)(this, (LedMatrixEmotion.__proto__ || (0, _getPrototypeOf2.default)(LedMatrixEmotion)).call(this, port));
-
-    (0, _assign2.default)(_this.args, {
-      x: null,
-      y: null,
-      emotion: null
-    });
-    return _this;
-  }
-
-  (0, _createClass3.default)(LedMatrixEmotion, [{
-    key: 'x',
-    value: function x(xAxis) {
-      this.args.x = xAxis;
-      return this;
-    }
-  }, {
-    key: 'y',
-    value: function y(yAxis) {
-      this.args.y = yAxis;
-      return this;
-    }
-  }, {
-    key: 'emotion',
-    value: function emotion(_emotion) {
-      this.args.emotion = _emotion;
-      return this;
-    }
-  }, {
-    key: 'run',
-    value: function run() {
-      var buf = _utils2.default.composer(_cmd2.default.setLedMatrixEmotion, [this.args.port, this.args.x, this.args.y, this.args.emotion]);
-      _command2.default.execWrite(buf);
-      return this;
-    }
-  }], [{
-    key: 'supportStamp',
-    value: function supportStamp() {
-      return '1110';
-    }
-  }]);
-  return LedMatrixEmotion;
-}(_LedMatrixBase3.default);
-
-exports.default = LedMatrixEmotion;
-
-/***/ }),
-/* 139 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _assign = __webpack_require__(15);
-
-var _assign2 = _interopRequireDefault(_assign);
-
-var _getPrototypeOf = __webpack_require__(1);
-
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
-
-var _classCallCheck2 = __webpack_require__(0);
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = __webpack_require__(4);
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-var _possibleConstructorReturn2 = __webpack_require__(2);
-
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-var _inherits2 = __webpack_require__(3);
-
-var _inherits3 = _interopRequireDefault(_inherits2);
-
-var _type = __webpack_require__(7);
-
-var _utils = __webpack_require__(5);
-
-var _utils2 = _interopRequireDefault(_utils);
-
-var _LedMatrixBase2 = __webpack_require__(35);
-
-var _LedMatrixBase3 = _interopRequireDefault(_LedMatrixBase2);
-
-var _cmd = __webpack_require__(8);
-
-var _cmd2 = _interopRequireDefault(_cmd);
-
-var _command = __webpack_require__(6);
-
-var _command2 = _interopRequireDefault(_command);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var LedMatrixNumber = function (_LedMatrixBase) {
-  (0, _inherits3.default)(LedMatrixNumber, _LedMatrixBase);
-
-  function LedMatrixNumber(port) {
-    (0, _classCallCheck3.default)(this, LedMatrixNumber);
-
-    var _this = (0, _possibleConstructorReturn3.default)(this, (LedMatrixNumber.__proto__ || (0, _getPrototypeOf2.default)(LedMatrixNumber)).call(this, port));
-
-    (0, _assign2.default)(_this.args, {
-      number: null
-    });
-    return _this;
-  }
-
-  (0, _createClass3.default)(LedMatrixNumber, [{
-    key: 'number',
-    value: function number(num) {
-      this.args.number = (0, _type.defineNumber)(num);
-      return this;
-    }
-  }, {
-    key: 'run',
-    value: function run() {
-      var buf = _utils2.default.composer(_cmd2.default.setLedMatrixNumber, [this.args.port, this.args.number]);
-      _command2.default.execWrite(buf);
-      return this;
-    }
-  }], [{
-    key: 'supportStamp',
-    value: function supportStamp() {
-      return '1110';
-    }
-  }]);
-  return LedMatrixNumber;
-}(_LedMatrixBase3.default);
-
-exports.default = LedMatrixNumber;
-
-/***/ }),
-/* 140 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _getPrototypeOf = __webpack_require__(1);
-
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
-
-var _classCallCheck2 = __webpack_require__(0);
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = __webpack_require__(4);
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-var _possibleConstructorReturn2 = __webpack_require__(2);
-
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-var _inherits2 = __webpack_require__(3);
-
-var _inherits3 = _interopRequireDefault(_inherits2);
-
-var _type = __webpack_require__(7);
+var _type = __webpack_require__(8);
 
 var _utils = __webpack_require__(5);
 
@@ -6282,115 +6980,7 @@ var _electronic = __webpack_require__(9);
 
 var _electronic2 = _interopRequireDefault(_electronic);
 
-var _cmd = __webpack_require__(8);
-
-var _cmd2 = _interopRequireDefault(_cmd);
-
-var _command = __webpack_require__(6);
-
-var _command2 = _interopRequireDefault(_command);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var Buzzer = function (_Electronic) {
-  (0, _inherits3.default)(Buzzer, _Electronic);
-
-  function Buzzer() {
-    (0, _classCallCheck3.default)(this, Buzzer);
-
-    var _this = (0, _possibleConstructorReturn3.default)(this, (Buzzer.__proto__ || (0, _getPrototypeOf2.default)(Buzzer)).call(this));
-
-    _this.args = {
-      tone: null,
-      beat: null
-    };
-    return _this;
-  }
-
-  /**
-   * set tone
-   * @param  {String} tone tone string, such as "C5"
-   */
-
-
-  (0, _createClass3.default)(Buzzer, [{
-    key: 'tone',
-    value: function tone(_tone) {
-      this.args.tone = (0, _type.defineString)(_tone.toUpperCase());
-      return this;
-    }
-
-    /**
-     * set beat
-     * @param  {Number} beat such as 250, 1000
-     */
-
-  }, {
-    key: 'beat',
-    value: function beat(_beat) {
-      this.args.beat = (0, _type.defineNumber)(_beat);
-      return this;
-    }
-  }, {
-    key: 'run',
-    value: function run() {
-      var buf = _utils2.default.composer(_cmd2.default.setTone, [this.args.tone, this.args.beat]);
-      _command2.default.execWrite(buf);
-      return this;
-    }
-  }], [{
-    key: 'supportStamp',
-    value: function supportStamp() {
-      return '1111';
-    }
-  }]);
-  return Buzzer;
-}(_electronic2.default);
-
-exports.default = Buzzer;
-
-/***/ }),
-/* 141 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _getPrototypeOf = __webpack_require__(1);
-
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
-
-var _classCallCheck2 = __webpack_require__(0);
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = __webpack_require__(4);
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-var _possibleConstructorReturn2 = __webpack_require__(2);
-
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-var _inherits2 = __webpack_require__(3);
-
-var _inherits3 = _interopRequireDefault(_inherits2);
-
-var _type = __webpack_require__(7);
-
-var _utils = __webpack_require__(5);
-
-var _utils2 = _interopRequireDefault(_utils);
-
-var _electronic = __webpack_require__(9);
-
-var _electronic2 = _interopRequireDefault(_electronic);
-
-var _cmd = __webpack_require__(8);
+var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
@@ -6440,7 +7030,7 @@ var SevenSegment = function (_Electronic) {
 exports.default = SevenSegment;
 
 /***/ }),
-/* 142 */
+/* 110 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6450,7 +7040,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _getPrototypeOf = __webpack_require__(1);
+var _getPrototypeOf = __webpack_require__(2);
 
 var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
 
@@ -6458,11 +7048,11 @@ var _classCallCheck2 = __webpack_require__(0);
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-var _createClass2 = __webpack_require__(4);
+var _createClass2 = __webpack_require__(1);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _possibleConstructorReturn2 = __webpack_require__(2);
+var _possibleConstructorReturn2 = __webpack_require__(4);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
@@ -6470,7 +7060,7 @@ var _inherits2 = __webpack_require__(3);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _type = __webpack_require__(7);
+var _type = __webpack_require__(8);
 
 var _utils = __webpack_require__(5);
 
@@ -6480,7 +7070,7 @@ var _electronic = __webpack_require__(9);
 
 var _electronic2 = _interopRequireDefault(_electronic);
 
-var _cmd = __webpack_require__(8);
+var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
@@ -6536,7 +7126,7 @@ var Shutter = function (_Electronic) {
 exports.default = Shutter;
 
 /***/ }),
-/* 143 */
+/* 111 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6546,7 +7136,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _getPrototypeOf = __webpack_require__(1);
+var _getPrototypeOf = __webpack_require__(2);
 
 var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
 
@@ -6554,11 +7144,11 @@ var _classCallCheck2 = __webpack_require__(0);
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-var _createClass2 = __webpack_require__(4);
+var _createClass2 = __webpack_require__(1);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _possibleConstructorReturn2 = __webpack_require__(2);
+var _possibleConstructorReturn2 = __webpack_require__(4);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
@@ -6566,17 +7156,133 @@ var _inherits2 = __webpack_require__(3);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _type = __webpack_require__(7);
+var _soundBase = __webpack_require__(56);
+
+var _soundBase2 = _interopRequireDefault(_soundBase);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Sound = function (_SoundBase) {
+  (0, _inherits3.default)(Sound, _SoundBase);
+
+  function Sound(port) {
+    (0, _classCallCheck3.default)(this, Sound);
+    return (0, _possibleConstructorReturn3.default)(this, (Sound.__proto__ || (0, _getPrototypeOf2.default)(Sound)).call(this, port));
+  }
+
+  (0, _createClass3.default)(Sound, null, [{
+    key: 'supportStamp',
+    value: function supportStamp() {
+      return '1111';
+    }
+  }]);
+  return Sound;
+}(_soundBase2.default);
+
+exports.default = Sound;
+
+/***/ }),
+/* 112 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _getPrototypeOf = __webpack_require__(2);
+
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+var _classCallCheck2 = __webpack_require__(0);
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = __webpack_require__(1);
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _possibleConstructorReturn2 = __webpack_require__(4);
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = __webpack_require__(3);
+
+var _inherits3 = _interopRequireDefault(_inherits2);
+
+var _soundBase = __webpack_require__(56);
+
+var _soundBase2 = _interopRequireDefault(_soundBase);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var SoundOnBoard = function (_SoundBase) {
+  (0, _inherits3.default)(SoundOnBoard, _SoundBase);
+
+  function SoundOnBoard() {
+    (0, _classCallCheck3.default)(this, SoundOnBoard);
+    return (0, _possibleConstructorReturn3.default)(this, (SoundOnBoard.__proto__ || (0, _getPrototypeOf2.default)(SoundOnBoard)).call(this, 14));
+  }
+
+  (0, _createClass3.default)(SoundOnBoard, null, [{
+    key: 'supportStamp',
+    value: function supportStamp() {
+      return '0100';
+    }
+  }]);
+  return SoundOnBoard;
+}(_soundBase2.default);
+
+exports.default = SoundOnBoard;
+
+/***/ }),
+/* 113 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _assign = __webpack_require__(12);
+
+var _assign2 = _interopRequireDefault(_assign);
+
+var _getPrototypeOf = __webpack_require__(2);
+
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+var _classCallCheck2 = __webpack_require__(0);
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = __webpack_require__(1);
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _possibleConstructorReturn2 = __webpack_require__(4);
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = __webpack_require__(3);
+
+var _inherits3 = _interopRequireDefault(_inherits2);
+
+var _type = __webpack_require__(8);
 
 var _utils = __webpack_require__(5);
 
 var _utils2 = _interopRequireDefault(_utils);
 
-var _electronic = __webpack_require__(9);
+var _MotorBase2 = __webpack_require__(37);
 
-var _electronic2 = _interopRequireDefault(_electronic);
+var _MotorBase3 = _interopRequireDefault(_MotorBase2);
 
-var _cmd = __webpack_require__(8);
+var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
@@ -6586,38 +7292,65 @@ var _command2 = _interopRequireDefault(_command);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var Reset = function (_Electronic) {
-  (0, _inherits3.default)(Reset, _Electronic);
+var StepperMotor = function (_MotorBase) {
+  (0, _inherits3.default)(StepperMotor, _MotorBase);
 
-  function Reset(callback) {
-    (0, _classCallCheck3.default)(this, Reset);
+  function StepperMotor(port) {
+    (0, _classCallCheck3.default)(this, StepperMotor);
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (Reset.__proto__ || (0, _getPrototypeOf2.default)(Reset)).call(this));
+    var _this = (0, _possibleConstructorReturn3.default)(this, (StepperMotor.__proto__ || (0, _getPrototypeOf2.default)(StepperMotor)).call(this, port));
 
-    _this.reset(callback);
+    (0, _assign2.default)(_this.args, {
+      distance: 0
+    });
     return _this;
   }
 
-  (0, _createClass3.default)(Reset, [{
-    key: 'reset',
-    value: function reset(callback) {
-      var buf = _utils2.default.composer(_cmd2.default.reset);
-      _command2.default.execRead(buf, callback);
+  /**
+   * set distance
+   * @param  {Number} speed
+   * @return {Object} the instance
+   */
+
+
+  (0, _createClass3.default)(StepperMotor, [{
+    key: 'distance',
+    value: function distance(_distance) {
+      this.args.distance = (0, _type.defineNumber)(_distance, 0);
+      return this;
+    }
+
+    /**
+     * run reversely
+     * @return {Object} the instance
+     */
+
+  }, {
+    key: 'reverse',
+    value: function reverse() {
+      this.speed(-1 * this.args.distance);
+      return this;
+    }
+  }, {
+    key: 'run',
+    value: function run() {
+      var buf = _utils2.default.composer(_cmd2.default.setStepperMotor, [this.args.port, this.args.speed, this.args.distance]);
+      _command2.default.execWrite(buf);
       return this;
     }
   }], [{
     key: 'supportStamp',
     value: function supportStamp() {
-      return '1111';
+      return '0111';
     }
   }]);
-  return Reset;
-}(_electronic2.default);
+  return StepperMotor;
+}(_MotorBase3.default);
 
-exports.default = Reset;
+exports.default = StepperMotor;
 
 /***/ }),
-/* 144 */
+/* 114 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6627,7 +7360,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _getPrototypeOf = __webpack_require__(1);
+var _getPrototypeOf = __webpack_require__(2);
 
 var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
 
@@ -6635,11 +7368,11 @@ var _classCallCheck2 = __webpack_require__(0);
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-var _createClass2 = __webpack_require__(4);
+var _createClass2 = __webpack_require__(1);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _possibleConstructorReturn2 = __webpack_require__(2);
+var _possibleConstructorReturn2 = __webpack_require__(4);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
@@ -6647,7 +7380,7 @@ var _inherits2 = __webpack_require__(3);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _type = __webpack_require__(7);
+var _type = __webpack_require__(8);
 
 var _utils = __webpack_require__(5);
 
@@ -6657,90 +7390,7 @@ var _electronic = __webpack_require__(9);
 
 var _electronic2 = _interopRequireDefault(_electronic);
 
-var _cmd = __webpack_require__(8);
-
-var _cmd2 = _interopRequireDefault(_cmd);
-
-var _command = __webpack_require__(6);
-
-var _command2 = _interopRequireDefault(_command);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var Ultrasonic = function (_Electronic) {
-  (0, _inherits3.default)(Ultrasonic, _Electronic);
-
-  function Ultrasonic(port) {
-    (0, _classCallCheck3.default)(this, Ultrasonic);
-
-    var _this = (0, _possibleConstructorReturn3.default)(this, (Ultrasonic.__proto__ || (0, _getPrototypeOf2.default)(Ultrasonic)).call(this));
-
-    _this.args = {
-      port: (0, _type.defineNumber)(port)
-    };
-    return _this;
-  }
-
-  (0, _createClass3.default)(Ultrasonic, [{
-    key: 'getData',
-    value: function getData(callback) {
-      var buf = _utils2.default.composer(_cmd2.default.readUltrasonic, [this.args.port]);
-      _command2.default.execRead(buf, callback);
-      return this;
-    }
-  }], [{
-    key: 'supportStamp',
-    value: function supportStamp() {
-      return '1111';
-    }
-  }]);
-  return Ultrasonic;
-}(_electronic2.default);
-
-exports.default = Ultrasonic;
-
-/***/ }),
-/* 145 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _getPrototypeOf = __webpack_require__(1);
-
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
-
-var _classCallCheck2 = __webpack_require__(0);
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = __webpack_require__(4);
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-var _possibleConstructorReturn2 = __webpack_require__(2);
-
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-var _inherits2 = __webpack_require__(3);
-
-var _inherits3 = _interopRequireDefault(_inherits2);
-
-var _type = __webpack_require__(7);
-
-var _utils = __webpack_require__(5);
-
-var _utils2 = _interopRequireDefault(_utils);
-
-var _electronic = __webpack_require__(9);
-
-var _electronic2 = _interopRequireDefault(_electronic);
-
-var _cmd = __webpack_require__(8);
+var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
@@ -6784,7 +7434,7 @@ var Temperature = function (_Electronic) {
 exports.default = Temperature;
 
 /***/ }),
-/* 146 */
+/* 115 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6794,7 +7444,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _getPrototypeOf = __webpack_require__(1);
+var _getPrototypeOf = __webpack_require__(2);
 
 var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
 
@@ -6802,521 +7452,11 @@ var _classCallCheck2 = __webpack_require__(0);
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-var _createClass2 = __webpack_require__(4);
+var _createClass2 = __webpack_require__(1);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _possibleConstructorReturn2 = __webpack_require__(2);
-
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-var _inherits2 = __webpack_require__(3);
-
-var _inherits3 = _interopRequireDefault(_inherits2);
-
-var _type = __webpack_require__(7);
-
-var _utils = __webpack_require__(5);
-
-var _utils2 = _interopRequireDefault(_utils);
-
-var _electronic = __webpack_require__(9);
-
-var _electronic2 = _interopRequireDefault(_electronic);
-
-var _cmd = __webpack_require__(8);
-
-var _cmd2 = _interopRequireDefault(_cmd);
-
-var _command = __webpack_require__(6);
-
-var _command2 = _interopRequireDefault(_command);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var Light = function (_Electronic) {
-  (0, _inherits3.default)(Light, _Electronic);
-
-  function Light(port) {
-    (0, _classCallCheck3.default)(this, Light);
-
-    var _this = (0, _possibleConstructorReturn3.default)(this, (Light.__proto__ || (0, _getPrototypeOf2.default)(Light)).call(this));
-
-    _this.args = {
-      port: (0, _type.defineNumber)(port)
-    };
-    return _this;
-  }
-
-  (0, _createClass3.default)(Light, [{
-    key: 'getData',
-    value: function getData(callback) {
-      var buf = _utils2.default.composer(_cmd2.default.readLight, [this.args.port]);
-      _command2.default.execRead(buf, callback);
-      return this;
-    }
-  }], [{
-    key: 'supportStamp',
-    value: function supportStamp() {
-      return '1111';
-    }
-  }]);
-  return Light;
-}(_electronic2.default);
-
-exports.default = Light;
-
-/***/ }),
-/* 147 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _getPrototypeOf = __webpack_require__(1);
-
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
-
-var _classCallCheck2 = __webpack_require__(0);
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = __webpack_require__(4);
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-var _possibleConstructorReturn2 = __webpack_require__(2);
-
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-var _inherits2 = __webpack_require__(3);
-
-var _inherits3 = _interopRequireDefault(_inherits2);
-
-var _type = __webpack_require__(7);
-
-var _utils = __webpack_require__(5);
-
-var _utils2 = _interopRequireDefault(_utils);
-
-var _electronic = __webpack_require__(9);
-
-var _electronic2 = _interopRequireDefault(_electronic);
-
-var _cmd = __webpack_require__(8);
-
-var _cmd2 = _interopRequireDefault(_cmd);
-
-var _command = __webpack_require__(6);
-
-var _command2 = _interopRequireDefault(_command);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var Potentionmeter = function (_Electronic) {
-  (0, _inherits3.default)(Potentionmeter, _Electronic);
-
-  function Potentionmeter(port) {
-    (0, _classCallCheck3.default)(this, Potentionmeter);
-
-    var _this = (0, _possibleConstructorReturn3.default)(this, (Potentionmeter.__proto__ || (0, _getPrototypeOf2.default)(Potentionmeter)).call(this));
-
-    _this.args = {
-      port: (0, _type.defineNumber)(port)
-    };
-    return _this;
-  }
-
-  (0, _createClass3.default)(Potentionmeter, [{
-    key: 'getData',
-    value: function getData(callback) {
-      var buf = _utils2.default.composer(_cmd2.default.readPotentionmeter, [this.args.port]);
-      _command2.default.execRead(buf, callback);
-      return this;
-    }
-  }], [{
-    key: 'supportStamp',
-    value: function supportStamp() {
-      return '1111';
-    }
-  }]);
-  return Potentionmeter;
-}(_electronic2.default);
-
-exports.default = Potentionmeter;
-
-/***/ }),
-/* 148 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _getPrototypeOf = __webpack_require__(1);
-
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
-
-var _classCallCheck2 = __webpack_require__(0);
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = __webpack_require__(4);
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-var _possibleConstructorReturn2 = __webpack_require__(2);
-
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-var _inherits2 = __webpack_require__(3);
-
-var _inherits3 = _interopRequireDefault(_inherits2);
-
-var _type = __webpack_require__(7);
-
-var _utils = __webpack_require__(5);
-
-var _utils2 = _interopRequireDefault(_utils);
-
-var _electronic = __webpack_require__(9);
-
-var _electronic2 = _interopRequireDefault(_electronic);
-
-var _cmd = __webpack_require__(8);
-
-var _cmd2 = _interopRequireDefault(_cmd);
-
-var _command = __webpack_require__(6);
-
-var _command2 = _interopRequireDefault(_command);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var Joystick = function (_Electronic) {
-  (0, _inherits3.default)(Joystick, _Electronic);
-
-  function Joystick(port) {
-    (0, _classCallCheck3.default)(this, Joystick);
-
-    var _this = (0, _possibleConstructorReturn3.default)(this, (Joystick.__proto__ || (0, _getPrototypeOf2.default)(Joystick)).call(this));
-
-    _this.args = {
-      port: (0, _type.defineNumber)(port),
-      axis: 1
-    };
-    return _this;
-  }
-
-  (0, _createClass3.default)(Joystick, [{
-    key: 'axis',
-    value: function axis(_axis) {
-      this.args.axis = (0, _type.defineNumber)(_axis, this.args.axis);
-      return this;
-    }
-  }, {
-    key: 'getData',
-    value: function getData(callback) {
-      var buf = _utils2.default.composer(_cmd2.default.readJoystick, [this.args.port, this.args.axis]);
-      _command2.default.execRead(buf, callback);
-      return this;
-    }
-  }], [{
-    key: 'supportStamp',
-    value: function supportStamp() {
-      return '1111';
-    }
-  }]);
-  return Joystick;
-}(_electronic2.default);
-
-exports.default = Joystick;
-
-/***/ }),
-/* 149 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _getPrototypeOf = __webpack_require__(1);
-
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
-
-var _classCallCheck2 = __webpack_require__(0);
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = __webpack_require__(4);
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-var _possibleConstructorReturn2 = __webpack_require__(2);
-
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-var _inherits2 = __webpack_require__(3);
-
-var _inherits3 = _interopRequireDefault(_inherits2);
-
-var _type = __webpack_require__(7);
-
-var _utils = __webpack_require__(5);
-
-var _utils2 = _interopRequireDefault(_utils);
-
-var _GyroBase2 = __webpack_require__(66);
-
-var _GyroBase3 = _interopRequireDefault(_GyroBase2);
-
-var _cmd = __webpack_require__(8);
-
-var _cmd2 = _interopRequireDefault(_cmd);
-
-var _command = __webpack_require__(6);
-
-var _command2 = _interopRequireDefault(_command);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var Gyro = function (_GyroBase) {
-  (0, _inherits3.default)(Gyro, _GyroBase);
-
-  function Gyro(port) {
-    (0, _classCallCheck3.default)(this, Gyro);
-
-    //外接陀螺仪 port 始终传参为 0
-    return (0, _possibleConstructorReturn3.default)(this, (Gyro.__proto__ || (0, _getPrototypeOf2.default)(Gyro)).call(this, 0));
-  }
-
-  (0, _createClass3.default)(Gyro, null, [{
-    key: 'supportStamp',
-    value: function supportStamp() {
-      return '1111';
-    }
-  }]);
-  return Gyro;
-}(_GyroBase3.default);
-
-exports.default = Gyro;
-
-/***/ }),
-/* 150 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _getPrototypeOf = __webpack_require__(1);
-
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
-
-var _classCallCheck2 = __webpack_require__(0);
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = __webpack_require__(4);
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-var _possibleConstructorReturn2 = __webpack_require__(2);
-
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-var _inherits2 = __webpack_require__(3);
-
-var _inherits3 = _interopRequireDefault(_inherits2);
-
-var _type = __webpack_require__(7);
-
-var _utils = __webpack_require__(5);
-
-var _utils2 = _interopRequireDefault(_utils);
-
-var _GyroBase2 = __webpack_require__(66);
-
-var _GyroBase3 = _interopRequireDefault(_GyroBase2);
-
-var _cmd = __webpack_require__(8);
-
-var _cmd2 = _interopRequireDefault(_cmd);
-
-var _command = __webpack_require__(6);
-
-var _command2 = _interopRequireDefault(_command);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var GyroOnBoard = function (_GyroBase) {
-  (0, _inherits3.default)(GyroOnBoard, _GyroBase);
-
-  function GyroOnBoard() {
-    (0, _classCallCheck3.default)(this, GyroOnBoard);
-    return (0, _possibleConstructorReturn3.default)(this, (GyroOnBoard.__proto__ || (0, _getPrototypeOf2.default)(GyroOnBoard)).call(this, 1));
-  }
-
-  (0, _createClass3.default)(GyroOnBoard, null, [{
-    key: 'supportStamp',
-    value: function supportStamp() {
-      return '0110';
-    }
-  }]);
-  return GyroOnBoard;
-}(_GyroBase3.default);
-
-exports.default = GyroOnBoard;
-
-/***/ }),
-/* 151 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _getPrototypeOf = __webpack_require__(1);
-
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
-
-var _classCallCheck2 = __webpack_require__(0);
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = __webpack_require__(4);
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-var _possibleConstructorReturn2 = __webpack_require__(2);
-
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-var _inherits2 = __webpack_require__(3);
-
-var _inherits3 = _interopRequireDefault(_inherits2);
-
-var _soundBase = __webpack_require__(67);
-
-var _soundBase2 = _interopRequireDefault(_soundBase);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var Sound = function (_SoundBase) {
-  (0, _inherits3.default)(Sound, _SoundBase);
-
-  function Sound(port) {
-    (0, _classCallCheck3.default)(this, Sound);
-    return (0, _possibleConstructorReturn3.default)(this, (Sound.__proto__ || (0, _getPrototypeOf2.default)(Sound)).call(this, port));
-  }
-
-  (0, _createClass3.default)(Sound, null, [{
-    key: 'supportStamp',
-    value: function supportStamp() {
-      return '1111';
-    }
-  }]);
-  return Sound;
-}(_soundBase2.default);
-
-exports.default = Sound;
-
-/***/ }),
-/* 152 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _getPrototypeOf = __webpack_require__(1);
-
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
-
-var _classCallCheck2 = __webpack_require__(0);
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = __webpack_require__(4);
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-var _possibleConstructorReturn2 = __webpack_require__(2);
-
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-var _inherits2 = __webpack_require__(3);
-
-var _inherits3 = _interopRequireDefault(_inherits2);
-
-var _soundBase = __webpack_require__(67);
-
-var _soundBase2 = _interopRequireDefault(_soundBase);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var SoundOnBoard = function (_SoundBase) {
-  (0, _inherits3.default)(SoundOnBoard, _SoundBase);
-
-  function SoundOnBoard() {
-    (0, _classCallCheck3.default)(this, SoundOnBoard);
-    return (0, _possibleConstructorReturn3.default)(this, (SoundOnBoard.__proto__ || (0, _getPrototypeOf2.default)(SoundOnBoard)).call(this, 14));
-  }
-
-  (0, _createClass3.default)(SoundOnBoard, null, [{
-    key: 'supportStamp',
-    value: function supportStamp() {
-      return '0100';
-    }
-  }]);
-  return SoundOnBoard;
-}(_soundBase2.default);
-
-exports.default = SoundOnBoard;
-
-/***/ }),
-/* 153 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _getPrototypeOf = __webpack_require__(1);
-
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
-
-var _classCallCheck2 = __webpack_require__(0);
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = __webpack_require__(4);
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-var _possibleConstructorReturn2 = __webpack_require__(2);
+var _possibleConstructorReturn2 = __webpack_require__(4);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
@@ -7332,7 +7472,7 @@ var _electronic = __webpack_require__(9);
 
 var _electronic2 = _interopRequireDefault(_electronic);
 
-var _cmd = __webpack_require__(8);
+var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
@@ -7369,7 +7509,7 @@ var TemperatureOnBoard = function (_Electronic) {
 exports.default = TemperatureOnBoard;
 
 /***/ }),
-/* 154 */
+/* 116 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7379,7 +7519,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _getPrototypeOf = __webpack_require__(1);
+var _getPrototypeOf = __webpack_require__(2);
 
 var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
 
@@ -7387,11 +7527,11 @@ var _classCallCheck2 = __webpack_require__(0);
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-var _createClass2 = __webpack_require__(4);
+var _createClass2 = __webpack_require__(1);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _possibleConstructorReturn2 = __webpack_require__(2);
+var _possibleConstructorReturn2 = __webpack_require__(4);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
@@ -7399,7 +7539,7 @@ var _inherits2 = __webpack_require__(3);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _type = __webpack_require__(7);
+var _type = __webpack_require__(8);
 
 var _utils = __webpack_require__(5);
 
@@ -7409,602 +7549,7 @@ var _electronic = __webpack_require__(9);
 
 var _electronic2 = _interopRequireDefault(_electronic);
 
-var _cmd = __webpack_require__(8);
-
-var _cmd2 = _interopRequireDefault(_cmd);
-
-var _command = __webpack_require__(6);
-
-var _command2 = _interopRequireDefault(_command);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var Pirmotion = function (_Electronic) {
-  (0, _inherits3.default)(Pirmotion, _Electronic);
-
-  function Pirmotion(port) {
-    (0, _classCallCheck3.default)(this, Pirmotion);
-
-    var _this = (0, _possibleConstructorReturn3.default)(this, (Pirmotion.__proto__ || (0, _getPrototypeOf2.default)(Pirmotion)).call(this));
-
-    _this.args = {
-      port: (0, _type.defineNumber)(port)
-    };
-    return _this;
-  }
-
-  (0, _createClass3.default)(Pirmotion, [{
-    key: 'getData',
-    value: function getData(callback) {
-      var buf = _utils2.default.composer(_cmd2.default.readPirmotion, [this.args.port]);
-      _command2.default.execRead(buf, callback);
-      return this;
-    }
-  }], [{
-    key: 'supportStamp',
-    value: function supportStamp() {
-      return '1111';
-    }
-  }]);
-  return Pirmotion;
-}(_electronic2.default);
-
-exports.default = Pirmotion;
-
-/***/ }),
-/* 155 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _getPrototypeOf = __webpack_require__(1);
-
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
-
-var _classCallCheck2 = __webpack_require__(0);
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = __webpack_require__(4);
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-var _possibleConstructorReturn2 = __webpack_require__(2);
-
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-var _inherits2 = __webpack_require__(3);
-
-var _inherits3 = _interopRequireDefault(_inherits2);
-
-var _type = __webpack_require__(7);
-
-var _utils = __webpack_require__(5);
-
-var _utils2 = _interopRequireDefault(_utils);
-
-var _electronic = __webpack_require__(9);
-
-var _electronic2 = _interopRequireDefault(_electronic);
-
-var _cmd = __webpack_require__(8);
-
-var _cmd2 = _interopRequireDefault(_cmd);
-
-var _command = __webpack_require__(6);
-
-var _command2 = _interopRequireDefault(_command);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var LimitSwitch = function (_Electronic) {
-  (0, _inherits3.default)(LimitSwitch, _Electronic);
-
-  function LimitSwitch(port, slot) {
-    (0, _classCallCheck3.default)(this, LimitSwitch);
-
-    var _this = (0, _possibleConstructorReturn3.default)(this, (LimitSwitch.__proto__ || (0, _getPrototypeOf2.default)(LimitSwitch)).call(this));
-
-    _this.args = {
-      port: (0, _type.defineNumber)(port),
-      slot: (0, _type.defineNumber)(slot)
-    };
-    return _this;
-  }
-
-  (0, _createClass3.default)(LimitSwitch, [{
-    key: 'getData',
-    value: function getData(callback) {
-      var buf = _utils2.default.composer(_cmd2.default.readLimitSwitch, [this.args.port, this.args.slot]);
-      _command2.default.execRead(buf, callback);
-      return this;
-    }
-  }], [{
-    key: 'supportStamp',
-    value: function supportStamp() {
-      return '1111';
-    }
-  }]);
-  return LimitSwitch;
-}(_electronic2.default);
-
-exports.default = LimitSwitch;
-
-/***/ }),
-/* 156 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _getPrototypeOf = __webpack_require__(1);
-
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
-
-var _classCallCheck2 = __webpack_require__(0);
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = __webpack_require__(4);
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-var _possibleConstructorReturn2 = __webpack_require__(2);
-
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-var _inherits2 = __webpack_require__(3);
-
-var _inherits3 = _interopRequireDefault(_inherits2);
-
-var _type = __webpack_require__(7);
-
-var _utils = __webpack_require__(5);
-
-var _utils2 = _interopRequireDefault(_utils);
-
-var _electronic = __webpack_require__(9);
-
-var _electronic2 = _interopRequireDefault(_electronic);
-
-var _cmd = __webpack_require__(8);
-
-var _cmd2 = _interopRequireDefault(_cmd);
-
-var _command = __webpack_require__(6);
-
-var _command2 = _interopRequireDefault(_command);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var LineFollower = function (_Electronic) {
-  (0, _inherits3.default)(LineFollower, _Electronic);
-
-  function LineFollower(port) {
-    (0, _classCallCheck3.default)(this, LineFollower);
-
-    var _this = (0, _possibleConstructorReturn3.default)(this, (LineFollower.__proto__ || (0, _getPrototypeOf2.default)(LineFollower)).call(this));
-
-    _this.args = {
-      port: (0, _type.defineNumber)(port)
-    };
-    return _this;
-  }
-
-  (0, _createClass3.default)(LineFollower, [{
-    key: 'getData',
-    value: function getData(callback) {
-      var buf = _utils2.default.composer(_cmd2.default.readLineFollower, [this.args.port]);
-      _command2.default.execRead(buf, callback);
-      return this;
-    }
-  }], [{
-    key: 'supportStamp',
-    value: function supportStamp() {
-      return '1111';
-    }
-  }]);
-  return LineFollower;
-}(_electronic2.default);
-
-exports.default = LineFollower;
-
-/***/ }),
-/* 157 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _getPrototypeOf = __webpack_require__(1);
-
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
-
-var _classCallCheck2 = __webpack_require__(0);
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = __webpack_require__(4);
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-var _possibleConstructorReturn2 = __webpack_require__(2);
-
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-var _inherits2 = __webpack_require__(3);
-
-var _inherits3 = _interopRequireDefault(_inherits2);
-
-var _type = __webpack_require__(7);
-
-var _utils = __webpack_require__(5);
-
-var _utils2 = _interopRequireDefault(_utils);
-
-var _electronic = __webpack_require__(9);
-
-var _electronic2 = _interopRequireDefault(_electronic);
-
-var _cmd = __webpack_require__(8);
-
-var _cmd2 = _interopRequireDefault(_cmd);
-
-var _command = __webpack_require__(6);
-
-var _command2 = _interopRequireDefault(_command);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var Compass = function (_Electronic) {
-  (0, _inherits3.default)(Compass, _Electronic);
-
-  function Compass(port) {
-    (0, _classCallCheck3.default)(this, Compass);
-
-    var _this = (0, _possibleConstructorReturn3.default)(this, (Compass.__proto__ || (0, _getPrototypeOf2.default)(Compass)).call(this));
-
-    _this.args = {
-      port: (0, _type.defineNumber)(port)
-    };
-    return _this;
-  }
-
-  (0, _createClass3.default)(Compass, [{
-    key: 'getData',
-    value: function getData(callback) {
-      var buf = _utils2.default.composer(_cmd2.default.readCompass, [this.args.port]);
-      _command2.default.execRead(buf, callback);
-      return this;
-    }
-  }], [{
-    key: 'supportStamp',
-    value: function supportStamp() {
-      return '1110';
-    }
-  }]);
-  return Compass;
-}(_electronic2.default);
-
-exports.default = Compass;
-
-/***/ }),
-/* 158 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _getPrototypeOf = __webpack_require__(1);
-
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
-
-var _classCallCheck2 = __webpack_require__(0);
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = __webpack_require__(4);
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-var _possibleConstructorReturn2 = __webpack_require__(2);
-
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-var _inherits2 = __webpack_require__(3);
-
-var _inherits3 = _interopRequireDefault(_inherits2);
-
-var _type = __webpack_require__(7);
-
-var _utils = __webpack_require__(5);
-
-var _utils2 = _interopRequireDefault(_utils);
-
-var _electronic = __webpack_require__(9);
-
-var _electronic2 = _interopRequireDefault(_electronic);
-
-var _cmd = __webpack_require__(8);
-
-var _cmd2 = _interopRequireDefault(_cmd);
-
-var _command = __webpack_require__(6);
-
-var _command2 = _interopRequireDefault(_command);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var commandRead = function commandRead(args, callback) {
-  var buf = _utils2.default.composer(_cmd2.default.readHumiture, [args.port, args.type]);
-  _command2.default.execRead(buf, callback);
-};
-
-var Humiture = function (_Electronic) {
-  (0, _inherits3.default)(Humiture, _Electronic);
-
-  function Humiture(port) {
-    (0, _classCallCheck3.default)(this, Humiture);
-
-    var _this = (0, _possibleConstructorReturn3.default)(this, (Humiture.__proto__ || (0, _getPrototypeOf2.default)(Humiture)).call(this));
-
-    _this.args = {
-      port: (0, _type.defineNumber)(port),
-      type: 0
-    };
-    return _this;
-  }
-
-  (0, _createClass3.default)(Humiture, [{
-    key: 'getHumidity',
-    value: function getHumidity(callback) {
-      this.args.type = 0;
-      commandRead(this.args, callback);
-      return this;
-    }
-  }, {
-    key: 'getTemperature',
-    value: function getTemperature(callback) {
-      this.args.type = 1;
-      commandRead(this.args, callback);
-      return this;
-    }
-  }], [{
-    key: 'supportStamp',
-    value: function supportStamp() {
-      return '1111';
-    }
-  }]);
-  return Humiture;
-}(_electronic2.default);
-
-exports.default = Humiture;
-
-/***/ }),
-/* 159 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _getPrototypeOf = __webpack_require__(1);
-
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
-
-var _classCallCheck2 = __webpack_require__(0);
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = __webpack_require__(4);
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-var _possibleConstructorReturn2 = __webpack_require__(2);
-
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-var _inherits2 = __webpack_require__(3);
-
-var _inherits3 = _interopRequireDefault(_inherits2);
-
-var _type = __webpack_require__(7);
-
-var _utils = __webpack_require__(5);
-
-var _utils2 = _interopRequireDefault(_utils);
-
-var _electronic = __webpack_require__(9);
-
-var _electronic2 = _interopRequireDefault(_electronic);
-
-var _cmd = __webpack_require__(8);
-
-var _cmd2 = _interopRequireDefault(_cmd);
-
-var _command = __webpack_require__(6);
-
-var _command2 = _interopRequireDefault(_command);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var Flame = function (_Electronic) {
-  (0, _inherits3.default)(Flame, _Electronic);
-
-  function Flame(port) {
-    (0, _classCallCheck3.default)(this, Flame);
-
-    var _this = (0, _possibleConstructorReturn3.default)(this, (Flame.__proto__ || (0, _getPrototypeOf2.default)(Flame)).call(this));
-
-    _this.args = {
-      port: (0, _type.defineNumber)(port)
-    };
-    return _this;
-  }
-
-  (0, _createClass3.default)(Flame, [{
-    key: 'getData',
-    value: function getData(callback) {
-      var buf = _utils2.default.composer(_cmd2.default.readFlame, [this.args.port]);
-      _command2.default.execRead(buf, callback);
-      return this;
-    }
-  }], [{
-    key: 'supportStamp',
-    value: function supportStamp() {
-      return '1111';
-    }
-  }]);
-  return Flame;
-}(_electronic2.default);
-
-exports.default = Flame;
-
-/***/ }),
-/* 160 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _getPrototypeOf = __webpack_require__(1);
-
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
-
-var _classCallCheck2 = __webpack_require__(0);
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = __webpack_require__(4);
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-var _possibleConstructorReturn2 = __webpack_require__(2);
-
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-var _inherits2 = __webpack_require__(3);
-
-var _inherits3 = _interopRequireDefault(_inherits2);
-
-var _type = __webpack_require__(7);
-
-var _utils = __webpack_require__(5);
-
-var _utils2 = _interopRequireDefault(_utils);
-
-var _electronic = __webpack_require__(9);
-
-var _electronic2 = _interopRequireDefault(_electronic);
-
-var _cmd = __webpack_require__(8);
-
-var _cmd2 = _interopRequireDefault(_cmd);
-
-var _command = __webpack_require__(6);
-
-var _command2 = _interopRequireDefault(_command);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var Gas = function (_Electronic) {
-  (0, _inherits3.default)(Gas, _Electronic);
-
-  function Gas(port) {
-    (0, _classCallCheck3.default)(this, Gas);
-
-    var _this = (0, _possibleConstructorReturn3.default)(this, (Gas.__proto__ || (0, _getPrototypeOf2.default)(Gas)).call(this));
-
-    _this.args = {
-      port: (0, _type.defineNumber)(port)
-    };
-    return _this;
-  }
-
-  (0, _createClass3.default)(Gas, [{
-    key: 'getData',
-    value: function getData(callback) {
-      var buf = _utils2.default.composer(_cmd2.default.readGas, [this.args.port]);
-      _command2.default.execRead(buf, callback);
-      return this;
-    }
-  }], [{
-    key: 'supportStamp',
-    value: function supportStamp() {
-      return '1111';
-    }
-  }]);
-  return Gas;
-}(_electronic2.default);
-
-exports.default = Gas;
-
-/***/ }),
-/* 161 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _getPrototypeOf = __webpack_require__(1);
-
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
-
-var _classCallCheck2 = __webpack_require__(0);
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = __webpack_require__(4);
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-var _possibleConstructorReturn2 = __webpack_require__(2);
-
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-var _inherits2 = __webpack_require__(3);
-
-var _inherits3 = _interopRequireDefault(_inherits2);
-
-var _type = __webpack_require__(7);
-
-var _utils = __webpack_require__(5);
-
-var _utils2 = _interopRequireDefault(_utils);
-
-var _electronic = __webpack_require__(9);
-
-var _electronic2 = _interopRequireDefault(_electronic);
-
-var _cmd = __webpack_require__(8);
+var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
@@ -8047,7 +7592,7 @@ var Touch = function (_Electronic) {
 exports.default = Touch;
 
 /***/ }),
-/* 162 */
+/* 117 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8057,7 +7602,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _getPrototypeOf = __webpack_require__(1);
+var _getPrototypeOf = __webpack_require__(2);
 
 var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
 
@@ -8065,11 +7610,11 @@ var _classCallCheck2 = __webpack_require__(0);
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-var _createClass2 = __webpack_require__(4);
+var _createClass2 = __webpack_require__(1);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _possibleConstructorReturn2 = __webpack_require__(2);
+var _possibleConstructorReturn2 = __webpack_require__(4);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
@@ -8077,7 +7622,7 @@ var _inherits2 = __webpack_require__(3);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _type = __webpack_require__(7);
+var _type = __webpack_require__(8);
 
 var _utils = __webpack_require__(5);
 
@@ -8087,7 +7632,7 @@ var _electronic = __webpack_require__(9);
 
 var _electronic2 = _interopRequireDefault(_electronic);
 
-var _cmd = __webpack_require__(8);
+var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
@@ -8097,37 +7642,24 @@ var _command2 = _interopRequireDefault(_command);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var FourKeys = function (_Electronic) {
-  (0, _inherits3.default)(FourKeys, _Electronic);
+var Ultrasonic = function (_Electronic) {
+  (0, _inherits3.default)(Ultrasonic, _Electronic);
 
-  function FourKeys(port) {
-    (0, _classCallCheck3.default)(this, FourKeys);
+  function Ultrasonic(port) {
+    (0, _classCallCheck3.default)(this, Ultrasonic);
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (FourKeys.__proto__ || (0, _getPrototypeOf2.default)(FourKeys)).call(this));
+    var _this = (0, _possibleConstructorReturn3.default)(this, (Ultrasonic.__proto__ || (0, _getPrototypeOf2.default)(Ultrasonic)).call(this));
 
     _this.args = {
-      port: (0, _type.defineNumber)(port),
-      key: 1
+      port: (0, _type.defineNumber)(port)
     };
     return _this;
   }
 
-  /**
-   * 键位
-   * @param  {Number} index 键位：1、2、3、4
-   */
-
-
-  (0, _createClass3.default)(FourKeys, [{
-    key: 'key',
-    value: function key(index) {
-      this.args.key = (0, _type.defineNumber)(index, this.args.key);
-      return this;
-    }
-  }, {
+  (0, _createClass3.default)(Ultrasonic, [{
     key: 'getData',
     value: function getData(callback) {
-      var buf = _utils2.default.composer(_cmd2.default.readFourKeys, [this.args.port, this.args.key]);
+      var buf = _utils2.default.composer(_cmd2.default.readUltrasonic, [this.args.port]);
       _command2.default.execRead(buf, callback);
       return this;
     }
@@ -8137,260 +7669,926 @@ var FourKeys = function (_Electronic) {
       return '1111';
     }
   }]);
-  return FourKeys;
+  return Ultrasonic;
 }(_electronic2.default);
 
-exports.default = FourKeys;
+exports.default = Ultrasonic;
+
+/***/ }),
+/* 118 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _getPrototypeOf = __webpack_require__(2);
+
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+var _classCallCheck2 = __webpack_require__(0);
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = __webpack_require__(1);
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _possibleConstructorReturn2 = __webpack_require__(4);
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = __webpack_require__(3);
+
+var _inherits3 = _interopRequireDefault(_inherits2);
+
+var _type = __webpack_require__(8);
+
+var _utils = __webpack_require__(5);
+
+var _utils2 = _interopRequireDefault(_utils);
+
+var _electronic = __webpack_require__(9);
+
+var _electronic2 = _interopRequireDefault(_electronic);
+
+var _cmd = __webpack_require__(7);
+
+var _cmd2 = _interopRequireDefault(_cmd);
+
+var _command = __webpack_require__(6);
+
+var _command2 = _interopRequireDefault(_command);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var VirtualJoystick = function (_Electronic) {
+  (0, _inherits3.default)(VirtualJoystick, _Electronic);
+
+  function VirtualJoystick() {
+    (0, _classCallCheck3.default)(this, VirtualJoystick);
+
+    var _this = (0, _possibleConstructorReturn3.default)(this, (VirtualJoystick.__proto__ || (0, _getPrototypeOf2.default)(VirtualJoystick)).call(this));
+
+    _this.args = {
+      leftSpeed: 0,
+      rightSpeed: 0
+    };
+    return _this;
+  }
+
+  (0, _createClass3.default)(VirtualJoystick, [{
+    key: 'speed',
+    value: function speed(leftSpeed, rightSpeed) {
+      this.args.leftSpeed = leftSpeed || 0;
+      this.args.rightSpeed = rightSpeed || 0;
+      return this;
+    }
+  }, {
+    key: 'leftSpeed',
+    value: function leftSpeed(speed) {
+      this.args.leftSpeed = speed || 0;
+      return this;
+    }
+  }, {
+    key: 'rightSpeed',
+    value: function rightSpeed(speed) {
+      this.args.rightSpeed = speed || 0;
+      return this;
+    }
+  }, {
+    key: 'run',
+    value: function run() {
+      var buf = _utils2.default.composer(_cmd2.default.setJoystick, [this.args.leftSpeed, this.args.rightSpeed]);
+      _command2.default.execWrite(buf);
+      return this;
+    }
+  }, {
+    key: 'stop',
+    value: function stop() {
+      return this.speed(0, 0).run();
+    }
+  }], [{
+    key: 'supportStamp',
+    value: function supportStamp() {
+      return '1111';
+    }
+  }]);
+  return VirtualJoystick;
+}(_electronic2.default);
+
+exports.default = VirtualJoystick;
+
+/***/ }),
+/* 119 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _getPrototypeOf = __webpack_require__(2);
+
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+var _classCallCheck2 = __webpack_require__(0);
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = __webpack_require__(1);
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _possibleConstructorReturn2 = __webpack_require__(4);
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = __webpack_require__(3);
+
+var _inherits3 = _interopRequireDefault(_inherits2);
+
+var _type = __webpack_require__(8);
+
+var _utils = __webpack_require__(5);
+
+var _utils2 = _interopRequireDefault(_utils);
+
+var _electronic = __webpack_require__(9);
+
+var _electronic2 = _interopRequireDefault(_electronic);
+
+var _cmd = __webpack_require__(7);
+
+var _cmd2 = _interopRequireDefault(_cmd);
+
+var _command = __webpack_require__(6);
+
+var _command2 = _interopRequireDefault(_command);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var VirtualJoystickForBalance = function (_Electronic) {
+  (0, _inherits3.default)(VirtualJoystickForBalance, _Electronic);
+
+  function VirtualJoystickForBalance() {
+    (0, _classCallCheck3.default)(this, VirtualJoystickForBalance);
+
+    var _this = (0, _possibleConstructorReturn3.default)(this, (VirtualJoystickForBalance.__proto__ || (0, _getPrototypeOf2.default)(VirtualJoystickForBalance)).call(this));
+
+    _this.args = {
+      speed: 0,
+      turnRange: 0
+    };
+    return _this;
+  }
+
+  (0, _createClass3.default)(VirtualJoystickForBalance, [{
+    key: 'speed',
+    value: function speed(leftSpeed) {
+      this.args.speed = leftSpeed || 0;
+      return this;
+    }
+  }, {
+    key: 'turnRange',
+    value: function turnRange(range) {
+      this.args.turnRange = range || 0;
+      return this;
+    }
+  }, {
+    key: 'run',
+    value: function run() {
+      var buf = _utils2.default.composer(_cmd2.default.setVirtualJoystickForBalance, [this.args.turnRange, this.args.speed]);
+      _command2.default.execWrite(buf);
+      return this;
+    }
+
+    /**
+     * run reversely
+     * @return {Object} the instance
+     */
+
+  }, {
+    key: 'reverse',
+    value: function reverse() {
+      this.speed(-1 * this.args.speed);
+      return this.run();
+    }
+  }, {
+    key: 'stop',
+    value: function stop() {
+      return this.speed(0).run();
+    }
+  }], [{
+    key: 'supportStamp',
+    value: function supportStamp() {
+      return '0110';
+    }
+  }]);
+  return VirtualJoystickForBalance;
+}(_electronic2.default);
+
+exports.default = VirtualJoystickForBalance;
+
+/***/ }),
+/* 120 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = { "default": __webpack_require__(126), __esModule: true };
+
+/***/ }),
+/* 121 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = { "default": __webpack_require__(128), __esModule: true };
+
+/***/ }),
+/* 122 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = { "default": __webpack_require__(129), __esModule: true };
+
+/***/ }),
+/* 123 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = { "default": __webpack_require__(132), __esModule: true };
+
+/***/ }),
+/* 124 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = { "default": __webpack_require__(133), __esModule: true };
+
+/***/ }),
+/* 125 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = { "default": __webpack_require__(134), __esModule: true };
+
+/***/ }),
+/* 126 */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(69);
+__webpack_require__(157);
+module.exports = __webpack_require__(10).Array.from;
+
+/***/ }),
+/* 127 */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(159);
+module.exports = __webpack_require__(10).Object.assign;
+
+/***/ }),
+/* 128 */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(160);
+var $Object = __webpack_require__(10).Object;
+module.exports = function create(P, D){
+  return $Object.create(P, D);
+};
+
+/***/ }),
+/* 129 */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(161);
+var $Object = __webpack_require__(10).Object;
+module.exports = function defineProperty(it, key, desc){
+  return $Object.defineProperty(it, key, desc);
+};
+
+/***/ }),
+/* 130 */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(162);
+module.exports = __webpack_require__(10).Object.getPrototypeOf;
+
+/***/ }),
+/* 131 */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(163);
+module.exports = __webpack_require__(10).Object.keys;
+
+/***/ }),
+/* 132 */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(164);
+module.exports = __webpack_require__(10).Object.setPrototypeOf;
+
+/***/ }),
+/* 133 */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(166);
+__webpack_require__(165);
+__webpack_require__(167);
+__webpack_require__(168);
+module.exports = __webpack_require__(10).Symbol;
+
+/***/ }),
+/* 134 */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(69);
+__webpack_require__(169);
+module.exports = __webpack_require__(51).f('iterator');
+
+/***/ }),
+/* 135 */
+/***/ (function(module, exports) {
+
+module.exports = function(it){
+  if(typeof it != 'function')throw TypeError(it + ' is not a function!');
+  return it;
+};
+
+/***/ }),
+/* 136 */
+/***/ (function(module, exports) {
+
+module.exports = function(){ /* empty */ };
+
+/***/ }),
+/* 137 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// false -> Array#indexOf
+// true  -> Array#includes
+var toIObject = __webpack_require__(18)
+  , toLength  = __webpack_require__(68)
+  , toIndex   = __webpack_require__(155);
+module.exports = function(IS_INCLUDES){
+  return function($this, el, fromIndex){
+    var O      = toIObject($this)
+      , length = toLength(O.length)
+      , index  = toIndex(fromIndex, length)
+      , value;
+    // Array#includes uses SameValueZero equality algorithm
+    if(IS_INCLUDES && el != el)while(length > index){
+      value = O[index++];
+      if(value != value)return true;
+    // Array#toIndex ignores holes, Array#includes - not
+    } else for(;length > index; index++)if(IS_INCLUDES || index in O){
+      if(O[index] === el)return IS_INCLUDES || index || 0;
+    } return !IS_INCLUDES && -1;
+  };
+};
+
+/***/ }),
+/* 138 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// getting tag from 19.1.3.6 Object.prototype.toString()
+var cof = __webpack_require__(38)
+  , TAG = __webpack_require__(11)('toStringTag')
+  // ES3 wrong here
+  , ARG = cof(function(){ return arguments; }()) == 'Arguments';
+
+// fallback for IE11 Script Access Denied error
+var tryGet = function(it, key){
+  try {
+    return it[key];
+  } catch(e){ /* empty */ }
+};
+
+module.exports = function(it){
+  var O, T, B;
+  return it === undefined ? 'Undefined' : it === null ? 'Null'
+    // @@toStringTag case
+    : typeof (T = tryGet(O = Object(it), TAG)) == 'string' ? T
+    // builtinTag case
+    : ARG ? cof(O)
+    // ES3 arguments fallback
+    : (B = cof(O)) == 'Object' && typeof O.callee == 'function' ? 'Arguments' : B;
+};
+
+/***/ }),
+/* 139 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var $defineProperty = __webpack_require__(15)
+  , createDesc      = __webpack_require__(26);
+
+module.exports = function(object, index, value){
+  if(index in object)$defineProperty.f(object, index, createDesc(0, value));
+  else object[index] = value;
+};
+
+/***/ }),
+/* 140 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// all enumerable object keys, includes symbols
+var getKeys = __webpack_require__(23)
+  , gOPS    = __webpack_require__(44)
+  , pIE     = __webpack_require__(35);
+module.exports = function(it){
+  var result     = getKeys(it)
+    , getSymbols = gOPS.f;
+  if(getSymbols){
+    var symbols = getSymbols(it)
+      , isEnum  = pIE.f
+      , i       = 0
+      , key;
+    while(symbols.length > i)if(isEnum.call(it, key = symbols[i++]))result.push(key);
+  } return result;
+};
+
+/***/ }),
+/* 141 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(14).document && document.documentElement;
+
+/***/ }),
+/* 142 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// check on default Array iterator
+var Iterators  = __webpack_require__(25)
+  , ITERATOR   = __webpack_require__(11)('iterator')
+  , ArrayProto = Array.prototype;
+
+module.exports = function(it){
+  return it !== undefined && (Iterators.Array === it || ArrayProto[ITERATOR] === it);
+};
+
+/***/ }),
+/* 143 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// 7.2.2 IsArray(argument)
+var cof = __webpack_require__(38);
+module.exports = Array.isArray || function isArray(arg){
+  return cof(arg) == 'Array';
+};
+
+/***/ }),
+/* 144 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// call something on iterator step with safe closing on error
+var anObject = __webpack_require__(20);
+module.exports = function(iterator, fn, value, entries){
+  try {
+    return entries ? fn(anObject(value)[0], value[1]) : fn(value);
+  // 7.4.6 IteratorClose(iterator, completion)
+  } catch(e){
+    var ret = iterator['return'];
+    if(ret !== undefined)anObject(ret.call(iterator));
+    throw e;
+  }
+};
+
+/***/ }),
+/* 145 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var create         = __webpack_require__(43)
+  , descriptor     = __webpack_require__(26)
+  , setToStringTag = __webpack_require__(45)
+  , IteratorPrototype = {};
+
+// 25.1.2.1.1 %IteratorPrototype%[@@iterator]()
+__webpack_require__(22)(IteratorPrototype, __webpack_require__(11)('iterator'), function(){ return this; });
+
+module.exports = function(Constructor, NAME, next){
+  Constructor.prototype = create(IteratorPrototype, {next: descriptor(1, next)});
+  setToStringTag(Constructor, NAME + ' Iterator');
+};
+
+/***/ }),
+/* 146 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var ITERATOR     = __webpack_require__(11)('iterator')
+  , SAFE_CLOSING = false;
+
+try {
+  var riter = [7][ITERATOR]();
+  riter['return'] = function(){ SAFE_CLOSING = true; };
+  Array.from(riter, function(){ throw 2; });
+} catch(e){ /* empty */ }
+
+module.exports = function(exec, skipClosing){
+  if(!skipClosing && !SAFE_CLOSING)return false;
+  var safe = false;
+  try {
+    var arr  = [7]
+      , iter = arr[ITERATOR]();
+    iter.next = function(){ return {done: safe = true}; };
+    arr[ITERATOR] = function(){ return iter; };
+    exec(arr);
+  } catch(e){ /* empty */ }
+  return safe;
+};
+
+/***/ }),
+/* 147 */
+/***/ (function(module, exports) {
+
+module.exports = function(done, value){
+  return {value: value, done: !!done};
+};
+
+/***/ }),
+/* 148 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var getKeys   = __webpack_require__(23)
+  , toIObject = __webpack_require__(18);
+module.exports = function(object, el){
+  var O      = toIObject(object)
+    , keys   = getKeys(O)
+    , length = keys.length
+    , index  = 0
+    , key;
+  while(length > index)if(O[key = keys[index++]] === el)return key;
+};
+
+/***/ }),
+/* 149 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var META     = __webpack_require__(36)('meta')
+  , isObject = __webpack_require__(24)
+  , has      = __webpack_require__(17)
+  , setDesc  = __webpack_require__(15).f
+  , id       = 0;
+var isExtensible = Object.isExtensible || function(){
+  return true;
+};
+var FREEZE = !__webpack_require__(21)(function(){
+  return isExtensible(Object.preventExtensions({}));
+});
+var setMeta = function(it){
+  setDesc(it, META, {value: {
+    i: 'O' + ++id, // object ID
+    w: {}          // weak collections IDs
+  }});
+};
+var fastKey = function(it, create){
+  // return primitive with prefix
+  if(!isObject(it))return typeof it == 'symbol' ? it : (typeof it == 'string' ? 'S' : 'P') + it;
+  if(!has(it, META)){
+    // can't set metadata to uncaught frozen object
+    if(!isExtensible(it))return 'F';
+    // not necessary to add metadata
+    if(!create)return 'E';
+    // add missing metadata
+    setMeta(it);
+  // return object ID
+  } return it[META].i;
+};
+var getWeak = function(it, create){
+  if(!has(it, META)){
+    // can't set metadata to uncaught frozen object
+    if(!isExtensible(it))return true;
+    // not necessary to add metadata
+    if(!create)return false;
+    // add missing metadata
+    setMeta(it);
+  // return hash weak collections IDs
+  } return it[META].w;
+};
+// add metadata on freeze-family methods calling
+var onFreeze = function(it){
+  if(FREEZE && meta.NEED && isExtensible(it) && !has(it, META))setMeta(it);
+  return it;
+};
+var meta = module.exports = {
+  KEY:      META,
+  NEED:     false,
+  fastKey:  fastKey,
+  getWeak:  getWeak,
+  onFreeze: onFreeze
+};
+
+/***/ }),
+/* 150 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+// 19.1.2.1 Object.assign(target, source, ...)
+var getKeys  = __webpack_require__(23)
+  , gOPS     = __webpack_require__(44)
+  , pIE      = __webpack_require__(35)
+  , toObject = __webpack_require__(27)
+  , IObject  = __webpack_require__(60)
+  , $assign  = Object.assign;
+
+// should work with symbols and should have deterministic property order (V8 bug)
+module.exports = !$assign || __webpack_require__(21)(function(){
+  var A = {}
+    , B = {}
+    , S = Symbol()
+    , K = 'abcdefghijklmnopqrst';
+  A[S] = 7;
+  K.split('').forEach(function(k){ B[k] = k; });
+  return $assign({}, A)[S] != 7 || Object.keys($assign({}, B)).join('') != K;
+}) ? function assign(target, source){ // eslint-disable-line no-unused-vars
+  var T     = toObject(target)
+    , aLen  = arguments.length
+    , index = 1
+    , getSymbols = gOPS.f
+    , isEnum     = pIE.f;
+  while(aLen > index){
+    var S      = IObject(arguments[index++])
+      , keys   = getSymbols ? getKeys(S).concat(getSymbols(S)) : getKeys(S)
+      , length = keys.length
+      , j      = 0
+      , key;
+    while(length > j)if(isEnum.call(S, key = keys[j++]))T[key] = S[key];
+  } return T;
+} : $assign;
+
+/***/ }),
+/* 151 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var dP       = __webpack_require__(15)
+  , anObject = __webpack_require__(20)
+  , getKeys  = __webpack_require__(23);
+
+module.exports = __webpack_require__(16) ? Object.defineProperties : function defineProperties(O, Properties){
+  anObject(O);
+  var keys   = getKeys(Properties)
+    , length = keys.length
+    , i = 0
+    , P;
+  while(length > i)dP.f(O, P = keys[i++], Properties[P]);
+  return O;
+};
+
+/***/ }),
+/* 152 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// fallback for IE11 buggy Object.getOwnPropertyNames with iframe and window
+var toIObject = __webpack_require__(18)
+  , gOPN      = __webpack_require__(63).f
+  , toString  = {}.toString;
+
+var windowNames = typeof window == 'object' && window && Object.getOwnPropertyNames
+  ? Object.getOwnPropertyNames(window) : [];
+
+var getWindowNames = function(it){
+  try {
+    return gOPN(it);
+  } catch(e){
+    return windowNames.slice();
+  }
+};
+
+module.exports.f = function getOwnPropertyNames(it){
+  return windowNames && toString.call(it) == '[object Window]' ? getWindowNames(it) : gOPN(toIObject(it));
+};
+
+
+/***/ }),
+/* 153 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// Works with __proto__ only. Old v8 can't work with null proto objects.
+/* eslint-disable no-proto */
+var isObject = __webpack_require__(24)
+  , anObject = __webpack_require__(20);
+var check = function(O, proto){
+  anObject(O);
+  if(!isObject(proto) && proto !== null)throw TypeError(proto + ": can't set as prototype!");
+};
+module.exports = {
+  set: Object.setPrototypeOf || ('__proto__' in {} ? // eslint-disable-line
+    function(test, buggy, set){
+      try {
+        set = __webpack_require__(39)(Function.call, __webpack_require__(62).f(Object.prototype, '__proto__').set, 2);
+        set(test, []);
+        buggy = !(test instanceof Array);
+      } catch(e){ buggy = true; }
+      return function setPrototypeOf(O, proto){
+        check(O, proto);
+        if(buggy)O.__proto__ = proto;
+        else set(O, proto);
+        return O;
+      };
+    }({}, false) : undefined),
+  check: check
+};
+
+/***/ }),
+/* 154 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var toInteger = __webpack_require__(48)
+  , defined   = __webpack_require__(40);
+// true  -> String#at
+// false -> String#codePointAt
+module.exports = function(TO_STRING){
+  return function(that, pos){
+    var s = String(defined(that))
+      , i = toInteger(pos)
+      , l = s.length
+      , a, b;
+    if(i < 0 || i >= l)return TO_STRING ? '' : undefined;
+    a = s.charCodeAt(i);
+    return a < 0xd800 || a > 0xdbff || i + 1 === l || (b = s.charCodeAt(i + 1)) < 0xdc00 || b > 0xdfff
+      ? TO_STRING ? s.charAt(i) : a
+      : TO_STRING ? s.slice(i, i + 2) : (a - 0xd800 << 10) + (b - 0xdc00) + 0x10000;
+  };
+};
+
+/***/ }),
+/* 155 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var toInteger = __webpack_require__(48)
+  , max       = Math.max
+  , min       = Math.min;
+module.exports = function(index, length){
+  index = toInteger(index);
+  return index < 0 ? max(index + length, 0) : min(index, length);
+};
+
+/***/ }),
+/* 156 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var classof   = __webpack_require__(138)
+  , ITERATOR  = __webpack_require__(11)('iterator')
+  , Iterators = __webpack_require__(25);
+module.exports = __webpack_require__(10).getIteratorMethod = function(it){
+  if(it != undefined)return it[ITERATOR]
+    || it['@@iterator']
+    || Iterators[classof(it)];
+};
+
+/***/ }),
+/* 157 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var ctx            = __webpack_require__(39)
+  , $export        = __webpack_require__(13)
+  , toObject       = __webpack_require__(27)
+  , call           = __webpack_require__(144)
+  , isArrayIter    = __webpack_require__(142)
+  , toLength       = __webpack_require__(68)
+  , createProperty = __webpack_require__(139)
+  , getIterFn      = __webpack_require__(156);
+
+$export($export.S + $export.F * !__webpack_require__(146)(function(iter){ Array.from(iter); }), 'Array', {
+  // 22.1.2.1 Array.from(arrayLike, mapfn = undefined, thisArg = undefined)
+  from: function from(arrayLike/*, mapfn = undefined, thisArg = undefined*/){
+    var O       = toObject(arrayLike)
+      , C       = typeof this == 'function' ? this : Array
+      , aLen    = arguments.length
+      , mapfn   = aLen > 1 ? arguments[1] : undefined
+      , mapping = mapfn !== undefined
+      , index   = 0
+      , iterFn  = getIterFn(O)
+      , length, result, step, iterator;
+    if(mapping)mapfn = ctx(mapfn, aLen > 2 ? arguments[2] : undefined, 2);
+    // if object isn't iterable or it's array with default iterator - use simple case
+    if(iterFn != undefined && !(C == Array && isArrayIter(iterFn))){
+      for(iterator = iterFn.call(O), result = new C; !(step = iterator.next()).done; index++){
+        createProperty(result, index, mapping ? call(iterator, mapfn, [step.value, index], true) : step.value);
+      }
+    } else {
+      length = toLength(O.length);
+      for(result = new C(length); length > index; index++){
+        createProperty(result, index, mapping ? mapfn(O[index], index) : O[index]);
+      }
+    }
+    result.length = index;
+    return result;
+  }
+});
+
+
+/***/ }),
+/* 158 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var addToUnscopables = __webpack_require__(136)
+  , step             = __webpack_require__(147)
+  , Iterators        = __webpack_require__(25)
+  , toIObject        = __webpack_require__(18);
+
+// 22.1.3.4 Array.prototype.entries()
+// 22.1.3.13 Array.prototype.keys()
+// 22.1.3.29 Array.prototype.values()
+// 22.1.3.30 Array.prototype[@@iterator]()
+module.exports = __webpack_require__(61)(Array, 'Array', function(iterated, kind){
+  this._t = toIObject(iterated); // target
+  this._i = 0;                   // next index
+  this._k = kind;                // kind
+// 22.1.5.2.1 %ArrayIteratorPrototype%.next()
+}, function(){
+  var O     = this._t
+    , kind  = this._k
+    , index = this._i++;
+  if(!O || index >= O.length){
+    this._t = undefined;
+    return step(1);
+  }
+  if(kind == 'keys'  )return step(0, index);
+  if(kind == 'values')return step(0, O[index]);
+  return step(0, [index, O[index]]);
+}, 'values');
+
+// argumentsList[@@iterator] is %ArrayProto_values% (9.4.4.6, 9.4.4.7)
+Iterators.Arguments = Iterators.Array;
+
+addToUnscopables('keys');
+addToUnscopables('values');
+addToUnscopables('entries');
+
+/***/ }),
+/* 159 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// 19.1.3.1 Object.assign(target, source)
+var $export = __webpack_require__(13);
+
+$export($export.S + $export.F, 'Object', {assign: __webpack_require__(150)});
+
+/***/ }),
+/* 160 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var $export = __webpack_require__(13)
+// 19.1.2.2 / 15.2.3.5 Object.create(O [, Properties])
+$export($export.S, 'Object', {create: __webpack_require__(43)});
+
+/***/ }),
+/* 161 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var $export = __webpack_require__(13);
+// 19.1.2.4 / 15.2.3.6 Object.defineProperty(O, P, Attributes)
+$export($export.S + $export.F * !__webpack_require__(16), 'Object', {defineProperty: __webpack_require__(15).f});
+
+/***/ }),
+/* 162 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// 19.1.2.9 Object.getPrototypeOf(O)
+var toObject        = __webpack_require__(27)
+  , $getPrototypeOf = __webpack_require__(64);
+
+__webpack_require__(66)('getPrototypeOf', function(){
+  return function getPrototypeOf(it){
+    return $getPrototypeOf(toObject(it));
+  };
+});
 
 /***/ }),
 /* 163 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+// 19.1.2.14 Object.keys(O)
+var toObject = __webpack_require__(27)
+  , $keys    = __webpack_require__(23);
 
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
+__webpack_require__(66)('keys', function(){
+  return function keys(it){
+    return $keys(toObject(it));
+  };
 });
-
-var _getPrototypeOf = __webpack_require__(1);
-
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
-
-var _classCallCheck2 = __webpack_require__(0);
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = __webpack_require__(4);
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-var _possibleConstructorReturn2 = __webpack_require__(2);
-
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-var _inherits2 = __webpack_require__(3);
-
-var _inherits3 = _interopRequireDefault(_inherits2);
-
-var _type = __webpack_require__(7);
-
-var _utils = __webpack_require__(5);
-
-var _utils2 = _interopRequireDefault(_utils);
-
-var _electronic = __webpack_require__(9);
-
-var _electronic2 = _interopRequireDefault(_electronic);
-
-var _cmd = __webpack_require__(8);
-
-var _cmd2 = _interopRequireDefault(_cmd);
-
-var _command = __webpack_require__(6);
-
-var _command2 = _interopRequireDefault(_command);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var DigGPIO = function (_Electronic) {
-  (0, _inherits3.default)(DigGPIO, _Electronic);
-
-  function DigGPIO(port) {
-    (0, _classCallCheck3.default)(this, DigGPIO);
-
-    var _this = (0, _possibleConstructorReturn3.default)(this, (DigGPIO.__proto__ || (0, _getPrototypeOf2.default)(DigGPIO)).call(this));
-
-    _this.args = {
-      port: (0, _type.defineNumber)(port)
-    };
-    return _this;
-  }
-
-  (0, _createClass3.default)(DigGPIO, [{
-    key: 'getData',
-    value: function getData(callback) {
-      var buf = _utils2.default.composer(_cmd2.default.readDigGPIO, [this.args.port]);
-      _command2.default.execRead(buf, callback);
-      return this;
-    }
-  }], [{
-    key: 'supportStamp',
-    value: function supportStamp() {
-      return '00001';
-    }
-  }]);
-  return DigGPIO;
-}(_electronic2.default);
-
-exports.default = DigGPIO;
 
 /***/ }),
 /* 164 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _getPrototypeOf = __webpack_require__(1);
-
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
-
-var _classCallCheck2 = __webpack_require__(0);
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = __webpack_require__(4);
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-var _possibleConstructorReturn2 = __webpack_require__(2);
-
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-var _inherits2 = __webpack_require__(3);
-
-var _inherits3 = _interopRequireDefault(_inherits2);
-
-var _type = __webpack_require__(7);
-
-var _utils = __webpack_require__(5);
-
-var _utils2 = _interopRequireDefault(_utils);
-
-var _electronic = __webpack_require__(9);
-
-var _electronic2 = _interopRequireDefault(_electronic);
-
-var _cmd = __webpack_require__(8);
-
-var _cmd2 = _interopRequireDefault(_cmd);
-
-var _command = __webpack_require__(6);
-
-var _command2 = _interopRequireDefault(_command);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var AnalogGPIO = function (_Electronic) {
-  (0, _inherits3.default)(AnalogGPIO, _Electronic);
-
-  function AnalogGPIO(port) {
-    (0, _classCallCheck3.default)(this, AnalogGPIO);
-
-    var _this = (0, _possibleConstructorReturn3.default)(this, (AnalogGPIO.__proto__ || (0, _getPrototypeOf2.default)(AnalogGPIO)).call(this));
-
-    _this.args = {
-      port: (0, _type.defineNumber)(port)
-    };
-    return _this;
-  }
-
-  (0, _createClass3.default)(AnalogGPIO, [{
-    key: 'getData',
-    value: function getData(callback) {
-      var buf = _utils2.default.composer(_cmd2.default.readAnalogGPIO, [this.args.port]);
-      _command2.default.execRead(buf, callback);
-      return this;
-    }
-  }], [{
-    key: 'supportStamp',
-    value: function supportStamp() {
-      return '00001';
-    }
-  }]);
-  return AnalogGPIO;
-}(_electronic2.default);
-
-exports.default = AnalogGPIO;
+// 19.1.3.19 Object.setPrototypeOf(O, proto)
+var $export = __webpack_require__(13);
+$export($export.S, 'Object', {setPrototypeOf: __webpack_require__(153).set});
 
 /***/ }),
 /* 165 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
+/***/ (function(module, exports) {
 
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _getPrototypeOf = __webpack_require__(1);
-
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
-
-var _classCallCheck2 = __webpack_require__(0);
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = __webpack_require__(4);
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-var _possibleConstructorReturn2 = __webpack_require__(2);
-
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-var _inherits2 = __webpack_require__(3);
-
-var _inherits3 = _interopRequireDefault(_inherits2);
-
-var _type = __webpack_require__(7);
-
-var _utils = __webpack_require__(5);
-
-var _utils2 = _interopRequireDefault(_utils);
-
-var _electronic = __webpack_require__(9);
-
-var _electronic2 = _interopRequireDefault(_electronic);
-
-var _cmd = __webpack_require__(8);
-
-var _cmd2 = _interopRequireDefault(_cmd);
-
-var _command = __webpack_require__(6);
-
-var _command2 = _interopRequireDefault(_command);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var GPIOContinue = function (_Electronic) {
-  (0, _inherits3.default)(GPIOContinue, _Electronic);
-
-  function GPIOContinue(port, key) {
-    (0, _classCallCheck3.default)(this, GPIOContinue);
-
-    var _this = (0, _possibleConstructorReturn3.default)(this, (GPIOContinue.__proto__ || (0, _getPrototypeOf2.default)(GPIOContinue)).call(this));
-
-    _this.args = {
-      port: (0, _type.defineNumber)(port),
-      key: (0, _type.defineNumber)(key)
-    };
-    return _this;
-  }
-
-  (0, _createClass3.default)(GPIOContinue, [{
-    key: 'getData',
-    value: function getData(callback) {
-      var buf = _utils2.default.composer(_cmd2.default.readGPIOContinue, [this.args.port, this.args.key]);
-      _command2.default.execRead(buf, callback);
-      return this;
-    }
-  }], [{
-    key: 'supportStamp',
-    value: function supportStamp() {
-      return '00001';
-    }
-  }]);
-  return GPIOContinue;
-}(_electronic2.default);
-
-exports.default = GPIOContinue;
 
 /***/ }),
 /* 166 */
@@ -8398,375 +8596,270 @@ exports.default = GPIOContinue;
 
 "use strict";
 
+// ECMAScript 6 symbols shim
+var global         = __webpack_require__(14)
+  , has            = __webpack_require__(17)
+  , DESCRIPTORS    = __webpack_require__(16)
+  , $export        = __webpack_require__(13)
+  , redefine       = __webpack_require__(67)
+  , META           = __webpack_require__(149).KEY
+  , $fails         = __webpack_require__(21)
+  , shared         = __webpack_require__(47)
+  , setToStringTag = __webpack_require__(45)
+  , uid            = __webpack_require__(36)
+  , wks            = __webpack_require__(11)
+  , wksExt         = __webpack_require__(51)
+  , wksDefine      = __webpack_require__(50)
+  , keyOf          = __webpack_require__(148)
+  , enumKeys       = __webpack_require__(140)
+  , isArray        = __webpack_require__(143)
+  , anObject       = __webpack_require__(20)
+  , toIObject      = __webpack_require__(18)
+  , toPrimitive    = __webpack_require__(49)
+  , createDesc     = __webpack_require__(26)
+  , _create        = __webpack_require__(43)
+  , gOPNExt        = __webpack_require__(152)
+  , $GOPD          = __webpack_require__(62)
+  , $DP            = __webpack_require__(15)
+  , $keys          = __webpack_require__(23)
+  , gOPD           = $GOPD.f
+  , dP             = $DP.f
+  , gOPN           = gOPNExt.f
+  , $Symbol        = global.Symbol
+  , $JSON          = global.JSON
+  , _stringify     = $JSON && $JSON.stringify
+  , PROTOTYPE      = 'prototype'
+  , HIDDEN         = wks('_hidden')
+  , TO_PRIMITIVE   = wks('toPrimitive')
+  , isEnum         = {}.propertyIsEnumerable
+  , SymbolRegistry = shared('symbol-registry')
+  , AllSymbols     = shared('symbols')
+  , OPSymbols      = shared('op-symbols')
+  , ObjectProto    = Object[PROTOTYPE]
+  , USE_NATIVE     = typeof $Symbol == 'function'
+  , QObject        = global.QObject;
+// Don't use setters in Qt Script, https://github.com/zloirock/core-js/issues/173
+var setter = !QObject || !QObject[PROTOTYPE] || !QObject[PROTOTYPE].findChild;
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+// fallback for old Android, https://code.google.com/p/v8/issues/detail?id=687
+var setSymbolDesc = DESCRIPTORS && $fails(function(){
+  return _create(dP({}, 'a', {
+    get: function(){ return dP(this, 'a', {value: 7}).a; }
+  })).a != 7;
+}) ? function(it, key, D){
+  var protoDesc = gOPD(ObjectProto, key);
+  if(protoDesc)delete ObjectProto[key];
+  dP(it, key, D);
+  if(protoDesc && it !== ObjectProto)dP(ObjectProto, key, protoDesc);
+} : dP;
 
-var _getPrototypeOf = __webpack_require__(1);
+var wrap = function(tag){
+  var sym = AllSymbols[tag] = _create($Symbol[PROTOTYPE]);
+  sym._k = tag;
+  return sym;
+};
 
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+var isSymbol = USE_NATIVE && typeof $Symbol.iterator == 'symbol' ? function(it){
+  return typeof it == 'symbol';
+} : function(it){
+  return it instanceof $Symbol;
+};
 
-var _classCallCheck2 = __webpack_require__(0);
+var $defineProperty = function defineProperty(it, key, D){
+  if(it === ObjectProto)$defineProperty(OPSymbols, key, D);
+  anObject(it);
+  key = toPrimitive(key, true);
+  anObject(D);
+  if(has(AllSymbols, key)){
+    if(!D.enumerable){
+      if(!has(it, HIDDEN))dP(it, HIDDEN, createDesc(1, {}));
+      it[HIDDEN][key] = true;
+    } else {
+      if(has(it, HIDDEN) && it[HIDDEN][key])it[HIDDEN][key] = false;
+      D = _create(D, {enumerable: createDesc(0, false)});
+    } return setSymbolDesc(it, key, D);
+  } return dP(it, key, D);
+};
+var $defineProperties = function defineProperties(it, P){
+  anObject(it);
+  var keys = enumKeys(P = toIObject(P))
+    , i    = 0
+    , l = keys.length
+    , key;
+  while(l > i)$defineProperty(it, key = keys[i++], P[key]);
+  return it;
+};
+var $create = function create(it, P){
+  return P === undefined ? _create(it) : $defineProperties(_create(it), P);
+};
+var $propertyIsEnumerable = function propertyIsEnumerable(key){
+  var E = isEnum.call(this, key = toPrimitive(key, true));
+  if(this === ObjectProto && has(AllSymbols, key) && !has(OPSymbols, key))return false;
+  return E || !has(this, key) || !has(AllSymbols, key) || has(this, HIDDEN) && this[HIDDEN][key] ? E : true;
+};
+var $getOwnPropertyDescriptor = function getOwnPropertyDescriptor(it, key){
+  it  = toIObject(it);
+  key = toPrimitive(key, true);
+  if(it === ObjectProto && has(AllSymbols, key) && !has(OPSymbols, key))return;
+  var D = gOPD(it, key);
+  if(D && has(AllSymbols, key) && !(has(it, HIDDEN) && it[HIDDEN][key]))D.enumerable = true;
+  return D;
+};
+var $getOwnPropertyNames = function getOwnPropertyNames(it){
+  var names  = gOPN(toIObject(it))
+    , result = []
+    , i      = 0
+    , key;
+  while(names.length > i){
+    if(!has(AllSymbols, key = names[i++]) && key != HIDDEN && key != META)result.push(key);
+  } return result;
+};
+var $getOwnPropertySymbols = function getOwnPropertySymbols(it){
+  var IS_OP  = it === ObjectProto
+    , names  = gOPN(IS_OP ? OPSymbols : toIObject(it))
+    , result = []
+    , i      = 0
+    , key;
+  while(names.length > i){
+    if(has(AllSymbols, key = names[i++]) && (IS_OP ? has(ObjectProto, key) : true))result.push(AllSymbols[key]);
+  } return result;
+};
 
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = __webpack_require__(4);
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-var _possibleConstructorReturn2 = __webpack_require__(2);
-
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-var _inherits2 = __webpack_require__(3);
-
-var _inherits3 = _interopRequireDefault(_inherits2);
-
-var _type = __webpack_require__(7);
-
-var _utils = __webpack_require__(5);
-
-var _utils2 = _interopRequireDefault(_utils);
-
-var _electronic = __webpack_require__(9);
-
-var _electronic2 = _interopRequireDefault(_electronic);
-
-var _cmd = __webpack_require__(8);
-
-var _cmd2 = _interopRequireDefault(_cmd);
-
-var _command = __webpack_require__(6);
-
-var _command2 = _interopRequireDefault(_command);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var DoubleGPIO = function (_Electronic) {
-  (0, _inherits3.default)(DoubleGPIO, _Electronic);
-
-  function DoubleGPIO(port1, port2) {
-    (0, _classCallCheck3.default)(this, DoubleGPIO);
-
-    var _this = (0, _possibleConstructorReturn3.default)(this, (DoubleGPIO.__proto__ || (0, _getPrototypeOf2.default)(DoubleGPIO)).call(this));
-
-    _this.args = {
-      port1: (0, _type.defineNumber)(port1),
-      port2: (0, _type.defineNumber)(port2)
+// 19.4.1.1 Symbol([description])
+if(!USE_NATIVE){
+  $Symbol = function Symbol(){
+    if(this instanceof $Symbol)throw TypeError('Symbol is not a constructor!');
+    var tag = uid(arguments.length > 0 ? arguments[0] : undefined);
+    var $set = function(value){
+      if(this === ObjectProto)$set.call(OPSymbols, value);
+      if(has(this, HIDDEN) && has(this[HIDDEN], tag))this[HIDDEN][tag] = false;
+      setSymbolDesc(this, tag, createDesc(1, value));
     };
-    return _this;
+    if(DESCRIPTORS && setter)setSymbolDesc(ObjectProto, tag, {configurable: true, set: $set});
+    return wrap(tag);
+  };
+  redefine($Symbol[PROTOTYPE], 'toString', function toString(){
+    return this._k;
+  });
+
+  $GOPD.f = $getOwnPropertyDescriptor;
+  $DP.f   = $defineProperty;
+  __webpack_require__(63).f = gOPNExt.f = $getOwnPropertyNames;
+  __webpack_require__(35).f  = $propertyIsEnumerable;
+  __webpack_require__(44).f = $getOwnPropertySymbols;
+
+  if(DESCRIPTORS && !__webpack_require__(42)){
+    redefine(ObjectProto, 'propertyIsEnumerable', $propertyIsEnumerable, true);
   }
 
-  (0, _createClass3.default)(DoubleGPIO, [{
-    key: 'getData',
-    value: function getData(callback) {
-      var buf = _utils2.default.composer(_cmd2.default.readDoubleGPIO, [this.args.port1, this.args.port2]);
-      _command2.default.execRead(buf, callback);
-      return this;
-    }
-  }], [{
-    key: 'supportStamp',
-    value: function supportStamp() {
-      return '00001';
-    }
-  }]);
-  return DoubleGPIO;
-}(_electronic2.default);
+  wksExt.f = function(name){
+    return wrap(wks(name));
+  }
+}
 
-exports.default = DoubleGPIO;
+$export($export.G + $export.W + $export.F * !USE_NATIVE, {Symbol: $Symbol});
+
+for(var symbols = (
+  // 19.4.2.2, 19.4.2.3, 19.4.2.4, 19.4.2.6, 19.4.2.8, 19.4.2.9, 19.4.2.10, 19.4.2.11, 19.4.2.12, 19.4.2.13, 19.4.2.14
+  'hasInstance,isConcatSpreadable,iterator,match,replace,search,species,split,toPrimitive,toStringTag,unscopables'
+).split(','), i = 0; symbols.length > i; )wks(symbols[i++]);
+
+for(var symbols = $keys(wks.store), i = 0; symbols.length > i; )wksDefine(symbols[i++]);
+
+$export($export.S + $export.F * !USE_NATIVE, 'Symbol', {
+  // 19.4.2.1 Symbol.for(key)
+  'for': function(key){
+    return has(SymbolRegistry, key += '')
+      ? SymbolRegistry[key]
+      : SymbolRegistry[key] = $Symbol(key);
+  },
+  // 19.4.2.5 Symbol.keyFor(sym)
+  keyFor: function keyFor(key){
+    if(isSymbol(key))return keyOf(SymbolRegistry, key);
+    throw TypeError(key + ' is not a symbol!');
+  },
+  useSetter: function(){ setter = true; },
+  useSimple: function(){ setter = false; }
+});
+
+$export($export.S + $export.F * !USE_NATIVE, 'Object', {
+  // 19.1.2.2 Object.create(O [, Properties])
+  create: $create,
+  // 19.1.2.4 Object.defineProperty(O, P, Attributes)
+  defineProperty: $defineProperty,
+  // 19.1.2.3 Object.defineProperties(O, Properties)
+  defineProperties: $defineProperties,
+  // 19.1.2.6 Object.getOwnPropertyDescriptor(O, P)
+  getOwnPropertyDescriptor: $getOwnPropertyDescriptor,
+  // 19.1.2.7 Object.getOwnPropertyNames(O)
+  getOwnPropertyNames: $getOwnPropertyNames,
+  // 19.1.2.8 Object.getOwnPropertySymbols(O)
+  getOwnPropertySymbols: $getOwnPropertySymbols
+});
+
+// 24.3.2 JSON.stringify(value [, replacer [, space]])
+$JSON && $export($export.S + $export.F * (!USE_NATIVE || $fails(function(){
+  var S = $Symbol();
+  // MS Edge converts symbol values to JSON as {}
+  // WebKit converts symbol values to JSON as null
+  // V8 throws on boxed symbols
+  return _stringify([S]) != '[null]' || _stringify({a: S}) != '{}' || _stringify(Object(S)) != '{}';
+})), 'JSON', {
+  stringify: function stringify(it){
+    if(it === undefined || isSymbol(it))return; // IE8 returns string on undefined
+    var args = [it]
+      , i    = 1
+      , replacer, $replacer;
+    while(arguments.length > i)args.push(arguments[i++]);
+    replacer = args[1];
+    if(typeof replacer == 'function')$replacer = replacer;
+    if($replacer || !isArray(replacer))replacer = function(key, value){
+      if($replacer)value = $replacer.call(this, key, value);
+      if(!isSymbol(value))return value;
+    };
+    args[1] = replacer;
+    return _stringify.apply($JSON, args);
+  }
+});
+
+// 19.4.3.4 Symbol.prototype[@@toPrimitive](hint)
+$Symbol[PROTOTYPE][TO_PRIMITIVE] || __webpack_require__(22)($Symbol[PROTOTYPE], TO_PRIMITIVE, $Symbol[PROTOTYPE].valueOf);
+// 19.4.3.5 Symbol.prototype[@@toStringTag]
+setToStringTag($Symbol, 'Symbol');
+// 20.2.1.9 Math[@@toStringTag]
+setToStringTag(Math, 'Math', true);
+// 24.3.3 JSON[@@toStringTag]
+setToStringTag(global.JSON, 'JSON', true);
 
 /***/ }),
 /* 167 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _getPrototypeOf = __webpack_require__(1);
-
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
-
-var _classCallCheck2 = __webpack_require__(0);
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = __webpack_require__(4);
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-var _possibleConstructorReturn2 = __webpack_require__(2);
-
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-var _inherits2 = __webpack_require__(3);
-
-var _inherits3 = _interopRequireDefault(_inherits2);
-
-var _type = __webpack_require__(7);
-
-var _utils = __webpack_require__(5);
-
-var _utils2 = _interopRequireDefault(_utils);
-
-var _electronic = __webpack_require__(9);
-
-var _electronic2 = _interopRequireDefault(_electronic);
-
-var _cmd = __webpack_require__(8);
-
-var _cmd2 = _interopRequireDefault(_cmd);
-
-var _command = __webpack_require__(6);
-
-var _command2 = _interopRequireDefault(_command);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var Runtime = function (_Electronic) {
-  (0, _inherits3.default)(Runtime, _Electronic);
-
-  function Runtime() {
-    (0, _classCallCheck3.default)(this, Runtime);
-    return (0, _possibleConstructorReturn3.default)(this, (Runtime.__proto__ || (0, _getPrototypeOf2.default)(Runtime)).call(this));
-  }
-
-  (0, _createClass3.default)(Runtime, [{
-    key: 'getData',
-    value: function getData(callback) {
-      var buf = _utils2.default.composer(_cmd2.default.readRuntime);
-      _command2.default.execRead(buf, callback);
-      return this;
-    }
-  }], [{
-    key: 'supportStamp',
-    value: function supportStamp() {
-      return '00001';
-    }
-  }]);
-  return Runtime;
-}(_electronic2.default);
-
-exports.default = Runtime;
+__webpack_require__(50)('asyncIterator');
 
 /***/ }),
 /* 168 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _getPrototypeOf = __webpack_require__(1);
-
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
-
-var _classCallCheck2 = __webpack_require__(0);
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _possibleConstructorReturn2 = __webpack_require__(2);
-
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-var _inherits2 = __webpack_require__(3);
-
-var _inherits3 = _interopRequireDefault(_inherits2);
-
-var _Board2 = __webpack_require__(31);
-
-var _Board3 = _interopRequireDefault(_Board2);
-
-var _index = __webpack_require__(33);
-
-var _index2 = _interopRequireDefault(_index);
-
-var _settings = __webpack_require__(27);
-
-var _settings2 = _interopRequireDefault(_settings);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-//支持位置
-var SUPPORT_INDEX = _settings2.default.SUPPORTLIST.indexOf('Orion');
-
-//实现一个板子就注册一个板子名称
-
-var Orion = function (_Board) {
-  (0, _inherits3.default)(Orion, _Board);
-
-  function Orion(conf) {
-    (0, _classCallCheck3.default)(this, Orion);
-
-    var _this = (0, _possibleConstructorReturn3.default)(this, (Orion.__proto__ || (0, _getPrototypeOf2.default)(Orion)).call(this, conf));
-    //继承 Board
-
-
-    var this_ = _this;
-    // 置空已连接块
-    _this.connecting = {};
-    // 挂载电子模块
-
-    var _loop = function _loop(name) {
-      var eModule = _index2.default[name];
-      if (eModule.supportStamp().charAt(SUPPORT_INDEX) === '1') {
-        // when use mcore.rgbLed(port, slot)
-        _this[name] = function () {
-          return this_.eModuleFactory(eModule, arguments);
-        };
-      }
-    };
-
-    for (var name in _index2.default) {
-      _loop(name);
-    }
-    return _this;
-  }
-
-  return Orion;
-}(_Board3.default);
-
-exports.default = Orion;
+__webpack_require__(50)('observable');
 
 /***/ }),
 /* 169 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+__webpack_require__(158);
+var global        = __webpack_require__(14)
+  , hide          = __webpack_require__(22)
+  , Iterators     = __webpack_require__(25)
+  , TO_STRING_TAG = __webpack_require__(11)('toStringTag');
 
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _getPrototypeOf = __webpack_require__(1);
-
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
-
-var _classCallCheck2 = __webpack_require__(0);
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = __webpack_require__(4);
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-var _possibleConstructorReturn2 = __webpack_require__(2);
-
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-var _inherits2 = __webpack_require__(3);
-
-var _inherits3 = _interopRequireDefault(_inherits2);
-
-var _Board2 = __webpack_require__(31);
-
-var _Board3 = _interopRequireDefault(_Board2);
-
-var _index = __webpack_require__(33);
-
-var _index2 = _interopRequireDefault(_index);
-
-var _FirmwareBase = __webpack_require__(68);
-
-var _FirmwareBase2 = _interopRequireDefault(_FirmwareBase);
-
-var _settings = __webpack_require__(27);
-
-var _settings2 = _interopRequireDefault(_settings);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-//支持位置
-var SUPPORT_INDEX = _settings2.default.SUPPORTLIST.indexOf('Auriga');
-
-//实现一个板子就注册一个板子名称
-
-var Auriga = function (_Board) {
-  (0, _inherits3.default)(Auriga, _Board);
-
-  function Auriga(conf) {
-    (0, _classCallCheck3.default)(this, Auriga);
-
-    var _this = (0, _possibleConstructorReturn3.default)(this, (Auriga.__proto__ || (0, _getPrototypeOf2.default)(Auriga)).call(this, conf));
-    //继承 Board
-
-
-    var this_ = _this;
-    //固件模式
-    _this.firmModes = _settings2.default.FIRM_MODES;
-    // 置空已连接块
-    _this.connecting = {};
-    // 挂载电子模块
-
-    var _loop = function _loop(name) {
-      var eModule = _index2.default[name];
-      if (eModule.supportStamp().charAt(SUPPORT_INDEX) === '1') {
-        _this[name] = function () {
-          return this_.eModuleFactory(eModule, arguments);
-        };
-      }
-    };
-
-    for (var name in _index2.default) {
-      _loop(name);
-    }
-    return _this;
-  }
-
-  /**
-   * 设置固件模式
-   * @param {Number} mode 0、1、2、3、4
-   */
-
-
-  (0, _createClass3.default)(Auriga, [{
-    key: 'setFirmwareMode',
-    value: function setFirmwareMode(mode) {
-      var subCmd = 0x11;
-      var firm = new _FirmwareBase2.default(subCmd, mode);
-      firm.setMode();
-      return this;
-    }
-    /**
-     * 获取固件模式
-     * @param  {Function} callback 取值后回调函数
-     */
-
-  }, {
-    key: 'getFirmwareMode',
-    value: function getFirmwareMode(callback) {
-      var subCmd = 0x71;
-      var firm = new _FirmwareBase2.default(subCmd);
-      firm.getMode(callback);
-      return this;
-    }
-
-    /**
-     * 获取固件电压
-     * @param  {Function} callback 取值后回调函数
-     */
-
-  }, {
-    key: 'getVoltage',
-    value: function getVoltage(callback) {
-      var subCmd = 0x70;
-      var firm = new _FirmwareBase2.default(subCmd);
-      firm.getMode(callback);
-      return this;
-    }
-  }]);
-  return Auriga;
-}(_Board3.default);
-
-exports.default = Auriga;
+for(var collections = ['NodeList', 'DOMTokenList', 'MediaList', 'StyleSheetList', 'CSSRuleList'], i = 0; i < 5; i++){
+  var NAME       = collections[i]
+    , Collection = global[NAME]
+    , proto      = Collection && Collection.prototype;
+  if(proto && !proto[TO_STRING_TAG])hide(proto, TO_STRING_TAG, NAME);
+  Iterators[NAME] = Iterators.Array;
+}
 
 /***/ }),
 /* 170 */
@@ -8775,117 +8868,84 @@ exports.default = Auriga;
 "use strict";
 
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+var _keys = __webpack_require__(52);
 
-var _getPrototypeOf = __webpack_require__(1);
-
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+var _keys2 = _interopRequireDefault(_keys);
 
 var _classCallCheck2 = __webpack_require__(0);
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-var _createClass2 = __webpack_require__(4);
+var _createClass2 = __webpack_require__(1);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _possibleConstructorReturn2 = __webpack_require__(2);
+var _mcore = __webpack_require__(71);
 
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+var _mcore2 = _interopRequireDefault(_mcore);
 
-var _inherits2 = __webpack_require__(3);
+var _orion = __webpack_require__(73);
 
-var _inherits3 = _interopRequireDefault(_inherits2);
+var _orion2 = _interopRequireDefault(_orion);
 
-var _Board2 = __webpack_require__(31);
+var _auriga = __webpack_require__(70);
 
-var _Board3 = _interopRequireDefault(_Board2);
+var _auriga2 = _interopRequireDefault(_auriga);
 
-var _index = __webpack_require__(33);
+var _megaPi = __webpack_require__(72);
 
-var _index2 = _interopRequireDefault(_index);
-
-var _FirmwareBase = __webpack_require__(68);
-
-var _FirmwareBase2 = _interopRequireDefault(_FirmwareBase);
-
-var _settings = __webpack_require__(27);
-
-var _settings2 = _interopRequireDefault(_settings);
+var _megaPi2 = _interopRequireDefault(_megaPi);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-//支持位置
-var SUPPORT_INDEX = _settings2.default.SUPPORTLIST.indexOf('MegaPi');
-
-//实现一个板子就注册一个板子名称
-
-var MegaPi = function (_Board) {
-  (0, _inherits3.default)(MegaPi, _Board);
-
-  function MegaPi(conf) {
-    (0, _classCallCheck3.default)(this, MegaPi);
-
-    var _this = (0, _possibleConstructorReturn3.default)(this, (MegaPi.__proto__ || (0, _getPrototypeOf2.default)(MegaPi)).call(this, conf));
-    //继承 Board
-
-
-    var this_ = _this;
-    //固件模式
-    _this.firmModes = _settings2.default.FIRM_MODES;
-    // 置空已连接块
-    _this.connecting = {};
-    // 挂载电子模块
-
-    var _loop = function _loop(name) {
-      var eModule = _index2.default[name];
-      if (eModule.supportStamp().charAt(SUPPORT_INDEX) === '1') {
-        _this[name] = function () {
-          return this_.eModuleFactory(eModule, arguments);
-        };
-      }
-    };
-
-    for (var name in _index2.default) {
-      _loop(name);
-    }
-    return _this;
-  }
+var boards = {
+  "auriga": _auriga2.default,
+  "mcore": _mcore2.default,
+  "megapi": _megaPi2.default,
+  "orion": _orion2.default
 
   /**
-   * 设置固件模式
-   * @param {Number} mode 0、1、2、3、4
+   * 构造函数返回值，改变了构造函数实例
+   * Sensorium 原型方法只能统一用静态方法代替
    */
+};
+var Sensorium = function () {
+  /**
+   * @constructor
+   * @param {String} boardName 主控板名，忽略大小写
+   * @param {Object} opts     (optional)
+   */
+  function Sensorium(boardName, opts) {
+    (0, _classCallCheck3.default)(this, Sensorium);
 
-
-  (0, _createClass3.default)(MegaPi, [{
-    key: 'setFirmMode',
-    value: function setFirmMode(mode) {
-      var subCmd = 0x12;
-      var firm = new _FirmwareBase2.default(subCmd, mode);
-      firm.setMode();
-      return this;
+    var board = boards[boardName.toLowerCase()];
+    if (typeof board == 'undefined') {
+      throw new Error('sorry, the board ' + boardName + ' could not be supported!');
     }
-    /**
-     * 获取固件模式
-     * @param  {Function} callback 取值后回调函数
-     */
+    return new board(opts);
+  }
 
+  (0, _createClass3.default)(Sensorium, null, [{
+    key: 'read',
+    value: function read() {}
   }, {
-    key: 'getFirmMode',
-    value: function getFirmMode(callback) {
-      var subCmd = 0x72;
-      var firm = new _FirmwareBase2.default(subCmd);
-      firm.getMode(callback);
-      return this;
+    key: 'write',
+    value: function write() {}
+  }, {
+    key: 'version',
+    value: function version() {
+      return '0.1.5';
+    }
+  }, {
+    key: 'supportedMainBoard',
+    value: function supportedMainBoard() {
+      return (0, _keys2.default)(boards);
     }
   }]);
-  return MegaPi;
-}(_Board3.default);
+  return Sensorium;
+}();
 
-exports.default = MegaPi;
+module.exports = Sensorium;
 
 /***/ })
 /******/ ]);

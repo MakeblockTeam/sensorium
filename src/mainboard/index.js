@@ -27,6 +27,13 @@ class Sensorium {
     }
     return new board(opts);
   }
+  static read(){
+
+  }
+
+  static write(){
+    
+  }
 
   static version(){
     return '0.1.5';

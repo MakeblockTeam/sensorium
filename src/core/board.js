@@ -6,8 +6,6 @@
 import Transport from '../communicate/transport';
 import Command from '../communicate/command';
 import Settings from '../mainboard/settings';
-import VersionBase from '../electronic/base/VersionBase';
-
 
 const createModuleId = function (eModule, args){
   args = [...args]; //转数组
@@ -28,9 +26,6 @@ const createModuleId = function (eModule, args){
 class Board {
   constructor(conf){
     this._config = null;
-
-    //固件模式
-    this.firmModes = [];
     //已连接元件
     this.connecting = {};
     this.init(conf);
@@ -67,16 +62,6 @@ class Board {
     }else{
       // console.warn('')
     }
-  }
-
-  /**
-   * 获取版本号，所有主控板支持
-   * @param  {Function} callback [description]
-   * @return {[type]}            [description]
-   */
-  getVersion(callback){
-    let version = new VersionBase();
-    version.getVersion(callback);
   }
 }
 

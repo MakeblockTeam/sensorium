@@ -1,12 +1,10 @@
 import { defineNumber } from '../../core/type';
 import Utils from '../../core/utils';
-import Electronic from '../electronic';
 import protocolAssembler from '../../protocol/cmd';
 import command from '../../communicate/command';
 
-class VersionBase extends Electronic {
+class Version {
   constructor() {
-    super();
   }
 
   getVersion(callback) {
@@ -16,4 +14,4 @@ class VersionBase extends Electronic {
   }
 }
 
-export default VersionBase;
+export default new Version();
