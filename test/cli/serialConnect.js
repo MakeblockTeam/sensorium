@@ -1,6 +1,6 @@
 var SerialPort = require('serialport');
 
-function serialConnect(mainboard) {
+function serialConnect(sensorium) {
   //获取连接口
   //建立连接
   //设置主控板 transport
@@ -18,8 +18,8 @@ function serialConnect(mainboard) {
       baudRate: 115200
     }); //linux
     serialPort.on('open', function() {
-      //设置 mainboard transport 方式
-      mainboard.setTransport({
+      //设置 transport 方式
+      sensorium.setTransport({
         send: function(buf) {
           console.log('send ----->', buf);
           serialPort.write(buf);

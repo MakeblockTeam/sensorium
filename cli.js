@@ -3,8 +3,9 @@ const fs = require('fs');
 const Log = require('log');
 const serialConnect = require('./test/cli/serialConnect');
 const Sensorium = require('./browser/sensorium');
-const auriga = new Sensorium('Auriga');
-serialConnect(auriga);
+const sensorium = new Sensorium();
+serialConnect(sensorium);
+const auriga = sensorium.create('Auriga');
 
 var logger = require('log4js').getLogger();
 var log = new Log('debug', fs.createWriteStream('cli.log'));

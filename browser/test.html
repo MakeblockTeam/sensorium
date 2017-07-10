@@ -44,9 +44,10 @@
         }
       };
 
-      var mcore = new Sensorium('Mcore');
+      var sensorium = new Sensorium();
+      var mcore = sensorium.create('Mcore');
 
-      mcore.setTransport({
+      sensorium.setTransport({
         send: transport.send,
         onReceived: transport.onReceived
       });

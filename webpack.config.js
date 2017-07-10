@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 
 module.exports = {
   entry: './src/mainboard/index.js',
@@ -9,18 +10,23 @@ module.exports = {
     libraryTarget: "umd"
   },
   module: {
-    loaders: [
-      {
-        test: /\.(js|jsx)$/,
-        loader: 'babel-loader',
-        query: {
-          plugins: ['transform-runtime'],
-          presets: ['es2015', 'stage-0']
-        },
-        exclude: /node_modules/
-      }
-    ]
+    loaders: [{
+      test: /\.(js|jsx)$/,
+      loader: 'babel-loader',
+      query: {
+        plugins: ['transform-runtime'],
+        presets: ['es2015', 'stage-0']
+      },
+      exclude: /node_modules/
+    }]
   },
+  // plugins: [
+  //   new webpack.optimize.UglifyJsPlugin({
+  //     compress: {
+  //       warnings: false
+  //     }
+  //   })
+  // ],
   target: "node",
   node: {
     "fs": "empty",

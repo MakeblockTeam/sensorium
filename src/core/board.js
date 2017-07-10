@@ -2,9 +2,6 @@
  * @fileOverview board 用做通信基类，连接收和发送接口.
  * @author Hyman
  */
-//es6 module
-import Transport from '../communicate/transport';
-import Command from '../communicate/command';
 import Settings from '../mainboard/settings';
 
 const createModuleId = function (eModule, args){
@@ -25,15 +22,9 @@ const createModuleId = function (eModule, args){
 // 超类： 具备发送、接收方法
 class Board {
   constructor(conf){
-    this._config = null;
+    this._config = conf || {};
     //已连接元件
     this.connecting = {};
-    this.init(conf);
-  }
-
-  init(conf) {
-    this._config = Object.assign(Settings.DEFAULT_CONF, conf || {});
-    this.setTransport(this._config.transport || {});
   }
 
   /**
@@ -51,16 +42,6 @@ class Board {
       // 保存模块
       this.connecting[id] = emodule;
       return emodule;
-    }
-  }
-
-  //防止重复 setTransport 导致事件监听绑定多次
-  setTransport(transport) {
-    if(transport && typeof transport.send == 'function' && typeof transport.onReceived == 'function' ){
-      Transport.send = transport.send;
-      transport.onReceived(Command.pipe.bind(Command));
-    }else{
-      // console.warn('')
     }
   }
 }
