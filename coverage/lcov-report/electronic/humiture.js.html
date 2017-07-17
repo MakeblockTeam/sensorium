@@ -20,28 +20,28 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">41.18% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>7/17</span>
+        <span class='fraction'>17/17</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">0% </span>
+        <span class="strong">50% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/2</span>
+        <span class='fraction'>1/2</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">0% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>0/2</span>
+        <span class='fraction'>2/2</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">41.18% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>7/17</span>
+        <span class='fraction'>17/17</span>
       </div>
     </div>
   </div>
-  <div class='status-line low'></div>
+  <div class='status-line high'></div>
 <pre><table class="coverage">
 <tr><td class="line-count quiet">1
 2
@@ -87,33 +87,33 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">15x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -123,30 +123,30 @@ import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
 import command from '../communicate/command';
 &nbsp;
-let <span class="fstat-no" title="function not covered" >commandRead = f</span>unction(args, callback){
-  l</span>et buf = <span class="cstat-no" title="statement not covered" >Utils.composer(protocolAssembler.readHumiture, [args.port, args.type]);
-<span class="cstat-no" title="statement not covered" >  command.execRead(buf, callback);</span>
+let commandRead = function(args, callback){
+  let buf = Utils.composer(protocolAssembler.readHumiture, [args.port, args.type]);
+  command.execRead(buf, callback);
 }
 &nbsp;
 class Humiture extends Electronic {
-<span class="fstat-no" title="function not covered" >  constructor(</span>port) <span class="cstat-no" title="statement not covered" >{</span>
+  constructor(port) <span class="branch-1 cbranch-no" title="branch not covered" >{</span>
     super();
-<span class="cstat-no" title="statement not covered" >    this.args = {</span>
+    this.args = {
       port: defineNumber(port),
       type: 0
     };
   }
 &nbsp;
   getHumidity(callback){
-<span class="cstat-no" title="statement not covered" >    this.args.type = 0;</span>
-<span class="cstat-no" title="statement not covered" >    commandRead(this.args, callback);</span>
-<span class="cstat-no" title="statement not covered" >    return this;</span>
+    this.args.type = 0;
+    commandRead(this.args, callback);
+    return this;
   }
 &nbsp;
   getTemperature(callback){
-<span class="cstat-no" title="statement not covered" >    this.args.type = 1;</span>
-<span class="cstat-no" title="statement not covered" >    commandRead(this.args, callback);</span>
-<span class="cstat-no" title="statement not covered" >    return this;</span>
+    this.args.type = 1;
+    commandRead(this.args, callback);
+    return this;
   }  
 &nbsp;
   static supportStamp(){
@@ -160,7 +160,7 @@ export default Humiture;</pre></td></tr>
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Fri Jul 14 2017 19:06:00 GMT+0800 (中国标准时间)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Mon Jul 17 2017 09:20:42 GMT+0800 (中国标准时间)
 </div>
 </div>
 <script src="..\prettify.js"></script>
