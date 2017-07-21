@@ -12,7 +12,7 @@ class DcMotor extends MotorBase {
 
   reverse() {
     this.speed(-1 * this.args.speed);
-    return this;
+    return this.run();
   }
 
   run() {

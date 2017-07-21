@@ -315,10 +315,6 @@ function protocolAssembler() {
   this.setLedMatrixNumber = function(port, number) {
     var byte4Array = Utils.float32ToBytes(number);
     return bufAssembler({mode: 0x02, id: 0x29}, port, 0x04, ...byte4Array);
-      // byte4Array[0],
-      // byte4Array[1],
-      // byte4Array[2],
-      // byte4Array[3]);
   };
 
   /**
@@ -601,6 +597,108 @@ function protocolAssembler() {
   this.readEncoderMotorOnBoard = function(slot, type) {
     let port = 0x00; //板载 port
     return bufAssembler({mode: 0x01, id: 0x3d}, port, slot, type);
+  };
+
+  /**
+   * 板载编码电机05模式(两个电机同时设置): ff 55 0b 00 02 3e 05 01 e8 03 00 00 64 00
+   * dir: 前进1，后退2，左转3，右转4
+   */
+  this.setEncoderMotorPID = function (dir, distance, speed) {
+    let distanceArr = Utils.longToBytes(distance);
+    speed = Utils.limitValue(speed);
+    let mode_type = 0x05;
+    return bufAssembler({mode: 0x02, id: 0x3e},
+      mode_type,
+      dir,
+      distanceArr[3],
+      distanceArr[2],
+      distanceArr[1],
+      distanceArr[0],
+      speed & 0xff,
+      0);
+  };
+    // 板载编码电机: ff 55 07 00 02 3e 02 01 ff 00
+  // port为0，用slot来表示不同的位置
+  this.setEncoderMotorWithUnit = function (slot, speed) {
+    if(this.deviceInfo.type == 'auriga' && slot == this.deviceInfo.portlist.ENCODER_MOTOR[1]) {
+      speed = -speed;
+    }
+    var a = [
+      this.SETTING.CODE_CHUNK_PREFIX[0],
+      this.SETTING.CODE_CHUNK_PREFIX[1],
+      0x07, 0,
+      this.SETTING.WRITEMODULE,
+      0x3e,
+      0x02,
+      slot,
+      speed & 0xff,
+      (speed >> 8) & 0xff
+    ];
+
+    this.checkIsMoving(speed);
+    MBlockly.HostInterface.sendBluetoothRequestUnrelibly(a);
+  },
+  /**
+   * 板载编码电机位置模式（单个电机）: ff 55 0b 00 02 3e 01 01 e8 03 00 00 b4 00
+   * slot: M1-01,M2-02
+   */
+  this.setEncoderMotorSingle = function (slot, distance, speed) {
+    let distanceArr = longToBytes(distance).reverse();
+    var a = [
+      this.SETTING.CODE_CHUNK_PREFIX[0],
+      this.SETTING.CODE_CHUNK_PREFIX[1],
+      0x0b,
+      0,
+      this.SETTING.WRITEMODULE,
+      0x3e,
+      0x01,
+      slot,
+      distanceArr[0],
+      distanceArr[1],
+      distanceArr[2],
+      distanceArr[3],
+      speed & 0xff,
+      0
+    ];
+    this.checkIsMoving(speed);
+    MBlockly.HostInterface.sendBluetoothRequestUnrelibly(a);
+  },
+
+  /**
+   * set smart servo
+   * @param  {Number} index  the index code of current servo
+   * @param  {Number} subCmd  the sub command that the servo run on
+   * @param  {Array} extraCmd  the extra command
+   * @example
+   * lock:    ff 55 07 00 02 40 01 05 01 00
+   * unlock:  ff 55 07 00 02 40 01 05 01 01
+   * LED:     ff 55 09 00 02 40 02 05 01 ff 00 00
+   * handshake:           ff 55 06 00 02 40 03 05 01
+   * runToAbsoluteAngle:  ff 55 0e 00 02 40 04 05 01 68 01 00 00 00 00 48 42
+   * runToRelativeAngle:  ff 55 0e 00 02 40 05 05 01 68 01 00 00 00 00 48 42
+   * runAsDcMotor:        ff 55 08 00 02 40 06 05 01 96 00
+   * setAsZeroPoint:      ff 55 06 00 02 40 07 05 01
+   * backToStart:         ff 55 06 00 02 40 08 05 01
+   */
+  this.setSmartServo = function(index, subCmd, extraCmd) {
+    let port = 0x05; //defualt port
+    return bufAssembler({mode: 0x01, id: 0x40}, subCmd, port, index, ...extraCmd);
+  };
+
+  /**
+   * read smart servo operating parameters
+   * @param  {Number} index  the index code of current servo
+   * @param  {Number} subCmd  the sub command that the servo run on
+   * @example
+   * readSpeed:         ff 55 06 00 01 40 09 05 01
+   * readTemperature:   ff 55 06 00 01 40 0a 05 01
+   * readCurrent:       ff 55 06 00 01 40 0b 05 01
+   * readVoltage:       ff 55 06 00 01 40 0c 05 01
+   * readAngle:         ff 55 06 00 01 40 0d 05 01
+   */
+  this.readSmartServoParam = function(index, subCmd) {
+    let port = 0x05; //defualt port
+    return bufAssembler({mode: 0x01, id: 0x3d}, subCmd, port, index);
   };
 
   /**

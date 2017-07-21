@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sensorium test</title>
+    <style type="text/css">
+      .container{margin: 2rem auto auto 1rem;}
+      .command-list{float: left; width: 40%;}
+      .log-list{width: 50%; max-height: 20rem; margin-left: 40%;}
+      .log-list .log{width: 100%; height: 100%; background-color: #f1f1f1;}
+    </style>
+    <script src="../../cordova.js"></script>
+</head>
+  <body>
+    <div id="topbar" class="topbar">
+      <a class="back-button" href="../../index.html"> 返回 </a>
+      <button id="bleButton" class="ble-button"> 蓝牙 </button>
+    </div>
+    <div class="container">
+      <div class="command-list">
+        <button onclick="moveForward">前进</button>
+        <button onclick="readUltrasonic">读取超声波</button>
+        <button onclick="keepReadUltrasonic">持续读取超声波</button>
+      </div>
+      <div class="log-list">
+        <div id="log" class="log"></div>
+      </div>
+    </div>
+  <script src="sensorium.js"></script>  
+  <script src="../common/index.js"></script>
+  <script>
+    var Tool = {
+      log: function(title, str){
+        var html = document.querySelector('#log').innerHTML;
+        document.querySelector('#log').innerHTML = html + '<div>' + title +": "+ str + '</div>' ;
+      },
+      clear: function(){
+        document.querySelector('#log').innerHTML = '';
+      },
+      arrayBufferFromArray: function(data) {
+        var buffer = new ArrayBuffer(data.length);
+        var result = new Int8Array(buffer);
+        for (var i = 0; i < data.length; i++) {
+          result[i] = data[i];
+        }
+        return buffer;
+      }
+    }
+    var sensorium = new Sensorium();
+    var mcore = sensorium.create('Mcore');
+
+    sensorium.setTransport({
+      send: function(buf) {
+        if (typeof ble != "undefined") {
+            Tool.log('发送指令:', buf.join(' '));
+            // ble 发送必须转成 arrayBuffer
+            let cmd = Tool.arrayBufferFromArray(buf);
+            ble.sendData(function(msg) {
+                console.log(msg);
+            }, function(msg) {
+                console.log(msg);
+            }, cmd);
+        }
+      },
+      onReceived: function(pipe) {
+          if (typeof ble != "undefined") {
+              ble.startListenReceivedData(function(buff) {
+                  pipe(buff);
+              });
+          }
+      }
+    });
+
+    function moveForward(){
+      Tool.clear();
+      mcore.DcMotor(1).speed(125).run();
+    }
+
+    function readUltrasonic(){
+      Tool.clear();
+      mcore.Ultrasonic(3).getData(function(val){
+         Tool.log('接收超声波值:', val);
+      });
+    }
+
+    function keepReadUltrasonic(){
+      Tool.clear();
+      var ult = mcore.Ultrasonic(3);
+      setInterval(ult.getData(function(val){
+         Tool.log('接收超声波值:', val);
+      }), 100);
+    }
+  </script>
+</body>
+</html>
+
+    
+</body>
+</html>

@@ -263,6 +263,16 @@ export default {
     return typeof val1 === type ? val1 : val2;
   },
 
+  hexToRgb(hex){
+    let validHexColorReg = /^#(?:[0-9a-f]{3}){1,2}$/i;
+    if(!validHexColorReg.test(hex)){
+      throw Error(`${hex} is not a valid hex color`);
+    }
+    let r = parseInt(hex.substr(1, 2), 16), 
+        g = parseInt(hex.substr(3, 2), 16),
+        b = parseInt(hex.substr(5, 2), 16);
+    return [r, g, b];
+  },
   /**
    * 函数式编程
    * @param  {!Function} func 方法

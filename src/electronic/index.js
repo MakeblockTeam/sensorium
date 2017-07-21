@@ -16,6 +16,7 @@ import LedMatrixNumber from './led_matrix_number';
 import Buzzer from './buzzer';
 import SevenSegment from './seven_segment';
 import Shutter from './shutter';
+import SmartServo from './smart_servo';
 
 import Reset from './reset';
 import Ultrasonic from './ultrasonic';
@@ -62,6 +63,7 @@ export default {
   Buzzer,
   SevenSegment,
   Shutter,
+  SmartServo,
 
   Reset, //实现待验证
   Ultrasonic,
