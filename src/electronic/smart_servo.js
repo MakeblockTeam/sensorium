@@ -2,19 +2,19 @@ import { defineNumber } from '../core/type';
 import Utils from '../core/utils';
 import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
-import command from '../communicate/command';
+import CommandManager from '../communicate/command-manager';
 
 function write(baseArgs, extra){
   if(typeof extra !== 'undefined' && !Array.isArray(extra)){
     extra = [extra];
   }
   let buf = Utils.composer(protocolAssembler.setSmartServo, [baseArgs.index, baseArgs.subCmd, extra]);
-  command.write(buf);
+  CommandManager.write(buf);
 }
 
 function readWrite(baseArgs){
   let buf = Utils.composer(protocolAssembler.readSmartServoParam, [baseArgs.index, baseArgs.subCmd]);
-  command.read(buf);
+  CommandManager.read(buf);
 }
 
 class SmartServo extends Electronic {

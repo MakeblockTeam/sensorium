@@ -4,15 +4,15 @@ const dataman = require('./dataman');
 import Utils from '../../src/core/utils';
 import protocolAssembler from '../../src/protocol/cmd';
 import Auriga from '../../src/mainboard/auriga';
-import Command from '../../src/communicate/command';
+import CommandManager from '../../src/communicate/command-manager';
 import chai from 'chai';
 const expect = chai.expect;
 
 function captureWriteBuf(run) {
   let capturedBuf;
-  let write_ = Command.write;
+  let write_ = CommandManager.write;
   //override
-  Command.write = function(buf) {
+  CommandManager.write = function(buf) {
     capturedBuf = buf;
     return;
   }
@@ -22,15 +22,15 @@ function captureWriteBuf(run) {
     return newVal.length == 1 ? '0' + newVal : newVal;
   });
   // console.log('capturedBuf-------->', capturedBuf);
-  Command.write = write_;
+  CommandManager.write = write_;
   return currentCmd.join(' ');
 }
 
 function captureReadBuf(run) {
   let capturedBuf;
-  let read_ = Command.read;
+  let read_ = CommandManager.read;
   //override
-  Command.read = function(buf, callback) {
+  CommandManager.read = function(buf, callback) {
     capturedBuf = buf;
     return;
   }
@@ -39,7 +39,7 @@ function captureReadBuf(run) {
     let newVal = val.toString(16);
     return newVal.length == 1 ? '0' + newVal : newVal;
   });
-  Command.read = read_;
+  CommandManager.read = read_;
   return currentCmd.join(' ');
 }
 

@@ -1,7 +1,7 @@
 import { defineNumber } from '../../core/type';
 import Utils from '../../core/utils';
 import protocolAssembler from '../../protocol/cmd';
-import Command from '../../communicate/command';
+import Command from '../../communicate/command-manager';
 
 class EncoderMotorBase extends Electronic {
   /**

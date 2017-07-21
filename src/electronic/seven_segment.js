@@ -2,7 +2,7 @@ import { defineNumber, defineString } from '../core/type';
 import Utils from '../core/utils';
 import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
-import command from '../communicate/command';
+import CommandManager from '../communicate/command-manager';
 
 class SevenSegment extends Electronic {
 
@@ -21,7 +21,7 @@ class SevenSegment extends Electronic {
 
   run() {
     let buf = Utils.composer(protocolAssembler.setSevenSegment, [this.args.port, this.args.number]);
-    command.write(buf);
+    CommandManager.write(buf);
     return this;
   }
 

@@ -2,7 +2,7 @@ import { defineNumber, defineString } from '../core/type';
 import Utils from '../core/utils';
 import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
-import command from '../communicate/command';
+import CommandManager from '../communicate/command-manager';
 
 class Shutter extends Electronic {
 
@@ -25,7 +25,7 @@ class Shutter extends Electronic {
 
   run() {
     let buf = Utils.composer(protocolAssembler.setShutter, [this.args.port, this.args.action]);
-    command.write(buf);
+    CommandManager.write(buf);
     return this;
   }
 

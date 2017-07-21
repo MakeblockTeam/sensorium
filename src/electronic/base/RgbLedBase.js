@@ -2,7 +2,7 @@ import { defineNumber } from '../../core/type';
 import Utils from '../../core/utils';
 import Electronic from '../electronic';
 import protocolAssembler from '../../protocol/cmd';
-import command from '../../communicate/command';
+import CommandManager from '../../communicate/command-manager';
 
 let bufComposer = function(obj){
   let args = [obj.port, obj.slot, obj.ledPosition, ...obj.rgb];
@@ -12,7 +12,7 @@ let bufComposer = function(obj){
 let commandWrite = function(obj){
   // console.log('led ------->', obj.ledPosition, ...obj.rgb);
   let buf = bufComposer(obj);
-  command.write(buf);
+  CommandManager.write(buf);
 }
 
 class RgbLedBase extends Electronic {

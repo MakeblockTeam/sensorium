@@ -259,10 +259,6 @@ export default {
     return str;
   },
 
-  getSecurityValue(val1, val2, type) {
-    return typeof val1 === type ? val1 : val2;
-  },
-
   hexToRgb(hex){
     let validHexColorReg = /^#(?:[0-9a-f]{3}){1,2}$/i;
     if(!validHexColorReg.test(hex)){

@@ -2,7 +2,7 @@ import { defineNumber } from '../core/type';
 import Utils from '../core/utils';
 import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
-import command from '../communicate/command';
+import CommandManager from '../communicate/command-manager';
 
 class LimitSwitch extends Electronic {
   constructor(port, slot) {
@@ -15,7 +15,7 @@ class LimitSwitch extends Electronic {
 
   getData(callback) {
     let buf = Utils.composer(protocolAssembler.readLimitSwitch, [this.args.port, this.args.slot]);
-    command.read(buf, callback);
+    CommandManager.read(buf, callback);
     return this;
   }
 

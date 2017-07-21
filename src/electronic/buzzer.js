@@ -2,7 +2,7 @@ import { defineNumber, defineString } from '../core/type';
 import Utils from '../core/utils';
 import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
-import command from '../communicate/command';
+import CommandManager from '../communicate/command-manager';
 
 class Buzzer extends Electronic {
   constructor() {
@@ -33,7 +33,7 @@ class Buzzer extends Electronic {
 
   run() {
     let buf = Utils.composer(protocolAssembler.setTone, [this.args.tone, this.args.beat]);
-    command.write(buf);
+    CommandManager.write(buf);
     return this;
   }
 

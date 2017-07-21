@@ -204,10 +204,6 @@ var _toConsumableArray2 = __webpack_require__(50);
 
 var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
 
-var _typeof2 = __webpack_require__(43);
-
-var _typeof3 = _interopRequireDefault(_typeof2);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
@@ -471,9 +467,6 @@ exports.default = {
     return str;
   },
 
-  getSecurityValue: function getSecurityValue(val1, val2, type) {
-    return (typeof val1 === "undefined" ? "undefined" : (0, _typeof3.default)(val1)) === type ? val1 : val2;
-  },
   hexToRgb: function hexToRgb(hex) {
     var validHexColorReg = /^#(?:[0-9a-f]{3}){1,2}$/i;
     if (!validHexColorReg.test(hex)) {
@@ -522,98 +515,34 @@ var _transport = __webpack_require__(59);
 
 var _transport2 = _interopRequireDefault(_transport);
 
-var _read = __webpack_require__(79);
-
-var _read2 = _interopRequireDefault(_read);
-
-var _write = __webpack_require__(80);
-
-var _write2 = _interopRequireDefault(_write);
-
-var _parse = __webpack_require__(81);
-
-var _parse2 = _interopRequireDefault(_parse);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/**
- * @fileOverview 调度类
- * 负责协议收发调度
- */
-//es6 module
 var Command = function () {
   function Command() {
     (0, _classCallCheck3.default)(this, Command);
+
+    //绑定上下文
+    this.send = this.send.bind(this);
   }
+
   /**
-   * execute buffer
+   * send buffer through the transport
    * @param  {Array} buf [description]
    * @return {[type]}     [description]
    */
 
 
   (0, _createClass3.default)(Command, [{
-    key: 'exec',
-    value: function exec(buf) {
-      _transport2.default.send(buf); //借助通信管道发送
-    }
-
-    /**
-     * an api to execute write
-     * @param  {[type]}   buf      [description]
-     * @return {[type]}            [description]
-     */
-
-  }, {
-    key: 'execWrite',
-    value: function execWrite(buf) {
-      _write2.default.addRequest(this.exec.bind(this), buf);
-    }
-
-    /**
-     * an api to execute read
-     * @param  {[type]}   buf      [description]
-     * @param  {Function} callback [description]
-     * @return {[type]}            [description]
-     */
-
-  }, {
-    key: 'execRead',
-    value: function execRead(buf, callback) {
-      _read2.default.addRequest(this.exec.bind(this), buf, callback);
-      //TODO: 谨慎执行超时重发
-    }
-
-    /**
-     * parse the buffer and callback
-     * @param  {Array} buff buffer responsed from transportion
-     * @return {Undefined}
-     */
-
-  }, {
-    key: 'pipe',
-    value: function pipe(buff) {
-      var buffer = _parse2.default.doParse(buff);
-      if (!buffer) {//解析后无正确解析
-        //do nothing
-      } else if (buffer.length == 0) {//write 结果
-        //do nothing
-      } else {
-        //read 结果
-        // console.log('after parse ------>', buffer[0], buff);
-        var index = buffer[0];
-        var value = _parse2.default.getResult(buffer);
-        this.emitCallback(index, value);
-      }
-    }
-  }, {
-    key: 'emitCallback',
-    value: function emitCallback(index, value) {
-      _read2.default.callbackProxy.apply(_read2.default, arguments);
+    key: 'send',
+    value: function send(buf) {
+      _transport2.default.send(buf);
     }
   }]);
   return Command;
-}();
+}(); /**
+      * @fileOverview 命令执行器
+      */
+
 
 exports.default = new Command();
 
@@ -1753,7 +1682,7 @@ var Version = function () {
     key: 'getVersion',
     value: function getVersion(callback) {
       var buf = _utils2.default.composer(_cmd2.default.readVersion);
-      _command2.default.execRead(buf, callback);
+      _command2.default.read(buf, callback);
       return this;
     }
   }]);
@@ -2159,9 +2088,9 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _command = __webpack_require__(6);
+var _commandManager = __webpack_require__(172);
 
-var _command2 = _interopRequireDefault(_command);
+var _commandManager2 = _interopRequireDefault(_commandManager);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -2173,7 +2102,7 @@ var bufComposer = function bufComposer(obj) {
 var commandWrite = function commandWrite(obj) {
   // console.log('led ------->', obj.ledPosition, ...obj.rgb);
   var buf = bufComposer(obj);
-  _command2.default.execWrite(buf);
+  _commandManager2.default.write(buf);
 };
 
 var RgbLedBase = function (_Electronic) {
@@ -3062,9 +2991,9 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _command = __webpack_require__(6);
+var _commandManager = __webpack_require__(172);
 
-var _command2 = _interopRequireDefault(_command);
+var _commandManager2 = _interopRequireDefault(_commandManager);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -3097,7 +3026,7 @@ var EncoderMotorBase = function (_MotorBase) {
       } else {
         buf = _utils2.default.composer(_cmd2.default.setEncoderMotor, [this.args.port, this.args.slot, this.args.speed, this.args.angle]);
       }
-      _command2.default.execWrite(buf);
+      _commandManager2.default.write(buf);
       return this;
     }
 
@@ -3163,9 +3092,9 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _command = __webpack_require__(6);
+var _commandManager = __webpack_require__(172);
 
-var _command2 = _interopRequireDefault(_command);
+var _commandManager2 = _interopRequireDefault(_commandManager);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -3194,7 +3123,7 @@ var GyroBase = function (_Electronic) {
     key: 'getData',
     value: function getData(callback) {
       var buf = _utils2.default.composer(_cmd2.default.readGyro, [this.args.port, this.args.axis]);
-      _command2.default.execRead(buf, callback);
+      _commandManager2.default.read(buf, callback);
       return this;
     }
   }]);
@@ -3248,9 +3177,9 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _command = __webpack_require__(6);
+var _commandManager = __webpack_require__(172);
 
-var _command2 = _interopRequireDefault(_command);
+var _commandManager2 = _interopRequireDefault(_commandManager);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -3272,7 +3201,7 @@ var SoundBase = function (_Electronic) {
     key: 'getData',
     value: function getData(callback) {
       var buf = _utils2.default.composer(_cmd2.default.readSound, [this.args.port]);
-      _command2.default.execRead(buf, callback);
+      _commandManager2.default.read(buf, callback);
       return this;
     }
   }]);
@@ -3331,13 +3260,13 @@ var Mode = function () {
     key: 'setMode',
     value: function setMode(subCmd, mode) {
       var buf = _utils2.default.composer(_cmd2.default.setFirmwareMode, [subCmd, mode]);
-      _command2.default.execWrite(buf);
+      _command2.default.write(buf);
     }
   }, {
     key: 'getMode',
     value: function getMode(subCmd, callback) {
       var buf = _utils2.default.composer(_cmd2.default.readFirmwareMode, [subCmd]);
-      _command2.default.execRead(buf, callback);
+      _command2.default.read(buf, callback);
     }
 
     /**
@@ -3449,6 +3378,7 @@ var Sensorium = function () {
      * @param {Tranport} transport object that contains send and onReceived functions
      */
     //TO COMFIRM：是否重复 setTransport 导致事件监听绑定多次?
+    //对多次相同的transpoprt，不允许重新设置
 
   }, {
     key: 'setTransport',
@@ -3603,31 +3533,10 @@ var _keys2 = _interopRequireDefault(_keys);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
- * @fileOverview 通信
+ * @fileOverview read request controler.
  * @author jeremy
  */
-//当前问题：发送请求超过 255 个时，进行了暴力覆盖。但是根据协议 index 大小，又只能识别 255 条请求
 
-// 控制方案一(待整理):
-//首先其 exec 将被控制执行，需完成以下动作后才执行：
-//1、加入监听列队（第二队）时，先做监听列队分析————对一队列剔除哪些位于中间的、占位较多的监听器到垃圾箱
-//2、一旦有数据返回，触发对应监听器，同时做关联分析，砍掉一批。同时清空垃圾箱
-//3、执行这个 exec
-//4、直到第二队也到达 255.
-//5、选出列队一空缺的位置（指针拨到1，表明1需要彻底清理）
-
-// 控制方案二:
-//1、允许快速产生 255 条请求（或采用一定的节流方案）
-//2、将请求保存在一个队列中（保存请求发起时间）
-//3、再新增请求时，检查是否满队列，若满执行第6条。必须满足队列中有空位让出——也求是请求有返回值回来——才能进入队列中
-//4、新增请求占领空位（需计算空位index），并执行发送
-//5、后续请求依次遵循这个规则
-//6、满队列的情况下，新增请求时清空那些超时（2s?）的请求，再进入
-
-
-/**
- * read request controler
- */
 //最大记录数
 var MAX_RECORD = 256;
 //超时时间
@@ -3636,11 +3545,13 @@ var OVERTIME = 1000;
 var Read = {
   readRecord: {},
   index: 0,
+
   /**
    * create a safty index between 0~255
    * @return {Number|Null} return index
    */
   createSafeIndex: function createSafeIndex() {
+    // “找坑法”
     if (this.index >= MAX_RECORD) {
       for (var i = 0; i < MAX_RECORD; i++) {
         if (!this.readRecord[i]) {
@@ -3672,6 +3583,7 @@ var Read = {
       callback: callback
     };
   },
+
   /**
    * remove a record with index
    * @param  {Number} index record index
@@ -3682,11 +3594,11 @@ var Read = {
 
   /**
    * this function is drived by
-   * @param {Function}   execFunc  addRequest execute as proxy
+   * @param {Function}   send  addRequest send function as proxy
    * @param {Array}   buf      rj25 buffer
    * @param {Function} callback [description]
    */
-  addRequest: function addRequest(execFunc, buf, callback) {
+  addRequest: function addRequest(send, buf, callback) {
     var isFull = this.isOverflow();
     if (!isFull) {
       //创建索引号
@@ -3694,7 +3606,7 @@ var Read = {
       //记录
       this.addRecord(index, callback);
       //执行发送
-      this.execSend(execFunc, index, buf);
+      this.exec(send, index, buf);
     } else {
       //清除超时
       var result = this.removeOvertimeRequest();
@@ -3706,9 +3618,10 @@ var Read = {
       };
     }
   },
+
   /**
    * 移除超时未回调的
-   * @return {[type]} [description]
+   * @return {Number} 返回超时数目
    */
   removeOvertimeRequest: function removeOvertimeRequest() {
     var time = new Date().getTime();
@@ -3723,16 +3636,16 @@ var Read = {
   },
 
   /**
-   * 执行发送
-   * @param  {Function} execFunc
+   * 一个执行器
+   * @param  {Function} send
    * @param  {Number} index    [description]
    * @param  {[type]} buf      [description]
    * @return {[type]}          [description]
    */
-  execSend: function execSend(execFunc, index, buf) {
+  exec: function exec(send, index, buf) {
     //amand the index of the buf due to the rj25 protocol
     buf.splice(3, 1, index);
-    execFunc(buf);
+    send(buf);
   },
 
   /**
@@ -3769,17 +3682,17 @@ var WriteControl = {
   writeRecord: {},
   /**
    * this function is drived by
-   * @param {Function}   execFunc  addRequest execute as proxy
+   * @param {Function}   send  addRequest execute as proxy
    * @param {Array}   buf      rj25 buffer
    * @param {Function} callback [description]
    */
-  addRequest: function addRequest(execFunc, buf) {
+  addRequest: function addRequest(send, buf) {
     var time = new Date().getTime();
     var bufStr = buf.join('_');
     if (this.writeRecord.buf != bufStr || time - this.writeRecord.time > TIME_INTERVAL) {
       this.writeRecord.buf = bufStr;
       this.writeRecord.time = time;
-      execFunc(buf);
+      send(buf);
     }
   }
 };
@@ -3805,10 +3718,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 // 获取到的最大指令长度
 var REC_BUF_MAX_LENGTH = 40; /**
-                              * @fileOverview 解析器负责数据解析
-                              * 对外输出解析方法
+                              * @fileOverview 解析器负责数据解析，对外输出解析方法.
                               */
-// import PromiseList from "../core/promise";
 
 var BUF_START_FLAG = [0xff, 0x55];
 var BUF_END_FLAG = [0x0d, 0x0a];
@@ -3820,22 +3731,19 @@ function checkEnd(flag1, flag2) {
   return flag1 === BUF_END_FLAG[0] && flag2 === BUF_END_FLAG[1];
 }
 
-// 目前所有的执行命令，如果是正常接收，都是统一回复  ff 55 0d 0a
-function Parse() {
-  this.cacheBuffer = [];
+exports.default = {
+  cacheBuffer: [],
 
-  // 解析从硬件传递过来的数据
-  // data : 当前处理的数据
-  // this.cacheBuffer: 历史缓存数据
-  // 记录数据和历史数据分开记录
   /**
-   * parse buffer
+   * 解析从硬件传递过来的数据
    * @param  {Array} buffData buffer that from the response
    * @return {Array}          the parsed result
+   * data : 当前处理的数据
+   * this.cacheBuffer: 历史缓存数据, 记录数据和历史数据分开记录
    */
-  this.doParse = function (buffData) {
+  doParse: function doParse(buffData) {
     var recvLength = 0;
-    //是否允许接受
+    //是否允许接收
     var isAllowRecv = false;
     var tempBuf = [];
 
@@ -3864,8 +3772,6 @@ function Parse() {
           var resultBuf = tempBuf.slice(0, recvLength - 1);
           // 解析正确的数据后，清空 buffer
           this.cacheBuffer = [];
-          // console.log('doParse resultBuf ---->', resultBuf);
-          // 此轮解析结束
           return resultBuf;
         }
         // the data we really want
@@ -3878,7 +3784,7 @@ function Parse() {
             }
           }
     }
-  };
+  },
 
   /**
    * Get result from buffer data.
@@ -3894,7 +3800,7 @@ function Parse() {
    *  @example
    *  ff 55 02 02 7c 1a 81 41 0d 0a
    */
-  this.getResult = function (buf, type) {
+  getResult: function getResult(buf, type) {
     // 获取返回的数据类型
     var dataType = buf[1];
     var result = null;
@@ -3927,21 +3833,15 @@ function Parse() {
       default:
         break;
     }
-
-    // TOFIX: should not be placed here.
-    //  if (type == this.PromiseType.ENCODER_MOTER.index) {
-    //   result = Math.abs(result);
-    // }
-
     return result;
-  };
+  },
 
   /**
    * calculate value from data received: bytes -> int -> float
    * @param  {Array} intArray decimal array
    * @return {Number}  result.
    */
-  this.calculateResponseValue = function (intArray) {
+  calculateResponseValue: function calculateResponseValue(intArray) {
     var result = null;
 
     // FIXME: int字节转浮点型
@@ -3960,10 +3860,8 @@ function Parse() {
       result = parseFloat(intBitsToFloat(intValue).toFixed(2));
     }
     return result;
-  };
-}
-
-exports.default = new Parse();
+  }
+};
 
 /***/ }),
 /* 82 */
@@ -4940,9 +4838,9 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _command = __webpack_require__(6);
+var _commandManager = __webpack_require__(172);
 
-var _command2 = _interopRequireDefault(_command);
+var _commandManager2 = _interopRequireDefault(_commandManager);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -4964,7 +4862,7 @@ var DcMotor = function (_MotorBase) {
     key: 'run',
     value: function run() {
       var buf = _utils2.default.composer(_cmd2.default.setDcMotor, [this.args.port, this.args.speed]);
-      _command2.default.execWrite(buf);
+      _commandManager2.default.write(buf);
       return this;
     }
   }], [{
@@ -5067,7 +4965,7 @@ var VirtualJoystick = function (_Electronic) {
     key: 'run',
     value: function run() {
       var buf = _utils2.default.composer(_cmd2.default.setJoystick, [this.args.leftSpeed, this.args.rightSpeed]);
-      _command2.default.execWrite(buf);
+      _command2.default.write(buf);
       return this;
     }
   }, {
@@ -5168,7 +5066,7 @@ var VirtualJoystickForBalance = function (_Electronic) {
     key: 'run',
     value: function run() {
       var buf = _utils2.default.composer(_cmd2.default.setVirtualJoystickForBalance, [this.args.turnRange, this.args.speed]);
-      _command2.default.execWrite(buf);
+      _command2.default.write(buf);
       return this;
     }
 
@@ -5297,7 +5195,7 @@ var StepperMotor = function (_MotorBase) {
     key: 'run',
     value: function run() {
       var buf = _utils2.default.composer(_cmd2.default.setStepperMotor, [this.args.port, this.args.speed, this.args.distance]);
-      _command2.default.execWrite(buf);
+      _command2.default.write(buf);
       return this;
     }
   }], [{
@@ -5415,9 +5313,9 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _command = __webpack_require__(6);
+var _commandManager = __webpack_require__(172);
 
-var _command2 = _interopRequireDefault(_command);
+var _commandManager2 = _interopRequireDefault(_commandManager);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -5508,9 +5406,9 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _command = __webpack_require__(6);
+var _commandManager = __webpack_require__(172);
 
-var _command2 = _interopRequireDefault(_command);
+var _commandManager2 = _interopRequireDefault(_commandManager);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -5537,7 +5435,7 @@ var EncoderMotorOnBoard = function (_EncoderMotorBase) {
     value: function getSpeed(callback) {
       this.args.type = 0x02;
       var buf = bufComposer(this.args);
-      _command2.default.execRead(buf, callback);
+      _commandManager2.default.read(buf, callback);
       return this;
     }
 
@@ -5551,7 +5449,7 @@ var EncoderMotorOnBoard = function (_EncoderMotorBase) {
     value: function getAngle(callback) {
       this.args.type = 0x01;
       var buf = bufComposer(this.args);
-      _command2.default.execRead(buf, callback);
+      _commandManager2.default.read(buf, callback);
       return this;
     }
   }], [{
@@ -5673,7 +5571,7 @@ var ServoMotor = function (_Electronic) {
     key: 'run',
     value: function run() {
       var buf = _utils2.default.composer(_cmd2.default.setServoMotor, [this.args.port, this.args.slot, this.args.angle]);
-      _command2.default.execWrite(buf);
+      _command2.default.write(buf);
       return this;
     }
   }], [{
@@ -5963,9 +5861,9 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _command = __webpack_require__(6);
+var _commandManager = __webpack_require__(172);
 
-var _command2 = _interopRequireDefault(_command);
+var _commandManager2 = _interopRequireDefault(_commandManager);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -6007,7 +5905,7 @@ var LedMatrixChar = function (_LedMatrixBase) {
     key: 'run',
     value: function run() {
       var buf = _utils2.default.composer(_cmd2.default.setLedMatrixChar, [this.args.port, this.args.x, this.args.y, this.args.char]);
-      _command2.default.execWrite(buf);
+      _commandManager2.default.write(buf);
       return this;
     }
   }], [{
@@ -6114,7 +6012,7 @@ var LedMatrixTime = function (_LedMatrixBase) {
     key: 'run',
     value: function run() {
       var buf = _utils2.default.composer(_cmd2.default.setLedMatrixTime, [this.args.port, this.args.separator, this.args.hour, this.args.minute]);
-      _command2.default.execWrite(buf);
+      _command2.default.write(buf);
       return this;
     }
   }], [{
@@ -6175,9 +6073,9 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _command = __webpack_require__(6);
+var _commandManager = __webpack_require__(172);
 
-var _command2 = _interopRequireDefault(_command);
+var _commandManager2 = _interopRequireDefault(_commandManager);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -6219,7 +6117,7 @@ var LedMatrixEmotion = function (_LedMatrixBase) {
     key: 'run',
     value: function run() {
       var buf = _utils2.default.composer(_cmd2.default.setLedMatrixEmotion, [this.args.port, this.args.x, this.args.y, this.args.emotion]);
-      _command2.default.execWrite(buf);
+      _commandManager2.default.write(buf);
       return this;
     }
   }], [{
@@ -6312,7 +6210,7 @@ var LedMatrixNumber = function (_LedMatrixBase) {
     key: 'run',
     value: function run() {
       var buf = _utils2.default.composer(_cmd2.default.setLedMatrixNumber, [this.args.port, this.args.number]);
-      _command2.default.execWrite(buf);
+      _command2.default.write(buf);
       return this;
     }
   }], [{
@@ -6371,9 +6269,9 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _command = __webpack_require__(6);
+var _commandManager = __webpack_require__(172);
 
-var _command2 = _interopRequireDefault(_command);
+var _commandManager2 = _interopRequireDefault(_commandManager);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -6420,7 +6318,7 @@ var Buzzer = function (_Electronic) {
     key: 'run',
     value: function run() {
       var buf = _utils2.default.composer(_cmd2.default.setTone, [this.args.tone, this.args.beat]);
-      _command2.default.execWrite(buf);
+      _commandManager2.default.write(buf);
       return this;
     }
   }], [{
@@ -6510,7 +6408,7 @@ var SevenSegment = function (_Electronic) {
     key: 'run',
     value: function run() {
       var buf = _utils2.default.composer(_cmd2.default.setSevenSegment, [this.args.port, this.args.number]);
-      _command2.default.execWrite(buf);
+      _command2.default.write(buf);
       return this;
     }
   }], [{
@@ -6606,7 +6504,7 @@ var Shutter = function (_Electronic) {
     key: 'run',
     value: function run() {
       var buf = _utils2.default.composer(_cmd2.default.setShutter, [this.args.port, this.args.action]);
-      _command2.default.execWrite(buf);
+      _command2.default.write(buf);
       return this;
     }
   }], [{
@@ -6687,7 +6585,7 @@ var Reset = function (_Electronic) {
     key: 'reset',
     value: function reset(callback) {
       var buf = _utils2.default.composer(_cmd2.default.reset);
-      _command2.default.execRead(buf, callback);
+      _command2.default.read(buf, callback);
       return this;
     }
   }], [{
@@ -6770,7 +6668,7 @@ var Ultrasonic = function (_Electronic) {
     key: 'getData',
     value: function getData(callback) {
       var buf = _utils2.default.composer(_cmd2.default.readUltrasonic, [this.args.port]);
-      _command2.default.execRead(buf, callback);
+      _command2.default.read(buf, callback);
       return this;
     }
   }], [{
@@ -6854,7 +6752,7 @@ var Temperature = function (_Electronic) {
     key: 'getData',
     value: function getData(callback) {
       var buf = _utils2.default.composer(_cmd2.default.readTemperature, [this.args.port, this.args.slot]);
-      _command2.default.execRead(buf, callback);
+      _command2.default.read(buf, callback);
       return this;
     }
   }], [{
@@ -6937,7 +6835,7 @@ var Light = function (_Electronic) {
     key: 'getData',
     value: function getData(callback) {
       var buf = _utils2.default.composer(_cmd2.default.readLight, [this.args.port]);
-      _command2.default.execRead(buf, callback);
+      _command2.default.read(buf, callback);
       return this;
     }
   }], [{
@@ -7020,7 +6918,7 @@ var Potentionmeter = function (_Electronic) {
     key: 'getData',
     value: function getData(callback) {
       var buf = _utils2.default.composer(_cmd2.default.readPotentionmeter, [this.args.port]);
-      _command2.default.execRead(buf, callback);
+      _command2.default.read(buf, callback);
       return this;
     }
   }], [{
@@ -7079,9 +6977,9 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _command = __webpack_require__(6);
+var _commandManager = __webpack_require__(172);
 
-var _command2 = _interopRequireDefault(_command);
+var _commandManager2 = _interopRequireDefault(_commandManager);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -7110,7 +7008,7 @@ var Joystick = function (_Electronic) {
     key: 'getData',
     value: function getData(callback) {
       var buf = _utils2.default.composer(_cmd2.default.readJoystick, [this.args.port, this.args.axis]);
-      _command2.default.execRead(buf, callback);
+      _commandManager2.default.read(buf, callback);
       return this;
     }
   }], [{
@@ -7169,9 +7067,9 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _command = __webpack_require__(6);
+var _commandManager = __webpack_require__(172);
 
-var _command2 = _interopRequireDefault(_command);
+var _commandManager2 = _interopRequireDefault(_commandManager);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -7241,9 +7139,9 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _command = __webpack_require__(6);
+var _commandManager = __webpack_require__(172);
 
-var _command2 = _interopRequireDefault(_command);
+var _commandManager2 = _interopRequireDefault(_commandManager);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -7439,7 +7337,7 @@ var TemperatureOnBoard = function (_Electronic) {
     key: 'getData',
     value: function getData(callback) {
       var buf = _utils2.default.composer(_cmd2.default.readTemperatureOnBoard);
-      _command2.default.execRead(buf, callback);
+      _command2.default.read(buf, callback);
       return this;
     }
   }], [{
@@ -7522,7 +7420,7 @@ var Pirmotion = function (_Electronic) {
     key: 'getData',
     value: function getData(callback) {
       var buf = _utils2.default.composer(_cmd2.default.readPirmotion, [this.args.port]);
-      _command2.default.execRead(buf, callback);
+      _command2.default.read(buf, callback);
       return this;
     }
   }], [{
@@ -7606,7 +7504,7 @@ var LimitSwitch = function (_Electronic) {
     key: 'getData',
     value: function getData(callback) {
       var buf = _utils2.default.composer(_cmd2.default.readLimitSwitch, [this.args.port, this.args.slot]);
-      _command2.default.execRead(buf, callback);
+      _command2.default.read(buf, callback);
       return this;
     }
   }], [{
@@ -7689,7 +7587,7 @@ var LineFollower = function (_Electronic) {
     key: 'getData',
     value: function getData(callback) {
       var buf = _utils2.default.composer(_cmd2.default.readLineFollower, [this.args.port]);
-      _command2.default.execRead(buf, callback);
+      _command2.default.read(buf, callback);
       return this;
     }
   }], [{
@@ -7748,9 +7646,9 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _command = __webpack_require__(6);
+var _commandManager = __webpack_require__(172);
 
-var _command2 = _interopRequireDefault(_command);
+var _commandManager2 = _interopRequireDefault(_commandManager);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -7772,7 +7670,7 @@ var Compass = function (_Electronic) {
     key: 'getData',
     value: function getData(callback) {
       var buf = _utils2.default.composer(_cmd2.default.readCompass, [this.args.port]);
-      _command2.default.execRead(buf, callback);
+      _commandManager2.default.read(buf, callback);
       return this;
     }
   }], [{
@@ -7831,15 +7729,15 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _command = __webpack_require__(6);
+var _commandManager = __webpack_require__(172);
 
-var _command2 = _interopRequireDefault(_command);
+var _commandManager2 = _interopRequireDefault(_commandManager);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var commandRead = function commandRead(args, callback) {
   var buf = _utils2.default.composer(_cmd2.default.readHumiture, [args.port, args.type]);
-  _command2.default.execRead(buf, callback);
+  _commandManager2.default.read(buf, callback);
 };
 
 var Humiture = function (_Electronic) {
@@ -7927,9 +7825,9 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _command = __webpack_require__(6);
+var _commandManager = __webpack_require__(172);
 
-var _command2 = _interopRequireDefault(_command);
+var _commandManager2 = _interopRequireDefault(_commandManager);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -7951,7 +7849,7 @@ var Flame = function (_Electronic) {
     key: 'getData',
     value: function getData(callback) {
       var buf = _utils2.default.composer(_cmd2.default.readFlame, [this.args.port]);
-      _command2.default.execRead(buf, callback);
+      _commandManager2.default.read(buf, callback);
       return this;
     }
   }], [{
@@ -8010,9 +7908,9 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _command = __webpack_require__(6);
+var _commandManager = __webpack_require__(172);
 
-var _command2 = _interopRequireDefault(_command);
+var _commandManager2 = _interopRequireDefault(_commandManager);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -8034,7 +7932,7 @@ var Gas = function (_Electronic) {
     key: 'getData',
     value: function getData(callback) {
       var buf = _utils2.default.composer(_cmd2.default.readGas, [this.args.port]);
-      _command2.default.execRead(buf, callback);
+      _commandManager2.default.read(buf, callback);
       return this;
     }
   }], [{
@@ -8117,7 +8015,7 @@ var Touch = function (_Electronic) {
     key: 'getData',
     value: function getData(callback) {
       var buf = _utils2.default.composer(_cmd2.default.readTouch, [this.args.port]);
-      _command2.default.execRead(buf, callback);
+      _command2.default.read(buf, callback);
       return this;
     }
   }], [{
@@ -8176,9 +8074,9 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _command = __webpack_require__(6);
+var _commandManager = __webpack_require__(172);
 
-var _command2 = _interopRequireDefault(_command);
+var _commandManager2 = _interopRequireDefault(_commandManager);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -8213,7 +8111,7 @@ var FourKeys = function (_Electronic) {
     key: 'getData',
     value: function getData(callback) {
       var buf = _utils2.default.composer(_cmd2.default.readFourKeys, [this.args.port, this.args.key]);
-      _command2.default.execRead(buf, callback);
+      _commandManager2.default.read(buf, callback);
       return this;
     }
   }], [{
@@ -8272,9 +8170,9 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _command = __webpack_require__(6);
+var _commandManager = __webpack_require__(172);
 
-var _command2 = _interopRequireDefault(_command);
+var _commandManager2 = _interopRequireDefault(_commandManager);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -8296,7 +8194,7 @@ var DigGPIO = function (_Electronic) {
     key: 'getData',
     value: function getData(callback) {
       var buf = _utils2.default.composer(_cmd2.default.readDigGPIO, [this.args.port]);
-      _command2.default.execRead(buf, callback);
+      _commandManager2.default.read(buf, callback);
       return this;
     }
   }], [{
@@ -8355,9 +8253,9 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _command = __webpack_require__(6);
+var _commandManager = __webpack_require__(172);
 
-var _command2 = _interopRequireDefault(_command);
+var _commandManager2 = _interopRequireDefault(_commandManager);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -8379,7 +8277,7 @@ var AnalogGPIO = function (_Electronic) {
     key: 'getData',
     value: function getData(callback) {
       var buf = _utils2.default.composer(_cmd2.default.readAnalogGPIO, [this.args.port]);
-      _command2.default.execRead(buf, callback);
+      _commandManager2.default.read(buf, callback);
       return this;
     }
   }], [{
@@ -8438,9 +8336,9 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _command = __webpack_require__(6);
+var _commandManager = __webpack_require__(172);
 
-var _command2 = _interopRequireDefault(_command);
+var _commandManager2 = _interopRequireDefault(_commandManager);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -8463,7 +8361,7 @@ var GPIOContinue = function (_Electronic) {
     key: 'getData',
     value: function getData(callback) {
       var buf = _utils2.default.composer(_cmd2.default.readGPIOContinue, [this.args.port, this.args.key]);
-      _command2.default.execRead(buf, callback);
+      _commandManager2.default.read(buf, callback);
       return this;
     }
   }], [{
@@ -8522,9 +8420,9 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _command = __webpack_require__(6);
+var _commandManager = __webpack_require__(172);
 
-var _command2 = _interopRequireDefault(_command);
+var _commandManager2 = _interopRequireDefault(_commandManager);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -8547,7 +8445,7 @@ var DoubleGPIO = function (_Electronic) {
     key: 'getData',
     value: function getData(callback) {
       var buf = _utils2.default.composer(_cmd2.default.readDoubleGPIO, [this.args.port1, this.args.port2]);
-      _command2.default.execRead(buf, callback);
+      _commandManager2.default.read(buf, callback);
       return this;
     }
   }], [{
@@ -8624,7 +8522,7 @@ var Runtime = function (_Electronic) {
     key: 'getData',
     value: function getData(callback) {
       var buf = _utils2.default.composer(_cmd2.default.readRuntime);
-      _command2.default.execRead(buf, callback);
+      _command2.default.read(buf, callback);
       return this;
     }
   }], [{
@@ -9097,17 +8995,17 @@ var _command2 = _interopRequireDefault(_command);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function execWrite(baseArgs, extra) {
+function write(baseArgs, extra) {
   if (typeof extra !== 'undefined' && !Array.isArray(extra)) {
     extra = [extra];
   }
   var buf = _utils2.default.composer(_cmd2.default.setSmartServo, [baseArgs.index, baseArgs.subCmd, extra]);
-  _command2.default.execWrite(buf);
+  _command2.default.write(buf);
 }
 
 function readWrite(baseArgs) {
   var buf = _utils2.default.composer(_cmd2.default.readSmartServoParam, [baseArgs.index, baseArgs.subCmd]);
-  _command2.default.execRead(buf);
+  _command2.default.read(buf);
 }
 
 var SmartServo = function (_Electronic) {
@@ -9134,7 +9032,7 @@ var SmartServo = function (_Electronic) {
     value: function lock() {
       var extraCmd = 0x00;
       this.args.subCmd = 0x01;
-      execWrite(this.args, extraCmd);
+      write(this.args, extraCmd);
       return this;
     }
     //解锁
@@ -9144,7 +9042,7 @@ var SmartServo = function (_Electronic) {
     value: function unclock() {
       var extraCmd = 0x01;
       this.args.subCmd = 0x01;
-      execWrite(this.args, extraCmd);
+      write(this.args, extraCmd);
       return this;
     }
 
@@ -9163,7 +9061,7 @@ var SmartServo = function (_Electronic) {
         extraCmd = hex_rgb;
       }
       this.args.subCmd = 0x02;
-      execWrite(this.args, extraCmd);
+      write(this.args, extraCmd);
       return this;
     }
 
@@ -9173,7 +9071,7 @@ var SmartServo = function (_Electronic) {
     key: 'handshake',
     value: function handshake() {
       this.args.subCmd = 0x03;
-      execWrite(this.args);
+      write(this.args);
       return this;
     }
   }, {
@@ -9189,7 +9087,7 @@ var SmartServo = function (_Electronic) {
     value: function runToAbsoluteAngle(angle) {
       var extraCmd = this.args.speed;
       this.args.subCmd = 0x04;
-      execWrite(this.args, extraCmd);
+      write(this.args, extraCmd);
       return this;
     }
     //运动到相对角度
@@ -9199,7 +9097,7 @@ var SmartServo = function (_Electronic) {
     value: function runToRelativeAngle(angle) {
       var extraCmd = this.args.speed;
       this.args.subCmd = 0x05;
-      execWrite(this.args, extraCmd);
+      write(this.args, extraCmd);
       return this;
     }
     //作为直流电机运动
@@ -9209,7 +9107,7 @@ var SmartServo = function (_Electronic) {
     value: function runAsDcMotor() {
       var extraCmd = this.args.speed;
       this.args.subCmd = 0x06;
-      execWrite(this.args, extraCmd);
+      write(this.args, extraCmd);
       return this;
     }
 
@@ -9219,7 +9117,7 @@ var SmartServo = function (_Electronic) {
     key: 'setAsZeroPoint',
     value: function setAsZeroPoint() {
       this.args.subCmd = 0x07;
-      execWrite(this.args);
+      write(this.args);
       return this;
     }
 
@@ -9229,7 +9127,7 @@ var SmartServo = function (_Electronic) {
     key: 'backToStart',
     value: function backToStart() {
       this.args.subCmd = 0x08;
-      execWrite(this.args);
+      write(this.args);
       return this;
     }
 
@@ -9291,6 +9189,114 @@ var SmartServo = function (_Electronic) {
 }(_electronic2.default);
 
 exports.default = SmartServo;
+
+/***/ }),
+/* 172 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _classCallCheck2 = __webpack_require__(0);
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = __webpack_require__(1);
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _read = __webpack_require__(79);
+
+var _read2 = _interopRequireDefault(_read);
+
+var _write = __webpack_require__(80);
+
+var _write2 = _interopRequireDefault(_write);
+
+var _parse = __webpack_require__(81);
+
+var _parse2 = _interopRequireDefault(_parse);
+
+var _command = __webpack_require__(6);
+
+var _command2 = _interopRequireDefault(_command);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/**
+ * 发送数据的队列调度，对外提供以下接口：
+ * write
+ * read
+ * pipe
+ */
+// import Transport from './transport';
+var CommandManager = function () {
+  function CommandManager() {
+    (0, _classCallCheck3.default)(this, CommandManager);
+  }
+
+  /**
+   * an api to execute write
+   * @param  {Array}   buf      [description]
+   * @return {[type]}            [description]
+   */
+
+
+  (0, _createClass3.default)(CommandManager, [{
+    key: 'write',
+    value: function write(buf) {
+      _write2.default.addRequest(_command2.default.send, buf);
+    }
+
+    /**
+     * an api to execute read
+     * @param  {Array}   buf      [description]
+     * @param  {Function} callback [description]
+     * @return {[type]}            [description]
+     */
+
+  }, {
+    key: 'read',
+    value: function read(buf, callback) {
+      _read2.default.addRequest(_command2.default.send, buf, callback);
+    }
+
+    /**
+     * parse the buffer and callback
+     * @param  {Array} buff buffer responsed from transportion
+     * @return {Undefined}
+     */
+
+  }, {
+    key: 'pipe',
+    value: function pipe(buff) {
+      var buffer = _parse2.default.doParse(buff);
+      if (!buffer) {//解析后无正确解析
+        //do nothing
+      } else if (buffer.length == 0) {//write 结果
+        //do nothing
+      } else {
+        //read 结果
+        // console.log('after parse ------>', buffer[0], buff);
+        var index = buffer[0];
+        var value = _parse2.default.getResult(buffer);
+        this.emitCallback(index, value);
+      }
+    }
+  }, {
+    key: 'emitCallback',
+    value: function emitCallback(index, value) {
+      _read2.default.callbackProxy.apply(_read2.default, arguments);
+    }
+  }]);
+  return CommandManager;
+}();
+
+exports.default = new CommandManager();
 
 /***/ })
 /******/ ]);

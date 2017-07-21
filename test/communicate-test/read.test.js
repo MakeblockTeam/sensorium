@@ -2,13 +2,13 @@
  * 假设是可靠传输
  */
 import Transport from './transport.help';
-import Cammand from '../../src/communicate/command';
+import CommandManager from '../../src/communicate/command-manager';
 import Read from '../../src/communicate/read';
 import chai from 'chai';
 const expect = chai.expect;
 
 //重写
-Cammand.exec = function(buf){
+CommandManager.exec = function(buf){
   Transport.send(buf);
 }
 //重置 Read
@@ -37,7 +37,7 @@ describe('test doParse', function() {
   it('should create 1 readRecord', function(done) {
     let CaseReadNumber = 1;
     resetReadForTest();
-    Cammand.read(UltrasonicProtocol, function(val){
+    CommandManager.read(UltrasonicProtocol, function(val){
       let count = Object.keys(Read.readRecord).length;
       expect(count).to.eql(CaseReadNumber);
       done();
@@ -51,7 +51,7 @@ describe('test doParse', function() {
     let emitFunc = throttler(CaseReadNumber);
     let count = 0;
     for(let i = 0; i < CaseReadNumber; i++){
-      Cammand.read(UltrasonicProtocol, function(val){
+      CommandManager.read(UltrasonicProtocol, function(val){
         count++;
         emitFunc(function(){
           expect(count).to.eql(CaseReadNumber);
@@ -69,7 +69,7 @@ describe('test doParse', function() {
     let emitFunc = throttler(CaseReadNumber);
     let count = 0;
     for(let i = 0; i < CaseReadNumber; i++){
-      Cammand.read(UltrasonicProtocol, function(val){
+      CommandManager.read(UltrasonicProtocol, function(val){
         count++;
         emitFunc(function(){
           expect(count).to.eql(CaseReadNumber);
@@ -90,7 +90,7 @@ describe('test doParse', function() {
     let i = 0;
     let timer = setInterval(function(){
       if(i++ < CaseReadNumber){
-        Cammand.read(UltrasonicProtocol, function(val){
+        CommandManager.read(UltrasonicProtocol, function(val){
           if(++count == CaseReadNumber){
             clearInterval(timer);
             expect(count).to.eql(CaseReadNumber);
@@ -115,7 +115,7 @@ describe('test doParse', function() {
     let i = 0;
     let timer = setInterval(function(){
       if(i++ < CaseReadNumber){
-        Cammand.read(UltrasonicProtocol, function(val){
+        CommandManager.read(UltrasonicProtocol, function(val){
           if(++count == CaseReadNumber){
             clearInterval(timer);
             expect(count).to.eql(CaseReadNumber);

@@ -16,8 +16,8 @@ function checkEnd(flag1, flag2){
   return flag1 === BUF_END_FLAG[0] && flag2 === BUF_END_FLAG[1];
 }
 
-function Parse() {
-  this.cacheBuffer = [];
+export default {
+  cacheBuffer: [],
 
   /**
    * 解析从硬件传递过来的数据
@@ -26,7 +26,7 @@ function Parse() {
    * data : 当前处理的数据
    * this.cacheBuffer: 历史缓存数据, 记录数据和历史数据分开记录
    */
-  this.doParse = function(buffData) {
+  doParse: function(buffData) {
     let recvLength = 0;
     //是否允许接收
     let isAllowRecv = false;
@@ -69,7 +69,7 @@ function Parse() {
         }
       }
     }
-  };
+  },
 
   /**
    * Get result from buffer data.
@@ -85,7 +85,7 @@ function Parse() {
    *  @example
    *  ff 55 02 02 7c 1a 81 41 0d 0a
    */
-  this.getResult = function(buf, type) {
+  getResult: function(buf, type) {
     // 获取返回的数据类型
     let dataType = buf[1];
     let result = null;
@@ -119,14 +119,14 @@ function Parse() {
         break;
     }
     return result;
-  };
+  },
 
   /**
    * calculate value from data received: bytes -> int -> float
    * @param  {Array} intArray decimal array
    * @return {Number}  result.
    */
-  this.calculateResponseValue = function(intArray) {
+  calculateResponseValue: function(intArray) {
     var result = null;
 
     // FIXME: int字节转浮点型
@@ -147,7 +147,5 @@ function Parse() {
       result = parseFloat(intBitsToFloat(intValue).toFixed(2));
     }
     return result;
-  };
+  }
 }
-
-export default new Parse();

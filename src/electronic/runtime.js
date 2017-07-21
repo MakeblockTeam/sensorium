@@ -2,7 +2,7 @@ import { defineNumber } from '../core/type';
 import Utils from '../core/utils';
 import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
-import command from '../communicate/command';
+import CommandManager from '../communicate/command-manager';
 
 class Runtime extends Electronic {
   constructor() {
@@ -11,7 +11,7 @@ class Runtime extends Electronic {
 
   getData(callback) {
     let buf = Utils.composer(protocolAssembler.readRuntime);
-    command.read(buf, callback);
+    CommandManager.read(buf, callback);
     return this;
   }
 

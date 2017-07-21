@@ -1,7 +1,7 @@
 import { defineNumber } from '../../core/type';
 import Utils from '../../core/utils';
 import protocolAssembler from '../../protocol/cmd';
-import command from '../../communicate/command';
+import CommandManager from '../../communicate/command-manager';
 
 class Version {
   constructor() {
@@ -9,7 +9,7 @@ class Version {
 
   getVersion(callback) {
     let buf = Utils.composer(protocolAssembler.readVersion);
-    command.read(buf, callback);
+    CommandManager.read(buf, callback);
     return this;
   }
 }

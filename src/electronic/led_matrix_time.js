@@ -2,7 +2,7 @@ import { defineNumber } from '../core/type';
 import Utils from '../core/utils';
 import LedMatrixBase from './base/LedMatrixBase';
 import protocolAssembler from '../protocol/cmd';
-import command from '../communicate/command';
+import CommandManager from '../communicate/command-manager';
 
 class LedMatrixTime extends LedMatrixBase {
 
@@ -32,7 +32,7 @@ class LedMatrixTime extends LedMatrixBase {
 
   run(){
     let buf = Utils.composer(protocolAssembler.setLedMatrixTime, [this.args.port, this.args.separator, this.args.hour, this.args.minute]);
-    command.write(buf);
+    CommandManager.write(buf);
     return this;
   }
 

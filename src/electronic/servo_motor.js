@@ -2,7 +2,7 @@ import { defineNumber } from '../core/type';
 import Utils from '../core/utils';
 import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
-import command from '../communicate/command';
+import CommandManager from '../communicate/command-manager';
 
 class ServoMotor extends Electronic {
 
@@ -45,7 +45,7 @@ class ServoMotor extends Electronic {
 
   run(){
     let buf = Utils.composer(protocolAssembler.setServoMotor, [this.args.port, this.args.slot, this.args.angle]);
-    command.write(buf);
+    CommandManager.write(buf);
     return this;
   }
 

@@ -1,5 +1,5 @@
 import Transport from '../communicate/transport';
-import Command from '../communicate/command';
+import Command from '../communicate/command-manager';
 import Version from './firmware/version';
 import Settings from '../mainboard/settings';
 import Mcore from './mcore';

@@ -1,7 +1,7 @@
 import Utils from '../core/utils';
 import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
-import command from '../communicate/command';
+import CommandManager from '../communicate/command-manager';
 
 class TemperatureOnBoard extends Electronic {
   constructor() {
@@ -10,7 +10,7 @@ class TemperatureOnBoard extends Electronic {
 
   getData(callback) {
     let buf = Utils.composer(protocolAssembler.readTemperatureOnBoard);
-    command.read(buf, callback);
+    CommandManager.read(buf, callback);
     return this;
   }
 

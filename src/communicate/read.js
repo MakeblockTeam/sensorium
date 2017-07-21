@@ -60,11 +60,11 @@ const Read = {
 
   /**
    * this function is drived by
-   * @param {Function}   execFunc  addRequest execute as proxy
+   * @param {Function}   send  addRequest send function as proxy
    * @param {Array}   buf      rj25 buffer
    * @param {Function} callback [description]
    */
-  addRequest: function(execFunc, buf, callback) {
+  addRequest: function(send, buf, callback) {
     let isFull = this.isOverflow();
     if(!isFull){
       //创建索引号
@@ -72,7 +72,7 @@ const Read = {
       //记录
       this.addRecord(index, callback);
       //执行发送
-      this.execSend(execFunc, index, buf);
+      this.exec(send, index, buf);
     }else{
       //清除超时
       let result = this.removeOvertimeRequest();
@@ -87,7 +87,7 @@ const Read = {
 
   /**
    * 移除超时未回调的
-   * @return {[type]} [description]
+   * @return {Number} 返回超时数目
    */
   removeOvertimeRequest: function(){
     let time = (new Date()).getTime();
@@ -102,16 +102,16 @@ const Read = {
   },
 
   /**
-   * 执行发送
-   * @param  {Function} execFunc
+   * 一个执行器
+   * @param  {Function} send
    * @param  {Number} index    [description]
    * @param  {[type]} buf      [description]
    * @return {[type]}          [description]
    */
-  execSend: function(execFunc, index, buf){
+  exec: function(send, index, buf){
     //amand the index of the buf due to the rj25 protocol
     buf.splice(3, 1, index);
-    execFunc(buf);
+    send(buf);
   },
 
   /**

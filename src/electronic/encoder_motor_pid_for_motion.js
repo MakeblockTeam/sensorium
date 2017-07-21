@@ -1,7 +1,7 @@
 import { defineNumber } from '../core/type';
 import Utils from '../core/utils';
 import protocolAssembler from '../protocol/cmd';
-import command from '../communicate/command';
+import CommandManager from '../communicate/command-manager';
 
 class EncoderMotor extends Electronic {
   constructor(port, slot) {

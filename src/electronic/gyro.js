@@ -2,7 +2,7 @@ import { defineNumber, defineString } from '../core/type';
 import Utils from '../core/utils';
 import GyroBase from './base/GyroBase';
 import protocolAssembler from '../protocol/cmd';
-import command from '../communicate/command';
+import CommandManager from '../communicate/command-manager';
 
 class Gyro extends GyroBase {
   constructor(port) {

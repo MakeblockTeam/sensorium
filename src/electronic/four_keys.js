@@ -2,7 +2,7 @@ import { defineNumber } from '../core/type';
 import Utils from '../core/utils';
 import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
-import command from '../communicate/command';
+import CommandManager from '../communicate/command-manager';
 
 class FourKeys extends Electronic {
   constructor(port) {
@@ -24,7 +24,7 @@ class FourKeys extends Electronic {
 
   getData(callback) {
     let buf = Utils.composer(protocolAssembler.readFourKeys, [this.args.port, this.args.key]);
-    command.read(buf, callback);
+    CommandManager.read(buf, callback);
     return this;
   }
 

@@ -2,7 +2,7 @@ import { defineNumber } from '../core/type';
 import Utils from '../core/utils';
 import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
-import command from '../communicate/command';
+import CommandManager from '../communicate/command-manager';
 
 class GPIOContinue extends Electronic {
   constructor(port, key) {
@@ -15,7 +15,7 @@ class GPIOContinue extends Electronic {
 
   getData(callback) {
     let buf = Utils.composer(protocolAssembler.readGPIOContinue, [this.args.port, this.args.key]);
-    command.read(buf, callback);
+    CommandManager.read(buf, callback);
     return this;
   }
 

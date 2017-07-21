@@ -2,7 +2,7 @@ import { defineNumber } from '../core/type';
 import Utils from '../core/utils';
 import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
-import command from '../communicate/command';
+import CommandManager from '../communicate/command-manager';
 
 class VirtualJoystickForBalance extends Electronic {
 
@@ -26,7 +26,7 @@ class VirtualJoystickForBalance extends Electronic {
 
   run() {
     let buf = Utils.composer(protocolAssembler.setVirtualJoystickForBalance, [this.args.turnRange, this.args.speed]);
-    command.write(buf);
+    CommandManager.write(buf);
     return this;
   }
 

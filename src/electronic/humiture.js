@@ -2,11 +2,11 @@ import { defineNumber } from '../core/type';
 import Utils from '../core/utils';
 import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
-import command from '../communicate/command';
+import CommandManager from '../communicate/command-manager';
 
 let commandRead = function(args, callback){
   let buf = Utils.composer(protocolAssembler.readHumiture, [args.port, args.type]);
-  command.read(buf, callback);
+  CommandManager.read(buf, callback);
 }
 
 class Humiture extends Electronic {

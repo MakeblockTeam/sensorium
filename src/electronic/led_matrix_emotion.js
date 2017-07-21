@@ -1,7 +1,7 @@
 import Utils from '../core/utils';
 import LedMatrixBase from './base/LedMatrixBase';
 import protocolAssembler from '../protocol/cmd';
-import command from '../communicate/command';
+import CommandManager from '../communicate/command-manager';
 
 class LedMatrixEmotion extends LedMatrixBase {
   constructor(port) {
@@ -31,7 +31,7 @@ class LedMatrixEmotion extends LedMatrixBase {
 
   run(){
     let buf = Utils.composer(protocolAssembler.setLedMatrixEmotion, [this.args.port, this.args.x, this.args.y, this.args.emotion]);
-    command.write(buf);
+    CommandManager.write(buf);
     return this;
   }
 

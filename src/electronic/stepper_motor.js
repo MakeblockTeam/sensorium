@@ -2,7 +2,7 @@ import { defineNumber } from '../core/type';
 import Utils from '../core/utils';
 import MotorBase from './base/MotorBase';
 import protocolAssembler from '../protocol/cmd';
-import command from '../communicate/command';
+import CommandManager from '../communicate/command-manager';
 
 class StepperMotor extends MotorBase {
 
@@ -34,7 +34,7 @@ class StepperMotor extends MotorBase {
 
   run() {
     let buf = Utils.composer(protocolAssembler.setStepperMotor, [this.args.port, this.args.speed, this.args.distance]);
-    command.write(buf);
+    CommandManager.write(buf);
     return this;
   }
 

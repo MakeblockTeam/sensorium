@@ -2,7 +2,7 @@ import { defineNumber } from '../core/type';
 import Utils from '../core/utils';
 import EncoderMotorBase from './base/EncoderMotorBase';
 import protocolAssembler from '../protocol/cmd';
-import command from '../communicate/command';
+import CommandManager from '../communicate/command-manager';
 
 const bufComposer = function(args){
   return Utils.composer(protocolAssembler.readEncoderMotorOnBoard, [args.slot, args.type]);
@@ -19,7 +19,7 @@ class EncoderMotorOnBoard extends EncoderMotorBase {
   getSpeed(callback){
     this.args.type = 0x02;
     let buf = bufComposer(this.args);
-    command.read(buf, callback);
+    CommandManager.read(buf, callback);
     return this;
   }
 
@@ -30,7 +30,7 @@ class EncoderMotorOnBoard extends EncoderMotorBase {
   getAngle(callback){
     this.args.type = 0x01;
     let buf = bufComposer(this.args);
-    command.read(buf, callback);
+    CommandManager.read(buf, callback);
     return this;
   }
 

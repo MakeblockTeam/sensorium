@@ -2,7 +2,7 @@ import { defineNumber } from '../core/type';
 import Utils from '../core/utils';
 import LedMatrixBase from './base/LedMatrixBase';
 import protocolAssembler from '../protocol/cmd';
-import command from '../communicate/command';
+import CommandManager from '../communicate/command-manager';
 
 class LedMatrixNumber extends LedMatrixBase {
   constructor(port) {
@@ -19,7 +19,7 @@ class LedMatrixNumber extends LedMatrixBase {
 
   run(){
     let buf = Utils.composer(protocolAssembler.setLedMatrixNumber, [this.args.port, this.args.number]);
-    command.write(buf);
+    CommandManager.write(buf);
     return this;
   }
 
