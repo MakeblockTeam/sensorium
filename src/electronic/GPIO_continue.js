@@ -15,7 +15,7 @@ class GPIOContinue extends Electronic {
 
   getData(callback) {
     let buf = Utils.composer(protocolAssembler.readGPIOContinue, [this.args.port, this.args.key]);
-    command.execRead(buf, callback);
+    command.read(buf, callback);
     return this;
   }
 

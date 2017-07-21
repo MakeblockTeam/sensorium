@@ -26,7 +26,7 @@ class EncoderMotorBase extends MotorBase {
     }else{
       buf = Utils.composer(protocolAssembler.setEncoderMotor, [this.args.port, this.args.slot, this.args.speed, this.args.angle]);
     }
-    Command.execWrite(buf);
+    Command.write(buf);
     return this;
   }
 

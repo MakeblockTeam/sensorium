@@ -15,7 +15,7 @@ class Temperature extends Electronic {
 
   getData(callback) {
     let buf = Utils.composer(protocolAssembler.readTemperature, [this.args.port, this.args.slot]);
-    command.execRead(buf, callback);
+    command.read(buf, callback);
     return this;
   }
 

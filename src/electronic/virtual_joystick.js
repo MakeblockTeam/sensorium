@@ -32,7 +32,7 @@ class VirtualJoystick extends Electronic {
 
   run() {
     let buf = Utils.composer(protocolAssembler.setJoystick, [this.args.leftSpeed, this.args.rightSpeed]);
-    command.execWrite(buf);
+    command.write(buf);
     return this;
   }
 

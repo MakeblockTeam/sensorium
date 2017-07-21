@@ -1,8 +1,7 @@
 /**
- * @fileOverview 解析器负责数据解析
- * 对外输出解析方法
+ * @fileOverview 解析器负责数据解析，对外输出解析方法.
  */
-// import PromiseList from "../core/promise";
+
 import Utils from "../core/utils";
 
 // 获取到的最大指令长度
@@ -17,22 +16,19 @@ function checkEnd(flag1, flag2){
   return flag1 === BUF_END_FLAG[0] && flag2 === BUF_END_FLAG[1];
 }
 
-// 目前所有的执行命令，如果是正常接收，都是统一回复  ff 55 0d 0a
 function Parse() {
   this.cacheBuffer = [];
 
-  // 解析从硬件传递过来的数据
-  // data : 当前处理的数据
-  // this.cacheBuffer: 历史缓存数据
-  // 记录数据和历史数据分开记录
   /**
-   * parse buffer
+   * 解析从硬件传递过来的数据
    * @param  {Array} buffData buffer that from the response
    * @return {Array}          the parsed result
+   * data : 当前处理的数据
+   * this.cacheBuffer: 历史缓存数据, 记录数据和历史数据分开记录
    */
   this.doParse = function(buffData) {
     let recvLength = 0;
-    //是否允许接受
+    //是否允许接收
     let isAllowRecv = false;
     let tempBuf = [];
 
@@ -48,7 +44,7 @@ function Parse() {
         recvLength = 0;
         isAllowRecv = true;
         tempBuf = [];
-      } 
+      }
       // end data
       else if (checkEnd(data1, data2)) {
         //没有头部但有尾部 - 说明是无效数据
@@ -61,10 +57,8 @@ function Parse() {
         let resultBuf = tempBuf.slice(0, recvLength - 1);
         // 解析正确的数据后，清空 buffer
         this.cacheBuffer = [];
-        // console.log('doParse resultBuf ---->', resultBuf);
-        // 此轮解析结束
         return resultBuf;
-      } 
+      }
       // the data we really want
       else {
         if(isAllowRecv) {
@@ -124,12 +118,6 @@ function Parse() {
       default:
         break;
     }
-
-    // TOFIX: should not be placed here.
-    //  if (type == this.PromiseType.ENCODER_MOTER.index) {
-    //   result = Math.abs(result);
-    // }
-
     return result;
   };
 

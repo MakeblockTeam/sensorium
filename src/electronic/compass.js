@@ -14,7 +14,7 @@ class Compass extends Electronic {
 
   getData(callback) {
     let buf = Utils.composer(protocolAssembler.readCompass, [this.args.port]);
-    command.execRead(buf, callback);
+    command.read(buf, callback);
     return this;
   }
 

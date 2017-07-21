@@ -2,7 +2,7 @@
  * @fileOverview 调度类
  * 负责协议收发调度
  */
-//es6 module
+
 import Transport from './transport';
 import Read from './read';
 import Write from './write';
@@ -12,6 +12,7 @@ class Command {
   constructor() {
 
   }
+
   /**
    * execute buffer
    * @param  {Array} buf [description]
@@ -26,7 +27,7 @@ class Command {
    * @param  {[type]}   buf      [description]
    * @return {[type]}            [description]
    */
-  execWrite(buf){
+  write(buf){
     Write.addRequest(this.exec.bind(this), buf);
   }
 
@@ -36,7 +37,7 @@ class Command {
    * @param  {Function} callback [description]
    * @return {[type]}            [description]
    */
-  execRead(buf, callback){
+  read(buf, callback){
     Read.addRequest(this.exec.bind(this), buf, callback);
     //TODO: 谨慎执行超时重发
   }

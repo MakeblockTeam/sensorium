@@ -11,7 +11,7 @@ class Runtime extends Electronic {
 
   getData(callback) {
     let buf = Utils.composer(protocolAssembler.readRuntime);
-    command.execRead(buf, callback);
+    command.read(buf, callback);
     return this;
   }
 

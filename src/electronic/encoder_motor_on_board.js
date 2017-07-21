@@ -19,7 +19,7 @@ class EncoderMotorOnBoard extends EncoderMotorBase {
   getSpeed(callback){
     this.args.type = 0x02;
     let buf = bufComposer(this.args);
-    command.execRead(buf, callback);
+    command.read(buf, callback);
     return this;
   }
 
@@ -30,7 +30,7 @@ class EncoderMotorOnBoard extends EncoderMotorBase {
   getAngle(callback){
     this.args.type = 0x01;
     let buf = bufComposer(this.args);
-    command.execRead(buf, callback);
+    command.read(buf, callback);
     return this;
   }
 

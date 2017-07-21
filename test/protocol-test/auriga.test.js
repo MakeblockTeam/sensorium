@@ -10,9 +10,9 @@ const expect = chai.expect;
 
 function captureWriteBuf(run) {
   let capturedBuf;
-  let execWrite_ = Command.execWrite;
+  let write_ = Command.write;
   //override
-  Command.execWrite = function(buf) {
+  Command.write = function(buf) {
     capturedBuf = buf;
     return;
   }
@@ -22,15 +22,15 @@ function captureWriteBuf(run) {
     return newVal.length == 1 ? '0' + newVal : newVal;
   });
   // console.log('capturedBuf-------->', capturedBuf);
-  Command.execWrite = execWrite_;
+  Command.write = write_;
   return currentCmd.join(' ');
 }
 
 function captureReadBuf(run) {
   let capturedBuf;
-  let execRead_ = Command.execRead;
+  let read_ = Command.read;
   //override
-  Command.execRead = function(buf, callback) {
+  Command.read = function(buf, callback) {
     capturedBuf = buf;
     return;
   }
@@ -39,7 +39,7 @@ function captureReadBuf(run) {
     let newVal = val.toString(16);
     return newVal.length == 1 ? '0' + newVal : newVal;
   });
-  Command.execRead = execRead_;
+  Command.read = read_;
   return currentCmd.join(' ');
 }
 
@@ -784,7 +784,7 @@ describe('【auriga_最新固件 协议测试】', function() {
     //     var targetCmd = dataman.auriga.write.ledMatrixTime[13];
     //     var cmd = auriga.setLedMatrixTime(6, 1, 15.5, 12);
     //     assert.equal(targetCmd, cmd);
-    //   });   
+    //   });
     // });
 
     // describe('表情面板-显示数字：setLedMatrixNumber(6, 0)', function() {

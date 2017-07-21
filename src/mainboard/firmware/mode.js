@@ -5,7 +5,7 @@ import { FIRM_MODES } from '../settings';
 
 class Mode {
   constructor() {
-    
+
   }
 
   /**
@@ -14,12 +14,12 @@ class Mode {
    */
   setMode(subCmd, mode){
     let buf = Utils.composer(protocolAssembler.setFirmwareMode, [subCmd, mode]);
-    command.execWrite(buf);
+    command.write(buf);
   }
 
   getMode(subCmd, callback){
     let buf = Utils.composer(protocolAssembler.readFirmwareMode, [subCmd]);
-    command.execRead(buf, callback);
+    command.read(buf, callback);
   }
 
   /**

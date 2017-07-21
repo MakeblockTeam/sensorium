@@ -45,7 +45,7 @@ class ServoMotor extends Electronic {
 
   run(){
     let buf = Utils.composer(protocolAssembler.setServoMotor, [this.args.port, this.args.slot, this.args.angle]);
-    command.execWrite(buf);
+    command.write(buf);
     return this;
   }
 

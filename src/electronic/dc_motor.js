@@ -17,7 +17,7 @@ class DcMotor extends MotorBase {
 
   run() {
     let buf = Utils.composer(protocolAssembler.setDcMotor, [this.args.port, this.args.speed]);
-    command.execWrite(buf);
+    command.write(buf);
     return this;
   }
 

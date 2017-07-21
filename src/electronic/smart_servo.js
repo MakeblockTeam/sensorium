@@ -4,17 +4,17 @@ import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
 import command from '../communicate/command';
 
-function execWrite(baseArgs, extra){
+function write(baseArgs, extra){
   if(typeof extra !== 'undefined' && !Array.isArray(extra)){
     extra = [extra];
   }
   let buf = Utils.composer(protocolAssembler.setSmartServo, [baseArgs.index, baseArgs.subCmd, extra]);
-  command.execWrite(buf);
+  command.write(buf);
 }
 
 function readWrite(baseArgs){
   let buf = Utils.composer(protocolAssembler.readSmartServoParam, [baseArgs.index, baseArgs.subCmd]);
-  command.execRead(buf);
+  command.read(buf);
 }
 
 class SmartServo extends Electronic {
@@ -31,14 +31,14 @@ class SmartServo extends Electronic {
   lock(){
     let extraCmd = 0x00;
     this.args.subCmd = 0x01;
-    execWrite(this.args, extraCmd);
+    write(this.args, extraCmd);
     return this;
   }
   //解锁
   unclock(){
     let extraCmd = 0x01;
     this.args.subCmd = 0x01;
-    execWrite(this.args, extraCmd);
+    write(this.args, extraCmd);
     return this;
   }
 
@@ -54,14 +54,14 @@ class SmartServo extends Electronic {
       extraCmd = hex_rgb;
     }
     this.args.subCmd = 0x02;
-    execWrite(this.args, extraCmd);
+    write(this.args, extraCmd);
     return this;
   }
 
   //握手
   handshake(){
     this.args.subCmd = 0x03;
-    execWrite(this.args);
+    write(this.args);
     return this;
   }
 
@@ -73,35 +73,35 @@ class SmartServo extends Electronic {
   runToAbsoluteAngle(angle){
     let extraCmd = this.args.speed;
     this.args.subCmd = 0x04;
-    execWrite(this.args, extraCmd);
+    write(this.args, extraCmd);
     return this;
   }
   //运动到相对角度
   runToRelativeAngle(angle){
     let extraCmd = this.args.speed;
     this.args.subCmd = 0x05;
-    execWrite(this.args, extraCmd);
+    write(this.args, extraCmd);
     return this;
   }
   //作为直流电机运动
   runAsDcMotor(){
     let extraCmd = this.args.speed;
     this.args.subCmd = 0x06;
-    execWrite(this.args, extraCmd);
+    write(this.args, extraCmd);
     return this;
   }
 
   //设置零点
   setAsZeroPoint(){
     this.args.subCmd = 0x07;
-    execWrite(this.args);
+    write(this.args);
     return this;
   }
 
   //回到起点
   backToStart(){
     this.args.subCmd = 0x08;
-    execWrite(this.args);
+    write(this.args);
     return this;
   }
 

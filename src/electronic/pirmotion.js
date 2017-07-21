@@ -14,7 +14,7 @@ class Pirmotion extends Electronic {
 
   getData(callback) {
     let buf = Utils.composer(protocolAssembler.readPirmotion, [this.args.port]);
-    command.execRead(buf, callback);
+    command.read(buf, callback);
     return this;
   }
 

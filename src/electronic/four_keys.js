@@ -24,7 +24,7 @@ class FourKeys extends Electronic {
 
   getData(callback) {
     let buf = Utils.composer(protocolAssembler.readFourKeys, [this.args.port, this.args.key]);
-    command.execRead(buf, callback);
+    command.read(buf, callback);
     return this;
   }
 

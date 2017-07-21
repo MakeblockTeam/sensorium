@@ -15,7 +15,7 @@ class LimitSwitch extends Electronic {
 
   getData(callback) {
     let buf = Utils.composer(protocolAssembler.readLimitSwitch, [this.args.port, this.args.slot]);
-    command.execRead(buf, callback);
+    command.read(buf, callback);
     return this;
   }
 

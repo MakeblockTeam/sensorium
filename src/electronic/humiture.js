@@ -6,7 +6,7 @@ import command from '../communicate/command';
 
 let commandRead = function(args, callback){
   let buf = Utils.composer(protocolAssembler.readHumiture, [args.port, args.type]);
-  command.execRead(buf, callback);
+  command.read(buf, callback);
 }
 
 class Humiture extends Electronic {
@@ -28,7 +28,7 @@ class Humiture extends Electronic {
     this.args.type = 1;
     commandRead(this.args, callback);
     return this;
-  }  
+  }
 
   static supportStamp(){
     return '1111';

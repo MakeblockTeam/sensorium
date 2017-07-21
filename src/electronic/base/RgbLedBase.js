@@ -12,7 +12,7 @@ let bufComposer = function(obj){
 let commandWrite = function(obj){
   // console.log('led ------->', obj.ledPosition, ...obj.rgb);
   let buf = bufComposer(obj);
-  command.execWrite(buf);
+  command.write(buf);
 }
 
 class RgbLedBase extends Electronic {

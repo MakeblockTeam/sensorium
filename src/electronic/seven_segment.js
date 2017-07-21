@@ -21,7 +21,7 @@ class SevenSegment extends Electronic {
 
   run() {
     let buf = Utils.composer(protocolAssembler.setSevenSegment, [this.args.port, this.args.number]);
-    command.execWrite(buf);
+    command.write(buf);
     return this;
   }
 

@@ -26,7 +26,7 @@ class VirtualJoystickForBalance extends Electronic {
 
   run() {
     let buf = Utils.composer(protocolAssembler.setVirtualJoystickForBalance, [this.args.turnRange, this.args.speed]);
-    command.execWrite(buf);
+    command.write(buf);
     return this;
   }
 

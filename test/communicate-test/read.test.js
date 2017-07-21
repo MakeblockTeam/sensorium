@@ -37,7 +37,7 @@ describe('test doParse', function() {
   it('should create 1 readRecord', function(done) {
     let CaseReadNumber = 1;
     resetReadForTest();
-    Cammand.execRead(UltrasonicProtocol, function(val){
+    Cammand.read(UltrasonicProtocol, function(val){
       let count = Object.keys(Read.readRecord).length;
       expect(count).to.eql(CaseReadNumber);
       done();
@@ -51,7 +51,7 @@ describe('test doParse', function() {
     let emitFunc = throttler(CaseReadNumber);
     let count = 0;
     for(let i = 0; i < CaseReadNumber; i++){
-      Cammand.execRead(UltrasonicProtocol, function(val){
+      Cammand.read(UltrasonicProtocol, function(val){
         count++;
         emitFunc(function(){
           expect(count).to.eql(CaseReadNumber);
@@ -69,7 +69,7 @@ describe('test doParse', function() {
     let emitFunc = throttler(CaseReadNumber);
     let count = 0;
     for(let i = 0; i < CaseReadNumber; i++){
-      Cammand.execRead(UltrasonicProtocol, function(val){
+      Cammand.read(UltrasonicProtocol, function(val){
         count++;
         emitFunc(function(){
           expect(count).to.eql(CaseReadNumber);
@@ -90,7 +90,7 @@ describe('test doParse', function() {
     let i = 0;
     let timer = setInterval(function(){
       if(i++ < CaseReadNumber){
-        Cammand.execRead(UltrasonicProtocol, function(val){
+        Cammand.read(UltrasonicProtocol, function(val){
           if(++count == CaseReadNumber){
             clearInterval(timer);
             expect(count).to.eql(CaseReadNumber);
@@ -115,7 +115,7 @@ describe('test doParse', function() {
     let i = 0;
     let timer = setInterval(function(){
       if(i++ < CaseReadNumber){
-        Cammand.execRead(UltrasonicProtocol, function(val){
+        Cammand.read(UltrasonicProtocol, function(val){
           if(++count == CaseReadNumber){
             clearInterval(timer);
             expect(count).to.eql(CaseReadNumber);
@@ -132,11 +132,11 @@ describe('test doParse', function() {
 
   //模拟随机速度(10~100ms/条)创建 255 条请求
   it('should parse the incomplete data', function() {
-    
+
   });
 
   //模拟随机速度(10~100ms/条)创建 256 条请求
   it('should parse the incomplete data', function() {
-    
+
   });
 });

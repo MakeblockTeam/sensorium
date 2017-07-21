@@ -14,7 +14,7 @@ class Gas extends Electronic {
 
   getData(callback) {
     let buf = Utils.composer(protocolAssembler.readGas, [this.args.port]);
-    command.execRead(buf, callback);
+    command.read(buf, callback);
     return this;
   }
 

@@ -12,7 +12,7 @@ class Reset extends Electronic {
 
   reset(callback) {
     let buf = Utils.composer(protocolAssembler.reset);
-    command.execRead(buf, callback);
+    command.read(buf, callback);
     return this;
   }
 

@@ -25,7 +25,7 @@ class Shutter extends Electronic {
 
   run() {
     let buf = Utils.composer(protocolAssembler.setShutter, [this.args.port, this.args.action]);
-    command.execWrite(buf);
+    command.write(buf);
     return this;
   }
 

@@ -32,7 +32,7 @@ class LedMatrixTime extends LedMatrixBase {
 
   run(){
     let buf = Utils.composer(protocolAssembler.setLedMatrixTime, [this.args.port, this.args.separator, this.args.hour, this.args.minute]);
-    command.execWrite(buf);
+    command.write(buf);
     return this;
   }
 

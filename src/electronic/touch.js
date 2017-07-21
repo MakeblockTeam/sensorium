@@ -14,7 +14,7 @@ class Touch extends Electronic {
 
   getData(callback) {
     let buf = Utils.composer(protocolAssembler.readTouch, [this.args.port]);
-    command.execRead(buf, callback);
+    command.read(buf, callback);
     return this;
   }
 

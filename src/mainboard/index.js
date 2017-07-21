@@ -23,7 +23,7 @@ class Sensorium {
    * @constructor
    */
   constructor(){
-    
+
   }
 
   /**
@@ -43,6 +43,7 @@ class Sensorium {
    * @param {Tranport} transport object that contains send and onReceived functions
    */
   //TO COMFIRM：是否重复 setTransport 导致事件监听绑定多次?
+  //对多次相同的transpoprt，不允许重新设置
   setTransport(transport){
     if(transport && typeof transport.send == 'function' && typeof transport.onReceived == 'function' ){
       Transport.send = transport.send;

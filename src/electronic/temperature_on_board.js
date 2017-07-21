@@ -10,7 +10,7 @@ class TemperatureOnBoard extends Electronic {
 
   getData(callback) {
     let buf = Utils.composer(protocolAssembler.readTemperatureOnBoard);
-    command.execRead(buf, callback);
+    command.read(buf, callback);
     return this;
   }
 

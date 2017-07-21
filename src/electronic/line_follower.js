@@ -14,7 +14,7 @@ class LineFollower extends Electronic {
 
   getData(callback) {
     let buf = Utils.composer(protocolAssembler.readLineFollower, [this.args.port]);
-    command.execRead(buf, callback);
+    command.read(buf, callback);
     return this;
   }
 

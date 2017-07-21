@@ -19,7 +19,7 @@ class LedMatrixNumber extends LedMatrixBase {
 
   run(){
     let buf = Utils.composer(protocolAssembler.setLedMatrixNumber, [this.args.port, this.args.number]);
-    command.execWrite(buf);
+    command.write(buf);
     return this;
   }
 

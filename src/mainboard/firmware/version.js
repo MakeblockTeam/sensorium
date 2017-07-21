@@ -9,7 +9,7 @@ class Version {
 
   getVersion(callback) {
     let buf = Utils.composer(protocolAssembler.readVersion);
-    command.execRead(buf, callback);
+    command.read(buf, callback);
     return this;
   }
 }
