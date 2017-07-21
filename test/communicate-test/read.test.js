@@ -2,15 +2,17 @@
  * 假设是可靠传输
  */
 import Transport from './transport.help';
+import Command from '../../src/communicate/command';
 import CommandManager from '../../src/communicate/command-manager';
 import Read from '../../src/communicate/read';
 import chai from 'chai';
 const expect = chai.expect;
 
-//重写
-CommandManager.exec = function(buf){
+//重载 send 方法
+Command.send = function(buf){
   Transport.send(buf);
 }
+
 //重置 Read
 const resetReadForTest = function(){
   Read.readRecord = {};

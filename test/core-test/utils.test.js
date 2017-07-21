@@ -1,6 +1,5 @@
-var utils = require("../../src/core/utils");
+import utils from "../../src/core/utils";
 var assert = require('chai').assert;
-
 describe('test limitValue', function() {
   it('test limitValue(200)', function() {
     assert.equal(utils.limitValue(200), 200);

@@ -281,5 +281,4 @@ export default {
     }
     return func(...args);
   }
-
 }
