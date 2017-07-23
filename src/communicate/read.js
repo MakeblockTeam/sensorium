@@ -9,6 +9,7 @@ const MAX_RECORD = 256;
 const OVERTIME = 1000;
 
 const Read = {
+  timer: null,
   readRecord: {},
   index: 0,
 
@@ -67,22 +68,35 @@ const Read = {
   addRequest: function(send, buf, callback) {
     let isFull = this.isOverflow();
     if(!isFull){
-      //创建索引号
+      //创建流水号
       let index = this.createSafeIndex();
       //记录
       this.addRecord(index, callback);
+      //看门狗处理超时请求
+      this.watchdog(index);
       //执行发送
       this.exec(send, index, buf);
     }else{
       //清除超时
       let result = this.removeOvertimeRequest();
-      if(result){
-        this.addRequest(...arguments);
-      }else{
-        //TODO: 忽略请求？挂起请求？
+      if(!result){
+        // 忽略请求即可，若挂起请求则会阻塞回调
         console.warn(`[${buf.join(',')}] request was ignored`);
-      };
+        callback(null);
+      }else{
+        this.addRequest(...arguments);
+      }
     }
+  },
+
+  /**
+   * watchdog to handle with exception request such as timeout request
+   * @param  {Index} index the request index
+   */
+  watchdog: function(index) {
+   this.timer = setTimeout(()=>{
+      this.emitCallback(index, null);
+    }, OVERTIME + 200);
   },
 
   /**
@@ -95,7 +109,7 @@ const Read = {
     for(let index in this.readRecord){
       if(time - this.readRecord[index].time > OVERTIME){
         count++;
-        this.callbackProxy(index, null);
+        this.emitCallback(index, null);
       }
     }
     return count;
@@ -119,7 +133,8 @@ const Read = {
    * @param  {Number} index request index
    * @param  {Number} value request result
    */
-  callbackProxy: function(index, value){
+  emitCallback: function(index, value){
+    clearTimeout(this.timer);
     if(this.readRecord[index]){
       this.readRecord[index].callback(value);
       this.removeRecord(index);

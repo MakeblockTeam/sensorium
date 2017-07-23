@@ -31,17 +31,18 @@ class CommandManager {
    * @return {[type]}            [description]
    */
   read(buf, callback) {
-    Read.addRequest(Command.send, buf, callback);
+    Read.addRequest(Command.send, buf, callback || function(){});
   }
 
   /**
    * parse the buffer and callback
    * @param  {Array} buff buffer responsed from transportion
-   * @return {Undefined}
+   * @return {Number}
    */
   pipe(buff) {
     let buffer = Parse.doParse(buff);
-    if(!buffer) { //解析后无正确解析
+    if(!buffer) { //解析后无正确结果
+      //可能因为接收了异常数据
       //do nothing
     }else if(buffer.length == 0){ //write 结果
       //do nothing
@@ -49,12 +50,9 @@ class CommandManager {
       // console.log('after parse ------>', buffer[0], buff);
       let index = buffer[0];
       let value = Parse.getResult(buffer);
-      this.emitCallback(index, value);
+       Read.emitCallback(index, value);
+       return value;
     }
-  }
-
-  emitCallback(index, value) {
-    Read.callbackProxy.apply(Read, arguments);
   }
 }
 

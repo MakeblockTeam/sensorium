@@ -1,5 +1,5 @@
 import Transport from '../communicate/transport';
-import Command from '../communicate/command-manager';
+import CommandManager from '../communicate/command-manager';
 import Version from './firmware/version';
 import Settings from '../mainboard/settings';
 import Mcore from './mcore';
@@ -47,7 +47,7 @@ class Sensorium {
   setTransport(transport){
     if(transport && typeof transport.send == 'function' && typeof transport.onReceived == 'function' ){
       Transport.send = transport.send;
-      transport.onReceived(Command.pipe.bind(Command));
+      transport.onReceived(CommandManager.pipe.bind(Command));
     }else{
       // console.warn('')
     }
