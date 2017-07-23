@@ -7,7 +7,7 @@ function Server(){
   //监听子进程
   this.addListener = function (handle){
     parent.on('message', buf => {
-      console.log('get reponse', buf[2], buf);
+      // console.log('get reponse', buf[2], buf);
       handle(buf);
     });
   }
