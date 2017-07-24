@@ -1,16 +1,32 @@
 import { defineNumber } from '../core/type';
 import Utils from '../core/utils';
-import BaseEncoderMotorPID from './BaseEncoderMotorPID';
 import protocolAssembler from '../protocol/cmd';
 import CommandManager from '../communicate/command-manager';
 
-class EncoderMotorPIDForDistance extends BaseEncoderMotorPID {
+class PIDForDoubleMotor {
   constructor() {
-    super();
-    Object.assign(this.args, {
+    this.args = {
       distance: 0,
+      direction: 1,
       speed: 0
-    });
+    };
+  }
+
+  forward(){
+    this.args.direction = 1;
+    return this;
+  }
+  backward(){
+    this.args.direction = 2;
+    return this;
+  }
+  turnleft(){
+    this.args.direction = 3;
+    return this;
+  }
+  turnright(){
+    this.args.direction = 4;
+    return this;
   }
 
   /**
@@ -24,7 +40,8 @@ class EncoderMotorPIDForDistance extends BaseEncoderMotorPID {
 
   /**
    * set speed
-   * @param  {Number} speed 速度
+   * @param  {Number} speed [description]
+   * @return {[type]}       [description]
    */
   speed(speed) {
     this.args.speed = defineNumber(speed, this.args.speed);
@@ -32,14 +49,11 @@ class EncoderMotorPIDForDistance extends BaseEncoderMotorPID {
   }
 
   run() {
-    let buf = Utils.composer(protocolAssembler.setEncoderMotorPIDDistance, [this.args.distance, this.args.speed]);
+    let buf = Utils.composer(protocolAssembler.setEncoderMotorPIDDoubleMotor, 
+      [this.args.direction, this.args.distance, this.args.speed]);
     CommandManager.write(buf);
     return this;
   }
-
-  static supportStamp(){
-    return '010001';
-  }
 }
 
-export default EncoderMotorPIDForDistance;
+export default PIDForDoubleMotor;

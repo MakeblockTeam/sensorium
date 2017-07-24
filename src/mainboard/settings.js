@@ -9,7 +9,7 @@ const Settings = {
       0x09: 'Auriga',
       0x0a: 'Orion',
       0x0e: 'MegaPi',
-      0x0f: 'MegaPi pro'
+      0x0f: 'MegaPiPro'
     }
 };
 

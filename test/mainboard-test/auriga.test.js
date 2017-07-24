@@ -52,7 +52,7 @@ describe('test: initialize the electronic module of Auriga with different argume
 //测试方案：分类 + 抽样测试
 describe('test: repeatly initialize the electronic module', function() {
   //重复调用（初始化）一个电子模块，比如：DcMotor
-  it('should create only one instance of DcMotor by repeatly calls', function() {
+  it('should create only one instance of DcMotor by repeatly called', function() {
     let auriga = new Auriga();
     let dcMotor1 = auriga.DcMotor(1);
     let dcMotor2 = auriga.DcMotor(1);
@@ -62,7 +62,7 @@ describe('test: repeatly initialize the electronic module', function() {
   });
 
   //重复调用（初始化）一个电子模块，比如：EncoderMotorOnBoard
-  it('should create only one instance of EncoderMotorOnBoard by repeatly calls', function() {
+  it('should create only one instance of EncoderMotorOnBoard by repeatly called', function() {
     let auriga = new Auriga();
     let encoderMotor1 = auriga.EncoderMotorOnBoard(1);
     let encoderMotor2 = auriga.EncoderMotorOnBoard(1);
@@ -71,13 +71,17 @@ describe('test: repeatly initialize the electronic module', function() {
     expect(encoderMotor1).to.eql(encoderMotor3);
   });
 
-  //重复调用（初始化）一个电子模块，比如：EncoderMotorPIDForDistance
-  it('should create only one instance of EncoderMotorPIDForDistance by repeatly calls', function() {
+  //重复调用（初始化）一个电子模块，比如: EncoderMotorOnBoardPID
+  it('should create only one instance of EncoderMotorOnBoardPID by repeatly called', function() {
     let auriga = new Auriga();
-    let PIDForDistance1 = auriga.EncoderMotorPIDForDistance(1);
-    let PIDForDistance2 = auriga.EncoderMotorPIDForDistance(1);
-    let PIDForDistance3 = auriga.EncoderMotorPIDForDistance(1, 2);
-    expect(PIDForDistance1).to.eql(PIDForDistance2);
-    expect(PIDForDistance1).to.eql(PIDForDistance3);
+    let PID1 = auriga.EncoderMotorOnBoardPID();
+    let PID2 = auriga.EncoderMotorOnBoardPID(1);
+    let PID3 = auriga.EncoderMotorOnBoardPID(1);
+    let PID4 = auriga.EncoderMotorOnBoardPID(1, 2);
+    let PID5 = PID4.setZeroPoint();
+    expect(PID1).to.eql(PID2);
+    expect(PID1).to.eql(PID3);
+    expect(PID1).to.eql(PID4);
+    expect(PID1).to.eql(PID5);
   });
 })

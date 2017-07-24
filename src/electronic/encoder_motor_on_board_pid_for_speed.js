@@ -1,15 +1,15 @@
-import { defineNumber } from '../core/type';
+import {
+  defineNumber
+} from '../core/type';
 import Utils from '../core/utils';
-import BaseEncoderMotorPID from './BaseEncoderMotorPID';
 import protocolAssembler from '../protocol/cmd';
 import CommandManager from '../communicate/command-manager';
 
-class EncoderMotorPIDForSpeed extends BaseEncoderMotorPID {
+class PIDForSpeed {
   constructor() {
-    super();
-    Object.assign(this.args, {
+    this.args = {
       speed: 0
-    });
+    };
   }
 
   /**
@@ -27,10 +27,6 @@ class EncoderMotorPIDForSpeed extends BaseEncoderMotorPID {
     CommandManager.write(buf);
     return this;
   }
-
-  static supportStamp(){
-    return '010001';
-  }
 }
 
-export default EncoderMotorPIDForSpeed;
+export default PIDForSpeed;
