@@ -12,9 +12,9 @@ function write(baseArgs, extra){
   CommandManager.write(buf);
 }
 
-function readWrite(baseArgs){
+function read(baseArgs, callback){
   let buf = Utils.composer(protocolAssembler.readSmartServoParam, [baseArgs.index, baseArgs.subCmd]);
-  CommandManager.read(buf);
+  CommandManager.read(buf, callback);
 }
 
 class SmartServo extends Electronic {
@@ -92,7 +92,7 @@ class SmartServo extends Electronic {
   }
 
   //设置零点
-  setAsZeroPoint(){
+  setZeroPoint(){
     this.args.subCmd = 0x07;
     write(this.args);
     return this;
@@ -108,34 +108,34 @@ class SmartServo extends Electronic {
   //读速度
   readSpeed(callback){
     this.args.subCmd = 0x09;
-    readWrite(this.args);
+    read(this.args, callback);
     return this;
   }
   //读温度
   readTemperature(callback){
     this.args.subCmd = 0x0a;
-    readWrite(this.args);
+    read(this.args, callback);
     return this;
   }
 
   //读电流
   readCurrent(callback){
     this.args.subCmd = 0x0b;
-    readWrite(this.args);
+    read(this.args, callback);
     return this;
   }
 
   //读电压
   readVoltage(callback){
     this.args.subCmd = 0x0c;
-    readWrite(this.args);
+    read(this.args, callback);
     return this;
   }
 
   //读角度
   readAngle(callback){
     this.args.subCmd = 0x0d;
-    readWrite(this.args);
+    read(this.args, callback);
     return this;
   }
 

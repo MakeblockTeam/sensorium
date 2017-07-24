@@ -17,6 +17,10 @@ import Buzzer from './buzzer';
 import SevenSegment from './seven_segment';
 import Shutter from './shutter';
 import SmartServo from './smart_servo';
+import EncoderMotorPIDForDistance from './encoder_motor_pid_distance';
+import EncoderMotorPIDForSpeed from './encoder_motor_pid_for_speed';
+import EncoderMotorPIDForPwm from './encoder_motor_pid_for_pwm';
+import EncoderMotorPIDForDoubleMotor from './encoder_motor_pid_for_doubleMotor';
 
 import Reset from './reset';
 import Ultrasonic from './ultrasonic';
@@ -64,7 +68,11 @@ export default {
   SevenSegment,
   Shutter,
   SmartServo,
-
+  EncoderMotorPIDForDistance,
+  EncoderMotorPIDForSpeed,
+  EncoderMotorPIDForPwm,
+  EncoderMotorPIDForDoubleMotor,
+  
   Reset, //实现待验证
   Ultrasonic,
   Temperature,

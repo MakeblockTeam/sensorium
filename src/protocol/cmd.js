@@ -600,16 +600,75 @@ function protocolAssembler() {
   };
 
   /**
-   * 板载编码电机05模式(两个电机同时设置): ff 55 0b 00 02 3e 05 01 e8 03 00 00 64 00
-   * dir: 前进1，后退2，左转3，右转4
+   * 板载编码电机 PID 运动 01模式位置模式: 
+   * buf: ff 55 0b 00 02 3e 01 01 00 00 00 00 00 00
+   * @param {Number} distance  位移
+   * @param {Number} speed    速度
    */
-  this.setEncoderMotorPID = function (dir, distance, speed) {
+  this.setEncoderMotorPIDDistance = function (distance, speed) {
     let distanceArr = Utils.longToBytes(distance);
+    let subCmd = 0x05;
+    let slot = 0x01;
     speed = Utils.limitValue(speed);
-    let mode_type = 0x05;
     return bufAssembler({mode: 0x02, id: 0x3e},
-      mode_type,
-      dir,
+      subCmd,
+      slot,
+      distanceArr[3],
+      distanceArr[2],
+      distanceArr[1],
+      distanceArr[0],
+      speed & 0xff, 0);
+  };
+  
+  /**
+   * 板载编码电机 PID 运动 02模式速度模式: 
+   * buf: ff 55 07 00 02 3e 02 01 00 00
+   * @param {Number} speed    速度
+   */
+  this.setEncoderMotorPIDSpeed = function (speed) {
+    let subCmd = 0x02;
+    let slot = 0x01;
+    speed = Utils.limitValue(speed);
+    return bufAssembler({mode: 0x02, id: 0x3e}, subCmd, slot, speed & 0xff, (speed >> 8) & 0xff);
+  },
+  /**
+   * 板载编码电机 PID 运动 03模式 pwm 模式: 
+   * buf: ff 55 07 00 02 3e 03 01 00 00
+   * @param {Number} speed    速度
+   */
+  this.setEncoderMotorPIDPwm = function (speed) {
+    let subCmd = 0x03;
+    let slot = 0x01;
+    speed = Utils.limitValue(speed);
+    return bufAssembler({mode: 0x02, id: 0x3e}, subCmd, slot, speed & 0xff, (speed >> 8) & 0xff);
+  },
+
+  /**
+   * 板载编码电机PID运动，设置当前位置为零点: 
+   * buf: ff 55 05 00 02 3e 04 01
+   * (megaPiPro buf: ff 55 05 00 02 3e 03 01)
+   * @param {Number} subCmd    二级命令
+   */
+  this.setEncoderMotorPIDZeroPoint = function (subCmd) {
+    let slot = 0x01;
+    return bufAssembler({mode: 0x01, id: 0x3e}, subCmd, slot);
+  }
+
+  /**
+   * 板载编码电机 PID 运动 05模式双电机模式: 
+   * buf: ff 55 0b 00 02 3e 05 01 e8 03 00 00 64 00
+   * @param {Number} subCmd      0x05
+   * @param {Number} direction      前进1，后退2，左转3，右转4
+   * @param {Number} distance  位移
+   * @param {Number} speed     速度
+   */
+  this.setEncoderMotorPIDDoubleMotor = function (direction, distance, speed) {
+    let distanceArr = Utils.longToBytes(distance);
+    let subCmd = 0x05;
+    speed = Utils.limitValue(speed);
+    return bufAssembler({mode: 0x02, id: 0x3e},
+      subCmd,
+      direction,
       distanceArr[3],
       distanceArr[2],
       distanceArr[1],
@@ -617,52 +676,6 @@ function protocolAssembler() {
       speed & 0xff,
       0);
   };
-    // 板载编码电机: ff 55 07 00 02 3e 02 01 ff 00
-  // port为0，用slot来表示不同的位置
-  this.setEncoderMotorWithUnit = function (slot, speed) {
-    if(this.deviceInfo.type == 'auriga' && slot == this.deviceInfo.portlist.ENCODER_MOTOR[1]) {
-      speed = -speed;
-    }
-    var a = [
-      this.SETTING.CODE_CHUNK_PREFIX[0],
-      this.SETTING.CODE_CHUNK_PREFIX[1],
-      0x07, 0,
-      this.SETTING.WRITEMODULE,
-      0x3e,
-      0x02,
-      slot,
-      speed & 0xff,
-      (speed >> 8) & 0xff
-    ];
-
-    this.checkIsMoving(speed);
-    MBlockly.HostInterface.sendBluetoothRequestUnrelibly(a);
-  },
-  /**
-   * 板载编码电机位置模式（单个电机）: ff 55 0b 00 02 3e 01 01 e8 03 00 00 b4 00
-   * slot: M1-01,M2-02
-   */
-  this.setEncoderMotorSingle = function (slot, distance, speed) {
-    let distanceArr = longToBytes(distance).reverse();
-    var a = [
-      this.SETTING.CODE_CHUNK_PREFIX[0],
-      this.SETTING.CODE_CHUNK_PREFIX[1],
-      0x0b,
-      0,
-      this.SETTING.WRITEMODULE,
-      0x3e,
-      0x01,
-      slot,
-      distanceArr[0],
-      distanceArr[1],
-      distanceArr[2],
-      distanceArr[3],
-      speed & 0xff,
-      0
-    ];
-    this.checkIsMoving(speed);
-    MBlockly.HostInterface.sendBluetoothRequestUnrelibly(a);
-  },
 
   /**
    * set smart servo

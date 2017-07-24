@@ -22,8 +22,9 @@ const createModuleId = function (eModule, args){
 // 超类： 具备发送、接收方法
 class Board {
   constructor(conf){
-    this._config = conf || {};
-    //已连接元件
+    //私有的配置对象
+    this.config_ = conf || {};
+    //已连接电子模块
     this.connecting = {};
   }
 
@@ -31,14 +32,15 @@ class Board {
    * 电子模块实例工厂
    * @param  {Function} eModule 电子模块类
    * @param  {Array-Like} args    [port, slot, id...]
+   * @param  {String} host    电子模块的宿主，即主控板名——大部分电子模块是无需识别宿主的，少数电子模块因为宿主不同而表现不同特征
    * @return {Object}         电子模块实例
    */
-  eModuleFactory(eModule, args){
+  eModuleFactory(eModule, args, host){
     let id = createModuleId(eModule, args);
     if(this.connecting[id]){
       return this.connecting[id];
     }else{
-      let emodule = new eModule(...args);
+      let emodule = new eModule(...args, host);
       // 保存模块
       this.connecting[id] = emodule;
       return emodule;

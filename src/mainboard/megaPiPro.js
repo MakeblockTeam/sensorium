@@ -4,14 +4,15 @@ import Mode from './firmware/mode';
 import Version from './firmware/version';
 import Settings from './settings';
 //支持位置
-const SUPPORT_INDEX = Settings.SUPPORTLIST.indexOf('Auriga');
+const SUPPORT_INDEX = Settings.SUPPORTLIST.indexOf('MegaPiPro');
 
-class Auriga extends Board{
+//实现一个板子就注册一个板子名称
+class MegaPi extends Board{
   constructor(conf){
     super(conf);
     let this_ = this;
     //主控板名
-    this.name = 'Auriga';
+    this.name = 'MegaPiPro';
     //固件当前模式
     this.currentMode = null;
     //固件版本
@@ -50,7 +51,7 @@ class Auriga extends Board{
    * @param {Number} mode 0、1、2、3、4
    */
   setFirmwareMode(mode){
-    let subCmd = 0x11;
+    let subCmd = 0x12;
     Mode.setMode(subCmd, mode);
     return this;
   }
@@ -60,20 +61,10 @@ class Auriga extends Board{
    */
   //TODO: 数据缓存
   getFirmwareMode(callback){
-    let subCmd = 0x71;
-    Mode.getMode(subCmd, callback);
-    return this;
-  }
-
-  /**
-   * 获取固件电压
-   * @param  {Function} callback 取值后回调函数
-   */
-  getVoltage(callback){
-    let subCmd = 0x70;
+    let subCmd = 0x72;
     Mode.getMode(subCmd, callback);
     return this;
   }
 }
 
-export default Auriga;
+export default MegaPi;

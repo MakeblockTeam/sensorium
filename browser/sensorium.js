@@ -1188,36 +1188,67 @@ function protocolAssembler() {
   };
 
   /**
-   * 板载编码电机05模式(两个电机同时设置): ff 55 0b 00 02 3e 05 01 e8 03 00 00 64 00
-   * dir: 前进1，后退2，左转3，右转4
+   * 板载编码电机 PID 运动 01模式位置模式: 
+   * buf: ff 55 0b 00 02 3e 01 01 00 00 00 00 00 00
+   * @param {Number} distance  位移
+   * @param {Number} speed    速度
    */
-  this.setEncoderMotorPID = function (dir, distance, speed) {
+  this.setEncoderMotorPIDDistance = function (distance, speed) {
     var distanceArr = _utils2.default.longToBytes(distance);
+    var subCmd = 0x05;
+    var slot = 0x01;
     speed = _utils2.default.limitValue(speed);
-    var mode_type = 0x05;
-    return bufAssembler({ mode: 0x02, id: 0x3e }, mode_type, dir, distanceArr[3], distanceArr[2], distanceArr[1], distanceArr[0], speed & 0xff, 0);
+    return bufAssembler({ mode: 0x02, id: 0x3e }, subCmd, slot, distanceArr[3], distanceArr[2], distanceArr[1], distanceArr[0], speed & 0xff, 0);
   };
-  // 板载编码电机: ff 55 07 00 02 3e 02 01 ff 00
-  // port为0，用slot来表示不同的位置
-  this.setEncoderMotorWithUnit = function (slot, speed) {
-    if (this.deviceInfo.type == 'auriga' && slot == this.deviceInfo.portlist.ENCODER_MOTOR[1]) {
-      speed = -speed;
-    }
-    var a = [this.SETTING.CODE_CHUNK_PREFIX[0], this.SETTING.CODE_CHUNK_PREFIX[1], 0x07, 0, this.SETTING.WRITEMODULE, 0x3e, 0x02, slot, speed & 0xff, speed >> 8 & 0xff];
 
-    this.checkIsMoving(speed);
-    MBlockly.HostInterface.sendBluetoothRequestUnrelibly(a);
+  /**
+   * 板载编码电机 PID 运动 02模式速度模式: 
+   * buf: ff 55 07 00 02 3e 02 01 00 00
+   * @param {Number} speed    速度
+   */
+  this.setEncoderMotorPIDSpeed = function (speed) {
+    var subCmd = 0x02;
+    var slot = 0x01;
+    speed = _utils2.default.limitValue(speed);
+    return bufAssembler({ mode: 0x02, id: 0x3e }, subCmd, slot, speed & 0xff, speed >> 8 & 0xff);
   },
   /**
-   * 板载编码电机位置模式（单个电机）: ff 55 0b 00 02 3e 01 01 e8 03 00 00 b4 00
-   * slot: M1-01,M2-02
+   * 板载编码电机 PID 运动 03模式 pwm 模式: 
+   * buf: ff 55 07 00 02 3e 03 01 00 00
+   * @param {Number} speed    速度
    */
-  this.setEncoderMotorSingle = function (slot, distance, speed) {
-    var distanceArr = longToBytes(distance).reverse();
-    var a = [this.SETTING.CODE_CHUNK_PREFIX[0], this.SETTING.CODE_CHUNK_PREFIX[1], 0x0b, 0, this.SETTING.WRITEMODULE, 0x3e, 0x01, slot, distanceArr[0], distanceArr[1], distanceArr[2], distanceArr[3], speed & 0xff, 0];
-    this.checkIsMoving(speed);
-    MBlockly.HostInterface.sendBluetoothRequestUnrelibly(a);
+  this.setEncoderMotorPIDPwm = function (speed) {
+    var subCmd = 0x03;
+    var slot = 0x01;
+    speed = _utils2.default.limitValue(speed);
+    return bufAssembler({ mode: 0x02, id: 0x3e }, subCmd, slot, speed & 0xff, speed >> 8 & 0xff);
   },
+
+  /**
+   * 板载编码电机PID运动，设置当前位置为零点: 
+   * buf: ff 55 05 00 02 3e 04 01
+   * (megaPiPro buf: ff 55 05 00 02 3e 03 01)
+   * @param {Number} subCmd    二级命令
+   */
+  this.setEncoderMotorPIDZeroPoint = function (subCmd) {
+    var slot = 0x01;
+    return bufAssembler({ mode: 0x01, id: 0x3e }, subCmd, slot);
+  };
+
+  /**
+   * 板载编码电机 PID 运动 05模式双电机模式: 
+   * buf: ff 55 0b 00 02 3e 05 01 e8 03 00 00 64 00
+   * @param {Number} subCmd      0x05
+   * @param {Number} direction      前进1，后退2，左转3，右转4
+   * @param {Number} distance  位移
+   * @param {Number} speed     速度
+   */
+  this.setEncoderMotorPIDDoubleMotor = function (direction, distance, speed) {
+    var distanceArr = _utils2.default.longToBytes(distance);
+    var subCmd = 0x05;
+    speed = _utils2.default.limitValue(speed);
+    return bufAssembler({ mode: 0x02, id: 0x3e }, subCmd, direction, distanceArr[3], distanceArr[2], distanceArr[1], distanceArr[0], speed & 0xff, 0);
+  };
 
   /**
    * set smart servo
@@ -1593,7 +1624,7 @@ var Settings = {
     // 回复数据的index位置
     READ_BYTES_INDEX: 2,
     FIRM_MODES: [0x00, 0x01, 0x02, 0x03, 0x04],
-    SUPPORTLIST: ['Mcore', 'Auriga', 'MegaPi', 'Orion', 'Arduino'],
+    SUPPORTLIST: ['Mcore', 'Auriga', 'MegaPi', 'Orion', 'Arduino', 'MegaPiPro'],
     FIRMWARE_ID: {
         0x06: 'Mcore',
         0x09: 'Auriga',
@@ -1847,8 +1878,9 @@ var Board = function () {
   function Board(conf) {
     (0, _classCallCheck3.default)(this, Board);
 
-    this._config = conf || {};
-    //已连接元件
+    //私有的配置对象
+    this.config_ = conf || {};
+    //已连接电子模块
     this.connecting = {};
   }
 
@@ -1856,18 +1888,19 @@ var Board = function () {
    * 电子模块实例工厂
    * @param  {Function} eModule 电子模块类
    * @param  {Array-Like} args    [port, slot, id...]
+   * @param  {String} host    电子模块的宿主，即主控板名——大部分电子模块是无需识别宿主的，少数电子模块因为宿主不同而表现不同特征
    * @return {Object}         电子模块实例
    */
 
 
   (0, _createClass3.default)(Board, [{
     key: 'eModuleFactory',
-    value: function eModuleFactory(eModule, args) {
+    value: function eModuleFactory(eModule, args, host) {
       var id = createModuleId(eModule, args);
       if (this.connecting[id]) {
         return this.connecting[id];
       } else {
-        var emodule = new (Function.prototype.bind.apply(eModule, [null].concat((0, _toConsumableArray3.default)(args))))();
+        var emodule = new (Function.prototype.bind.apply(eModule, [null].concat((0, _toConsumableArray3.default)(args), [host])))();
         // 保存模块
         this.connecting[id] = emodule;
         return emodule;
@@ -1965,6 +1998,22 @@ var _shutter2 = _interopRequireDefault(_shutter);
 var _smart_servo = __webpack_require__(141);
 
 var _smart_servo2 = _interopRequireDefault(_smart_servo);
+
+var _encoder_motor_pid_distance = __webpack_require__(178);
+
+var _encoder_motor_pid_distance2 = _interopRequireDefault(_encoder_motor_pid_distance);
+
+var _encoder_motor_pid_for_speed = __webpack_require__(179);
+
+var _encoder_motor_pid_for_speed2 = _interopRequireDefault(_encoder_motor_pid_for_speed);
+
+var _encoder_motor_pid_for_pwm = __webpack_require__(180);
+
+var _encoder_motor_pid_for_pwm2 = _interopRequireDefault(_encoder_motor_pid_for_pwm);
+
+var _encoder_motor_pid_for_doubleMotor = __webpack_require__(177);
+
+var _encoder_motor_pid_for_doubleMotor2 = _interopRequireDefault(_encoder_motor_pid_for_doubleMotor);
 
 var _reset = __webpack_require__(142);
 
@@ -2089,6 +2138,10 @@ exports.default = {
   SevenSegment: _seven_segment2.default,
   Shutter: _shutter2.default,
   SmartServo: _smart_servo2.default,
+  EncoderMotorPIDForDistance: _encoder_motor_pid_distance2.default,
+  EncoderMotorPIDForSpeed: _encoder_motor_pid_for_speed2.default,
+  EncoderMotorPIDForPwm: _encoder_motor_pid_for_pwm2.default,
+  EncoderMotorPIDForDoubleMotor: _encoder_motor_pid_for_doubleMotor2.default,
 
   Reset: _reset2.default, //实现待验证
   Ultrasonic: _ultrasonic2.default,
@@ -6452,9 +6505,9 @@ function write(baseArgs, extra) {
   _commandManager2.default.write(buf);
 }
 
-function readWrite(baseArgs) {
+function read(baseArgs, callback) {
   var buf = _utils2.default.composer(_cmd2.default.readSmartServoParam, [baseArgs.index, baseArgs.subCmd]);
-  _commandManager2.default.read(buf);
+  _commandManager2.default.read(buf, callback);
 }
 
 var SmartServo = function (_Electronic) {
@@ -6563,8 +6616,8 @@ var SmartServo = function (_Electronic) {
     //设置零点
 
   }, {
-    key: 'setAsZeroPoint',
-    value: function setAsZeroPoint() {
+    key: 'setZeroPoint',
+    value: function setZeroPoint() {
       this.args.subCmd = 0x07;
       write(this.args);
       return this;
@@ -6586,7 +6639,7 @@ var SmartServo = function (_Electronic) {
     key: 'readSpeed',
     value: function readSpeed(callback) {
       this.args.subCmd = 0x09;
-      readWrite(this.args);
+      read(this.args, callback);
       return this;
     }
     //读温度
@@ -6595,7 +6648,7 @@ var SmartServo = function (_Electronic) {
     key: 'readTemperature',
     value: function readTemperature(callback) {
       this.args.subCmd = 0x0a;
-      readWrite(this.args);
+      read(this.args, callback);
       return this;
     }
 
@@ -6605,7 +6658,7 @@ var SmartServo = function (_Electronic) {
     key: 'readCurrent',
     value: function readCurrent(callback) {
       this.args.subCmd = 0x0b;
-      readWrite(this.args);
+      read(this.args, callback);
       return this;
     }
 
@@ -6615,7 +6668,7 @@ var SmartServo = function (_Electronic) {
     key: 'readVoltage',
     value: function readVoltage(callback) {
       this.args.subCmd = 0x0c;
-      readWrite(this.args);
+      read(this.args, callback);
       return this;
     }
 
@@ -6625,7 +6678,7 @@ var SmartServo = function (_Electronic) {
     key: 'readAngle',
     value: function readAngle(callback) {
       this.args.subCmd = 0x0d;
-      readWrite(this.args);
+      read(this.args, callback);
       return this;
     }
   }], [{
@@ -8831,10 +8884,10 @@ var Auriga = function (_Board) {
     (0, _classCallCheck3.default)(this, Auriga);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (Auriga.__proto__ || (0, _getPrototypeOf2.default)(Auriga)).call(this, conf));
-    //继承 Board
-
 
     var this_ = _this;
+    //主控板名
+    _this.name = 'Auriga';
     //固件当前模式
     _this.currentMode = null;
     //固件版本
@@ -8847,7 +8900,7 @@ var Auriga = function (_Board) {
       var eModule = _index2.default[name];
       if (eModule.supportStamp().charAt(SUPPORT_INDEX) === '1') {
         _this[name] = function () {
-          return this_.eModuleFactory(eModule, arguments);
+          return this_.eModuleFactory(eModule, arguments, this_.name);
         };
       }
     };
@@ -9313,6 +9366,552 @@ var BaseEncoderMotor = function (_BaseMotor) {
 }(_BaseMotor3.default);
 
 exports.default = BaseEncoderMotor;
+
+/***/ }),
+/* 175 */,
+/* 176 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _getPrototypeOf = __webpack_require__(2);
+
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+var _classCallCheck2 = __webpack_require__(0);
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = __webpack_require__(1);
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _possibleConstructorReturn2 = __webpack_require__(3);
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = __webpack_require__(4);
+
+var _inherits3 = _interopRequireDefault(_inherits2);
+
+var _type = __webpack_require__(8);
+
+var _utils = __webpack_require__(5);
+
+var _utils2 = _interopRequireDefault(_utils);
+
+var _electronic = __webpack_require__(9);
+
+var _electronic2 = _interopRequireDefault(_electronic);
+
+var _cmd = __webpack_require__(7);
+
+var _cmd2 = _interopRequireDefault(_cmd);
+
+var _commandManager = __webpack_require__(6);
+
+var _commandManager2 = _interopRequireDefault(_commandManager);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var BaseEncoderMotorPID = function (_Electronic) {
+  (0, _inherits3.default)(BaseEncoderMotorPID, _Electronic);
+
+  /**
+   * BaseEncoderMotorPID
+   * @constructor
+   */
+  function BaseEncoderMotorPID(mainboardName) {
+    (0, _classCallCheck3.default)(this, BaseEncoderMotorPID);
+
+    var _this = (0, _possibleConstructorReturn3.default)(this, (BaseEncoderMotorPID.__proto__ || (0, _getPrototypeOf2.default)(BaseEncoderMotorPID)).call(this));
+
+    _this._mainboard = mainboardName;
+    _this.args = {
+      slot: 0x01
+    };
+
+    return _this;
+  }
+
+  /**
+   * 设置零点
+   */
+
+
+  (0, _createClass3.default)(BaseEncoderMotorPID, [{
+    key: 'setZeroPoint',
+    value: function setZeroPoint() {
+      var subCmd = void 0;
+      if (this._mainboard == '') {
+        subCmd = 0x04;
+      } else if (this._mainboard == '') {
+        subCmd = 0x03;
+      }
+      var buf = _utils2.default.composer(_cmd2.default.setEncoderMotorPIDZeroPoint, [subCmd, this.args.slot]);
+      CommandManager.write(buf);
+      return this;
+    }
+  }]);
+  return BaseEncoderMotorPID;
+}(_electronic2.default);
+
+exports.default = BaseEncoderMotorPID;
+
+/***/ }),
+/* 177 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _assign = __webpack_require__(19);
+
+var _assign2 = _interopRequireDefault(_assign);
+
+var _getPrototypeOf = __webpack_require__(2);
+
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+var _classCallCheck2 = __webpack_require__(0);
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = __webpack_require__(1);
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _possibleConstructorReturn2 = __webpack_require__(3);
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = __webpack_require__(4);
+
+var _inherits3 = _interopRequireDefault(_inherits2);
+
+var _type = __webpack_require__(8);
+
+var _utils = __webpack_require__(5);
+
+var _utils2 = _interopRequireDefault(_utils);
+
+var _BaseEncoderMotorPID2 = __webpack_require__(176);
+
+var _BaseEncoderMotorPID3 = _interopRequireDefault(_BaseEncoderMotorPID2);
+
+var _cmd = __webpack_require__(7);
+
+var _cmd2 = _interopRequireDefault(_cmd);
+
+var _commandManager = __webpack_require__(6);
+
+var _commandManager2 = _interopRequireDefault(_commandManager);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var EncoderMotorPIDForDoubleMotor = function (_BaseEncoderMotorPID) {
+  (0, _inherits3.default)(EncoderMotorPIDForDoubleMotor, _BaseEncoderMotorPID);
+
+  function EncoderMotorPIDForDoubleMotor() {
+    (0, _classCallCheck3.default)(this, EncoderMotorPIDForDoubleMotor);
+
+    var _this = (0, _possibleConstructorReturn3.default)(this, (EncoderMotorPIDForDoubleMotor.__proto__ || (0, _getPrototypeOf2.default)(EncoderMotorPIDForDoubleMotor)).call(this));
+
+    (0, _assign2.default)(_this.args, {
+      distance: 0,
+      direction: 1,
+      speed: 0
+    });
+    return _this;
+  }
+
+  (0, _createClass3.default)(EncoderMotorPIDForDoubleMotor, [{
+    key: 'forward',
+    value: function forward() {
+      this.args.direction = 1;
+      return this;
+    }
+  }, {
+    key: 'backward',
+    value: function backward() {
+      this.args.direction = 2;
+      return this;
+    }
+  }, {
+    key: 'turnleft',
+    value: function turnleft() {
+      this.args.direction = 3;
+      return this;
+    }
+  }, {
+    key: 'turnright',
+    value: function turnright() {
+      this.args.direction = 4;
+      return this;
+    }
+
+    /**
+     * set distance
+     * @param  {Number} distance 位移
+     */
+
+  }, {
+    key: 'distance',
+    value: function distance(_distance) {
+      this.args.distance = (0, _type.defineNumber)(_distance, this.args.distance);
+      return this;
+    }
+
+    /**
+     * set speed
+     * @param  {Number} speed [description]
+     * @return {[type]}       [description]
+     */
+
+  }, {
+    key: 'speed',
+    value: function speed(_speed) {
+      this.args.speed = (0, _type.defineNumber)(_speed, this.args.speed);
+      return this;
+    }
+  }, {
+    key: 'run',
+    value: function run() {
+      var buf = _utils2.default.composer(_cmd2.default.setEncoderMotorPIDDoubleMotor, [this.args.direction, this.args.distance, this.args.speed]);
+      _commandManager2.default.write(buf);
+      return this;
+    }
+  }], [{
+    key: 'supportStamp',
+    value: function supportStamp() {
+      return '010000';
+    }
+  }]);
+  return EncoderMotorPIDForDoubleMotor;
+}(_BaseEncoderMotorPID3.default);
+
+exports.default = EncoderMotorPIDForDoubleMotor;
+
+/***/ }),
+/* 178 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _assign = __webpack_require__(19);
+
+var _assign2 = _interopRequireDefault(_assign);
+
+var _getPrototypeOf = __webpack_require__(2);
+
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+var _classCallCheck2 = __webpack_require__(0);
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = __webpack_require__(1);
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _possibleConstructorReturn2 = __webpack_require__(3);
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = __webpack_require__(4);
+
+var _inherits3 = _interopRequireDefault(_inherits2);
+
+var _type = __webpack_require__(8);
+
+var _utils = __webpack_require__(5);
+
+var _utils2 = _interopRequireDefault(_utils);
+
+var _BaseEncoderMotorPID2 = __webpack_require__(176);
+
+var _BaseEncoderMotorPID3 = _interopRequireDefault(_BaseEncoderMotorPID2);
+
+var _cmd = __webpack_require__(7);
+
+var _cmd2 = _interopRequireDefault(_cmd);
+
+var _commandManager = __webpack_require__(6);
+
+var _commandManager2 = _interopRequireDefault(_commandManager);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var EncoderMotorPIDForDistance = function (_BaseEncoderMotorPID) {
+  (0, _inherits3.default)(EncoderMotorPIDForDistance, _BaseEncoderMotorPID);
+
+  function EncoderMotorPIDForDistance() {
+    (0, _classCallCheck3.default)(this, EncoderMotorPIDForDistance);
+
+    var _this = (0, _possibleConstructorReturn3.default)(this, (EncoderMotorPIDForDistance.__proto__ || (0, _getPrototypeOf2.default)(EncoderMotorPIDForDistance)).call(this));
+
+    (0, _assign2.default)(_this.args, {
+      distance: 0,
+      speed: 0
+    });
+    return _this;
+  }
+
+  /**
+   * set distance
+   * @param  {Number} distance 位移
+   */
+
+
+  (0, _createClass3.default)(EncoderMotorPIDForDistance, [{
+    key: 'distance',
+    value: function distance(_distance) {
+      this.args.distance = (0, _type.defineNumber)(_distance, this.args.distance);
+      return this;
+    }
+
+    /**
+     * set speed
+     * @param  {Number} speed 速度
+     */
+
+  }, {
+    key: 'speed',
+    value: function speed(_speed) {
+      this.args.speed = (0, _type.defineNumber)(_speed, this.args.speed);
+      return this;
+    }
+  }, {
+    key: 'run',
+    value: function run() {
+      var buf = _utils2.default.composer(_cmd2.default.setEncoderMotorPIDDistance, [this.args.distance, this.args.speed]);
+      _commandManager2.default.write(buf);
+      return this;
+    }
+  }], [{
+    key: 'supportStamp',
+    value: function supportStamp() {
+      return '010001';
+    }
+  }]);
+  return EncoderMotorPIDForDistance;
+}(_BaseEncoderMotorPID3.default);
+
+exports.default = EncoderMotorPIDForDistance;
+
+/***/ }),
+/* 179 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _assign = __webpack_require__(19);
+
+var _assign2 = _interopRequireDefault(_assign);
+
+var _getPrototypeOf = __webpack_require__(2);
+
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+var _classCallCheck2 = __webpack_require__(0);
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = __webpack_require__(1);
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _possibleConstructorReturn2 = __webpack_require__(3);
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = __webpack_require__(4);
+
+var _inherits3 = _interopRequireDefault(_inherits2);
+
+var _type = __webpack_require__(8);
+
+var _utils = __webpack_require__(5);
+
+var _utils2 = _interopRequireDefault(_utils);
+
+var _BaseEncoderMotorPID2 = __webpack_require__(176);
+
+var _BaseEncoderMotorPID3 = _interopRequireDefault(_BaseEncoderMotorPID2);
+
+var _cmd = __webpack_require__(7);
+
+var _cmd2 = _interopRequireDefault(_cmd);
+
+var _commandManager = __webpack_require__(6);
+
+var _commandManager2 = _interopRequireDefault(_commandManager);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var EncoderMotorPIDForSpeed = function (_BaseEncoderMotorPID) {
+  (0, _inherits3.default)(EncoderMotorPIDForSpeed, _BaseEncoderMotorPID);
+
+  function EncoderMotorPIDForSpeed() {
+    (0, _classCallCheck3.default)(this, EncoderMotorPIDForSpeed);
+
+    var _this = (0, _possibleConstructorReturn3.default)(this, (EncoderMotorPIDForSpeed.__proto__ || (0, _getPrototypeOf2.default)(EncoderMotorPIDForSpeed)).call(this));
+
+    (0, _assign2.default)(_this.args, {
+      speed: 0
+    });
+    return _this;
+  }
+
+  /**
+   * set speed
+   * @param  {Number} speed 速度
+   * @return {[type]}       [description]
+   */
+
+
+  (0, _createClass3.default)(EncoderMotorPIDForSpeed, [{
+    key: 'speed',
+    value: function speed(_speed) {
+      this.args.speed = (0, _type.defineNumber)(_speed, this.args.speed);
+      return this;
+    }
+  }, {
+    key: 'run',
+    value: function run() {
+      var buf = _utils2.default.composer(_cmd2.default.setEncoderMotorPIDSpeed, [this.args.speed]);
+      _commandManager2.default.write(buf);
+      return this;
+    }
+  }], [{
+    key: 'supportStamp',
+    value: function supportStamp() {
+      return '010001';
+    }
+  }]);
+  return EncoderMotorPIDForSpeed;
+}(_BaseEncoderMotorPID3.default);
+
+exports.default = EncoderMotorPIDForSpeed;
+
+/***/ }),
+/* 180 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _assign = __webpack_require__(19);
+
+var _assign2 = _interopRequireDefault(_assign);
+
+var _getPrototypeOf = __webpack_require__(2);
+
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+var _classCallCheck2 = __webpack_require__(0);
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = __webpack_require__(1);
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _possibleConstructorReturn2 = __webpack_require__(3);
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = __webpack_require__(4);
+
+var _inherits3 = _interopRequireDefault(_inherits2);
+
+var _type = __webpack_require__(8);
+
+var _utils = __webpack_require__(5);
+
+var _utils2 = _interopRequireDefault(_utils);
+
+var _BaseEncoderMotorPID2 = __webpack_require__(176);
+
+var _BaseEncoderMotorPID3 = _interopRequireDefault(_BaseEncoderMotorPID2);
+
+var _cmd = __webpack_require__(7);
+
+var _cmd2 = _interopRequireDefault(_cmd);
+
+var _commandManager = __webpack_require__(6);
+
+var _commandManager2 = _interopRequireDefault(_commandManager);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var EncoderMotorPIDForPwm = function (_BaseEncoderMotorPID) {
+  (0, _inherits3.default)(EncoderMotorPIDForPwm, _BaseEncoderMotorPID);
+
+  function EncoderMotorPIDForPwm() {
+    (0, _classCallCheck3.default)(this, EncoderMotorPIDForPwm);
+
+    var _this = (0, _possibleConstructorReturn3.default)(this, (EncoderMotorPIDForPwm.__proto__ || (0, _getPrototypeOf2.default)(EncoderMotorPIDForPwm)).call(this));
+
+    (0, _assign2.default)(_this.args, {
+      speed: 0
+    });
+    return _this;
+  }
+
+  /**
+   * set speed
+   * @param  {Number} angle [description]
+   * @return {[type]}       [description]
+   */
+
+
+  (0, _createClass3.default)(EncoderMotorPIDForPwm, [{
+    key: 'speed',
+    value: function speed(_speed) {
+      this.args.speed = (0, _type.defineNumber)(_speed, this.args.speed);
+      return this;
+    }
+  }, {
+    key: 'run',
+    value: function run() {
+      var buf = _utils2.default.composer(_cmd2.default.setEncoderMotorPIDPwm, [this.args.speed]);
+      _commandManager2.default.write(buf);
+      return this;
+    }
+  }], [{
+    key: 'supportStamp',
+    value: function supportStamp() {
+      return '010000';
+    }
+  }]);
+  return EncoderMotorPIDForPwm;
+}(_BaseEncoderMotorPID3.default);
+
+exports.default = EncoderMotorPIDForPwm;
 
 /***/ })
 /******/ ]);

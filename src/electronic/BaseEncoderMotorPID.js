@@ -6,42 +6,31 @@ import Command from '../communicate/command-manager';
 
 class BaseEncoderMotorPID extends Electronic {
   /**
-   * BaseEncoderMotor
+   * BaseEncoderMotorPID
    * @constructor
-   * @param {number} port
-   * @param {number} slot
    */
-  constructor(port, slot) {
+  constructor(mainboardName) {
     super();
+    this._mainboard = mainboardName;
     this.args = {
-      port: defineNumber(port),
-      slot: defineNumber(slot),
-      speed: 0
-    };
-  }
-
-  /**
-   * EncoderMotor run
-   * @return {Object} the instance
-   */
-  run() {
-    let buf;
-    if(this.args.port == 0){
-      buf = Utils.composer(protocolAssembler.setEncoderMotorOnBoard, [this.args.slot, this.args.speed]);
-    }else{
-      buf = Utils.composer(protocolAssembler.setEncoderMotor, [this.args.port, this.args.slot, this.args.speed, this.args.angle]);
+      slot: 0x01
     }
-    Command.write(buf);
-    return this;
+    
   }
 
   /**
-   * EncoderMotor run reversely
-   * @return {Object} the instance
+   * 设置零点
    */
-  reverse() {
-    this.offsetAngle(-1 * this.args.angle);
-    return this.run();
+  setZeroPoint(){
+    let subCmd;
+    if(this._mainboard == ''){
+      subCmd = 0x04;
+    }else if(this._mainboard == ''){
+      subCmd = 0x03;
+    }
+    let buf = Utils.composer(protocolAssembler.setEncoderMotorPIDZeroPoint, [subCmd, this.args.slot]);
+    CommandManager.write(buf);
+    return this;
   }
 }
 
