@@ -1,9 +1,9 @@
 import Utils from '../core/utils';
-import LedMatrixBase from './base/LedMatrixBase';
+import BaseLedMatrix from './BaseLedMatrix';
 import protocolAssembler from '../protocol/cmd';
 import CommandManager from '../communicate/command-manager';
 
-class LedMatrixEmotion extends LedMatrixBase {
+class LedMatrixEmotion extends BaseLedMatrix {
   constructor(port) {
     super(port);
 

@@ -1,6 +1,6 @@
-import RgbLedBase from './base/RgbLedBase';
+import BaseRgbLed from './BaseRgbLed';
 
-class RgbLed extends RgbLedBase {
+class RgbLed extends BaseRgbLed {
   constructor(port, slot){
     super(port, slot);
   }

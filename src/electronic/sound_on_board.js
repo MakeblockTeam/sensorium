@@ -1,6 +1,6 @@
-import SoundBase from './base/soundBase';
+import BaseSound from './BaseSound';
 
-class SoundOnBoard extends SoundBase {
+class SoundOnBoard extends BaseSound {
   constructor() {
     super(14);
   }

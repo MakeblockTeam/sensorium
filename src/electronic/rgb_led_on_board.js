@@ -1,6 +1,6 @@
-import RgbLedBase from './base/RgbLedBase';
+import BaseRgbLed from './BaseRgbLed';
 
-class RgbLedOnBoard extends RgbLedBase {
+class RgbLedOnBoard extends BaseRgbLed {
   constructor(){
     super(0, 2);
   }

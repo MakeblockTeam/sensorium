@@ -1,10 +1,10 @@
 import { defineNumber } from '../core/type';
 import Utils from '../core/utils';
-import MotorBase from './base/MotorBase';
+import BaseMotor from './BaseMotor';
 import protocolAssembler from '../protocol/cmd';
 import CommandManager from '../communicate/command-manager';
 
-class DcMotor extends MotorBase {
+class DcMotor extends BaseMotor {
 
   constructor(port) {
     super(port);

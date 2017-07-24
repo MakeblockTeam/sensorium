@@ -1,7 +1,7 @@
-import { defineNumber } from '../../core/type';
-import Electronic from '../electronic';
+import { defineNumber } from '../core/type';
+import Electronic from './electronic';
 
-class MotorBase extends Electronic {
+class BaseMotor extends Electronic {
 
   /**
    * Motor base class
@@ -43,4 +43,4 @@ class MotorBase extends Electronic {
   }
 }
 
-export default MotorBase;
+export default BaseMotor;

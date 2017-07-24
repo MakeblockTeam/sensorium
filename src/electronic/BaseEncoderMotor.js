@@ -1,12 +1,12 @@
-import { defineNumber } from '../../core/type';
-import Utils from '../../core/utils';
-import MotorBase from './MotorBase';
-import protocolAssembler from '../../protocol/cmd';
-import Command from '../../communicate/command-manager';
+import { defineNumber } from '../core/type';
+import Utils from '../core/utils';
+import BaseMotor from './BaseMotor';
+import protocolAssembler from '../protocol/cmd';
+import Command from '../communicate/command-manager';
 
-class EncoderMotorBase extends MotorBase {
+class BaseEncoderMotor extends BaseMotor {
   /**
-   * EncoderMotorBase
+   * BaseEncoderMotor
    * @constructor
    * @param {number} port
    * @param {number} slot
@@ -40,4 +40,4 @@ class EncoderMotorBase extends MotorBase {
   }
 }
 
-export default EncoderMotorBase;
+export default BaseEncoderMotor;

@@ -1,10 +1,10 @@
-import { defineNumber } from '../../core/type';
-import Utils from '../../core/utils';
-import Electronic from '../electronic';
-import protocolAssembler from '../../protocol/cmd';
-import CommandManager from '../../communicate/command-manager';
+import { defineNumber } from '../core/type';
+import Utils from '../core/utils';
+import Electronic from './electronic';
+import protocolAssembler from '../protocol/cmd';
+import CommandManager from '../communicate/command-manager';
 
-class GyroBase extends Electronic {
+class BaseGyro extends Electronic {
   constructor(port) {
     super();
     this.args = {
@@ -25,4 +25,4 @@ class GyroBase extends Electronic {
   }
 }
 
-export default GyroBase;
+export default BaseGyro;

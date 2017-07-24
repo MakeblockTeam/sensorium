@@ -1,6 +1,6 @@
-import SoundBase from './base/soundBase';
+import BaseSound from './BaseSound';
 
-class Sound extends SoundBase {
+class Sound extends BaseSound {
   constructor(port) {
     super(port);
   }

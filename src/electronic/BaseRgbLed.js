@@ -1,8 +1,8 @@
-import { defineNumber } from '../../core/type';
-import Utils from '../../core/utils';
-import Electronic from '../electronic';
-import protocolAssembler from '../../protocol/cmd';
-import CommandManager from '../../communicate/command-manager';
+import { defineNumber } from '../core/type';
+import Utils from '../core/utils';
+import Electronic from './electronic';
+import protocolAssembler from '../protocol/cmd';
+import CommandManager from '../communicate/command-manager';
 
 let bufComposer = function(obj){
   let args = [obj.port, obj.slot, obj.ledPosition, ...obj.rgb];
@@ -15,7 +15,7 @@ let commandWrite = function(obj){
   CommandManager.write(buf);
 }
 
-class RgbLedBase extends Electronic {
+class BaseRgbLed extends Electronic {
   /**
    * RgbLed类，led模块
    * @param {number} port - led port口
@@ -139,4 +139,4 @@ class RgbLedBase extends Electronic {
   }
 }
 
-export default RgbLedBase;
+export default BaseRgbLed;

@@ -1,10 +1,10 @@
 import { defineNumber } from '../core/type';
 import Utils from '../core/utils';
-import LedMatrixBase from './base/LedMatrixBase';
+import BaseLedMatrix from './BaseLedMatrix';
 import protocolAssembler from '../protocol/cmd';
 import CommandManager from '../communicate/command-manager';
 
-class LedMatrixNumber extends LedMatrixBase {
+class LedMatrixNumber extends BaseLedMatrix {
   constructor(port) {
     super(port);
     Object.assign(this.args, {

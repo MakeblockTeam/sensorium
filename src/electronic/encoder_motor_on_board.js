@@ -1,6 +1,6 @@
 import { defineNumber } from '../core/type';
 import Utils from '../core/utils';
-import EncoderMotorBase from './base/EncoderMotorBase';
+import BaseEncoderMotor from './BaseEncoderMotor';
 import protocolAssembler from '../protocol/cmd';
 import CommandManager from '../communicate/command-manager';
 
@@ -8,7 +8,7 @@ const bufComposer = function(args){
   return Utils.composer(protocolAssembler.readEncoderMotorOnBoard, [args.slot, args.type]);
 }
 
-class EncoderMotorOnBoard extends EncoderMotorBase {
+class EncoderMotorOnBoard extends BaseEncoderMotor {
   constructor(slot) {
     super(0, slot);
     Object.assign(this.args, {

@@ -1,10 +1,10 @@
 import { defineNumber, defineString } from '../core/type';
 import Utils from '../core/utils';
-import GyroBase from './base/GyroBase';
+import BaseGyro from './BaseGyro';
 import protocolAssembler from '../protocol/cmd';
 import CommandManager from '../communicate/command-manager';
 
-class GyroOnBoard extends GyroBase {
+class GyroOnBoard extends BaseGyro {
   constructor() {
     super(1);
   }

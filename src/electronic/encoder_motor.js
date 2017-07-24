@@ -1,10 +1,10 @@
 import { defineNumber } from '../core/type';
 import Utils from '../core/utils';
-import EncoderMotorBase from './base/EncoderMotorBase';
+import BaseEncoderMotor from './BaseEncoderMotor';
 import protocolAssembler from '../protocol/cmd';
 import CommandManager from '../communicate/command-manager';
 
-class EncoderMotor extends EncoderMotorBase {
+class EncoderMotor extends BaseEncoderMotor {
   constructor(port, slot) {
     super(port, slot);
     Object.assign(this.args, {
