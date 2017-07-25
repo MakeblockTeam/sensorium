@@ -47,7 +47,7 @@ class Sensorium {
   setTransport(transport){
     if(transport && typeof transport.send == 'function' && typeof transport.onReceived == 'function' ){
       Transport.send = transport.send;
-      transport.onReceived(CommandManager.pipe.bind(Command));
+      transport.onReceived(CommandManager.pipe.bind(CommandManager));
     }else{
       // console.warn('')
     }
