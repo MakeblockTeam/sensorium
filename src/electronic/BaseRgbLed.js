@@ -68,6 +68,14 @@ class BaseRgbLed extends Electronic {
   }
 
   /**
+   * @param  {String} hex  hex color like '#ff0088'
+   */
+  rgb(hex){
+    this.args.rgb = Utils.hexToRgb(hex);
+    return this;
+  }
+
+  /**
    * turn on led
    * @param {number} position
    */

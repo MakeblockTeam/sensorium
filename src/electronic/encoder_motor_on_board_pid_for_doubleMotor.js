@@ -1,8 +1,11 @@
-import { defineNumber } from '../core/type';
+import {
+  defineNumber
+} from '../core/type';
 import Utils from '../core/utils';
 import protocolAssembler from '../protocol/cmd';
 import CommandManager from '../communicate/command-manager';
 
+const DIRECTION_ = ['FORWARD', 'BACKWARD', 'TURNLEF', 'TURNRIGHT']
 class PIDForDoubleMotor {
   constructor() {
     this.args = {
@@ -11,22 +14,58 @@ class PIDForDoubleMotor {
       speed: 0
     };
   }
-
-  forward(){
+  /**
+   * set direction with a string argument
+   * @param  {String} dir FORWARD、BACKWARD、TURNLEF、TURNRIGHT
+   * @return {[type]}     [description]
+   */
+  direction(dir) {
+    if(typeof dir === 'string'){
+      switch (dir.toUpperCase()) {
+        case DIRECTION_[0]:
+          this.args.direction = 1;
+          break;
+        case DIRECTION_[1]:
+          this.args.direction = 2;
+          break;
+        case DIRECTION_[2]:
+          this.args.direction = 3;
+          break;
+        case DIRECTION_[3]:
+          this.args.direction = 4;
+          break;
+        default:
+          this.args.direction = 1;
+      }
+    }else{
+      console.warn(`argument ${dir} should be one of ${DIRECTION_.join(',')}`);
+      this.args.direction = 1;
+    }
+    return this;
+  }
+  
+  //direction + run
+  forward() {
     this.args.direction = 1;
-    return this;
+    return this.run();
   }
-  backward(){
+
+  //direction + run
+  backward() {
     this.args.direction = 2;
-    return this;
+    return this.run();
   }
-  turnleft(){
+
+  //direction + run
+  turnleft() {
     this.args.direction = 3;
-    return this;
+    return this.run();
   }
-  turnright(){
+  
+  //direction + run
+  turnright() {
     this.args.direction = 4;
-    return this;
+    return this.run();
   }
 
   /**
@@ -49,8 +88,7 @@ class PIDForDoubleMotor {
   }
 
   run() {
-    let buf = Utils.composer(protocolAssembler.setEncoderMotorPIDDoubleMotor, 
-      [this.args.direction, this.args.distance, this.args.speed]);
+    let buf = Utils.composer(protocolAssembler.setEncoderMotorPIDDoubleMotor, [this.args.direction, this.args.distance, this.args.speed]);
     CommandManager.write(buf);
     return this;
   }

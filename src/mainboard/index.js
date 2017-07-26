@@ -1,5 +1,4 @@
 import Transport from '../communicate/transport';
-import CommandManager from '../communicate/command-manager';
 import Version from './firmware/version';
 import Settings from '../mainboard/settings';
 import Mcore from './mcore';
@@ -33,24 +32,20 @@ class Sensorium {
   create(mainboardName, opts){
     let board = boards[mainboardName.toLowerCase()];
     if(typeof board == 'undefined'){
-      throw new Error(`sorry, the board ${boardName} could not be supported!`);
+      throw new Error(`sorry, the board ${boardName} could not be supported!
+        You need pass in one of ${this.getSupported().join(',')} as the first argument}`);
     }
     return new board(opts);
   }
 
   /**
-   * set transport such as bluetooth、serialport
-   * @param {Tranport} transport object that contains send and onReceived functions
+   * set transport such as bluetooth、serialport、wifi
+   * @param {Tranport} transport object that contains send and onReceived methods
+   * @param {Function} transport.send send method
+   * @param {Function} transport.onReceived onReceived method
    */
-  //TO COMFIRM：是否重复 setTransport 导致事件监听绑定多次?
-  //对多次相同的transpoprt，不允许重新设置
   setTransport(transport){
-    if(transport && typeof transport.send == 'function' && typeof transport.onReceived == 'function' ){
-      Transport.send = transport.send;
-      transport.onReceived(CommandManager.pipe.bind(CommandManager));
-    }else{
-      // console.warn('')
-    }
+    Transport.init(transport);
   }
 
   /**

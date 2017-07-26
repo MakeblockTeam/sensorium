@@ -2,11 +2,18 @@ const Sensorium = require('../browser/sensorium');
 const serialConnect = require('./cli/serialConnect');
 const sensorium = new Sensorium();
 serialConnect(sensorium);
-// sensorium.readFirmwareInfo(function(name, version){console.log('mainboard is --->', name, 'version is --->', version)})
-
 const auriga = sensorium.create('Auriga');
 auriga.Ultrasonic(6).getData(function(val){console.log('传感器获取值', val)})
 
+
+const Sensorium = require('../browser/sensorium');
+const serialConnect = require('./cli/serialConnect');
+const sensorium = new Sensorium();
+serialConnect(sensorium);
+const mcore = sensorium.create('Mcore');
+mcore.Ultrasonic(3).getData(function(val){console.log('传感器获取值', val)})
+
+// sensorium.readFirmwareInfo(function(name, version){console.log('mainboard is --->', name, 'version is --->', version)})
 // auriga.RgbLedOnBoard().green();
 // auriga.RgbLedOnBoard().red();
 // auriga.RgbLedOnBoard().blue();

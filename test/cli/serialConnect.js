@@ -26,10 +26,10 @@ function serialConnect(sensorium) {
         },
 
         onReceived: function(pipe) {
-          console.log('onReceived binder <-----');
           serialPort.on('data', function(buff) {
-            console.log('onReceived then pipe ----->', '[' + buff.join(',') + ']');
-            pipe(buff);
+            console.log('-----> onReceived then pipe', '[' + buff.join(',') + ']');
+            let val = pipe(buff);
+            console.log('-----> after pipe the value is: ', val);
           });
         }
       });
