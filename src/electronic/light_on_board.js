@@ -5,14 +5,14 @@ import Settings from '../mainboard/settings';
 const SUPPORTLIST_ = Settings.SUPPORTLIST;
 
 class LightOnBoard extends BaseLight {
-  constructor(port) {
+  constructor() {
     super(6); //mcore
-    let host = warnNotSupport(arguments[arguments.length-1]) || '';
     //宿主主控
-    this.hostname = host.toLowerCase();
+    this.hostname = warnNotSupport(arguments[arguments.length-1]) || '';
     switch(this.hostname){
-      //auriga port 只能为 1，2
+      //TOIMPROVE: auriga 板载 port 只能为 0x0c，0x0b
       case SUPPORTLIST_[1]:
+        let port = arguments[0];
         this.args.port = validateNumber(port, 1);
         break;
       //megapi
@@ -20,7 +20,7 @@ class LightOnBoard extends BaseLight {
         this.args.port = 0x0c;
         break;
       default:
-        super(6); //mcore
+        this.args.port = 6; //mcore
     }
   }
 

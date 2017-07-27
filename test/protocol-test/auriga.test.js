@@ -261,12 +261,12 @@ describe('【auriga_最新固件 协议测试】', function() {
       });
     });
 
-    describe('板载灯盘：LedPanelOnBoard(0~12,0~255,0~255,0~255)', function() {
+    describe('板载灯盘即板载灯：RgbLedOnBoard(0~12,0~255,0~255,0~255)', function() {
       let positions = [0, 2, 13, -1];
       for (let i = 0; i < positions.length; i++) {
         let position = positions[i];
         it(`将端口号6 slot2 的灯条的 ${position}位置上亮起红色`, function() {
-          let ledPanelOnBoard = auriga.LedPanelOnBoard(6).position(position);
+          let ledPanelOnBoard = auriga.RgbLedOnBoard(6).position(position);
           let targetCmd = dataman.auriga.write.ledPanelOnBoard[i];
           let currentCmd = captureWriteBuf(ledPanelOnBoard.red.bind(ledPanelOnBoard));
           expect(currentCmd).to.equal(targetCmd);
@@ -1325,7 +1325,7 @@ describe('【auriga_最新固件 协议测试】', function() {
       }
 
       it('发送读取端口 6 slot 2 上的限位开关的值的指令', function() {
-        let limitSwitch = auriga.LimitSwitch(6, 1);
+        let limitSwitch = auriga.LimitSwitch(6, 2);
           let targetCmd = dataman.auriga.read.limitSwitch[5];
           let currentCmd = captureReadBuf(limitSwitch.getData.bind(limitSwitch));
           expect(currentCmd).to.equal(targetCmd);

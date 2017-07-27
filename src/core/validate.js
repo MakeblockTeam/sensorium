@@ -59,6 +59,7 @@ let warnNotSupport = function(name) {
     console.warn(`the mainboard "${name}" expected to be one of ${SUPPORTLIST.join(',')}`);
     return false;
   }
+  return name;
 }
 export {
   warnNotSupport,

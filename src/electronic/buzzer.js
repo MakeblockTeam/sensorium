@@ -6,7 +6,8 @@ import Utils from '../core/utils';
 import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
 import CommandManager from '../communicate/command-manager';
-import { TONE_TO_HZ } from '../mainboard/settings';
+import Settings from '../mainboard/settings';
+const TONE_TO_HZ = Settings.TONE_TO_HZ;
 
 class Buzzer extends Electronic {
   constructor() {
@@ -42,7 +43,7 @@ class Buzzer extends Electronic {
   }
 
   run() {
-    let buf = Utils.composer(protocolAssembler.setTone, [this.args.tone, this.args.beat]);
+    let buf = Utils.composer(protocolAssembler.setTone, [this.args.hz, this.args.beat]);
     CommandManager.write(buf);
     return this;
   }

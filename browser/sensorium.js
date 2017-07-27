@@ -1754,6 +1754,10 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _toConsumableArray2 = __webpack_require__(30);
+
+var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
+
 var _classCallCheck2 = __webpack_require__(0);
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
@@ -1762,31 +1766,24 @@ var _createClass2 = __webpack_require__(1);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _toConsumableArray2 = __webpack_require__(30);
-
-var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
-
 var _settings = __webpack_require__(12);
 
 var _settings2 = _interopRequireDefault(_settings);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var createModuleId = function createModuleId(eModule, args) {
-  var _ref;
-
-  args = [].concat((0, _toConsumableArray3.default)(args)); //转数组
+var createModuleId = function createModuleId(eModule, argsList) {
   var name = eModule.name;
   var expectLength = eModule.length;
-  var argsLength = args.length;
+  var argsLength = argsList.length;
   if (argsLength < expectLength) {
     //参数不足的提示
     console.warn('you need to pass in ' + (expectLength - argsLength) + ' argument(s),\n      otherwise the ' + eModule.name + ' sensor may not work as a result');
   } else if (argsLength > expectLength) {
     //参数多余
-    args.splice(expectLength);
+    argsList.splice(expectLength);
   }
-  return (_ref = [name]).concat.apply(_ref, (0, _toConsumableArray3.default)(args)).join('_').toLowerCase();
+  return [name].concat(argsList).join('_').toLowerCase();
 };
 
 // 超类： 具备发送、接收方法
@@ -1817,11 +1814,13 @@ var Board = function () {
   (0, _createClass3.default)(Board, [{
     key: 'eModuleFactory',
     value: function eModuleFactory(eModule, args, host) {
-      var id = createModuleId(eModule, args);
+      var argsList = [].concat((0, _toConsumableArray3.default)(args)); //转数组
+      var id = createModuleId(eModule, argsList);
       if (this.connecting[id]) {
         return this.connecting[id];
       } else {
-        var emodule = new (Function.prototype.bind.apply(eModule, [null].concat((0, _toConsumableArray3.default)(args), [host])))();
+        var params = argsList.length ? args : [undefined]; //这里 es6 有坑
+        var emodule = new (Function.prototype.bind.apply(eModule, [null].concat((0, _toConsumableArray3.default)(params), [host])))();
         // 保存模块
         this.connecting[id] = emodule;
         return emodule;
@@ -2834,8 +2833,8 @@ var Transport = function () {
         //函数重载
         this.send = function (buf) {
           if (!this_.isBindReceiver_) {
-            console.log('********* Bind Receiver for just one time *********');
-            //主动式绑定 Received 事件
+            // console.log('********* Bind Receiver for just one time *********');
+            // 主动式绑定 Received 事件
             transport.onReceived(_commandManager2.default.pipe.bind(_commandManager2.default));
             this_.isBindReceiver_ = true;
             transport.send(buf);
@@ -4788,6 +4787,8 @@ var Mcore = function (_Board) {
 
 
     var this_ = _this;
+    //主控板名
+    _this.name = 'Mcore';
     //固件版本
     _this.version = null;
     // 置空已连接块
@@ -4798,7 +4799,7 @@ var Mcore = function (_Board) {
       var eModule = _index2.default[name];
       if (eModule.supportStamp().charAt(SUPPORT_INDEX) === '1') {
         _this[name] = function () {
-          return this_.eModuleFactory(eModule, arguments);
+          return this_.eModuleFactory(eModule, arguments, this.name);
         };
       }
     };
@@ -5886,11 +5887,10 @@ var RgbLedOnBoard = function (_BaseRgbLed) {
     (0, _classCallCheck3.default)(this, RgbLedOnBoard);
 
     //mcore
+    //宿主主控
     var _this = (0, _possibleConstructorReturn3.default)(this, (RgbLedOnBoard.__proto__ || (0, _getPrototypeOf2.default)(RgbLedOnBoard)).call(this, 7, 2));
 
-    var host = (0, _validate.warnNotSupport)(arguments[arguments.length - 1]) || '';
-    //宿主主控
-    _this.hostname = host.toLowerCase();
+    _this.hostname = (0, _validate.warnNotSupport)(arguments[arguments.length - 1]) || '';
     switch (_this.hostname) {
       //auriga
       case SUPPORTLIST_[1]:
@@ -6379,7 +6379,11 @@ var _commandManager2 = _interopRequireDefault(_commandManager);
 
 var _settings = __webpack_require__(12);
 
+var _settings2 = _interopRequireDefault(_settings);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var TONE_TO_HZ = _settings2.default.TONE_TO_HZ;
 
 var Buzzer = function (_Electronic) {
   (0, _inherits3.default)(Buzzer, _Electronic);
@@ -6406,7 +6410,7 @@ var Buzzer = function (_Electronic) {
     key: 'tone',
     value: function tone(_tone) {
       _tone = (0, _validate.validateString)(_tone.toUpperCase());
-      var hz = _settings.TONE_TO_HZ[_tone] || 880;
+      var hz = TONE_TO_HZ[_tone] || 880;
       return this.hz(hz);
     }
   }, {
@@ -6430,7 +6434,7 @@ var Buzzer = function (_Electronic) {
   }, {
     key: 'run',
     value: function run() {
-      var buf = _utils2.default.composer(_cmd2.default.setTone, [this.args.tone, this.args.beat]);
+      var buf = _utils2.default.composer(_cmd2.default.setTone, [this.args.hz, this.args.beat]);
       _commandManager2.default.write(buf);
       return this;
     }
@@ -7473,6 +7477,7 @@ var warnNotSupport = function warnNotSupport(name) {
     console.warn('the mainboard "' + name + '" expected to be one of ' + SUPPORTLIST.join(','));
     return false;
   }
+  return name;
 };
 exports.warnNotSupport = warnNotSupport;
 exports.validateNumber = validateNumber;
@@ -9983,18 +9988,18 @@ var SUPPORTLIST_ = _settings2.default.SUPPORTLIST;
 var LightOnBoard = function (_BaseLight) {
   (0, _inherits3.default)(LightOnBoard, _BaseLight);
 
-  function LightOnBoard(port) {
+  function LightOnBoard() {
     (0, _classCallCheck3.default)(this, LightOnBoard);
 
     //mcore
+    //宿主主控
     var _this = (0, _possibleConstructorReturn3.default)(this, (LightOnBoard.__proto__ || (0, _getPrototypeOf2.default)(LightOnBoard)).call(this, 6));
 
-    var host = (0, _validate.warnNotSupport)(arguments[arguments.length - 1]) || '';
-    //宿主主控
-    _this.hostname = host.toLowerCase();
+    _this.hostname = (0, _validate.warnNotSupport)(arguments[arguments.length - 1]) || '';
     switch (_this.hostname) {
-      //auriga port 只能为 1，2
+      //TOIMPROVE: auriga 板载 port 只能为 0x0c，0x0b
       case SUPPORTLIST_[1]:
+        var port = arguments[0];
         _this.args.port = (0, _validate.validateNumber)(port, 1);
         break;
       //megapi
@@ -10002,9 +10007,7 @@ var LightOnBoard = function (_BaseLight) {
         _this.args.port = 0x0c;
         break;
       default:
-        var _this = (0, _possibleConstructorReturn3.default)(this, (LightOnBoard.__proto__ || (0, _getPrototypeOf2.default)(LightOnBoard)).call(this, 6));
-
-      //mcore
+        _this.args.port = 6; //mcore
     }
     return _this;
   }

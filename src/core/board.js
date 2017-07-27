@@ -4,20 +4,19 @@
  */
 import Settings from '../mainboard/settings';
 
-const createModuleId = function (eModule, args){
-  args = [...args]; //转数组
+const createModuleId = function (eModule, argsList){
   let name = eModule.name;
   let expectLength = eModule.length;
-  let argsLength = args.length;
+  let argsLength = argsList.length;
   if(argsLength < expectLength){
     //参数不足的提示
     console.warn(`you need to pass in ${expectLength-argsLength} argument(s),
       otherwise the ${eModule.name} sensor may not work as a result`);
   }else if(argsLength > expectLength){
     //参数多余
-    args.splice(expectLength);
+    argsList.splice(expectLength);
   }
-  return [name].concat(...args).join('_').toLowerCase();
+  return [name].concat(argsList).join('_').toLowerCase();
 }
 
 // 超类： 具备发送、接收方法
@@ -37,11 +36,13 @@ class Board {
    * @return {Object}         电子模块实例
    */
   eModuleFactory(eModule, args, host){
-    let id = createModuleId(eModule, args);
+    let argsList = [...args]; //转数组
+    let id = createModuleId(eModule, argsList);
     if(this.connecting[id]){
       return this.connecting[id];
     }else{
-      let emodule = new eModule(...args, host);
+      let params = argsList.length?args:[undefined];  //这里 es6 有坑
+      let emodule = new eModule(...params, host);
       // 保存模块
       this.connecting[id] = emodule;
       return emodule;

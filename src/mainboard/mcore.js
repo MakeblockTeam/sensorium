@@ -11,6 +11,8 @@ class Mcore extends Board{
     //继承 Board
     super(conf);
     let this_ = this;
+    //主控板名
+    this.name = 'Mcore';
     //固件版本
     this.version = null;
     // 置空已连接块
@@ -20,7 +22,7 @@ class Mcore extends Board{
       let eModule = electronics[name];
       if(eModule.supportStamp().charAt(SUPPORT_INDEX) === '1'){
         this[name] = function(){
-          return this_.eModuleFactory(eModule, arguments);
+          return this_.eModuleFactory(eModule, arguments, this.name);
         };
       }
     }

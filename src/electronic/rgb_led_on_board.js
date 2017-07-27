@@ -6,9 +6,8 @@ const SUPPORTLIST_ = Settings.SUPPORTLIST;
 class RgbLedOnBoard extends BaseRgbLed {
   constructor(){
     super(7, 2); //mcore
-    let host = warnNotSupport(arguments[arguments.length-1]) || '';
     //宿主主控
-    this.hostname = host.toLowerCase();
+    this.hostname = warnNotSupport(arguments[arguments.length-1]) || '';
     switch(this.hostname){
       //auriga
       case SUPPORTLIST_[1]:

@@ -20,8 +20,9 @@ class Transport {
     if (transport && typeof transport.send == 'function' && typeof transport.onReceived == 'function') {
       //函数重载
       this.send = function(buf) {
-        if (!this_.isBindReceiver_) {console.log('********* Bind Receiver for just one time *********');
-          //主动式绑定 Received 事件
+        if (!this_.isBindReceiver_) {
+          // console.log('********* Bind Receiver for just one time *********');
+          // 主动式绑定 Received 事件
           transport.onReceived(CommandManager.pipe.bind(CommandManager));
           this_.isBindReceiver_ = true;
           transport.send(buf);
