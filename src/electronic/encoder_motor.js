@@ -1,4 +1,4 @@
-import { defineNumber } from '../core/type';
+import { validateNumber } from '../core/validate';
 import Utils from '../core/utils';
 import BaseEncoderMotor from './BaseEncoderMotor';
 import protocolAssembler from '../protocol/cmd';
@@ -18,7 +18,7 @@ class EncoderMotor extends BaseEncoderMotor {
    * @return {[type]}       [description]
    */
   offsetAngle(angle){
-    this.args.angle = defineNumber(angle, this.args.angle);
+    this.args.angle = validateNumber(angle, this.args.angle);
     return this;
   }
 

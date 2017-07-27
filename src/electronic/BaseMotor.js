@@ -1,4 +1,4 @@
-import { defineNumber } from '../core/type';
+import { validateNumber } from '../core/validate';
 import Electronic from './electronic';
 
 class BaseMotor extends Electronic {
@@ -12,8 +12,8 @@ class BaseMotor extends Electronic {
   constructor(port, slot) {
     super();
     this.args = {
-      port: defineNumber(port),
-      slot: defineNumber(slot),
+      port: validateNumber(port),
+      slot: validateNumber(slot),
       speed: 0
     };
   }
@@ -24,7 +24,7 @@ class BaseMotor extends Electronic {
    * @return {Object} the instance
    */
   speed(speed){
-    this.args.speed = defineNumber(speed, 0);
+    this.args.speed = validateNumber(speed, 0);
     return this;
   }
 

@@ -1,4 +1,4 @@
-import { defineNumber, defineString } from '../core/type';
+import { validateNumber } from '../core/validate';
 import Utils from '../core/utils';
 import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
@@ -9,13 +9,13 @@ class SevenSegment extends Electronic {
   constructor(port) {
     super();
     this.args = {
-      port: defineNumber(port),
-      number: null
+      port: validateNumber(port),
+      number: 1
     };
   }
 
   number(num) {
-    this.args.number = defineNumber(num);
+    this.args.number = validateNumber(num, this.args.number);
     return this;
   }
 

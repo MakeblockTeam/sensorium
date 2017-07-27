@@ -1,4 +1,4 @@
-import { defineNumber } from '../core/type';
+import { validateNumber } from '../core/validate';
 import Utils from '../core/utils';
 import Electronic from './electronic';
 import PIDForDistance from './encoder_motor_on_board_pid_for_distance';
@@ -9,6 +9,7 @@ import PIDForDoubleMotor from './encoder_motor_on_board_pid_for_doubleMotor';
 import protocolAssembler from '../protocol/cmd';
 import CommandManager from '../communicate/command-manager';
 import Settings from '../mainboard/settings';
+import { warnNotSupport } from '../core/validate';
 
 let auriga = Settings.SUPPORTLIST[1].toLowerCase();
 let megapipro = Settings.SUPPORTLIST[5].toLowerCase();
@@ -16,11 +17,8 @@ let megapipro = Settings.SUPPORTLIST[5].toLowerCase();
 class EncoderMotorOnBoardPID extends Electronic {
   constructor() {
     super();
-    let host = arguments[arguments.length-1];
-    if(Settings.SUPPORTLIST.indexOf(host) === -1){
-      console.warn(`the last argument "${host}" expected to be one of ${Settings.SUPPORTLIST.join(',')}`);
-      host = megapipro;
-    }
+    let host = warnNotSupport(arguments[arguments.length-1]) || megapipro;
+    //宿主
     this.hostname = host.toLowerCase();
     //位置模式
     this.distanceMode = function(){

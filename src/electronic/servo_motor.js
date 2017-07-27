@@ -1,4 +1,4 @@
-import { defineNumber } from '../core/type';
+import { validateNumber } from '../core/validate';
 import Utils from '../core/utils';
 import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
@@ -9,8 +9,8 @@ class ServoMotor extends Electronic {
   constructor(port, slot) {
     super();
     this.args = {
-      port: defineNumber(port),
-      slot: defineNumber(slot),
+      port: validateNumber(port),
+      slot: validateNumber(slot),
       angle: 0
     };
   }
@@ -21,7 +21,7 @@ class ServoMotor extends Electronic {
    * @return {Object} the instance
    */
   angle(degree){
-    this.args.angle = defineNumber(degree, 0);
+    this.args.angle = validateNumber(degree, 0);
     return this;
   }
 

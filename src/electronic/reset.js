@@ -1,4 +1,4 @@
-import { defineNumber } from '../core/type';
+import { validateNumber } from '../core/validate';
 import Utils from '../core/utils';
 import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';

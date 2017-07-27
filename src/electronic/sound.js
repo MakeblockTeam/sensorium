@@ -6,7 +6,7 @@ class Sound extends BaseSound {
   }
 
   static supportStamp(){
-    return '1111';
+    return '111111';
   }
 
 }

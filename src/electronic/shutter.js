@@ -1,4 +1,4 @@
-import { defineNumber, defineString } from '../core/type';
+import { validateNumber } from '../core/validate';
 import Utils from '../core/utils';
 import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
@@ -9,7 +9,7 @@ class Shutter extends Electronic {
   constructor(port) {
     super();
     this.args = {
-      port: defineNumber(port),
+      port: validateNumber(port),
       action: null
     };
   }
@@ -18,8 +18,9 @@ class Shutter extends Electronic {
    * set shutter mode
    * @param {string} actionId - 动作id  0: 按下快门; 1: 松开快门; 2: 聚焦; 3: 停止聚焦
    */
+  //TODO: 本API易用性还得改进
   action(actionId) {
-    this.args.action = defineString(actionId);
+    this.args.action = validateNumber(actionId);
     return this;
   }
 

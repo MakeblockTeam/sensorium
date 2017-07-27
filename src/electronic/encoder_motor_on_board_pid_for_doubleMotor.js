@@ -1,6 +1,6 @@
 import {
-  defineNumber
-} from '../core/type';
+  validateNumber
+} from '../core/validate';
 import Utils from '../core/utils';
 import protocolAssembler from '../protocol/cmd';
 import CommandManager from '../communicate/command-manager';
@@ -73,7 +73,7 @@ class PIDForDoubleMotor {
    * @param  {Number} distance 位移
    */
   distance(distance) {
-    this.args.distance = defineNumber(distance, this.args.distance);
+    this.args.distance = validateNumber(distance, this.args.distance);
     return this;
   }
 
@@ -83,7 +83,7 @@ class PIDForDoubleMotor {
    * @return {[type]}       [description]
    */
   speed(speed) {
-    this.args.speed = defineNumber(speed, this.args.speed);
+    this.args.speed = validateNumber(speed, this.args.speed);
     return this;
   }
 

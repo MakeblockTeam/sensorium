@@ -1,4 +1,4 @@
-import { defineNumber } from '../core/type';
+import { validateNumber } from '../core/validate';
 import Utils from '../core/utils';
 import BaseLedMatrix from './BaseLedMatrix';
 import protocolAssembler from '../protocol/cmd';
@@ -21,12 +21,12 @@ class LedMatrixTime extends BaseLedMatrix {
   }
 
   hour(h){
-    this.args.hour = defineNumber(h);
+    this.args.hour = validateNumber(h);
     return this;
   }
 
   minute(m){
-    this.args.minute = defineNumber(m);
+    this.args.minute = validateNumber(m);
     return this;
   }
 

@@ -339,26 +339,15 @@ function protocolAssembler() {
 
   /**
    * set buzzer.
-   * @param {string} tone , "A2" ~ "D8"
+   * @param {string} hz , "A2" ~ "D8" 对应的 hz
    * @param {number} beat , 125: eight; 250: quater; 500: half; 1000: one; 2000: double
    * @example
    * C2，quater beat: ff 55 08 00 02 22 09 41 00 f4 01
    */
-  this.setTone = function(tone, beat) {
-    var TONE = {
-      // 原始数据：D5: 587 "E5": 658,"F5": 698,"G5": 784,"A5": 880,"B5": 988,"C6": 1047
-      "A2": 110,"B2": 123,"C2": 65,
-      "C3": 131,"D3": 147,"E3": 165,"F3": 175,"G3": 196,"A3": 220,
-      "B3": 247,"C4": 262,"D4": 294,"E4": 330,"F4": 349,"G4": 392,
-      "A4": 440,"B4": 494,"C5": 523,"D5": 555,"E5": 640,"F5": 698,
-      "G5": 784,"A5": 880,"B5": 988,"C6": 1047,"D6": 1175,"E6": 1319,
-      "F6": 1397,"G6": 1568,"A6": 1760,"B6": 1976,"C7": 2093,"D7": 2349,
-      "E7": 2637,"F7": 2794,"G7": 3136,"A7": 3520,"B7": 3951,"C8": 4186,"D8":4699
-    };
-
+  this.setTone = function(hz, beat) {
     return bufAssembler({mode: 0x02, id: 0x22},
-      (TONE[tone] & 0xff),
-      (TONE[tone] >> 8) & 0xff,
+      (hz & 0xff),
+      (hz >> 8) & 0xff,
       (beat & 0xff),
       (beat >> 8) & 0xff);
   };

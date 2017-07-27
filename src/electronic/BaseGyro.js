@@ -1,4 +1,4 @@
-import { defineNumber } from '../core/type';
+import { validateNumber } from '../core/validate';
 import Utils from '../core/utils';
 import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
@@ -8,13 +8,13 @@ class BaseGyro extends Electronic {
   constructor(port) {
     super();
     this.args = {
-      port: defineNumber(port),
+      port: validateNumber(port),
       axis: 0
     };
   }
 
   axis(axis){
-    this.args.axis = defineNumber(axis, this.args.axis);
+    this.args.axis = validateNumber(axis, this.args.axis);
     return this;
   }
 

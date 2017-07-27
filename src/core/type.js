@@ -6,7 +6,7 @@ function defineType(type) {
         if (arguments.length < 2 && typeof param === 'undefined') {
             return;
         }
-        if (typeof defaultValue === 'undefinded') {
+        if (typeof defaultValue === 'undefined') {
             switch (type) {
                 case 'number':
                     defaultValue = 0;
@@ -29,7 +29,8 @@ function defineType(type) {
             }
         }
         let value = defaultValue;
-        let condition = type === 'boolean' ? (typeof param === type) : (typeof param === type || param === 1 || param === 0);
+        let condition = type === 'boolean' ? 
+        (typeof param === type) : (typeof param === type || param === 1 || param === 0);
         if (condition) {
             value = param;
         } else {

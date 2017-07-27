@@ -1,6 +1,6 @@
 import {
-  defineNumber
-} from '../core/type';
+  validateNumber
+} from '../core/validate';
 import Utils from '../core/utils';
 import protocolAssembler from '../protocol/cmd';
 import CommandManager from '../communicate/command-manager';
@@ -18,7 +18,7 @@ class PIDForSpeed {
    * @return {[type]}       [description]
    */
   speed(speed) {
-    this.args.speed = defineNumber(speed, this.args.speed);
+    this.args.speed = validateNumber(speed, this.args.speed);
     return this;
   }
 

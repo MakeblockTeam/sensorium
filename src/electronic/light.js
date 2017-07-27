@@ -1,25 +1,12 @@
-import { defineNumber } from '../core/type';
-import Utils from '../core/utils';
-import Electronic from './electronic';
-import protocolAssembler from '../protocol/cmd';
-import CommandManager from '../communicate/command-manager';
+import BaseLight from './BaseLight';
 
-class Light extends Electronic {
+class Light extends BaseLight {
   constructor(port) {
-    super();
-    this.args = {
-      port: defineNumber(port)
-    };
-  }
-
-  getData(callback) {
-    let buf = Utils.composer(protocolAssembler.readLight, [this.args.port]);
-    CommandManager.read(buf, callback);
-    return this;
+    super(port);
   }
 
   static supportStamp(){
-    return '1111';
+    return '111111';
   }
 }
 

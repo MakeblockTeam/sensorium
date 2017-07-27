@@ -6,7 +6,7 @@ class RgbLed extends BaseRgbLed {
   }
 
   static supportStamp(){
-    return '1111';
+    return '111111';
   }
 }
 

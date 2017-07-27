@@ -1,4 +1,4 @@
-import { defineNumber } from '../core/type';
+import { validateNumber } from '../core/validate';
 import Utils from '../core/utils';
 import BaseMotor from './BaseMotor';
 import protocolAssembler from '../protocol/cmd';
@@ -19,7 +19,7 @@ class StepperMotor extends BaseMotor {
    * @return {Object} the instance
    */
   distance(distance){
-    this.args.distance = defineNumber(distance, 0);
+    this.args.distance = validateNumber(distance, 0);
     return this;
   }
 

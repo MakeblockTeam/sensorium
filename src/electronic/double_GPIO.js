@@ -1,4 +1,4 @@
-import { defineNumber } from '../core/type';
+import { validateNumber } from '../core/validate';
 import Utils from '../core/utils';
 import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
@@ -8,8 +8,8 @@ class DoubleGPIO extends Electronic {
   constructor(port1, port2) {
     super();
     this.args = {
-      port1: defineNumber(port1),
-      port2: defineNumber(port2)
+      port1: validateNumber(port1),
+      port2: validateNumber(port2)
     };
   }
 

@@ -1,4 +1,4 @@
-import { defineNumber } from '../core/type';
+import { validateNumber } from '../core/validate';
 import Utils from '../core/utils';
 import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
@@ -8,8 +8,8 @@ class LimitSwitch extends Electronic {
   constructor(port, slot) {
     super();
     this.args = {
-      port: defineNumber(port),
-      slot: defineNumber(slot)
+      port: validateNumber(port),
+      slot: validateNumber(slot)
     };
   }
 

@@ -1,4 +1,4 @@
-import { defineNumber } from '../core/type';
+import { validateNumber } from '../core/validate';
 import Utils from '../core/utils';
 import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
@@ -24,8 +24,8 @@ class BaseRgbLed extends Electronic {
   constructor(port, slot) {
     super();
     this.args = {
-      port: defineNumber(port),
-      slot: defineNumber(slot),
+      port: validateNumber(port),
+      slot: validateNumber(slot),
       ledPosition: 0,
       rgb: [0, 0, 0]
     };
@@ -36,7 +36,7 @@ class BaseRgbLed extends Electronic {
    * @param {number} position
    */
   position(position) {
-    this.args.ledPosition = defineNumber(position, this.args.ledPosition);
+    this.args.ledPosition = validateNumber(position, this.args.ledPosition);
     return this;
   }
 
@@ -45,7 +45,7 @@ class BaseRgbLed extends Electronic {
    * @param {number} value 0 ~ 255
    */
   r(value) {
-    this.args.rgb[0] = defineNumber(value, this.args.rgb[0]);
+    this.args.rgb[0] = validateNumber(value, this.args.rgb[0]);
     return this;
   }
 
@@ -54,7 +54,7 @@ class BaseRgbLed extends Electronic {
    * @param {number} value 0 ~ 255
    */
   g(value) {
-    this.args.rgb[1] = defineNumber(value, this.args.rgb[1]);
+    this.args.rgb[1] = validateNumber(value, this.args.rgb[1]);
     return this;
   }
 
@@ -63,7 +63,7 @@ class BaseRgbLed extends Electronic {
    * @param {number} value 0 ~ 255
    */
   b(value) {
-    this.args.rgb[2] = defineNumber(value, this.args.rgb[2]);
+    this.args.rgb[2] = validateNumber(value, this.args.rgb[2]);
     return this;
   }
 

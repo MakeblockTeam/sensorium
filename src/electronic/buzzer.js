@@ -1,15 +1,19 @@
-import { defineNumber, defineString } from '../core/type';
+import {
+  validateNumber,
+  validateString
+} from '../core/validate';
 import Utils from '../core/utils';
 import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
 import CommandManager from '../communicate/command-manager';
+import { TONE_TO_HZ } from '../mainboard/settings';
 
 class Buzzer extends Electronic {
   constructor() {
     super();
     this.args = {
-      tone: null,
-      beat: null
+      hz: 880,
+      beat: 250
     }
   }
 
@@ -18,7 +22,13 @@ class Buzzer extends Electronic {
    * @param  {String} tone tone string, such as "C5"
    */
   tone(tone) {
-    this.args.tone = defineString(tone.toUpperCase());
+    tone = validateString(tone.toUpperCase());
+    let hz = TONE_TO_HZ[tone] || 880;
+    return this.hz(hz);
+  }
+
+  hz(hz) {
+    this.args.hz = validateNumber(hz);
     return this;
   }
 
@@ -27,7 +37,7 @@ class Buzzer extends Electronic {
    * @param  {Number} beat such as 250, 1000
    */
   beat(beat) {
-    this.args.beat = defineNumber(beat);
+    this.args.beat = validateNumber(beat);
     return this;
   }
 
@@ -37,7 +47,7 @@ class Buzzer extends Electronic {
     return this;
   }
 
-  static supportStamp(){
+  static supportStamp() {
     return '1111';
   }
 }

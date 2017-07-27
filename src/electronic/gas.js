@@ -1,4 +1,4 @@
-import { defineNumber } from '../core/type';
+import { validateNumber } from '../core/validate';
 import Utils from '../core/utils';
 import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
@@ -8,7 +8,7 @@ class Gas extends Electronic {
   constructor(port) {
     super();
     this.args = {
-      port: defineNumber(port)
+      port: validateNumber(port)
     };
   }
 

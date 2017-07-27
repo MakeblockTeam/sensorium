@@ -1,4 +1,3 @@
-import { defineNumber } from '../core/type';
 import Utils from '../core/utils';
 import BaseMotor from './BaseMotor';
 import protocolAssembler from '../protocol/cmd';

@@ -1,4 +1,4 @@
-import { defineNumber } from '../core/type';
+import { validateNumber } from '../core/validate';
 import Utils from '../core/utils';
 import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
@@ -66,7 +66,7 @@ class SmartServo extends Electronic {
   }
 
   speed(speed){
-    this.args.speed = defineNumber(speed);
+    this.args.speed = validateNumber(speed);
     return this;
   }
   //运动到绝对角度

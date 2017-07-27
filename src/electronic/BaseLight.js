@@ -4,7 +4,7 @@ import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
 import CommandManager from '../communicate/command-manager';
 
-class Touch extends Electronic {
+class BaseLight extends Electronic {
   constructor(port) {
     super();
     this.args = {
@@ -13,14 +13,10 @@ class Touch extends Electronic {
   }
 
   getData(callback) {
-    let buf = Utils.composer(protocolAssembler.readTouch, [this.args.port]);
+    let buf = Utils.composer(protocolAssembler.readLight, [this.args.port]);
     CommandManager.read(buf, callback);
     return this;
   }
-
-  static supportStamp(){
-    return '1111';
-  }
 }
 
-export default Touch;
+export default BaseLight;

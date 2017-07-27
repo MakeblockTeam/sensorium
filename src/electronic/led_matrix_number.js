@@ -1,4 +1,4 @@
-import { defineNumber } from '../core/type';
+import { validateNumber } from '../core/validate';
 import Utils from '../core/utils';
 import BaseLedMatrix from './BaseLedMatrix';
 import protocolAssembler from '../protocol/cmd';
@@ -13,7 +13,7 @@ class LedMatrixNumber extends BaseLedMatrix {
   }
 
   number(num) {
-    this.args.number = defineNumber(num);
+    this.args.number = validateNumber(num);
     return this;
   }
 

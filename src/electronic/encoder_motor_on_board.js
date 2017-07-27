@@ -1,4 +1,4 @@
-import { defineNumber } from '../core/type';
+import { validateNumber } from '../core/validate';
 import Utils from '../core/utils';
 import BaseEncoderMotor from './BaseEncoderMotor';
 import protocolAssembler from '../protocol/cmd';
@@ -12,7 +12,7 @@ class EncoderMotorOnBoard extends BaseEncoderMotor {
   constructor(slot) {
     super(0, slot);
     Object.assign(this.args, {
-      type: null
+      type: 2
     });
   }
 

@@ -5,7 +5,7 @@ import CommandManager from '../communicate/command-manager';
 
 class TemperatureOnBoard extends Electronic {
   constructor() {
-    super();
+    super(0x0d);
   }
 
   getData(callback) {

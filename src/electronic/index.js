@@ -7,7 +7,6 @@ import EncoderMotorOnBoard from './encoder_motor_on_board';  //包含读值和�
 import ServoMotor from './servo_motor';
 import FourLed from './four_led';
 import RgbLed from './rgb_led';
-import LedPanelOnBoard from './led_panel_on_board';
 import RgbLedOnBoard from './rgb_led_on_board';
 import LedMatrixChar from './led_matrix_char';
 import LedMatrixTime from './led_matrix_time';
@@ -22,14 +21,15 @@ import EncoderMotorOnBoardPID from './encoder_motor_on_board_pid'; //略不同�
 import Reset from './reset';
 import Ultrasonic from './ultrasonic';
 import Temperature from './temperature';
+import TemperatureOnBoard from './temperature_on_board';
 import Light from './light';
+import LightOnBoard from './light_on_board';
 import Potentionmeter from './potentionmeter';
 import Joystick from './joystick'; //读值
 import Gyro from './gyro';
 import GyroOnBoard from './Gyro_on_board';
 import Sound from './sound';
 import SoundOnBoard from './sound_on_board';
-import TemperatureOnBoard from './temperature_on_board';
 import Pirmotion from './pirmotion';
 import LimitSwitch from './limit_switch';
 import LineFollower from './line_follower';
@@ -55,7 +55,6 @@ export default {
   ServoMotor,
   FourLed,
   RgbLed,
-  LedPanelOnBoard,
   RgbLedOnBoard,
   LedMatrixChar,
   LedMatrixTime,
@@ -70,14 +69,15 @@ export default {
   Reset, //实现待验证
   Ultrasonic,
   Temperature,
+  TemperatureOnBoard,
   Light,
+  LightOnBoard,
   Potentionmeter,
   Joystick,
   Gyro,
   GyroOnBoard,
   Sound,
   SoundOnBoard,
-  TemperatureOnBoard,
   Pirmotion,
   LineFollower,
   LimitSwitch,

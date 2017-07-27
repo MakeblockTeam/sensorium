@@ -1,4 +1,4 @@
-import { defineNumber } from '../core/type';
+import { validateNumber } from '../core/validate';
 import Utils from '../core/utils';
 import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
@@ -8,7 +8,7 @@ class FourKeys extends Electronic {
   constructor(port) {
     super();
     this.args = {
-      port: defineNumber(port),
+      port: validateNumber(port),
       key: 1
     };
   }
@@ -18,7 +18,7 @@ class FourKeys extends Electronic {
    * @param  {Number} index 键位：1、2、3、4
    */
   key(index){
-    this.args.key = defineNumber(index, this.args.key);
+    this.args.key = validateNumber(index, this.args.key);
     return this;
   }
 
