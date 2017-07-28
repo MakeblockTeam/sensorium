@@ -1,5 +1,6 @@
 import Utils from '../core/utils';
 import BaseMotor from './BaseMotor';
+import { validateNumber } from '../core/validate';
 import protocolAssembler from '../protocol/cmd';
 import Command from '../communicate/command-manager';
 
@@ -11,7 +12,10 @@ class BaseEncoderMotor extends BaseMotor {
    * @param {number} slot
    */
   constructor(port, slot) {
-    super(port, slot);
+    super(port);
+    Object.assign(this.args, {
+      slot: validateNumber(slot)
+    })
   }
 
   /**

@@ -1,11 +1,13 @@
 import {
-  validateNumber
+  validateNumber,
+  warnParamNotInList
 } from '../core/validate';
 import Utils from '../core/utils';
 import protocolAssembler from '../protocol/cmd';
 import CommandManager from '../communicate/command-manager';
+import Settings from '../mainboard/settings';
+const DIRECTION_ = Settings.MOVE_DIRECTION;
 
-const DIRECTION_ = ['FORWARD', 'BACKWARD', 'TURNLEF', 'TURNRIGHT']
 class PIDForDoubleMotor {
   constructor() {
     this.args = {
@@ -16,30 +18,25 @@ class PIDForDoubleMotor {
   }
   /**
    * set direction with a string argument
-   * @param  {String} dir FORWARD、BACKWARD、TURNLEF、TURNRIGHT
-   * @return {[type]}     [description]
+   * @param  {String} dir dir should be uppercase or lowercase of 'FORWARD'、'BACKWARD'、'TURNLEF'、'TURNRIGHT'
    */
   direction(dir) {
-    if(typeof dir === 'string'){
-      switch (dir.toUpperCase()) {
-        case DIRECTION_[0]:
-          this.args.direction = 1;
-          break;
-        case DIRECTION_[1]:
-          this.args.direction = 2;
-          break;
-        case DIRECTION_[2]:
-          this.args.direction = 3;
-          break;
-        case DIRECTION_[3]:
-          this.args.direction = 4;
-          break;
-        default:
-          this.args.direction = 1;
-      }
-    }else{
-      console.warn(`argument ${dir} should be one of ${DIRECTION_.join(',')}`);
-      this.args.direction = 1;
+    dir = warnParamNotInList((dir||'').toUpperCase(), DIRECTION_);
+    switch (dir) {
+      case DIRECTION_[0]:
+        this.args.direction = 1;
+        break;
+      case DIRECTION_[1]:
+        this.args.direction = 2;
+        break;
+      case DIRECTION_[2]:
+        this.args.direction = 3;
+        break;
+      case DIRECTION_[3]:
+        this.args.direction = 4;
+        break;
+      default:
+        this.args.direction = 1;
     }
     return this;
   }

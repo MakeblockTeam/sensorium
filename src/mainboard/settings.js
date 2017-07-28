@@ -14,7 +14,8 @@ let Settings = {
       "G5": 784,"A5": 880,"B5": 988,"C6": 1047,"D6": 1175,"E6": 1319,
       "F6": 1397,"G6": 1568,"A6": 1760,"B6": 1976,"C7": 2093,"D7": 2349,
       "E7": 2637,"F7": 2794,"G7": 3136,"A7": 3520,"B7": 3951,"C8": 4186,"D8":4699
-    }
+    },
+    MOVE_DIRECTION:['FORWARD', 'BACKWARD', 'TURNLEF', 'TURNRIGHT']
 };
 
 export default Settings;

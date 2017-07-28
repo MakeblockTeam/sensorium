@@ -7,13 +7,11 @@ class BaseMotor extends Electronic {
    * Motor base class
    * @constructor
    * @param {number} port
-   * @param {number} slot
    */
-  constructor(port, slot) {
+  constructor(port) {
     super();
     this.args = {
       port: validateNumber(port),
-      slot: validateNumber(slot),
       speed: 0
     };
   }

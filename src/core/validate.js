@@ -50,19 +50,30 @@ let validateNumber = validateType('number'),
   validateArray = validateType('array'),
   validateBoolean = validateType('boolean'),
   validateObject = validateType('object');
+
 /**
  * 警告主控板不被支持
  * @param  {String} name 主控板名称
  */
-let warnNotSupport = function(name) {
+function warnNotSupport(name) {
   if (SUPPORTLIST.indexOf(name) === -1) {
     console.warn(`the mainboard "${name}" expected to be one of ${SUPPORTLIST.join(',')}`);
     return false;
   }
   return name;
 }
+
+function warnParamNotInList(param, list) {
+  if (Array.isArray(list) && list.indexOf(param) === -1) {
+    console.warn(`Param ${param} should be one of ${list.join(',')}`);
+    return false;
+  }
+  return param;
+}
+
 export {
   warnNotSupport,
+  warnParamNotInList,
   validateNumber,
   validateString,
   validateArray,

@@ -10,8 +10,9 @@ const createModuleId = function (eModule, argsList){
   let argsLength = argsList.length;
   if(argsLength < expectLength){
     //参数不足的提示
-    console.warn(`you need to pass in ${expectLength-argsLength} argument(s),
-      otherwise the ${eModule.name} sensor may not work as a result`);
+    let dl = expectLength - argsLength;
+    let more = argsLength > 0 ? ' more':''; //更多
+    console.warn(`you need to pass in ${dl} argument${dl>1?'s':''}${more}, otherwise the ${eModule.name} sensor may not work as a result`);
   }else if(argsLength > expectLength){
     //参数多余
     argsList.splice(expectLength);
