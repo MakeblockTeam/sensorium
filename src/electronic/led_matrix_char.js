@@ -34,7 +34,7 @@ class LedMatrixChar extends BaseLedMatrix {
   }
 
   char(str) {
-    this.args.str = validateString(str);
+    this.args.char = validateString(str);
     return this;
   }
 

@@ -522,83 +522,31 @@ describe('【auriga_最新固件 协议测试】', function() {
     });
 
 
-    describe('表情面板-显示字符串：setLedMatrixChar(6, 0, 1, "Hi")', function() {
-      it("在端口6 x：0 y：0的表情面板上显示字符串‘Hi’", function() {
-        var targetCmd = dataman.auriga.write.ledMatrixChar[0];
-        var charData = "Hi";
-        var cmd = auriga.setLedMatrixChar(6, 0, 0, charData);
-        assert.equal(targetCmd, cmd);
-      });
+    describe('表情面板：LedMatrix(6, 0, 1, "Hi")', function() {
+      let ports = [6, 7, 8, 9, 10];
+      for (let i = 0; i < ports.length; i++) {
+        let port = ports[i];
+        it(`在端口 ${port} x：0 y：0 的表情面板上显示字符串‘Hi’`, function() {
+          let ledMatrixChar = auriga.LedMatrix(port).charMode().x(0).y(0).char('Hi');
+          let targetCmd = dataman.auriga.write.ledMatrixChar[i];
+          let currentCmd = captureWriteBuf(ledMatrixChar.run.bind(ledMatrixChar));
+          expect(currentCmd).to.equal(targetCmd);
+        });
+      }
 
-      it("在端口7 x：0 y：0的表情面板上显示字符串‘Hi’", function() {
-        var targetCmd = dataman.auriga.write.ledMatrixChar[1];
-        var charData = "Hi";
-        var cmd = auriga.setLedMatrixChar(7, 0, 0, charData);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it("在端口8 x：0 y：0的表情面板上显示字符串‘Hi’", function() {
-        var targetCmd = dataman.auriga.write.ledMatrixChar[2];
-        var charData = "Hi";
-        var cmd = auriga.setLedMatrixChar(8, 0, 0, charData);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it("在端口9 x：0 y：0的表情面板上显示字符串‘Hi’", function() {
-        var targetCmd = dataman.auriga.write.ledMatrixChar[3];
-        var charData = "Hi";
-        var cmd = auriga.setLedMatrixChar(9, 0, 0, charData);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it("在端口10 x：0 y：0的表情面板上显示字符串‘Hi’", function() {
-        var targetCmd = dataman.auriga.write.ledMatrixChar[4];
-        var charData = "Hi";
-        var cmd = auriga.setLedMatrixChar(10, 0, 0, charData);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it("在端口6 x：1 y：0的表情面板上显示字符串‘Hi’", function() {
-        var targetCmd = dataman.auriga.write.ledMatrixChar[5];
-        var charData = "Hi";
-        var cmd = auriga.setLedMatrixChar(6, 1, 0, charData);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it("在端口6 x：0 y：1的表情面板上显示字符串‘Hi’", function() {
-        var targetCmd = dataman.auriga.write.ledMatrixChar[6];
-        var charData = "Hi";
-        var cmd = auriga.setLedMatrixChar(6, 0, 1, charData);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it("在端口6 x：1 y：2的表情面板上显示字符串‘Hi’", function() {
-        var targetCmd = dataman.auriga.write.ledMatrixChar[7];
-        var charData = "Hi";
-        var cmd = auriga.setLedMatrixChar(6, 1, 2, charData);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it("在端口6 x：-1 y：0的表情面板上显示字符串‘Hi’", function() {
-        var targetCmd = dataman.auriga.write.ledMatrixChar[8];
-        var charData = "Hi";
-        var cmd = auriga.setLedMatrixChar(6, -1, 0, charData);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it("在端口6 x：0 y：-4的表情面板上显示字符串‘Hi’", function() {
-        var targetCmd = dataman.auriga.write.ledMatrixChar[9];
-        var charData = "Hi";
-        var cmd = auriga.setLedMatrixChar(6, 0, -4, charData);
-        assert.equal(targetCmd, cmd);
-      });
-
-      it("在端口6 x：-1 y：-5的表情面板上显示字符串‘Hi’", function() {
-        var targetCmd = dataman.auriga.write.ledMatrixChar[10];
-        var charData = "Hi";
-        var cmd = auriga.setLedMatrixChar(6, -1, -5, charData);
-        assert.equal(targetCmd, cmd);
-      });
+      let xy = [{x: 1, y:0}, {x: 0, y:1}, {x: 1, y:2}, {x: -1, y: 0},
+        {x: 0, y: -4}, {x: -1, y: -5}
+      ];
+      for (let i = 0; i < xy.length; i++) {
+        let x = xy[i].x;
+        let y = xy[i].y;
+        it(`在端口 6 x：${x} y：${y} 的表情面板上显示字符串‘Hi’`, function() {
+          let ledMatrixChar = auriga.LedMatrix(6).charMode().x(x).y(y).char('Hi');
+          let targetCmd = dataman.auriga.write.ledMatrixChar[i+5];
+          let currentCmd = captureWriteBuf(ledMatrixChar.run.bind(ledMatrixChar));
+          expect(currentCmd).to.equal(targetCmd);
+        });
+      }
 
       it("在端口6 x：0 y：0的表情面板上显示带有空格的字符串‘Hi life’", function() {
         var targetCmd = dataman.auriga.write.ledMatrixChar[11];

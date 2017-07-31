@@ -6269,7 +6269,7 @@ var LedMatrixChar = function (_BaseLedMatrix) {
   }, {
     key: 'char',
     value: function char(str) {
-      this.args.str = (0, _validate.validateString)(str);
+      this.args.char = (0, _validate.validateString)(str);
       return this;
     }
   }, {
