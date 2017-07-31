@@ -11,11 +11,11 @@ export default {
   limitValue: function(value, range) {
     var newValue = value;
     range = range || [-255, 255];
-    if(value < range[0]) {
+    if (value < range[0]) {
       newValue = range[0];
     }
 
-    if(value > range[1]) {
+    if (value > range[1]) {
       newValue = range[1];
     }
     return newValue;
@@ -82,7 +82,7 @@ export default {
     for (var i = 0; i < data.length; i++) {
       if (data[i] != null) {
         var item = parseInt(data[i]).toString(16);
-        if(isUpperCase) {
+        if (isUpperCase) {
           item = parseInt(data[i]).toString(16).toUpperCase();
         }
         if (item.length == 1) {
@@ -224,8 +224,8 @@ export default {
   emotionArrayToBytes: function(matrixArray) {
     var result = [];
     for (var i = 0; i < matrixArray.length; i++) {
-      if (((i+1) % 8) == 0 ) {
-        var byteString = matrixArray.slice(i - 7, i+1).join('');
+      if (((i + 1) % 8) == 0) {
+        var byteString = matrixArray.slice(i - 7, i + 1).join('');
         var byte = parseInt(byteString, 2);
         result.push(byte);
       }
@@ -253,20 +253,20 @@ export default {
    */
   bytesToString: function(bytes) {
     var str = "";
-    for(var i = 0; i < bytes.length; i++) {
+    for (var i = 0; i < bytes.length; i++) {
       str += String.fromCharCode(bytes[i]);
     }
     return str;
   },
 
-  hexToRgb(hex){
+  hexToRgb(hex) {
     let validHexColorReg = /^#(?:[0-9a-f]{3}){1,2}$/i;
-    if(!validHexColorReg.test(hex)){
+    if (!validHexColorReg.test(hex)) {
       throw Error(`${hex} is not a valid hex color`);
     }
-    let r = parseInt(hex.substr(1, 2), 16), 
-        g = parseInt(hex.substr(3, 2), 16),
-        b = parseInt(hex.substr(5, 2), 16);
+    let r = parseInt(hex.substr(1, 2), 16),
+      g = parseInt(hex.substr(3, 2), 16),
+      b = parseInt(hex.substr(5, 2), 16);
     return [r, g, b];
   },
   /**
@@ -275,10 +275,31 @@ export default {
    * @param  {Array} args 方法的参数数组
    * @return {*}      返回结果由方法决定
    */
-  composer(func, args){
-    if(!args) {
+  composer(func, args) {
+    if (!args) {
       args = [];
     }
     return func(...args);
+  },
+
+  getAllMethods(obj) {
+    let props = []
+    do {
+      const l = Object.getOwnPropertyNames(obj)
+        .concat(Object.getOwnPropertySymbols(obj).map(s => s.toString()))
+        .sort()
+        .filter((p, i, arr) =>
+          typeof obj[p] === 'function' && //only the methods
+          p !== 'constructor' && //not the constructor
+          (i == 0 || p !== arr[i - 1]) && //not overriding in this prototype
+          props.indexOf(p) === -1 //not overridden in a child
+        )
+      props = props.concat(l)
+    }
+    while (
+      (obj = Object.getPrototypeOf(obj)) && //walk-up the prototype chain
+      Object.getPrototypeOf(obj) //not the the Object prototype methods (hasOwnProperty, etc...)
+    )
+    return props;
   }
 }

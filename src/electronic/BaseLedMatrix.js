@@ -1,5 +1,4 @@
 import { validateNumber } from '../core/validate';
-import Utils from '../core/utils';
 import Electronic from './electronic';
 
 class BaseLedMatrix extends Electronic {

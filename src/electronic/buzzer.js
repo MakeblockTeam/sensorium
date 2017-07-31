@@ -22,7 +22,7 @@ class Buzzer extends Electronic {
    * set tone
    * @param  {String} tone tone string, such as "C5"
    */
-  tone(tone) {
+  tone(tone="C5") {
     tone = validateString(tone.toUpperCase());
     let hz = TONE_TO_HZ[tone] || 880;
     return this.hz(hz);

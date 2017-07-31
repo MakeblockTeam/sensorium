@@ -14,8 +14,19 @@ class BaseEncoderMotor extends BaseMotor {
   constructor(port, slot) {
     super(port);
     Object.assign(this.args, {
-      slot: validateNumber(slot)
+      slot: validateNumber(slot),
+      angle: 0
     })
+  }
+
+  /**
+   * set angle offset to last angle position
+   * @param  {Number} angle [description]
+   * @return {[type]}       [description]
+   */
+  offsetAngle(angle){
+    this.args.angle = validateNumber(angle, this.args.angle);
+    return this;
   }
 
   /**

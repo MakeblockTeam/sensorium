@@ -70,7 +70,7 @@ class BaseRgbLed extends Electronic {
   /**
    * @param  {String} hex  hex color like '#ff0088'
    */
-  rgb(hex){
+  rgb(hex='#ff0000'){
     this.args.rgb = Utils.hexToRgb(hex);
     return this;
   }

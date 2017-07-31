@@ -5,10 +5,13 @@ import protocolAssembler from '../protocol/cmd';
 import CommandManager from '../communicate/command-manager';
 
 function write(baseArgs, extra){
-  if(typeof extra !== 'undefined' && !Array.isArray(extra)){
-    extra = [extra];
+  let baseCmd = [baseArgs.index, baseArgs.subCmd];
+  if(!Array.isArray(extra)){
+    baseCmd.push(typeof extra !== 'undefined'?[extra]:[]);
+  }else{
+    baseCmd.push(extra);
   }
-  let buf = Utils.composer(protocolAssembler.setSmartServo, [baseArgs.index, baseArgs.subCmd, extra]);
+  let buf = Utils.composer(protocolAssembler.setSmartServo, baseCmd);
   CommandManager.write(buf);
 }
 
@@ -52,6 +55,8 @@ class SmartServo extends Electronic {
       extraCmd = Utils.hexToRgb(hex_rgb);
     }else if(Array.isArray(hex_rgb)){
       extraCmd = hex_rgb;
+    }else{
+      extraCmd = [255, 0, 0];
     }
     this.args.subCmd = 0x02;
     write(this.args, extraCmd);
