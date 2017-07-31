@@ -5,12 +5,16 @@ import Mcore from './mcore';
 import Orion from './orion';
 import Auriga from './auriga';
 import MegaPi from './megaPi';
+import MegaPiPro from './megaPiPro';
+import Arduino from './arduino';
 
 const boards = {
     "auriga": Auriga,
     "mcore":  Mcore,
     "megapi": MegaPi,
-    "orion":  Orion
+    "orion":  Orion,
+    "megapipro":  MegaPiPro,
+    "arduino":  Arduino,
 }
 
 /**
@@ -22,7 +26,9 @@ class Sensorium {
    * @constructor
    */
   constructor(){
-
+    for(let name of Settings.SUPPORTLIST){
+      this['create' + name] = (opts) => this.create(name, opts);
+    }
   }
 
   /**

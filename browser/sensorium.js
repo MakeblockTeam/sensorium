@@ -3869,6 +3869,10 @@ var _keys = __webpack_require__(53);
 
 var _keys2 = _interopRequireDefault(_keys);
 
+var _getIterator2 = __webpack_require__(184);
+
+var _getIterator3 = _interopRequireDefault(_getIterator2);
+
 var _classCallCheck2 = __webpack_require__(0);
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
@@ -3905,13 +3909,23 @@ var _megaPi = __webpack_require__(183);
 
 var _megaPi2 = _interopRequireDefault(_megaPi);
 
+var _megaPiPro = __webpack_require__(192);
+
+var _megaPiPro2 = _interopRequireDefault(_megaPiPro);
+
+var _arduino = __webpack_require__(193);
+
+var _arduino2 = _interopRequireDefault(_arduino);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var boards = {
   "auriga": _auriga2.default,
   "mcore": _mcore2.default,
   "megapi": _megaPi2.default,
-  "orion": _orion2.default
+  "orion": _orion2.default,
+  "megapipro": _megaPiPro2.default,
+  "arduino": _arduino2.default
 
   /**
    * 构造函数返回值，改变了构造函数实例
@@ -3923,7 +3937,39 @@ var Sensorium = function () {
    * @constructor
    */
   function Sensorium() {
+    var _this = this;
+
     (0, _classCallCheck3.default)(this, Sensorium);
+    var _iteratorNormalCompletion = true;
+    var _didIteratorError = false;
+    var _iteratorError = undefined;
+
+    try {
+      var _loop = function _loop() {
+        var name = _step.value;
+
+        _this['create' + name] = function (opts) {
+          return _this.create(name, opts);
+        };
+      };
+
+      for (var _iterator = (0, _getIterator3.default)(_settings2.default.SUPPORTLIST), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+        _loop();
+      }
+    } catch (err) {
+      _didIteratorError = true;
+      _iteratorError = err;
+    } finally {
+      try {
+        if (!_iteratorNormalCompletion && _iterator.return) {
+          _iterator.return();
+        }
+      } finally {
+        if (_didIteratorError) {
+          throw _iteratorError;
+        }
+      }
+    }
   }
 
   /**
@@ -10407,6 +10453,230 @@ __webpack_require__(40)('getOwnPropertyDescriptor', function(){
     return $getOwnPropertyDescriptor(toIObject(it), key);
   };
 });
+
+/***/ }),
+/* 192 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _getPrototypeOf = __webpack_require__(2);
+
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+var _classCallCheck2 = __webpack_require__(0);
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = __webpack_require__(1);
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _possibleConstructorReturn2 = __webpack_require__(3);
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = __webpack_require__(4);
+
+var _inherits3 = _interopRequireDefault(_inherits2);
+
+var _Board2 = __webpack_require__(32);
+
+var _Board3 = _interopRequireDefault(_Board2);
+
+var _index = __webpack_require__(33);
+
+var _index2 = _interopRequireDefault(_index);
+
+var _mode = __webpack_require__(72);
+
+var _mode2 = _interopRequireDefault(_mode);
+
+var _version = __webpack_require__(28);
+
+var _version2 = _interopRequireDefault(_version);
+
+var _settings = __webpack_require__(11);
+
+var _settings2 = _interopRequireDefault(_settings);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//支持位置
+var SUPPORT_INDEX = _settings2.default.SUPPORTLIST.indexOf('MegaPiPro');
+
+//实现一个板子就注册一个板子名称
+
+var MegaPi = function (_Board) {
+  (0, _inherits3.default)(MegaPi, _Board);
+
+  function MegaPi(conf) {
+    (0, _classCallCheck3.default)(this, MegaPi);
+
+    var _this = (0, _possibleConstructorReturn3.default)(this, (MegaPi.__proto__ || (0, _getPrototypeOf2.default)(MegaPi)).call(this, conf));
+
+    var this_ = _this;
+    //主控板名
+    _this.name = 'MegaPiPro';
+    //固件当前模式
+    _this.currentMode = null;
+    //固件版本
+    _this.version = null;
+    // 置空已连接块
+    _this.connecting = {};
+    // 挂载电子模块
+
+    var _loop = function _loop(name) {
+      var eModule = _index2.default[name];
+      if (eModule.supportStamp().charAt(SUPPORT_INDEX) === '1') {
+        _this[name] = function () {
+          return this_.eModuleFactory(eModule, arguments, this_.name);
+        };
+      }
+    };
+
+    for (var name in _index2.default) {
+      _loop(name);
+    }
+    return _this;
+  }
+
+  /**
+   * 获取版本号，所有主控板支持
+   * @param  {!Function} callback
+   */
+
+
+  (0, _createClass3.default)(MegaPi, [{
+    key: 'getVersion',
+    value: function getVersion(callback) {
+      var this_ = this;
+      if (this.version) {
+        typeof callback == 'function' && callback(this.version);
+      } else {
+        _version2.default.getVersion(function (val) {
+          this_.version = val;
+          typeof callback == 'function' && this.version;
+        });
+      }
+    }
+
+    /**
+     * 设置固件模式
+     * @param {Number} mode 0、1、2、3、4
+     */
+
+  }, {
+    key: 'setFirmwareMode',
+    value: function setFirmwareMode(mode) {
+      var subCmd = 0x12;
+      _mode2.default.setMode(subCmd, mode);
+      return this;
+    }
+    /**
+     * 获取固件模式
+     * @param  {Function} callback 取值后回调函数
+     */
+    //TODO: 数据缓存
+
+  }, {
+    key: 'getFirmwareMode',
+    value: function getFirmwareMode(callback) {
+      var subCmd = 0x72;
+      _mode2.default.getMode(subCmd, callback);
+      return this;
+    }
+  }]);
+  return MegaPi;
+}(_Board3.default);
+
+exports.default = MegaPi;
+
+/***/ }),
+/* 193 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _getPrototypeOf = __webpack_require__(2);
+
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+var _classCallCheck2 = __webpack_require__(0);
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _possibleConstructorReturn2 = __webpack_require__(3);
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = __webpack_require__(4);
+
+var _inherits3 = _interopRequireDefault(_inherits2);
+
+var _Board2 = __webpack_require__(32);
+
+var _Board3 = _interopRequireDefault(_Board2);
+
+var _index = __webpack_require__(33);
+
+var _index2 = _interopRequireDefault(_index);
+
+var _settings = __webpack_require__(11);
+
+var _settings2 = _interopRequireDefault(_settings);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//支持位置
+var SUPPORT_INDEX = _settings2.default.SUPPORTLIST.indexOf('Arduino');
+
+//实现一个板子就注册一个板子名称
+
+var Arduino = function (_Board) {
+  (0, _inherits3.default)(Arduino, _Board);
+
+  function Arduino(conf) {
+    (0, _classCallCheck3.default)(this, Arduino);
+
+    var _this = (0, _possibleConstructorReturn3.default)(this, (Arduino.__proto__ || (0, _getPrototypeOf2.default)(Arduino)).call(this, conf));
+    //继承 Board
+
+
+    var this_ = _this;
+    // 置空已连接块
+    _this.connecting = {};
+    // 挂载电子模块
+
+    var _loop = function _loop(name) {
+      var eModule = _index2.default[name];
+      if (eModule.supportStamp().charAt(SUPPORT_INDEX) === '1') {
+        _this[name] = function () {
+          return this_.eModuleFactory(eModule, arguments);
+        };
+      }
+    };
+
+    for (var name in _index2.default) {
+      _loop(name);
+    }
+    return _this;
+  }
+
+  return Arduino;
+}(_Board3.default);
+
+exports.default = Arduino;
 
 /***/ })
 /******/ ]);
