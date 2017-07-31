@@ -8,23 +8,20 @@ class LedMatrixNumber extends BaseLedMatrix {
   constructor(port) {
     super(port);
     Object.assign(this.args, {
-      number: null
+      number: 0
     });
   }
 
-  number(num) {
-    this.args.number = validateNumber(num);
+  number(number) {
+    this.args.number = validateNumber(number);
     return this;
   }
 
   run(){
-    let buf = Utils.composer(protocolAssembler.setLedMatrixNumber, [this.args.port, this.args.number]);
-    CommandManager.write(buf);
+    let type = 0x04;
+    let bufArray = [this.args.port, type, ...Utils.float32ToBytes(this.args.number)];
+    super.run(bufArray);
     return this;
-  }
-
-  static supportStamp(){
-    return '1110';
   }
 }
 

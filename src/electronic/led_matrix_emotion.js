@@ -1,3 +1,4 @@
+import { validateString } from '../core/validate';
 import Utils from '../core/utils';
 import BaseLedMatrix from './BaseLedMatrix';
 import protocolAssembler from '../protocol/cmd';
@@ -6,37 +7,47 @@ import CommandManager from '../communicate/command-manager';
 class LedMatrixEmotion extends BaseLedMatrix {
   constructor(port) {
     super(port);
-
     Object.assign(this.args, {
-      x: null,
-      y: null,
-      emotion: null
+      x: 0,
+      y: 0,
+      emotion: 0
     });
   }
 
-  x(xAxis){
-    this.args.x = xAxis;
+  /**
+   * set the X axis coordinate of the char
+   * @param  {Number} x
+   */
+  x(x){
+    this.args.x = x;
     return this;
   }
 
-  y(yAxis){
-    this.args.y = yAxis;
+  /**
+   * set the Y axis coordinate of the char
+   * @param  {Number} y
+   */
+  y(y){
+    this.args.y = y;
     return this;
   }
 
+  /**
+   * use lattice to describe the emotion
+   * @param  {String} emotion lattice
+   */
   emotion(emotion) {
-    this.args.emotion = emotion;
+    // TODO: validate the param
+    this.args.emotion = validateString(emotion);
     return this;
   }
 
   run(){
-    let buf = Utils.composer(protocolAssembler.setLedMatrixEmotion, [this.args.port, this.args.x, this.args.y, this.args.emotion]);
-    CommandManager.write(buf);
+    let type = 0x02;
+    let byteResult = Utils.byteString2binaryByte(this.args.emotion);
+    let bufArray = [this.args.port, type, this.args.x, this.args.y].concat(byteResult);
+    super.run(bufArray);
     return this;
-  }
-
-  static supportStamp(){
-    return '1110';
   }
 }
 

@@ -248,20 +248,7 @@ function protocolAssembler() {
    * @exmaple
    * ff 55 0a 00 02 29 06 01 00 01 02 48 69
    */
-  this.setLedMatrixChar = function(port, xAxis, yAxis, char) {
-    var charAsciiArray = [];
-    for(var i = 0; i < char.length; i++) {
-      charAsciiArray.push(char[i].charCodeAt());
-    }
-
-    return bufAssembler({mode: 0x02, id: 0x29}, port, 0x01,
-      xAxis,
-      yAxis,
-      char.length,
-      ...charAsciiArray);
-  };
-
-
+  
   /**
    * Set led matrix emotion.
    * @param {number} port   port number, vailable is 6,7,8,9,10
@@ -272,24 +259,7 @@ function protocolAssembler() {
    * @example
    * ff 55 17 00 02 29 06 02 00 00 00 00 40 48 44 42 02 02 02 02 42 44 48 40 00 00
    */
-  this.setLedMatrixEmotion = function(port, xAxis, yAxis, emotionData) {
-    // var a = [
-    //   0xff,0x55,
-    //   0x17,0,
-    //   0x02,
-    //   0x29,
-    //   port,
-    //   0x02,
-    //   xAxis,
-    //   yAxis
-    // ].concat(emotionData);
-
-    return bufAssembler({mode: 0x02, id: 0x29}, port, 0x02,
-      xAxis,
-      yAxis,
-      ...emotionData);
-  };
-
+  
   /**
    * Set led matrix time.
    * @param {number} port   port number, vailable is 6,7,8,9,10
@@ -299,12 +269,7 @@ function protocolAssembler() {
    * @example
    *     ff 55 08 00 02 29 06 03 01 0a 14
    */
-  this.setLedMatrixTime = function(port, separator, hour, minute) {
-    hour = Utils.limitValue(hour, [0, 23]);
-    minute = Utils.limitValue(minute, [0, 59]);
-    return bufAssembler({mode: 0x02, id: 0x29}, port, 0x03, separator, hour, minute);
-  };
-
+  
   /**
    * Set led matrix number.
    * @param {number} port   port number, vailable is 6,7,8,9,10
@@ -312,9 +277,8 @@ function protocolAssembler() {
    * @exmaple
       ff 55 09 00 02 29 06 04 00 00 00 00
    */
-  this.setLedMatrixNumber = function(port, number) {
-    var byte4Array = Utils.float32ToBytes(number);
-    return bufAssembler({mode: 0x02, id: 0x29}, port, 0x04, ...byte4Array);
+  this.setLedMatrix = function() {
+    return bufAssembler({mode: 0x02, id: 0x29}, ...arguments);
   };
 
   /**

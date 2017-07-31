@@ -282,6 +282,22 @@ export default {
     return func(...args);
   },
 
+  /**
+   * Continuous byte string to binary byte
+   * @param  {String} byteStrs
+   * @return {Array}        
+   */
+  byteString2binaryByte(byteStrs) {
+    let byteResult = [];
+    for (let i = 1; i < byteStrs.length; i++) {
+      if (i % 8 === 0) {
+        let byteStr = byteStrs.slice(i - 8, i);
+        byteResult.push(parseInt(byteStr, 2));
+      }
+    }
+    return byteResult;
+  },
+
   getAllMethods(obj) {
     let props = []
     do {

@@ -1,4 +1,4 @@
-import { validateNumber } from '../core/validate';
+import { validateNumber, validateString } from '../core/validate';
 import Utils from '../core/utils';
 import BaseLedMatrix from './BaseLedMatrix';
 import protocolAssembler from '../protocol/cmd';
@@ -9,35 +9,43 @@ class LedMatrixChar extends BaseLedMatrix {
   constructor(port) {
     super(port);
     Object.assign(this.args, {
-      x: null,
-      y: null,
-      char: null
+      x: 0,
+      y: 0,
+      char: ''
     });
   }
 
-  x(xAxis){
-    this.args.x = xAxis;
+  /**
+   * set the X axis coordinate of the char
+   * @param  {Number} x 
+   */
+  x(x){
+    this.args.x = validateNumber(x);
     return this;
   }
 
-  y(yAxis){
-    this.args.y = yAxis;
+  /**
+   * set the Y axis coordinate of the char
+   * @param  {Number} y
+   */
+  y(y){
+    this.args.y = validateNumber(y);
     return this;
   }
 
   char(str) {
-    this.args.str = str;
+    this.args.str = validateString(str);
     return this;
   }
 
   run(){
-    let buf = Utils.composer(protocolAssembler.setLedMatrixChar, [this.args.port, this.args.x, this.args.y, this.args.char]);
-    CommandManager.write(buf);
+    let type = 0x01;
+    let bufArray = [this.args.port, type, this.args.x, this.args.y, this.args.char.length];
+    for (let char of this.args.char) {
+      bufArray.push(char.charCodeAt());
+    }
+    super.run(bufArray);
     return this;
-  }
-
-  static supportStamp(){
-    return '1110';
   }
 }
 

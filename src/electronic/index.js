@@ -8,10 +8,7 @@ import ServoMotor from './servo_motor';
 import FourLed from './four_led';
 import RgbLed from './rgb_led';
 import RgbLedOnBoard from './rgb_led_on_board';
-import LedMatrixChar from './led_matrix_char';
-import LedMatrixTime from './led_matrix_time';
-import LedMatrixEmotion from './led_matrix_emotion';
-import LedMatrixNumber from './led_matrix_number';
+import LedMatrix from './led_matrix';
 import Buzzer from './buzzer';
 import SevenSegment from './seven_segment';
 import Shutter from './shutter';
@@ -56,10 +53,7 @@ export default {
   FourLed,
   RgbLed,
   RgbLedOnBoard,
-  LedMatrixChar,
-  LedMatrixTime,
-  LedMatrixEmotion,
-  LedMatrixNumber,
+  LedMatrix,
   Buzzer,
   SevenSegment,
   Shutter,

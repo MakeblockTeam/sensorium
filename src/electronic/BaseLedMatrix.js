@@ -1,5 +1,8 @@
 import { validateNumber } from '../core/validate';
 import Electronic from './electronic';
+import Utils from '../core/utils';
+import protocolAssembler from '../protocol/cmd';
+import CommandManager from '../communicate/command-manager';
 
 class BaseLedMatrix extends Electronic {
   /**
@@ -10,6 +13,12 @@ class BaseLedMatrix extends Electronic {
     this.args = {
       port: validateNumber(port)
     }
+  }
+
+  run(bufArray){
+    let buf = Utils.composer(protocolAssembler.setLedMatrix, bufArray);
+    CommandManager.write(buf);
+    return this;
   }
 }
 
