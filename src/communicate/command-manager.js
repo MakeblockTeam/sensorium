@@ -31,7 +31,11 @@ class CommandManager {
    * @return {[type]}            [description]
    */
   read(buf, callback) {
-    Read.addRequest(Command.send, buf, callback || function(){});
+    return new Promise(function(resolve, reject)){
+      Read.addRequest(Command.send, buf, function(val){
+        resolve(val);
+      });
+    });
   }
 
   /**

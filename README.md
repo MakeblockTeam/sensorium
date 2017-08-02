@@ -6,7 +6,7 @@ You can use it in browser, node enviroment.
 # Install
 
 ```
-npm install
+npm install --save
 ```
 
 # Generate library
