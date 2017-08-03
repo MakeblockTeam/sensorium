@@ -1,7 +1,6 @@
 import BaseRgbLed from './BaseRgbLed';
 import { warnNotSupport } from '../core/validate';
-import Settings from '../mainboard/settings';
-const SUPPORTLIST_ = Settings.SUPPORTLIST;
+import { SUPPORTLIST } from '../mainboard/settings';
 
 class RgbLedOnBoard extends BaseRgbLed {
   constructor(){
@@ -10,7 +9,7 @@ class RgbLedOnBoard extends BaseRgbLed {
     this.hostname = warnNotSupport(arguments[arguments.length-1]) || '';
     switch(this.hostname){
       //auriga
-      case SUPPORTLIST_[1]:
+      case SUPPORTLIST[1]:
         this.args.port = 0;
         this.args.slot = 2;
         break;

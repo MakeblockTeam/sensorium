@@ -16,22 +16,20 @@ class EncoderMotorOnBoard extends BaseEncoderMotor {
     });
   }
 
-  getSpeed(callback){
+  async getSpeed(){
     this.args.type = 0x02;
     let buf = bufComposer(this.args);
-    CommandManager.read(buf, callback);
-    return this;
+    return await CommandManager.read(buf);
   }
 
   /**
    * get angle offset to the start position
    * @param  {Function} callback
    */
-  getAngle(callback){
+  async getAngle(){
     this.args.type = 0x01;
     let buf = bufComposer(this.args);
-    CommandManager.read(buf, callback);
-    return this;
+    return await CommandManager.read(buf);
   }
 
   static supportStamp(){

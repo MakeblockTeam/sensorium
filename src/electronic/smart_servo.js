@@ -15,9 +15,9 @@ function write(baseArgs, extra){
   CommandManager.write(buf);
 }
 
-function read(baseArgs, callback){
+async function read(baseArgs){
   let buf = Utils.composer(protocolAssembler.readSmartServoParam, [baseArgs.index, baseArgs.subCmd]);
-  CommandManager.read(buf, callback);
+  return await CommandManager.read(buf);
 }
 
 class SmartServo extends Electronic {
@@ -111,37 +111,32 @@ class SmartServo extends Electronic {
   }
 
   //读速度
-  readSpeed(callback){
+  async readSpeed(){
     this.args.subCmd = 0x09;
-    read(this.args, callback);
-    return this;
+    return await read(this.args);
   }
   //读温度
-  readTemperature(callback){
+  async readTemperature(){
     this.args.subCmd = 0x0a;
-    read(this.args, callback);
-    return this;
+    return await read(this.args);
   }
 
   //读电流
-  readCurrent(callback){
+  async readCurrent(){
     this.args.subCmd = 0x0b;
-    read(this.args, callback);
-    return this;
+    return await read(this.args);
   }
 
   //读电压
-  readVoltage(callback){
+  async readVoltage(){
     this.args.subCmd = 0x0c;
-    read(this.args, callback);
-    return this;
+    return await read(this.args);
   }
 
   //读角度
-  readAngle(callback){
+  async readAngle(){
     this.args.subCmd = 0x0d;
-    read(this.args, callback);
-    return this;
+    return await read(this.args);
   }
 
   static supportStamp(){

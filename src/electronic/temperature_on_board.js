@@ -8,10 +8,9 @@ class TemperatureOnBoard extends Electronic {
     super(0x0d);
   }
 
-  getData(callback) {
+  async getData() {
     let buf = Utils.composer(protocolAssembler.readTemperatureOnBoard);
-    CommandManager.read(buf, callback);
-    return this;
+    return await CommandManager.read(buf);
   }
 
   static supportStamp(){

@@ -4,9 +4,9 @@ import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
 import CommandManager from '../communicate/command-manager';
 
-let commandRead = function(args, callback){
+let commandRead = async function(args){
   let buf = Utils.composer(protocolAssembler.readHumiture, [args.port, args.type]);
-  CommandManager.read(buf, callback);
+  return await CommandManager.read(buf);
 }
 
 class Humiture extends Electronic {
@@ -18,16 +18,14 @@ class Humiture extends Electronic {
     };
   }
 
-  getHumidity(callback){
+  async getHumidity(){
     this.args.type = 0;
-    commandRead(this.args, callback);
-    return this;
+    return await commandRead(this.args);
   }
 
-  getTemperature(callback){
+  async getTemperature(){
     this.args.type = 1;
-    commandRead(this.args, callback);
-    return this;
+    return await commandRead(this.args);
   }
 
   static supportStamp(){

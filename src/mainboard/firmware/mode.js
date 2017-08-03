@@ -17,9 +17,9 @@ class Mode {
     CommandManager.write(buf);
   }
 
-  getMode(subCmd, callback){
+  async getMode(subCmd){
     let buf = Utils.composer(protocolAssembler.readFirmwareMode, [subCmd]);
-    CommandManager.read(buf, callback);
+    return await CommandManager.read(buf);
   }
 
   /**

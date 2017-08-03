@@ -2,11 +2,10 @@
  * @fileOverview read request controler.
  * @author jeremy
  */
+import { OVERTIME, AUTO_OVERTIME } from '../mainboard/settings';
 
 //最大记录数
 const MAX_RECORD = 256;
-//超时时间
-const OVERTIME = 1000;
 
 const Read = {
   timer: null,
@@ -96,7 +95,7 @@ const Read = {
   watchdog: function(index) {
    this.timer = setTimeout(()=>{
       this.emitCallback(index, null);
-    }, OVERTIME + 200);
+    }, AUTO_OVERTIME);
   },
 
   /**

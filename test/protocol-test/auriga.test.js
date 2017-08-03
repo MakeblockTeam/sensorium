@@ -11,7 +11,7 @@ const expect = chai.expect;
 function captureWriteBuf(run) {
   let capturedBuf;
   let write_ = CommandManager.write;
-  //override
+  //override to captrue the buf
   CommandManager.write = function(buf) {
     capturedBuf = buf;
     return;
@@ -29,8 +29,8 @@ function captureWriteBuf(run) {
 function captureReadBuf(run) {
   let capturedBuf;
   let read_ = CommandManager.read;
-  //override
-  CommandManager.read = function(buf, callback) {
+  //override to captrue the buf
+  CommandManager.read = function(buf) {
     capturedBuf = buf;
     return;
   }
@@ -39,6 +39,7 @@ function captureReadBuf(run) {
     let newVal = val.toString(16);
     return newVal.length == 1 ? '0' + newVal : newVal;
   });
+  // recovery the method
   CommandManager.read = read_;
   return currentCmd.join(' ');
 }

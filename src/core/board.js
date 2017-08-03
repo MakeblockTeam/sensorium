@@ -1,8 +1,8 @@
 /**
- * @fileOverview board 用做通信基类，连接收和发送接口.
- * @author Hyman
+ * @fileOverview Board 主控板的积累.
+ * @author Jeremy
  */
-import Settings from '../mainboard/settings';
+import Version from '../electronic/version';
 
 const createModuleId = function (eModule, argsList){
   let name = eModule.name;
@@ -20,13 +20,14 @@ const createModuleId = function (eModule, argsList){
   return [name].concat(argsList).join('_').toLowerCase();
 }
 
-// 超类： 具备发送、接收方法
 class Board {
   constructor(conf){
     //私有的配置对象
     this.config_ = conf || {};
     //已连接电子模块
     this.connecting = {};
+    //固件版本
+    this.version = null;
   }
 
   /**
@@ -47,6 +48,18 @@ class Board {
       // 保存模块
       this.connecting[id] = emodule;
       return emodule;
+    }
+  }
+
+  /**
+   * 获取版本号，所有主控板支持
+   */
+  async getVersion(){
+    if(this.version){
+      return Promise.resolve(this.version);
+    }else{
+      this.version = await Version.getVersion();
+      return this.version;
     }
   }
 }

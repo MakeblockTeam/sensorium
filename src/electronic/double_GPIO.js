@@ -13,10 +13,9 @@ class DoubleGPIO extends Electronic {
     };
   }
 
-  getData(callback) {
+  async getData() {
     let buf = Utils.composer(protocolAssembler.readDoubleGPIO, [this.args.port1, this.args.port2]);
-    CommandManager.read(buf, callback);
-    return this;
+    return await CommandManager.read(buf);
   }
 
   static supportStamp(){

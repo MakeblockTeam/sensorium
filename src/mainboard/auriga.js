@@ -1,10 +1,9 @@
 import Board from '../core/Board';
 import electronics from '../electronic/index';
 import Mode from './firmware/mode';
-import Version from './firmware/version';
-import Settings from './settings';
+import { SUPPORTLIST } from './settings';
 //支持位置
-const SUPPORT_INDEX = Settings.SUPPORTLIST.indexOf('Auriga');
+const SUPPORT_INDEX = SUPPORTLIST.indexOf('Auriga');
 
 class Auriga extends Board{
   constructor(conf){
@@ -14,8 +13,6 @@ class Auriga extends Board{
     this.name = 'Auriga';
     //固件当前模式
     this.currentMode = null;
-    //固件版本
-    this.version = null;
     // 置空已连接块
     this.connecting = {};
     // 挂载电子模块
@@ -30,22 +27,6 @@ class Auriga extends Board{
   }
 
   /**
-   * 获取版本号，所有主控板支持
-   * @param  {!Function} callback
-   */
-  getVersion(callback){
-    let this_ = this;
-    if(this.version){
-      typeof callback == 'function' && callback(this.version);    
-    }else{
-      Version.getVersion(function(val){
-        this_.version = val;
-        typeof callback == 'function' && (this.version);
-      });
-    }
-  }
-
-  /**
    * 设置固件模式
    * @param {Number} mode 0、1、2、3、4
    */
@@ -56,23 +37,19 @@ class Auriga extends Board{
   }
   /**
    * 获取固件模式
-   * @param  {Function} callback 取值后回调函数
    */
   //TODO: 数据缓存
-  getFirmwareMode(callback){
+  async getFirmwareMode(){
     let subCmd = 0x71;
-    Mode.getMode(subCmd, callback);
-    return this;
+    return await Mode.getMode(subCmd);
   }
 
   /**
    * 获取固件电压
-   * @param  {Function} callback 取值后回调函数
    */
-  getVoltage(callback){
+  async getVoltage(){
     let subCmd = 0x70;
-    Mode.getMode(subCmd, callback);
-    return this;
+    return await Mode.getMode(subCmd);
   }
 }
 

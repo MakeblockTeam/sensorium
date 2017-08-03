@@ -1,8 +1,8 @@
 import Board from '../core/Board';
 import electronics from '../electronic/index';
-import Settings from './settings';
+import { SUPPORTLIST } from './settings';
 //支持位置
-const SUPPORT_INDEX = Settings.SUPPORTLIST.indexOf('Arduino');
+const SUPPORT_INDEX = SUPPORTLIST.indexOf('Arduino');
 
 //实现一个板子就注册一个板子名称
 class Arduino extends Board{

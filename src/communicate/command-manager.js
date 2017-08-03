@@ -1,10 +1,10 @@
 /**
- * 发送数据的队列调度，对外提供以下接口：
+ * @fileOverview Sensorium 类，发送数据的队列调度，对外提供以下接口.
  * write
  * read
  * pipe
+ * @author Jeremy
  */
-// import Transport from './transport';
 import Read from './read';
 import Write from './write';
 import Parse from '../core/parse';
@@ -30,8 +30,8 @@ class CommandManager {
    * @param  {Function} callback [description]
    * @return {[type]}            [description]
    */
-  read(buf, callback) {
-    return new Promise(function(resolve, reject)){
+  async read(buf) {
+    return await new Promise(function(resolve, reject){
       Read.addRequest(Command.send, buf, function(val){
         resolve(val);
       });

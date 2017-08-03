@@ -13,10 +13,9 @@ class Temperature extends Electronic {
     };
   }
 
-  getData(callback) {
+  async getData() {
     let buf = Utils.composer(protocolAssembler.readTemperature, [this.args.port, this.args.slot]);
-    CommandManager.read(buf, callback);
-    return this;
+    return await CommandManager.read(buf);
   }
 
   static supportStamp(){

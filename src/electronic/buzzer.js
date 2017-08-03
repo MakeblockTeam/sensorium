@@ -6,8 +6,7 @@ import Utils from '../core/utils';
 import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
 import CommandManager from '../communicate/command-manager';
-import Settings from '../mainboard/settings';
-const TONE_TO_HZ = Settings.TONE_TO_HZ;
+import { TONE_TO_HZ } from '../mainboard/settings';
 
 class Buzzer extends Electronic {
   constructor() {

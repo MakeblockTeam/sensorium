@@ -18,10 +18,9 @@ class Joystick extends Electronic {
     return this;
   }
 
-  getData(callback) {
+  async getData() {
     let buf = Utils.composer(protocolAssembler.readJoystick, [this.args.port, this.args.axis]);
-    CommandManager.read(buf, callback);
-    return this;
+    return await CommandManager.read(buf);
   }
 
   static supportStamp(){

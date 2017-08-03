@@ -12,10 +12,9 @@ class AnalogGPIO extends Electronic {
     };
   }
 
-  getData(callback) {
+  async getData() {
     let buf = Utils.composer(protocolAssembler.readAnalogGPIO, [this.args.port]);
-    CommandManager.read(buf, callback);
-    return this;
+    return await CommandManager.read(buf);
   }
 
   static supportStamp(){

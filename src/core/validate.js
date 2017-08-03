@@ -1,5 +1,4 @@
-import Settings from '../mainboard/settings';
-const SUPPORTLIST = Settings.SUPPORTLIST;
+import { SUPPORTLIST } from '../mainboard/settings';
 
 function validateType(type) {
   return function(param, defaultValue) {

@@ -22,10 +22,9 @@ class FourKeys extends Electronic {
     return this;
   }
 
-  getData(callback) {
+  async getData() {
     let buf = Utils.composer(protocolAssembler.readFourKeys, [this.args.port, this.args.key]);
-    CommandManager.read(buf, callback);
-    return this;
+    return await CommandManager.read(buf);
   }
 
   static supportStamp(){

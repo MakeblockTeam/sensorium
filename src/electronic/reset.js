@@ -5,15 +5,13 @@ import protocolAssembler from '../protocol/cmd';
 import CommandManager from '../communicate/command-manager';
 
 class Reset extends Electronic {
-  constructor(callback) {
+  constructor() {
     super();
-    this.reset(callback);
   }
 
-  reset(callback) {
+  async reset() {
     let buf = Utils.composer(protocolAssembler.reset);
-    CommandManager.read(buf, callback);
-    return this;
+    return await CommandManager.read(buf);
   }
 
   static supportStamp(){

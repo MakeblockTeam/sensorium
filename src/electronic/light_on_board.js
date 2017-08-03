@@ -1,8 +1,7 @@
 import { validateNumber } from '../core/validate';
 import BaseLight from './BaseLight';
 import { warnNotSupport } from '../core/validate';
-import Settings from '../mainboard/settings';
-const SUPPORTLIST_ = Settings.SUPPORTLIST;
+import { SUPPORTLIST } from '../mainboard/settings';
 
 class LightOnBoard extends BaseLight {
   constructor() {
@@ -11,12 +10,12 @@ class LightOnBoard extends BaseLight {
     this.hostname = warnNotSupport(arguments[arguments.length-1]) || '';
     switch(this.hostname){
       //TOIMPROVE: auriga 板载 port 只能为 0x0c，0x0b
-      case SUPPORTLIST_[1]:
+      case SUPPORTLIST[1]:
         let port = arguments[0];
         this.args.port = validateNumber(port, 1);
         break;
       //megapi
-      case SUPPORTLIST_[2]:
+      case SUPPORTLIST[2]:
         this.args.port = 0x0c;
         break;
       default:

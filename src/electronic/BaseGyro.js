@@ -18,10 +18,9 @@ class BaseGyro extends Electronic {
     return this;
   }
 
-  getData(callback) {
+  async getData() {
     let buf = Utils.composer(protocolAssembler.readGyro, [this.args.port, this.args.axis]);
-    CommandManager.read(buf, callback);
-    return this;
+    return await CommandManager.read(buf);
   }
 }
 

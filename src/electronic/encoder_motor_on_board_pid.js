@@ -8,11 +8,11 @@ import PIDForDoubleMotor from './encoder_motor_on_board_pid_for_doubleMotor';
 
 import protocolAssembler from '../protocol/cmd';
 import CommandManager from '../communicate/command-manager';
-import Settings from '../mainboard/settings';
+import { SUPPORTLIST } from '../mainboard/settings';
 import { warnNotSupport } from '../core/validate';
 
-let auriga = Settings.SUPPORTLIST[1].toLowerCase();
-let megapipro = Settings.SUPPORTLIST[5].toLowerCase();
+let auriga = SUPPORTLIST[1].toLowerCase();
+let megapipro = SUPPORTLIST[5].toLowerCase();
 
 class EncoderMotorOnBoardPID extends Electronic {
   constructor() {

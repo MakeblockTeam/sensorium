@@ -1,6 +1,10 @@
+/**
+ * @fileOverview Sensorium 类，整个库的对外输出的唯一命名空间.
+ * @author Jeremy
+ */
 import Transport from '../communicate/transport';
-import Version from './firmware/version';
-import Settings from '../mainboard/settings';
+import Version from '../electronic/version';
+import { SUPPORTLIST, FIRMWARE_ID } from './settings';
 import Mcore from './mcore';
 import Orion from './orion';
 import Auriga from './auriga';
@@ -26,7 +30,7 @@ class Sensorium {
    * @constructor
    */
   constructor(){
-    for(let name of Settings.SUPPORTLIST){
+    for(let name of SUPPORTLIST){
       this['create' + name] = (opts) => this.create(name, opts);
     }
   }
@@ -58,14 +62,14 @@ class Sensorium {
    * read firmware verion and parse the device info
    * @param  {Function} callback the function then to be execute
    */
-  readFirmwareInfo(callback){
-    Version.getVersion(function(val){
-      let id, firmwareName;
+  async readFirmwareInfo(){
+    return await Version.getVersion().then((val) =>{
+      let id, name;
       if(val){
         id = val.split('.')[0];
-        firmwareName = Settings.FIRMWARE_ID[parseInt(id)];
+        name = FIRMWARE_ID[parseInt(id)];
       }
-      typeof callback == 'function' && callback(firmwareName, val);
+      return Promise.resolve({name, val});
     });
   }
 

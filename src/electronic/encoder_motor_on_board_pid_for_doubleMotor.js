@@ -5,8 +5,7 @@ import {
 import Utils from '../core/utils';
 import protocolAssembler from '../protocol/cmd';
 import CommandManager from '../communicate/command-manager';
-import Settings from '../mainboard/settings';
-const DIRECTION_ = Settings.MOVE_DIRECTION;
+import { MOVE_DIRECTION } from '../mainboard/settings';
 
 class PIDForDoubleMotor {
   constructor() {
@@ -21,18 +20,18 @@ class PIDForDoubleMotor {
    * @param  {String} dir dir should be uppercase or lowercase of 'FORWARD'、'BACKWARD'、'TURNLEF'、'TURNRIGHT'
    */
   direction(dir) {
-    dir = warnParamNotInList((dir||'').toUpperCase(), DIRECTION_);
+    dir = warnParamNotInList((dir||'').toUpperCase(), MOVE_DIRECTION);
     switch (dir) {
-      case DIRECTION_[0]:
+      case MOVE_DIRECTION[0]:
         this.args.direction = 1;
         break;
-      case DIRECTION_[1]:
+      case MOVE_DIRECTION[1]:
         this.args.direction = 2;
         break;
-      case DIRECTION_[2]:
+      case MOVE_DIRECTION[2]:
         this.args.direction = 3;
         break;
-      case DIRECTION_[3]:
+      case MOVE_DIRECTION[3]:
         this.args.direction = 4;
         break;
       default:
