@@ -3,6 +3,10 @@ import BaseMotor from './BaseMotor';
 import protocolAssembler from '../protocol/cmd';
 import CommandManager from '../communicate/command-manager';
 
+/**
+ * DcMotor sensor module
+ * @extends BaseMotor
+ */
 class DcMotor extends BaseMotor {
 
   constructor(port) {

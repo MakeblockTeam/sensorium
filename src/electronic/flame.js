@@ -4,6 +4,10 @@ import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
 import CommandManager from '../communicate/command-manager';
 
+/**
+ * Flame sensor module
+ * @extends Electronic
+ */
 class Flame extends Electronic {
   constructor(port) {
     super();

@@ -4,8 +4,11 @@ import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
 import CommandManager from '../communicate/command-manager';
 
+/**
+ * ServoMotor sensor module
+ * @extends Electronic
+ */
 class ServoMotor extends Electronic {
-
   constructor(port, slot) {
     super();
     this.args = {

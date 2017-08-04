@@ -9,6 +9,10 @@ let commandRead = async function(args){
   return await CommandManager.read(buf);
 }
 
+/**
+ * Humiture sensor module
+ * @extends Electronic
+ */
 class Humiture extends Electronic {
   constructor(port) {
     super();

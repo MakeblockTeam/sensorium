@@ -4,8 +4,11 @@ import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
 import CommandManager from '../communicate/command-manager';
 
+/**
+ * VirtualJoystick, actually it's a motor module
+ * @extends Electronic
+ */
 class VirtualJoystick extends Electronic {
-
   constructor() {
     super();
     this.args = {

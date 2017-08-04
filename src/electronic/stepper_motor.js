@@ -4,6 +4,10 @@ import BaseMotor from './BaseMotor';
 import protocolAssembler from '../protocol/cmd';
 import CommandManager from '../communicate/command-manager';
 
+/**
+ * StepperMotor sensor module
+ * @extends BaseMotor
+ */
 class StepperMotor extends BaseMotor {
 
   constructor(port) {

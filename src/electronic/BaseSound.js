@@ -4,7 +4,16 @@ import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
 import CommandManager from '../communicate/command-manager';
 
+/**
+ * @Class BaseSound
+ * @description It is a base Class of Sound
+ * @extends Electronic
+ */
 class BaseSound extends Electronic {
+  /**
+   * Create a sound sensor
+   * @param {Number} port  led port
+   */
   constructor(port) {
     super();
     this.args = {
@@ -12,6 +21,10 @@ class BaseSound extends Electronic {
     };
   }
 
+  /**
+   * GetData of Sound sensor
+   * @return {Promise} 
+   */
   async getData() {
     let buf = Utils.composer(protocolAssembler.readSound, [this.args.port]);
     return await CommandManager.read(buf);

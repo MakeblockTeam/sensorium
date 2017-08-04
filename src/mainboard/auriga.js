@@ -5,15 +5,24 @@ import { SUPPORTLIST } from './settings';
 //支持位置
 const SUPPORT_INDEX = SUPPORTLIST.indexOf('Auriga');
 
+/**
+ * Auriga Class for 'Auriga' mainboard.
+ * @extends Board
+ */
 class Auriga extends Board{
+  /**
+   * Create a auriga mainboard
+   * @param  {Object} conf configure
+   */
   constructor(conf){
     super(conf);
     let this_ = this;
-    //主控板名
+    //@member {String} {maiboard name}
     this.name = 'Auriga';
-    //固件当前模式
+    //@member {Number} {current mode}
     this.currentMode = null;
-    // 置空已连接块
+    // @member {Object} modules is connecting to the mainboard 
+    // @override
     this.connecting = {};
     // 挂载电子模块
     for (let name in electronics) {

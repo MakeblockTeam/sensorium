@@ -1,12 +1,15 @@
 /**
- * @fileOverview read request controler.
- * @author jeremy
+ * @fileOverview Read 对象，所有'读'请求的处理器
+ * @author Jeremy
  */
 import { OVERTIME, AUTO_OVERTIME } from '../mainboard/settings';
 
 //最大记录数
 const MAX_RECORD = 256;
 
+/**
+ * @private
+ */
 const Read = {
   timer: null,
   readRecord: {},
@@ -59,7 +62,7 @@ const Read = {
   },
 
   /**
-   * this function is drived by
+   * This function is called by CommandManager
    * @param {Function}   send  addRequest send function as proxy
    * @param {Array}   buf      rj25 buffer
    * @param {Function} callback [description]

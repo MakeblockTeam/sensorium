@@ -4,6 +4,10 @@ import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
 import CommandManager from '../communicate/command-manager';
 
+/**
+ * Potentionmeter sensor module
+ * @extends Electronic
+ */
 class Potentionmeter extends Electronic {
   constructor(port) {
     super();

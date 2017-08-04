@@ -589,21 +589,24 @@ var _command2 = _interopRequireDefault(_command);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
- * @fileOverview Sensorium 类，发送数据的队列调度，对外提供以下接口.
- * write
- * read
- * pipe
+ * @private
+ */
+/**
+ * @fileOverview CommandManager 类，管理数据读写调度，对外提供以下接口：pipe、read、write
  * @author Jeremy
  */
 var CommandManager = function () {
+  /**
+   * Create a commandManager.
+   */
   function CommandManager() {
     (0, _classCallCheck3.default)(this, CommandManager);
   }
 
   /**
-   * an api to execute write
-   * @param  {Array}   buf      [description]
-   * @return {[type]}            [description]
+   * execute write
+   * @param  {Array}   buf   protocal buffer
+   * @return {Undefined}     return undefined
    */
 
 
@@ -614,10 +617,9 @@ var CommandManager = function () {
     }
 
     /**
-     * an api to execute read
-     * @param  {Array}   buf      [description]
-     * @param  {Function} callback [description]
-     * @return {[type]}            [description]
+     * execute read
+     * @param  {Array}   buf   protocal buffer
+     * @return {Promise}       return a promise
      */
 
   }, {
@@ -654,8 +656,8 @@ var CommandManager = function () {
     }()
 
     /**
-     * parse the buffer and callback
-     * @param  {Array} buff buffer responsed from transportion
+     * parse the buffer
+     * @param  {Array}  buff    a buffer responsed from transporter
      * @return {Number}
      */
 
@@ -706,6 +708,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 /**
  * buf 协议组装器
+ * @private
  * @param  {Object} obj  对象
  * @param  {Number} obj.index  由上位机赋值
  * @param  {Number} obj.mode  查询、执行
@@ -737,11 +740,14 @@ function bufAssembler(obj) {
 
   bufLength = bufAttr.length + args.length;
   return bufHead.concat([bufLength], bufAttr, args);
-} /**
-   * @fileOverview  Api api list
-   */
+}
 
-
+/**
+ * @private
+ */
+/**
+ * @fileOverview  protocal API list
+ */
 function protocolAssembler() {
   /**
    * Set dc motor speed.
@@ -843,46 +849,6 @@ function protocolAssembler() {
     b = _utils2.default.limitValue(b, [0, 255]);
     position = _utils2.default.limitValue(position, [0]);
     return bufAssembler({ mode: 0x02, id: 0x08 }, port, slot, position, r, g, b);
-  };
-
-  /**
-   * set four leds
-   * @param {number} port     port number, vailable is: 0(on transport), 6,7,8,9,10
-   * @param {number} position led position, 0 signify all leds.
-   * @param {number} r        red, the range is 0 ~ 255
-   * @param {number} g        green, the range is 0 ~ 255
-   * @param {number} b        blue, the range is 0 ~ 255
-   */
-  this.setFourLeds = function (port, position, r, g, b) {
-    return this.setLed(port, 2, position, r, g, b);
-  };
-
-  /**
-   * turn off four leds
-   * @param {number} port     port number, vailable is: 0(on transport), 6,7,8,9,10
-   * @param {number} position led position, 0 signify all leds.
-   */
-  this.turnOffFourLeds = function (port, position) {
-    return this.setLed(port, 2, position, 0, 0, 0);
-  };
-
-  /**
-   * set led panel on Api transport.
-   * @param {number} position led position, 0 signify all leds.
-   * @param {number} r        red, the range is 0 ~ 255
-   * @param {number} g        green, the range is 0 ~ 255
-   * @param {number} b        blue, the range is 0 ~ 255
-   */
-  this.setLedPanelOnBoard = function (position, r, g, b) {
-    return this.setLed(0, 2, position, r, g, b);
-  };
-
-  /**
-   * turn off led panel on transport
-   * @param {number} position led position, 0 signify all leds.
-   */
-  this.turnOffLedPanelOnBoard = function (position) {
-    return this.setLed(0, 2, position, 0, 0, 0);
   };
 
   /**
@@ -1405,6 +1371,9 @@ function protocolAssembler() {
   };
 }
 
+/**
+ * @private
+ */
 exports.default = new protocolAssembler();
 
 /***/ }),
@@ -1479,6 +1448,7 @@ var validateNumber = validateType('number'),
 
 /**
  * 警告主控板不被支持
+ * @private
  * @param  {String} name 主控板名称
  */
 function warnNotSupport(name) {
@@ -1489,6 +1459,12 @@ function warnNotSupport(name) {
   return name;
 }
 
+/**
+ * 警告参数不在列表中
+ * @private
+ * @param  {String} param 参数值
+ * @param  {Array} list 列表
+ */
 function warnParamNotInList(param, list) {
   if (Array.isArray(list) && list.indexOf(param) === -1) {
     console.warn('Param ' + param + ' should be one of ' + list.join(','));
@@ -1522,10 +1498,12 @@ var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var Electronic =
-
 /**
- * Electron类，电子模块基类
+ * Electron
+ * @description 所有电子模块的抽象类
+ */
+var Electronic =
+/**
  * @param {number} port - 电子模块port口
  * @param {number} slot - 电子模块slot口
  */
@@ -1940,6 +1918,13 @@ var _version2 = _interopRequireDefault(_version);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * Create id for electronic module joined into the mainboard
+ * @param  {Function} eModule  electronic module
+ * @param  {Array} argsList [description]
+ * @return {[type]}          [description]
+ * @private
+ */
 var createModuleId = function createModuleId(eModule, argsList) {
   var name = eModule.name;
   var expectLength = eModule.length;
@@ -1955,11 +1940,15 @@ var createModuleId = function createModuleId(eModule, argsList) {
   }
   return [name].concat(argsList).join('_').toLowerCase();
 }; /**
-    * @fileOverview Board 主控板的积累.
+    * @fileOverview Board 主控板的基类.
     * @author Jeremy
     */
 
 var Board = function () {
+  /**
+   * Create a board
+   * @param  {Object} conf configure
+   */
   function Board(conf) {
     (0, _classCallCheck3.default)(this, Board);
 
@@ -2513,11 +2502,16 @@ var _commandManager2 = _interopRequireDefault(_commandManager);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * @Class BaseLedMatrix
+ * @description It is a base Class of LedMatrix
+ * @extends Electronic
+ */
 var BaseLedMatrix = function (_Electronic) {
   (0, _inherits3.default)(BaseLedMatrix, _Electronic);
 
   /**
-   * LedMatrix 类，led模块
+   * Create a ledMatrix.
    */
   function BaseLedMatrix(port) {
     (0, _classCallCheck3.default)(this, BaseLedMatrix);
@@ -2529,6 +2523,13 @@ var BaseLedMatrix = function (_Electronic) {
     };
     return _this;
   }
+
+  /**
+   * @abstract
+   * @param  {Array} bufArray  protocal buffer
+   * @return {Instance}
+   */
+
 
   (0, _createClass3.default)(BaseLedMatrix, [{
     key: 'run',
@@ -2834,13 +2835,17 @@ var _electronic2 = _interopRequireDefault(_electronic);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * @Class BaseMotor
+ * @description It is a base Class of Motor
+ * @extends Electronic
+ */
 var BaseMotor = function (_Electronic) {
   (0, _inherits3.default)(BaseMotor, _Electronic);
 
   /**
-   * Motor base class
-   * @constructor
-   * @param {number} port
+   * Create a motor
+   * @param {Number} port 
    */
   function BaseMotor(port) {
     (0, _classCallCheck3.default)(this, BaseMotor);
@@ -2855,9 +2860,9 @@ var BaseMotor = function (_Electronic) {
   }
 
   /**
-   * speed
+   * Set speed to the motor
    * @param  {Number} speed
-   * @return {Object} the instance
+   * @return {Instance} the motor instance
    */
 
 
@@ -2869,7 +2874,8 @@ var BaseMotor = function (_Electronic) {
     }
 
     /**
-     * this interface does nothing
+     * This interface should be overwrite by child class
+     * @abstract
      */
 
   }, {
@@ -2879,7 +2885,8 @@ var BaseMotor = function (_Electronic) {
     }
 
     /**
-     * stop motor
+     * Stop motor
+     * @return {Instance} the motor instance
      */
 
   }, {
@@ -2948,24 +2955,31 @@ var _commandManager2 = _interopRequireDefault(_commandManager);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+//@private
 var bufComposer = function bufComposer(obj) {
   var args = [obj.port, obj.slot, obj.ledPosition].concat((0, _toConsumableArray3.default)(obj.rgb));
   return _utils2.default.composer(_cmd2.default.setLed, args);
 };
 
+//@private
 var commandWrite = function commandWrite(obj) {
-  // console.log('led ------->', obj.ledPosition, ...obj.rgb);
   var buf = bufComposer(obj);
   _commandManager2.default.write(buf);
 };
+
+/**
+ * @Class BaseRgbLed
+ * @description It is a base Class of RgbLed
+ * @extends Electronic
+ */
 
 var BaseRgbLed = function (_Electronic) {
   (0, _inherits3.default)(BaseRgbLed, _Electronic);
 
   /**
-   * RgbLed类，led模块
-   * @param {number} port - led port口
-   * @param {number} position - led灯的位置
+   * Create a rgbLed
+   * @param {Number} port  led port
+   * @param {Number} slot  led slot
    */
   function BaseRgbLed(port, slot) {
     (0, _classCallCheck3.default)(this, BaseRgbLed);
@@ -2982,8 +2996,8 @@ var BaseRgbLed = function (_Electronic) {
   }
 
   /**
-   * set led position
-   * @param {number} position
+   * Set led position
+   * @param {Number} position
    */
 
 
@@ -2995,8 +3009,8 @@ var BaseRgbLed = function (_Electronic) {
     }
 
     /**
-     * set led red value
-     * @param {number} value 0 ~ 255
+     * Set led red value
+     * @param {Number} value  0 ~ 255
      */
 
   }, {
@@ -3007,8 +3021,8 @@ var BaseRgbLed = function (_Electronic) {
     }
 
     /**
-     * set led green value
-     * @param {number} value 0 ~ 255
+     * Set led green value
+     * @param {Number} value 0 ~ 255
      */
 
   }, {
@@ -3019,8 +3033,8 @@ var BaseRgbLed = function (_Electronic) {
     }
 
     /**
-     * set blue red value
-     * @param {number} value 0 ~ 255
+     * Set led blue value
+     * @param {Number} value 0 ~ 255
      */
 
   }, {
@@ -3031,6 +3045,7 @@ var BaseRgbLed = function (_Electronic) {
     }
 
     /**
+     * Set led color with hex-color
      * @param  {String} hex  hex color like '#ff0088'
      */
 
@@ -3044,8 +3059,7 @@ var BaseRgbLed = function (_Electronic) {
     }
 
     /**
-     * turn on led
-     * @param {number} position
+     * Turn on led
      */
 
   }, {
@@ -3056,8 +3070,7 @@ var BaseRgbLed = function (_Electronic) {
     }
 
     /**
-     * turn off led
-     * @param {number} position
+     * Turn off led
      */
 
   }, {
@@ -3069,7 +3082,7 @@ var BaseRgbLed = function (_Electronic) {
     }
 
     /**
-     * turn on all the leds
+     * Turn on all the leds
      */
 
   }, {
@@ -3080,7 +3093,7 @@ var BaseRgbLed = function (_Electronic) {
     }
 
     /**
-     * turn off all the leds
+     * Turn off all the leds
      */
 
   }, {
@@ -3091,7 +3104,7 @@ var BaseRgbLed = function (_Electronic) {
     }
 
     /**
-     * LED亮红色灯光
+     * Light on let with red color
      */
 
   }, {
@@ -3103,7 +3116,7 @@ var BaseRgbLed = function (_Electronic) {
     }
 
     /**
-     * LED亮绿色灯光
+     * Light on let with green color
      */
 
   }, {
@@ -3115,7 +3128,7 @@ var BaseRgbLed = function (_Electronic) {
     }
 
     /**
-     * LED亮蓝色灯光
+     * Light on let with blue color
      */
 
   }, {
@@ -3127,7 +3140,7 @@ var BaseRgbLed = function (_Electronic) {
     }
 
     /**
-     * LED亮白色灯光
+     * Light on let with white color
      */
 
   }, {
@@ -3604,12 +3617,23 @@ var _commandManager2 = _interopRequireDefault(_commandManager);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Transport = function () {
+  /**
+   * Create a command.
+   */
   function Transport() {
     (0, _classCallCheck3.default)(this, Transport);
 
     //是否已绑定接收器
+    //
     this.isBindReceiver_ = false;
   }
+
+  /**
+   * tranport 的初始化
+   * @param  {Transport} transport Transport 接口的一个实现
+   * @return {Undefined}
+   */
+
 
   (0, _createClass3.default)(Transport, [{
     key: 'init',
@@ -3620,7 +3644,6 @@ var Transport = function () {
         //函数重载
         this.send = function (buf) {
           if (!this_.isBindReceiver_) {
-            // console.log('********* Bind Receiver for just one time *********');
             // 主动式绑定 Received 事件
             transport.onReceived(_commandManager2.default.pipe.bind(_commandManager2.default));
             this_.isBindReceiver_ = true;
@@ -3631,19 +3654,33 @@ var Transport = function () {
       }
     }
 
-    //占位函数，当没有被初始化时，执行发送会调用此函数
+    /**
+     * 占位函数，当没有被初始化时，执行发送会调用此函数
+     * @interface
+     * @param  {Array} buf protocal buffer
+     * @return {Undefined}
+     */
 
   }, {
     key: 'send',
     value: function send(buf) {}
+
+    /**
+     * 占位函数，当没有被初始化时，执行接收会调用此函数
+     * @interface
+     * @return {Undefined}
+     */
+
   }, {
     key: 'onReceived',
-    value: function onReceived(pipe) {}
+    value: function onReceived() {}
   }]);
   return Transport;
 }(); /**
-      * @fileOverview 指令的传输通道：蓝牙，串口，2.4G，wifi
-      *
+      * @fileOverview Transport 类，协议指令的传输通道
+      * 由 Transport.send 将协议发送给蓝牙，串口，2.4G，wifi等
+      * 
+      * @desc
       * 主动式：当初始化 sensorium 时，已经进行了初始化，但不知道蓝牙环境是否具备、串口环境是否具备，
       *        此时直接绑定 onRecieved 事件的风险是：可能接收不到响应值
       * 被动式：当初始化 sensorium 时，确定蓝牙已连接，此时执行 sensorium.setTransport(send, onRecieved) 完成 onRecieved 绑定
@@ -3977,6 +4014,12 @@ var Version = function () {
     (0, _classCallCheck3.default)(this, Version);
   }
 
+  /**
+   * Get version of firmware
+   * @return {Promise} 
+   */
+
+
   (0, _createClass3.default)(Version, [{
     key: 'getVersion',
     value: function () {
@@ -4068,12 +4111,16 @@ var _commandManager2 = _interopRequireDefault(_commandManager);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * @Class BaseEncoderMotor
+ * @description It is a base Class of EncoderMotor
+ * @extends BaseMotor
+ */
 var BaseEncoderMotor = function (_BaseMotor) {
   (0, _inherits3.default)(BaseEncoderMotor, _BaseMotor);
 
   /**
-   * BaseEncoderMotor
-   * @constructor
+   * create a baseEncoderMotor
    * @param {number} port
    * @param {number} slot
    */
@@ -4197,9 +4244,18 @@ var _commandManager2 = _interopRequireDefault(_commandManager);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * @Class BaseLight
+ * @description It is a base Class of Light
+ * @extends Electronic
+ */
 var BaseLight = function (_Electronic) {
   (0, _inherits3.default)(BaseLight, _Electronic);
 
+  /**
+   * Create a light sensor
+   * @param {Number} port 
+   */
   function BaseLight(port) {
     (0, _classCallCheck3.default)(this, BaseLight);
 
@@ -4210,6 +4266,12 @@ var BaseLight = function (_Electronic) {
     };
     return _this;
   }
+
+  /**
+   * GetData of the Light sensor
+   * @return {Promise} 
+   */
+
 
   (0, _createClass3.default)(BaseLight, [{
     key: 'getData',
@@ -4306,9 +4368,17 @@ var _commandManager2 = _interopRequireDefault(_commandManager);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * @Class BaseGyro
+ * @description It is a base Class of Gyro
+ * @extends Electronic
+ */
 var BaseGyro = function (_Electronic) {
   (0, _inherits3.default)(BaseGyro, _Electronic);
 
+  /**
+   * Create a gyro.
+   */
   function BaseGyro(port) {
     (0, _classCallCheck3.default)(this, BaseGyro);
 
@@ -4321,12 +4391,25 @@ var BaseGyro = function (_Electronic) {
     return _this;
   }
 
+  /**
+   * Set axis in order to get the coordinates by getData
+   * @param  {Number} axis X轴(01)  Y轴(02)  Z轴(03)
+   * @return {Instance}      return instance
+   */
+
+
   (0, _createClass3.default)(BaseGyro, [{
     key: 'axis',
     value: function axis(_axis) {
       this.args.axis = (0, _validate.validateNumber)(_axis, this.args.axis);
       return this;
     }
+
+    /**
+     * GetData of Gyro
+     * @return {Promise} 
+     */
+
   }, {
     key: 'getData',
     value: function () {
@@ -4422,9 +4505,18 @@ var _commandManager2 = _interopRequireDefault(_commandManager);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * @Class BaseSound
+ * @description It is a base Class of Sound
+ * @extends Electronic
+ */
 var BaseSound = function (_Electronic) {
   (0, _inherits3.default)(BaseSound, _Electronic);
 
+  /**
+   * Create a sound sensor
+   * @param {Number} port  led port
+   */
   function BaseSound(port) {
     (0, _classCallCheck3.default)(this, BaseSound);
 
@@ -4435,6 +4527,12 @@ var BaseSound = function (_Electronic) {
     };
     return _this;
   }
+
+  /**
+   * GetData of Sound sensor
+   * @return {Promise} 
+   */
+
 
   (0, _createClass3.default)(BaseSound, [{
     key: 'getData',
@@ -4543,6 +4641,7 @@ var _arduino2 = _interopRequireDefault(_arduino);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+//@private
 var boards = {
   "auriga": _auriga2.default,
   "mcore": _mcore2.default,
@@ -4552,17 +4651,19 @@ var boards = {
   "arduino": _arduino2.default
 
   /**
-   * 构造函数返回值，改变了构造函数实例
-   * Sensorium 原型方法只能统一用静态方法代替
+   * Sensorium
+   * @description  也是整个库的对外输出的唯一命名空间
+   * @namespace
    */
 }; /**
-    * @fileOverview Sensorium 类，整个库的对外输出的唯一命名空间.
+    * @fileOverview Sensorium Class
+    * @version 0.2.2
     * @author Jeremy
     */
 
 var Sensorium = function () {
   /**
-   * @constructor
+   * Create a sensorium.
    */
   function Sensorium() {
     var _this = this;
@@ -4601,6 +4702,7 @@ var Sensorium = function () {
   }
 
   /**
+   * Create a mainboard instance
    * @param {String} boardName 主控板名，忽略大小写
    * @param {Object} opts     (optional)
    */
@@ -4631,7 +4733,7 @@ var Sensorium = function () {
 
     /**
      * read firmware verion and parse the device info
-     * @param  {Function} callback the function then to be execute
+     * @return {Promise}
      */
 
   }, {
@@ -4670,6 +4772,11 @@ var Sensorium = function () {
 
       return readFirmwareInfo;
     }()
+
+    /**
+     * Get supported mainboard
+     */
+
   }, {
     key: 'getSupported',
     value: function getSupported() {
@@ -6193,12 +6300,15 @@ var _settings = __webpack_require__(13);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //最大记录数
-var MAX_RECORD = 256; /**
-                       * @fileOverview read request controler.
-                       * @author jeremy
-                       */
+var MAX_RECORD = 256;
 
-
+/**
+ * @private
+ */
+/**
+ * @fileOverview Read 对象，所有'读'请求的处理器
+ * @author Jeremy
+ */
 var Read = {
   timer: null,
   readRecord: {},
@@ -6251,7 +6361,7 @@ var Read = {
   },
 
   /**
-   * this function is drived by
+   * This function is called by CommandManager
    * @param {Function}   send  addRequest send function as proxy
    * @param {Array}   buf      rj25 buffer
    * @param {Function} callback [description]
@@ -6348,14 +6458,17 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 /**
- * write request controler.
+ * @fileOverview Write 对象，所有'写'请求的处理器
+ * @author Jeremy
  */
 var TIME_INTERVAL = 50;
-
-var WriteControl = {
+/**
+ * @private
+ */
+var Write = {
   writeRecord: {},
   /**
-   * this function is drived by
+   * This function is called by CommandManager
    * @param {Function}   send  addRequest execute as proxy
    * @param {Array}   buf      rj25 buffer
    * @param {Function} callback [description]
@@ -6371,7 +6484,7 @@ var WriteControl = {
   }
 };
 
-exports.default = WriteControl;
+exports.default = Write;
 
 /***/ }),
 /* 117 */
@@ -6796,7 +6909,14 @@ var _transport2 = _interopRequireDefault(_transport);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * Provide a send interface.
+ * @private
+ */
 var Command = function () {
+  /**
+   * Create a command.
+   */
   function Command() {
     (0, _classCallCheck3.default)(this, Command);
 
@@ -6805,9 +6925,9 @@ var Command = function () {
   }
 
   /**
-   * send buffer through the transport
-   * @param  {Array} buf [description]
-   * @return {[type]}     [description]
+   * send protocal buffer through the transport
+   * @param  {Array} buf protocal buffer
+   * @return {Undefined}
    */
 
 
@@ -6819,7 +6939,8 @@ var Command = function () {
   }]);
   return Command;
 }(); /**
-      * @fileOverview 命令执行器
+      * @fileOverview Command 类，所有读写操作将由 send 方法处理
+      * @author Jeremy
       */
 
 
@@ -6866,18 +6987,26 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 //支持位置
 var SUPPORT_INDEX = _settings.SUPPORTLIST.indexOf('Mcore');
-// import Version from './firmware/version';
+
+/**
+ * Mcore Class for 'Mcore' mainboard.
+ * @extends Board
+ */
 
 var Mcore = function (_Board) {
   (0, _inherits3.default)(Mcore, _Board);
 
+  /**
+   * Create a mcore mainboard
+   * @param  {Object} conf configure
+   */
   function Mcore(conf) {
     (0, _classCallCheck3.default)(this, Mcore);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (Mcore.__proto__ || (0, _getPrototypeOf2.default)(Mcore)).call(this, conf));
 
     var this_ = _this;
-    //主控板名
+    //@member {String} {maiboard name}
     _this.name = 'Mcore';
     // 置空已连接块
     _this.connecting = {};
@@ -7069,6 +7198,10 @@ var _commandManager2 = _interopRequireDefault(_commandManager);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * DcMotor sensor module
+ * @extends BaseMotor
+ */
 var DcMotor = function (_BaseMotor) {
   (0, _inherits3.default)(DcMotor, _BaseMotor);
 
@@ -7152,6 +7285,10 @@ var _commandManager2 = _interopRequireDefault(_commandManager);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * VirtualJoystick, actually it's a motor module
+ * @extends Electronic
+ */
 var VirtualJoystick = function (_Electronic) {
   (0, _inherits3.default)(VirtualJoystick, _Electronic);
 
@@ -7260,6 +7397,10 @@ var _commandManager2 = _interopRequireDefault(_commandManager);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * VirtualJoystick for Balance car, actually it's a motor module
+ * @extends Electronic
+ */
 var VirtualJoystickForBalance = function (_Electronic) {
   (0, _inherits3.default)(VirtualJoystickForBalance, _Electronic);
 
@@ -7296,8 +7437,8 @@ var VirtualJoystickForBalance = function (_Electronic) {
     }
 
     /**
-     * run reversely
-     * @return {Object} the instance
+     * Run reversely
+     * @return {Instance} @this
      */
 
   }, {
@@ -7306,6 +7447,12 @@ var VirtualJoystickForBalance = function (_Electronic) {
       this.speed(-1 * this.args.speed);
       return this.run();
     }
+
+    /**
+     * Stop run
+     * @return {Instance} @this
+     */
+
   }, {
     key: 'stop',
     value: function stop() {
@@ -7377,6 +7524,10 @@ var _commandManager2 = _interopRequireDefault(_commandManager);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * StepperMotor sensor module
+ * @extends BaseMotor
+ */
 var StepperMotor = function (_BaseMotor) {
   (0, _inherits3.default)(StepperMotor, _BaseMotor);
 
@@ -7540,6 +7691,10 @@ var _commandManager2 = _interopRequireDefault(_commandManager);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * EncoderMotor sensor module
+ * @extends BaseEncoderMotor
+ */
 var EncoderMotor = function (_BaseEncoderMotor) {
   (0, _inherits3.default)(EncoderMotor, _BaseEncoderMotor);
 
@@ -7625,6 +7780,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var bufComposer = function bufComposer(args) {
   return _utils2.default.composer(_cmd2.default.readEncoderMotorOnBoard, [args.slot, args.type]);
 };
+
+/**
+ * EncoderMotorOnBoard sensor module
+ * @extends BaseEncoderMotor
+ */
 
 var EncoderMotorOnBoard = function (_BaseEncoderMotor) {
   (0, _inherits3.default)(EncoderMotorOnBoard, _BaseEncoderMotor);
@@ -7770,6 +7930,10 @@ var _commandManager2 = _interopRequireDefault(_commandManager);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * ServoMotor sensor module
+ * @extends Electronic
+ */
 var ServoMotor = function (_Electronic) {
   (0, _inherits3.default)(ServoMotor, _Electronic);
 
@@ -7878,6 +8042,10 @@ var _BaseRgbLed3 = _interopRequireDefault(_BaseRgbLed2);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * FourLed sensor module
+ * @extends Electronic
+ */
 var FourLed = function (_BaseRgbLed) {
   (0, _inherits3.default)(FourLed, _BaseRgbLed);
 
@@ -7935,6 +8103,10 @@ var _BaseRgbLed3 = _interopRequireDefault(_BaseRgbLed2);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * RgbLed sensor module
+ * @extends BaseRgbLed
+ */
 var RgbLed = function (_BaseRgbLed) {
   (0, _inherits3.default)(RgbLed, _BaseRgbLed);
 
@@ -7995,6 +8167,10 @@ var _settings = __webpack_require__(13);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * RgbLedOnBoard sensor module
+ * @extends BaseRgbLed
+ */
 var RgbLedOnBoard = function (_BaseRgbLed) {
   (0, _inherits3.default)(RgbLedOnBoard, _BaseRgbLed);
 
@@ -8098,6 +8274,10 @@ var _commandManager2 = _interopRequireDefault(_commandManager);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * LedMatrix sensor module, who can be play as 'charMode','emotionMode','numberMode','timeMode'
+ * @extends Electronic
+ */
 var LedMatrix = function (_Electronic) {
   (0, _inherits3.default)(LedMatrix, _Electronic);
 
@@ -8206,6 +8386,11 @@ var _commandManager2 = _interopRequireDefault(_commandManager);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * LedMatrix sensor module run as 'Char Mode'
+ * @extends BaseLedMatrix
+ * @private
+ */
 var LedMatrixChar = function (_BaseLedMatrix) {
   (0, _inherits3.default)(LedMatrixChar, _BaseLedMatrix);
 
@@ -8380,6 +8565,11 @@ var _commandManager2 = _interopRequireDefault(_commandManager);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * LedMatrix sensor module run as 'Emotion Mode'
+ * @extends BaseLedMatrix
+ * @private
+ */
 var LedMatrixEmotion = function (_BaseLedMatrix) {
   (0, _inherits3.default)(LedMatrixEmotion, _BaseLedMatrix);
 
@@ -8511,6 +8701,11 @@ var _commandManager2 = _interopRequireDefault(_commandManager);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * LedMatrix sensor module run as 'Number Mode'
+ * @extends BaseLedMatrix
+ * @private
+ */
 var LedMatrixNumber = function (_BaseLedMatrix) {
   (0, _inherits3.default)(LedMatrixNumber, _BaseLedMatrix);
 
@@ -8604,6 +8799,11 @@ var _commandManager2 = _interopRequireDefault(_commandManager);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * LedMatrix sensor module run as 'Time Mode'
+ * @extends BaseLedMatrix
+ * @private
+ */
 var LedMatrixTime = function (_BaseLedMatrix) {
   (0, _inherits3.default)(LedMatrixTime, _BaseLedMatrix);
 
@@ -8727,6 +8927,10 @@ var _settings = __webpack_require__(13);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * Buzzer sensor module
+ * @extends Electronic
+ */
 var Buzzer = function (_Electronic) {
   (0, _inherits3.default)(Buzzer, _Electronic);
 
@@ -8743,7 +8947,7 @@ var Buzzer = function (_Electronic) {
   }
 
   /**
-   * set tone
+   * Set tone
    * @param  {String} tone tone string, such as "C5"
    */
 
@@ -8757,6 +8961,12 @@ var Buzzer = function (_Electronic) {
       var hz = _settings.TONE_TO_HZ[_tone] || 880;
       return this.hz(hz);
     }
+
+    /**
+     * Set hz
+     * @param  {Number} hz such as 200
+     */
+
   }, {
     key: 'hz',
     value: function hz(_hz) {
@@ -8765,7 +8975,7 @@ var Buzzer = function (_Electronic) {
     }
 
     /**
-     * set beat
+     * Set beat
      * @param  {Number} beat such as 250, 1000
      */
 
@@ -8775,6 +8985,11 @@ var Buzzer = function (_Electronic) {
       this.args.beat = (0, _validate.validateNumber)(_beat);
       return this;
     }
+
+    /**
+     * run Buzzer sensor
+     */
+
   }, {
     key: 'run',
     value: function run() {
@@ -8844,6 +9059,10 @@ var _commandManager2 = _interopRequireDefault(_commandManager);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * SevenSegment sensor module
+ * @extends Electronic
+ */
 var SevenSegment = function (_Electronic) {
   (0, _inherits3.default)(SevenSegment, _Electronic);
 
@@ -8934,6 +9153,10 @@ var _commandManager2 = _interopRequireDefault(_commandManager);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * Shutter sensor module
+ * @extends Electronic
+ */
 var Shutter = function (_Electronic) {
   (0, _inherits3.default)(Shutter, _Electronic);
 
@@ -9019,6 +9242,7 @@ var _asyncToGenerator2 = __webpack_require__(11);
 
 var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
 
+//@private
 var read = function () {
   var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(baseArgs) {
     var buf;
@@ -9046,6 +9270,12 @@ var read = function () {
   };
 }();
 
+/**
+ * SmartServo sensor module
+ * @extends Electronic
+ */
+
+
 var _validate = __webpack_require__(8);
 
 var _utils = __webpack_require__(5);
@@ -9066,6 +9296,7 @@ var _commandManager2 = _interopRequireDefault(_commandManager);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+//@private
 function write(baseArgs, extra) {
   var baseCmd = [baseArgs.index, baseArgs.subCmd];
   if (!Array.isArray(extra)) {
@@ -9076,7 +9307,6 @@ function write(baseArgs, extra) {
   var buf = _utils2.default.composer(_cmd2.default.setSmartServo, baseCmd);
   _commandManager2.default.write(buf);
 }
-
 var SmartServo = function (_Electronic) {
   (0, _inherits3.default)(SmartServo, _Electronic);
 
@@ -9936,6 +10166,10 @@ var _commandManager2 = _interopRequireDefault(_commandManager);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * Reset module
+ * @extends Electronic
+ */
 var Reset = function (_Electronic) {
   (0, _inherits3.default)(Reset, _Electronic);
 
@@ -10044,6 +10278,10 @@ var _commandManager2 = _interopRequireDefault(_commandManager);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * Ultrasonic sensor module
+ * @extends Electronic
+ */
 var Ultrasonic = function (_Electronic) {
   (0, _inherits3.default)(Ultrasonic, _Electronic);
 
@@ -10057,6 +10295,12 @@ var Ultrasonic = function (_Electronic) {
     };
     return _this;
   }
+
+  /**
+   * GetData of Ultrasonic sensor
+   * @return {Promise} 
+   */
+
 
   (0, _createClass3.default)(Ultrasonic, [{
     key: 'getData',
@@ -10158,6 +10402,10 @@ var _commandManager2 = _interopRequireDefault(_commandManager);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * Temperature sensor module
+ * @extends Electronic
+ */
 var Temperature = function (_Electronic) {
   (0, _inherits3.default)(Temperature, _Electronic);
 
@@ -10172,6 +10420,12 @@ var Temperature = function (_Electronic) {
     };
     return _this;
   }
+
+  /**
+   * GetData of Temperature sensor
+   * @return {Promise} 
+   */
+
 
   (0, _createClass3.default)(Temperature, [{
     key: 'getData',
@@ -10271,6 +10525,10 @@ var _commandManager2 = _interopRequireDefault(_commandManager);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * TemperatureOnBoard sensor module
+ * @extends Electronic
+ */
 var TemperatureOnBoard = function (_Electronic) {
   (0, _inherits3.default)(TemperatureOnBoard, _Electronic);
 
@@ -10278,6 +10536,12 @@ var TemperatureOnBoard = function (_Electronic) {
     (0, _classCallCheck3.default)(this, TemperatureOnBoard);
     return (0, _possibleConstructorReturn3.default)(this, (TemperatureOnBoard.__proto__ || (0, _getPrototypeOf2.default)(TemperatureOnBoard)).call(this, 0x0d));
   }
+
+  /**
+   * GetData of TemperatureOnBoard sensor
+   * @return {Promise} 
+   */
+
 
   (0, _createClass3.default)(TemperatureOnBoard, [{
     key: 'getData',
@@ -10357,6 +10621,10 @@ var _BaseLight3 = _interopRequireDefault(_BaseLight2);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * Light sensor module
+ * @extends BaseLight
+ */
 var Light = function (_BaseLight) {
   (0, _inherits3.default)(Light, _BaseLight);
 
@@ -10417,6 +10685,10 @@ var _settings = __webpack_require__(13);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * LightOnBoard sensor module
+ * @extends BaseLight
+ */
 var LightOnBoard = function (_BaseLight) {
   (0, _inherits3.default)(LightOnBoard, _BaseLight);
 
@@ -10514,6 +10786,10 @@ var _commandManager2 = _interopRequireDefault(_commandManager);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * Potentionmeter sensor module
+ * @extends Electronic
+ */
 var Potentionmeter = function (_Electronic) {
   (0, _inherits3.default)(Potentionmeter, _Electronic);
 
@@ -10628,6 +10904,10 @@ var _commandManager2 = _interopRequireDefault(_commandManager);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * Joystick sensor module
+ * @extends Electronic
+ */
 var Joystick = function (_Electronic) {
   (0, _inherits3.default)(Joystick, _Electronic);
 
@@ -10729,6 +11009,10 @@ var _BaseGyro3 = _interopRequireDefault(_BaseGyro2);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * Gyro sensor module
+ * @extends BaseGyro
+ */
 var Gyro = function (_BaseGyro) {
   (0, _inherits3.default)(Gyro, _BaseGyro);
 
@@ -10787,6 +11071,10 @@ var _BaseGyro3 = _interopRequireDefault(_BaseGyro2);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * GyroOnBoard sensor module
+ * @extends BaseGyro
+ */
 var GyroOnBoard = function (_BaseGyro) {
   (0, _inherits3.default)(GyroOnBoard, _BaseGyro);
 
@@ -10794,9 +11082,6 @@ var GyroOnBoard = function (_BaseGyro) {
     (0, _classCallCheck3.default)(this, GyroOnBoard);
     return (0, _possibleConstructorReturn3.default)(this, (GyroOnBoard.__proto__ || (0, _getPrototypeOf2.default)(GyroOnBoard)).call(this, 1));
   }
-
-  //auriga megapi megaPiPro
-
 
   (0, _createClass3.default)(GyroOnBoard, null, [{
     key: 'supportStamp',
@@ -10846,6 +11131,10 @@ var _BaseSound3 = _interopRequireDefault(_BaseSound2);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * Sound sensor module
+ * @extends BaseSound
+ */
 var Sound = function (_BaseSound) {
   (0, _inherits3.default)(Sound, _BaseSound);
 
@@ -10902,6 +11191,10 @@ var _BaseSound3 = _interopRequireDefault(_BaseSound2);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * SoundOnBoard sensor module
+ * @extends BaseSound
+ */
 var SoundOnBoard = function (_BaseSound) {
   (0, _inherits3.default)(SoundOnBoard, _BaseSound);
 
@@ -10980,6 +11273,10 @@ var _commandManager2 = _interopRequireDefault(_commandManager);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * Pirmotion sensor module
+ * @extends Electronic
+ */
 var Pirmotion = function (_Electronic) {
   (0, _inherits3.default)(Pirmotion, _Electronic);
 
@@ -11094,6 +11391,10 @@ var _commandManager2 = _interopRequireDefault(_commandManager);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * LimitSwitch sensor module
+ * @extends Electronic
+ */
 var LimitSwitch = function (_Electronic) {
   (0, _inherits3.default)(LimitSwitch, _Electronic);
 
@@ -11209,6 +11510,10 @@ var _commandManager2 = _interopRequireDefault(_commandManager);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * LineFollower sensor module
+ * @extends Electronic
+ */
 var LineFollower = function (_Electronic) {
   (0, _inherits3.default)(LineFollower, _Electronic);
 
@@ -11323,6 +11628,10 @@ var _commandManager2 = _interopRequireDefault(_commandManager);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * Compass sensor module
+ * @extends Electronic
+ */
 var Compass = function (_Electronic) {
   (0, _inherits3.default)(Compass, _Electronic);
 
@@ -11463,6 +11772,11 @@ var commandRead = function () {
     return _ref.apply(this, arguments);
   };
 }();
+
+/**
+ * Humiture sensor module
+ * @extends Electronic
+ */
 
 var Humiture = function (_Electronic) {
   (0, _inherits3.default)(Humiture, _Electronic);
@@ -11607,6 +11921,10 @@ var _commandManager2 = _interopRequireDefault(_commandManager);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * Flame sensor module
+ * @extends Electronic
+ */
 var Flame = function (_Electronic) {
   (0, _inherits3.default)(Flame, _Electronic);
 
@@ -11721,6 +12039,10 @@ var _commandManager2 = _interopRequireDefault(_commandManager);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * Gas sensor module
+ * @extends Electronic
+ */
 var Gas = function (_Electronic) {
   (0, _inherits3.default)(Gas, _Electronic);
 
@@ -11835,6 +12157,10 @@ var _commandManager2 = _interopRequireDefault(_commandManager);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * Touch sensor module
+ * @extends Electronic
+ */
 var Touch = function (_Electronic) {
   (0, _inherits3.default)(Touch, _Electronic);
 
@@ -11848,6 +12174,12 @@ var Touch = function (_Electronic) {
     };
     return _this;
   }
+
+  /**
+   * GetData of Touch sensor
+   * @return {Promise} 
+   */
+
 
   (0, _createClass3.default)(Touch, [{
     key: 'getData',
@@ -11949,6 +12281,10 @@ var _commandManager2 = _interopRequireDefault(_commandManager);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * FourKeys sensor module
+ * @extends Electronic
+ */
 var FourKeys = function (_Electronic) {
   (0, _inherits3.default)(FourKeys, _Electronic);
 
@@ -12076,6 +12412,10 @@ var _commandManager2 = _interopRequireDefault(_commandManager);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * DigGPIO sensor module
+ * @extends Electronic
+ */
 var DigGPIO = function (_Electronic) {
   (0, _inherits3.default)(DigGPIO, _Electronic);
 
@@ -12190,9 +12530,16 @@ var _commandManager2 = _interopRequireDefault(_commandManager);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * @Class AnalogGPIO
+ * @extends Electronic
+ */
 var AnalogGPIO = function (_Electronic) {
   (0, _inherits3.default)(AnalogGPIO, _Electronic);
 
+  /**
+   * Create a analogGPIO.
+   */
   function AnalogGPIO(port) {
     (0, _classCallCheck3.default)(this, AnalogGPIO);
 
@@ -12203,6 +12550,12 @@ var AnalogGPIO = function (_Electronic) {
     };
     return _this;
   }
+
+  /**
+   * GetData of AnalogGPIO
+   * @return {Promise} 
+   */
+
 
   (0, _createClass3.default)(AnalogGPIO, [{
     key: 'getData',
@@ -12304,6 +12657,10 @@ var _commandManager2 = _interopRequireDefault(_commandManager);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * GPIOContinue sensor module
+ * @extends Electronic
+ */
 var GPIOContinue = function (_Electronic) {
   (0, _inherits3.default)(GPIOContinue, _Electronic);
 
@@ -12419,6 +12776,10 @@ var _commandManager2 = _interopRequireDefault(_commandManager);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * DoubleGPIO sensor module
+ * @extends Electronic
+ */
 var DoubleGPIO = function (_Electronic) {
   (0, _inherits3.default)(DoubleGPIO, _Electronic);
 
@@ -12534,6 +12895,10 @@ var _commandManager2 = _interopRequireDefault(_commandManager);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * Runtime module which is a virtual module
+ * @extends Electronic
+ */
 var Runtime = function (_Electronic) {
   (0, _inherits3.default)(Runtime, _Electronic);
 
@@ -12625,19 +12990,26 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //支持位置
 var SUPPORT_INDEX = _settings.SUPPORTLIST.indexOf('Orion');
 
-//实现一个板子就注册一个板子名称
-
-// import Version from './firmware/version';
+/**
+ * Orion Class for 'Orion' mainboard.
+ * @extends Board
+ */
 
 var Orion = function (_Board) {
   (0, _inherits3.default)(Orion, _Board);
 
+  /**
+   * Create a orion mainboard
+   * @param  {Object} conf configure
+   */
   function Orion(conf) {
     (0, _classCallCheck3.default)(this, Orion);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (Orion.__proto__ || (0, _getPrototypeOf2.default)(Orion)).call(this, conf));
 
     var this_ = _this;
+    //@member {String} {maiboard name}
+    _this.name = 'Orion';
     // 置空已连接块
     _this.connecting = {};
     // 挂载电子模块
@@ -12720,20 +13092,30 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //支持位置
 var SUPPORT_INDEX = _settings.SUPPORTLIST.indexOf('Auriga');
 
+/**
+ * Auriga Class for 'Auriga' mainboard.
+ * @extends Board
+ */
+
 var Auriga = function (_Board) {
   (0, _inherits3.default)(Auriga, _Board);
 
+  /**
+   * Create a auriga mainboard
+   * @param  {Object} conf configure
+   */
   function Auriga(conf) {
     (0, _classCallCheck3.default)(this, Auriga);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (Auriga.__proto__ || (0, _getPrototypeOf2.default)(Auriga)).call(this, conf));
 
     var this_ = _this;
-    //主控板名
+    //@member {String} {maiboard name}
     _this.name = 'Auriga';
-    //固件当前模式
+    //@member {Number} {current mode}
     _this.currentMode = null;
-    // 置空已连接块
+    // @member {Object} modules is connecting to the mainboard 
+    // @override
     _this.connecting = {};
     // 挂载电子模块
 
@@ -12899,15 +13281,26 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //支持位置
 var SUPPORT_INDEX = _settings.SUPPORTLIST.indexOf('MegaPi');
 
+/**
+ * MegaPi Class for 'MegaPi' mainboard.
+ * @extends Board
+ */
+
 var MegaPi = function (_Board) {
   (0, _inherits3.default)(MegaPi, _Board);
 
+  /**
+   * Create a megaPi mainboard
+   * @param  {Object} conf configure
+   */
   function MegaPi(conf) {
     (0, _classCallCheck3.default)(this, MegaPi);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (MegaPi.__proto__ || (0, _getPrototypeOf2.default)(MegaPi)).call(this, conf));
 
     var this_ = _this;
+    //@member {String} {maiboard name}
+    _this.name = 'MegaPi';
     //固件当前模式
     _this.currentMode = null;
     // 置空已连接块
@@ -13042,18 +13435,25 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //支持位置
 var SUPPORT_INDEX = _settings.SUPPORTLIST.indexOf('MegaPiPro');
 
-//实现一个板子就注册一个板子名称
+/**
+ * MegaPiPro Class for 'MegaPiPro' mainboard.
+ * @extends Board
+ */
 
-var MegaPi = function (_Board) {
-  (0, _inherits3.default)(MegaPi, _Board);
+var MegaPiPro = function (_Board) {
+  (0, _inherits3.default)(MegaPiPro, _Board);
 
-  function MegaPi(conf) {
-    (0, _classCallCheck3.default)(this, MegaPi);
+  /**
+   * Create a megaPiPro mainboard
+   * @param  {Object} conf configure
+   */
+  function MegaPiPro(conf) {
+    (0, _classCallCheck3.default)(this, MegaPiPro);
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (MegaPi.__proto__ || (0, _getPrototypeOf2.default)(MegaPi)).call(this, conf));
+    var _this = (0, _possibleConstructorReturn3.default)(this, (MegaPiPro.__proto__ || (0, _getPrototypeOf2.default)(MegaPiPro)).call(this, conf));
 
     var this_ = _this;
-    //主控板名
+    //@member {String} {maiboard name}
     _this.name = 'MegaPiPro';
     //固件当前模式
     _this.currentMode = null;
@@ -13082,7 +13482,7 @@ var MegaPi = function (_Board) {
    */
 
 
-  (0, _createClass3.default)(MegaPi, [{
+  (0, _createClass3.default)(MegaPiPro, [{
     key: 'setFirmwareMode',
     value: function setFirmwareMode(mode) {
       var subCmd = 0x12;
@@ -13126,10 +13526,10 @@ var MegaPi = function (_Board) {
       return getFirmwareMode;
     }()
   }]);
-  return MegaPi;
+  return MegaPiPro;
 }(_Board3.default);
 
-exports.default = MegaPi;
+exports.default = MegaPiPro;
 
 /***/ }),
 /* 208 */
@@ -13173,19 +13573,26 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //支持位置
 var SUPPORT_INDEX = _settings.SUPPORTLIST.indexOf('Arduino');
 
-//实现一个板子就注册一个板子名称
+/**
+ * Arduino Class for 'Arduino' mainboard.
+ * @extends Board
+ */
 
 var Arduino = function (_Board) {
   (0, _inherits3.default)(Arduino, _Board);
 
+  /**
+   * Create a orion mainboard
+   * @param  {Object} conf configure
+   */
   function Arduino(conf) {
     (0, _classCallCheck3.default)(this, Arduino);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (Arduino.__proto__ || (0, _getPrototypeOf2.default)(Arduino)).call(this, conf));
-    //继承 Board
-
 
     var this_ = _this;
+    //@member {String} {maiboard name}
+    _this.name = 'Arduino';
     // 置空已连接块
     _this.connecting = {};
     // 挂载电子模块

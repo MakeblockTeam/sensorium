@@ -2,6 +2,10 @@ import BaseRgbLed from './BaseRgbLed';
 import { warnNotSupport } from '../core/validate';
 import { SUPPORTLIST } from '../mainboard/settings';
 
+/**
+ * RgbLedOnBoard sensor module
+ * @extends BaseRgbLed
+ */
 class RgbLedOnBoard extends BaseRgbLed {
   constructor(){
     super(7, 2); //mcore

@@ -4,8 +4,11 @@ import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
 import CommandManager from '../communicate/command-manager';
 
+/**
+ * Shutter sensor module
+ * @extends Electronic
+ */
 class Shutter extends Electronic {
-
   constructor(port) {
     super();
     this.args = {

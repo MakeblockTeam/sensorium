@@ -1,15 +1,22 @@
 import Board from '../core/Board';
 import electronics from '../electronic/index';
-// import Version from './firmware/version';
 import {SUPPORTLIST} from './settings';
 //支持位置
 const SUPPORT_INDEX = SUPPORTLIST.indexOf('Mcore');
 
+/**
+ * Mcore Class for 'Mcore' mainboard.
+ * @extends Board
+ */
 class Mcore extends Board{
+  /**
+   * Create a mcore mainboard
+   * @param  {Object} conf configure
+   */
   constructor(conf){
     super(conf);
     let this_ = this;
-    //主控板名
+    //@member {String} {maiboard name}
     this.name = 'Mcore';
     // 置空已连接块
     this.connecting = {};

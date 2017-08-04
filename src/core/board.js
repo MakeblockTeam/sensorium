@@ -1,9 +1,16 @@
 /**
- * @fileOverview Board 主控板的积累.
+ * @fileOverview Board 主控板的基类.
  * @author Jeremy
  */
 import Version from '../electronic/version';
 
+/**
+ * Create id for electronic module joined into the mainboard
+ * @param  {Function} eModule  electronic module
+ * @param  {Array} argsList [description]
+ * @return {[type]}          [description]
+ * @private
+ */
 const createModuleId = function (eModule, argsList){
   let name = eModule.name;
   let expectLength = eModule.length;
@@ -21,6 +28,10 @@ const createModuleId = function (eModule, argsList){
 }
 
 class Board {
+  /**
+   * Create a board
+   * @param  {Object} conf configure
+   */
   constructor(conf){
     //私有的配置对象
     this.config_ = conf || {};

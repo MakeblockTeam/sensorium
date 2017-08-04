@@ -5,12 +5,19 @@ import {SUPPORTLIST} from './settings';
 //支持位置
 const SUPPORT_INDEX = SUPPORTLIST.indexOf('MegaPiPro');
 
-//实现一个板子就注册一个板子名称
-class MegaPi extends Board{
+/**
+ * MegaPiPro Class for 'MegaPiPro' mainboard.
+ * @extends Board
+ */
+class MegaPiPro extends Board{
+  /**
+   * Create a megaPiPro mainboard
+   * @param  {Object} conf configure
+   */
   constructor(conf){
     super(conf);
     let this_ = this;
-    //主控板名
+    //@member {String} {maiboard name}
     this.name = 'MegaPiPro';
     //固件当前模式
     this.currentMode = null;
@@ -47,4 +54,4 @@ class MegaPi extends Board{
   }
 }
 
-export default MegaPi;
+export default MegaPiPro;

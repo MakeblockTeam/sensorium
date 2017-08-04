@@ -4,6 +4,10 @@ import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
 import CommandManager from '../communicate/command-manager';
 
+/**
+ * LimitSwitch sensor module
+ * @extends Electronic
+ */
 class LimitSwitch extends Electronic {
   constructor(port, slot) {
     super();

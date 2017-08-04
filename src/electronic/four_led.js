@@ -1,5 +1,9 @@
 import BaseRgbLed from './BaseRgbLed';
 
+/**
+ * FourLed sensor module
+ * @extends Electronic
+ */
 class FourLed extends BaseRgbLed {
   constructor(port){
     super(port, 2);

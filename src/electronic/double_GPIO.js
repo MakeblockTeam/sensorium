@@ -4,6 +4,10 @@ import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
 import CommandManager from '../communicate/command-manager';
 
+/**
+ * DoubleGPIO sensor module
+ * @extends Electronic
+ */
 class DoubleGPIO extends Electronic {
   constructor(port1, port2) {
     super();

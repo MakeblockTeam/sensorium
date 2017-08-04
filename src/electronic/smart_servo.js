@@ -4,6 +4,7 @@ import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
 import CommandManager from '../communicate/command-manager';
 
+//@private
 function write(baseArgs, extra){
   let baseCmd = [baseArgs.index, baseArgs.subCmd];
   if(!Array.isArray(extra)){
@@ -15,11 +16,16 @@ function write(baseArgs, extra){
   CommandManager.write(buf);
 }
 
+//@private
 async function read(baseArgs){
   let buf = Utils.composer(protocolAssembler.readSmartServoParam, [baseArgs.index, baseArgs.subCmd]);
   return await CommandManager.read(buf);
 }
 
+/**
+ * SmartServo sensor module
+ * @extends Electronic
+ */
 class SmartServo extends Electronic {
   constructor(index) {
     super();

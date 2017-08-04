@@ -1,5 +1,6 @@
 /**
- * @fileOverview Sensorium 类，整个库的对外输出的唯一命名空间.
+ * @fileOverview Sensorium Class
+ * @version 0.2.2
  * @author Jeremy
  */
 import Transport from '../communicate/transport';
@@ -12,6 +13,7 @@ import MegaPi from './megaPi';
 import MegaPiPro from './megaPiPro';
 import Arduino from './arduino';
 
+//@private
 const boards = {
     "auriga": Auriga,
     "mcore":  Mcore,
@@ -22,12 +24,13 @@ const boards = {
 }
 
 /**
- * 构造函数返回值，改变了构造函数实例
- * Sensorium 原型方法只能统一用静态方法代替
+ * Sensorium
+ * @description  也是整个库的对外输出的唯一命名空间
+ * @namespace
  */
 class Sensorium {
   /**
-   * @constructor
+   * Create a sensorium.
    */
   constructor(){
     for(let name of SUPPORTLIST){
@@ -36,6 +39,7 @@ class Sensorium {
   }
 
   /**
+   * Create a mainboard instance
    * @param {String} boardName 主控板名，忽略大小写
    * @param {Object} opts     (optional)
    */
@@ -60,7 +64,7 @@ class Sensorium {
 
   /**
    * read firmware verion and parse the device info
-   * @param  {Function} callback the function then to be execute
+   * @return {Promise}
    */
   async readFirmwareInfo(){
     return await Version.getVersion().then((val) =>{
@@ -73,6 +77,9 @@ class Sensorium {
     });
   }
 
+  /**
+   * Get supported mainboard
+   */
   getSupported(){
     return Object.keys(boards);
   }

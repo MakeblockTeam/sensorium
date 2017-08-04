@@ -1,5 +1,9 @@
 import BaseSound from './BaseSound';
 
+/**
+ * Sound sensor module
+ * @extends BaseSound
+ */
 class Sound extends BaseSound {
   constructor(port) {
     super(port);

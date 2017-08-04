@@ -4,12 +4,20 @@ import { SUPPORTLIST } from './settings';
 //支持位置
 const SUPPORT_INDEX = SUPPORTLIST.indexOf('Arduino');
 
-//实现一个板子就注册一个板子名称
+/**
+ * Arduino Class for 'Arduino' mainboard.
+ * @extends Board
+ */
 class Arduino extends Board{
+  /**
+   * Create a orion mainboard
+   * @param  {Object} conf configure
+   */
   constructor(conf){
-    //继承 Board
     super(conf);
     let this_ = this;
+    //@member {String} {maiboard name}
+    this.name = 'Arduino';
     // 置空已连接块
     this.connecting = {};
     // 挂载电子模块

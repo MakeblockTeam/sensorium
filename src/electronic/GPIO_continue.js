@@ -4,6 +4,10 @@ import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
 import CommandManager from '../communicate/command-manager';
 
+/**
+ * GPIOContinue sensor module
+ * @extends Electronic
+ */
 class GPIOContinue extends Electronic {
   constructor(port, key) {
     super();

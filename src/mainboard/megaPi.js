@@ -5,10 +5,20 @@ import {SUPPORTLIST} from './settings';
 //支持位置
 const SUPPORT_INDEX = SUPPORTLIST.indexOf('MegaPi');
 
+/**
+ * MegaPi Class for 'MegaPi' mainboard.
+ * @extends Board
+ */
 class MegaPi extends Board{
+  /**
+   * Create a megaPi mainboard
+   * @param  {Object} conf configure
+   */
   constructor(conf){
     super(conf);
     let this_ = this;
+    //@member {String} {maiboard name}
+    this.name = 'MegaPi';
     //固件当前模式
     this.currentMode = null;
     // 置空已连接块

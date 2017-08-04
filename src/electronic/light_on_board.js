@@ -3,6 +3,10 @@ import BaseLight from './BaseLight';
 import { warnNotSupport } from '../core/validate';
 import { SUPPORTLIST } from '../mainboard/settings';
 
+/**
+ * LightOnBoard sensor module
+ * @extends BaseLight
+ */
 class LightOnBoard extends BaseLight {
   constructor() {
     super(6); //mcore

@@ -1,10 +1,10 @@
 /**
- * @fileOverview  Api api list
+ * @fileOverview  protocal API list
  */
 import Utils from "../core/utils";
-
 /**
  * buf 协议组装器
+ * @private
  * @param  {Object} obj  对象
  * @param  {Number} obj.index  由上位机赋值
  * @param  {Number} obj.mode  查询、执行
@@ -33,6 +33,9 @@ function bufAssembler(obj, ...args){
   return bufHead.concat([bufLength], bufAttr, args);
 }
 
+/**
+ * @private
+ */
 function protocolAssembler() {
   /**
    * Set dc motor speed.
@@ -157,46 +160,6 @@ function protocolAssembler() {
     b = Utils.limitValue(b, [0, 255]);
     position = Utils.limitValue(position, [0]);
     return bufAssembler({mode: 0x02, id: 0x08}, port, slot, position, r, g, b);
-  };
-
-  /**
-   * set four leds
-   * @param {number} port     port number, vailable is: 0(on transport), 6,7,8,9,10
-   * @param {number} position led position, 0 signify all leds.
-   * @param {number} r        red, the range is 0 ~ 255
-   * @param {number} g        green, the range is 0 ~ 255
-   * @param {number} b        blue, the range is 0 ~ 255
-   */
-  this.setFourLeds = function(port, position, r, g, b) {
-    return this.setLed(port, 2, position, r, g, b);
-  };
-
-  /**
-   * turn off four leds
-   * @param {number} port     port number, vailable is: 0(on transport), 6,7,8,9,10
-   * @param {number} position led position, 0 signify all leds.
-   */
-  this.turnOffFourLeds = function(port, position) {
-    return this.setLed(port, 2, position, 0, 0, 0);
-  };
-
-  /**
-   * set led panel on Api transport.
-   * @param {number} position led position, 0 signify all leds.
-   * @param {number} r        red, the range is 0 ~ 255
-   * @param {number} g        green, the range is 0 ~ 255
-   * @param {number} b        blue, the range is 0 ~ 255
-   */
-  this.setLedPanelOnBoard = function(position, r, g, b) {
-    return this.setLed(0, 2, position, r, g, b);
-  };
-
-  /**
-   * turn off led panel on transport
-   * @param {number} position led position, 0 signify all leds.
-   */
-  this.turnOffLedPanelOnBoard = function(position) {
-    return this.setLed(0, 2, position, 0, 0, 0);
   };
 
   /**
@@ -738,4 +701,7 @@ function protocolAssembler() {
   };
 }
 
+/**
+ * @private
+ */
 export default new protocolAssembler();

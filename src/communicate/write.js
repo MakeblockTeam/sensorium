@@ -1,12 +1,15 @@
 /**
- * write request controler.
+ * @fileOverview Write 对象，所有'写'请求的处理器
+ * @author Jeremy
  */
 const TIME_INTERVAL = 50;
-
-const WriteControl = {
+/**
+ * @private
+ */
+const Write = {
   writeRecord: {},
   /**
-   * this function is drived by
+   * This function is called by CommandManager
    * @param {Function}   send  addRequest execute as proxy
    * @param {Array}   buf      rj25 buffer
    * @param {Function} callback [description]
@@ -22,4 +25,4 @@ const WriteControl = {
   }
 };
 
-export default WriteControl;
+export default Write;

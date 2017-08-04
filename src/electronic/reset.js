@@ -4,6 +4,10 @@ import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
 import CommandManager from '../communicate/command-manager';
 
+/**
+ * Reset module
+ * @extends Electronic
+ */
 class Reset extends Electronic {
   constructor() {
     super();

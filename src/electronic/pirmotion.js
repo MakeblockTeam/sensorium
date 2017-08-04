@@ -3,7 +3,10 @@ import Utils from '../core/utils';
 import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
 import CommandManager from '../communicate/command-manager';
-
+/**
+ * Pirmotion sensor module
+ * @extends Electronic
+ */
 class Pirmotion extends Electronic {
   constructor(port) {
     super();

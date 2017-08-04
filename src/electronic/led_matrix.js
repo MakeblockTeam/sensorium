@@ -8,8 +8,11 @@ import LedMatrixTime from './led_matrix_time';
 import protocolAssembler from '../protocol/cmd';
 import CommandManager from '../communicate/command-manager';
 
+/**
+ * LedMatrix sensor module, who can be play as 'charMode','emotionMode','numberMode','timeMode'
+ * @extends Electronic
+ */
 class LedMatrix extends Electronic {
-
   constructor(port) {
     super();
     let host = warnNotSupport(arguments[arguments.length-1]) || '';

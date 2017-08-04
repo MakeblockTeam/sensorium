@@ -4,6 +4,11 @@ import BaseLedMatrix from './BaseLedMatrix';
 import protocolAssembler from '../protocol/cmd';
 import CommandManager from '../communicate/command-manager';
 
+/**
+ * LedMatrix sensor module run as 'Emotion Mode'
+ * @extends BaseLedMatrix
+ * @private
+ */
 class LedMatrixEmotion extends BaseLedMatrix {
   constructor(port) {
     super(port);

@@ -8,6 +8,10 @@ const bufComposer = function(args){
   return Utils.composer(protocolAssembler.readEncoderMotorOnBoard, [args.slot, args.type]);
 }
 
+/**
+ * EncoderMotorOnBoard sensor module
+ * @extends BaseEncoderMotor
+ */
 class EncoderMotorOnBoard extends BaseEncoderMotor {
   constructor(slot) {
     super(0, slot);

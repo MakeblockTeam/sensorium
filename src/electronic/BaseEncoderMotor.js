@@ -4,10 +4,14 @@ import { validateNumber } from '../core/validate';
 import protocolAssembler from '../protocol/cmd';
 import Command from '../communicate/command-manager';
 
+/**
+ * @Class BaseEncoderMotor
+ * @description It is a base Class of EncoderMotor
+ * @extends BaseMotor
+ */
 class BaseEncoderMotor extends BaseMotor {
   /**
-   * BaseEncoderMotor
-   * @constructor
+   * create a baseEncoderMotor
    * @param {number} port
    * @param {number} slot
    */

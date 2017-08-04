@@ -52,6 +52,7 @@ let validateNumber = validateType('number'),
 
 /**
  * 警告主控板不被支持
+ * @private
  * @param  {String} name 主控板名称
  */
 function warnNotSupport(name) {
@@ -62,6 +63,12 @@ function warnNotSupport(name) {
   return name;
 }
 
+/**
+ * 警告参数不在列表中
+ * @private
+ * @param  {String} param 参数值
+ * @param  {Array} list 列表
+ */
 function warnParamNotInList(param, list) {
   if (Array.isArray(list) && list.indexOf(param) === -1) {
     console.warn(`Param ${param} should be one of ${list.join(',')}`);

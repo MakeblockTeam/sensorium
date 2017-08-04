@@ -1,34 +1,35 @@
 /**
- * @fileOverview Sensorium 类，发送数据的队列调度，对外提供以下接口.
- * write
- * read
- * pipe
+ * @fileOverview CommandManager 类，管理数据读写调度，对外提供以下接口：pipe、read、write
  * @author Jeremy
  */
 import Read from './read';
 import Write from './write';
 import Parse from '../core/parse';
 import Command from './command';
-
+/**
+ * @private
+ */
 class CommandManager {
+  /**
+   * Create a commandManager.
+   */
   constructor() {
 
   }
 
   /**
-   * an api to execute write
-   * @param  {Array}   buf      [description]
-   * @return {[type]}            [description]
+   * execute write
+   * @param  {Array}   buf   protocal buffer
+   * @return {Undefined}     return undefined
    */
   write(buf) {
     Write.addRequest(Command.send, buf);
   }
 
   /**
-   * an api to execute read
-   * @param  {Array}   buf      [description]
-   * @param  {Function} callback [description]
-   * @return {[type]}            [description]
+   * execute read
+   * @param  {Array}   buf   protocal buffer
+   * @return {Promise}       return a promise
    */
   async read(buf) {
     return await new Promise(function(resolve, reject){
@@ -39,8 +40,8 @@ class CommandManager {
   }
 
   /**
-   * parse the buffer and callback
-   * @param  {Array} buff buffer responsed from transportion
+   * parse the buffer
+   * @param  {Array}  buff    a buffer responsed from transporter
    * @return {Number}
    */
   pipe(buff) {

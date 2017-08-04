@@ -4,6 +4,10 @@ import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
 import CommandManager from '../communicate/command-manager';
 
+/**
+ * Touch sensor module
+ * @extends Electronic
+ */
 class Touch extends Electronic {
   constructor(port) {
     super();
@@ -12,6 +16,10 @@ class Touch extends Electronic {
     };
   }
 
+  /**
+   * GetData of Touch sensor
+   * @return {Promise} 
+   */
   async getData() {
     let buf = Utils.composer(protocolAssembler.readTouch, [this.args.port]);
     return await CommandManager.read(buf);

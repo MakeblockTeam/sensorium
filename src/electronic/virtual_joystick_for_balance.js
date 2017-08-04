@@ -4,8 +4,11 @@ import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
 import CommandManager from '../communicate/command-manager';
 
+/**
+ * VirtualJoystick for Balance car, actually it's a motor module
+ * @extends Electronic
+ */
 class VirtualJoystickForBalance extends Electronic {
-
   constructor() {
     super();
     this.args = {
@@ -31,14 +34,18 @@ class VirtualJoystickForBalance extends Electronic {
   }
 
   /**
-   * run reversely
-   * @return {Object} the instance
+   * Run reversely
+   * @return {Instance} @this
    */
   reverse() {
     this.speed(-1 * this.args.speed);
     return this.run();
   }
 
+  /**
+   * Stop run
+   * @return {Instance} @this
+   */
   stop() {
     return this.speed(0).run();
   }

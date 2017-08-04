@@ -4,8 +4,12 @@ import BaseLedMatrix from './BaseLedMatrix';
 import protocolAssembler from '../protocol/cmd';
 import CommandManager from '../communicate/command-manager';
 
+/**
+ * LedMatrix sensor module run as 'Char Mode'
+ * @extends BaseLedMatrix
+ * @private
+ */
 class LedMatrixChar extends BaseLedMatrix {
-
   constructor(port) {
     super(port);
     Object.assign(this.args, {

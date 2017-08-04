@@ -1,12 +1,14 @@
 import { validateNumber } from '../core/validate';
 import Electronic from './electronic';
-
+/**
+ * @Class BaseMotor
+ * @description It is a base Class of Motor
+ * @extends Electronic
+ */
 class BaseMotor extends Electronic {
-
   /**
-   * Motor base class
-   * @constructor
-   * @param {number} port
+   * Create a motor
+   * @param {Number} port 
    */
   constructor(port) {
     super();
@@ -17,9 +19,9 @@ class BaseMotor extends Electronic {
   }
 
   /**
-   * speed
+   * Set speed to the motor
    * @param  {Number} speed
-   * @return {Object} the instance
+   * @return {Instance} the motor instance
    */
   speed(speed){
     this.args.speed = validateNumber(speed, 0);
@@ -27,14 +29,16 @@ class BaseMotor extends Electronic {
   }
 
   /**
-   * this interface does nothing
+   * This interface should be overwrite by child class
+   * @abstract
    */
   run() {
     return this;
   }
 
   /**
-   * stop motor
+   * Stop motor
+   * @return {Instance} the motor instance
    */
   stop() {
     return this.speed(0).run();

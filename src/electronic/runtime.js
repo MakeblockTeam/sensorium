@@ -4,6 +4,10 @@ import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
 import CommandManager from '../communicate/command-manager';
 
+/**
+ * Runtime module which is a virtual module
+ * @extends Electronic
+ */
 class Runtime extends Electronic {
   constructor() {
     super();

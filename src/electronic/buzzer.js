@@ -8,6 +8,10 @@ import protocolAssembler from '../protocol/cmd';
 import CommandManager from '../communicate/command-manager';
 import { TONE_TO_HZ } from '../mainboard/settings';
 
+/**
+ * Buzzer sensor module
+ * @extends Electronic
+ */
 class Buzzer extends Electronic {
   constructor() {
     super();
@@ -18,7 +22,7 @@ class Buzzer extends Electronic {
   }
 
   /**
-   * set tone
+   * Set tone
    * @param  {String} tone tone string, such as "C5"
    */
   tone(tone="C5") {
@@ -27,13 +31,17 @@ class Buzzer extends Electronic {
     return this.hz(hz);
   }
 
+  /**
+   * Set hz
+   * @param  {Number} hz such as 200
+   */
   hz(hz) {
     this.args.hz = validateNumber(hz);
     return this;
   }
 
   /**
-   * set beat
+   * Set beat
    * @param  {Number} beat such as 250, 1000
    */
   beat(beat) {
@@ -41,6 +49,9 @@ class Buzzer extends Electronic {
     return this;
   }
 
+  /**
+   * run Buzzer sensor
+   */
   run() {
     let buf = Utils.composer(protocolAssembler.setTone, [this.args.hz, this.args.beat]);
     CommandManager.write(buf);

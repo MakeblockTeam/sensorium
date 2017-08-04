@@ -1,18 +1,26 @@
 /**
- * @fileOverview 命令执行器
+ * @fileOverview Command 类，所有读写操作将由 send 方法处理
+ * @author Jeremy
  */
 import Transport from './transport';
 
+/**
+ * Provide a send interface.
+ * @private
+ */
 class Command {
+  /**
+   * Create a command.
+   */
   constructor() {
     //绑定上下文
     this.send = this.send.bind(this);
   }
 
   /**
-   * send buffer through the transport
-   * @param  {Array} buf [description]
-   * @return {[type]}     [description]
+   * send protocal buffer through the transport
+   * @param  {Array} buf protocal buffer
+   * @return {Undefined}
    */
   send(buf) {
     Transport.send(buf);

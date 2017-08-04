@@ -4,22 +4,28 @@ import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
 import CommandManager from '../communicate/command-manager';
 
+//@private
 let bufComposer = function(obj){
   let args = [obj.port, obj.slot, obj.ledPosition, ...obj.rgb];
   return Utils.composer(protocolAssembler.setLed, args);
 }
 
+//@private
 let commandWrite = function(obj){
-  // console.log('led ------->', obj.ledPosition, ...obj.rgb);
   let buf = bufComposer(obj);
   CommandManager.write(buf);
 }
 
+/**
+ * @Class BaseRgbLed
+ * @description It is a base Class of RgbLed
+ * @extends Electronic
+ */
 class BaseRgbLed extends Electronic {
   /**
-   * RgbLed类，led模块
-   * @param {number} port - led port口
-   * @param {number} position - led灯的位置
+   * Create a rgbLed
+   * @param {Number} port  led port
+   * @param {Number} slot  led slot
    */
   constructor(port, slot) {
     super();
@@ -32,8 +38,8 @@ class BaseRgbLed extends Electronic {
   }
 
   /**
-   * set led position
-   * @param {number} position
+   * Set led position
+   * @param {Number} position
    */
   position(position) {
     this.args.ledPosition = validateNumber(position, this.args.ledPosition);
@@ -41,8 +47,8 @@ class BaseRgbLed extends Electronic {
   }
 
   /**
-   * set led red value
-   * @param {number} value 0 ~ 255
+   * Set led red value
+   * @param {Number} value  0 ~ 255
    */
   r(value) {
     this.args.rgb[0] = validateNumber(value, this.args.rgb[0]);
@@ -50,8 +56,8 @@ class BaseRgbLed extends Electronic {
   }
 
   /**
-   * set led green value
-   * @param {number} value 0 ~ 255
+   * Set led green value
+   * @param {Number} value 0 ~ 255
    */
   g(value) {
     this.args.rgb[1] = validateNumber(value, this.args.rgb[1]);
@@ -59,8 +65,8 @@ class BaseRgbLed extends Electronic {
   }
 
   /**
-   * set blue red value
-   * @param {number} value 0 ~ 255
+   * Set led blue value
+   * @param {Number} value 0 ~ 255
    */
   b(value) {
     this.args.rgb[2] = validateNumber(value, this.args.rgb[2]);
@@ -68,6 +74,7 @@ class BaseRgbLed extends Electronic {
   }
 
   /**
+   * Set led color with hex-color
    * @param  {String} hex  hex color like '#ff0088'
    */
   rgb(hex='#ff0000'){
@@ -76,8 +83,7 @@ class BaseRgbLed extends Electronic {
   }
 
   /**
-   * turn on led
-   * @param {number} position
+   * Turn on led
    */
   turnOn() {
     commandWrite(this.args);
@@ -85,8 +91,7 @@ class BaseRgbLed extends Electronic {
   }
 
   /**
-   * turn off led
-   * @param {number} position
+   * Turn off led
    */
   turnOff() {
     this.args.rgb = [0, 0, 0];
@@ -95,7 +100,7 @@ class BaseRgbLed extends Electronic {
   }
 
   /**
-   * turn on all the leds
+   * Turn on all the leds
    */
   turnOnAll(){
     this.position(0);
@@ -103,7 +108,7 @@ class BaseRgbLed extends Electronic {
   }
 
   /**
-   * turn off all the leds
+   * Turn off all the leds
    */
   turnOffAll(){
     this.position(0);
@@ -111,7 +116,7 @@ class BaseRgbLed extends Electronic {
   }
 
   /**
-   * LED亮红色灯光
+   * Light on let with red color
    */
   red() {
     this.args.rgb = [255, 0, 0];
@@ -120,7 +125,7 @@ class BaseRgbLed extends Electronic {
   }
 
   /**
-   * LED亮绿色灯光
+   * Light on let with green color
    */
   green() {
     this.args.rgb = [0, 255, 0];
@@ -129,7 +134,7 @@ class BaseRgbLed extends Electronic {
   }
 
   /**
-   * LED亮蓝色灯光
+   * Light on let with blue color
    */
   blue() {
     this.args.rgb = [0, 0, 255];
@@ -138,7 +143,7 @@ class BaseRgbLed extends Electronic {
   }
 
   /**
-   * LED亮白色灯光
+   * Light on let with white color
    */
   white(){
     this.args.rgb = [255, 255, 255];

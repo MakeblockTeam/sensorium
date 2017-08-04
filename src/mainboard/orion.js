@@ -1,15 +1,23 @@
 import Board from '../core/Board';
 import electronics from '../electronic/index';
-// import Version from './firmware/version';
 import {SUPPORTLIST} from './settings';
 //支持位置
 const SUPPORT_INDEX = SUPPORTLIST.indexOf('Orion');
 
-//实现一个板子就注册一个板子名称
+/**
+ * Orion Class for 'Orion' mainboard.
+ * @extends Board
+ */
 class Orion extends Board{
+  /**
+   * Create a orion mainboard
+   * @param  {Object} conf configure
+   */
   constructor(conf){
     super(conf);
     let this_ = this;
+    //@member {String} {maiboard name}
+    this.name = 'Orion';
     // 置空已连接块
     this.connecting = {};
     // 挂载电子模块

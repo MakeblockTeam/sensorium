@@ -3,10 +3,14 @@ import Electronic from './electronic';
 import Utils from '../core/utils';
 import protocolAssembler from '../protocol/cmd';
 import CommandManager from '../communicate/command-manager';
-
+/**
+ * @Class BaseLedMatrix
+ * @description It is a base Class of LedMatrix
+ * @extends Electronic
+ */
 class BaseLedMatrix extends Electronic {
   /**
-   * LedMatrix 类，led模块
+   * Create a ledMatrix.
    */
   constructor(port) {
     super();
@@ -15,6 +19,11 @@ class BaseLedMatrix extends Electronic {
     }
   }
 
+  /**
+   * @abstract
+   * @param  {Array} bufArray  protocal buffer
+   * @return {Instance}
+   */
   run(bufArray){
     let buf = Utils.composer(protocolAssembler.setLedMatrix, bufArray);
     CommandManager.write(buf);

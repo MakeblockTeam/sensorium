@@ -4,6 +4,10 @@ import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
 import CommandManager from '../communicate/command-manager';
 
+/**
+ * Compass sensor module
+ * @extends Electronic
+ */
 class Compass extends Electronic {
   constructor(port) {
     super();
