@@ -22,6 +22,14 @@ class LedMatrixNumber extends BaseLedMatrix {
     return this;
   }
 
+  /**
+   * set all data
+   * @param  {Number} number number
+   */
+  matrixData(number) {
+    return this.number(number);
+  }
+
   run(){
     let type = 0x04;
     let bufArray = [this.args.port, type, ...Utils.float32ToBytes(this.args.number)];

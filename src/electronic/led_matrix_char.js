@@ -42,6 +42,19 @@ class LedMatrixChar extends BaseLedMatrix {
     return this;
   }
 
+  /**
+   * set all data
+   * @param  {Number} x
+   * @param  {Number} y
+   * @param  {String} str
+   */
+  matrixData(x = 0, y = 0, str) {
+    this.x(x);
+    this.y(y);
+    this.char(str);
+    return this;
+  }
+
   run(){
     let type = 0x01;
     let bufArray = [this.args.port, type, this.args.x, this.args.y, this.args.char.length];

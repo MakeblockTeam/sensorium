@@ -1,4 +1,4 @@
-import { validateNumber, warnParamNotInList } from '../core/validate';
+import { validateNumber, warnParamNotDate, warnParamNotInList } from '../core/validate';
 import Utils from '../core/utils';
 import BaseLedMatrix from './BaseLedMatrix';
 import protocolAssembler from '../protocol/cmd';
@@ -47,6 +47,19 @@ class LedMatrixTime extends BaseLedMatrix {
   minute(m){
     m = Utils.limitValue(m, [0, 59]);
     this.args.minute = validateNumber(m);
+    return this;
+  }
+
+  /**
+   * set all data
+   * @param  {Number} h minute
+   * @param  {String} separator  01 signify `:`, 02 signify ` `
+   * @param  {Number} m minute
+   */
+  matrixData(h, separator, m) {
+    this.hour(h)
+    this.minute(separator);
+    this.separator(m);
     return this;
   }
 

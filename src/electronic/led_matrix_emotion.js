@@ -20,7 +20,7 @@ class LedMatrixEmotion extends BaseLedMatrix {
   }
 
   /**
-   * set the X axis coordinate of the char
+   * set the X axis coordinate of the emotion
    * @param  {Number} x
    */
   x(x){
@@ -29,7 +29,7 @@ class LedMatrixEmotion extends BaseLedMatrix {
   }
 
   /**
-   * set the Y axis coordinate of the char
+   * set the Y axis coordinate of the emotion
    * @param  {Number} y
    */
   y(y){
@@ -44,6 +44,19 @@ class LedMatrixEmotion extends BaseLedMatrix {
   emotion(emotion) {
     // TODO: validate the param
     this.args.emotion = validateString(emotion);
+    return this;
+  }
+
+  /**
+   * set all data
+   * @param  {Number} x
+   * @param  {Number} y
+   * @param  {String} emotion lattice
+   */
+  matrixData(x = 0, y = 0, emotion) {
+    this.x(x);
+    this.y(y);
+    this.emotion(emotion);
     return this;
   }
 

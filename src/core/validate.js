@@ -77,6 +77,17 @@ function warnParamNotInList(param, list) {
   return param;
 }
 
+function warnParamNotDate(param) {
+  const text = /^([01][0-9]|2[0-3]|[0-9])(:|\s)([0-5][0-9]|[0-9])$/;
+  let result = param.match(text);
+  if(result) {
+    return param.slice(result[2]).concat(result[2]);
+  } else {
+    console.warn(`Param ${param} should be 'HH:MM' or 'HH MM' or 'H:M'}`);
+    return false;
+  }
+}
+
 export {
   warnNotSupport,
   warnParamNotInList,
@@ -84,5 +95,6 @@ export {
   validateString,
   validateArray,
   validateBoolean,
-  validateObject
+  validateObject,
+  warnParamNotDate
 }
