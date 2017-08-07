@@ -5,96 +5,125 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Sensorium test</title>
     <style type="text/css">
-      .container{margin: 2rem auto auto 1rem;}
-      .command-list{float: left; width: 40%;}
-      .log-list{width: 50%; max-height: 20rem; margin-left: 40%;}
-      .log-list .log{width: 100%; height: 100%; background-color: #f1f1f1;}
+      .typein{margin-top: 2rem;}
+      .code{margin-top: 1rem; border: 1px solid #ddd;}
     </style>
-    <script src="../../cordova.js"></script>
 </head>
   <body>
-    <div id="topbar" class="topbar">
-      <a class="back-button" href="../../index.html"> 返回 </a>
-      <button id="bleButton" class="ble-button"> 蓝牙 </button>
-    </div>
-    <div class="container">
-      <div class="command-list">
-        <button onclick="moveForward">前进</button>
-        <button onclick="readUltrasonic">读取超声波</button>
-        <button onclick="keepReadUltrasonic">持续读取超声波</button>
-      </div>
-      <div class="log-list">
-        <div id="log" class="log"></div>
-      </div>
-    </div>
-  <script src="sensorium.js"></script>  
-  <script src="../common/index.js"></script>
+  <h2 style="text-align: center;"><a href="https://www.npmjs.com/package/sensorium" target="_blank">sensorium.js</a> 库在浏览器中调试教程</h2>
+
+  <h3>1、全局安装一个库 sensorium-server</h3>
+  <pre>
+    //打开命令行工具
+
+    >>> npm install sensorium-server -g
+  </pre>
+
+  <h3>2、在任意文件夹目录中开启上述服务</h3>
+  <pre>
+    //>>> cd any directory
+    //输入以下命令（或者输入 sensorium-server 也可以）
+
+    >>> ss
+  </pre>
+
+
+  <h3>3、打开浏览器控制台进行调试</h3>
+  <div class="typein">输入以下代码，直接调试 mcore:</div>
+  <pre class="code">
+    //读取超声波测距
+    mcore.Ultrasonic(3).getData().then(val=>alert(val));
+
+    //左右电机 200 速度前进
+    mcore.VirtualJoystick().speed(200, 200).run();
+  </pre>
+
+  <div class="typein">输入以下代码，调试 auriga:</div>
+  <pre class="code">
+    var auriga = sensorium.createAuriga();
+    
+    //板载 LED 亮起红色
+    auriga.RgbLedOnBoard().red();
+
+    //读取超声波测距
+    auriga.Ultrasonic(6).getData().then(val=>alert(val));
+
+    //左右电机 200 速度前进
+    auriga.VirtualJoystick().speed(200, 200).run();
+  </pre>
+  <script src="sensorium.js"></script>
   <script>
     var Tool = {
-      log: function(title, str){
-        var html = document.querySelector('#log').innerHTML;
-        document.querySelector('#log').innerHTML = html + '<div>' + title +": "+ str + '</div>' ;
-      },
-      clear: function(){
-        document.querySelector('#log').innerHTML = '';
-      },
-      arrayBufferFromArray: function(data) {
+      arrayBufferFromArray: function (data) {
         var buffer = new ArrayBuffer(data.length);
         var result = new Int8Array(buffer);
         for (var i = 0; i < data.length; i++) {
           result[i] = data[i];
         }
         return buffer;
+      },
+      sendInfo: function (buf){
+        console.log('send buf', buf);
+      },
+      receiveInfo: function (buff){
+        console.log('onReceived buff', buff);
       }
     }
+  </script>
+  <script>
+    
     var sensorium = new Sensorium();
     var mcore = sensorium.create('Mcore');
 
-    sensorium.setTransport({
-      send: function(buf) {
-        if (typeof ble != "undefined") {
-            Tool.log('发送指令:', buf.join(' '));
-            // ble 发送必须转成 arrayBuffer
-            let cmd = Tool.arrayBufferFromArray(buf);
-            ble.sendData(function(msg) {
+    // cordva 蓝牙环境存在
+    if(window.ble){
+      //设置通信通道
+      sensorium.setTransport({
+        send: function(buf) {
+          if (typeof window.ble != "undefined") {
+            // ble 发送必须转成 arrayBufferß
+            let cmd = arrayBufferFromArray(buf);
+            Tool.sendInfo(cmd);
+            window.ble.sendData(function(msg) {
                 console.log(msg);
             }, function(msg) {
                 console.log(msg);
             }, cmd);
-        }
-      },
-      onReceived: function(pipe) {
-          if (typeof ble != "undefined") {
-              ble.startListenReceivedData(function(buff) {
-                  pipe(buff);
-              });
           }
-      }
-    });
-
-    function moveForward(){
-      Tool.clear();
-      mcore.DcMotor(1).speed(125).run();
-    }
-
-    function readUltrasonic(){
-      Tool.clear();
-      mcore.Ultrasonic(3).getData(function(val){
-         Tool.log('接收超声波值:', val);
+        },
+        onReceived: function(pipe) {
+          if (typeof window.ble != "undefined") {
+            window.ble.startListenReceivedData(function(buff) {
+                Tool.receiveInfo(buff);
+                pipe(buff);
+            });
+          }
+        }
       });
     }
-
-    function keepReadUltrasonic(){
-      Tool.clear();
-      var ult = mcore.Ultrasonic(3);
-      setInterval(ult.getData(function(val){
-         Tool.log('接收超声波值:', val);
-      }), 100);
+    //串口
+    else{
+      var xhr = new XMLHttpRequest();
+      sensorium.setTransport({
+        send: function(buf) {
+          Tool.sendInfo(buf);
+          let host = 'http://127.0.0.1:8800';
+          var data = '/?buf='+ JSON.stringify(buf) + '&sensor=';
+          xhr.open("GET", host + data ,true);
+          xhr.send(null);
+        },
+        onReceived: function(pipe) {
+          xhr.onreadystatechange = function(e) {
+            if (this.readyState == 4 && this.status == 200) {
+              var buff = JSON.parse(this.response).data;
+              Tool.receiveInfo(buff);
+              pipe(buff);
+            }
+          };
+        }
+      });
     }
-  </script>
-</body>
-</html>
-
     
+  </script>
 </body>
 </html>
