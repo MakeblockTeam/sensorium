@@ -1386,7 +1386,7 @@ exports.default = new protocolAssembler();
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.validateObject = exports.validateBoolean = exports.validateArray = exports.validateString = exports.validateNumber = exports.warnParamNotInList = exports.warnNotSupport = undefined;
+exports.warnParamNotDate = exports.validateObject = exports.validateBoolean = exports.validateArray = exports.validateString = exports.validateNumber = exports.warnParamNotInList = exports.warnNotSupport = undefined;
 
 var _typeof2 = __webpack_require__(60);
 
@@ -1473,6 +1473,17 @@ function warnParamNotInList(param, list) {
   return param;
 }
 
+function warnParamNotDate(param) {
+  var text = /^([01][0-9]|2[0-3]|[0-9])(:|\s)([0-5][0-9]|[0-9])$/;
+  var result = param.match(text);
+  if (result) {
+    return param.slice(result[2]).concat(result[2]);
+  } else {
+    console.warn('Param ' + param + ' should be \'HH:MM\' or \'HH MM\' or \'H:M\'}');
+    return false;
+  }
+}
+
 exports.warnNotSupport = warnNotSupport;
 exports.warnParamNotInList = warnParamNotInList;
 exports.validateNumber = validateNumber;
@@ -1480,6 +1491,7 @@ exports.validateString = validateString;
 exports.validateArray = validateArray;
 exports.validateBoolean = validateBoolean;
 exports.validateObject = validateObject;
+exports.warnParamNotDate = warnParamNotDate;
 
 /***/ }),
 /* 9 */
@@ -8437,6 +8449,26 @@ var LedMatrixChar = function (_BaseLedMatrix) {
       this.args.char = (0, _validate.validateString)(str);
       return this;
     }
+
+    /**
+     * set all data
+     * @param  {Number} x
+     * @param  {Number} y
+     * @param  {String} str
+     */
+
+  }, {
+    key: 'matrixData',
+    value: function matrixData() {
+      var x = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+      var y = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+      var str = arguments[2];
+
+      this.x(x);
+      this.y(y);
+      this.char(str);
+      return this;
+    }
   }, {
     key: 'run',
     value: function run() {
@@ -8587,7 +8619,7 @@ var LedMatrixEmotion = function (_BaseLedMatrix) {
   }
 
   /**
-   * set the X axis coordinate of the char
+   * set the X axis coordinate of the emotion
    * @param  {Number} x
    */
 
@@ -8600,7 +8632,7 @@ var LedMatrixEmotion = function (_BaseLedMatrix) {
     }
 
     /**
-     * set the Y axis coordinate of the char
+     * set the Y axis coordinate of the emotion
      * @param  {Number} y
      */
 
@@ -8621,6 +8653,26 @@ var LedMatrixEmotion = function (_BaseLedMatrix) {
     value: function emotion(_emotion) {
       // TODO: validate the param
       this.args.emotion = (0, _validate.validateString)(_emotion);
+      return this;
+    }
+
+    /**
+     * set all data
+     * @param  {Number} x
+     * @param  {Number} y
+     * @param  {String} emotion lattice
+     */
+
+  }, {
+    key: 'matrixData',
+    value: function matrixData() {
+      var x = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+      var y = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+      var emotion = arguments[2];
+
+      this.x(x);
+      this.y(y);
+      this.emotion(emotion);
       return this;
     }
   }, {
@@ -8725,6 +8777,17 @@ var LedMatrixNumber = function (_BaseLedMatrix) {
     value: function number(_number) {
       this.args.number = (0, _validate.validateNumber)(_number);
       return this;
+    }
+
+    /**
+     * set all data
+     * @param  {Number} number number
+     */
+
+  }, {
+    key: 'matrixData',
+    value: function matrixData(number) {
+      return this.number(number);
     }
   }, {
     key: 'run',
@@ -8858,6 +8921,22 @@ var LedMatrixTime = function (_BaseLedMatrix) {
     value: function minute(m) {
       m = _utils2.default.limitValue(m, [0, 59]);
       this.args.minute = (0, _validate.validateNumber)(m);
+      return this;
+    }
+
+    /**
+     * set all data
+     * @param  {Number} h minute
+     * @param  {String} separator  01 signify `:`, 02 signify ` `
+     * @param  {Number} m minute
+     */
+
+  }, {
+    key: 'matrixData',
+    value: function matrixData(h, separator, m) {
+      this.hour(h);
+      this.minute(separator);
+      this.separator(m);
       return this;
     }
   }, {

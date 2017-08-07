@@ -5,52 +5,56 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Sensorium test</title>
     <style type="text/css">
+      .sensorium-contain{padding: 1rem;}
+      .title{margin: 2rem auto 1rem;text-align: center;}
       .typein{margin-top: 2rem;}
       .code{margin-top: 1rem; border: 1px solid #ddd;}
     </style>
 </head>
   <body>
-  <h2 style="text-align: center;"><a href="https://www.npmjs.com/package/sensorium" target="_blank">sensorium.js</a> 库在浏览器中调试教程</h2>
+  <div class="sensorium-contain">
+    <h2 class="title"><a href="https://www.npmjs.com/package/sensorium" target="_blank">sensorium.js</a> 库在浏览器中调试教程</h2>
 
-  <h3>1、全局安装一个库 sensorium-server</h3>
-  <pre>
-    //打开命令行工具
+    <h3>1、全局安装一个库 sensorium-server</h3>
+    <pre>
+      //打开命令行工具
 
-    >>> npm install sensorium-server -g
-  </pre>
+      >>> npm install sensorium-server -g
+    </pre>
 
-  <h3>2、在任意文件夹目录中开启上述服务</h3>
-  <pre>
-    //>>> cd any directory
-    //输入以下命令（或者输入 sensorium-server 也可以）
+    <h3>2、在任意文件夹目录中开启上述服务</h3>
+    <pre>
+      //>>> cd any directory
+      //输入以下命令（或者输入 sensorium-server 也可以）
 
-    >>> ss
-  </pre>
+      >>> ss
+    </pre>
 
 
-  <h3>3、打开浏览器控制台进行调试</h3>
-  <div class="typein">输入以下代码，直接调试 mcore:</div>
-  <pre class="code">
-    //读取超声波测距
-    mcore.Ultrasonic(3).getData().then(val=>alert(val));
+    <h3>3、打开浏览器控制台进行调试</h3>
+    <div class="typein">输入以下代码，直接调试 mcore:</div>
+    <pre class="code">
+      //读取超声波测距
+      mcore.Ultrasonic(3).getData().then(val=>alert(val));
 
-    //左右电机 200 速度前进
-    mcore.VirtualJoystick().speed(200, 200).run();
-  </pre>
+      //左右电机 200 速度前进
+      mcore.VirtualJoystick().speed(200, 200).run();
+    </pre>
 
-  <div class="typein">输入以下代码，调试 auriga:</div>
-  <pre class="code">
-    var auriga = sensorium.createAuriga();
-    
-    //板载 LED 亮起红色
-    auriga.RgbLedOnBoard().red();
+    <div class="typein">输入以下代码，调试 auriga:</div>
+    <pre class="code">
+      var auriga = sensorium.createAuriga();
+      
+      //板载 LED 亮起红色
+      auriga.RgbLedOnBoard().red();
 
-    //读取超声波测距
-    auriga.Ultrasonic(6).getData().then(val=>alert(val));
+      //读取超声波测距
+      auriga.Ultrasonic(6).getData().then(val=>alert(val));
 
-    //左右电机 200 速度前进
-    auriga.VirtualJoystick().speed(200, 200).run();
-  </pre>
+      //左右电机 200 速度前进
+      auriga.VirtualJoystick().speed(200, 200).run();
+    </pre>
+  </div>
   <script src="sensorium.js"></script>
   <script>
     var Tool = {
