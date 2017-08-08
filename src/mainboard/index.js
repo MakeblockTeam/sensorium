@@ -4,6 +4,7 @@
  * @author Jeremy
  */
 import Transport from '../communicate/transport';
+import CommandManager from '../communicate/command-manager';
 import Version from '../electronic/version';
 import { SUPPORTLIST, FIRMWARE_ID } from './settings';
 import Mcore from './mcore';
@@ -75,6 +76,16 @@ class Sensorium {
       }
       return Promise.resolve({name, val});
     });
+  }
+
+  /**
+   * write protocal buffer
+   * now this interface is just for debug the protocal
+   * @param  {Array} buf 
+   * @return {Promise}
+   */
+  send (buf){
+    CommandManager.write(buf);
   }
 
   /**
