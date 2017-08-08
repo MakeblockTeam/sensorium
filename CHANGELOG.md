@@ -1,4 +1,12 @@
 # Changelog
+## [0.2.3] - 2017-08-08
+## Added
+- Sensorium 实例新增 `send` 方法，该方法支持直接 write 协议
+- Sensorium 库新增 API 文档，详情见 `./jsdoc` 目录
+
+### Fixed
+-  Sorry for `async/await` throwing error. 已使用 babel-plugin-transform-runtime 转译修复此问题
+
 ## [0.2.2] - 2017-08-03
 ## Added
 - Sensorium 实例新增 `createMcore`,`createAuriga`,`createMegaPi`等方法创建对应的主控板实例
