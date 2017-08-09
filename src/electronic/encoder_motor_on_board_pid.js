@@ -1,4 +1,4 @@
-import { validateNumber } from '../core/validate';
+import { validateNumber, warnNotSupport } from '../core/validate';
 import Utils from '../core/utils';
 import Electronic from './electronic';
 import PIDForDistance from './encoder_motor_on_board_pid_for_distance';
@@ -9,7 +9,6 @@ import PIDForDoubleMotor from './encoder_motor_on_board_pid_for_doubleMotor';
 import protocolAssembler from '../protocol/cmd';
 import CommandManager from '../communicate/command-manager';
 import { SUPPORTLIST } from '../mainboard/settings';
-import { warnNotSupport } from '../core/validate';
 
 let auriga = SUPPORTLIST[1].toLowerCase();
 let megapipro = SUPPORTLIST[5].toLowerCase();

@@ -387,8 +387,19 @@ function protocolAssembler() {
   };
 
   /**
+   * read external or board infrared sensor
+   * @param  {Number} id    auriga id: 6,7,8,9,10
+   * @param  {Number} port  auriga port: 6,7,8,9,10
+   * @return {Number}       [description]
+   * @example
+   * ff 55 05 00 01 0e 00 45
+   */
+  this.readInfrared = function(id, port) {
+    return bufAssembler({mode: 0x01, id: id}, port);
+  };
+
+  /**
    * read pyroelectric infrared sensor
-   * @param  {Number} index [description]
    * @param  {Number} port  vailable: 6,7,8,9,10
    * @return {Number}       [description]
    * @example
