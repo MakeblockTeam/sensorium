@@ -289,7 +289,8 @@ export default {
    */
   byteString2binaryByte(byteStrs) {
     let byteResult = [];
-    for (let i = 1; i < byteStrs.length; i++) {
+    let len = byteStrs.length + 1;
+    for (let i = 1; i < len; i++) {
       if (i % 8 === 0) {
         let byteStr = byteStrs.slice(i - 8, i);
         byteResult.push(parseInt(byteStr, 2));

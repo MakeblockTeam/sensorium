@@ -77,13 +77,15 @@ function warnParamNotInList(param, list) {
   return param;
 }
 
-function warnParamNotDate(param) {
-  const text = /^([01][0-9]|2[0-3]|[0-9])(:|\s)([0-5][0-9]|[0-9])$/;
-  let result = param.match(text);
-  if(result) {
-    return param.slice(result[2]).concat(result[2]);
-  } else {
-    console.warn(`Param ${param} should be 'HH:MM' or 'HH MM' or 'H:M'}`);
+function warnParamNotDateFormat(timeStr) {
+  let reg = /\d{1,2}[\:|\s]\d{1,2}/g;
+  if(reg.test(timeStr)){
+    let timeArr = timeStr.split(/\:|\s/);
+    let separator = timeStr.replace(/\d/g, '');
+    timeArr.splice(1, 0, separator); 
+    return timeArr;
+  }else{
+    console.warn(`Param ${timeStr} should be 'HH:MM' or 'HH MM' or 'H:M'}`);
     return false;
   }
 }
@@ -96,5 +98,5 @@ export {
   validateArray,
   validateBoolean,
   validateObject,
-  warnParamNotDate
+  warnParamNotDateFormat
 }

@@ -17,7 +17,7 @@ class Ultrasonic extends Electronic {
   }
 
   /**
-   * GetData of Ultrasonic sensor
+   * Get data of Ultrasonic sensor
    * @return {Promise} 
    */
   async getData() {

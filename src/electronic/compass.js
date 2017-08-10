@@ -15,7 +15,10 @@ class Compass extends Electronic {
       port: validateNumber(port)
     };
   }
-
+  /**
+   * Get data of Compass sensor
+   * @return {Promise} 
+   */
   async getData() {
     let buf = Utils.composer(protocolAssembler.readCompass, [this.args.port]);
     return await CommandManager.read(buf);

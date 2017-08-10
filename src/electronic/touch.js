@@ -17,7 +17,7 @@ class Touch extends Electronic {
   }
 
   /**
-   * GetData of Touch sensor
+   * Get data of Touch sensor
    * @return {Promise} 
    */
   async getData() {

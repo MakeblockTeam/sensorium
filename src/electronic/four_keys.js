@@ -25,7 +25,10 @@ class FourKeys extends Electronic {
     this.args.key = validateNumber(index, this.args.key);
     return this;
   }
-
+  /**
+   * Get data of FourKeys sensor
+   * @return {Promise} 
+   */
   async getData() {
     let buf = Utils.composer(protocolAssembler.readFourKeys, [this.args.port, this.args.key]);
     return await CommandManager.read(buf);

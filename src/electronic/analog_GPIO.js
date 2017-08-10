@@ -20,7 +20,7 @@ class AnalogGPIO extends Electronic {
   }
 
   /**
-   * GetData of AnalogGPIO
+   * Get data of AnalogGPIO
    * @return {Promise} 
    */
   async getData() {

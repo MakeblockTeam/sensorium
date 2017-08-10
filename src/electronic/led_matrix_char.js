@@ -24,7 +24,7 @@ class LedMatrixChar extends BaseLedMatrix {
    * @param  {Number} x 
    */
   x(x){
-    this.args.x = validateNumber(x);
+    this.args.x = validateNumber(x, this.args.x);
     return this;
   }
 
@@ -33,7 +33,7 @@ class LedMatrixChar extends BaseLedMatrix {
    * @param  {Number} y
    */
   y(y){
-    this.args.y = validateNumber(y);
+    this.args.y = validateNumber(y, this.args.y);
     return this;
   }
 
@@ -43,16 +43,18 @@ class LedMatrixChar extends BaseLedMatrix {
   }
 
   /**
-   * set all data
-   * @param  {Number} x
-   * @param  {Number} y
+   * set content for Matrix panel
    * @param  {String} str
+   * @param  {Number} coordinate contains [x, y]
    */
-  matrixData(x = 0, y = 0, str) {
-    this.x(x);
-    this.y(y);
-    this.char(str);
-    return this;
+  content(str, coordinate) {
+    if(!Array.isArray(coordinate)){
+      coordinate = [0, 0];
+    }
+    //设定坐标
+    this.x(coordinate[0]);
+    this.y(coordinate[1]);
+    return this.char(str);
   }
 
   run(){
@@ -61,6 +63,7 @@ class LedMatrixChar extends BaseLedMatrix {
     for (let char of this.args.char) {
       bufArray.push(char.charCodeAt());
     }
+    // console.log('Matrix panel show chars ===>', bufArray);
     super.run(bufArray);
     return this;
   }

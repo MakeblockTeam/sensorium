@@ -15,7 +15,10 @@ class Gas extends Electronic {
       port: validateNumber(port)
     };
   }
-
+  /**
+   * Get data of Gas sensor
+   * @return {Promise} 
+   */
   async getData() {
     let buf = Utils.composer(protocolAssembler.readGas, [this.args.port]);
     return await CommandManager.read(buf);

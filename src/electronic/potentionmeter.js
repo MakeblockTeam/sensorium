@@ -15,7 +15,10 @@ class Potentionmeter extends Electronic {
       port: validateNumber(port)
     };
   }
-
+  /**
+   * Get data of Potentionmeter sensor
+   * @return {Promise} 
+   */
   async getData() {
     let buf = Utils.composer(protocolAssembler.readPotentionmeter, [this.args.port]);
     return await CommandManager.read(buf);

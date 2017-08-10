@@ -387,15 +387,19 @@ function protocolAssembler() {
   };
 
   /**
-   * read external or board infrared sensor
-   * @param  {Number} id    auriga id: 6,7,8,9,10
-   * @param  {Number} port  auriga port: 6,7,8,9,10
+   * read external or board infrared sensor, and the board one is only for mcore
+   * @param  {Number} id    sensor device id，such as: 0x0e, 0x0d, 0x10
+   * @param  {Number} port  mcore port: 3, 4, auriga port: 6,7,8,9,10
    * @return {Number}       [description]
    * @example
-   * ff 55 05 00 01 0e 00 45
+   * ff 55 05 00 01 0e 00
    */
-  this.readInfrared = function(id, port) {
-    return bufAssembler({mode: 0x01, id: id}, port);
+  this.readInfrared = function(id, port, akey) {
+    if(akey){
+      return bufAssembler({mode: 0x01, id: id}, port, akey);
+    }else{
+      return bufAssembler({mode: 0x01, id: id}, port);
+    }
   };
 
   /**

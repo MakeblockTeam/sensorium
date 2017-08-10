@@ -5,7 +5,7 @@ import StepperMotor from './stepper_motor';
 import EncoderMotor from './encoder_motor';
 import EncoderMotorOnBoard from './encoder_motor_on_board';  //包含读值和写的接口
 import ServoMotor from './servo_motor';
-import FourLed from './four_led';
+import FourLeds from './four_leds';
 import RgbLed from './rgb_led';
 import RgbLedOnBoard from './rgb_led_on_board';
 import LedMatrix from './led_matrix';
@@ -28,6 +28,8 @@ import GyroOnBoard from './Gyro_on_board';
 import Sound from './sound';
 import SoundOnBoard from './sound_on_board';
 import Pirmotion from './pirmotion';
+import Infrared from './infrared';
+import InfraredOnBoard from './infrared_on_board';
 import LimitSwitch from './limit_switch';
 import LineFollower from './line_follower';
 import Compass from './compass';
@@ -50,7 +52,7 @@ export default {
   EncoderMotor,
   EncoderMotorOnBoard,
   ServoMotor,
-  FourLed,
+  FourLeds,
   RgbLed,
   RgbLedOnBoard,
   LedMatrix,
@@ -73,6 +75,8 @@ export default {
   Sound,
   SoundOnBoard,
   Pirmotion,
+  Infrared,
+  InfraredOnBoard,
   LineFollower,
   LimitSwitch,
   Compass,

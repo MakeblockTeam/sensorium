@@ -21,7 +21,7 @@ class BaseLight extends Electronic {
   }
 
   /**
-   * GetData of the Light sensor
+   * Get data of the Light sensor
    * @return {Promise} 
    */
   async getData() {

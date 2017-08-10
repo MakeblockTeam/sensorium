@@ -1,4 +1,4 @@
-import { validateNumber, warnParamNotDate, warnParamNotInList } from '../core/validate';
+import { validateNumber, warnParamNotDateFormat, warnParamNotInList } from '../core/validate';
 import Utils from '../core/utils';
 import BaseLedMatrix from './BaseLedMatrix';
 import protocolAssembler from '../protocol/cmd';
@@ -51,15 +51,15 @@ class LedMatrixTime extends BaseLedMatrix {
   }
 
   /**
-   * set all data
-   * @param  {Number} h minute
-   * @param  {String} separator  01 signify `:`, 02 signify ` `
-   * @param  {Number} m minute
+   * set content for Matrix panel
+   * @param  {String} timeStr time string format should be 'HH:MM' or 'HH MM' or 'H:M'
    */
-  matrixData(h, separator, m) {
-    this.hour(h)
-    this.minute(separator);
-    this.separator(m);
+  content(timeStr) {
+    let timeArr = warnParamNotDateFormat(timeStr||'') || [0, ':', 0];
+    //利用参数的校验接口
+    this.separator(timeArr[1]);
+    this.hour(Number(timeArr[0]));
+    this.minute(Number(timeArr[2]));
     return this;
   }
 

@@ -15,7 +15,10 @@ class LineFollower extends Electronic {
       port: validateNumber(port)
     };
   }
-
+  /**
+   * Get data of LineFollower sensor
+   * @return {Promise} 
+   */
   async getData() {
     let buf = Utils.composer(protocolAssembler.readLineFollower, [this.args.port]);
     return await CommandManager.read(buf);

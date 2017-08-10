@@ -13,7 +13,7 @@ class TemperatureOnBoard extends Electronic {
   }
 
   /**
-   * GetData of TemperatureOnBoard sensor
+   * Get data of TemperatureOnBoard sensor
    * @return {Promise} 
    */
   async getData() {

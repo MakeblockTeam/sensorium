@@ -23,10 +23,10 @@ class LedMatrixNumber extends BaseLedMatrix {
   }
 
   /**
-   * set all data
-   * @param  {Number} number number
+   * set content for Matrix panel
+   * @param  {Number} number
    */
-  matrixData(number) {
+  content(number) {
     return this.number(number);
   }
 

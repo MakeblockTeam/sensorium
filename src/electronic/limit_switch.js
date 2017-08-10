@@ -3,7 +3,6 @@ import Utils from '../core/utils';
 import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
 import CommandManager from '../communicate/command-manager';
-
 /**
  * LimitSwitch sensor module
  * @extends Electronic
@@ -16,7 +15,10 @@ class LimitSwitch extends Electronic {
       slot: validateNumber(slot)
     };
   }
-
+  /**
+   * Get data of Joystick sensor
+   * @return {Promise} 
+   */
   async getData() {
     let buf = Utils.composer(protocolAssembler.readLimitSwitch, [this.args.port, this.args.slot]);
     return await CommandManager.read(buf);

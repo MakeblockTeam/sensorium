@@ -1,4 +1,16 @@
 # Changelog
+## [0.2.4] - 2017-08-08
+## Added
+- mcore 板载红外线传感器（读）接口 InfraredOnBoard
+- 其他主控板外接红外线传感器（读）接口 Infrared
+- LedMatrix 模块 4 种模式均增加 clear() 方法，以便能快捷的清除面板上显示的内容
+
+### Changed
+- LedMatrix 模块 4 种模式显示内容的接口由原来的 ledMatrixData() 调整为 content() 
+
+### Fixed
+-  LedMatrix 表情面板显示字符不能工作的 bug
+
 ## [0.2.3] - 2017-08-08
 ## Added
 - Sensorium 实例新增 `send` 方法，该方法支持直接 write 协议

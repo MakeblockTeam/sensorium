@@ -5,6 +5,7 @@ import protocolAssembler from '../protocol/cmd';
 import CommandManager from '../communicate/command-manager';
 /**
  * Pirmotion sensor module
+ * @describe passive infrared ( PIR) sensor
  * @extends Electronic
  */
 class Pirmotion extends Electronic {
@@ -14,7 +15,10 @@ class Pirmotion extends Electronic {
       port: validateNumber(port)
     };
   }
-
+  /**
+   * Get data of Pirmotion sensor
+   * @return {Promise} 
+   */
   async getData() {
     let buf = Utils.composer(protocolAssembler.readPirmotion, [this.args.port]);
     return await CommandManager.read(buf);

@@ -22,7 +22,7 @@ class BaseSound extends Electronic {
   }
 
   /**
-   * GetData of Sound sensor
+   * Get data of Sound sensor
    * @return {Promise} 
    */
   async getData() {

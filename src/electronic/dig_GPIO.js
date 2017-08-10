@@ -15,7 +15,10 @@ class DigGPIO extends Electronic {
       port: validateNumber(port)
     };
   }
-
+  /**
+   * Get data of DigGPIO sensor
+   * @return {Promise} 
+   */  
   async getData() {
     let buf = Utils.composer(protocolAssembler.readDigGPIO, [this.args.port]);
     return await CommandManager.read(buf);

@@ -15,7 +15,10 @@ class Flame extends Electronic {
       port: validateNumber(port)
     };
   }
-
+  /**
+   * Get data of Flame sensor
+   * @return {Promise} 
+   */
   async getData() {
     let buf = Utils.composer(protocolAssembler.readFlame, [this.args.port]);
     return await CommandManager.read(buf);

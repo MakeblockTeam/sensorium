@@ -4,6 +4,13 @@ import Utils from '../core/utils';
 import protocolAssembler from '../protocol/cmd';
 import CommandManager from '../communicate/command-manager';
 /**
+ * @private 
+ */
+function write(bufArray) {
+  let buf = Utils.composer(protocolAssembler.setLedMatrix, bufArray);
+  CommandManager.write(buf);
+}
+/**
  * @Class BaseLedMatrix
  * @description It is a base Class of LedMatrix
  * @extends Electronic
@@ -20,13 +27,24 @@ class BaseLedMatrix extends Electronic {
   }
 
   /**
+   * clear Matrix panel content
+   * TOIMPROVE: 甚至可以提供接口清除某个区域
+   */
+  clear() {
+    let type = 0x02;
+    let byteResult = Utils.byteString2binaryByte('0'.repeat(128));
+    let bufArray = [this.args.port, type, 0, 0].concat(byteResult);
+    write(bufArray);
+    return this;
+  }
+
+  /**
    * @abstract
    * @param  {Array} bufArray  protocal buffer
    * @return {Instance}
    */
   run(bufArray){
-    let buf = Utils.composer(protocolAssembler.setLedMatrix, bufArray);
-    CommandManager.write(buf);
+    write(bufArray);
     return this;
   }
 }

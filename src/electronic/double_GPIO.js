@@ -16,7 +16,10 @@ class DoubleGPIO extends Electronic {
       port2: validateNumber(port2)
     };
   }
-
+  /**
+   * Get data of DoubleGPIO sensor
+   * @return {Promise} 
+   */
   async getData() {
     let buf = Utils.composer(protocolAssembler.readDoubleGPIO, [this.args.port1, this.args.port2]);
     return await CommandManager.read(buf);

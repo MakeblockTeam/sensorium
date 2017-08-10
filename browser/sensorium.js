@@ -657,7 +657,8 @@ exports.default = {
    */
   byteString2binaryByte: function byteString2binaryByte(byteStrs) {
     var byteResult = [];
-    for (var i = 1; i < byteStrs.length; i++) {
+    var len = byteStrs.length + 1;
+    for (var i = 1; i < len; i++) {
       if (i % 8 === 0) {
         var byteStr = byteStrs.slice(i - 8, i);
         byteResult.push(parseInt(byteStr, 2));
@@ -1072,15 +1073,19 @@ function protocolAssembler() {
   };
 
   /**
-   * read external or board infrared sensor
-   * @param  {Number} id    auriga id: 6,7,8,9,10
-   * @param  {Number} port  auriga port: 6,7,8,9,10
+   * read external or board infrared sensor, and the board one is only for mcore
+   * @param  {Number} id    sensor device id，such as: 0x0e, 0x0d, 0x10
+   * @param  {Number} port  mcore port: 3, 4, auriga port: 6,7,8,9,10
    * @return {Number}       [description]
    * @example
-   * ff 55 05 00 01 0e 00 45
+   * ff 55 05 00 01 0e 00
    */
-  this.readInfrared = function (id, port) {
-    return bufAssembler({ mode: 0x01, id: id }, port);
+  this.readInfrared = function (id, port, akey) {
+    if (akey) {
+      return bufAssembler({ mode: 0x01, id: id }, port, akey);
+    } else {
+      return bufAssembler({ mode: 0x01, id: id }, port);
+    }
   };
 
   /**
@@ -1397,7 +1402,7 @@ exports.default = new protocolAssembler();
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.warnParamNotDate = exports.validateObject = exports.validateBoolean = exports.validateArray = exports.validateString = exports.validateNumber = exports.warnParamNotInList = exports.warnNotSupport = undefined;
+exports.warnParamNotDateFormat = exports.validateObject = exports.validateBoolean = exports.validateArray = exports.validateString = exports.validateNumber = exports.warnParamNotInList = exports.warnNotSupport = undefined;
 
 var _typeof2 = __webpack_require__(60);
 
@@ -1484,13 +1489,15 @@ function warnParamNotInList(param, list) {
   return param;
 }
 
-function warnParamNotDate(param) {
-  var text = /^([01][0-9]|2[0-3]|[0-9])(:|\s)([0-5][0-9]|[0-9])$/;
-  var result = param.match(text);
-  if (result) {
-    return param.slice(result[2]).concat(result[2]);
+function warnParamNotDateFormat(timeStr) {
+  var reg = /\d{1,2}[\:|\s]\d{1,2}/g;
+  if (reg.test(timeStr)) {
+    var timeArr = timeStr.split(/\:|\s/);
+    var separator = timeStr.replace(/\d/g, '');
+    timeArr.splice(1, 0, separator);
+    return timeArr;
   } else {
-    console.warn('Param ' + param + ' should be \'HH:MM\' or \'HH MM\' or \'H:M\'}');
+    console.warn('Param ' + timeStr + ' should be \'HH:MM\' or \'HH MM\' or \'H:M\'}');
     return false;
   }
 }
@@ -1502,7 +1509,7 @@ exports.validateString = validateString;
 exports.validateArray = validateArray;
 exports.validateBoolean = validateBoolean;
 exports.validateObject = validateObject;
-exports.warnParamNotDate = warnParamNotDate;
+exports.warnParamNotDateFormat = warnParamNotDateFormat;
 
 /***/ }),
 /* 9 */
@@ -2094,9 +2101,9 @@ var _servo_motor = __webpack_require__(157);
 
 var _servo_motor2 = _interopRequireDefault(_servo_motor);
 
-var _four_led = __webpack_require__(158);
+var _four_leds = __webpack_require__(158);
 
-var _four_led2 = _interopRequireDefault(_four_led);
+var _four_leds2 = _interopRequireDefault(_four_leds);
 
 var _rgb_led = __webpack_require__(159);
 
@@ -2182,55 +2189,63 @@ var _pirmotion = __webpack_require__(190);
 
 var _pirmotion2 = _interopRequireDefault(_pirmotion);
 
-var _limit_switch = __webpack_require__(191);
+var _infrared = __webpack_require__(191);
+
+var _infrared2 = _interopRequireDefault(_infrared);
+
+var _infrared_on_board = __webpack_require__(192);
+
+var _infrared_on_board2 = _interopRequireDefault(_infrared_on_board);
+
+var _limit_switch = __webpack_require__(193);
 
 var _limit_switch2 = _interopRequireDefault(_limit_switch);
 
-var _line_follower = __webpack_require__(192);
+var _line_follower = __webpack_require__(194);
 
 var _line_follower2 = _interopRequireDefault(_line_follower);
 
-var _compass = __webpack_require__(193);
+var _compass = __webpack_require__(195);
 
 var _compass2 = _interopRequireDefault(_compass);
 
-var _humiture = __webpack_require__(194);
+var _humiture = __webpack_require__(196);
 
 var _humiture2 = _interopRequireDefault(_humiture);
 
-var _flame = __webpack_require__(195);
+var _flame = __webpack_require__(197);
 
 var _flame2 = _interopRequireDefault(_flame);
 
-var _gas = __webpack_require__(196);
+var _gas = __webpack_require__(198);
 
 var _gas2 = _interopRequireDefault(_gas);
 
-var _touch = __webpack_require__(197);
+var _touch = __webpack_require__(199);
 
 var _touch2 = _interopRequireDefault(_touch);
 
-var _four_keys = __webpack_require__(198);
+var _four_keys = __webpack_require__(200);
 
 var _four_keys2 = _interopRequireDefault(_four_keys);
 
-var _dig_GPIO = __webpack_require__(199);
+var _dig_GPIO = __webpack_require__(201);
 
 var _dig_GPIO2 = _interopRequireDefault(_dig_GPIO);
 
-var _analog_GPIO = __webpack_require__(200);
+var _analog_GPIO = __webpack_require__(202);
 
 var _analog_GPIO2 = _interopRequireDefault(_analog_GPIO);
 
-var _GPIO_continue = __webpack_require__(201);
+var _GPIO_continue = __webpack_require__(203);
 
 var _GPIO_continue2 = _interopRequireDefault(_GPIO_continue);
 
-var _double_GPIO = __webpack_require__(202);
+var _double_GPIO = __webpack_require__(204);
 
 var _double_GPIO2 = _interopRequireDefault(_double_GPIO);
 
-var _runtime = __webpack_require__(203);
+var _runtime = __webpack_require__(205);
 
 var _runtime2 = _interopRequireDefault(_runtime);
 
@@ -2248,7 +2263,7 @@ exports.default = {
   EncoderMotor: _encoder_motor2.default,
   EncoderMotorOnBoard: _encoder_motor_on_board2.default,
   ServoMotor: _servo_motor2.default,
-  FourLed: _four_led2.default,
+  FourLeds: _four_leds2.default,
   RgbLed: _rgb_led2.default,
   RgbLedOnBoard: _rgb_led_on_board2.default,
   LedMatrix: _led_matrix2.default,
@@ -2271,6 +2286,8 @@ exports.default = {
   Sound: _sound2.default,
   SoundOnBoard: _sound_on_board2.default,
   Pirmotion: _pirmotion2.default,
+  Infrared: _infrared2.default,
+  InfraredOnBoard: _infrared_on_board2.default,
   LineFollower: _line_follower2.default,
   LimitSwitch: _limit_switch2.default,
   Compass: _compass2.default,
@@ -2526,10 +2543,18 @@ var _commandManager2 = _interopRequireDefault(_commandManager);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
+ * @private 
+ */
+function write(bufArray) {
+  var buf = _utils2.default.composer(_cmd2.default.setLedMatrix, bufArray);
+  _commandManager2.default.write(buf);
+}
+/**
  * @Class BaseLedMatrix
  * @description It is a base Class of LedMatrix
  * @extends Electronic
  */
+
 var BaseLedMatrix = function (_Electronic) {
   (0, _inherits3.default)(BaseLedMatrix, _Electronic);
 
@@ -2548,17 +2573,31 @@ var BaseLedMatrix = function (_Electronic) {
   }
 
   /**
-   * @abstract
-   * @param  {Array} bufArray  protocal buffer
-   * @return {Instance}
+   * clear Matrix panel content
+   * TOIMPROVE: 甚至可以提供接口清除某个区域
    */
 
 
   (0, _createClass3.default)(BaseLedMatrix, [{
+    key: 'clear',
+    value: function clear() {
+      var type = 0x02;
+      var byteResult = _utils2.default.byteString2binaryByte('0'.repeat(128));
+      var bufArray = [this.args.port, type, 0, 0].concat(byteResult);
+      write(bufArray);
+      return this;
+    }
+
+    /**
+     * @abstract
+     * @param  {Array} bufArray  protocal buffer
+     * @return {Instance}
+     */
+
+  }, {
     key: 'run',
     value: function run(bufArray) {
-      var buf = _utils2.default.composer(_cmd2.default.setLedMatrix, bufArray);
-      _commandManager2.default.write(buf);
+      write(bufArray);
       return this;
     }
   }]);
@@ -4291,7 +4330,7 @@ var BaseLight = function (_Electronic) {
   }
 
   /**
-   * GetData of the Light sensor
+   * Get data of the Light sensor
    * @return {Promise} 
    */
 
@@ -4429,7 +4468,7 @@ var BaseGyro = function (_Electronic) {
     }
 
     /**
-     * GetData of Gyro
+     * Get data of Gyro sensor
      * @return {Promise} 
      */
 
@@ -4552,7 +4591,7 @@ var BaseSound = function (_Electronic) {
   }
 
   /**
-   * GetData of Sound sensor
+   * Get data of Sound sensor
    * @return {Promise} 
    */
 
@@ -4646,23 +4685,23 @@ var _mcore = __webpack_require__(134);
 
 var _mcore2 = _interopRequireDefault(_mcore);
 
-var _orion = __webpack_require__(204);
+var _orion = __webpack_require__(206);
 
 var _orion2 = _interopRequireDefault(_orion);
 
-var _auriga = __webpack_require__(205);
+var _auriga = __webpack_require__(207);
 
 var _auriga2 = _interopRequireDefault(_auriga);
 
-var _megaPi = __webpack_require__(206);
+var _megaPi = __webpack_require__(208);
 
 var _megaPi2 = _interopRequireDefault(_megaPi);
 
-var _megaPiPro = __webpack_require__(207);
+var _megaPiPro = __webpack_require__(209);
 
 var _megaPiPro2 = _interopRequireDefault(_megaPiPro);
 
-var _arduino = __webpack_require__(208);
+var _arduino = __webpack_require__(210);
 
 var _arduino2 = _interopRequireDefault(_arduino);
 
@@ -8086,25 +8125,25 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * FourLed sensor module
  * @extends Electronic
  */
-var FourLed = function (_BaseRgbLed) {
-  (0, _inherits3.default)(FourLed, _BaseRgbLed);
+var FourLeds = function (_BaseRgbLed) {
+  (0, _inherits3.default)(FourLeds, _BaseRgbLed);
 
-  function FourLed(port) {
-    (0, _classCallCheck3.default)(this, FourLed);
-    return (0, _possibleConstructorReturn3.default)(this, (FourLed.__proto__ || (0, _getPrototypeOf2.default)(FourLed)).call(this, port, 2));
+  function FourLeds(port) {
+    (0, _classCallCheck3.default)(this, FourLeds);
+    return (0, _possibleConstructorReturn3.default)(this, (FourLeds.__proto__ || (0, _getPrototypeOf2.default)(FourLeds)).call(this, port, 2));
     //接Adapter模块可以选择SLOT1(01) 和SLOT2(02)
   }
 
-  (0, _createClass3.default)(FourLed, null, [{
+  (0, _createClass3.default)(FourLeds, null, [{
     key: 'supportStamp',
     value: function supportStamp() {
       return '1111';
     }
   }]);
-  return FourLed;
+  return FourLeds;
 }(_BaseRgbLed3.default);
 
-exports.default = FourLed;
+exports.default = FourLeds;
 
 /***/ }),
 /* 159 */
@@ -8456,7 +8495,7 @@ var LedMatrixChar = function (_BaseLedMatrix) {
   (0, _createClass3.default)(LedMatrixChar, [{
     key: 'x',
     value: function x(_x) {
-      this.args.x = (0, _validate.validateNumber)(_x);
+      this.args.x = (0, _validate.validateNumber)(_x, this.args.x);
       return this;
     }
 
@@ -8468,7 +8507,7 @@ var LedMatrixChar = function (_BaseLedMatrix) {
   }, {
     key: 'y',
     value: function y(_y) {
-      this.args.y = (0, _validate.validateNumber)(_y);
+      this.args.y = (0, _validate.validateNumber)(_y, this.args.y);
       return this;
     }
   }, {
@@ -8479,23 +8518,21 @@ var LedMatrixChar = function (_BaseLedMatrix) {
     }
 
     /**
-     * set all data
-     * @param  {Number} x
-     * @param  {Number} y
+     * set content for Matrix panel
      * @param  {String} str
+     * @param  {Number} coordinate contains [x, y]
      */
 
   }, {
-    key: 'matrixData',
-    value: function matrixData() {
-      var x = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
-      var y = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-      var str = arguments[2];
-
-      this.x(x);
-      this.y(y);
-      this.char(str);
-      return this;
+    key: 'content',
+    value: function content(str, coordinate) {
+      if (!Array.isArray(coordinate)) {
+        coordinate = [0, 0];
+      }
+      //设定坐标
+      this.x(coordinate[0]);
+      this.y(coordinate[1]);
+      return this.char(str);
     }
   }, {
     key: 'run',
@@ -8512,6 +8549,7 @@ var LedMatrixChar = function (_BaseLedMatrix) {
 
           bufArray.push(char.charCodeAt());
         }
+        // console.log('Matrix panel show chars ===>', bufArray);
       } catch (err) {
         _didIteratorError = true;
         _iteratorError = err;
@@ -8685,23 +8723,21 @@ var LedMatrixEmotion = function (_BaseLedMatrix) {
     }
 
     /**
-     * set all data
-     * @param  {Number} x
-     * @param  {Number} y
-     * @param  {String} emotion lattice
+     * set content for Matrix panel
+     * @param  {String} emotionStr
+     * @param  {Number} coordinate contains [x, y]
      */
 
   }, {
-    key: 'matrixData',
-    value: function matrixData() {
-      var x = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
-      var y = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-      var emotion = arguments[2];
-
-      this.x(x);
-      this.y(y);
-      this.emotion(emotion);
-      return this;
+    key: 'content',
+    value: function content(emotionStr, coordinate) {
+      if (!Array.isArray(coordinate)) {
+        coordinate = [0, 0];
+      }
+      //设定坐标
+      this.x(coordinate[0]);
+      this.y(coordinate[1]);
+      return this.emotion(emotionStr);
     }
   }, {
     key: 'run',
@@ -8808,13 +8844,13 @@ var LedMatrixNumber = function (_BaseLedMatrix) {
     }
 
     /**
-     * set all data
-     * @param  {Number} number number
+     * set content for Matrix panel
+     * @param  {Number} number
      */
 
   }, {
-    key: 'matrixData',
-    value: function matrixData(number) {
+    key: 'content',
+    value: function content(number) {
       return this.number(number);
     }
   }, {
@@ -8953,18 +8989,18 @@ var LedMatrixTime = function (_BaseLedMatrix) {
     }
 
     /**
-     * set all data
-     * @param  {Number} h minute
-     * @param  {String} separator  01 signify `:`, 02 signify ` `
-     * @param  {Number} m minute
+     * set content for Matrix panel
+     * @param  {String} timeStr time string format should be 'HH:MM' or 'HH MM' or 'H:M'
      */
 
   }, {
-    key: 'matrixData',
-    value: function matrixData(h, separator, m) {
-      this.hour(h);
-      this.minute(separator);
-      this.separator(m);
+    key: 'content',
+    value: function content(timeStr) {
+      var timeArr = (0, _validate.warnParamNotDateFormat)(timeStr || '') || [0, ':', 0];
+      //利用参数的校验接口
+      this.separator(timeArr[1]);
+      this.hour(Number(timeArr[0]));
+      this.minute(Number(timeArr[2]));
       return this;
     }
   }, {
@@ -10404,7 +10440,7 @@ var Ultrasonic = function (_Electronic) {
   }
 
   /**
-   * GetData of Ultrasonic sensor
+   * Get data of Ultrasonic sensor
    * @return {Promise} 
    */
 
@@ -10529,7 +10565,7 @@ var Temperature = function (_Electronic) {
   }
 
   /**
-   * GetData of Temperature sensor
+   * Get data of Temperature sensor
    * @return {Promise} 
    */
 
@@ -10645,7 +10681,7 @@ var TemperatureOnBoard = function (_Electronic) {
   }
 
   /**
-   * GetData of TemperatureOnBoard sensor
+   * Get data of TemperatureOnBoard sensor
    * @return {Promise} 
    */
 
@@ -10910,6 +10946,11 @@ var Potentionmeter = function (_Electronic) {
     };
     return _this;
   }
+  /**
+   * Get data of Potentionmeter sensor
+   * @return {Promise} 
+   */
+
 
   (0, _createClass3.default)(Potentionmeter, [{
     key: 'getData',
@@ -11038,6 +11079,11 @@ var Joystick = function (_Electronic) {
       this.args.axis = (0, _validate.validateNumber)(_axis, this.args.axis);
       return this;
     }
+    /**
+     * Get data of Joystick sensor
+     * @return {Promise} 
+     */
+
   }, {
     key: 'getData',
     value: function () {
@@ -11382,6 +11428,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 /**
  * Pirmotion sensor module
+ * @describe passive infrared ( PIR) sensor
  * @extends Electronic
  */
 var Pirmotion = function (_Electronic) {
@@ -11397,6 +11444,11 @@ var Pirmotion = function (_Electronic) {
     };
     return _this;
   }
+  /**
+   * Get data of Pirmotion sensor
+   * @return {Promise} 
+   */
+
 
   (0, _createClass3.default)(Pirmotion, [{
     key: 'getData',
@@ -11496,6 +11548,291 @@ var _commandManager = __webpack_require__(5);
 
 var _commandManager2 = _interopRequireDefault(_commandManager);
 
+var _settings = __webpack_require__(13);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var MCORE_NAME = _settings.SUPPORTLIST[0].toLowerCase();
+/**
+ * Infrared sensor module
+ * @describe external infrared sensor and can't connect 2 this infrared sensor to a mainboard at the same time
+ * @extends Electronic
+ */
+
+var Infrared = function (_Electronic) {
+  (0, _inherits3.default)(Infrared, _Electronic);
+
+  function Infrared(port) {
+    (0, _classCallCheck3.default)(this, Infrared);
+
+    var _this = (0, _possibleConstructorReturn3.default)(this, (Infrared.__proto__ || (0, _getPrototypeOf2.default)(Infrared)).call(this));
+
+    _this.args = {
+      port: (0, _validate.validateNumber)(port)
+    };
+    var host = (0, _validate.warnNotSupport)(arguments[arguments.length - 1]) || '';
+    //宿主
+    _this.hostname = host.toLowerCase();
+    return _this;
+  }
+  /**
+   * Get data of Infrared sensor
+   * @return {Promise} 
+   */
+
+
+  (0, _createClass3.default)(Infrared, [{
+    key: 'getData',
+    value: function () {
+      var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
+        var deviceId, aKey, argsArr, buf;
+        return _regenerator2.default.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                deviceId = void 0, aKey = void 0;
+                //如果是 mcore，外接的红外传感器 id = 0x0e
+                //如果非 mcore，外接的红外传感器 id = 0x10
+
+                _context.t0 = this.hostname;
+                _context.next = _context.t0 === MCORE_NAME ? 4 : 7;
+                break;
+
+              case 4:
+                deviceId = 0x0e;
+                aKey = 0x45;
+                return _context.abrupt('break', 8);
+
+              case 7:
+                deviceId = 0x10;
+
+              case 8:
+                argsArr = [deviceId, this.args.port];
+
+                aKey ? argsArr.push(aKey) : null;
+                buf = _utils2.default.composer(_cmd2.default.readInfrared, argsArr);
+                _context.next = 13;
+                return _commandManager2.default.read(buf);
+
+              case 13:
+                return _context.abrupt('return', _context.sent);
+
+              case 14:
+              case 'end':
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function getData() {
+        return _ref.apply(this, arguments);
+      }
+
+      return getData;
+    }()
+  }], [{
+    key: 'supportStamp',
+    value: function supportStamp() {
+      return '1111';
+    }
+  }]);
+  return Infrared;
+}(_electronic2.default);
+
+exports.default = Infrared;
+
+/***/ }),
+/* 192 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _regenerator = __webpack_require__(10);
+
+var _regenerator2 = _interopRequireDefault(_regenerator);
+
+var _asyncToGenerator2 = __webpack_require__(11);
+
+var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+
+var _getPrototypeOf = __webpack_require__(2);
+
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+var _classCallCheck2 = __webpack_require__(0);
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = __webpack_require__(1);
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _possibleConstructorReturn2 = __webpack_require__(3);
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = __webpack_require__(4);
+
+var _inherits3 = _interopRequireDefault(_inherits2);
+
+var _validate = __webpack_require__(8);
+
+var _utils = __webpack_require__(6);
+
+var _utils2 = _interopRequireDefault(_utils);
+
+var _electronic = __webpack_require__(9);
+
+var _electronic2 = _interopRequireDefault(_electronic);
+
+var _cmd = __webpack_require__(7);
+
+var _cmd2 = _interopRequireDefault(_cmd);
+
+var _commandManager = __webpack_require__(5);
+
+var _commandManager2 = _interopRequireDefault(_commandManager);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/**
+ * 所有主控板（包括MegaPiPro）都有 2 种类型：外接的红外传感器，外接的被动式红外探测器
+ * mcore 一共有 4 种红外相关的传感器，即除了上述 2 种，还有板载的红外传感器，且板载的分别是“发射端”、“接收端” 2 种
+
+ * mcore 红外线接收端（读） id 0x0e
+ * mcore 红外线发射端（写）id 0x0d
+ * 其他主控板，红外传感器统一为接收端 (读) - id 0x10
+ * 其他主控板，被动式红外传感器统一为接收端 (读) - id 0x0f
+ */
+
+/**
+ * InfraredOnBoard sensor module
+ * @describe this interface is only for mcore and mcore has two kind of InfraredOnBoard sensor
+ * @extends Electronic
+ */
+var InfraredOnBoard = function (_Electronic) {
+  (0, _inherits3.default)(InfraredOnBoard, _Electronic);
+
+  function InfraredOnBoard() {
+    (0, _classCallCheck3.default)(this, InfraredOnBoard);
+
+    var _this = (0, _possibleConstructorReturn3.default)(this, (InfraredOnBoard.__proto__ || (0, _getPrototypeOf2.default)(InfraredOnBoard)).call(this));
+
+    _this.deviceId = 0x0e;
+    return _this;
+  }
+  /**
+   * Get data of Infrared sensor
+   * @return {Promise} 
+   */
+
+
+  (0, _createClass3.default)(InfraredOnBoard, [{
+    key: 'getData',
+    value: function () {
+      var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
+        var port, aKey, buf;
+        return _regenerator2.default.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                port = 0x00;
+                aKey = 0x45;
+                buf = _utils2.default.composer(_cmd2.default.readInfrared, [this.deviceId, port, aKey]);
+                _context.next = 5;
+                return _commandManager2.default.read(buf);
+
+              case 5:
+                return _context.abrupt('return', _context.sent);
+
+              case 6:
+              case 'end':
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function getData() {
+        return _ref.apply(this, arguments);
+      }
+
+      return getData;
+    }()
+  }], [{
+    key: 'supportStamp',
+    value: function supportStamp() {
+      return '10000';
+    }
+  }]);
+  return InfraredOnBoard;
+}(_electronic2.default);
+
+exports.default = InfraredOnBoard;
+
+/***/ }),
+/* 193 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _regenerator = __webpack_require__(10);
+
+var _regenerator2 = _interopRequireDefault(_regenerator);
+
+var _asyncToGenerator2 = __webpack_require__(11);
+
+var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+
+var _getPrototypeOf = __webpack_require__(2);
+
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+var _classCallCheck2 = __webpack_require__(0);
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = __webpack_require__(1);
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _possibleConstructorReturn2 = __webpack_require__(3);
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = __webpack_require__(4);
+
+var _inherits3 = _interopRequireDefault(_inherits2);
+
+var _validate = __webpack_require__(8);
+
+var _utils = __webpack_require__(6);
+
+var _utils2 = _interopRequireDefault(_utils);
+
+var _electronic = __webpack_require__(9);
+
+var _electronic2 = _interopRequireDefault(_electronic);
+
+var _cmd = __webpack_require__(7);
+
+var _cmd2 = _interopRequireDefault(_cmd);
+
+var _commandManager = __webpack_require__(5);
+
+var _commandManager2 = _interopRequireDefault(_commandManager);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
@@ -11516,6 +11853,11 @@ var LimitSwitch = function (_Electronic) {
     };
     return _this;
   }
+  /**
+   * Get data of Joystick sensor
+   * @return {Promise} 
+   */
+
 
   (0, _createClass3.default)(LimitSwitch, [{
     key: 'getData',
@@ -11559,7 +11901,7 @@ var LimitSwitch = function (_Electronic) {
 exports.default = LimitSwitch;
 
 /***/ }),
-/* 192 */
+/* 194 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11634,6 +11976,11 @@ var LineFollower = function (_Electronic) {
     };
     return _this;
   }
+  /**
+   * Get data of LineFollower sensor
+   * @return {Promise} 
+   */
+
 
   (0, _createClass3.default)(LineFollower, [{
     key: 'getData',
@@ -11677,7 +12024,7 @@ var LineFollower = function (_Electronic) {
 exports.default = LineFollower;
 
 /***/ }),
-/* 193 */
+/* 195 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11752,6 +12099,11 @@ var Compass = function (_Electronic) {
     };
     return _this;
   }
+  /**
+   * Get data of Compass sensor
+   * @return {Promise} 
+   */
+
 
   (0, _createClass3.default)(Compass, [{
     key: 'getData',
@@ -11795,7 +12147,7 @@ var Compass = function (_Electronic) {
 exports.default = Compass;
 
 /***/ }),
-/* 194 */
+/* 196 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11970,7 +12322,7 @@ var Humiture = function (_Electronic) {
 exports.default = Humiture;
 
 /***/ }),
-/* 195 */
+/* 197 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12045,6 +12397,11 @@ var Flame = function (_Electronic) {
     };
     return _this;
   }
+  /**
+   * Get data of Flame sensor
+   * @return {Promise} 
+   */
+
 
   (0, _createClass3.default)(Flame, [{
     key: 'getData',
@@ -12088,7 +12445,7 @@ var Flame = function (_Electronic) {
 exports.default = Flame;
 
 /***/ }),
-/* 196 */
+/* 198 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12163,6 +12520,11 @@ var Gas = function (_Electronic) {
     };
     return _this;
   }
+  /**
+   * Get data of Gas sensor
+   * @return {Promise} 
+   */
+
 
   (0, _createClass3.default)(Gas, [{
     key: 'getData',
@@ -12206,7 +12568,7 @@ var Gas = function (_Electronic) {
 exports.default = Gas;
 
 /***/ }),
-/* 197 */
+/* 199 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12283,7 +12645,7 @@ var Touch = function (_Electronic) {
   }
 
   /**
-   * GetData of Touch sensor
+   * Get data of Touch sensor
    * @return {Promise} 
    */
 
@@ -12330,7 +12692,7 @@ var Touch = function (_Electronic) {
 exports.default = Touch;
 
 /***/ }),
-/* 198 */
+/* 200 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12419,6 +12781,11 @@ var FourKeys = function (_Electronic) {
       this.args.key = (0, _validate.validateNumber)(index, this.args.key);
       return this;
     }
+    /**
+     * Get data of FourKeys sensor
+     * @return {Promise} 
+     */
+
   }, {
     key: 'getData',
     value: function () {
@@ -12461,7 +12828,7 @@ var FourKeys = function (_Electronic) {
 exports.default = FourKeys;
 
 /***/ }),
-/* 199 */
+/* 201 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12536,6 +12903,11 @@ var DigGPIO = function (_Electronic) {
     };
     return _this;
   }
+  /**
+   * Get data of DigGPIO sensor
+   * @return {Promise} 
+   */
+
 
   (0, _createClass3.default)(DigGPIO, [{
     key: 'getData',
@@ -12579,7 +12951,7 @@ var DigGPIO = function (_Electronic) {
 exports.default = DigGPIO;
 
 /***/ }),
-/* 200 */
+/* 202 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12659,7 +13031,7 @@ var AnalogGPIO = function (_Electronic) {
   }
 
   /**
-   * GetData of AnalogGPIO
+   * Get data of AnalogGPIO
    * @return {Promise} 
    */
 
@@ -12706,7 +13078,7 @@ var AnalogGPIO = function (_Electronic) {
 exports.default = AnalogGPIO;
 
 /***/ }),
-/* 201 */
+/* 203 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12777,11 +13149,16 @@ var GPIOContinue = function (_Electronic) {
     var _this = (0, _possibleConstructorReturn3.default)(this, (GPIOContinue.__proto__ || (0, _getPrototypeOf2.default)(GPIOContinue)).call(this));
 
     _this.args = {
-      port: (0, _validate.validateNumber)(port),
-      key: (0, _validate.validateNumber)(key)
+      port: (0, _validate.validateNumber)(port, 1),
+      key: (0, _validate.validateNumber)(key, 1)
     };
     return _this;
   }
+  /**
+   * Get data of GPIOContinue sensor
+   * @return {Promise} 
+   */
+
 
   (0, _createClass3.default)(GPIOContinue, [{
     key: 'getData',
@@ -12825,7 +13202,7 @@ var GPIOContinue = function (_Electronic) {
 exports.default = GPIOContinue;
 
 /***/ }),
-/* 202 */
+/* 204 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12901,6 +13278,11 @@ var DoubleGPIO = function (_Electronic) {
     };
     return _this;
   }
+  /**
+   * Get data of DoubleGPIO sensor
+   * @return {Promise} 
+   */
+
 
   (0, _createClass3.default)(DoubleGPIO, [{
     key: 'getData',
@@ -12944,7 +13326,7 @@ var DoubleGPIO = function (_Electronic) {
 exports.default = DoubleGPIO;
 
 /***/ }),
-/* 203 */
+/* 205 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13013,6 +13395,11 @@ var Runtime = function (_Electronic) {
     (0, _classCallCheck3.default)(this, Runtime);
     return (0, _possibleConstructorReturn3.default)(this, (Runtime.__proto__ || (0, _getPrototypeOf2.default)(Runtime)).call(this));
   }
+  /**
+   * Get data of Runtime sensor
+   * @return {Promise} 
+   */
+
 
   (0, _createClass3.default)(Runtime, [{
     key: 'getData',
@@ -13056,7 +13443,7 @@ var Runtime = function (_Electronic) {
 exports.default = Runtime;
 
 /***/ }),
-/* 204 */
+/* 206 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13142,7 +13529,7 @@ var Orion = function (_Board) {
 exports.default = Orion;
 
 /***/ }),
-/* 205 */
+/* 207 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13331,7 +13718,7 @@ var Auriga = function (_Board) {
 exports.default = Auriga;
 
 /***/ }),
-/* 206 */
+/* 208 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13485,7 +13872,7 @@ var MegaPi = function (_Board) {
 exports.default = MegaPi;
 
 /***/ }),
-/* 207 */
+/* 209 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13639,7 +14026,7 @@ var MegaPiPro = function (_Board) {
 exports.default = MegaPiPro;
 
 /***/ }),
-/* 208 */
+/* 210 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

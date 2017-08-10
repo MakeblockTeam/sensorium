@@ -12,7 +12,10 @@ class Runtime extends Electronic {
   constructor() {
     super();
   }
-
+  /**
+   * Get data of Runtime sensor
+   * @return {Promise} 
+   */
   async getData() {
     let buf = Utils.composer(protocolAssembler.readRuntime);
     return await CommandManager.read(buf);

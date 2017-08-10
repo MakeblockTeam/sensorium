@@ -32,7 +32,7 @@ class BaseGyro extends Electronic {
   }
 
   /**
-   * GetData of Gyro
+   * Get data of Gyro sensor
    * @return {Promise} 
    */
   async getData() {

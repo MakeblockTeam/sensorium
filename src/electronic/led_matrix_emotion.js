@@ -48,16 +48,18 @@ class LedMatrixEmotion extends BaseLedMatrix {
   }
 
   /**
-   * set all data
-   * @param  {Number} x
-   * @param  {Number} y
-   * @param  {String} emotion lattice
+   * set content for Matrix panel
+   * @param  {String} emotionStr
+   * @param  {Number} coordinate contains [x, y]
    */
-  matrixData(x = 0, y = 0, emotion) {
-    this.x(x);
-    this.y(y);
-    this.emotion(emotion);
-    return this;
+  content(emotionStr, coordinate) {
+    if(!Array.isArray(coordinate)){
+      coordinate = [0, 0];
+    }
+    //设定坐标
+    this.x(coordinate[0]);
+    this.y(coordinate[1]);
+    return this.emotion(emotionStr);
   }
 
   run(){
