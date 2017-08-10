@@ -271,12 +271,53 @@ function protocolAssembler() {
    * @example
    * C2，quater beat: ff 55 08 00 02 22 09 41 00 f4 01
    */
-  this.setTone = function(hz, beat) {
+  this.setTone = function(hz, beat) { //setBuzzerForMcore
     return bufAssembler({mode: 0x02, id: 0x22},
       (hz & 0xff),
       (hz >> 8) & 0xff,
       (beat & 0xff),
       (beat >> 8) & 0xff);
+  };
+
+  /**
+   * set buzzer.
+   * @param {string} hz , "A2" ~ "D8" 对应的 hz
+   * @param {number} beat , 125: eight; 250: quater; 500: half; 1000: one; 2000: double
+   * @example
+   * C2，quater beat: ff 55 08 00 02 22 09 41 00 f4 01
+   */
+  this.setTone = function(hz, beat) { //setBuzzerForMcore
+    return bufAssembler({mode: 0x02, id: 0x22},
+      (hz & 0xff),
+      (hz >> 8) & 0xff,
+      (beat & 0xff),
+      (beat >> 8) & 0xff);
+  };
+
+  /**
+   * set buzzer.
+   * @param {string} hz , "A2" ~ "D8" 对应的 hz
+   * @param {number} beat , 125: eight; 250: quater; 500: half; 1000: one; 2000: double
+   * @example
+   * C2，quater beat: ff 55 08 00 02 22 09 41 00 f4 01
+   */
+  this.setTone = function(hz, beat) { //setBuzzerForMcore
+    return bufAssembler({mode: 0x02, id: 0x22},
+      (hz & 0xff),
+      (hz >> 8) & 0xff,
+      (beat & 0xff),
+      (beat >> 8) & 0xff);
+  };
+
+  /**
+   * build Buzzer machine code
+   * @private
+   * 播放引脚为x2d，音调为B2，节拍为四分之一：ff 55 08 00 02 22 2d 7b 00 fa 00
+   */
+  this.setBuzzer = function (value, beat) {
+    beat = beat ? beat : 250;
+    var a = [ff, 55, 0x08, 0, 02, 0x22, 0x2d, value & 0xff, value >> 8 & 0xff, beat & 0xff, beat >> 8 & 0xff];
+    // MBlockly.HostInterface.sendBluetoothRequestUnrelibly(a);
   };
 
   /**

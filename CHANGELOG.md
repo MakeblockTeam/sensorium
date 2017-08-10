@@ -1,6 +1,6 @@
 # Changelog
 ## [0.2.4] - 2017-08-08
-## Added
+### Added
 - mcore 板载红外线传感器（读）接口 InfraredOnBoard
 - 其他主控板外接红外线传感器（读）接口 Infrared
 - LedMatrix 模块 4 种模式均增加 clear() 方法，以便能快捷的清除面板上显示的内容
@@ -12,7 +12,7 @@
 -  LedMatrix 表情面板显示字符不能工作的 bug
 
 ## [0.2.3] - 2017-08-08
-## Added
+### Added
 - Sensorium 实例新增 `send` 方法，该方法支持直接 write 协议
 - Sensorium 库新增 API 文档，详情见 `./jsdoc` 目录
 
@@ -20,7 +20,7 @@
 -  Sorry for `async/await` throwing error. 已使用 babel-plugin-transform-runtime 转译修复此问题
 
 ## [0.2.2] - 2017-08-03
-## Added
+### Added
 - Sensorium 实例新增 `createMcore`,`createAuriga`,`createMegaPi`等方法创建对应的主控板实例
 
 ### Changed
