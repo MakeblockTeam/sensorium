@@ -42,7 +42,7 @@ function validateType(type) {
       }
     }
   }
-};
+}
 
 let validateNumber = validateType('number'),
   validateString = validateType('string'),
@@ -78,9 +78,9 @@ function warnParamNotInList(param, list) {
 }
 
 function warnParamNotDateFormat(timeStr) {
-  let reg = /\d{1,2}[\:|\s]\d{1,2}/g;
+  let reg = /\d{1,2}[:|\s]\d{1,2}/g;
   if(reg.test(timeStr)){
-    let timeArr = timeStr.split(/\:|\s/);
+    let timeArr = timeStr.split(/:|\s/);
     let separator = timeStr.replace(/\d/g, '');
     timeArr.splice(1, 0, separator); 
     return timeArr;

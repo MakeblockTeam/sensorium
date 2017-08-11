@@ -1,4 +1,3 @@
-import { validateNumber } from '../core/validate';
 import Utils from '../core/utils';
 import BaseEncoderMotor from './BaseEncoderMotor';
 import protocolAssembler from '../protocol/cmd';

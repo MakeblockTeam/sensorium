@@ -987,9 +987,8 @@ function protocolAssembler() {
   /**
    * read verion of transport
    * @private
-   * @param  {Number} index index of command
    */
-  this.readVersion = function (index) {
+  this.readVersion = function () {
     return bufAssembler({ mode: 0x01, id: 0x00 });
   };
 
@@ -998,7 +997,6 @@ function protocolAssembler() {
    * the execution of the command will have more than 100 milliseconds latency.
    * So the frequency of the host to send this instruction shoulds not be too high.
    * @private
-   * @param  {Number} index [description]
    * @param  {Number} port  vailable: 6，7，8，9，10
    * @return {Number}       [description]
    * @example
@@ -1485,7 +1483,7 @@ function validateType(type) {
           }
     }
   };
-};
+}
 
 var validateNumber = validateType('number'),
     validateString = validateType('string'),
@@ -1521,9 +1519,9 @@ function warnParamNotInList(param, list) {
 }
 
 function warnParamNotDateFormat(timeStr) {
-  var reg = /\d{1,2}[\:|\s]\d{1,2}/g;
+  var reg = /\d{1,2}[:|\s]\d{1,2}/g;
   if (reg.test(timeStr)) {
-    var timeArr = timeStr.split(/\:|\s/);
+    var timeArr = timeStr.split(/:|\s/);
     var separator = timeStr.replace(/\d/g, '');
     timeArr.splice(1, 0, separator);
     return timeArr;
@@ -3756,7 +3754,9 @@ var Transport = function () {
 
   }, {
     key: 'send',
-    value: function send(buf) {}
+    value: function send() {}
+    // console.log(buf);
+
 
     /**
      * 占位函数，当没有被初始化时，执行接收会调用此函数
@@ -4800,7 +4800,7 @@ var Sensorium = function () {
 
   /**
    * Create a mainboard instance
-   * @param {String} boardName 主控板名，忽略大小写
+   * @param {String} mainboardName 主控板名，忽略大小写
    * @param {Object} opts     (optional)
    */
 
@@ -4830,7 +4830,7 @@ var Sensorium = function () {
 
     /**
      * read firmware verion and parse the device info
-     * @return {Promise}
+     * @return {Promise} a promise instance
      */
 
   }, {
@@ -6438,7 +6438,7 @@ var Read = {
       }
       //没有索引
       return null;
-    };
+    }
     return this.index++;
   },
 
@@ -6697,7 +6697,7 @@ exports.default = {
    *  @example
    *  ff 55 02 02 7c 1a 81 41 0d 0a
    */
-  getResult: function getResult(buf, type) {
+  getResult: function getResult(buf) {
     // 获取返回的数据类型
     var dataType = buf[1];
     var result = null;
@@ -7417,20 +7417,20 @@ var VirtualJoystick = function (_Electronic) {
   (0, _createClass3.default)(VirtualJoystick, [{
     key: 'speed',
     value: function speed(leftSpeed, rightSpeed) {
-      this.args.leftSpeed = leftSpeed || 0;
-      this.args.rightSpeed = rightSpeed || 0;
+      this.args.leftSpeed = (0, _validate.validateNumber)(leftSpeed, this.args.leftSpeed);
+      this.args.rightSpeed = (0, _validate.validateNumber)(rightSpeed, this.args.rightSpeed);
       return this;
     }
   }, {
     key: 'leftSpeed',
     value: function leftSpeed(speed) {
-      this.args.leftSpeed = speed || 0;
+      this.args.leftSpeed = (0, _validate.validateNumber)(speed, 0);
       return this;
     }
   }, {
     key: 'rightSpeed',
     value: function rightSpeed(speed) {
-      this.args.rightSpeed = speed || 0;
+      this.args.rightSpeed = (0, _validate.validateNumber)(speed, 0);
       return this;
     }
   }, {
@@ -7781,23 +7781,9 @@ var _inherits2 = __webpack_require__(4);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _validate = __webpack_require__(8);
-
-var _utils = __webpack_require__(6);
-
-var _utils2 = _interopRequireDefault(_utils);
-
 var _BaseEncoderMotor2 = __webpack_require__(84);
 
 var _BaseEncoderMotor3 = _interopRequireDefault(_BaseEncoderMotor2);
-
-var _cmd = __webpack_require__(7);
-
-var _cmd2 = _interopRequireDefault(_cmd);
-
-var _commandManager = __webpack_require__(5);
-
-var _commandManager2 = _interopRequireDefault(_commandManager);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -7866,8 +7852,6 @@ var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorRet
 var _inherits2 = __webpack_require__(4);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
-
-var _validate = __webpack_require__(8);
 
 var _utils = __webpack_require__(6);
 
@@ -8350,10 +8334,6 @@ var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _validate = __webpack_require__(8);
 
-var _utils = __webpack_require__(6);
-
-var _utils2 = _interopRequireDefault(_utils);
-
 var _electronic = __webpack_require__(9);
 
 var _electronic2 = _interopRequireDefault(_electronic);
@@ -8373,14 +8353,6 @@ var _led_matrix_number2 = _interopRequireDefault(_led_matrix_number);
 var _led_matrix_time = __webpack_require__(168);
 
 var _led_matrix_time2 = _interopRequireDefault(_led_matrix_time);
-
-var _cmd = __webpack_require__(7);
-
-var _cmd2 = _interopRequireDefault(_cmd);
-
-var _commandManager = __webpack_require__(5);
-
-var _commandManager2 = _interopRequireDefault(_commandManager);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -8478,21 +8450,9 @@ var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _validate = __webpack_require__(8);
 
-var _utils = __webpack_require__(6);
-
-var _utils2 = _interopRequireDefault(_utils);
-
 var _BaseLedMatrix2 = __webpack_require__(43);
 
 var _BaseLedMatrix3 = _interopRequireDefault(_BaseLedMatrix2);
-
-var _cmd = __webpack_require__(7);
-
-var _cmd2 = _interopRequireDefault(_cmd);
-
-var _commandManager = __webpack_require__(5);
-
-var _commandManager2 = _interopRequireDefault(_commandManager);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -8684,14 +8644,6 @@ var _BaseLedMatrix2 = __webpack_require__(43);
 
 var _BaseLedMatrix3 = _interopRequireDefault(_BaseLedMatrix2);
 
-var _cmd = __webpack_require__(7);
-
-var _cmd2 = _interopRequireDefault(_cmd);
-
-var _commandManager = __webpack_require__(5);
-
-var _commandManager2 = _interopRequireDefault(_commandManager);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
@@ -8838,14 +8790,6 @@ var _BaseLedMatrix2 = __webpack_require__(43);
 
 var _BaseLedMatrix3 = _interopRequireDefault(_BaseLedMatrix2);
 
-var _cmd = __webpack_require__(7);
-
-var _cmd2 = _interopRequireDefault(_cmd);
-
-var _commandManager = __webpack_require__(5);
-
-var _commandManager2 = _interopRequireDefault(_commandManager);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
@@ -8946,14 +8890,6 @@ var _utils2 = _interopRequireDefault(_utils);
 var _BaseLedMatrix2 = __webpack_require__(43);
 
 var _BaseLedMatrix3 = _interopRequireDefault(_BaseLedMatrix2);
-
-var _cmd = __webpack_require__(7);
-
-var _cmd2 = _interopRequireDefault(_cmd);
-
-var _commandManager = __webpack_require__(5);
-
-var _commandManager2 = _interopRequireDefault(_commandManager);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -10333,8 +10269,6 @@ var _inherits2 = __webpack_require__(4);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _validate = __webpack_require__(8);
-
 var _utils = __webpack_require__(6);
 
 var _utils2 = _interopRequireDefault(_utils);
@@ -10888,7 +10822,7 @@ var LightOnBoard = function (_BaseLight) {
 
     _this.hostname = (0, _validate.warnNotSupport)(arguments[arguments.length - 1]) || '';
     switch (_this.hostname) {
-      //TOIMPROVE: auriga 板载 port 只能为 0x0c，0x0b
+      //TO IMPROVE: auriga 板载 port 只能为 0x0c，0x0b
       case _settings.SUPPORTLIST[1]:
         var port = arguments[0];
         _this.args.port = (0, _validate.validateNumber)(port, 1);
@@ -11213,7 +11147,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var Gyro = function (_BaseGyro) {
   (0, _inherits3.default)(Gyro, _BaseGyro);
 
-  function Gyro(port) {
+  function Gyro() {
     (0, _classCallCheck3.default)(this, Gyro);
 
     //外接陀螺仪 port 始终传参为 0
@@ -11724,8 +11658,6 @@ var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorRet
 var _inherits2 = __webpack_require__(4);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
-
-var _validate = __webpack_require__(8);
 
 var _utils = __webpack_require__(6);
 
@@ -13407,8 +13339,6 @@ var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorRet
 var _inherits2 = __webpack_require__(4);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
-
-var _validate = __webpack_require__(8);
 
 var _utils = __webpack_require__(6);
 

@@ -18,18 +18,18 @@ class VirtualJoystick extends Electronic {
   }
 
   speed(leftSpeed, rightSpeed) {
-    this.args.leftSpeed = leftSpeed || 0;
-    this.args.rightSpeed = rightSpeed || 0;
+    this.args.leftSpeed = validateNumber(leftSpeed, this.args.leftSpeed);
+    this.args.rightSpeed = validateNumber(rightSpeed, this.args.rightSpeed);
     return this;
   }
 
   leftSpeed(speed){
-    this.args.leftSpeed = speed || 0;
+    this.args.leftSpeed = validateNumber(speed, 0);
     return this;
   }
 
   rightSpeed(speed){
-    this.args.rightSpeed = speed || 0;
+    this.args.rightSpeed = validateNumber(speed, 0);
     return this;
   }
 

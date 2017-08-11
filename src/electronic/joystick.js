@@ -1,4 +1,4 @@
-import { validateNumber, validateString } from '../core/validate';
+import { validateNumber } from '../core/validate';
 import Utils from '../core/utils';
 import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';

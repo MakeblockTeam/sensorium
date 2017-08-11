@@ -29,7 +29,7 @@ const Read = {
       }
       //没有索引
       return null;
-    };
+    }
     return this.index++;
   },
 

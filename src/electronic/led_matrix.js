@@ -1,12 +1,9 @@
 import { validateNumber, warnNotSupport } from '../core/validate';
-import Utils from '../core/utils';
 import Electronic from './electronic';
 import LedMatrixChar from './led_matrix_char';
 import LedMatrixEmotion from './led_matrix_emotion';
 import LedMatrixNumber from './led_matrix_number';
 import LedMatrixTime from './led_matrix_time';
-import protocolAssembler from '../protocol/cmd';
-import CommandManager from '../communicate/command-manager';
 
 /**
  * LedMatrix sensor module, who can be play as 'charMode','emotionMode','numberMode','timeMode'

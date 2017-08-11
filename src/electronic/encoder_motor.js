@@ -1,9 +1,4 @@
-import { validateNumber } from '../core/validate';
-import Utils from '../core/utils';
 import BaseEncoderMotor from './BaseEncoderMotor';
-import protocolAssembler from '../protocol/cmd';
-import CommandManager from '../communicate/command-manager';
-
 /**
  * EncoderMotor sensor module
  * @extends BaseEncoderMotor

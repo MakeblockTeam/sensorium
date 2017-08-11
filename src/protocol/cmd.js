@@ -306,9 +306,8 @@ function protocolAssembler() {
   /**
    * read verion of transport
    * @private
-   * @param  {Number} index index of command
    */
-  this.readVersion = function(index) {
+  this.readVersion = function() {
     return bufAssembler({mode: 0x01, id: 0x00});
   };
 
@@ -317,7 +316,6 @@ function protocolAssembler() {
    * the execution of the command will have more than 100 milliseconds latency.
    * So the frequency of the host to send this instruction shoulds not be too high.
    * @private
-   * @param  {Number} index [description]
    * @param  {Number} port  vailable: 6，7，8，9，10
    * @return {Number}       [description]
    * @example

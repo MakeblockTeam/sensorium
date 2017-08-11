@@ -48,8 +48,8 @@ class Transport {
    * @param  {Array} buf protocol buffer
    * @return {Undefined}
    */
-  send(buf) {
-
+  send() {
+    // console.log(buf);
   }
 
   /**

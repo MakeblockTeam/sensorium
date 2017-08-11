@@ -5,7 +5,7 @@ import BaseGyro from './BaseGyro';
  * @extends BaseGyro
  */
 class Gyro extends BaseGyro {
-  constructor(port) {
+  constructor() {
     //外接陀螺仪 port 始终传参为 0
     super(0);
   }

@@ -85,7 +85,7 @@ export default {
    *  @example
    *  ff 55 02 02 7c 1a 81 41 0d 0a
    */
-  getResult: function(buf, type) {
+  getResult: function(buf) {
     // 获取返回的数据类型
     let dataType = buf[1];
     let result = null;

@@ -1,4 +1,4 @@
-import { validateNumber, warnNotSupport } from '../core/validate';
+import { warnNotSupport } from '../core/validate';
 import Utils from '../core/utils';
 import Electronic from './electronic';
 import PIDForDistance from './encoder_motor_on_board_pid_for_distance';

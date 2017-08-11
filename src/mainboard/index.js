@@ -41,7 +41,7 @@ class Sensorium {
 
   /**
    * Create a mainboard instance
-   * @param {String} boardName 主控板名，忽略大小写
+   * @param {String} mainboardName 主控板名，忽略大小写
    * @param {Object} opts     (optional)
    */
   create(mainboardName, opts){
@@ -65,7 +65,7 @@ class Sensorium {
 
   /**
    * read firmware verion and parse the device info
-   * @return {Promise}
+   * @return {Promise} a promise instance
    */
   async readFirmwareInfo(){
     return await Version.getVersion().then((val) =>{
