@@ -13,10 +13,9 @@ class LightOnBoard extends BaseLight {
     //宿主主控
     this.hostname = warnNotSupport(arguments[arguments.length-1]) || '';
     switch(this.hostname){
-      //TO IMPROVE: auriga 板载 port 只能为 0x0c，0x0b
       case SUPPORTLIST[1]:
-        let port = arguments[0];
-        this.args.port = validateNumber(port, 1);
+        //TO IMPROVE: auriga 板载 port 只能为 0x0c，0x0b
+        this.args.port = validateNumber(arguments[0], 1);
         break;
       //megapi
       case SUPPORTLIST[2]:

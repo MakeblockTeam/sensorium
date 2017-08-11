@@ -281,7 +281,7 @@ var CommandManager = function () {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return new _promise2.default(function (resolve, reject) {
+                return new _promise2.default(function (resolve) {
                   _read2.default.addRequest(_command2.default.send, buf, function (val) {
                     resolve(val);
                   });
@@ -469,7 +469,6 @@ exports.default = {
       arr.push(num);
     }
     arr.reverse();
-    console.log(arr);
     return arr;
   },
 
@@ -500,7 +499,6 @@ exports.default = {
         break;
       default:
         // if (Number.isNaN(value)) { bytesInt = 0x7FC00000; break; }
-
         if (value <= -0.0) {
           bytesInt = 0x80000000;
           value = -value;
@@ -1325,7 +1323,35 @@ function protocolAssembler() {
    */
   this.setSmartServo = function (index, subCmd, extraCmd) {
     var port = 0x05; //defualt port
-    return bufAssembler.apply(undefined, [{ mode: 0x01, id: 0x40 }, subCmd, port, index].concat((0, _toConsumableArray3.default)(extraCmd)));
+    return bufAssembler.apply(undefined, [{ mode: 0x02, id: 0x40 }, subCmd, port, index].concat((0, _toConsumableArray3.default)(extraCmd)));
+  };
+
+  /**
+   * * @private
+   */
+  this.setSmartServoForAbsoluteAngle = function (index, subCmd, angle, speed) {
+    var port = 0x05; //defualt port
+    var angleBytes = _utils2.default.longToBytes(angle);
+    var speedBytes = _utils2.default.float32ToBytes(speed);
+    return bufAssembler.apply(undefined, [{ mode: 0x02, id: 0x40 }, subCmd, port, index].concat((0, _toConsumableArray3.default)(angleBytes.reverse()), (0, _toConsumableArray3.default)(speedBytes)));
+  };
+
+  /**
+   * * @private
+   */
+  this.setSmartServoForRelativeAngle = function (index, subCmd, angle, speed) {
+    var port = 0x05; //defualt port
+    var angleBytes = _utils2.default.longToBytes(angle);
+    var speedBytes = _utils2.default.float32ToBytes(speed);
+    return bufAssembler.apply(undefined, [{ mode: 0x02, id: 0x40 }, subCmd, port, index].concat((0, _toConsumableArray3.default)(angleBytes.reverse()), (0, _toConsumableArray3.default)(speedBytes)));
+  };
+
+  /**
+   * * @private
+   */
+  this.setSmartServoForDcMotor = function (index, subCmd, speed) {
+    var port = 0x05; //defualt port
+    return bufAssembler({ mode: 0x02, id: 0x40 }, subCmd, port, index, speed & 0xff, speed >> 8 & 0xff);
   };
 
   /**
@@ -1566,7 +1592,7 @@ var Electronic =
  * @param {number} port - 电子模块port口
  * @param {number} slot - 电子模块slot口
  */
-function Electronic(port, slot) {
+function Electronic() {
   (0, _classCallCheck3.default)(this, Electronic);
 };
 
@@ -4810,7 +4836,7 @@ var Sensorium = function () {
     value: function create(mainboardName, opts) {
       var board = boards[mainboardName.toLowerCase()];
       if (typeof board == 'undefined') {
-        throw new Error('sorry, the board ' + boardName + ' could not be supported!\n        You need pass in one of ' + this.getSupported().join(',') + ' as the first argument}');
+        throw new Error('sorry, the board ' + mainboardName + ' could not be supported!\n        You need pass in one of ' + this.getSupported().join(',') + ' as the first argument}');
       }
       return new board(opts);
     }
@@ -7487,8 +7513,6 @@ var _inherits2 = __webpack_require__(4);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _validate = __webpack_require__(8);
-
 var _utils = __webpack_require__(6);
 
 var _utils2 = _interopRequireDefault(_utils);
@@ -9469,7 +9493,7 @@ var SmartServo = function (_Electronic) {
     }
 
     /**
-     * 设置舵机led颜色
+     * set led color of the smart servo
      * @param {String|Array} hex_rgb #ff0064 or [255, 00, 100]
      */
 
@@ -9489,7 +9513,9 @@ var SmartServo = function (_Electronic) {
       return this;
     }
 
-    //握手
+    /**
+     * handshake
+     */
 
   }, {
     key: 'handshake',
@@ -9498,40 +9524,63 @@ var SmartServo = function (_Electronic) {
       write(this.args);
       return this;
     }
+
+    /**
+     * Set speed for smart servo
+     * @param  {Number} speed the speed
+     */
+
   }, {
     key: 'speed',
     value: function speed(_speed) {
       this.args.speed = (0, _validate.validateNumber)(_speed);
       return this;
     }
-    //运动到绝对角度
+    /**
+     * Move to the absolute angle
+     * @param  {Number} angle the absolute angle
+     */
 
   }, {
     key: 'runToAbsoluteAngle',
     value: function runToAbsoluteAngle(angle) {
-      var extraCmd = this.args.speed;
       this.args.subCmd = 0x04;
-      write(this.args, extraCmd);
+      angle = (0, _validate.validateNumber)(angle, 0);
+      var cmd = [this.args.index, this.args.subCmd, angle, this.args.speed];
+      var buf = _utils2.default.composer(_cmd2.default.setSmartServoForAbsoluteAngle, cmd);
+      _commandManager2.default.write(buf);
       return this;
     }
-    //运动到相对角度
+    /**
+     * Move to the relative angle
+     * @param  {Number} angle the relative angle
+     */
 
   }, {
     key: 'runToRelativeAngle',
     value: function runToRelativeAngle(angle) {
-      var extraCmd = this.args.speed;
       this.args.subCmd = 0x05;
-      write(this.args, extraCmd);
+      angle = (0, _validate.validateNumber)(angle, 0);
+      var cmd = [this.args.index, this.args.subCmd, angle, this.args.speed];
+      var buf = _utils2.default.composer(_cmd2.default.setSmartServoForRelativeAngle, cmd);
+      _commandManager2.default.write(buf);
       return this;
     }
-    //作为直流电机运动
+    /**
+     * move smart servo as a DC motor
+     * @param  {Number} speed (optional) speed of the smart servo
+     */
 
   }, {
     key: 'runAsDcMotor',
-    value: function runAsDcMotor() {
-      var extraCmd = this.args.speed;
+    value: function runAsDcMotor(speed) {
+      speed = (0, _validate.validateNumber)(speed, this.args.speed);
+      //限制速度 -255~255
+      this.args.speed = _utils2.default.limitValue(speed);
       this.args.subCmd = 0x06;
-      write(this.args, extraCmd);
+      var cmd = [this.args.index, this.args.subCmd, this.args.speed];
+      var buf = _utils2.default.composer(_cmd2.default.setSmartServoForDcMotor, cmd);
+      _commandManager2.default.write(buf);
       return this;
     }
 
@@ -10822,10 +10871,9 @@ var LightOnBoard = function (_BaseLight) {
 
     _this.hostname = (0, _validate.warnNotSupport)(arguments[arguments.length - 1]) || '';
     switch (_this.hostname) {
-      //TO IMPROVE: auriga 板载 port 只能为 0x0c，0x0b
       case _settings.SUPPORTLIST[1]:
-        var port = arguments[0];
-        _this.args.port = (0, _validate.validateNumber)(port, 1);
+        //TO IMPROVE: auriga 板载 port 只能为 0x0c，0x0b
+        _this.args.port = (0, _validate.validateNumber)(arguments[0], 1);
         break;
       //megapi
       case _settings.SUPPORTLIST[2]:

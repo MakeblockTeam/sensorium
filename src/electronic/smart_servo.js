@@ -52,7 +52,7 @@ class SmartServo extends Electronic {
   }
 
   /**
-   * 设置舵机led颜色
+   * set led color of the smart servo
    * @param {String|Array} hex_rgb #ff0064 or [255, 00, 100]
    */
   setLedColor(hex_rgb){
@@ -69,36 +69,59 @@ class SmartServo extends Electronic {
     return this;
   }
 
-  //握手
+  /**
+   * handshake
+   */
   handshake(){
     this.args.subCmd = 0x03;
     write(this.args);
     return this;
   }
 
+  /**
+   * Set speed for smart servo
+   * @param  {Number} speed the speed
+   */
   speed(speed){
     this.args.speed = validateNumber(speed);
     return this;
   }
-  //运动到绝对角度
+  /**
+   * Move to the absolute angle
+   * @param  {Number} angle the absolute angle
+   */
   runToAbsoluteAngle(angle){
-    let extraCmd = this.args.speed;
     this.args.subCmd = 0x04;
-    write(this.args, extraCmd);
+    angle = validateNumber(angle, 0);
+    let cmd = [this.args.index, this.args.subCmd, angle, this.args.speed];
+    let buf = Utils.composer(protocolAssembler.setSmartServoForAbsoluteAngle, cmd);
+    CommandManager.write(buf);
     return this;
   }
-  //运动到相对角度
+  /**
+   * Move to the relative angle
+   * @param  {Number} angle the relative angle
+   */
   runToRelativeAngle(angle){
-    let extraCmd = this.args.speed;
     this.args.subCmd = 0x05;
-    write(this.args, extraCmd);
+    angle = validateNumber(angle, 0);
+    let cmd = [this.args.index, this.args.subCmd, angle, this.args.speed];
+    let buf = Utils.composer(protocolAssembler.setSmartServoForRelativeAngle, cmd);
+    CommandManager.write(buf);
     return this;
   }
-  //作为直流电机运动
-  runAsDcMotor(){
-    let extraCmd = this.args.speed;
+  /**
+   * move smart servo as a DC motor
+   * @param  {Number} speed (optional) speed of the smart servo
+   */
+  runAsDcMotor(speed){
+    speed = validateNumber(speed, this.args.speed);
+    //限制速度 -255~255
+    this.args.speed = Utils.limitValue(speed);
     this.args.subCmd = 0x06;
-    write(this.args, extraCmd);
+    let cmd = [this.args.index, this.args.subCmd, this.args.speed];
+    let buf = Utils.composer(protocolAssembler.setSmartServoForDcMotor, cmd);
+    CommandManager.write(buf);
     return this;
   }
 

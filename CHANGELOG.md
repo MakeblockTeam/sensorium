@@ -1,4 +1,9 @@
 # Changelog
+## [0.2.5] - 2017-08-11
+### Fixed
+-  Auriga Buzzer 模块无效的 bug
+-  Auriga SmartServo 运动到相对位置、绝对位置等的 bug
+
 ## [0.2.4] - 2017-08-08
 ### Added
 - mcore 板载红外线传感器（读）接口 InfraredOnBoard

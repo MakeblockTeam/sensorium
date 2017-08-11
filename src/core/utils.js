@@ -103,7 +103,6 @@ export default {
       arr.push(num);
     }
     arr.reverse();
-    console.log(arr);
     return arr;
   },
 
@@ -134,7 +133,6 @@ export default {
         break;
       default:
         // if (Number.isNaN(value)) { bytesInt = 0x7FC00000; break; }
-
         if (value <= -0.0) {
           bytesInt = 0x80000000;
           value = -value;

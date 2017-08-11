@@ -47,7 +47,7 @@ class Sensorium {
   create(mainboardName, opts){
     let board = boards[mainboardName.toLowerCase()];
     if(typeof board == 'undefined'){
-      throw new Error(`sorry, the board ${boardName} could not be supported!
+      throw new Error(`sorry, the board ${mainboardName} could not be supported!
         You need pass in one of ${this.getSupported().join(',')} as the first argument}`);
     }
     return new board(opts);
@@ -62,7 +62,7 @@ class Sensorium {
   setTransport(transport){
     Transport.init(transport);
   }
-
+  
   /**
    * read firmware verion and parse the device info
    * @return {Promise} a promise instance

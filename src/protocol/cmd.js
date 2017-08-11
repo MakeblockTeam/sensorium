@@ -659,7 +659,43 @@ function protocolAssembler() {
    */
   this.setSmartServo = function(index, subCmd, extraCmd) {
     let port = 0x05; //defualt port
-    return bufAssembler({mode: 0x01, id: 0x40}, subCmd, port, index, ...extraCmd);
+    return bufAssembler({mode: 0x02, id: 0x40}, subCmd, port, index, ...extraCmd);
+  };
+
+  /**
+   * * @private
+   */
+  this.setSmartServoForAbsoluteAngle = function(index, subCmd, angle, speed) {
+    let port = 0x05; //defualt port
+    let angleBytes = Utils.longToBytes(angle);
+    let speedBytes = Utils.float32ToBytes(speed);
+    return bufAssembler({mode: 0x02, id: 0x40}, subCmd, port, index,
+      ...angleBytes.reverse(),
+      ...speedBytes
+    );
+  };
+  
+  /**
+   * * @private
+   */
+  this.setSmartServoForRelativeAngle = function(index, subCmd, angle, speed) {
+    let port = 0x05; //defualt port
+    let angleBytes = Utils.longToBytes(angle);
+    let speedBytes = Utils.float32ToBytes(speed);
+    return bufAssembler({mode: 0x02, id: 0x40}, subCmd, port, index,
+      ...angleBytes.reverse(),
+      ...speedBytes
+    );
+  };
+
+  /**
+   * * @private
+   */
+  this.setSmartServoForDcMotor = function(index, subCmd, speed) {
+    let port = 0x05; //defualt port
+    return bufAssembler({mode: 0x02, id: 0x40}, subCmd, port, index,
+      speed & 0xff, (speed >> 8) & 0xff
+    );
   };
 
   /**

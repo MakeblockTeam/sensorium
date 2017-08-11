@@ -32,7 +32,7 @@ class CommandManager {
    * @return {Promise}       return a promise
    */
   async read(buf) {
-    return await new Promise(function(resolve, reject){
+    return await new Promise(function(resolve){
       Read.addRequest(Command.send, buf, function(val){
         resolve(val);
       });

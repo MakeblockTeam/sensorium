@@ -1,6 +1,6 @@
 {
   "name": "sensorium",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "mainboards protocol api",
   "main": "browser/sensorium.js",
   "directories": {
@@ -52,8 +52,16 @@
       "ecmaVersion": 8,
       "sourceType": "module"
     },
-    "extends": "eslint:recommended"
-
+    "extends": "eslint:recommended",
+    "rules": {
+      "no-console": ["error", { "allow": ["warn", "error"] }]
+    },
+    "globals": {
+      "Promise": false,
+      "ArrayBuffer": false,
+      "Uint8Array": false,
+      "Int8Array": false
+    }
   },
   "eslintIgnore": ["./node_modules/*", "./test/*", "./jsdoc/*"]
 }
