@@ -18,8 +18,8 @@ class Command {
   }
 
   /**
-   * send protocal buffer through the transport
-   * @param  {Array} buf protocal buffer
+   * send protocol buffer through the transport
+   * @param  {Array} buf protocol buffer
    * @return {Undefined}
    */
   send(buf) {

@@ -40,7 +40,7 @@ class BaseLedMatrix extends Electronic {
 
   /**
    * @abstract
-   * @param  {Array} bufArray  protocal buffer
+   * @param  {Array} bufArray  protocol buffer
    * @return {Instance}
    */
   run(bufArray){

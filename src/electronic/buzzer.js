@@ -1,12 +1,14 @@
 import {
   validateNumber,
-  validateString
+  validateString,
+  warnNotSupport
 } from '../core/validate';
 import Utils from '../core/utils';
 import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
 import CommandManager from '../communicate/command-manager';
-import { TONE_TO_HZ } from '../mainboard/settings';
+import { TONE_TO_HZ, SUPPORTLIST } from '../mainboard/settings';
+const MCORE_ = SUPPORTLIST[0].toLowerCase();
 
 /**
  * Buzzer sensor module
@@ -19,6 +21,9 @@ class Buzzer extends Electronic {
       hz: 880,
       beat: 250
     }
+    let host = warnNotSupport(arguments[arguments.length-1]) || '';
+    //宿主
+    this.hostname = host.toLowerCase();
   }
 
   /**
@@ -53,13 +58,20 @@ class Buzzer extends Electronic {
    * run Buzzer sensor
    */
   run() {
-    let buf = Utils.composer(protocolAssembler.setTone, [this.args.hz, this.args.beat]);
+    let buf = [];
+    switch (this.hostname) {
+      case MCORE_:
+        buf = Utils.composer(protocolAssembler.setBuzzerForMcore, [this.args.hz, this.args.beat]);
+        break;
+      default:
+        buf = Utils.composer(protocolAssembler.setBuzzer, [this.args.hz, this.args.beat]);
+    }
     CommandManager.write(buf);
     return this;
   }
 
   static supportStamp() {
-    return '1111';
+    return '11111';
   }
 }
 

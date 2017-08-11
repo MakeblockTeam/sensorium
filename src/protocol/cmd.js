@@ -1,5 +1,5 @@
 /**
- * @fileOverview  protocal API list
+ * @fileOverview  protocol API list
  */
 import Utils from "../core/utils";
 /**
@@ -51,6 +51,7 @@ function protocolAssembler() {
 
   /**
    * Set encoder motor speed.
+   * @private
    * @param {number} slot  slot number, vailable is: 1,2
    * @param {number} speed speed, the range is -255 ~ 255
    * @example
@@ -64,6 +65,7 @@ function protocolAssembler() {
 
   /**
    * set encoder motor.
+   * @private
    * @param  {Number} index [description]
    * @param  {Number} port  vailable: 1,2,3,4
    * @param  {Number} slot  vailable: 1，2
@@ -87,6 +89,7 @@ function protocolAssembler() {
 
   /**
    * Set both left speed and right speed with one command.
+   * @private
    * @param {number} leftSpeed  left speed, the range is -255 ~ 255
    * @param {number} rightSpeed right speed, the range is -255 ~ 255
    * @example
@@ -105,6 +108,7 @@ function protocolAssembler() {
 
   /**
    * Set speed for balance mode, the port is on transport, value is 0.
+   * @private
    * @param {number} turnRange turn extend, -255 ~ 255
    * @param {number} speed      speed, -255 ~ 255
    * @example
@@ -125,6 +129,7 @@ function protocolAssembler() {
 
   /**
    * Set stepper motor speed.
+   * @private
    * @param {Number} port     port number, vailable is: 1,2,3,4
    * @param {Number} speed    speed, the range is 0 ~ 3000
    * @param {Long} distance distance, the range is -2147483648 ~ 2147483647
@@ -145,6 +150,7 @@ function protocolAssembler() {
 
   /**
    * Set RgbFourLed electronic module color.
+   * @private
    * @param {number} port     port number, vailable is: 0(on transport), 6,7,8,9,10
    * @param {number} slot     slot number, vailable is: 1,2
    * @param {number} position led position, 0 signify all leds.
@@ -163,13 +169,10 @@ function protocolAssembler() {
   };
 
   /**
-   * Set transport mode.
-   * @param {number} mode transport mode,
-   *     0: bluetooth mode
-   *     1: ultrasonic mode
-   *     2: balance mode
-   *     3: infrared mode
-   *     4: linefollow mode
+   * Set Firmware mode.
+   * @private
+   * @param {number} subCmd 
+   * @param {number} mode 
    * @example
    *     ff 55 05 00 02 3c 11 00
    */
@@ -180,6 +183,7 @@ function protocolAssembler() {
 
   /**
    * Set Servo speed.
+   * @private
    * @param {[type]} port   port number, vailable is 6,7,8,9,10
    * @param {[type]} slot   slot number, vailable is 1,2
    * @param {[type]} degree servo degree, the range is 0 ~ 180
@@ -191,6 +195,7 @@ function protocolAssembler() {
 
   /**
    * Set Seven-segment digital tube number.
+   * @private
    * @param {number} port   port number, vailable is 6,7,8,9,10
    * @param {float} number  the number to be displayed, -999 ~ 9999
    * @exmpa
@@ -235,6 +240,7 @@ function protocolAssembler() {
   
   /**
    * Set led matrix number.
+   * @private
    * @param {number} port   port number, vailable is 6,7,8,9,10
    * @param {float} number the number to be displayed
    * @exmaple
@@ -246,6 +252,7 @@ function protocolAssembler() {
 
   /**
    * Set shutter.
+   * @private
    * @param {number} port   port number, vailable is 6,7,8,9,10
    * @param {number} action 0: 按下快门; 1: 松开快门; 2: 聚焦; 3: 停止聚焦
    * @exmaple
@@ -257,6 +264,7 @@ function protocolAssembler() {
 
   /**
    * reset all sensors and motors on transport.
+   * @private
    * @exmaple
       ff 55 02 00 04
    */
@@ -265,13 +273,13 @@ function protocolAssembler() {
   };
 
   /**
-   * set buzzer.
+   * set buzzer only for mcore.
    * @param {string} hz , "A2" ~ "D8" 对应的 hz
    * @param {number} beat , 125: eight; 250: quater; 500: half; 1000: one; 2000: double
    * @example
    * C2，quater beat: ff 55 08 00 02 22 09 41 00 f4 01
    */
-  this.setTone = function(hz, beat) { //setBuzzerForMcore
+  this.setBuzzerForMcore = function(hz, beat) {
     return bufAssembler({mode: 0x02, id: 0x22},
       (hz & 0xff),
       (hz >> 8) & 0xff,
@@ -280,48 +288,24 @@ function protocolAssembler() {
   };
 
   /**
-   * set buzzer.
-   * @param {string} hz , "A2" ~ "D8" 对应的 hz
-   * @param {number} beat , 125: eight; 250: quater; 500: half; 1000: one; 2000: double
-   * @example
-   * C2，quater beat: ff 55 08 00 02 22 09 41 00 f4 01
-   */
-  this.setTone = function(hz, beat) { //setBuzzerForMcore
-    return bufAssembler({mode: 0x02, id: 0x22},
-      (hz & 0xff),
-      (hz >> 8) & 0xff,
-      (beat & 0xff),
-      (beat >> 8) & 0xff);
-  };
-
-  /**
-   * set buzzer.
-   * @param {string} hz , "A2" ~ "D8" 对应的 hz
-   * @param {number} beat , 125: eight; 250: quater; 500: half; 1000: one; 2000: double
-   * @example
-   * C2，quater beat: ff 55 08 00 02 22 09 41 00 f4 01
-   */
-  this.setTone = function(hz, beat) { //setBuzzerForMcore
-    return bufAssembler({mode: 0x02, id: 0x22},
-      (hz & 0xff),
-      (hz >> 8) & 0xff,
-      (beat & 0xff),
-      (beat >> 8) & 0xff);
-  };
-
-  /**
-   * build Buzzer machine code
+   * set buzzer for mainboard except mcore
    * @private
-   * 播放引脚为x2d，音调为B2，节拍为四分之一：ff 55 08 00 02 22 2d 7b 00 fa 00
+   * @example
+   * 播放引脚为 0x2d，音调为B2，节拍为四分之一：ff 55 08 00 02 22 2d 7b 00 fa 00
    */
-  this.setBuzzer = function (value, beat) {
+  this.setBuzzer = function (hz, beat) {
     beat = beat ? beat : 250;
-    var a = [ff, 55, 0x08, 0, 02, 0x22, 0x2d, value & 0xff, value >> 8 & 0xff, beat & 0xff, beat >> 8 & 0xff];
-    // MBlockly.HostInterface.sendBluetoothRequestUnrelibly(a);
+    return bufAssembler({mode: 0x02, id: 0x22},
+      0x2d,
+      (hz & 0xff),
+      (hz >> 8) & 0xff,
+      (beat & 0xff),
+      (beat >> 8) & 0xff);
   };
 
   /**
    * read verion of transport
+   * @private
    * @param  {Number} index index of command
    */
   this.readVersion = function(index) {
@@ -332,6 +316,7 @@ function protocolAssembler() {
    * mainly used for distance measurement, the measurement range is 0 to 500 cm,
    * the execution of the command will have more than 100 milliseconds latency.
    * So the frequency of the host to send this instruction shoulds not be too high.
+   * @private
    * @param  {Number} index [description]
    * @param  {Number} port  vailable: 6，7，8，9，10
    * @return {Number}       [description]
@@ -344,10 +329,9 @@ function protocolAssembler() {
 
   /**
    * read temperature, Each port can connect two road temperature sensor.
-   * @param  {Number} index [description]
+   * @private
    * @param  {Number} port  vailable: 6，7，8，9，10
    * @param  {Number} slot  vailable: slot1(1), slot2(2)
-   * @return {Number}       [description]
    * @example
    * ff 55 05 00 01 02 01 02
    */
@@ -357,7 +341,7 @@ function protocolAssembler() {
 
   /**
    * The light sensor module or ontransport (lamp) light sensors numerical reading.
-   * @param  {Number} index [description]
+   * @private
    * @param  {Number} port  vailable: 6,7,8,9,10, onbord(0c),onbord(0b)
    * @return {Number}       [description]
    * @example
@@ -369,7 +353,7 @@ function protocolAssembler() {
 
   /**
    * read Potentionmeter
-   * @param  {Number} index [description]
+   * @private
    * @param  {Number} port  vailable: 6，7，8，9，10
    * @return {Number}       [description]
    * @example
@@ -381,7 +365,7 @@ function protocolAssembler() {
 
   /**
    * read josystic value
-   * @param  {Number} index [description]
+   * @private
    * @param  {Number} port  vailable: 6，7，8，9，10
    * @param  {Number} axis  1: x-axis; 2: y-axis;
    * @example
@@ -393,7 +377,7 @@ function protocolAssembler() {
 
   /**
    * read gyro value in different axis.
-   * @param  {Number} index [description]
+   * @private
    * @param  {Number} port  vailable: 6，7，8，9，10
    * @param  {Number} axis  vailable: X-axis(01)  Y-axis(02)  Z-axis(03)
    * @return {Number}       [description]
@@ -406,7 +390,7 @@ function protocolAssembler() {
 
   /**
    * read volume testing MIC module parameters
-   * @param  {Number} index [description]
+   * @private
    * @param  {Number} port  vailable: 6，7，8，9，10，ontransport(0x0e)
    * @return {Number}       [description]
    * @example
@@ -418,7 +402,7 @@ function protocolAssembler() {
 
   /**
    * read temperature on transport
-   * @param  {Number} index [description]
+   * @private
    * @example
    * ff 55 04 00 01 1b 0d
    */
@@ -429,6 +413,7 @@ function protocolAssembler() {
 
   /**
    * read external or board infrared sensor, and the board one is only for mcore
+   * @private
    * @param  {Number} id    sensor device id，such as: 0x0e, 0x0d, 0x10
    * @param  {Number} port  mcore port: 3, 4, auriga port: 6,7,8,9,10
    * @return {Number}       [description]
@@ -445,6 +430,7 @@ function protocolAssembler() {
 
   /**
    * read pyroelectric infrared sensor
+   * @private
    * @param  {Number} port  vailable: 6,7,8,9,10
    * @return {Number}       [description]
    * @example
@@ -456,7 +442,7 @@ function protocolAssembler() {
 
   /**
    * read LineFollower sensor
-   * @param  {Number} index [description]
+   * @private
    * @param  {Number} port  vailable: 6，7，8，9，10
    * @return {Number} number,
    *  00   0
@@ -473,7 +459,7 @@ function protocolAssembler() {
 
   /**
    * read limitSwitch
-   * @param  {Number} index [description]
+   * @private
    * @param  {Number} port  vailable: 6,7,8,9,10
    * @param  {Number} slot  vailable: SLOT1(01)   SLOT2(02)
    * @return {Number}       [description]
@@ -486,7 +472,7 @@ function protocolAssembler() {
 
   /**
    * read compass.
-   * @param  {Number} index [description]
+   * @private
    * @param  {Number} port  vailable: 6,7,8,9,10
    * @return {Number}       [description]
    * @example
@@ -498,7 +484,7 @@ function protocolAssembler() {
 
   /**
    * read humiture
-   * @param  {Number} index [description]
+   * @private
    * @param  {Number} port  vailable: 6，7，8，9，10
    * @param  {Number} temperature(01) humidity (00)
    * @return {Number}       [description]
@@ -511,7 +497,7 @@ function protocolAssembler() {
 
   /**
    * read flame
-   * @param  {Number} index [description]
+   * @private
    * @param  {Number} port  vailable: 6,7,8,9,10
    * @return {Number}       [description]
    * @example
@@ -523,7 +509,7 @@ function protocolAssembler() {
 
   /**
    * Used to get the harmful gas density
-   * @param  {Number} index [description]
+   * @private
    * @param  {Number} port  vailable: 6,7,8,9,10
    * @return {Number}       [description]
    * @example
@@ -535,7 +521,7 @@ function protocolAssembler() {
 
   /**
    * read touch sensor
-   * @param  {Number} index [description]
+   * @private
    * @param  {Number} port  vailable: 6,7,8,9,10
    * @return {Number}       [description]
    * @example
@@ -547,7 +533,7 @@ function protocolAssembler() {
 
   /**
    * To determine whether the corresponding button is pressed.
-   * @param  {Number} index [description]
+   * @private
    * @param  {Number} port  vailable: 6,7,8,9,10
    * @param  {Number} key   vailable:1,2,3,4
    * @return {Number}       [description]
@@ -560,7 +546,7 @@ function protocolAssembler() {
 
   /**
    * read encoder motor position or speed on transport.
-   * @param  {Number} index [description]
+   * @private
    * @param  {Number} slot vailable:1,2
    * @param  {Number} type  1: position; 2: speed
    * @example
@@ -572,10 +558,12 @@ function protocolAssembler() {
   };
 
   /**
-   * 板载编码电机 PID 运动 01模式位置模式: 
-   * buf: ff 55 0b 00 02 3e 01 01 00 00 00 00 00 00
+   * 板载编码电机 PID 运动 01模式位置模式
+   * @private
    * @param {Number} distance  位移
    * @param {Number} speed    速度
+   * @example
+   * buf: ff 55 0b 00 02 3e 01 01 00 00 00 00 00 00
    */
   this.setEncoderMotorPIDDistance = function (distance, speed) {
     let distanceArr = Utils.longToBytes(distance);
@@ -593,9 +581,11 @@ function protocolAssembler() {
   };
   
   /**
-   * 板载编码电机 PID 运动 02模式速度模式: 
-   * buf: ff 55 07 00 02 3e 02 01 00 00
+   * 板载编码电机 PID 运动 02模式速度模式
+   * @private
    * @param {Number} speed    速度
+   * @example
+   * buf: ff 55 07 00 02 3e 02 01 00 00
    */
   this.setEncoderMotorPIDSpeed = function (speed) {
     let subCmd = 0x02;
@@ -604,9 +594,10 @@ function protocolAssembler() {
     return bufAssembler({mode: 0x02, id: 0x3e}, subCmd, slot, speed & 0xff, (speed >> 8) & 0xff);
   },
   /**
-   * 板载编码电机 PID 运动 03模式 pwm 模式: 
+   * 板载编码电机 PID 运动 03模式 pwm 模式
    * buf: ff 55 07 00 02 3e 03 01 00 00
    * @param {Number} speed    速度
+   * @private
    */
   this.setEncoderMotorPIDPwm = function (speed) {
     let subCmd = 0x03;
@@ -620,6 +611,7 @@ function protocolAssembler() {
    * buf: ff 55 05 00 02 3e 04 01
    * (megaPiPro buf: ff 55 05 00 02 3e 03 01)
    * @param {Number} subCmd    二级命令
+   * @private
    */
   this.setEncoderMotorPIDZeroPoint = function (subCmd) {
     let slot = 0x01;
@@ -629,6 +621,7 @@ function protocolAssembler() {
   /**
    * 板载编码电机 PID 运动 05模式双电机模式: 
    * buf: ff 55 0b 00 02 3e 05 01 e8 03 00 00 64 00
+   * @private
    * @param {Number} subCmd      0x05
    * @param {Number} direction      前进1，后退2，左转3，右转4
    * @param {Number} distance  位移
@@ -651,6 +644,7 @@ function protocolAssembler() {
 
   /**
    * set smart servo
+   * @private
    * @param  {Number} index  the index code of current servo
    * @param  {Number} subCmd  the sub command that the servo run on
    * @param  {Array} extraCmd  the extra command
@@ -672,6 +666,7 @@ function protocolAssembler() {
 
   /**
    * read smart servo operating parameters
+   * @private
    * @param  {Number} index  the index code of current servo
    * @param  {Number} subCmd  the sub command that the servo run on
    * @example
@@ -688,7 +683,7 @@ function protocolAssembler() {
 
   /**
    * read firmware mode or voltage.
-   * @param  {Number} index [description]
+   * @private
    * @param  {Number} type  0x70: 电压; 0x71: 模式
    * @example
    * ff 55 04 00 01 3c 70
@@ -699,7 +694,7 @@ function protocolAssembler() {
   };
 
   /**
-   * @param  {Number} index [description]
+   * @private
    * @param  {Number} port  vailable: digit GPOI port
    * @return {Number}       [description]
    * @example
@@ -710,7 +705,7 @@ function protocolAssembler() {
   };
 
   /**
-   * @param  {Number} index [description]
+   * @private
    * @param  {Number} port  vailable: analog GPIO port
    * @return {Number}       [description]
    * @example
@@ -721,7 +716,7 @@ function protocolAssembler() {
   };
 
   /**
-   * @param  {Number} index [description]
+   * @private
    * @param  {Number} port  vailable: GPIO port
    * @param  {Number} key   vailable: 0,1
    * @return {Number}       [description]
@@ -733,7 +728,7 @@ function protocolAssembler() {
   };
 
   /**
-   * @param  {Number} index [description]
+   * @private
    * @param  {Number} port  vailable: GPIO port
    * @param  {Number} key   vailable: 0,1
    * @return {Number}       [description]
@@ -745,7 +740,7 @@ function protocolAssembler() {
   };
 
   /**
-   * @param  {Number} index [description]
+   * @private
    * @param  {Number} port  vailable: analog GPIO port
    * @param  {Number} key   vailable: 0,1
    * @return {Number}       [description]

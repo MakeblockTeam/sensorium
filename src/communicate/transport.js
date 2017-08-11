@@ -45,7 +45,7 @@ class Transport {
   /**
    * 占位函数，当没有被初始化时，执行发送会调用此函数
    * @interface
-   * @param  {Array} buf protocal buffer
+   * @param  {Array} buf protocol buffer
    * @return {Undefined}
    */
   send(buf) {

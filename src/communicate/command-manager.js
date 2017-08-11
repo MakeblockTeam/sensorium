@@ -19,7 +19,7 @@ class CommandManager {
 
   /**
    * execute write
-   * @param  {Array}   buf   protocal buffer
+   * @param  {Array}   buf   protocol buffer
    * @return {Undefined}     return undefined
    */
   write(buf) {
@@ -28,7 +28,7 @@ class CommandManager {
 
   /**
    * execute read
-   * @param  {Array}   buf   protocal buffer
+   * @param  {Array}   buf   protocol buffer
    * @return {Promise}       return a promise
    */
   async read(buf) {

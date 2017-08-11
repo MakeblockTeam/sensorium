@@ -79,8 +79,8 @@ class Sensorium {
   }
 
   /**
-   * write protocal buffer
-   * now this interface is just for debug the protocal
+   * write protocol buffer
+   * now this interface is just for debug the protocol
    * @param  {Array} buf 
    * @return {Promise}
    */
