@@ -14,7 +14,7 @@ function serialConnect(sensorium) {
         return false;
       }
     });
-    serialPort = new SerialPort(serialportName, {
+    let serialPort = new SerialPort(serialportName, {
       baudRate: 115200
     }); //linux
     serialPort.on('open', function() {

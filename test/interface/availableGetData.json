@@ -1,1 +1,24 @@
-{ "drivenData" :[{"caseDir":"直流电机","caseName":"设置直流电机M1速度100","caseSummary":[]},{"caseDir":"直流电机","caseName":"设置直流电机M1速度0","caseSummary":[]},{"caseDir":"直流电机","caseName":"设置直流电机M1速度-255","caseSummary":[]},{"caseDir":"直流电机","caseName":"设置直流电机M2速度255","caseSummary":[]},{"caseDir":"直流电机","caseName":"设置直流电机M2速度256","caseSummary":[]},{"caseDir":"直流电机","caseName":"设置直流电机M2速度-256","caseSummary":[]},{"caseDir":"直流电机","caseName":"设置直流电机M1在速度取值正常范围内，即【100,255，150,0,-100，-255,-150】","caseSummary":[]}]}
+{
+    "drivenData": [
+        {
+            "caseDir": "直流电机",
+            "caseName": "循环获取auriga的外接温度传感器值测试",
+            "caseSummary": [
+                "loop-readCmd:",
+                "auriga.Temperature(6, 2)",
+                "ff 55 05 00 01 02 06 02",
+                "-1024~1024"
+            ]
+        },
+        {
+            "caseDir": "直流电机",
+            "caseName": "单次获取auriga的外接温度传感器值测试",
+            "caseSummary": [
+                "single-readCmd:",
+                "auriga.Temperature(6, 2)",
+                "ff 55 05 00 01 02 06 02",
+                "-1024~1024"
+            ]
+        }
+    ]
+}
