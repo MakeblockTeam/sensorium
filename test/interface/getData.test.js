@@ -27,7 +27,7 @@ describe('getDataTest:', function () {
     setTimeout(function () {
       console.log("启动时间：4秒～～～OK！");
       done();
-    }, 1000);
+    }, 4000);
   });
 
   drivenData.forEach(function (d) {
@@ -45,21 +45,33 @@ describe('getDataTest:', function () {
           console.log(e);
         })
       }
-      // if (d.caseSummary[0] == "loop-readCmd:") {
-      //   for (let i = 0; i < 20; i++) {//重复读取一个传感器的返回值20次，
-      //     let sendOrder = eval(d.caseSummary[1]); //相应的接口发送的实际指令
-      //     let range = d.caseSummary[3].split('~');
-      //     sendOrder.getData().then((result) => {
-      //       console.log('sensorValue：', result);
-      //       assert.isNumber(result);
-      //       assert.isAtLeast(result, Number(range[0]));
-      //       assert.isAtMost(result, Number(range[1]));
-      //       done();
-      //     })
+      if (d.caseSummary[0] == "loop-readCmd:") {
+        let loop = new Array(15);
+        let sendOrder = eval(d.caseSummary[1]); //相应的接口发送的实际指令
+        let range = d.caseSummary[3].split('~');
+        let loopFunction = function () {
+          return new Promise((resolve, reject) => {
+            sendOrder.getData().then((result) => {
+              // console.log('sensorValue：', result);
+              assert.isNumber(result);
+              assert.isAtLeast(result, Number(range[0]));
+              assert.isAtMost(result, Number(range[1]));
+              resolve(result);
+            }).catch((e) => {
+              console.log('error: ', e)
+              reject(e)
+            })
+          })
+        };
 
-      //   }
-
-      // }
+        let start = async function () {
+          for (let i = 0; i < 15; i++) {//重复读取一个传感器的返回值20次
+            await loopFunction();
+          }
+          done();
+        };
+        start();
+      }
     });
   });
 });
