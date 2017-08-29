@@ -18,23 +18,16 @@ function serialConnect(sensorium) {
       baudRate: 115200
     }); //linux
     serialPort.on('open', function() {
-      //设置 transport 方式
-      sensorium.setTransport({
-        send: function(buf) {
-          console.log('send ----->', buf);
-          serialPort.write(buf);
-        },
-
-        onReceived: function(pipe) {
-          serialPort.on('data', function(buff) {
-            console.log('-----> onReceived then pipe', '[' + buff.join(',') + ']');
-            let val = pipe(buff);
-            console.log('-----> after pipe the value is: ', val);
-          });
-        }
+      sensorium.setSender(function(buf) {
+        console.log('send ----->', buf);
+        serialPort.write(buf);
+      });
+      serialPort.on('data', function(buff) {
+        console.log('-----> Received data', '[' + buff.join(',') + ']');
+        sensorium.doRecevied(buff);
       });
     });
-    // open errors will be emitted as an error event 
+    // open errors will be emitted as an error event
     serialPort.on('error', function(err) {
       console.log('Error: ', err.message);
     });

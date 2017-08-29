@@ -47,7 +47,7 @@
     <div class="typein">输入以下代码，调试 auriga:</div>
     <pre class="code">
       var auriga = sensorium.createAuriga();
-      
+
       //板载 LED 亮起红色
       auriga.RgbLedOnBoard().red();
 
@@ -78,7 +78,7 @@
     }
   </script>
   <script>
-    
+
     var sensorium = new Sensorium();
     var mcore = sensorium.create('Mcore');
 
@@ -111,26 +111,22 @@
     //串口
     else{
       var xhr = new XMLHttpRequest();
-      sensorium.setTransport({
-        send: function(buf) {
-          Tool.sendInfo(buf);
-          let host = 'http://127.0.0.1:8800';
-          var data = '/?buf='+ JSON.stringify(buf) + '&sensor=';
-          xhr.open("GET", host + data ,true);
-          xhr.send(null);
-        },
-        onReceived: function(pipe) {
-          xhr.onreadystatechange = function(e) {
-            if (this.readyState == 4 && this.status == 200) {
-              var buff = JSON.parse(this.response).data;
-              Tool.receiveInfo(buff);
-              pipe(buff);
-            }
-          };
+      xhr.onreadystatechange = function(e) {
+        if (this.readyState == 4 && this.status == 200) {
+          var buff = JSON.parse(this.response).data;
+          Tool.receiveInfo(buff);
+          sensorium.doRecevied(buff);
         }
+      };
+      sensorium.setSender(function(buf) {
+        Tool.sendInfo(buf);
+        let host = 'http://127.0.0.1:8800';
+        var data = '/?buf='+ JSON.stringify(buf) + '&sensor=';
+        xhr.open("GET", host + data ,true);
+        xhr.send(null);
       });
     }
-    
+
   </script>
 </body>
 </html>

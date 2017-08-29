@@ -200,152 +200,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _regenerator = __webpack_require__(10);
-
-var _regenerator2 = _interopRequireDefault(_regenerator);
-
-var _promise = __webpack_require__(37);
-
-var _promise2 = _interopRequireDefault(_promise);
-
-var _asyncToGenerator2 = __webpack_require__(11);
-
-var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
-
-var _classCallCheck2 = __webpack_require__(0);
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = __webpack_require__(1);
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-var _read = __webpack_require__(115);
-
-var _read2 = _interopRequireDefault(_read);
-
-var _write = __webpack_require__(116);
-
-var _write2 = _interopRequireDefault(_write);
-
-var _parse = __webpack_require__(117);
-
-var _parse2 = _interopRequireDefault(_parse);
-
-var _command = __webpack_require__(133);
-
-var _command2 = _interopRequireDefault(_command);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/**
- * @private
- */
-/**
- * @fileOverview CommandManager 类，管理数据读写调度，对外提供以下接口：pipe、read、write
- * @author Jeremy
- */
-var CommandManager = function () {
-  /**
-   * Create a commandManager.
-   */
-  function CommandManager() {
-    (0, _classCallCheck3.default)(this, CommandManager);
-  }
-
-  /**
-   * execute write
-   * @param  {Array}   buf   protocol buffer
-   * @return {Undefined}     return undefined
-   */
-
-
-  (0, _createClass3.default)(CommandManager, [{
-    key: 'write',
-    value: function write(buf) {
-      _write2.default.addRequest(_command2.default.send, buf);
-    }
-
-    /**
-     * execute read
-     * @param  {Array}   buf   protocol buffer
-     * @return {Promise}       return a promise
-     */
-
-  }, {
-    key: 'read',
-    value: function () {
-      var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(buf) {
-        return _regenerator2.default.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                _context.next = 2;
-                return new _promise2.default(function (resolve) {
-                  _read2.default.addRequest(_command2.default.send, buf, function (val) {
-                    resolve(val);
-                  });
-                });
-
-              case 2:
-                return _context.abrupt('return', _context.sent);
-
-              case 3:
-              case 'end':
-                return _context.stop();
-            }
-          }
-        }, _callee, this);
-      }));
-
-      function read(_x) {
-        return _ref.apply(this, arguments);
-      }
-
-      return read;
-    }()
-
-    /**
-     * parse the buffer
-     * @param  {Array}  buff    a buffer responsed from transporter
-     * @return {Number}
-     */
-
-  }, {
-    key: 'pipe',
-    value: function pipe(buff) {
-      var buffer = _parse2.default.doParse(buff);
-      if (!buffer) {//解析后无正确结果
-        //可能因为接收了异常数据
-        //do nothing
-      } else if (buffer.length == 0) {//write 结果
-        //do nothing
-      } else {
-        //read 结果
-        // console.log('after parse ------>', buffer[0], buff);
-        var index = buffer[0];
-        var value = _parse2.default.getResult(buffer);
-        _read2.default.emitCallback(index, value);
-        return value;
-      }
-    }
-  }]);
-  return CommandManager;
-}();
-
-exports.default = new CommandManager();
-
-/***/ }),
-/* 6 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
 var _getOwnPropertySymbols = __webpack_require__(118);
 
 var _getOwnPropertySymbols2 = _interopRequireDefault(_getOwnPropertySymbols);
@@ -685,6 +539,152 @@ exports.default = {
 };
 
 /***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _regenerator = __webpack_require__(10);
+
+var _regenerator2 = _interopRequireDefault(_regenerator);
+
+var _promise = __webpack_require__(37);
+
+var _promise2 = _interopRequireDefault(_promise);
+
+var _asyncToGenerator2 = __webpack_require__(11);
+
+var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+
+var _classCallCheck2 = __webpack_require__(0);
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = __webpack_require__(1);
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _read = __webpack_require__(115);
+
+var _read2 = _interopRequireDefault(_read);
+
+var _write = __webpack_require__(116);
+
+var _write2 = _interopRequireDefault(_write);
+
+var _parse = __webpack_require__(117);
+
+var _parse2 = _interopRequireDefault(_parse);
+
+var _command = __webpack_require__(133);
+
+var _command2 = _interopRequireDefault(_command);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/**
+ * @private
+ */
+/**
+ * @fileOverview CommandManager 类，管理数据读写调度，对外提供以下接口：pipe、read、write
+ * @author Jeremy
+ */
+var CommandManager = function () {
+  /**
+   * Create a commandManager.
+   */
+  function CommandManager() {
+    (0, _classCallCheck3.default)(this, CommandManager);
+  }
+
+  /**
+   * execute write
+   * @param  {Array}   buf   protocol buffer
+   * @return {Undefined}     return undefined
+   */
+
+
+  (0, _createClass3.default)(CommandManager, [{
+    key: 'write',
+    value: function write(buf) {
+      _write2.default.addRequest(_command2.default.send, buf);
+    }
+
+    /**
+     * execute read
+     * @param  {Array}   buf   protocol buffer
+     * @return {Promise}       return a promise
+     */
+
+  }, {
+    key: 'read',
+    value: function () {
+      var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(buf) {
+        return _regenerator2.default.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return new _promise2.default(function (resolve) {
+                  _read2.default.addRequest(_command2.default.send, buf, function (val) {
+                    resolve(val);
+                  });
+                });
+
+              case 2:
+                return _context.abrupt('return', _context.sent);
+
+              case 3:
+              case 'end':
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function read(_x) {
+        return _ref.apply(this, arguments);
+      }
+
+      return read;
+    }()
+
+    /**
+     * parse the buffer
+     * @param  {Array}  buff    a buffer responsed from transporter
+     * @return {Number}
+     */
+
+  }, {
+    key: 'pipe',
+    value: function pipe(buff) {
+      var buffer = _parse2.default.doParse(buff);
+      if (!buffer) {//解析后无正确结果
+        //可能因为接收了异常数据
+        //do nothing
+      } else if (buffer.length == 0) {//write 结果
+        //do nothing
+      } else {
+        //read 结果
+        // console.log('after parse ------>', buffer[0], buff);
+        var index = buffer[0];
+        var value = _parse2.default.getResult(buffer);
+        _read2.default.emitCallback(index, value);
+        return value;
+      }
+    }
+  }]);
+  return CommandManager;
+}();
+
+exports.default = new CommandManager();
+
+/***/ }),
 /* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -699,7 +699,7 @@ var _toConsumableArray2 = __webpack_require__(34);
 
 var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
 
-var _utils = __webpack_require__(6);
+var _utils = __webpack_require__(5);
 
 var _utils2 = _interopRequireDefault(_utils);
 
@@ -2583,7 +2583,7 @@ var _electronic = __webpack_require__(9);
 
 var _electronic2 = _interopRequireDefault(_electronic);
 
-var _utils = __webpack_require__(6);
+var _utils = __webpack_require__(5);
 
 var _utils2 = _interopRequireDefault(_utils);
 
@@ -2591,7 +2591,7 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _commandManager = __webpack_require__(5);
+var _commandManager = __webpack_require__(6);
 
 var _commandManager2 = _interopRequireDefault(_commandManager);
 
@@ -3054,7 +3054,7 @@ var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
 
 var _validate = __webpack_require__(8);
 
-var _utils = __webpack_require__(6);
+var _utils = __webpack_require__(5);
 
 var _utils2 = _interopRequireDefault(_utils);
 
@@ -3066,7 +3066,7 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _commandManager = __webpack_require__(5);
+var _commandManager = __webpack_require__(6);
 
 var _commandManager2 = _interopRequireDefault(_commandManager);
 
@@ -3300,7 +3300,7 @@ var _createClass2 = __webpack_require__(1);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _utils = __webpack_require__(6);
+var _utils = __webpack_require__(5);
 
 var _utils2 = _interopRequireDefault(_utils);
 
@@ -3308,7 +3308,7 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _commandManager = __webpack_require__(5);
+var _commandManager = __webpack_require__(6);
 
 var _commandManager2 = _interopRequireDefault(_commandManager);
 
@@ -3727,7 +3727,7 @@ var _createClass2 = __webpack_require__(1);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _commandManager = __webpack_require__(5);
+var _commandManager = __webpack_require__(6);
 
 var _commandManager2 = _interopRequireDefault(_commandManager);
 
@@ -3740,65 +3740,31 @@ var Transport = function () {
   function Transport() {
     (0, _classCallCheck3.default)(this, Transport);
 
-    //是否已绑定接收器
-    //
-    this.isBindReceiver_ = false;
+    // 执行发送会调用此函数
+    this.send = function () {};
   }
 
   /**
-   * tranport 的初始化
-   * @param  {Transport} transport Transport 接口的一个实现
+   *
+   * @param  {Function} fn the sender
    * @return {Undefined}
    */
 
 
   (0, _createClass3.default)(Transport, [{
-    key: 'init',
-    value: function init(transport) {
-      var this_ = this;
-      this.isBindReceiver_ = false;
-      if (transport && typeof transport.send == 'function' && typeof transport.onReceived == 'function') {
+    key: 'sender',
+    set: function set(fn) {
+      if (typeof fn === 'function') {
         //函数重载
-        this.send = function (buf) {
-          if (!this_.isBindReceiver_) {
-            // 主动式绑定 Received 事件
-            transport.onReceived(_commandManager2.default.pipe.bind(_commandManager2.default));
-            this_.isBindReceiver_ = true;
-            transport.send(buf);
-          }
-          this_.send = transport.send;
-        };
+        this.send = fn;
       }
     }
-
-    /**
-     * 占位函数，当没有被初始化时，执行发送会调用此函数
-     * @interface
-     * @param  {Array} buf protocol buffer
-     * @return {Undefined}
-     */
-
-  }, {
-    key: 'send',
-    value: function send() {}
-    // console.log(buf);
-
-
-    /**
-     * 占位函数，当没有被初始化时，执行接收会调用此函数
-     * @interface
-     * @return {Undefined}
-     */
-
-  }, {
-    key: 'onReceived',
-    value: function onReceived() {}
   }]);
   return Transport;
 }(); /**
       * @fileOverview Transport 类，协议指令的传输通道
       * 由 Transport.send 将协议发送给蓝牙，串口，2.4G，wifi等
-      * 
+      *
       * @desc
       * 主动式：当初始化 sensorium 时，已经进行了初始化，但不知道蓝牙环境是否具备、串口环境是否具备，
       *        此时直接绑定 onRecieved 事件的风险是：可能接收不到响应值
@@ -4114,7 +4080,7 @@ var _createClass2 = __webpack_require__(1);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _utils = __webpack_require__(6);
+var _utils = __webpack_require__(5);
 
 var _utils2 = _interopRequireDefault(_utils);
 
@@ -4122,7 +4088,7 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _commandManager = __webpack_require__(5);
+var _commandManager = __webpack_require__(6);
 
 var _commandManager2 = _interopRequireDefault(_commandManager);
 
@@ -4210,7 +4176,7 @@ var _inherits2 = __webpack_require__(4);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _utils = __webpack_require__(6);
+var _utils = __webpack_require__(5);
 
 var _utils2 = _interopRequireDefault(_utils);
 
@@ -4224,7 +4190,7 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _commandManager = __webpack_require__(5);
+var _commandManager = __webpack_require__(6);
 
 var _commandManager2 = _interopRequireDefault(_commandManager);
 
@@ -4345,7 +4311,7 @@ var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _validate = __webpack_require__(8);
 
-var _utils = __webpack_require__(6);
+var _utils = __webpack_require__(5);
 
 var _utils2 = _interopRequireDefault(_utils);
 
@@ -4357,7 +4323,7 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _commandManager = __webpack_require__(5);
+var _commandManager = __webpack_require__(6);
 
 var _commandManager2 = _interopRequireDefault(_commandManager);
 
@@ -4469,7 +4435,7 @@ var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _validate = __webpack_require__(8);
 
-var _utils = __webpack_require__(6);
+var _utils = __webpack_require__(5);
 
 var _utils2 = _interopRequireDefault(_utils);
 
@@ -4481,7 +4447,7 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _commandManager = __webpack_require__(5);
+var _commandManager = __webpack_require__(6);
 
 var _commandManager2 = _interopRequireDefault(_commandManager);
 
@@ -4606,7 +4572,7 @@ var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _validate = __webpack_require__(8);
 
-var _utils = __webpack_require__(6);
+var _utils = __webpack_require__(5);
 
 var _utils2 = _interopRequireDefault(_utils);
 
@@ -4618,7 +4584,7 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _commandManager = __webpack_require__(5);
+var _commandManager = __webpack_require__(6);
 
 var _commandManager2 = _interopRequireDefault(_commandManager);
 
@@ -4728,7 +4694,7 @@ var _transport = __webpack_require__(79);
 
 var _transport2 = _interopRequireDefault(_transport);
 
-var _commandManager = __webpack_require__(5);
+var _commandManager = __webpack_require__(6);
 
 var _commandManager2 = _interopRequireDefault(_commandManager);
 
@@ -4842,16 +4808,37 @@ var Sensorium = function () {
     }
 
     /**
-     * set transport such as bluetooth、serialport、wifi
-     * @param {Tranport} transport object that contains send and onReceived methods
-     * @param {Function} transport.send send method
-     * @param {Function} transport.onReceived onReceived method
+     * this interface is out of use
      */
 
   }, {
     key: 'setTransport',
     value: function setTransport(transport) {
-      _transport2.default.init(transport);
+      throw new Error('\n      Sorry for interface changes, you have to use new API as follows:\n      // Set sender like this\n      sensorium.setSender(function(buf) {\n        serialPort.write(buf);\n      });\n\n      // Recevie data like this\n      serialPort.on(\'data\', function(data) {\n        sensorium.doRecevied(data);\n      });\n    ');
+    }
+
+    /**
+     * set transport such as bluetooth、serialport、wifi
+     * @param {Function} sender send method
+     * @param {Function} transport.onReceived onReceived method
+     */
+
+  }, {
+    key: 'setSender',
+    value: function setSender(sender) {
+      _transport2.default.sender = sender;
+    }
+
+    /**
+     * 数据分发，目前只支持分发到 pipe
+     * @param  {Buffer} buff
+     */
+    // TODO:其他更多模块需要此分发
+
+  }, {
+    key: 'doRecevied',
+    value: function doRecevied(buff) {
+      _commandManager2.default.pipe(buff);
     }
 
     /**
@@ -4899,7 +4886,7 @@ var Sensorium = function () {
     /**
      * write protocol buffer
      * now this interface is just for debug the protocol
-     * @param  {Array} buf 
+     * @param  {Array} buf
      * @return {Promise}
      */
 
@@ -6633,7 +6620,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _utils = __webpack_require__(6);
+var _utils = __webpack_require__(5);
 
 var _utils2 = _interopRequireDefault(_utils);
 
@@ -7316,7 +7303,7 @@ var _inherits2 = __webpack_require__(4);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _utils = __webpack_require__(6);
+var _utils = __webpack_require__(5);
 
 var _utils2 = _interopRequireDefault(_utils);
 
@@ -7328,7 +7315,7 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _commandManager = __webpack_require__(5);
+var _commandManager = __webpack_require__(6);
 
 var _commandManager2 = _interopRequireDefault(_commandManager);
 
@@ -7403,7 +7390,7 @@ var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _validate = __webpack_require__(8);
 
-var _utils = __webpack_require__(6);
+var _utils = __webpack_require__(5);
 
 var _utils2 = _interopRequireDefault(_utils);
 
@@ -7415,7 +7402,7 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _commandManager = __webpack_require__(5);
+var _commandManager = __webpack_require__(6);
 
 var _commandManager2 = _interopRequireDefault(_commandManager);
 
@@ -7513,7 +7500,7 @@ var _inherits2 = __webpack_require__(4);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _utils = __webpack_require__(6);
+var _utils = __webpack_require__(5);
 
 var _utils2 = _interopRequireDefault(_utils);
 
@@ -7525,7 +7512,7 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _commandManager = __webpack_require__(5);
+var _commandManager = __webpack_require__(6);
 
 var _commandManager2 = _interopRequireDefault(_commandManager);
 
@@ -7640,7 +7627,7 @@ var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _validate = __webpack_require__(8);
 
-var _utils = __webpack_require__(6);
+var _utils = __webpack_require__(5);
 
 var _utils2 = _interopRequireDefault(_utils);
 
@@ -7652,7 +7639,7 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _commandManager = __webpack_require__(5);
+var _commandManager = __webpack_require__(6);
 
 var _commandManager2 = _interopRequireDefault(_commandManager);
 
@@ -7877,7 +7864,7 @@ var _inherits2 = __webpack_require__(4);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _utils = __webpack_require__(6);
+var _utils = __webpack_require__(5);
 
 var _utils2 = _interopRequireDefault(_utils);
 
@@ -7889,7 +7876,7 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _commandManager = __webpack_require__(5);
+var _commandManager = __webpack_require__(6);
 
 var _commandManager2 = _interopRequireDefault(_commandManager);
 
@@ -8030,7 +8017,7 @@ var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _validate = __webpack_require__(8);
 
-var _utils = __webpack_require__(6);
+var _utils = __webpack_require__(5);
 
 var _utils2 = _interopRequireDefault(_utils);
 
@@ -8042,7 +8029,7 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _commandManager = __webpack_require__(5);
+var _commandManager = __webpack_require__(6);
 
 var _commandManager2 = _interopRequireDefault(_commandManager);
 
@@ -8660,7 +8647,7 @@ var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _validate = __webpack_require__(8);
 
-var _utils = __webpack_require__(6);
+var _utils = __webpack_require__(5);
 
 var _utils2 = _interopRequireDefault(_utils);
 
@@ -8806,7 +8793,7 @@ var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _validate = __webpack_require__(8);
 
-var _utils = __webpack_require__(6);
+var _utils = __webpack_require__(5);
 
 var _utils2 = _interopRequireDefault(_utils);
 
@@ -8907,7 +8894,7 @@ var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _validate = __webpack_require__(8);
 
-var _utils = __webpack_require__(6);
+var _utils = __webpack_require__(5);
 
 var _utils2 = _interopRequireDefault(_utils);
 
@@ -9041,7 +9028,7 @@ var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _validate = __webpack_require__(8);
 
-var _utils = __webpack_require__(6);
+var _utils = __webpack_require__(5);
 
 var _utils2 = _interopRequireDefault(_utils);
 
@@ -9053,7 +9040,7 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _commandManager = __webpack_require__(5);
+var _commandManager = __webpack_require__(6);
 
 var _commandManager2 = _interopRequireDefault(_commandManager);
 
@@ -9188,7 +9175,7 @@ var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _validate = __webpack_require__(8);
 
-var _utils = __webpack_require__(6);
+var _utils = __webpack_require__(5);
 
 var _utils2 = _interopRequireDefault(_utils);
 
@@ -9200,7 +9187,7 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _commandManager = __webpack_require__(5);
+var _commandManager = __webpack_require__(6);
 
 var _commandManager2 = _interopRequireDefault(_commandManager);
 
@@ -9282,7 +9269,7 @@ var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _validate = __webpack_require__(8);
 
-var _utils = __webpack_require__(6);
+var _utils = __webpack_require__(5);
 
 var _utils2 = _interopRequireDefault(_utils);
 
@@ -9294,7 +9281,7 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _commandManager = __webpack_require__(5);
+var _commandManager = __webpack_require__(6);
 
 var _commandManager2 = _interopRequireDefault(_commandManager);
 
@@ -9425,7 +9412,7 @@ var read = function () {
 
 var _validate = __webpack_require__(8);
 
-var _utils = __webpack_require__(6);
+var _utils = __webpack_require__(5);
 
 var _utils2 = _interopRequireDefault(_utils);
 
@@ -9437,7 +9424,7 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _commandManager = __webpack_require__(5);
+var _commandManager = __webpack_require__(6);
 
 var _commandManager2 = _interopRequireDefault(_commandManager);
 
@@ -9806,7 +9793,7 @@ var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _validate = __webpack_require__(8);
 
-var _utils = __webpack_require__(6);
+var _utils = __webpack_require__(5);
 
 var _utils2 = _interopRequireDefault(_utils);
 
@@ -9834,7 +9821,7 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _commandManager = __webpack_require__(5);
+var _commandManager = __webpack_require__(6);
 
 var _commandManager2 = _interopRequireDefault(_commandManager);
 
@@ -9929,7 +9916,7 @@ var _createClass3 = _interopRequireDefault(_createClass2);
 
 var _validate = __webpack_require__(8);
 
-var _utils = __webpack_require__(6);
+var _utils = __webpack_require__(5);
 
 var _utils2 = _interopRequireDefault(_utils);
 
@@ -9937,7 +9924,7 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _commandManager = __webpack_require__(5);
+var _commandManager = __webpack_require__(6);
 
 var _commandManager2 = _interopRequireDefault(_commandManager);
 
@@ -10011,7 +9998,7 @@ var _createClass3 = _interopRequireDefault(_createClass2);
 
 var _validate = __webpack_require__(8);
 
-var _utils = __webpack_require__(6);
+var _utils = __webpack_require__(5);
 
 var _utils2 = _interopRequireDefault(_utils);
 
@@ -10019,7 +10006,7 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _commandManager = __webpack_require__(5);
+var _commandManager = __webpack_require__(6);
 
 var _commandManager2 = _interopRequireDefault(_commandManager);
 
@@ -10081,7 +10068,7 @@ var _createClass3 = _interopRequireDefault(_createClass2);
 
 var _validate = __webpack_require__(8);
 
-var _utils = __webpack_require__(6);
+var _utils = __webpack_require__(5);
 
 var _utils2 = _interopRequireDefault(_utils);
 
@@ -10089,7 +10076,7 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _commandManager = __webpack_require__(5);
+var _commandManager = __webpack_require__(6);
 
 var _commandManager2 = _interopRequireDefault(_commandManager);
 
@@ -10151,7 +10138,7 @@ var _createClass3 = _interopRequireDefault(_createClass2);
 
 var _validate = __webpack_require__(8);
 
-var _utils = __webpack_require__(6);
+var _utils = __webpack_require__(5);
 
 var _utils2 = _interopRequireDefault(_utils);
 
@@ -10159,7 +10146,7 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _commandManager = __webpack_require__(5);
+var _commandManager = __webpack_require__(6);
 
 var _commandManager2 = _interopRequireDefault(_commandManager);
 
@@ -10318,7 +10305,7 @@ var _inherits2 = __webpack_require__(4);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _utils = __webpack_require__(6);
+var _utils = __webpack_require__(5);
 
 var _utils2 = _interopRequireDefault(_utils);
 
@@ -10330,7 +10317,7 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _commandManager = __webpack_require__(5);
+var _commandManager = __webpack_require__(6);
 
 var _commandManager2 = _interopRequireDefault(_commandManager);
 
@@ -10430,7 +10417,7 @@ var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _validate = __webpack_require__(8);
 
-var _utils = __webpack_require__(6);
+var _utils = __webpack_require__(5);
 
 var _utils2 = _interopRequireDefault(_utils);
 
@@ -10442,7 +10429,7 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _commandManager = __webpack_require__(5);
+var _commandManager = __webpack_require__(6);
 
 var _commandManager2 = _interopRequireDefault(_commandManager);
 
@@ -10554,7 +10541,7 @@ var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _validate = __webpack_require__(8);
 
-var _utils = __webpack_require__(6);
+var _utils = __webpack_require__(5);
 
 var _utils2 = _interopRequireDefault(_utils);
 
@@ -10566,7 +10553,7 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _commandManager = __webpack_require__(5);
+var _commandManager = __webpack_require__(6);
 
 var _commandManager2 = _interopRequireDefault(_commandManager);
 
@@ -10677,7 +10664,7 @@ var _inherits2 = __webpack_require__(4);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _utils = __webpack_require__(6);
+var _utils = __webpack_require__(5);
 
 var _utils2 = _interopRequireDefault(_utils);
 
@@ -10689,7 +10676,7 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _commandManager = __webpack_require__(5);
+var _commandManager = __webpack_require__(6);
 
 var _commandManager2 = _interopRequireDefault(_commandManager);
 
@@ -10937,7 +10924,7 @@ var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _validate = __webpack_require__(8);
 
-var _utils = __webpack_require__(6);
+var _utils = __webpack_require__(5);
 
 var _utils2 = _interopRequireDefault(_utils);
 
@@ -10949,7 +10936,7 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _commandManager = __webpack_require__(5);
+var _commandManager = __webpack_require__(6);
 
 var _commandManager2 = _interopRequireDefault(_commandManager);
 
@@ -11060,7 +11047,7 @@ var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _validate = __webpack_require__(8);
 
-var _utils = __webpack_require__(6);
+var _utils = __webpack_require__(5);
 
 var _utils2 = _interopRequireDefault(_utils);
 
@@ -11072,7 +11059,7 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _commandManager = __webpack_require__(5);
+var _commandManager = __webpack_require__(6);
 
 var _commandManager2 = _interopRequireDefault(_commandManager);
 
@@ -11434,7 +11421,7 @@ var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _validate = __webpack_require__(8);
 
-var _utils = __webpack_require__(6);
+var _utils = __webpack_require__(5);
 
 var _utils2 = _interopRequireDefault(_utils);
 
@@ -11446,7 +11433,7 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _commandManager = __webpack_require__(5);
+var _commandManager = __webpack_require__(6);
 
 var _commandManager2 = _interopRequireDefault(_commandManager);
 
@@ -11558,7 +11545,7 @@ var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _validate = __webpack_require__(8);
 
-var _utils = __webpack_require__(6);
+var _utils = __webpack_require__(5);
 
 var _utils2 = _interopRequireDefault(_utils);
 
@@ -11570,7 +11557,7 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _commandManager = __webpack_require__(5);
+var _commandManager = __webpack_require__(6);
 
 var _commandManager2 = _interopRequireDefault(_commandManager);
 
@@ -11707,7 +11694,7 @@ var _inherits2 = __webpack_require__(4);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _utils = __webpack_require__(6);
+var _utils = __webpack_require__(5);
 
 var _utils2 = _interopRequireDefault(_utils);
 
@@ -11719,7 +11706,7 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _commandManager = __webpack_require__(5);
+var _commandManager = __webpack_require__(6);
 
 var _commandManager2 = _interopRequireDefault(_commandManager);
 
@@ -11841,7 +11828,7 @@ var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _validate = __webpack_require__(8);
 
-var _utils = __webpack_require__(6);
+var _utils = __webpack_require__(5);
 
 var _utils2 = _interopRequireDefault(_utils);
 
@@ -11853,7 +11840,7 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _commandManager = __webpack_require__(5);
+var _commandManager = __webpack_require__(6);
 
 var _commandManager2 = _interopRequireDefault(_commandManager);
 
@@ -11965,7 +11952,7 @@ var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _validate = __webpack_require__(8);
 
-var _utils = __webpack_require__(6);
+var _utils = __webpack_require__(5);
 
 var _utils2 = _interopRequireDefault(_utils);
 
@@ -11977,7 +11964,7 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _commandManager = __webpack_require__(5);
+var _commandManager = __webpack_require__(6);
 
 var _commandManager2 = _interopRequireDefault(_commandManager);
 
@@ -12088,7 +12075,7 @@ var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _validate = __webpack_require__(8);
 
-var _utils = __webpack_require__(6);
+var _utils = __webpack_require__(5);
 
 var _utils2 = _interopRequireDefault(_utils);
 
@@ -12100,7 +12087,7 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _commandManager = __webpack_require__(5);
+var _commandManager = __webpack_require__(6);
 
 var _commandManager2 = _interopRequireDefault(_commandManager);
 
@@ -12211,7 +12198,7 @@ var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
 
 var _validate = __webpack_require__(8);
 
-var _utils = __webpack_require__(6);
+var _utils = __webpack_require__(5);
 
 var _utils2 = _interopRequireDefault(_utils);
 
@@ -12223,7 +12210,7 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _commandManager = __webpack_require__(5);
+var _commandManager = __webpack_require__(6);
 
 var _commandManager2 = _interopRequireDefault(_commandManager);
 
@@ -12386,7 +12373,7 @@ var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _validate = __webpack_require__(8);
 
-var _utils = __webpack_require__(6);
+var _utils = __webpack_require__(5);
 
 var _utils2 = _interopRequireDefault(_utils);
 
@@ -12398,7 +12385,7 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _commandManager = __webpack_require__(5);
+var _commandManager = __webpack_require__(6);
 
 var _commandManager2 = _interopRequireDefault(_commandManager);
 
@@ -12509,7 +12496,7 @@ var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _validate = __webpack_require__(8);
 
-var _utils = __webpack_require__(6);
+var _utils = __webpack_require__(5);
 
 var _utils2 = _interopRequireDefault(_utils);
 
@@ -12521,7 +12508,7 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _commandManager = __webpack_require__(5);
+var _commandManager = __webpack_require__(6);
 
 var _commandManager2 = _interopRequireDefault(_commandManager);
 
@@ -12632,7 +12619,7 @@ var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _validate = __webpack_require__(8);
 
-var _utils = __webpack_require__(6);
+var _utils = __webpack_require__(5);
 
 var _utils2 = _interopRequireDefault(_utils);
 
@@ -12644,7 +12631,7 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _commandManager = __webpack_require__(5);
+var _commandManager = __webpack_require__(6);
 
 var _commandManager2 = _interopRequireDefault(_commandManager);
 
@@ -12756,7 +12743,7 @@ var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _validate = __webpack_require__(8);
 
-var _utils = __webpack_require__(6);
+var _utils = __webpack_require__(5);
 
 var _utils2 = _interopRequireDefault(_utils);
 
@@ -12768,7 +12755,7 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _commandManager = __webpack_require__(5);
+var _commandManager = __webpack_require__(6);
 
 var _commandManager2 = _interopRequireDefault(_commandManager);
 
@@ -12892,7 +12879,7 @@ var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _validate = __webpack_require__(8);
 
-var _utils = __webpack_require__(6);
+var _utils = __webpack_require__(5);
 
 var _utils2 = _interopRequireDefault(_utils);
 
@@ -12904,7 +12891,7 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _commandManager = __webpack_require__(5);
+var _commandManager = __webpack_require__(6);
 
 var _commandManager2 = _interopRequireDefault(_commandManager);
 
@@ -13015,7 +13002,7 @@ var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _validate = __webpack_require__(8);
 
-var _utils = __webpack_require__(6);
+var _utils = __webpack_require__(5);
 
 var _utils2 = _interopRequireDefault(_utils);
 
@@ -13027,7 +13014,7 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _commandManager = __webpack_require__(5);
+var _commandManager = __webpack_require__(6);
 
 var _commandManager2 = _interopRequireDefault(_commandManager);
 
@@ -13142,7 +13129,7 @@ var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _validate = __webpack_require__(8);
 
-var _utils = __webpack_require__(6);
+var _utils = __webpack_require__(5);
 
 var _utils2 = _interopRequireDefault(_utils);
 
@@ -13154,7 +13141,7 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _commandManager = __webpack_require__(5);
+var _commandManager = __webpack_require__(6);
 
 var _commandManager2 = _interopRequireDefault(_commandManager);
 
@@ -13266,7 +13253,7 @@ var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _validate = __webpack_require__(8);
 
-var _utils = __webpack_require__(6);
+var _utils = __webpack_require__(5);
 
 var _utils2 = _interopRequireDefault(_utils);
 
@@ -13278,7 +13265,7 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _commandManager = __webpack_require__(5);
+var _commandManager = __webpack_require__(6);
 
 var _commandManager2 = _interopRequireDefault(_commandManager);
 
@@ -13388,7 +13375,7 @@ var _inherits2 = __webpack_require__(4);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _utils = __webpack_require__(6);
+var _utils = __webpack_require__(5);
 
 var _utils2 = _interopRequireDefault(_utils);
 
@@ -13400,7 +13387,7 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _commandManager = __webpack_require__(5);
+var _commandManager = __webpack_require__(6);
 
 var _commandManager2 = _interopRequireDefault(_commandManager);
 

@@ -15,13 +15,10 @@ const serialPort = new SerialPort();
 const Transport = {
   send: function(buf){
     serialPort.send(buf);
-  },
-  onReceived: function(pipe){
-    serialPort.on('data', function(buff) {
-      pipe(buff);
-    });
   }
 };
+serialPort.on('data', function(buff) {
+  CommandManager.pipe(buff);
+});
 
-Transport.onReceived(CommandManager.pipe.bind(CommandManager));
 export default Transport;

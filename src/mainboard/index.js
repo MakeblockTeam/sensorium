@@ -54,15 +54,41 @@ class Sensorium {
   }
 
   /**
-   * set transport such as bluetooth、serialport、wifi
-   * @param {Tranport} transport object that contains send and onReceived methods
-   * @param {Function} transport.send send method
-   * @param {Function} transport.onReceived onReceived method
+   * this interface is out of use
    */
   setTransport(transport){
-    Transport.init(transport);
+    throw new Error(`
+      Sorry for interface changes, you have to use new API as follows:
+      // Set sender like this
+      sensorium.setSender(function(buf) {
+        serialPort.write(buf);
+      });
+
+      // Recevie data like this
+      serialPort.on('data', function(data) {
+        sensorium.doRecevied(data);
+      });
+    `)
   }
-  
+
+  /**
+   * set transport such as bluetooth、serialport、wifi
+   * @param {Function} sender send method
+   * @param {Function} transport.onReceived onReceived method
+   */
+  setSender(sender){
+    Transport.sender = sender;
+  }
+
+  /**
+   * 数据分发，目前只支持分发到 pipe
+   * @param  {Buffer} buff
+   */
+  // TODO:其他更多模块需要此分发
+  doRecevied (buff) {
+    CommandManager.pipe(buff);
+  }
+
   /**
    * read firmware verion and parse the device info
    * @return {Promise} a promise instance
@@ -81,7 +107,7 @@ class Sensorium {
   /**
    * write protocol buffer
    * now this interface is just for debug the protocol
-   * @param  {Array} buf 
+   * @param  {Array} buf
    * @return {Promise}
    */
   send (buf){
