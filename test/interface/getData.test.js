@@ -46,13 +46,13 @@ describe('getDataTest:', function () {
         })
       }
       if (d.caseSummary[0] == "loop-readCmd:") {
-        let loop = new Array(15);
+        let loop = [];
         let sendOrder = eval(d.caseSummary[1]); //相应的接口发送的实际指令
         let range = d.caseSummary[3].split('~');
         let loopFunction = function () {
           return new Promise((resolve, reject) => {
             sendOrder.getData().then((result) => {
-              // console.log('sensorValue：', result);
+              console.log('sensorValue：', result);
               assert.isNumber(result);
               assert.isAtLeast(result, Number(range[0]));
               assert.isAtMost(result, Number(range[1]));
@@ -64,6 +64,7 @@ describe('getDataTest:', function () {
           })
         };
 
+        //使用await+async的方法实现重复获取（同步）传感器的值
         let start = async function () {
           for (let i = 0; i < 15; i++) {//重复读取一个传感器的返回值20次
             await loopFunction();
@@ -71,6 +72,37 @@ describe('getDataTest:', function () {
           done();
         };
         start();
+
+         //使用promise+map+reduce的方法实现重复获取（同步）传感器的值
+        // for (let i = 0; i < 15; i++) {
+        //   console.log('push')
+        //   loop.push(loopFunction);
+        // }
+        // let promises = loop.map((arg, index) => {
+        //   return new Promise((resolve, reject) => {
+        //     resolve(arg);
+        //   });
+        // });
+        // promises.reduce(function (preChain, arg, index, array) {
+        //   console.log('preChain-------------------', index);
+        //   return preChain.then((run) => {
+        //     return run().then((res) => {
+        //       console.log(res)
+        //       if (2 * index - 1 === array.length) {
+        //         done();
+        //       } else {
+        //         return array[2 * index - 1].then((run) => {
+        //           return run().then(() => {
+        //             console.log(res);
+        //             return array[2 * (index)];
+        //           })
+        //         })
+        //       }
+        //     })
+        //   });
+        // })
+
+
       }
     });
   });
