@@ -1,4 +1,9 @@
 # Changelog
+## [0.2.6] - 2017-08-29
+### Changed
+-  sensorium 实例调用 setSender 设置传输方法
+-  sensorium 实例调用 doRecevied 将响应数据分发
+
 ## [0.2.5] - 2017-08-11
 ### Fixed
 -  Auriga Buzzer 模块无效的 bug
@@ -11,7 +16,7 @@
 - LedMatrix 模块 4 种模式均增加 clear() 方法，以便能快捷的清除面板上显示的内容
 
 ### Changed
-- LedMatrix 模块 4 种模式显示内容的接口由原来的 ledMatrixData() 调整为 content() 
+- LedMatrix 模块 4 种模式显示内容的接口由原来的 ledMatrixData() 调整为 content()
 
 ### Fixed
 -  LedMatrix 表情面板显示字符不能工作的 bug

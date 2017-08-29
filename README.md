@@ -26,21 +26,19 @@ Then create a HTML page in the root directory, index.html for example, and type 
 
   //secondly set transport through `XMLHttpRequest` like this:
   var xhr = new XMLHttpRequest();
-  sensorium.setTransport({
-      send: function(buf) {
-          var host = 'http://127.0.0.1:8800';   //8800 is the default port
-          var data = '/?buf='+ JSON.stringify(buf);
-          xhr.open("GET", host + data ,true);
-          xhr.send(null);
-      },
-      onReceived: function(pipe) {
-          xhr.onreadystatechange = function(e) {
-            if (this.readyState == 4 && this.status == 200) {
-              let binStr = this.response;
-              pipe(JSON.parse(binStr).data);
-            }
-          };
-      }
+  xhr.onreadystatechange = function(e) {
+    if (this.readyState == 4 && this.status == 200) {
+      var buff = JSON.parse(this.response).data;
+      Tool.receiveInfo(buff);
+      **sensorium.doRecevied(buff);**
+    }
+  };
+  sensorium.setSender(function(buf) {
+    Tool.sendInfo(buf);
+    let host = 'http://127.0.0.1:8800';
+    var data = '/?buf='+ JSON.stringify(buf) + '&sensor=';
+    xhr.open("GET", host + data ,true);
+    xhr.send(null);
   });
 
   // set speed and run the motor.
@@ -59,6 +57,7 @@ npm install serialport --save-dev
 ```
 
 Touch a js file just like test.js, type in codes as follows:
+
 ```
 var Sensorium = require("sensorium");
 var SerialPort = require('serialport');
@@ -67,21 +66,15 @@ var sensorium = new Sensorium();
 // Visit [serialport](https://www.npmjs.com/package/serialport) for detail usage
 var serialPort = new SerialPort('/dev/ttyUSB0', { baudRate:115200 });
 
-sensorium.setTransport({
-  send: function(buf) {
-    serialPort.write(buf, function(err, results) {
-      if (err) {
-        console.warn(err);
-        return -1;
-      }
-    });
-  },
-
-  onReceived: function(pipe) {
-    serialPort.on('data', function(buff) {
-      pipe(buff);
-    });
-  }
+serialPort.on('open', function() {
+  sensorium.setSender(function(buf) {
+    console.log('send ----->', buf);
+    serialPort.write(buf);
+  });
+  serialPort.on('data', function(buff) {
+    console.log('-----> Received data', '[' + buff.join(',') + ']');
+    sensorium.doRecevied(buff);
+  });
 });
 
 // optional mainboards are 'Mcore', 'Auriga', 'MegaPi', 'Orion', 'Arduino'
