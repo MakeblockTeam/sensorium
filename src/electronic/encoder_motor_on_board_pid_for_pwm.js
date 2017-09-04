@@ -1,7 +1,7 @@
 import { validateNumber } from '../core/validate';
 import Utils from '../core/utils';
 import protocolAssembler from '../protocol/cmd';
-import CommandManager from '../communicate/command-manager';
+import Control from '../communicate/control';
 
 class PIDForPwm {
   constructor() {
@@ -22,7 +22,7 @@ class PIDForPwm {
 
   run() {
     let buf = Utils.composer(protocolAssembler.setEncoderMotorPIDPwm, [this.args.speed]);
-    CommandManager.write(buf);
+    Control.write(buf);
     return this;
   }
 }

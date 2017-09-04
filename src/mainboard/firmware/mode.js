@@ -1,6 +1,6 @@
 import Utils from '../../core/utils';
 import protocolAssembler from '../../protocol/cmd';
-import CommandManager from '../../communicate/command-manager';
+import Control from '../../communicate/control';
 import { FIRM_MODES } from '../settings';
 
 class Mode {
@@ -14,12 +14,12 @@ class Mode {
    */
   setMode(subCmd, mode){
     let buf = Utils.composer(protocolAssembler.setFirmwareMode, [subCmd, mode]);
-    CommandManager.write(buf);
+    Control.write(buf);
   }
 
   async getMode(subCmd){
     let buf = Utils.composer(protocolAssembler.readFirmwareMode, [subCmd]);
-    return await CommandManager.read(buf);
+    return await Control.read(buf);
   }
 
   /**

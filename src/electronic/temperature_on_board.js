@@ -1,7 +1,7 @@
 import Utils from '../core/utils';
 import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
-import CommandManager from '../communicate/command-manager';
+import Control from '../communicate/control';
 
 /**
  * TemperatureOnBoard sensor module
@@ -14,11 +14,11 @@ class TemperatureOnBoard extends Electronic {
 
   /**
    * Get data of TemperatureOnBoard sensor
-   * @return {Promise} 
+   * @return {Promise}
    */
   async getData() {
     let buf = Utils.composer(protocolAssembler.readTemperatureOnBoard);
-    return await CommandManager.read(buf);
+    return await Control.read(buf);
   }
 
   static supportStamp(){

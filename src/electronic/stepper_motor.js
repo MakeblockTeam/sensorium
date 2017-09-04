@@ -2,7 +2,7 @@ import { validateNumber } from '../core/validate';
 import Utils from '../core/utils';
 import BaseMotor from './BaseMotor';
 import protocolAssembler from '../protocol/cmd';
-import CommandManager from '../communicate/command-manager';
+import Control from '../communicate/control';
 
 /**
  * StepperMotor sensor module
@@ -38,7 +38,7 @@ class StepperMotor extends BaseMotor {
 
   run() {
     let buf = Utils.composer(protocolAssembler.setStepperMotor, [this.args.port, this.args.speed, this.args.distance]);
-    CommandManager.write(buf);
+    Control.write(buf);
     return this;
   }
 

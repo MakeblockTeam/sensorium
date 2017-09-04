@@ -2,7 +2,7 @@ import { validateNumber } from '../core/validate';
 import Utils from '../core/utils';
 import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
-import CommandManager from '../communicate/command-manager';
+import Control from '../communicate/control';
 
 //@private
 let bufComposer = function(obj){
@@ -13,7 +13,7 @@ let bufComposer = function(obj){
 //@private
 let commandWrite = function(obj){
   let buf = bufComposer(obj);
-  CommandManager.write(buf);
+  Control.write(buf);
 }
 
 /**

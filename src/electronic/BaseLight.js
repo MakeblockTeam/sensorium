@@ -2,7 +2,7 @@ import { validateNumber } from '../core/validate';
 import Utils from '../core/utils';
 import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
-import CommandManager from '../communicate/command-manager';
+import Control from '../communicate/control';
 /**
  * @Class BaseLight
  * @description It is a base Class of Light
@@ -11,7 +11,7 @@ import CommandManager from '../communicate/command-manager';
 class BaseLight extends Electronic {
   /**
    * Create a light sensor
-   * @param {Number} port 
+   * @param {Number} port
    */
   constructor(port) {
     super();
@@ -22,11 +22,11 @@ class BaseLight extends Electronic {
 
   /**
    * Get data of the Light sensor
-   * @return {Promise} 
+   * @return {Promise}
    */
   async getData() {
     let buf = Utils.composer(protocolAssembler.readLight, [this.args.port]);
-    return await CommandManager.read(buf);
+    return await Control.read(buf);
   }
 }
 

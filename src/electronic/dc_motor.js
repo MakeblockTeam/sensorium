@@ -1,7 +1,7 @@
 import Utils from '../core/utils';
 import BaseMotor from './BaseMotor';
 import protocolAssembler from '../protocol/cmd';
-import CommandManager from '../communicate/command-manager';
+import Control from '../communicate/control';
 
 /**
  * DcMotor sensor module
@@ -20,7 +20,7 @@ class DcMotor extends BaseMotor {
 
   run() {
     let buf = Utils.composer(protocolAssembler.setDcMotor, [this.args.port, this.args.speed]);
-    CommandManager.write(buf);
+    Control.write(buf);
     return this;
   }
 

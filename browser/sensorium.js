@@ -159,11 +159,11 @@ exports.default = function (self, call) {
 
 exports.__esModule = true;
 
-var _setPrototypeOf = __webpack_require__(141);
+var _setPrototypeOf = __webpack_require__(140);
 
 var _setPrototypeOf2 = _interopRequireDefault(_setPrototypeOf);
 
-var _create = __webpack_require__(145);
+var _create = __webpack_require__(144);
 
 var _create2 = _interopRequireDefault(_create);
 
@@ -581,25 +581,30 @@ var _parse = __webpack_require__(117);
 
 var _parse2 = _interopRequireDefault(_parse);
 
-var _command = __webpack_require__(133);
+var _transport = __webpack_require__(79);
 
-var _command2 = _interopRequireDefault(_command);
+var _transport2 = _interopRequireDefault(_transport);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
- * @private
- */
-/**
- * @fileOverview CommandManager 类，管理数据读写调度，对外提供以下接口：pipe、read、write
+ * @fileOverview Control 类，管理数据读写调度，对外提供以下接口：pipe、read、write
  * @author Jeremy
  */
-var CommandManager = function () {
+var send_ = function send_() {
+  return _transport2.default.send.bind(this);
+};
+
+/**
+ * @private
+ */
+
+var Control = function () {
   /**
-   * Create a commandManager.
+   * Create a control.
    */
-  function CommandManager() {
-    (0, _classCallCheck3.default)(this, CommandManager);
+  function Control() {
+    (0, _classCallCheck3.default)(this, Control);
   }
 
   /**
@@ -609,10 +614,10 @@ var CommandManager = function () {
    */
 
 
-  (0, _createClass3.default)(CommandManager, [{
+  (0, _createClass3.default)(Control, [{
     key: 'write',
     value: function write(buf) {
-      _write2.default.addRequest(_command2.default.send, buf);
+      _write2.default.addRequest(send_, buf);
     }
 
     /**
@@ -631,7 +636,7 @@ var CommandManager = function () {
               case 0:
                 _context.next = 2;
                 return new _promise2.default(function (resolve) {
-                  _read2.default.addRequest(_command2.default.send, buf, function (val) {
+                  _read2.default.addRequest(send_, buf, function (val) {
                     resolve(val);
                   });
                 });
@@ -679,10 +684,10 @@ var CommandManager = function () {
       }
     }
   }]);
-  return CommandManager;
+  return Control;
 }();
 
-exports.default = new CommandManager();
+exports.default = new Control();
 
 /***/ }),
 /* 7 */
@@ -1903,7 +1908,7 @@ module.exports = __webpack_require__(20) ? function(object, key, value){
 /* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = { "default": __webpack_require__(152), __esModule: true };
+module.exports = { "default": __webpack_require__(151), __esModule: true };
 
 /***/ }),
 /* 24 */
@@ -2128,179 +2133,179 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _dc_motor = __webpack_require__(148);
+var _dc_motor = __webpack_require__(147);
 
 var _dc_motor2 = _interopRequireDefault(_dc_motor);
 
-var _virtual_joystick = __webpack_require__(149);
+var _virtual_joystick = __webpack_require__(148);
 
 var _virtual_joystick2 = _interopRequireDefault(_virtual_joystick);
 
-var _virtual_joystick_for_balance = __webpack_require__(150);
+var _virtual_joystick_for_balance = __webpack_require__(149);
 
 var _virtual_joystick_for_balance2 = _interopRequireDefault(_virtual_joystick_for_balance);
 
-var _stepper_motor = __webpack_require__(151);
+var _stepper_motor = __webpack_require__(150);
 
 var _stepper_motor2 = _interopRequireDefault(_stepper_motor);
 
-var _encoder_motor = __webpack_require__(155);
+var _encoder_motor = __webpack_require__(154);
 
 var _encoder_motor2 = _interopRequireDefault(_encoder_motor);
 
-var _encoder_motor_on_board = __webpack_require__(156);
+var _encoder_motor_on_board = __webpack_require__(155);
 
 var _encoder_motor_on_board2 = _interopRequireDefault(_encoder_motor_on_board);
 
-var _servo_motor = __webpack_require__(157);
+var _servo_motor = __webpack_require__(156);
 
 var _servo_motor2 = _interopRequireDefault(_servo_motor);
 
-var _four_leds = __webpack_require__(158);
+var _four_leds = __webpack_require__(157);
 
 var _four_leds2 = _interopRequireDefault(_four_leds);
 
-var _rgb_led = __webpack_require__(159);
+var _rgb_led = __webpack_require__(158);
 
 var _rgb_led2 = _interopRequireDefault(_rgb_led);
 
-var _rgb_led_on_board = __webpack_require__(160);
+var _rgb_led_on_board = __webpack_require__(159);
 
 var _rgb_led_on_board2 = _interopRequireDefault(_rgb_led_on_board);
 
-var _led_matrix = __webpack_require__(161);
+var _led_matrix = __webpack_require__(160);
 
 var _led_matrix2 = _interopRequireDefault(_led_matrix);
 
-var _buzzer = __webpack_require__(169);
+var _buzzer = __webpack_require__(168);
 
 var _buzzer2 = _interopRequireDefault(_buzzer);
 
-var _seven_segment = __webpack_require__(170);
+var _seven_segment = __webpack_require__(169);
 
 var _seven_segment2 = _interopRequireDefault(_seven_segment);
 
-var _shutter = __webpack_require__(171);
+var _shutter = __webpack_require__(170);
 
 var _shutter2 = _interopRequireDefault(_shutter);
 
-var _smart_servo = __webpack_require__(172);
+var _smart_servo = __webpack_require__(171);
 
 var _smart_servo2 = _interopRequireDefault(_smart_servo);
 
-var _encoder_motor_on_board_pid = __webpack_require__(173);
+var _encoder_motor_on_board_pid = __webpack_require__(172);
 
 var _encoder_motor_on_board_pid2 = _interopRequireDefault(_encoder_motor_on_board_pid);
 
-var _reset = __webpack_require__(178);
+var _reset = __webpack_require__(177);
 
 var _reset2 = _interopRequireDefault(_reset);
 
-var _ultrasonic = __webpack_require__(179);
+var _ultrasonic = __webpack_require__(178);
 
 var _ultrasonic2 = _interopRequireDefault(_ultrasonic);
 
-var _temperature = __webpack_require__(180);
+var _temperature = __webpack_require__(179);
 
 var _temperature2 = _interopRequireDefault(_temperature);
 
-var _temperature_on_board = __webpack_require__(181);
+var _temperature_on_board = __webpack_require__(180);
 
 var _temperature_on_board2 = _interopRequireDefault(_temperature_on_board);
 
-var _light = __webpack_require__(182);
+var _light = __webpack_require__(181);
 
 var _light2 = _interopRequireDefault(_light);
 
-var _light_on_board = __webpack_require__(183);
+var _light_on_board = __webpack_require__(182);
 
 var _light_on_board2 = _interopRequireDefault(_light_on_board);
 
-var _potentionmeter = __webpack_require__(184);
+var _potentionmeter = __webpack_require__(183);
 
 var _potentionmeter2 = _interopRequireDefault(_potentionmeter);
 
-var _joystick = __webpack_require__(185);
+var _joystick = __webpack_require__(184);
 
 var _joystick2 = _interopRequireDefault(_joystick);
 
-var _gyro = __webpack_require__(186);
+var _gyro = __webpack_require__(185);
 
 var _gyro2 = _interopRequireDefault(_gyro);
 
-var _Gyro_on_board = __webpack_require__(187);
+var _Gyro_on_board = __webpack_require__(186);
 
 var _Gyro_on_board2 = _interopRequireDefault(_Gyro_on_board);
 
-var _sound = __webpack_require__(188);
+var _sound = __webpack_require__(187);
 
 var _sound2 = _interopRequireDefault(_sound);
 
-var _sound_on_board = __webpack_require__(189);
+var _sound_on_board = __webpack_require__(188);
 
 var _sound_on_board2 = _interopRequireDefault(_sound_on_board);
 
-var _pirmotion = __webpack_require__(190);
+var _pirmotion = __webpack_require__(189);
 
 var _pirmotion2 = _interopRequireDefault(_pirmotion);
 
-var _infrared = __webpack_require__(191);
+var _infrared = __webpack_require__(190);
 
 var _infrared2 = _interopRequireDefault(_infrared);
 
-var _infrared_on_board = __webpack_require__(192);
+var _infrared_on_board = __webpack_require__(191);
 
 var _infrared_on_board2 = _interopRequireDefault(_infrared_on_board);
 
-var _limit_switch = __webpack_require__(193);
+var _limit_switch = __webpack_require__(192);
 
 var _limit_switch2 = _interopRequireDefault(_limit_switch);
 
-var _line_follower = __webpack_require__(194);
+var _line_follower = __webpack_require__(193);
 
 var _line_follower2 = _interopRequireDefault(_line_follower);
 
-var _compass = __webpack_require__(195);
+var _compass = __webpack_require__(194);
 
 var _compass2 = _interopRequireDefault(_compass);
 
-var _humiture = __webpack_require__(196);
+var _humiture = __webpack_require__(195);
 
 var _humiture2 = _interopRequireDefault(_humiture);
 
-var _flame = __webpack_require__(197);
+var _flame = __webpack_require__(196);
 
 var _flame2 = _interopRequireDefault(_flame);
 
-var _gas = __webpack_require__(198);
+var _gas = __webpack_require__(197);
 
 var _gas2 = _interopRequireDefault(_gas);
 
-var _touch = __webpack_require__(199);
+var _touch = __webpack_require__(198);
 
 var _touch2 = _interopRequireDefault(_touch);
 
-var _four_keys = __webpack_require__(200);
+var _four_keys = __webpack_require__(199);
 
 var _four_keys2 = _interopRequireDefault(_four_keys);
 
-var _dig_GPIO = __webpack_require__(201);
+var _dig_GPIO = __webpack_require__(200);
 
 var _dig_GPIO2 = _interopRequireDefault(_dig_GPIO);
 
-var _analog_GPIO = __webpack_require__(202);
+var _analog_GPIO = __webpack_require__(201);
 
 var _analog_GPIO2 = _interopRequireDefault(_analog_GPIO);
 
-var _GPIO_continue = __webpack_require__(203);
+var _GPIO_continue = __webpack_require__(202);
 
 var _GPIO_continue2 = _interopRequireDefault(_GPIO_continue);
 
-var _double_GPIO = __webpack_require__(204);
+var _double_GPIO = __webpack_require__(203);
 
 var _double_GPIO2 = _interopRequireDefault(_double_GPIO);
 
-var _runtime = __webpack_require__(205);
+var _runtime = __webpack_require__(204);
 
 var _runtime2 = _interopRequireDefault(_runtime);
 
@@ -2515,7 +2520,7 @@ var _getPrototypeOf = __webpack_require__(2);
 
 var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
 
-var _getOwnPropertyDescriptor = __webpack_require__(163);
+var _getOwnPropertyDescriptor = __webpack_require__(162);
 
 var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
 
@@ -2591,18 +2596,18 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _commandManager = __webpack_require__(6);
+var _control = __webpack_require__(6);
 
-var _commandManager2 = _interopRequireDefault(_commandManager);
+var _control2 = _interopRequireDefault(_control);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
- * @private 
+ * @private
  */
 function write(bufArray) {
   var buf = _utils2.default.composer(_cmd2.default.setLedMatrix, bufArray);
-  _commandManager2.default.write(buf);
+  _control2.default.write(buf);
 }
 /**
  * @Class BaseLedMatrix
@@ -2895,11 +2900,11 @@ exports.f = __webpack_require__(20) ? gOPD : function getOwnPropertyDescriptor(O
 
 exports.__esModule = true;
 
-var _iterator = __webpack_require__(135);
+var _iterator = __webpack_require__(134);
 
 var _iterator2 = _interopRequireDefault(_iterator);
 
-var _symbol = __webpack_require__(137);
+var _symbol = __webpack_require__(136);
 
 var _symbol2 = _interopRequireDefault(_symbol);
 
@@ -3066,9 +3071,9 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _commandManager = __webpack_require__(6);
+var _control = __webpack_require__(6);
 
-var _commandManager2 = _interopRequireDefault(_commandManager);
+var _control2 = _interopRequireDefault(_control);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -3081,7 +3086,7 @@ var bufComposer = function bufComposer(obj) {
 //@private
 var commandWrite = function commandWrite(obj) {
   var buf = bufComposer(obj);
-  _commandManager2.default.write(buf);
+  _control2.default.write(buf);
 };
 
 /**
@@ -3308,9 +3313,9 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _commandManager = __webpack_require__(6);
+var _control = __webpack_require__(6);
 
-var _commandManager2 = _interopRequireDefault(_commandManager);
+var _control2 = _interopRequireDefault(_control);
 
 var _settings = __webpack_require__(13);
 
@@ -3331,7 +3336,7 @@ var Mode = function () {
     key: 'setMode',
     value: function setMode(subCmd, mode) {
       var buf = _utils2.default.composer(_cmd2.default.setFirmwareMode, [subCmd, mode]);
-      _commandManager2.default.write(buf);
+      _control2.default.write(buf);
     }
   }, {
     key: 'getMode',
@@ -3344,7 +3349,7 @@ var Mode = function () {
               case 0:
                 buf = _utils2.default.composer(_cmd2.default.readFirmwareMode, [subCmd]);
                 _context.next = 3;
-                return _commandManager2.default.read(buf);
+                return _control2.default.read(buf);
 
               case 3:
                 return _context.abrupt('return', _context.sent);
@@ -3727,12 +3732,12 @@ var _createClass2 = __webpack_require__(1);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _commandManager = __webpack_require__(6);
-
-var _commandManager2 = _interopRequireDefault(_commandManager);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * @fileOverview Transport 类，协议指令的传输通道
+ * 由 Transport.send 将协议发送给蓝牙，串口，2.4G，wifi等
+ */
 var Transport = function () {
   /**
    * Create a command.
@@ -3740,13 +3745,12 @@ var Transport = function () {
   function Transport() {
     (0, _classCallCheck3.default)(this, Transport);
 
-    // 执行发送会调用此函数
     this.send = function () {};
   }
 
   /**
-   *
-   * @param  {Function} fn the sender
+   * setter interface
+   * @param  {Function} fn this fn will be set as the sender
    * @return {Undefined}
    */
 
@@ -3755,23 +3759,12 @@ var Transport = function () {
     key: 'sender',
     set: function set(fn) {
       if (typeof fn === 'function') {
-        //函数重载
         this.send = fn;
       }
     }
   }]);
   return Transport;
-}(); /**
-      * @fileOverview Transport 类，协议指令的传输通道
-      * 由 Transport.send 将协议发送给蓝牙，串口，2.4G，wifi等
-      *
-      * @desc
-      * 主动式：当初始化 sensorium 时，已经进行了初始化，但不知道蓝牙环境是否具备、串口环境是否具备，
-      *        此时直接绑定 onRecieved 事件的风险是：可能接收不到响应值
-      * 被动式：当初始化 sensorium 时，确定蓝牙已连接，此时执行 sensorium.setTransport(send, onRecieved) 完成 onRecieved 绑定
-               是没问题的——但是这样会丢失第一次的握手信息——握手信息不在此库的处理范围
-      */
-
+}();
 
 exports.default = new Transport();
 
@@ -4088,9 +4081,9 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _commandManager = __webpack_require__(6);
+var _control = __webpack_require__(6);
 
-var _commandManager2 = _interopRequireDefault(_commandManager);
+var _control2 = _interopRequireDefault(_control);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -4101,7 +4094,7 @@ var Version = function () {
 
   /**
    * Get version of firmware
-   * @return {Promise} 
+   * @return {Promise}
    */
 
 
@@ -4116,7 +4109,7 @@ var Version = function () {
               case 0:
                 buf = _utils2.default.composer(_cmd2.default.readVersion);
                 _context.next = 3;
-                return _commandManager2.default.read(buf);
+                return _control2.default.read(buf);
 
               case 3:
                 return _context.abrupt('return', _context.sent);
@@ -4190,9 +4183,9 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _commandManager = __webpack_require__(6);
+var _control = __webpack_require__(6);
 
-var _commandManager2 = _interopRequireDefault(_commandManager);
+var _control2 = _interopRequireDefault(_control);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -4249,7 +4242,7 @@ var BaseEncoderMotor = function (_BaseMotor) {
       } else {
         buf = _utils2.default.composer(_cmd2.default.setEncoderMotor, [this.args.port, this.args.slot, this.args.speed, this.args.angle]);
       }
-      _commandManager2.default.write(buf);
+      _control2.default.write(buf);
       return this;
     }
 
@@ -4323,9 +4316,9 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _commandManager = __webpack_require__(6);
+var _control = __webpack_require__(6);
 
-var _commandManager2 = _interopRequireDefault(_commandManager);
+var _control2 = _interopRequireDefault(_control);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -4339,7 +4332,7 @@ var BaseLight = function (_Electronic) {
 
   /**
    * Create a light sensor
-   * @param {Number} port 
+   * @param {Number} port
    */
   function BaseLight(port) {
     (0, _classCallCheck3.default)(this, BaseLight);
@@ -4354,7 +4347,7 @@ var BaseLight = function (_Electronic) {
 
   /**
    * Get data of the Light sensor
-   * @return {Promise} 
+   * @return {Promise}
    */
 
 
@@ -4369,7 +4362,7 @@ var BaseLight = function (_Electronic) {
               case 0:
                 buf = _utils2.default.composer(_cmd2.default.readLight, [this.args.port]);
                 _context.next = 3;
-                return _commandManager2.default.read(buf);
+                return _control2.default.read(buf);
 
               case 3:
                 return _context.abrupt('return', _context.sent);
@@ -4447,9 +4440,9 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _commandManager = __webpack_require__(6);
+var _control = __webpack_require__(6);
 
-var _commandManager2 = _interopRequireDefault(_commandManager);
+var _control2 = _interopRequireDefault(_control);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -4492,7 +4485,7 @@ var BaseGyro = function (_Electronic) {
 
     /**
      * Get data of Gyro sensor
-     * @return {Promise} 
+     * @return {Promise}
      */
 
   }, {
@@ -4506,7 +4499,7 @@ var BaseGyro = function (_Electronic) {
               case 0:
                 buf = _utils2.default.composer(_cmd2.default.readGyro, [this.args.port, this.args.axis]);
                 _context.next = 3;
-                return _commandManager2.default.read(buf);
+                return _control2.default.read(buf);
 
               case 3:
                 return _context.abrupt('return', _context.sent);
@@ -4584,9 +4577,9 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _commandManager = __webpack_require__(6);
+var _control = __webpack_require__(6);
 
-var _commandManager2 = _interopRequireDefault(_commandManager);
+var _control2 = _interopRequireDefault(_control);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -4615,7 +4608,7 @@ var BaseSound = function (_Electronic) {
 
   /**
    * Get data of Sound sensor
-   * @return {Promise} 
+   * @return {Promise}
    */
 
 
@@ -4630,7 +4623,7 @@ var BaseSound = function (_Electronic) {
               case 0:
                 buf = _utils2.default.composer(_cmd2.default.readSound, [this.args.port]);
                 _context.next = 3;
-                return _commandManager2.default.read(buf);
+                return _control2.default.read(buf);
 
               case 3:
                 return _context.abrupt('return', _context.sent);
@@ -4694,9 +4687,9 @@ var _transport = __webpack_require__(79);
 
 var _transport2 = _interopRequireDefault(_transport);
 
-var _commandManager = __webpack_require__(6);
+var _control = __webpack_require__(6);
 
-var _commandManager2 = _interopRequireDefault(_commandManager);
+var _control2 = _interopRequireDefault(_control);
 
 var _version = __webpack_require__(83);
 
@@ -4704,27 +4697,27 @@ var _version2 = _interopRequireDefault(_version);
 
 var _settings = __webpack_require__(13);
 
-var _mcore = __webpack_require__(134);
+var _mcore = __webpack_require__(133);
 
 var _mcore2 = _interopRequireDefault(_mcore);
 
-var _orion = __webpack_require__(206);
+var _orion = __webpack_require__(205);
 
 var _orion2 = _interopRequireDefault(_orion);
 
-var _auriga = __webpack_require__(207);
+var _auriga = __webpack_require__(206);
 
 var _auriga2 = _interopRequireDefault(_auriga);
 
-var _megaPi = __webpack_require__(208);
+var _megaPi = __webpack_require__(207);
 
 var _megaPi2 = _interopRequireDefault(_megaPi);
 
-var _megaPiPro = __webpack_require__(209);
+var _megaPiPro = __webpack_require__(208);
 
 var _megaPiPro2 = _interopRequireDefault(_megaPiPro);
 
-var _arduino = __webpack_require__(210);
+var _arduino = __webpack_require__(209);
 
 var _arduino2 = _interopRequireDefault(_arduino);
 
@@ -4838,7 +4831,7 @@ var Sensorium = function () {
   }, {
     key: 'doRecevied',
     value: function doRecevied(buff) {
-      _commandManager2.default.pipe(buff);
+      _control2.default.pipe(buff);
     }
 
     /**
@@ -4893,7 +4886,7 @@ var Sensorium = function () {
   }, {
     key: 'send',
     value: function send(buf) {
-      _commandManager2.default.write(buf);
+      _control2.default.write(buf);
     }
 
     /**
@@ -6484,7 +6477,7 @@ var Read = {
   },
 
   /**
-   * This function is called by CommandManager
+   * This function is called by Control
    * @param {Function}   send  addRequest send function as proxy
    * @param {Array}   buf      rj25 buffer
    * @param {Function} callback [description]
@@ -6591,7 +6584,7 @@ var TIME_INTERVAL = 50;
 var Write = {
   writeRecord: {},
   /**
-   * This function is called by CommandManager
+   * This function is called by Control
    * @param {Function}   send  addRequest execute as proxy
    * @param {Array}   buf      rj25 buffer
    * @param {Function} callback [description]
@@ -7018,68 +7011,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _classCallCheck2 = __webpack_require__(0);
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = __webpack_require__(1);
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-var _transport = __webpack_require__(79);
-
-var _transport2 = _interopRequireDefault(_transport);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/**
- * Provide a send interface.
- * @private
- */
-var Command = function () {
-  /**
-   * Create a command.
-   */
-  function Command() {
-    (0, _classCallCheck3.default)(this, Command);
-
-    //绑定上下文
-    this.send = this.send.bind(this);
-  }
-
-  /**
-   * send protocol buffer through the transport
-   * @param  {Array} buf protocol buffer
-   * @return {Undefined}
-   */
-
-
-  (0, _createClass3.default)(Command, [{
-    key: 'send',
-    value: function send(buf) {
-      _transport2.default.send(buf);
-    }
-  }]);
-  return Command;
-}(); /**
-      * @fileOverview Command 类，所有读写操作将由 send 方法处理
-      * @author Jeremy
-      */
-
-
-exports.default = new Command();
-
-/***/ }),
-/* 134 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
 var _getPrototypeOf = __webpack_require__(2);
 
 var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
@@ -7156,13 +7087,13 @@ var Mcore = function (_Board) {
 exports.default = Mcore;
 
 /***/ }),
-/* 135 */
+/* 134 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = { "default": __webpack_require__(136), __esModule: true };
+module.exports = { "default": __webpack_require__(135), __esModule: true };
 
 /***/ }),
-/* 136 */
+/* 135 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(38);
@@ -7170,56 +7101,56 @@ __webpack_require__(54);
 module.exports = __webpack_require__(56).f('iterator');
 
 /***/ }),
+/* 136 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = { "default": __webpack_require__(137), __esModule: true };
+
+/***/ }),
 /* 137 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = { "default": __webpack_require__(138), __esModule: true };
+__webpack_require__(80);
+__webpack_require__(68);
+__webpack_require__(138);
+__webpack_require__(139);
+module.exports = __webpack_require__(12).Symbol;
 
 /***/ }),
 /* 138 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(80);
-__webpack_require__(68);
-__webpack_require__(139);
-__webpack_require__(140);
-module.exports = __webpack_require__(12).Symbol;
+__webpack_require__(57)('asyncIterator');
 
 /***/ }),
 /* 139 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(57)('asyncIterator');
+__webpack_require__(57)('observable');
 
 /***/ }),
 /* 140 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(57)('observable');
+module.exports = { "default": __webpack_require__(141), __esModule: true };
 
 /***/ }),
 /* 141 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = { "default": __webpack_require__(142), __esModule: true };
+__webpack_require__(142);
+module.exports = __webpack_require__(12).Object.setPrototypeOf;
 
 /***/ }),
 /* 142 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(143);
-module.exports = __webpack_require__(12).Object.setPrototypeOf;
+// 19.1.3.19 Object.setPrototypeOf(O, proto)
+var $export = __webpack_require__(16);
+$export($export.S, 'Object', {setPrototypeOf: __webpack_require__(143).set});
 
 /***/ }),
 /* 143 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// 19.1.3.19 Object.setPrototypeOf(O, proto)
-var $export = __webpack_require__(16);
-$export($export.S, 'Object', {setPrototypeOf: __webpack_require__(144).set});
-
-/***/ }),
-/* 144 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Works with __proto__ only. Old v8 can't work with null proto objects.
@@ -7249,23 +7180,23 @@ module.exports = {
 };
 
 /***/ }),
+/* 144 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = { "default": __webpack_require__(145), __esModule: true };
+
+/***/ }),
 /* 145 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = { "default": __webpack_require__(146), __esModule: true };
-
-/***/ }),
-/* 146 */
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__(147);
+__webpack_require__(146);
 var $Object = __webpack_require__(12).Object;
 module.exports = function create(P, D){
   return $Object.create(P, D);
 };
 
 /***/ }),
-/* 147 */
+/* 146 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var $export = __webpack_require__(16)
@@ -7273,7 +7204,7 @@ var $export = __webpack_require__(16)
 $export($export.S, 'Object', {create: __webpack_require__(53)});
 
 /***/ }),
-/* 148 */
+/* 147 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7315,9 +7246,9 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _commandManager = __webpack_require__(6);
+var _control = __webpack_require__(6);
 
-var _commandManager2 = _interopRequireDefault(_commandManager);
+var _control2 = _interopRequireDefault(_control);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -7343,7 +7274,7 @@ var DcMotor = function (_BaseMotor) {
     key: 'run',
     value: function run() {
       var buf = _utils2.default.composer(_cmd2.default.setDcMotor, [this.args.port, this.args.speed]);
-      _commandManager2.default.write(buf);
+      _control2.default.write(buf);
       return this;
     }
   }], [{
@@ -7358,7 +7289,7 @@ var DcMotor = function (_BaseMotor) {
 exports.default = DcMotor;
 
 /***/ }),
-/* 149 */
+/* 148 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7402,9 +7333,9 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _commandManager = __webpack_require__(6);
+var _control = __webpack_require__(6);
 
-var _commandManager2 = _interopRequireDefault(_commandManager);
+var _control2 = _interopRequireDefault(_control);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -7450,7 +7381,7 @@ var VirtualJoystick = function (_Electronic) {
     key: 'run',
     value: function run() {
       var buf = _utils2.default.composer(_cmd2.default.setJoystick, [this.args.leftSpeed, this.args.rightSpeed]);
-      _commandManager2.default.write(buf);
+      _control2.default.write(buf);
       return this;
     }
   }, {
@@ -7470,7 +7401,7 @@ var VirtualJoystick = function (_Electronic) {
 exports.default = VirtualJoystick;
 
 /***/ }),
-/* 150 */
+/* 149 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7512,9 +7443,9 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _commandManager = __webpack_require__(6);
+var _control = __webpack_require__(6);
 
-var _commandManager2 = _interopRequireDefault(_commandManager);
+var _control2 = _interopRequireDefault(_control);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -7553,7 +7484,7 @@ var VirtualJoystickForBalance = function (_Electronic) {
     key: 'run',
     value: function run() {
       var buf = _utils2.default.composer(_cmd2.default.setVirtualJoystickForBalance, [this.args.turnRange, this.args.speed]);
-      _commandManager2.default.write(buf);
+      _control2.default.write(buf);
       return this;
     }
 
@@ -7591,7 +7522,7 @@ var VirtualJoystickForBalance = function (_Electronic) {
 exports.default = VirtualJoystickForBalance;
 
 /***/ }),
-/* 151 */
+/* 150 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7639,9 +7570,9 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _commandManager = __webpack_require__(6);
+var _control = __webpack_require__(6);
 
-var _commandManager2 = _interopRequireDefault(_commandManager);
+var _control2 = _interopRequireDefault(_control);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -7692,7 +7623,7 @@ var StepperMotor = function (_BaseMotor) {
     key: 'run',
     value: function run() {
       var buf = _utils2.default.composer(_cmd2.default.setStepperMotor, [this.args.port, this.args.speed, this.args.distance]);
-      _commandManager2.default.write(buf);
+      _control2.default.write(buf);
       return this;
     }
   }], [{
@@ -7707,23 +7638,23 @@ var StepperMotor = function (_BaseMotor) {
 exports.default = StepperMotor;
 
 /***/ }),
-/* 152 */
+/* 151 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(153);
+__webpack_require__(152);
 module.exports = __webpack_require__(12).Object.assign;
 
 /***/ }),
-/* 153 */
+/* 152 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.3.1 Object.assign(target, source)
 var $export = __webpack_require__(16);
 
-$export($export.S + $export.F, 'Object', {assign: __webpack_require__(154)});
+$export($export.S + $export.F, 'Object', {assign: __webpack_require__(153)});
 
 /***/ }),
-/* 154 */
+/* 153 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7762,7 +7693,7 @@ module.exports = !$assign || __webpack_require__(27)(function(){
 } : $assign;
 
 /***/ }),
-/* 155 */
+/* 154 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7822,7 +7753,7 @@ var EncoderMotor = function (_BaseEncoderMotor) {
 exports.default = EncoderMotor;
 
 /***/ }),
-/* 156 */
+/* 155 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7876,9 +7807,9 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _commandManager = __webpack_require__(6);
+var _control = __webpack_require__(6);
 
-var _commandManager2 = _interopRequireDefault(_commandManager);
+var _control2 = _interopRequireDefault(_control);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -7917,7 +7848,7 @@ var EncoderMotorOnBoard = function (_BaseEncoderMotor) {
                 this.args.type = 0x02;
                 buf = bufComposer(this.args);
                 _context.next = 4;
-                return _commandManager2.default.read(buf);
+                return _control2.default.read(buf);
 
               case 4:
                 return _context.abrupt('return', _context.sent);
@@ -7954,7 +7885,7 @@ var EncoderMotorOnBoard = function (_BaseEncoderMotor) {
                 this.args.type = 0x01;
                 buf = bufComposer(this.args);
                 _context2.next = 4;
-                return _commandManager2.default.read(buf);
+                return _control2.default.read(buf);
 
               case 4:
                 return _context2.abrupt('return', _context2.sent);
@@ -7985,7 +7916,7 @@ var EncoderMotorOnBoard = function (_BaseEncoderMotor) {
 exports.default = EncoderMotorOnBoard;
 
 /***/ }),
-/* 157 */
+/* 156 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8029,9 +7960,9 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _commandManager = __webpack_require__(6);
+var _control = __webpack_require__(6);
 
-var _commandManager2 = _interopRequireDefault(_commandManager);
+var _control2 = _interopRequireDefault(_control);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -8096,7 +8027,7 @@ var ServoMotor = function (_Electronic) {
     key: 'run',
     value: function run() {
       var buf = _utils2.default.composer(_cmd2.default.setServoMotor, [this.args.port, this.args.slot, this.args.angle]);
-      _commandManager2.default.write(buf);
+      _control2.default.write(buf);
       return this;
     }
   }], [{
@@ -8111,7 +8042,7 @@ var ServoMotor = function (_Electronic) {
 exports.default = ServoMotor;
 
 /***/ }),
-/* 158 */
+/* 157 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8172,7 +8103,7 @@ var FourLeds = function (_BaseRgbLed) {
 exports.default = FourLeds;
 
 /***/ }),
-/* 159 */
+/* 158 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8232,7 +8163,7 @@ var RgbLed = function (_BaseRgbLed) {
 exports.default = RgbLed;
 
 /***/ }),
-/* 160 */
+/* 159 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8313,7 +8244,7 @@ var RgbLedOnBoard = function (_BaseRgbLed) {
 exports.default = RgbLedOnBoard;
 
 /***/ }),
-/* 161 */
+/* 160 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8349,19 +8280,19 @@ var _electronic = __webpack_require__(9);
 
 var _electronic2 = _interopRequireDefault(_electronic);
 
-var _led_matrix_char = __webpack_require__(162);
+var _led_matrix_char = __webpack_require__(161);
 
 var _led_matrix_char2 = _interopRequireDefault(_led_matrix_char);
 
-var _led_matrix_emotion = __webpack_require__(166);
+var _led_matrix_emotion = __webpack_require__(165);
 
 var _led_matrix_emotion2 = _interopRequireDefault(_led_matrix_emotion);
 
-var _led_matrix_number = __webpack_require__(167);
+var _led_matrix_number = __webpack_require__(166);
 
 var _led_matrix_number2 = _interopRequireDefault(_led_matrix_number);
 
-var _led_matrix_time = __webpack_require__(168);
+var _led_matrix_time = __webpack_require__(167);
 
 var _led_matrix_time2 = _interopRequireDefault(_led_matrix_time);
 
@@ -8417,7 +8348,7 @@ var LedMatrix = function (_Electronic) {
 exports.default = LedMatrix;
 
 /***/ }),
-/* 162 */
+/* 161 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8577,23 +8508,23 @@ var LedMatrixChar = function (_BaseLedMatrix) {
 exports.default = LedMatrixChar;
 
 /***/ }),
+/* 162 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = { "default": __webpack_require__(163), __esModule: true };
+
+/***/ }),
 /* 163 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = { "default": __webpack_require__(164), __esModule: true };
-
-/***/ }),
-/* 164 */
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__(165);
+__webpack_require__(164);
 var $Object = __webpack_require__(12).Object;
 module.exports = function getOwnPropertyDescriptor(it, key){
   return $Object.getOwnPropertyDescriptor(it, key);
 };
 
 /***/ }),
-/* 165 */
+/* 164 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.6 Object.getOwnPropertyDescriptor(O, P)
@@ -8607,7 +8538,7 @@ __webpack_require__(36)('getOwnPropertyDescriptor', function(){
 });
 
 /***/ }),
-/* 166 */
+/* 165 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8749,7 +8680,7 @@ var LedMatrixEmotion = function (_BaseLedMatrix) {
 exports.default = LedMatrixEmotion;
 
 /***/ }),
-/* 167 */
+/* 166 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8854,7 +8785,7 @@ var LedMatrixNumber = function (_BaseLedMatrix) {
 exports.default = LedMatrixNumber;
 
 /***/ }),
-/* 168 */
+/* 167 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8996,7 +8927,7 @@ var LedMatrixTime = function (_BaseLedMatrix) {
 exports.default = LedMatrixTime;
 
 /***/ }),
-/* 169 */
+/* 168 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9040,9 +8971,9 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _commandManager = __webpack_require__(6);
+var _control = __webpack_require__(6);
 
-var _commandManager2 = _interopRequireDefault(_commandManager);
+var _control2 = _interopRequireDefault(_control);
 
 var _settings = __webpack_require__(13);
 
@@ -9128,7 +9059,7 @@ var Buzzer = function (_Electronic) {
         default:
           buf = _utils2.default.composer(_cmd2.default.setBuzzer, [this.args.hz, this.args.beat]);
       }
-      _commandManager2.default.write(buf);
+      _control2.default.write(buf);
       return this;
     }
   }], [{
@@ -9141,6 +9072,100 @@ var Buzzer = function (_Electronic) {
 }(_electronic2.default);
 
 exports.default = Buzzer;
+
+/***/ }),
+/* 169 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _getPrototypeOf = __webpack_require__(2);
+
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+var _classCallCheck2 = __webpack_require__(0);
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = __webpack_require__(1);
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _possibleConstructorReturn2 = __webpack_require__(3);
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = __webpack_require__(4);
+
+var _inherits3 = _interopRequireDefault(_inherits2);
+
+var _validate = __webpack_require__(8);
+
+var _utils = __webpack_require__(5);
+
+var _utils2 = _interopRequireDefault(_utils);
+
+var _electronic = __webpack_require__(9);
+
+var _electronic2 = _interopRequireDefault(_electronic);
+
+var _cmd = __webpack_require__(7);
+
+var _cmd2 = _interopRequireDefault(_cmd);
+
+var _control = __webpack_require__(6);
+
+var _control2 = _interopRequireDefault(_control);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/**
+ * SevenSegment sensor module
+ * @extends Electronic
+ */
+var SevenSegment = function (_Electronic) {
+  (0, _inherits3.default)(SevenSegment, _Electronic);
+
+  function SevenSegment(port) {
+    (0, _classCallCheck3.default)(this, SevenSegment);
+
+    var _this = (0, _possibleConstructorReturn3.default)(this, (SevenSegment.__proto__ || (0, _getPrototypeOf2.default)(SevenSegment)).call(this));
+
+    _this.args = {
+      port: (0, _validate.validateNumber)(port),
+      number: 1
+    };
+    return _this;
+  }
+
+  (0, _createClass3.default)(SevenSegment, [{
+    key: 'number',
+    value: function number(num) {
+      this.args.number = (0, _validate.validateNumber)(num, this.args.number);
+      return this;
+    }
+  }, {
+    key: 'run',
+    value: function run() {
+      var buf = _utils2.default.composer(_cmd2.default.setSevenSegment, [this.args.port, this.args.number]);
+      _control2.default.write(buf);
+      return this;
+    }
+  }], [{
+    key: 'supportStamp',
+    value: function supportStamp() {
+      return '1111';
+    }
+  }]);
+  return SevenSegment;
+}(_electronic2.default);
+
+exports.default = SevenSegment;
 
 /***/ }),
 /* 170 */
@@ -9187,103 +9212,9 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _commandManager = __webpack_require__(6);
+var _control = __webpack_require__(6);
 
-var _commandManager2 = _interopRequireDefault(_commandManager);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/**
- * SevenSegment sensor module
- * @extends Electronic
- */
-var SevenSegment = function (_Electronic) {
-  (0, _inherits3.default)(SevenSegment, _Electronic);
-
-  function SevenSegment(port) {
-    (0, _classCallCheck3.default)(this, SevenSegment);
-
-    var _this = (0, _possibleConstructorReturn3.default)(this, (SevenSegment.__proto__ || (0, _getPrototypeOf2.default)(SevenSegment)).call(this));
-
-    _this.args = {
-      port: (0, _validate.validateNumber)(port),
-      number: 1
-    };
-    return _this;
-  }
-
-  (0, _createClass3.default)(SevenSegment, [{
-    key: 'number',
-    value: function number(num) {
-      this.args.number = (0, _validate.validateNumber)(num, this.args.number);
-      return this;
-    }
-  }, {
-    key: 'run',
-    value: function run() {
-      var buf = _utils2.default.composer(_cmd2.default.setSevenSegment, [this.args.port, this.args.number]);
-      _commandManager2.default.write(buf);
-      return this;
-    }
-  }], [{
-    key: 'supportStamp',
-    value: function supportStamp() {
-      return '1111';
-    }
-  }]);
-  return SevenSegment;
-}(_electronic2.default);
-
-exports.default = SevenSegment;
-
-/***/ }),
-/* 171 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _getPrototypeOf = __webpack_require__(2);
-
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
-
-var _classCallCheck2 = __webpack_require__(0);
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = __webpack_require__(1);
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-var _possibleConstructorReturn2 = __webpack_require__(3);
-
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-var _inherits2 = __webpack_require__(4);
-
-var _inherits3 = _interopRequireDefault(_inherits2);
-
-var _validate = __webpack_require__(8);
-
-var _utils = __webpack_require__(5);
-
-var _utils2 = _interopRequireDefault(_utils);
-
-var _electronic = __webpack_require__(9);
-
-var _electronic2 = _interopRequireDefault(_electronic);
-
-var _cmd = __webpack_require__(7);
-
-var _cmd2 = _interopRequireDefault(_cmd);
-
-var _commandManager = __webpack_require__(6);
-
-var _commandManager2 = _interopRequireDefault(_commandManager);
+var _control2 = _interopRequireDefault(_control);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -9323,7 +9254,7 @@ var Shutter = function (_Electronic) {
     key: 'run',
     value: function run() {
       var buf = _utils2.default.composer(_cmd2.default.setShutter, [this.args.port, this.args.action]);
-      _commandManager2.default.write(buf);
+      _control2.default.write(buf);
       return this;
     }
   }], [{
@@ -9338,7 +9269,7 @@ var Shutter = function (_Electronic) {
 exports.default = Shutter;
 
 /***/ }),
-/* 172 */
+/* 171 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9386,7 +9317,7 @@ var read = function () {
           case 0:
             buf = _utils2.default.composer(_cmd2.default.readSmartServoParam, [baseArgs.index, baseArgs.subCmd]);
             _context.next = 3;
-            return _commandManager2.default.read(buf);
+            return _control2.default.read(buf);
 
           case 3:
             return _context.abrupt('return', _context.sent);
@@ -9424,9 +9355,9 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _commandManager = __webpack_require__(6);
+var _control = __webpack_require__(6);
 
-var _commandManager2 = _interopRequireDefault(_commandManager);
+var _control2 = _interopRequireDefault(_control);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -9439,7 +9370,7 @@ function write(baseArgs, extra) {
     baseCmd.push(extra);
   }
   var buf = _utils2.default.composer(_cmd2.default.setSmartServo, baseCmd);
-  _commandManager2.default.write(buf);
+  _control2.default.write(buf);
 }
 var SmartServo = function (_Electronic) {
   (0, _inherits3.default)(SmartServo, _Electronic);
@@ -9535,7 +9466,7 @@ var SmartServo = function (_Electronic) {
       angle = (0, _validate.validateNumber)(angle, 0);
       var cmd = [this.args.index, this.args.subCmd, angle, this.args.speed];
       var buf = _utils2.default.composer(_cmd2.default.setSmartServoForAbsoluteAngle, cmd);
-      _commandManager2.default.write(buf);
+      _control2.default.write(buf);
       return this;
     }
     /**
@@ -9550,7 +9481,7 @@ var SmartServo = function (_Electronic) {
       angle = (0, _validate.validateNumber)(angle, 0);
       var cmd = [this.args.index, this.args.subCmd, angle, this.args.speed];
       var buf = _utils2.default.composer(_cmd2.default.setSmartServoForRelativeAngle, cmd);
-      _commandManager2.default.write(buf);
+      _control2.default.write(buf);
       return this;
     }
     /**
@@ -9567,7 +9498,7 @@ var SmartServo = function (_Electronic) {
       this.args.subCmd = 0x06;
       var cmd = [this.args.index, this.args.subCmd, this.args.speed];
       var buf = _utils2.default.composer(_cmd2.default.setSmartServoForDcMotor, cmd);
-      _commandManager2.default.write(buf);
+      _control2.default.write(buf);
       return this;
     }
 
@@ -9761,7 +9692,7 @@ var SmartServo = function (_Electronic) {
 exports.default = SmartServo;
 
 /***/ }),
-/* 173 */
+/* 172 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9801,19 +9732,19 @@ var _electronic = __webpack_require__(9);
 
 var _electronic2 = _interopRequireDefault(_electronic);
 
-var _encoder_motor_on_board_pid_for_distance = __webpack_require__(174);
+var _encoder_motor_on_board_pid_for_distance = __webpack_require__(173);
 
 var _encoder_motor_on_board_pid_for_distance2 = _interopRequireDefault(_encoder_motor_on_board_pid_for_distance);
 
-var _encoder_motor_on_board_pid_for_speed = __webpack_require__(175);
+var _encoder_motor_on_board_pid_for_speed = __webpack_require__(174);
 
 var _encoder_motor_on_board_pid_for_speed2 = _interopRequireDefault(_encoder_motor_on_board_pid_for_speed);
 
-var _encoder_motor_on_board_pid_for_pwm = __webpack_require__(176);
+var _encoder_motor_on_board_pid_for_pwm = __webpack_require__(175);
 
 var _encoder_motor_on_board_pid_for_pwm2 = _interopRequireDefault(_encoder_motor_on_board_pid_for_pwm);
 
-var _encoder_motor_on_board_pid_for_doubleMotor = __webpack_require__(177);
+var _encoder_motor_on_board_pid_for_doubleMotor = __webpack_require__(176);
 
 var _encoder_motor_on_board_pid_for_doubleMotor2 = _interopRequireDefault(_encoder_motor_on_board_pid_for_doubleMotor);
 
@@ -9821,9 +9752,9 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _commandManager = __webpack_require__(6);
+var _control = __webpack_require__(6);
 
-var _commandManager2 = _interopRequireDefault(_commandManager);
+var _control2 = _interopRequireDefault(_control);
 
 var _settings = __webpack_require__(13);
 
@@ -9881,7 +9812,7 @@ var EncoderMotorOnBoardPID = function (_Electronic) {
         subCmd = 0x03;
       }
       var buf = _utils2.default.composer(_cmd2.default.setEncoderMotorPIDZeroPoint, [subCmd]);
-      _commandManager2.default.write(buf);
+      _control2.default.write(buf);
       return this;
     }
   }], [{
@@ -9896,7 +9827,7 @@ var EncoderMotorOnBoardPID = function (_Electronic) {
 exports.default = EncoderMotorOnBoardPID;
 
 /***/ }),
-/* 174 */
+/* 173 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9924,9 +9855,9 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _commandManager = __webpack_require__(6);
+var _control = __webpack_require__(6);
 
-var _commandManager2 = _interopRequireDefault(_commandManager);
+var _control2 = _interopRequireDefault(_control);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -9968,7 +9899,7 @@ var EncoderMotorPIDForDistance = function () {
     key: 'run',
     value: function run() {
       var buf = _utils2.default.composer(_cmd2.default.setEncoderMotorPIDDistance, [this.args.distance, this.args.speed]);
-      _commandManager2.default.write(buf);
+      _control2.default.write(buf);
       return this;
     }
   }]);
@@ -9976,6 +9907,76 @@ var EncoderMotorPIDForDistance = function () {
 }();
 
 exports.default = EncoderMotorPIDForDistance;
+
+/***/ }),
+/* 174 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _classCallCheck2 = __webpack_require__(0);
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = __webpack_require__(1);
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _validate = __webpack_require__(8);
+
+var _utils = __webpack_require__(5);
+
+var _utils2 = _interopRequireDefault(_utils);
+
+var _cmd = __webpack_require__(7);
+
+var _cmd2 = _interopRequireDefault(_cmd);
+
+var _control = __webpack_require__(6);
+
+var _control2 = _interopRequireDefault(_control);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var PIDForSpeed = function () {
+  function PIDForSpeed() {
+    (0, _classCallCheck3.default)(this, PIDForSpeed);
+
+    this.args = {
+      speed: 0
+    };
+  }
+
+  /**
+   * set speed
+   * @param  {Number} speed 速度
+   * @return {[type]}       [description]
+   */
+
+
+  (0, _createClass3.default)(PIDForSpeed, [{
+    key: 'speed',
+    value: function speed(_speed) {
+      this.args.speed = (0, _validate.validateNumber)(_speed, this.args.speed);
+      return this;
+    }
+  }, {
+    key: 'run',
+    value: function run() {
+      var buf = _utils2.default.composer(_cmd2.default.setEncoderMotorPIDSpeed, [this.args.speed]);
+      _control2.default.write(buf);
+      return this;
+    }
+  }]);
+  return PIDForSpeed;
+}();
+
+exports.default = PIDForSpeed;
 
 /***/ }),
 /* 175 */
@@ -10006,15 +10007,15 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _commandManager = __webpack_require__(6);
+var _control = __webpack_require__(6);
 
-var _commandManager2 = _interopRequireDefault(_commandManager);
+var _control2 = _interopRequireDefault(_control);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var PIDForSpeed = function () {
-  function PIDForSpeed() {
-    (0, _classCallCheck3.default)(this, PIDForSpeed);
+var PIDForPwm = function () {
+  function PIDForPwm() {
+    (0, _classCallCheck3.default)(this, PIDForPwm);
 
     this.args = {
       speed: 0
@@ -10023,12 +10024,12 @@ var PIDForSpeed = function () {
 
   /**
    * set speed
-   * @param  {Number} speed 速度
+   * @param  {Number} angle [description]
    * @return {[type]}       [description]
    */
 
 
-  (0, _createClass3.default)(PIDForSpeed, [{
+  (0, _createClass3.default)(PIDForPwm, [{
     key: 'speed',
     value: function speed(_speed) {
       this.args.speed = (0, _validate.validateNumber)(_speed, this.args.speed);
@@ -10037,15 +10038,15 @@ var PIDForSpeed = function () {
   }, {
     key: 'run',
     value: function run() {
-      var buf = _utils2.default.composer(_cmd2.default.setEncoderMotorPIDSpeed, [this.args.speed]);
-      _commandManager2.default.write(buf);
+      var buf = _utils2.default.composer(_cmd2.default.setEncoderMotorPIDPwm, [this.args.speed]);
+      _control2.default.write(buf);
       return this;
     }
   }]);
-  return PIDForSpeed;
+  return PIDForPwm;
 }();
 
-exports.default = PIDForSpeed;
+exports.default = PIDForPwm;
 
 /***/ }),
 /* 176 */
@@ -10076,79 +10077,9 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _commandManager = __webpack_require__(6);
+var _control = __webpack_require__(6);
 
-var _commandManager2 = _interopRequireDefault(_commandManager);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var PIDForPwm = function () {
-  function PIDForPwm() {
-    (0, _classCallCheck3.default)(this, PIDForPwm);
-
-    this.args = {
-      speed: 0
-    };
-  }
-
-  /**
-   * set speed
-   * @param  {Number} angle [description]
-   * @return {[type]}       [description]
-   */
-
-
-  (0, _createClass3.default)(PIDForPwm, [{
-    key: 'speed',
-    value: function speed(_speed) {
-      this.args.speed = (0, _validate.validateNumber)(_speed, this.args.speed);
-      return this;
-    }
-  }, {
-    key: 'run',
-    value: function run() {
-      var buf = _utils2.default.composer(_cmd2.default.setEncoderMotorPIDPwm, [this.args.speed]);
-      _commandManager2.default.write(buf);
-      return this;
-    }
-  }]);
-  return PIDForPwm;
-}();
-
-exports.default = PIDForPwm;
-
-/***/ }),
-/* 177 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _classCallCheck2 = __webpack_require__(0);
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = __webpack_require__(1);
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-var _validate = __webpack_require__(8);
-
-var _utils = __webpack_require__(5);
-
-var _utils2 = _interopRequireDefault(_utils);
-
-var _cmd = __webpack_require__(7);
-
-var _cmd2 = _interopRequireDefault(_cmd);
-
-var _commandManager = __webpack_require__(6);
-
-var _commandManager2 = _interopRequireDefault(_commandManager);
+var _control2 = _interopRequireDefault(_control);
 
 var _settings = __webpack_require__(13);
 
@@ -10257,7 +10188,7 @@ var PIDForDoubleMotor = function () {
     key: 'run',
     value: function run() {
       var buf = _utils2.default.composer(_cmd2.default.setEncoderMotorPIDDoubleMotor, [this.args.direction, this.args.distance, this.args.speed]);
-      _commandManager2.default.write(buf);
+      _control2.default.write(buf);
       return this;
     }
   }]);
@@ -10267,7 +10198,7 @@ var PIDForDoubleMotor = function () {
 exports.default = PIDForDoubleMotor;
 
 /***/ }),
-/* 178 */
+/* 177 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10317,9 +10248,9 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _commandManager = __webpack_require__(6);
+var _control = __webpack_require__(6);
 
-var _commandManager2 = _interopRequireDefault(_commandManager);
+var _control2 = _interopRequireDefault(_control);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -10346,7 +10277,7 @@ var Reset = function (_Electronic) {
               case 0:
                 buf = _utils2.default.composer(_cmd2.default.reset);
                 _context.next = 3;
-                return _commandManager2.default.read(buf);
+                return _control2.default.read(buf);
 
               case 3:
                 return _context.abrupt('return', _context.sent);
@@ -10375,6 +10306,130 @@ var Reset = function (_Electronic) {
 }(_electronic2.default);
 
 exports.default = Reset;
+
+/***/ }),
+/* 178 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _regenerator = __webpack_require__(10);
+
+var _regenerator2 = _interopRequireDefault(_regenerator);
+
+var _asyncToGenerator2 = __webpack_require__(11);
+
+var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+
+var _getPrototypeOf = __webpack_require__(2);
+
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+var _classCallCheck2 = __webpack_require__(0);
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = __webpack_require__(1);
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _possibleConstructorReturn2 = __webpack_require__(3);
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = __webpack_require__(4);
+
+var _inherits3 = _interopRequireDefault(_inherits2);
+
+var _validate = __webpack_require__(8);
+
+var _utils = __webpack_require__(5);
+
+var _utils2 = _interopRequireDefault(_utils);
+
+var _electronic = __webpack_require__(9);
+
+var _electronic2 = _interopRequireDefault(_electronic);
+
+var _cmd = __webpack_require__(7);
+
+var _cmd2 = _interopRequireDefault(_cmd);
+
+var _control = __webpack_require__(6);
+
+var _control2 = _interopRequireDefault(_control);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/**
+ * Ultrasonic sensor module
+ * @extends Electronic
+ */
+var Ultrasonic = function (_Electronic) {
+  (0, _inherits3.default)(Ultrasonic, _Electronic);
+
+  function Ultrasonic(port) {
+    (0, _classCallCheck3.default)(this, Ultrasonic);
+
+    var _this = (0, _possibleConstructorReturn3.default)(this, (Ultrasonic.__proto__ || (0, _getPrototypeOf2.default)(Ultrasonic)).call(this));
+
+    _this.args = {
+      port: (0, _validate.validateNumber)(port)
+    };
+    return _this;
+  }
+
+  /**
+   * Get data of Ultrasonic sensor
+   * @return {Promise}
+   */
+
+
+  (0, _createClass3.default)(Ultrasonic, [{
+    key: 'getData',
+    value: function () {
+      var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
+        var buf;
+        return _regenerator2.default.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                buf = _utils2.default.composer(_cmd2.default.readUltrasonic, [this.args.port]);
+                _context.next = 3;
+                return _control2.default.read(buf);
+
+              case 3:
+                return _context.abrupt('return', _context.sent);
+
+              case 4:
+              case 'end':
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function getData() {
+        return _ref.apply(this, arguments);
+      }
+
+      return getData;
+    }()
+  }], [{
+    key: 'supportStamp',
+    value: function supportStamp() {
+      return '1111';
+    }
+  }]);
+  return Ultrasonic;
+}(_electronic2.default);
+
+exports.default = Ultrasonic;
 
 /***/ }),
 /* 179 */
@@ -10429,37 +10484,38 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _commandManager = __webpack_require__(6);
+var _control = __webpack_require__(6);
 
-var _commandManager2 = _interopRequireDefault(_commandManager);
+var _control2 = _interopRequireDefault(_control);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
- * Ultrasonic sensor module
+ * Temperature sensor module
  * @extends Electronic
  */
-var Ultrasonic = function (_Electronic) {
-  (0, _inherits3.default)(Ultrasonic, _Electronic);
+var Temperature = function (_Electronic) {
+  (0, _inherits3.default)(Temperature, _Electronic);
 
-  function Ultrasonic(port) {
-    (0, _classCallCheck3.default)(this, Ultrasonic);
+  function Temperature(port, slot) {
+    (0, _classCallCheck3.default)(this, Temperature);
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (Ultrasonic.__proto__ || (0, _getPrototypeOf2.default)(Ultrasonic)).call(this));
+    var _this = (0, _possibleConstructorReturn3.default)(this, (Temperature.__proto__ || (0, _getPrototypeOf2.default)(Temperature)).call(this));
 
     _this.args = {
-      port: (0, _validate.validateNumber)(port)
+      port: (0, _validate.validateNumber)(port),
+      slot: (0, _validate.validateNumber)(slot)
     };
     return _this;
   }
 
   /**
-   * Get data of Ultrasonic sensor
-   * @return {Promise} 
+   * Get data of Temperature sensor
+   * @return {Promise}
    */
 
 
-  (0, _createClass3.default)(Ultrasonic, [{
+  (0, _createClass3.default)(Temperature, [{
     key: 'getData',
     value: function () {
       var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
@@ -10468,9 +10524,9 @@ var Ultrasonic = function (_Electronic) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                buf = _utils2.default.composer(_cmd2.default.readUltrasonic, [this.args.port]);
+                buf = _utils2.default.composer(_cmd2.default.readTemperature, [this.args.port, this.args.slot]);
                 _context.next = 3;
-                return _commandManager2.default.read(buf);
+                return _control2.default.read(buf);
 
               case 3:
                 return _context.abrupt('return', _context.sent);
@@ -10495,10 +10551,10 @@ var Ultrasonic = function (_Electronic) {
       return '1111';
     }
   }]);
-  return Ultrasonic;
+  return Temperature;
 }(_electronic2.default);
 
-exports.default = Ultrasonic;
+exports.default = Temperature;
 
 /***/ }),
 /* 180 */
@@ -10539,8 +10595,6 @@ var _inherits2 = __webpack_require__(4);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _validate = __webpack_require__(8);
-
 var _utils = __webpack_require__(5);
 
 var _utils2 = _interopRequireDefault(_utils);
@@ -10553,132 +10607,9 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _commandManager = __webpack_require__(6);
+var _control = __webpack_require__(6);
 
-var _commandManager2 = _interopRequireDefault(_commandManager);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/**
- * Temperature sensor module
- * @extends Electronic
- */
-var Temperature = function (_Electronic) {
-  (0, _inherits3.default)(Temperature, _Electronic);
-
-  function Temperature(port, slot) {
-    (0, _classCallCheck3.default)(this, Temperature);
-
-    var _this = (0, _possibleConstructorReturn3.default)(this, (Temperature.__proto__ || (0, _getPrototypeOf2.default)(Temperature)).call(this));
-
-    _this.args = {
-      port: (0, _validate.validateNumber)(port),
-      slot: (0, _validate.validateNumber)(slot)
-    };
-    return _this;
-  }
-
-  /**
-   * Get data of Temperature sensor
-   * @return {Promise} 
-   */
-
-
-  (0, _createClass3.default)(Temperature, [{
-    key: 'getData',
-    value: function () {
-      var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
-        var buf;
-        return _regenerator2.default.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                buf = _utils2.default.composer(_cmd2.default.readTemperature, [this.args.port, this.args.slot]);
-                _context.next = 3;
-                return _commandManager2.default.read(buf);
-
-              case 3:
-                return _context.abrupt('return', _context.sent);
-
-              case 4:
-              case 'end':
-                return _context.stop();
-            }
-          }
-        }, _callee, this);
-      }));
-
-      function getData() {
-        return _ref.apply(this, arguments);
-      }
-
-      return getData;
-    }()
-  }], [{
-    key: 'supportStamp',
-    value: function supportStamp() {
-      return '1111';
-    }
-  }]);
-  return Temperature;
-}(_electronic2.default);
-
-exports.default = Temperature;
-
-/***/ }),
-/* 181 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _regenerator = __webpack_require__(10);
-
-var _regenerator2 = _interopRequireDefault(_regenerator);
-
-var _asyncToGenerator2 = __webpack_require__(11);
-
-var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
-
-var _getPrototypeOf = __webpack_require__(2);
-
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
-
-var _classCallCheck2 = __webpack_require__(0);
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = __webpack_require__(1);
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-var _possibleConstructorReturn2 = __webpack_require__(3);
-
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-var _inherits2 = __webpack_require__(4);
-
-var _inherits3 = _interopRequireDefault(_inherits2);
-
-var _utils = __webpack_require__(5);
-
-var _utils2 = _interopRequireDefault(_utils);
-
-var _electronic = __webpack_require__(9);
-
-var _electronic2 = _interopRequireDefault(_electronic);
-
-var _cmd = __webpack_require__(7);
-
-var _cmd2 = _interopRequireDefault(_cmd);
-
-var _commandManager = __webpack_require__(6);
-
-var _commandManager2 = _interopRequireDefault(_commandManager);
+var _control2 = _interopRequireDefault(_control);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -10696,7 +10627,7 @@ var TemperatureOnBoard = function (_Electronic) {
 
   /**
    * Get data of TemperatureOnBoard sensor
-   * @return {Promise} 
+   * @return {Promise}
    */
 
 
@@ -10711,7 +10642,7 @@ var TemperatureOnBoard = function (_Electronic) {
               case 0:
                 buf = _utils2.default.composer(_cmd2.default.readTemperatureOnBoard);
                 _context.next = 3;
-                return _commandManager2.default.read(buf);
+                return _control2.default.read(buf);
 
               case 3:
                 return _context.abrupt('return', _context.sent);
@@ -10742,7 +10673,7 @@ var TemperatureOnBoard = function (_Electronic) {
 exports.default = TemperatureOnBoard;
 
 /***/ }),
-/* 182 */
+/* 181 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10802,7 +10733,7 @@ var Light = function (_BaseLight) {
 exports.default = Light;
 
 /***/ }),
-/* 183 */
+/* 182 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10884,6 +10815,129 @@ var LightOnBoard = function (_BaseLight) {
 exports.default = LightOnBoard;
 
 /***/ }),
+/* 183 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _regenerator = __webpack_require__(10);
+
+var _regenerator2 = _interopRequireDefault(_regenerator);
+
+var _asyncToGenerator2 = __webpack_require__(11);
+
+var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+
+var _getPrototypeOf = __webpack_require__(2);
+
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+var _classCallCheck2 = __webpack_require__(0);
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = __webpack_require__(1);
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _possibleConstructorReturn2 = __webpack_require__(3);
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = __webpack_require__(4);
+
+var _inherits3 = _interopRequireDefault(_inherits2);
+
+var _validate = __webpack_require__(8);
+
+var _utils = __webpack_require__(5);
+
+var _utils2 = _interopRequireDefault(_utils);
+
+var _electronic = __webpack_require__(9);
+
+var _electronic2 = _interopRequireDefault(_electronic);
+
+var _cmd = __webpack_require__(7);
+
+var _cmd2 = _interopRequireDefault(_cmd);
+
+var _control = __webpack_require__(6);
+
+var _control2 = _interopRequireDefault(_control);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/**
+ * Potentionmeter sensor module
+ * @extends Electronic
+ */
+var Potentionmeter = function (_Electronic) {
+  (0, _inherits3.default)(Potentionmeter, _Electronic);
+
+  function Potentionmeter(port) {
+    (0, _classCallCheck3.default)(this, Potentionmeter);
+
+    var _this = (0, _possibleConstructorReturn3.default)(this, (Potentionmeter.__proto__ || (0, _getPrototypeOf2.default)(Potentionmeter)).call(this));
+
+    _this.args = {
+      port: (0, _validate.validateNumber)(port)
+    };
+    return _this;
+  }
+  /**
+   * Get data of Potentionmeter sensor
+   * @return {Promise}
+   */
+
+
+  (0, _createClass3.default)(Potentionmeter, [{
+    key: 'getData',
+    value: function () {
+      var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
+        var buf;
+        return _regenerator2.default.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                buf = _utils2.default.composer(_cmd2.default.readPotentionmeter, [this.args.port]);
+                _context.next = 3;
+                return _control2.default.read(buf);
+
+              case 3:
+                return _context.abrupt('return', _context.sent);
+
+              case 4:
+              case 'end':
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function getData() {
+        return _ref.apply(this, arguments);
+      }
+
+      return getData;
+    }()
+  }], [{
+    key: 'supportStamp',
+    value: function supportStamp() {
+      return '1111';
+    }
+  }]);
+  return Potentionmeter;
+}(_electronic2.default);
+
+exports.default = Potentionmeter;
+
+/***/ }),
 /* 184 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -10936,132 +10990,9 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _commandManager = __webpack_require__(6);
+var _control = __webpack_require__(6);
 
-var _commandManager2 = _interopRequireDefault(_commandManager);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/**
- * Potentionmeter sensor module
- * @extends Electronic
- */
-var Potentionmeter = function (_Electronic) {
-  (0, _inherits3.default)(Potentionmeter, _Electronic);
-
-  function Potentionmeter(port) {
-    (0, _classCallCheck3.default)(this, Potentionmeter);
-
-    var _this = (0, _possibleConstructorReturn3.default)(this, (Potentionmeter.__proto__ || (0, _getPrototypeOf2.default)(Potentionmeter)).call(this));
-
-    _this.args = {
-      port: (0, _validate.validateNumber)(port)
-    };
-    return _this;
-  }
-  /**
-   * Get data of Potentionmeter sensor
-   * @return {Promise} 
-   */
-
-
-  (0, _createClass3.default)(Potentionmeter, [{
-    key: 'getData',
-    value: function () {
-      var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
-        var buf;
-        return _regenerator2.default.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                buf = _utils2.default.composer(_cmd2.default.readPotentionmeter, [this.args.port]);
-                _context.next = 3;
-                return _commandManager2.default.read(buf);
-
-              case 3:
-                return _context.abrupt('return', _context.sent);
-
-              case 4:
-              case 'end':
-                return _context.stop();
-            }
-          }
-        }, _callee, this);
-      }));
-
-      function getData() {
-        return _ref.apply(this, arguments);
-      }
-
-      return getData;
-    }()
-  }], [{
-    key: 'supportStamp',
-    value: function supportStamp() {
-      return '1111';
-    }
-  }]);
-  return Potentionmeter;
-}(_electronic2.default);
-
-exports.default = Potentionmeter;
-
-/***/ }),
-/* 185 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _regenerator = __webpack_require__(10);
-
-var _regenerator2 = _interopRequireDefault(_regenerator);
-
-var _asyncToGenerator2 = __webpack_require__(11);
-
-var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
-
-var _getPrototypeOf = __webpack_require__(2);
-
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
-
-var _classCallCheck2 = __webpack_require__(0);
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = __webpack_require__(1);
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-var _possibleConstructorReturn2 = __webpack_require__(3);
-
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-var _inherits2 = __webpack_require__(4);
-
-var _inherits3 = _interopRequireDefault(_inherits2);
-
-var _validate = __webpack_require__(8);
-
-var _utils = __webpack_require__(5);
-
-var _utils2 = _interopRequireDefault(_utils);
-
-var _electronic = __webpack_require__(9);
-
-var _electronic2 = _interopRequireDefault(_electronic);
-
-var _cmd = __webpack_require__(7);
-
-var _cmd2 = _interopRequireDefault(_cmd);
-
-var _commandManager = __webpack_require__(6);
-
-var _commandManager2 = _interopRequireDefault(_commandManager);
+var _control2 = _interopRequireDefault(_control);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -11094,7 +11025,7 @@ var Joystick = function (_Electronic) {
     }
     /**
      * Get data of Joystick sensor
-     * @return {Promise} 
+     * @return {Promise}
      */
 
   }, {
@@ -11108,7 +11039,7 @@ var Joystick = function (_Electronic) {
               case 0:
                 buf = _utils2.default.composer(_cmd2.default.readJoystick, [this.args.port, this.args.axis]);
                 _context.next = 3;
-                return _commandManager2.default.read(buf);
+                return _control2.default.read(buf);
 
               case 3:
                 return _context.abrupt('return', _context.sent);
@@ -11139,7 +11070,7 @@ var Joystick = function (_Electronic) {
 exports.default = Joystick;
 
 /***/ }),
-/* 186 */
+/* 185 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11201,7 +11132,7 @@ var Gyro = function (_BaseGyro) {
 exports.default = Gyro;
 
 /***/ }),
-/* 187 */
+/* 186 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11261,7 +11192,7 @@ var GyroOnBoard = function (_BaseGyro) {
 exports.default = GyroOnBoard;
 
 /***/ }),
-/* 188 */
+/* 187 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11321,7 +11252,7 @@ var Sound = function (_BaseSound) {
 exports.default = Sound;
 
 /***/ }),
-/* 189 */
+/* 188 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11381,6 +11312,130 @@ var SoundOnBoard = function (_BaseSound) {
 exports.default = SoundOnBoard;
 
 /***/ }),
+/* 189 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _regenerator = __webpack_require__(10);
+
+var _regenerator2 = _interopRequireDefault(_regenerator);
+
+var _asyncToGenerator2 = __webpack_require__(11);
+
+var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+
+var _getPrototypeOf = __webpack_require__(2);
+
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+var _classCallCheck2 = __webpack_require__(0);
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = __webpack_require__(1);
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _possibleConstructorReturn2 = __webpack_require__(3);
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = __webpack_require__(4);
+
+var _inherits3 = _interopRequireDefault(_inherits2);
+
+var _validate = __webpack_require__(8);
+
+var _utils = __webpack_require__(5);
+
+var _utils2 = _interopRequireDefault(_utils);
+
+var _electronic = __webpack_require__(9);
+
+var _electronic2 = _interopRequireDefault(_electronic);
+
+var _cmd = __webpack_require__(7);
+
+var _cmd2 = _interopRequireDefault(_cmd);
+
+var _control = __webpack_require__(6);
+
+var _control2 = _interopRequireDefault(_control);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/**
+ * Pirmotion sensor module
+ * @describe passive infrared ( PIR) sensor
+ * @extends Electronic
+ */
+var Pirmotion = function (_Electronic) {
+  (0, _inherits3.default)(Pirmotion, _Electronic);
+
+  function Pirmotion(port) {
+    (0, _classCallCheck3.default)(this, Pirmotion);
+
+    var _this = (0, _possibleConstructorReturn3.default)(this, (Pirmotion.__proto__ || (0, _getPrototypeOf2.default)(Pirmotion)).call(this));
+
+    _this.args = {
+      port: (0, _validate.validateNumber)(port)
+    };
+    return _this;
+  }
+  /**
+   * Get data of Pirmotion sensor
+   * @return {Promise}
+   */
+
+
+  (0, _createClass3.default)(Pirmotion, [{
+    key: 'getData',
+    value: function () {
+      var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
+        var buf;
+        return _regenerator2.default.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                buf = _utils2.default.composer(_cmd2.default.readPirmotion, [this.args.port]);
+                _context.next = 3;
+                return _control2.default.read(buf);
+
+              case 3:
+                return _context.abrupt('return', _context.sent);
+
+              case 4:
+              case 'end':
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function getData() {
+        return _ref.apply(this, arguments);
+      }
+
+      return getData;
+    }()
+  }], [{
+    key: 'supportStamp',
+    value: function supportStamp() {
+      return '1111';
+    }
+  }]);
+  return Pirmotion;
+}(_electronic2.default);
+
+exports.default = Pirmotion;
+
+/***/ }),
 /* 190 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -11433,53 +11488,80 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _commandManager = __webpack_require__(6);
+var _control = __webpack_require__(6);
 
-var _commandManager2 = _interopRequireDefault(_commandManager);
+var _control2 = _interopRequireDefault(_control);
+
+var _settings = __webpack_require__(13);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var MCORE_NAME = _settings.SUPPORTLIST[0].toLowerCase();
 /**
- * Pirmotion sensor module
- * @describe passive infrared ( PIR) sensor
+ * Infrared sensor module
+ * @describe external infrared sensor and can't connect 2 this infrared sensor to a mainboard at the same time
  * @extends Electronic
  */
-var Pirmotion = function (_Electronic) {
-  (0, _inherits3.default)(Pirmotion, _Electronic);
 
-  function Pirmotion(port) {
-    (0, _classCallCheck3.default)(this, Pirmotion);
+var Infrared = function (_Electronic) {
+  (0, _inherits3.default)(Infrared, _Electronic);
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (Pirmotion.__proto__ || (0, _getPrototypeOf2.default)(Pirmotion)).call(this));
+  function Infrared(port) {
+    (0, _classCallCheck3.default)(this, Infrared);
+
+    var _this = (0, _possibleConstructorReturn3.default)(this, (Infrared.__proto__ || (0, _getPrototypeOf2.default)(Infrared)).call(this));
 
     _this.args = {
       port: (0, _validate.validateNumber)(port)
     };
+    var host = (0, _validate.warnNotSupport)(arguments[arguments.length - 1]) || '';
+    //宿主
+    _this.hostname = host.toLowerCase();
     return _this;
   }
   /**
-   * Get data of Pirmotion sensor
-   * @return {Promise} 
+   * Get data of Infrared sensor
+   * @return {Promise}
    */
 
 
-  (0, _createClass3.default)(Pirmotion, [{
+  (0, _createClass3.default)(Infrared, [{
     key: 'getData',
     value: function () {
       var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
-        var buf;
+        var deviceId, aKey, argsArr, buf;
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                buf = _utils2.default.composer(_cmd2.default.readPirmotion, [this.args.port]);
-                _context.next = 3;
-                return _commandManager2.default.read(buf);
+                deviceId = void 0, aKey = void 0;
+                //如果是 mcore，外接的红外传感器 id = 0x0e
+                //如果非 mcore，外接的红外传感器 id = 0x10
 
-              case 3:
-                return _context.abrupt('return', _context.sent);
+                _context.t0 = this.hostname;
+                _context.next = _context.t0 === MCORE_NAME ? 4 : 7;
+                break;
 
               case 4:
+                deviceId = 0x0e;
+                aKey = 0x45;
+                return _context.abrupt('break', 8);
+
+              case 7:
+                deviceId = 0x10;
+
+              case 8:
+                argsArr = [deviceId, this.args.port];
+
+                aKey ? argsArr.push(aKey) : null;
+                buf = _utils2.default.composer(_cmd2.default.readInfrared, argsArr);
+                _context.next = 13;
+                return _control2.default.read(buf);
+
+              case 13:
+                return _context.abrupt('return', _context.sent);
+
+              case 14:
               case 'end':
                 return _context.stop();
             }
@@ -11499,13 +11581,145 @@ var Pirmotion = function (_Electronic) {
       return '1111';
     }
   }]);
-  return Pirmotion;
+  return Infrared;
 }(_electronic2.default);
 
-exports.default = Pirmotion;
+exports.default = Infrared;
 
 /***/ }),
 /* 191 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _regenerator = __webpack_require__(10);
+
+var _regenerator2 = _interopRequireDefault(_regenerator);
+
+var _asyncToGenerator2 = __webpack_require__(11);
+
+var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+
+var _getPrototypeOf = __webpack_require__(2);
+
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+var _classCallCheck2 = __webpack_require__(0);
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = __webpack_require__(1);
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _possibleConstructorReturn2 = __webpack_require__(3);
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = __webpack_require__(4);
+
+var _inherits3 = _interopRequireDefault(_inherits2);
+
+var _utils = __webpack_require__(5);
+
+var _utils2 = _interopRequireDefault(_utils);
+
+var _electronic = __webpack_require__(9);
+
+var _electronic2 = _interopRequireDefault(_electronic);
+
+var _cmd = __webpack_require__(7);
+
+var _cmd2 = _interopRequireDefault(_cmd);
+
+var _control = __webpack_require__(6);
+
+var _control2 = _interopRequireDefault(_control);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/**
+ * 所有主控板（包括MegaPiPro）都有 2 种类型：外接的红外传感器，外接的被动式红外探测器
+ * mcore 一共有 4 种红外相关的传感器，即除了上述 2 种，还有板载的红外传感器，且板载的分别是“发射端”、“接收端” 2 种
+
+ * mcore 红外线接收端（读） id 0x0e
+ * mcore 红外线发射端（写）id 0x0d
+ * 其他主控板，红外传感器统一为接收端 (读) - id 0x10
+ * 其他主控板，被动式红外传感器统一为接收端 (读) - id 0x0f
+ */
+
+/**
+ * InfraredOnBoard sensor module
+ * @describe this interface is only for mcore and mcore has two kind of InfraredOnBoard sensor
+ * @extends Electronic
+ */
+var InfraredOnBoard = function (_Electronic) {
+  (0, _inherits3.default)(InfraredOnBoard, _Electronic);
+
+  function InfraredOnBoard() {
+    (0, _classCallCheck3.default)(this, InfraredOnBoard);
+
+    var _this = (0, _possibleConstructorReturn3.default)(this, (InfraredOnBoard.__proto__ || (0, _getPrototypeOf2.default)(InfraredOnBoard)).call(this));
+
+    _this.deviceId = 0x0e;
+    return _this;
+  }
+  /**
+   * Get data of Infrared sensor
+   * @return {Promise}
+   */
+
+
+  (0, _createClass3.default)(InfraredOnBoard, [{
+    key: 'getData',
+    value: function () {
+      var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
+        var port, aKey, buf;
+        return _regenerator2.default.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                port = 0x00;
+                aKey = 0x45;
+                buf = _utils2.default.composer(_cmd2.default.readInfrared, [this.deviceId, port, aKey]);
+                _context.next = 5;
+                return _control2.default.read(buf);
+
+              case 5:
+                return _context.abrupt('return', _context.sent);
+
+              case 6:
+              case 'end':
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function getData() {
+        return _ref.apply(this, arguments);
+      }
+
+      return getData;
+    }()
+  }], [{
+    key: 'supportStamp',
+    value: function supportStamp() {
+      return '10000';
+    }
+  }]);
+  return InfraredOnBoard;
+}(_electronic2.default);
+
+exports.default = InfraredOnBoard;
+
+/***/ }),
+/* 192 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11557,80 +11771,53 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _commandManager = __webpack_require__(6);
+var _control = __webpack_require__(6);
 
-var _commandManager2 = _interopRequireDefault(_commandManager);
-
-var _settings = __webpack_require__(13);
+var _control2 = _interopRequireDefault(_control);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var MCORE_NAME = _settings.SUPPORTLIST[0].toLowerCase();
 /**
- * Infrared sensor module
- * @describe external infrared sensor and can't connect 2 this infrared sensor to a mainboard at the same time
+ * LimitSwitch sensor module
  * @extends Electronic
  */
+var LimitSwitch = function (_Electronic) {
+  (0, _inherits3.default)(LimitSwitch, _Electronic);
 
-var Infrared = function (_Electronic) {
-  (0, _inherits3.default)(Infrared, _Electronic);
+  function LimitSwitch(port, slot) {
+    (0, _classCallCheck3.default)(this, LimitSwitch);
 
-  function Infrared(port) {
-    (0, _classCallCheck3.default)(this, Infrared);
-
-    var _this = (0, _possibleConstructorReturn3.default)(this, (Infrared.__proto__ || (0, _getPrototypeOf2.default)(Infrared)).call(this));
+    var _this = (0, _possibleConstructorReturn3.default)(this, (LimitSwitch.__proto__ || (0, _getPrototypeOf2.default)(LimitSwitch)).call(this));
 
     _this.args = {
-      port: (0, _validate.validateNumber)(port)
+      port: (0, _validate.validateNumber)(port),
+      slot: (0, _validate.validateNumber)(slot)
     };
-    var host = (0, _validate.warnNotSupport)(arguments[arguments.length - 1]) || '';
-    //宿主
-    _this.hostname = host.toLowerCase();
     return _this;
   }
   /**
-   * Get data of Infrared sensor
-   * @return {Promise} 
+   * Get data of Joystick sensor
+   * @return {Promise}
    */
 
 
-  (0, _createClass3.default)(Infrared, [{
+  (0, _createClass3.default)(LimitSwitch, [{
     key: 'getData',
     value: function () {
       var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
-        var deviceId, aKey, argsArr, buf;
+        var buf;
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                deviceId = void 0, aKey = void 0;
-                //如果是 mcore，外接的红外传感器 id = 0x0e
-                //如果非 mcore，外接的红外传感器 id = 0x10
+                buf = _utils2.default.composer(_cmd2.default.readLimitSwitch, [this.args.port, this.args.slot]);
+                _context.next = 3;
+                return _control2.default.read(buf);
 
-                _context.t0 = this.hostname;
-                _context.next = _context.t0 === MCORE_NAME ? 4 : 7;
-                break;
-
-              case 4:
-                deviceId = 0x0e;
-                aKey = 0x45;
-                return _context.abrupt('break', 8);
-
-              case 7:
-                deviceId = 0x10;
-
-              case 8:
-                argsArr = [deviceId, this.args.port];
-
-                aKey ? argsArr.push(aKey) : null;
-                buf = _utils2.default.composer(_cmd2.default.readInfrared, argsArr);
-                _context.next = 13;
-                return _commandManager2.default.read(buf);
-
-              case 13:
+              case 3:
                 return _context.abrupt('return', _context.sent);
 
-              case 14:
+              case 4:
               case 'end':
                 return _context.stop();
             }
@@ -11650,142 +11837,10 @@ var Infrared = function (_Electronic) {
       return '1111';
     }
   }]);
-  return Infrared;
+  return LimitSwitch;
 }(_electronic2.default);
 
-exports.default = Infrared;
-
-/***/ }),
-/* 192 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _regenerator = __webpack_require__(10);
-
-var _regenerator2 = _interopRequireDefault(_regenerator);
-
-var _asyncToGenerator2 = __webpack_require__(11);
-
-var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
-
-var _getPrototypeOf = __webpack_require__(2);
-
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
-
-var _classCallCheck2 = __webpack_require__(0);
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = __webpack_require__(1);
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-var _possibleConstructorReturn2 = __webpack_require__(3);
-
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-var _inherits2 = __webpack_require__(4);
-
-var _inherits3 = _interopRequireDefault(_inherits2);
-
-var _utils = __webpack_require__(5);
-
-var _utils2 = _interopRequireDefault(_utils);
-
-var _electronic = __webpack_require__(9);
-
-var _electronic2 = _interopRequireDefault(_electronic);
-
-var _cmd = __webpack_require__(7);
-
-var _cmd2 = _interopRequireDefault(_cmd);
-
-var _commandManager = __webpack_require__(6);
-
-var _commandManager2 = _interopRequireDefault(_commandManager);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/**
- * 所有主控板（包括MegaPiPro）都有 2 种类型：外接的红外传感器，外接的被动式红外探测器
- * mcore 一共有 4 种红外相关的传感器，即除了上述 2 种，还有板载的红外传感器，且板载的分别是“发射端”、“接收端” 2 种
-
- * mcore 红外线接收端（读） id 0x0e
- * mcore 红外线发射端（写）id 0x0d
- * 其他主控板，红外传感器统一为接收端 (读) - id 0x10
- * 其他主控板，被动式红外传感器统一为接收端 (读) - id 0x0f
- */
-
-/**
- * InfraredOnBoard sensor module
- * @describe this interface is only for mcore and mcore has two kind of InfraredOnBoard sensor
- * @extends Electronic
- */
-var InfraredOnBoard = function (_Electronic) {
-  (0, _inherits3.default)(InfraredOnBoard, _Electronic);
-
-  function InfraredOnBoard() {
-    (0, _classCallCheck3.default)(this, InfraredOnBoard);
-
-    var _this = (0, _possibleConstructorReturn3.default)(this, (InfraredOnBoard.__proto__ || (0, _getPrototypeOf2.default)(InfraredOnBoard)).call(this));
-
-    _this.deviceId = 0x0e;
-    return _this;
-  }
-  /**
-   * Get data of Infrared sensor
-   * @return {Promise} 
-   */
-
-
-  (0, _createClass3.default)(InfraredOnBoard, [{
-    key: 'getData',
-    value: function () {
-      var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
-        var port, aKey, buf;
-        return _regenerator2.default.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                port = 0x00;
-                aKey = 0x45;
-                buf = _utils2.default.composer(_cmd2.default.readInfrared, [this.deviceId, port, aKey]);
-                _context.next = 5;
-                return _commandManager2.default.read(buf);
-
-              case 5:
-                return _context.abrupt('return', _context.sent);
-
-              case 6:
-              case 'end':
-                return _context.stop();
-            }
-          }
-        }, _callee, this);
-      }));
-
-      function getData() {
-        return _ref.apply(this, arguments);
-      }
-
-      return getData;
-    }()
-  }], [{
-    key: 'supportStamp',
-    value: function supportStamp() {
-      return '10000';
-    }
-  }]);
-  return InfraredOnBoard;
-}(_electronic2.default);
-
-exports.default = InfraredOnBoard;
+exports.default = LimitSwitch;
 
 /***/ }),
 /* 193 */
@@ -11840,37 +11895,36 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _commandManager = __webpack_require__(6);
+var _control = __webpack_require__(6);
 
-var _commandManager2 = _interopRequireDefault(_commandManager);
+var _control2 = _interopRequireDefault(_control);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
- * LimitSwitch sensor module
+ * LineFollower sensor module
  * @extends Electronic
  */
-var LimitSwitch = function (_Electronic) {
-  (0, _inherits3.default)(LimitSwitch, _Electronic);
+var LineFollower = function (_Electronic) {
+  (0, _inherits3.default)(LineFollower, _Electronic);
 
-  function LimitSwitch(port, slot) {
-    (0, _classCallCheck3.default)(this, LimitSwitch);
+  function LineFollower(port) {
+    (0, _classCallCheck3.default)(this, LineFollower);
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (LimitSwitch.__proto__ || (0, _getPrototypeOf2.default)(LimitSwitch)).call(this));
+    var _this = (0, _possibleConstructorReturn3.default)(this, (LineFollower.__proto__ || (0, _getPrototypeOf2.default)(LineFollower)).call(this));
 
     _this.args = {
-      port: (0, _validate.validateNumber)(port),
-      slot: (0, _validate.validateNumber)(slot)
+      port: (0, _validate.validateNumber)(port)
     };
     return _this;
   }
   /**
-   * Get data of Joystick sensor
-   * @return {Promise} 
+   * Get data of LineFollower sensor
+   * @return {Promise}
    */
 
 
-  (0, _createClass3.default)(LimitSwitch, [{
+  (0, _createClass3.default)(LineFollower, [{
     key: 'getData',
     value: function () {
       var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
@@ -11879,9 +11933,9 @@ var LimitSwitch = function (_Electronic) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                buf = _utils2.default.composer(_cmd2.default.readLimitSwitch, [this.args.port, this.args.slot]);
+                buf = _utils2.default.composer(_cmd2.default.readLineFollower, [this.args.port]);
                 _context.next = 3;
-                return _commandManager2.default.read(buf);
+                return _control2.default.read(buf);
 
               case 3:
                 return _context.abrupt('return', _context.sent);
@@ -11906,10 +11960,10 @@ var LimitSwitch = function (_Electronic) {
       return '1111';
     }
   }]);
-  return LimitSwitch;
+  return LineFollower;
 }(_electronic2.default);
 
-exports.default = LimitSwitch;
+exports.default = LineFollower;
 
 /***/ }),
 /* 194 */
@@ -11964,132 +12018,9 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _commandManager = __webpack_require__(6);
+var _control = __webpack_require__(6);
 
-var _commandManager2 = _interopRequireDefault(_commandManager);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/**
- * LineFollower sensor module
- * @extends Electronic
- */
-var LineFollower = function (_Electronic) {
-  (0, _inherits3.default)(LineFollower, _Electronic);
-
-  function LineFollower(port) {
-    (0, _classCallCheck3.default)(this, LineFollower);
-
-    var _this = (0, _possibleConstructorReturn3.default)(this, (LineFollower.__proto__ || (0, _getPrototypeOf2.default)(LineFollower)).call(this));
-
-    _this.args = {
-      port: (0, _validate.validateNumber)(port)
-    };
-    return _this;
-  }
-  /**
-   * Get data of LineFollower sensor
-   * @return {Promise} 
-   */
-
-
-  (0, _createClass3.default)(LineFollower, [{
-    key: 'getData',
-    value: function () {
-      var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
-        var buf;
-        return _regenerator2.default.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                buf = _utils2.default.composer(_cmd2.default.readLineFollower, [this.args.port]);
-                _context.next = 3;
-                return _commandManager2.default.read(buf);
-
-              case 3:
-                return _context.abrupt('return', _context.sent);
-
-              case 4:
-              case 'end':
-                return _context.stop();
-            }
-          }
-        }, _callee, this);
-      }));
-
-      function getData() {
-        return _ref.apply(this, arguments);
-      }
-
-      return getData;
-    }()
-  }], [{
-    key: 'supportStamp',
-    value: function supportStamp() {
-      return '1111';
-    }
-  }]);
-  return LineFollower;
-}(_electronic2.default);
-
-exports.default = LineFollower;
-
-/***/ }),
-/* 195 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _regenerator = __webpack_require__(10);
-
-var _regenerator2 = _interopRequireDefault(_regenerator);
-
-var _asyncToGenerator2 = __webpack_require__(11);
-
-var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
-
-var _getPrototypeOf = __webpack_require__(2);
-
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
-
-var _classCallCheck2 = __webpack_require__(0);
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = __webpack_require__(1);
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-var _possibleConstructorReturn2 = __webpack_require__(3);
-
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-var _inherits2 = __webpack_require__(4);
-
-var _inherits3 = _interopRequireDefault(_inherits2);
-
-var _validate = __webpack_require__(8);
-
-var _utils = __webpack_require__(5);
-
-var _utils2 = _interopRequireDefault(_utils);
-
-var _electronic = __webpack_require__(9);
-
-var _electronic2 = _interopRequireDefault(_electronic);
-
-var _cmd = __webpack_require__(7);
-
-var _cmd2 = _interopRequireDefault(_cmd);
-
-var _commandManager = __webpack_require__(6);
-
-var _commandManager2 = _interopRequireDefault(_commandManager);
+var _control2 = _interopRequireDefault(_control);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -12112,7 +12043,7 @@ var Compass = function (_Electronic) {
   }
   /**
    * Get data of Compass sensor
-   * @return {Promise} 
+   * @return {Promise}
    */
 
 
@@ -12127,7 +12058,7 @@ var Compass = function (_Electronic) {
               case 0:
                 buf = _utils2.default.composer(_cmd2.default.readCompass, [this.args.port]);
                 _context.next = 3;
-                return _commandManager2.default.read(buf);
+                return _control2.default.read(buf);
 
               case 3:
                 return _context.abrupt('return', _context.sent);
@@ -12158,7 +12089,7 @@ var Compass = function (_Electronic) {
 exports.default = Compass;
 
 /***/ }),
-/* 196 */
+/* 195 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12210,9 +12141,9 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _commandManager = __webpack_require__(6);
+var _control = __webpack_require__(6);
 
-var _commandManager2 = _interopRequireDefault(_commandManager);
+var _control2 = _interopRequireDefault(_control);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -12225,7 +12156,7 @@ var commandRead = function () {
           case 0:
             buf = _utils2.default.composer(_cmd2.default.readHumiture, [args.port, args.type]);
             _context.next = 3;
-            return _commandManager2.default.read(buf);
+            return _control2.default.read(buf);
 
           case 3:
             return _context.abrupt('return', _context.sent);
@@ -12333,6 +12264,129 @@ var Humiture = function (_Electronic) {
 exports.default = Humiture;
 
 /***/ }),
+/* 196 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _regenerator = __webpack_require__(10);
+
+var _regenerator2 = _interopRequireDefault(_regenerator);
+
+var _asyncToGenerator2 = __webpack_require__(11);
+
+var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+
+var _getPrototypeOf = __webpack_require__(2);
+
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+var _classCallCheck2 = __webpack_require__(0);
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = __webpack_require__(1);
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _possibleConstructorReturn2 = __webpack_require__(3);
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = __webpack_require__(4);
+
+var _inherits3 = _interopRequireDefault(_inherits2);
+
+var _validate = __webpack_require__(8);
+
+var _utils = __webpack_require__(5);
+
+var _utils2 = _interopRequireDefault(_utils);
+
+var _electronic = __webpack_require__(9);
+
+var _electronic2 = _interopRequireDefault(_electronic);
+
+var _cmd = __webpack_require__(7);
+
+var _cmd2 = _interopRequireDefault(_cmd);
+
+var _control = __webpack_require__(6);
+
+var _control2 = _interopRequireDefault(_control);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/**
+ * Flame sensor module
+ * @extends Electronic
+ */
+var Flame = function (_Electronic) {
+  (0, _inherits3.default)(Flame, _Electronic);
+
+  function Flame(port) {
+    (0, _classCallCheck3.default)(this, Flame);
+
+    var _this = (0, _possibleConstructorReturn3.default)(this, (Flame.__proto__ || (0, _getPrototypeOf2.default)(Flame)).call(this));
+
+    _this.args = {
+      port: (0, _validate.validateNumber)(port)
+    };
+    return _this;
+  }
+  /**
+   * Get data of Flame sensor
+   * @return {Promise}
+   */
+
+
+  (0, _createClass3.default)(Flame, [{
+    key: 'getData',
+    value: function () {
+      var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
+        var buf;
+        return _regenerator2.default.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                buf = _utils2.default.composer(_cmd2.default.readFlame, [this.args.port]);
+                _context.next = 3;
+                return _control2.default.read(buf);
+
+              case 3:
+                return _context.abrupt('return', _context.sent);
+
+              case 4:
+              case 'end':
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function getData() {
+        return _ref.apply(this, arguments);
+      }
+
+      return getData;
+    }()
+  }], [{
+    key: 'supportStamp',
+    value: function supportStamp() {
+      return '1111';
+    }
+  }]);
+  return Flame;
+}(_electronic2.default);
+
+exports.default = Flame;
+
+/***/ }),
 /* 197 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -12385,23 +12439,23 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _commandManager = __webpack_require__(6);
+var _control = __webpack_require__(6);
 
-var _commandManager2 = _interopRequireDefault(_commandManager);
+var _control2 = _interopRequireDefault(_control);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
- * Flame sensor module
+ * Gas sensor module
  * @extends Electronic
  */
-var Flame = function (_Electronic) {
-  (0, _inherits3.default)(Flame, _Electronic);
+var Gas = function (_Electronic) {
+  (0, _inherits3.default)(Gas, _Electronic);
 
-  function Flame(port) {
-    (0, _classCallCheck3.default)(this, Flame);
+  function Gas(port) {
+    (0, _classCallCheck3.default)(this, Gas);
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (Flame.__proto__ || (0, _getPrototypeOf2.default)(Flame)).call(this));
+    var _this = (0, _possibleConstructorReturn3.default)(this, (Gas.__proto__ || (0, _getPrototypeOf2.default)(Gas)).call(this));
 
     _this.args = {
       port: (0, _validate.validateNumber)(port)
@@ -12409,12 +12463,12 @@ var Flame = function (_Electronic) {
     return _this;
   }
   /**
-   * Get data of Flame sensor
-   * @return {Promise} 
+   * Get data of Gas sensor
+   * @return {Promise}
    */
 
 
-  (0, _createClass3.default)(Flame, [{
+  (0, _createClass3.default)(Gas, [{
     key: 'getData',
     value: function () {
       var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
@@ -12423,9 +12477,9 @@ var Flame = function (_Electronic) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                buf = _utils2.default.composer(_cmd2.default.readFlame, [this.args.port]);
+                buf = _utils2.default.composer(_cmd2.default.readGas, [this.args.port]);
                 _context.next = 3;
-                return _commandManager2.default.read(buf);
+                return _control2.default.read(buf);
 
               case 3:
                 return _context.abrupt('return', _context.sent);
@@ -12450,10 +12504,10 @@ var Flame = function (_Electronic) {
       return '1111';
     }
   }]);
-  return Flame;
+  return Gas;
 }(_electronic2.default);
 
-exports.default = Flame;
+exports.default = Gas;
 
 /***/ }),
 /* 198 */
@@ -12508,36 +12562,37 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _commandManager = __webpack_require__(6);
+var _control = __webpack_require__(6);
 
-var _commandManager2 = _interopRequireDefault(_commandManager);
+var _control2 = _interopRequireDefault(_control);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
- * Gas sensor module
+ * Touch sensor module
  * @extends Electronic
  */
-var Gas = function (_Electronic) {
-  (0, _inherits3.default)(Gas, _Electronic);
+var Touch = function (_Electronic) {
+  (0, _inherits3.default)(Touch, _Electronic);
 
-  function Gas(port) {
-    (0, _classCallCheck3.default)(this, Gas);
+  function Touch(port) {
+    (0, _classCallCheck3.default)(this, Touch);
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (Gas.__proto__ || (0, _getPrototypeOf2.default)(Gas)).call(this));
+    var _this = (0, _possibleConstructorReturn3.default)(this, (Touch.__proto__ || (0, _getPrototypeOf2.default)(Touch)).call(this));
 
     _this.args = {
       port: (0, _validate.validateNumber)(port)
     };
     return _this;
   }
+
   /**
-   * Get data of Gas sensor
-   * @return {Promise} 
+   * Get data of Touch sensor
+   * @return {Promise}
    */
 
 
-  (0, _createClass3.default)(Gas, [{
+  (0, _createClass3.default)(Touch, [{
     key: 'getData',
     value: function () {
       var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
@@ -12546,9 +12601,9 @@ var Gas = function (_Electronic) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                buf = _utils2.default.composer(_cmd2.default.readGas, [this.args.port]);
+                buf = _utils2.default.composer(_cmd2.default.readTouch, [this.args.port]);
                 _context.next = 3;
-                return _commandManager2.default.read(buf);
+                return _control2.default.read(buf);
 
               case 3:
                 return _context.abrupt('return', _context.sent);
@@ -12573,10 +12628,10 @@ var Gas = function (_Electronic) {
       return '1111';
     }
   }]);
-  return Gas;
+  return Touch;
 }(_electronic2.default);
 
-exports.default = Gas;
+exports.default = Touch;
 
 /***/ }),
 /* 199 */
@@ -12631,37 +12686,49 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _commandManager = __webpack_require__(6);
+var _control = __webpack_require__(6);
 
-var _commandManager2 = _interopRequireDefault(_commandManager);
+var _control2 = _interopRequireDefault(_control);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
- * Touch sensor module
+ * FourKeys sensor module
  * @extends Electronic
  */
-var Touch = function (_Electronic) {
-  (0, _inherits3.default)(Touch, _Electronic);
+var FourKeys = function (_Electronic) {
+  (0, _inherits3.default)(FourKeys, _Electronic);
 
-  function Touch(port) {
-    (0, _classCallCheck3.default)(this, Touch);
+  function FourKeys(port) {
+    (0, _classCallCheck3.default)(this, FourKeys);
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (Touch.__proto__ || (0, _getPrototypeOf2.default)(Touch)).call(this));
+    var _this = (0, _possibleConstructorReturn3.default)(this, (FourKeys.__proto__ || (0, _getPrototypeOf2.default)(FourKeys)).call(this));
 
     _this.args = {
-      port: (0, _validate.validateNumber)(port)
+      port: (0, _validate.validateNumber)(port),
+      key: 1
     };
     return _this;
   }
 
   /**
-   * Get data of Touch sensor
-   * @return {Promise} 
+   * 键位
+   * @param  {Number} index 键位：1、2、3、4
    */
 
 
-  (0, _createClass3.default)(Touch, [{
+  (0, _createClass3.default)(FourKeys, [{
+    key: 'key',
+    value: function key(index) {
+      this.args.key = (0, _validate.validateNumber)(index, this.args.key);
+      return this;
+    }
+    /**
+     * Get data of FourKeys sensor
+     * @return {Promise}
+     */
+
+  }, {
     key: 'getData',
     value: function () {
       var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
@@ -12670,9 +12737,9 @@ var Touch = function (_Electronic) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                buf = _utils2.default.composer(_cmd2.default.readTouch, [this.args.port]);
+                buf = _utils2.default.composer(_cmd2.default.readFourKeys, [this.args.port, this.args.key]);
                 _context.next = 3;
-                return _commandManager2.default.read(buf);
+                return _control2.default.read(buf);
 
               case 3:
                 return _context.abrupt('return', _context.sent);
@@ -12697,10 +12764,10 @@ var Touch = function (_Electronic) {
       return '1111';
     }
   }]);
-  return Touch;
+  return FourKeys;
 }(_electronic2.default);
 
-exports.default = Touch;
+exports.default = FourKeys;
 
 /***/ }),
 /* 200 */
@@ -12755,49 +12822,36 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _commandManager = __webpack_require__(6);
+var _control = __webpack_require__(6);
 
-var _commandManager2 = _interopRequireDefault(_commandManager);
+var _control2 = _interopRequireDefault(_control);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
- * FourKeys sensor module
+ * DigGPIO sensor module
  * @extends Electronic
  */
-var FourKeys = function (_Electronic) {
-  (0, _inherits3.default)(FourKeys, _Electronic);
+var DigGPIO = function (_Electronic) {
+  (0, _inherits3.default)(DigGPIO, _Electronic);
 
-  function FourKeys(port) {
-    (0, _classCallCheck3.default)(this, FourKeys);
+  function DigGPIO(port) {
+    (0, _classCallCheck3.default)(this, DigGPIO);
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (FourKeys.__proto__ || (0, _getPrototypeOf2.default)(FourKeys)).call(this));
+    var _this = (0, _possibleConstructorReturn3.default)(this, (DigGPIO.__proto__ || (0, _getPrototypeOf2.default)(DigGPIO)).call(this));
 
     _this.args = {
-      port: (0, _validate.validateNumber)(port),
-      key: 1
+      port: (0, _validate.validateNumber)(port)
     };
     return _this;
   }
-
   /**
-   * 键位
-   * @param  {Number} index 键位：1、2、3、4
+   * Get data of DigGPIO sensor
+   * @return {Promise}
    */
 
 
-  (0, _createClass3.default)(FourKeys, [{
-    key: 'key',
-    value: function key(index) {
-      this.args.key = (0, _validate.validateNumber)(index, this.args.key);
-      return this;
-    }
-    /**
-     * Get data of FourKeys sensor
-     * @return {Promise} 
-     */
-
-  }, {
+  (0, _createClass3.default)(DigGPIO, [{
     key: 'getData',
     value: function () {
       var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
@@ -12806,9 +12860,9 @@ var FourKeys = function (_Electronic) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                buf = _utils2.default.composer(_cmd2.default.readFourKeys, [this.args.port, this.args.key]);
+                buf = _utils2.default.composer(_cmd2.default.readDigGPIO, [this.args.port]);
                 _context.next = 3;
-                return _commandManager2.default.read(buf);
+                return _control2.default.read(buf);
 
               case 3:
                 return _context.abrupt('return', _context.sent);
@@ -12830,13 +12884,13 @@ var FourKeys = function (_Electronic) {
   }], [{
     key: 'supportStamp',
     value: function supportStamp() {
-      return '1111';
+      return '00001';
     }
   }]);
-  return FourKeys;
+  return DigGPIO;
 }(_electronic2.default);
 
-exports.default = FourKeys;
+exports.default = DigGPIO;
 
 /***/ }),
 /* 201 */
@@ -12891,36 +12945,40 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _commandManager = __webpack_require__(6);
+var _control = __webpack_require__(6);
 
-var _commandManager2 = _interopRequireDefault(_commandManager);
+var _control2 = _interopRequireDefault(_control);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
- * DigGPIO sensor module
+ * @Class AnalogGPIO
  * @extends Electronic
  */
-var DigGPIO = function (_Electronic) {
-  (0, _inherits3.default)(DigGPIO, _Electronic);
+var AnalogGPIO = function (_Electronic) {
+  (0, _inherits3.default)(AnalogGPIO, _Electronic);
 
-  function DigGPIO(port) {
-    (0, _classCallCheck3.default)(this, DigGPIO);
+  /**
+   * Create a analogGPIO.
+   */
+  function AnalogGPIO(port) {
+    (0, _classCallCheck3.default)(this, AnalogGPIO);
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (DigGPIO.__proto__ || (0, _getPrototypeOf2.default)(DigGPIO)).call(this));
+    var _this = (0, _possibleConstructorReturn3.default)(this, (AnalogGPIO.__proto__ || (0, _getPrototypeOf2.default)(AnalogGPIO)).call(this));
 
     _this.args = {
       port: (0, _validate.validateNumber)(port)
     };
     return _this;
   }
+
   /**
-   * Get data of DigGPIO sensor
-   * @return {Promise} 
+   * Get data of AnalogGPIO
+   * @return {Promise}
    */
 
 
-  (0, _createClass3.default)(DigGPIO, [{
+  (0, _createClass3.default)(AnalogGPIO, [{
     key: 'getData',
     value: function () {
       var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
@@ -12929,9 +12987,9 @@ var DigGPIO = function (_Electronic) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                buf = _utils2.default.composer(_cmd2.default.readDigGPIO, [this.args.port]);
+                buf = _utils2.default.composer(_cmd2.default.readAnalogGPIO, [this.args.port]);
                 _context.next = 3;
-                return _commandManager2.default.read(buf);
+                return _control2.default.read(buf);
 
               case 3:
                 return _context.abrupt('return', _context.sent);
@@ -12956,10 +13014,10 @@ var DigGPIO = function (_Electronic) {
       return '00001';
     }
   }]);
-  return DigGPIO;
+  return AnalogGPIO;
 }(_electronic2.default);
 
-exports.default = DigGPIO;
+exports.default = AnalogGPIO;
 
 /***/ }),
 /* 202 */
@@ -13014,40 +13072,37 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _commandManager = __webpack_require__(6);
+var _control = __webpack_require__(6);
 
-var _commandManager2 = _interopRequireDefault(_commandManager);
+var _control2 = _interopRequireDefault(_control);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
- * @Class AnalogGPIO
+ * GPIOContinue sensor module
  * @extends Electronic
  */
-var AnalogGPIO = function (_Electronic) {
-  (0, _inherits3.default)(AnalogGPIO, _Electronic);
+var GPIOContinue = function (_Electronic) {
+  (0, _inherits3.default)(GPIOContinue, _Electronic);
 
-  /**
-   * Create a analogGPIO.
-   */
-  function AnalogGPIO(port) {
-    (0, _classCallCheck3.default)(this, AnalogGPIO);
+  function GPIOContinue(port, key) {
+    (0, _classCallCheck3.default)(this, GPIOContinue);
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (AnalogGPIO.__proto__ || (0, _getPrototypeOf2.default)(AnalogGPIO)).call(this));
+    var _this = (0, _possibleConstructorReturn3.default)(this, (GPIOContinue.__proto__ || (0, _getPrototypeOf2.default)(GPIOContinue)).call(this));
 
     _this.args = {
-      port: (0, _validate.validateNumber)(port)
+      port: (0, _validate.validateNumber)(port, 1),
+      key: (0, _validate.validateNumber)(key, 1)
     };
     return _this;
   }
-
   /**
-   * Get data of AnalogGPIO
-   * @return {Promise} 
+   * Get data of GPIOContinue sensor
+   * @return {Promise}
    */
 
 
-  (0, _createClass3.default)(AnalogGPIO, [{
+  (0, _createClass3.default)(GPIOContinue, [{
     key: 'getData',
     value: function () {
       var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
@@ -13056,9 +13111,9 @@ var AnalogGPIO = function (_Electronic) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                buf = _utils2.default.composer(_cmd2.default.readAnalogGPIO, [this.args.port]);
+                buf = _utils2.default.composer(_cmd2.default.readGPIOContinue, [this.args.port, this.args.key]);
                 _context.next = 3;
-                return _commandManager2.default.read(buf);
+                return _control2.default.read(buf);
 
               case 3:
                 return _context.abrupt('return', _context.sent);
@@ -13083,10 +13138,10 @@ var AnalogGPIO = function (_Electronic) {
       return '00001';
     }
   }]);
-  return AnalogGPIO;
+  return GPIOContinue;
 }(_electronic2.default);
 
-exports.default = AnalogGPIO;
+exports.default = GPIOContinue;
 
 /***/ }),
 /* 203 */
@@ -13141,37 +13196,37 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _commandManager = __webpack_require__(6);
+var _control = __webpack_require__(6);
 
-var _commandManager2 = _interopRequireDefault(_commandManager);
+var _control2 = _interopRequireDefault(_control);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
- * GPIOContinue sensor module
+ * DoubleGPIO sensor module
  * @extends Electronic
  */
-var GPIOContinue = function (_Electronic) {
-  (0, _inherits3.default)(GPIOContinue, _Electronic);
+var DoubleGPIO = function (_Electronic) {
+  (0, _inherits3.default)(DoubleGPIO, _Electronic);
 
-  function GPIOContinue(port, key) {
-    (0, _classCallCheck3.default)(this, GPIOContinue);
+  function DoubleGPIO(port1, port2) {
+    (0, _classCallCheck3.default)(this, DoubleGPIO);
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (GPIOContinue.__proto__ || (0, _getPrototypeOf2.default)(GPIOContinue)).call(this));
+    var _this = (0, _possibleConstructorReturn3.default)(this, (DoubleGPIO.__proto__ || (0, _getPrototypeOf2.default)(DoubleGPIO)).call(this));
 
     _this.args = {
-      port: (0, _validate.validateNumber)(port, 1),
-      key: (0, _validate.validateNumber)(key, 1)
+      port1: (0, _validate.validateNumber)(port1),
+      port2: (0, _validate.validateNumber)(port2)
     };
     return _this;
   }
   /**
-   * Get data of GPIOContinue sensor
-   * @return {Promise} 
+   * Get data of DoubleGPIO sensor
+   * @return {Promise}
    */
 
 
-  (0, _createClass3.default)(GPIOContinue, [{
+  (0, _createClass3.default)(DoubleGPIO, [{
     key: 'getData',
     value: function () {
       var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
@@ -13180,9 +13235,9 @@ var GPIOContinue = function (_Electronic) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                buf = _utils2.default.composer(_cmd2.default.readGPIOContinue, [this.args.port, this.args.key]);
+                buf = _utils2.default.composer(_cmd2.default.readDoubleGPIO, [this.args.port1, this.args.port2]);
                 _context.next = 3;
-                return _commandManager2.default.read(buf);
+                return _control2.default.read(buf);
 
               case 3:
                 return _context.abrupt('return', _context.sent);
@@ -13207,10 +13262,10 @@ var GPIOContinue = function (_Electronic) {
       return '00001';
     }
   }]);
-  return GPIOContinue;
+  return DoubleGPIO;
 }(_electronic2.default);
 
-exports.default = GPIOContinue;
+exports.default = DoubleGPIO;
 
 /***/ }),
 /* 204 */
@@ -13251,8 +13306,6 @@ var _inherits2 = __webpack_require__(4);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _validate = __webpack_require__(8);
-
 var _utils = __webpack_require__(5);
 
 var _utils2 = _interopRequireDefault(_utils);
@@ -13265,131 +13318,9 @@ var _cmd = __webpack_require__(7);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _commandManager = __webpack_require__(6);
+var _control = __webpack_require__(6);
 
-var _commandManager2 = _interopRequireDefault(_commandManager);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/**
- * DoubleGPIO sensor module
- * @extends Electronic
- */
-var DoubleGPIO = function (_Electronic) {
-  (0, _inherits3.default)(DoubleGPIO, _Electronic);
-
-  function DoubleGPIO(port1, port2) {
-    (0, _classCallCheck3.default)(this, DoubleGPIO);
-
-    var _this = (0, _possibleConstructorReturn3.default)(this, (DoubleGPIO.__proto__ || (0, _getPrototypeOf2.default)(DoubleGPIO)).call(this));
-
-    _this.args = {
-      port1: (0, _validate.validateNumber)(port1),
-      port2: (0, _validate.validateNumber)(port2)
-    };
-    return _this;
-  }
-  /**
-   * Get data of DoubleGPIO sensor
-   * @return {Promise} 
-   */
-
-
-  (0, _createClass3.default)(DoubleGPIO, [{
-    key: 'getData',
-    value: function () {
-      var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
-        var buf;
-        return _regenerator2.default.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                buf = _utils2.default.composer(_cmd2.default.readDoubleGPIO, [this.args.port1, this.args.port2]);
-                _context.next = 3;
-                return _commandManager2.default.read(buf);
-
-              case 3:
-                return _context.abrupt('return', _context.sent);
-
-              case 4:
-              case 'end':
-                return _context.stop();
-            }
-          }
-        }, _callee, this);
-      }));
-
-      function getData() {
-        return _ref.apply(this, arguments);
-      }
-
-      return getData;
-    }()
-  }], [{
-    key: 'supportStamp',
-    value: function supportStamp() {
-      return '00001';
-    }
-  }]);
-  return DoubleGPIO;
-}(_electronic2.default);
-
-exports.default = DoubleGPIO;
-
-/***/ }),
-/* 205 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _regenerator = __webpack_require__(10);
-
-var _regenerator2 = _interopRequireDefault(_regenerator);
-
-var _asyncToGenerator2 = __webpack_require__(11);
-
-var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
-
-var _getPrototypeOf = __webpack_require__(2);
-
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
-
-var _classCallCheck2 = __webpack_require__(0);
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = __webpack_require__(1);
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-var _possibleConstructorReturn2 = __webpack_require__(3);
-
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-var _inherits2 = __webpack_require__(4);
-
-var _inherits3 = _interopRequireDefault(_inherits2);
-
-var _utils = __webpack_require__(5);
-
-var _utils2 = _interopRequireDefault(_utils);
-
-var _electronic = __webpack_require__(9);
-
-var _electronic2 = _interopRequireDefault(_electronic);
-
-var _cmd = __webpack_require__(7);
-
-var _cmd2 = _interopRequireDefault(_cmd);
-
-var _commandManager = __webpack_require__(6);
-
-var _commandManager2 = _interopRequireDefault(_commandManager);
+var _control2 = _interopRequireDefault(_control);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -13406,7 +13337,7 @@ var Runtime = function (_Electronic) {
   }
   /**
    * Get data of Runtime sensor
-   * @return {Promise} 
+   * @return {Promise}
    */
 
 
@@ -13421,7 +13352,7 @@ var Runtime = function (_Electronic) {
               case 0:
                 buf = _utils2.default.composer(_cmd2.default.readRuntime);
                 _context.next = 3;
-                return _commandManager2.default.read(buf);
+                return _control2.default.read(buf);
 
               case 3:
                 return _context.abrupt('return', _context.sent);
@@ -13452,7 +13383,7 @@ var Runtime = function (_Electronic) {
 exports.default = Runtime;
 
 /***/ }),
-/* 206 */
+/* 205 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13538,7 +13469,7 @@ var Orion = function (_Board) {
 exports.default = Orion;
 
 /***/ }),
-/* 207 */
+/* 206 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13727,7 +13658,7 @@ var Auriga = function (_Board) {
 exports.default = Auriga;
 
 /***/ }),
-/* 208 */
+/* 207 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13881,7 +13812,7 @@ var MegaPi = function (_Board) {
 exports.default = MegaPi;
 
 /***/ }),
-/* 209 */
+/* 208 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14035,7 +13966,7 @@ var MegaPiPro = function (_Board) {
 exports.default = MegaPiPro;
 
 /***/ }),
-/* 210 */
+/* 209 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

@@ -83,28 +83,26 @@
     var mcore = sensorium.create('Mcore');
 
     // cordva 蓝牙环境存在
+    //此方法应该在 cordva deviceready 事件中绑定，因为在此事件之前
+    // window.ble 是不存在的
     if(window.ble){
-      //设置通信通道
-      sensorium.setTransport({
-        send: function(buf) {
-          if (typeof window.ble != "undefined") {
-            // ble 发送必须转成 arrayBufferß
-            let cmd = arrayBufferFromArray(buf);
-            Tool.sendInfo(cmd);
-            window.ble.sendData(function(msg) {
-                console.log(msg);
-            }, function(msg) {
-                console.log(msg);
-            }, cmd);
-          }
-        },
-        onReceived: function(pipe) {
-          if (typeof window.ble != "undefined") {
-            window.ble.startListenReceivedData(function(buff) {
-                Tool.receiveInfo(buff);
-                pipe(buff);
-            });
-          }
+      if (typeof window.ble != "undefined") {
+        window.ble.startListenReceivedData(function(buff) {
+            Tool.receiveInfo(buff);
+            sensorium.doRecevied(buff);
+        });
+      }
+
+      sensorium.setSender(function(buf) {
+        if (typeof window.ble != "undefined") {
+          // ble 发送必须转成 arrayBufferß
+          let cmd = arrayBufferFromArray(buf);
+          Tool.sendInfo(cmd);
+          window.ble.sendData(function(msg) {
+              console.log(msg);
+          }, function(msg) {
+              console.log(msg);
+          }, cmd);
         }
       });
     }

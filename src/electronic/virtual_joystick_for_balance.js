@@ -1,7 +1,7 @@
 import Utils from '../core/utils';
 import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
-import CommandManager from '../communicate/command-manager';
+import Control from '../communicate/control';
 
 /**
  * VirtualJoystick for Balance car, actually it's a motor module
@@ -28,7 +28,7 @@ class VirtualJoystickForBalance extends Electronic {
 
   run() {
     let buf = Utils.composer(protocolAssembler.setVirtualJoystickForBalance, [this.args.turnRange, this.args.speed]);
-    CommandManager.write(buf);
+    Control.write(buf);
     return this;
   }
 

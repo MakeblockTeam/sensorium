@@ -4,7 +4,7 @@ import { validateNumber } from '../core/validate';
 import Utils from '../core/utils';
 import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
-import CommandManager from '../communicate/command-manager';
+import Control from '../communicate/control';
 
 class ButtonOnBoard extends Electronic {
 
@@ -19,7 +19,7 @@ class ButtonOnBoard extends Electronic {
 
   run(){
     let buf = Utils.composer(protocolAssembler.ButtonOnBoard, [this.args.port, this.args.slot, this.args.angle]);
-    CommandManager.write(buf);
+    Control.write(buf);
     return this;
   }
 

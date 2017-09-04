@@ -2,13 +2,13 @@ import { validateNumber } from '../core/validate';
 import Electronic from './electronic';
 import Utils from '../core/utils';
 import protocolAssembler from '../protocol/cmd';
-import CommandManager from '../communicate/command-manager';
+import Control from '../communicate/control';
 /**
- * @private 
+ * @private
  */
 function write(bufArray) {
   let buf = Utils.composer(protocolAssembler.setLedMatrix, bufArray);
-  CommandManager.write(buf);
+  Control.write(buf);
 }
 /**
  * @Class BaseLedMatrix

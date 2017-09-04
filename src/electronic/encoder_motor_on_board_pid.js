@@ -7,7 +7,7 @@ import PIDForPwm from './encoder_motor_on_board_pid_for_pwm';
 import PIDForDoubleMotor from './encoder_motor_on_board_pid_for_doubleMotor';
 
 import protocolAssembler from '../protocol/cmd';
-import CommandManager from '../communicate/command-manager';
+import Control from '../communicate/control';
 import { SUPPORTLIST } from '../mainboard/settings';
 
 let auriga = SUPPORTLIST[1].toLowerCase();
@@ -52,7 +52,7 @@ class EncoderMotorOnBoardPID extends Electronic {
       subCmd = 0x03;
     }
     let buf = Utils.composer(protocolAssembler.setEncoderMotorPIDZeroPoint, [subCmd]);
-    CommandManager.write(buf);
+    Control.write(buf);
     return this;
   }
 

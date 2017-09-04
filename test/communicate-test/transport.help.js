@@ -1,4 +1,4 @@
-import CommandManager from '../../src/communicate/command-manager';
+import Control from '../../src/communicate/control';
 import Server from './parent';
 
 function SerialPort(){
@@ -18,7 +18,7 @@ const Transport = {
   }
 };
 serialPort.on('data', function(buff) {
-  CommandManager.pipe(buff);
+  Control.pipe(buff);
 });
 
 export default Transport;

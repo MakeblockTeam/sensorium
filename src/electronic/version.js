@@ -1,6 +1,6 @@
 import Utils from '../core/utils';
 import protocolAssembler from '../protocol/cmd';
-import CommandManager from '../communicate/command-manager';
+import Control from '../communicate/control';
 
 class Version {
   constructor() {
@@ -9,11 +9,11 @@ class Version {
 
   /**
    * Get version of firmware
-   * @return {Promise} 
+   * @return {Promise}
    */
   async getVersion() {
     let buf = Utils.composer(protocolAssembler.readVersion);
-    return await CommandManager.read(buf);
+    return await Control.read(buf);
   }
 }
 

@@ -2,7 +2,7 @@ import { validateNumber } from '../core/validate';
 import Utils from '../core/utils';
 import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
-import CommandManager from '../communicate/command-manager';
+import Control from '../communicate/control';
 
 /**
  * Temperature sensor module
@@ -19,11 +19,11 @@ class Temperature extends Electronic {
 
   /**
    * Get data of Temperature sensor
-   * @return {Promise} 
+   * @return {Promise}
    */
   async getData() {
     let buf = Utils.composer(protocolAssembler.readTemperature, [this.args.port, this.args.slot]);
-    return await CommandManager.read(buf);
+    return await Control.read(buf);
   }
 
   static supportStamp(){

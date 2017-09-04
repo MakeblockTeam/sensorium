@@ -3,7 +3,7 @@ import {
 } from '../core/validate';
 import Utils from '../core/utils';
 import protocolAssembler from '../protocol/cmd';
-import CommandManager from '../communicate/command-manager';
+import Control from '../communicate/control';
 
 class EncoderMotorPIDForDistance {
   constructor() {
@@ -33,7 +33,7 @@ class EncoderMotorPIDForDistance {
 
   run() {
     let buf = Utils.composer(protocolAssembler.setEncoderMotorPIDDistance, [this.args.distance, this.args.speed]);
-    CommandManager.write(buf);
+    Control.write(buf);
     return this;
   }
 }

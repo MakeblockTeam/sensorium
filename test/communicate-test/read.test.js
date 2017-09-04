@@ -6,17 +6,15 @@
  * 4、响应异常（超时、队列占满）
  * 5、有请求必有响应（哪怕是超时，也需给出超时提示作为响应）
  */
-import Transport from './transport.help';
-import Command from '../../src/communicate/command';
-import CommandManager from '../../src/communicate/command-manager';
+import TransportHelp from './transport.help';
+import Transport from '../../src/communicate/transport';
+import Control from '../../src/communicate/control';
 import Read from '../../src/communicate/read';
 import chai from 'chai';
 const expect = chai.expect;
 
 //重载 send 方法
-Command.send = function(buf){
-  Transport.send(buf);
-}
+Transport.sender = TransportHelp.send;
 
 //重置 Read
 const resetReadForTest = function(){
@@ -55,7 +53,7 @@ describe('test doParse', function() {
   //模拟发送 1 条请求
   it('should create 1 readRecord', function(done) {
     resetReadForTest();
-    CommandManager.read(UltrasonicProtocol).then((val) =>{
+    Control.read(UltrasonicProtocol).then((val) =>{
       expect(val).to.eql(9.41);
       done();
     });
@@ -67,7 +65,7 @@ describe('test doParse', function() {
     resetReadForTest();
     let emitFunc = throttler(CaseReadNumber);
     for(let i = 0; i < CaseReadNumber; i++){
-      CommandManager.read(UltrasonicProtocol).then((val) =>{
+      Control.read(UltrasonicProtocol).then((val) =>{
         //每次获取到的模拟值为 9.41
         expect(val).to.eql(9.41);
         emitFunc(function(){
@@ -84,7 +82,7 @@ describe('test doParse', function() {
     let CaseReadNumber = 255;
     let emitFunc = throttler(CaseReadNumber);
     for(let i = 0; i < CaseReadNumber; i++){
-      CommandManager.read(UltrasonicProtocol).then((val) =>{
+      Control.read(UltrasonicProtocol).then((val) =>{
         //每次获取到的模拟值为 9.41
         expect(val).to.eql(9.41);
         emitFunc(function(){
@@ -104,7 +102,7 @@ describe('test doParse', function() {
     let countFoVal = 0;
     let countFoNull = 0;
     for(let i = 0; i < CaseReadNumber; i++){
-      CommandManager.read(UltrasonicProtocol).then((val) =>{
+      Control.read(UltrasonicProtocol).then((val) =>{
         //每次获取到的模拟值为 9.41
         val === 9.41 ? countFoVal++: countFoNull++;
         emitFunc(function(){
@@ -128,7 +126,7 @@ describe('test doParse', function() {
     let validate = defer();
     let timer = setInterval(function(){
       if(i++ < CaseReadNumber){
-        CommandManager.read(UltrasonicProtocol).then((val) =>{
+        Control.read(UltrasonicProtocol).then((val) =>{
           callbackNum++;
           //每次获取到的模拟值为 9.41
           expect(val).to.eql(9.41);
@@ -155,7 +153,7 @@ describe('test doParse', function() {
     let validate = defer();
     let timer = setInterval(function(){
       if(i++ < CaseReadNumber){
-        CommandManager.read(UltrasonicProtocol).then((val) =>{
+        Control.read(UltrasonicProtocol).then((val) =>{
           callbackNum++;
           //每次获取到的模拟值为 9.41
           expect(val).to.eql(9.41);
@@ -185,7 +183,7 @@ describe('test doParse', function() {
     }
     for(let i = 0; i < CaseReadNumber; i++){
       setTimeout(function(){
-        CommandManager.read(UltrasonicProtocol).then((val) =>{
+        Control.read(UltrasonicProtocol).then((val) =>{
           callbackNum++;
           //每次获取到的模拟值为 9.41
           expect(val).to.eql(9.41);
@@ -212,7 +210,7 @@ describe('test doParse', function() {
     }
     for(let i = 0; i < CaseReadNumber; i++){
       setTimeout(function(){
-        CommandManager.read(UltrasonicProtocol).then((val) =>{
+        Control.read(UltrasonicProtocol).then((val) =>{
           callbackNum++;
           //每次获取到的模拟值为 9.41
           expect(val).to.eql(9.41);

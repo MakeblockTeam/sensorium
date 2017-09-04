@@ -2,7 +2,7 @@ import { validateNumber } from '../core/validate';
 import Utils from '../core/utils';
 import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
-import CommandManager from '../communicate/command-manager';
+import Control from '../communicate/control';
 
 /**
  * ServoMotor sensor module
@@ -48,7 +48,7 @@ class ServoMotor extends Electronic {
 
   run(){
     let buf = Utils.composer(protocolAssembler.setServoMotor, [this.args.port, this.args.slot, this.args.angle]);
-    CommandManager.write(buf);
+    Control.write(buf);
     return this;
   }
 

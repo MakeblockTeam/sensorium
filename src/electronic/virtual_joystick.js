@@ -2,7 +2,7 @@ import { validateNumber } from '../core/validate';
 import Utils from '../core/utils';
 import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
-import CommandManager from '../communicate/command-manager';
+import Control from '../communicate/control';
 
 /**
  * VirtualJoystick, actually it's a motor module
@@ -35,7 +35,7 @@ class VirtualJoystick extends Electronic {
 
   run() {
     let buf = Utils.composer(protocolAssembler.setJoystick, [this.args.leftSpeed, this.args.rightSpeed]);
-    CommandManager.write(buf);
+    Control.write(buf);
     return this;
   }
 

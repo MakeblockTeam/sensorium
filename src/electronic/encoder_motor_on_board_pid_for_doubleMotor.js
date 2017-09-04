@@ -4,7 +4,7 @@ import {
 } from '../core/validate';
 import Utils from '../core/utils';
 import protocolAssembler from '../protocol/cmd';
-import CommandManager from '../communicate/command-manager';
+import Control from '../communicate/control';
 import { MOVE_DIRECTION } from '../mainboard/settings';
 
 class PIDForDoubleMotor {
@@ -39,7 +39,7 @@ class PIDForDoubleMotor {
     }
     return this;
   }
-  
+
   //direction + run
   forward() {
     this.args.direction = 1;
@@ -57,7 +57,7 @@ class PIDForDoubleMotor {
     this.args.direction = 3;
     return this.run();
   }
-  
+
   //direction + run
   turnright() {
     this.args.direction = 4;
@@ -85,7 +85,7 @@ class PIDForDoubleMotor {
 
   run() {
     let buf = Utils.composer(protocolAssembler.setEncoderMotorPIDDoubleMotor, [this.args.direction, this.args.distance, this.args.speed]);
-    CommandManager.write(buf);
+    Control.write(buf);
     return this;
   }
 }

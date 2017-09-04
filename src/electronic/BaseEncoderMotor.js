@@ -2,7 +2,7 @@ import Utils from '../core/utils';
 import BaseMotor from './BaseMotor';
 import { validateNumber } from '../core/validate';
 import protocolAssembler from '../protocol/cmd';
-import Command from '../communicate/command-manager';
+import Control from '../communicate/control';
 
 /**
  * @Class BaseEncoderMotor
@@ -44,7 +44,7 @@ class BaseEncoderMotor extends BaseMotor {
     }else{
       buf = Utils.composer(protocolAssembler.setEncoderMotor, [this.args.port, this.args.slot, this.args.speed, this.args.angle]);
     }
-    Command.write(buf);
+    Control.write(buf);
     return this;
   }
 

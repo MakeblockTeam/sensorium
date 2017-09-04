@@ -1,17 +1,18 @@
 /**
- * @fileOverview CommandManager 类，管理数据读写调度，对外提供以下接口：pipe、read、write
+ * @fileOverview Control 类，管理数据读写调度，对外提供以下接口：pipe、read、write
  * @author Jeremy
  */
 import Read from './read';
 import Write from './write';
 import Parse from '../core/parse';
-import Command from './command';
+import Transport from './transport';
+
 /**
  * @private
  */
-class CommandManager {
+class Control {
   /**
-   * Create a commandManager.
+   * Create a control.
    */
   constructor() {
 
@@ -23,7 +24,7 @@ class CommandManager {
    * @return {Undefined}     return undefined
    */
   write(buf) {
-    Write.addRequest(Command.send, buf);
+    Write.addRequest(Transport.send.bind(Transport), buf);
   }
 
   /**
@@ -32,11 +33,14 @@ class CommandManager {
    * @return {Promise}       return a promise
    */
   async read(buf) {
-    return await new Promise(function(resolve){
-      Read.addRequest(Command.send, buf, function(val){
+    return await new Promise((resolve, reject) =>{
+      Read.addRequest(Transport.send.bind(Transport), buf, function(val){
         resolve(val);
       });
-    });
+    })
+    // .catch((e) => {
+    //   throw new Error(e);
+    // })
   }
 
   /**
@@ -61,4 +65,4 @@ class CommandManager {
   }
 }
 
-export default new CommandManager();
+export default new Control();

@@ -1,7 +1,7 @@
 import Utils from '../core/utils';
 import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
-import CommandManager from '../communicate/command-manager';
+import Control from '../communicate/control';
 /**
  * 所有主控板（包括MegaPiPro）都有 2 种类型：外接的红外传感器，外接的被动式红外探测器
  * mcore 一共有 4 种红外相关的传感器，即除了上述 2 种，还有板载的红外传感器，且板载的分别是“发射端”、“接收端” 2 种
@@ -24,13 +24,13 @@ class InfraredOnBoard extends Electronic {
   }
   /**
    * Get data of Infrared sensor
-   * @return {Promise} 
+   * @return {Promise}
    */
   async getData() {
     let port = 0x00;
     let aKey = 0x45;
     let buf = Utils.composer(protocolAssembler.readInfrared, [this.deviceId, port, aKey]);
-    return await CommandManager.read(buf);
+    return await Control.read(buf);
   }
 
   static supportStamp(){

@@ -2,7 +2,7 @@ import { validateNumber, warnNotSupport } from '../core/validate';
 import Utils from '../core/utils';
 import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
-import CommandManager from '../communicate/command-manager';
+import Control from '../communicate/control';
 import { SUPPORTLIST } from '../mainboard/settings';
 let MCORE_NAME = SUPPORTLIST[0].toLowerCase();
 /**
@@ -22,7 +22,7 @@ class Infrared extends Electronic {
   }
   /**
    * Get data of Infrared sensor
-   * @return {Promise} 
+   * @return {Promise}
    */
   async getData() {
     let deviceId, aKey;
@@ -39,7 +39,7 @@ class Infrared extends Electronic {
     let argsArr = [deviceId, this.args.port];
     aKey ? argsArr.push(aKey) : null;
     let buf = Utils.composer(protocolAssembler.readInfrared, argsArr);
-    return await CommandManager.read(buf);
+    return await Control.read(buf);
   }
 
   static supportStamp(){

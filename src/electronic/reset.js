@@ -1,7 +1,7 @@
 import Utils from '../core/utils';
 import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
-import CommandManager from '../communicate/command-manager';
+import Control from '../communicate/control';
 
 /**
  * Reset module
@@ -14,7 +14,7 @@ class Reset extends Electronic {
 
   async reset() {
     let buf = Utils.composer(protocolAssembler.reset);
-    return await CommandManager.read(buf);
+    return await Control.read(buf);
   }
 
   static supportStamp(){

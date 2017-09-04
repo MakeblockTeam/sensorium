@@ -2,7 +2,7 @@ import { validateNumber } from '../core/validate';
 import Utils from '../core/utils';
 import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
-import CommandManager from '../communicate/command-manager';
+import Control from '../communicate/control';
 
 /**
  * @Class BaseGyro
@@ -33,11 +33,11 @@ class BaseGyro extends Electronic {
 
   /**
    * Get data of Gyro sensor
-   * @return {Promise} 
+   * @return {Promise}
    */
   async getData() {
     let buf = Utils.composer(protocolAssembler.readGyro, [this.args.port, this.args.axis]);
-    return await CommandManager.read(buf);
+    return await Control.read(buf);
   }
 }
 

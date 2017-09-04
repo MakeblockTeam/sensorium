@@ -2,7 +2,7 @@ import { validateNumber } from '../core/validate';
 import Utils from '../core/utils';
 import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
-import CommandManager from '../communicate/command-manager';
+import Control from '../communicate/control';
 
 //@private
 function write(baseArgs, extra){
@@ -13,13 +13,13 @@ function write(baseArgs, extra){
     baseCmd.push(extra);
   }
   let buf = Utils.composer(protocolAssembler.setSmartServo, baseCmd);
-  CommandManager.write(buf);
+  Control.write(buf);
 }
 
 //@private
 async function read(baseArgs){
   let buf = Utils.composer(protocolAssembler.readSmartServoParam, [baseArgs.index, baseArgs.subCmd]);
-  return await CommandManager.read(buf);
+  return await Control.read(buf);
 }
 
 /**
@@ -95,7 +95,7 @@ class SmartServo extends Electronic {
     angle = validateNumber(angle, 0);
     let cmd = [this.args.index, this.args.subCmd, angle, this.args.speed];
     let buf = Utils.composer(protocolAssembler.setSmartServoForAbsoluteAngle, cmd);
-    CommandManager.write(buf);
+    Control.write(buf);
     return this;
   }
   /**
@@ -107,7 +107,7 @@ class SmartServo extends Electronic {
     angle = validateNumber(angle, 0);
     let cmd = [this.args.index, this.args.subCmd, angle, this.args.speed];
     let buf = Utils.composer(protocolAssembler.setSmartServoForRelativeAngle, cmd);
-    CommandManager.write(buf);
+    Control.write(buf);
     return this;
   }
   /**
@@ -121,7 +121,7 @@ class SmartServo extends Electronic {
     this.args.subCmd = 0x06;
     let cmd = [this.args.index, this.args.subCmd, this.args.speed];
     let buf = Utils.composer(protocolAssembler.setSmartServoForDcMotor, cmd);
-    CommandManager.write(buf);
+    Control.write(buf);
     return this;
   }
 

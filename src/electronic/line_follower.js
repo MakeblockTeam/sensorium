@@ -2,7 +2,7 @@ import { validateNumber } from '../core/validate';
 import Utils from '../core/utils';
 import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
-import CommandManager from '../communicate/command-manager';
+import Control from '../communicate/control';
 
 /**
  * LineFollower sensor module
@@ -17,11 +17,11 @@ class LineFollower extends Electronic {
   }
   /**
    * Get data of LineFollower sensor
-   * @return {Promise} 
+   * @return {Promise}
    */
   async getData() {
     let buf = Utils.composer(protocolAssembler.readLineFollower, [this.args.port]);
-    return await CommandManager.read(buf);
+    return await Control.read(buf);
   }
 
   static supportStamp(){

@@ -62,7 +62,7 @@ const Read = {
   },
 
   /**
-   * This function is called by CommandManager
+   * This function is called by Control
    * @param {Function}   send  addRequest send function as proxy
    * @param {Array}   buf      rj25 buffer
    * @param {Function} callback [description]

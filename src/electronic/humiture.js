@@ -2,11 +2,11 @@ import { validateNumber } from '../core/validate';
 import Utils from '../core/utils';
 import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
-import CommandManager from '../communicate/command-manager';
+import Control from '../communicate/control';
 
 let commandRead = async function(args){
   let buf = Utils.composer(protocolAssembler.readHumiture, [args.port, args.type]);
-  return await CommandManager.read(buf);
+  return await Control.read(buf);
 }
 
 /**

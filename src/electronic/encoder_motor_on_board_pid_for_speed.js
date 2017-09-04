@@ -3,7 +3,7 @@ import {
 } from '../core/validate';
 import Utils from '../core/utils';
 import protocolAssembler from '../protocol/cmd';
-import CommandManager from '../communicate/command-manager';
+import Control from '../communicate/control';
 
 class PIDForSpeed {
   constructor() {
@@ -24,7 +24,7 @@ class PIDForSpeed {
 
   run() {
     let buf = Utils.composer(protocolAssembler.setEncoderMotorPIDSpeed, [this.args.speed]);
-    CommandManager.write(buf);
+    Control.write(buf);
     return this;
   }
 }

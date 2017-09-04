@@ -4,7 +4,7 @@
  * @author Jeremy
  */
 import Transport from '../communicate/transport';
-import CommandManager from '../communicate/command-manager';
+import Control from '../communicate/control';
 import Version from '../electronic/version';
 import { SUPPORTLIST, FIRMWARE_ID } from './settings';
 import Mcore from './mcore';
@@ -86,7 +86,7 @@ class Sensorium {
    */
   // TODO:其他更多模块需要此分发
   doRecevied (buff) {
-    CommandManager.pipe(buff);
+    Control.pipe(buff);
   }
 
   /**
@@ -111,7 +111,7 @@ class Sensorium {
    * @return {Promise}
    */
   send (buf){
-    CommandManager.write(buf);
+    Control.write(buf);
   }
 
   /**

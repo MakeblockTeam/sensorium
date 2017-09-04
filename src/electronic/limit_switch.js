@@ -2,7 +2,7 @@ import { validateNumber } from '../core/validate';
 import Utils from '../core/utils';
 import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
-import CommandManager from '../communicate/command-manager';
+import Control from '../communicate/control';
 /**
  * LimitSwitch sensor module
  * @extends Electronic
@@ -17,11 +17,11 @@ class LimitSwitch extends Electronic {
   }
   /**
    * Get data of Joystick sensor
-   * @return {Promise} 
+   * @return {Promise}
    */
   async getData() {
     let buf = Utils.composer(protocolAssembler.readLimitSwitch, [this.args.port, this.args.slot]);
-    return await CommandManager.read(buf);
+    return await Control.read(buf);
   }
 
   static supportStamp(){

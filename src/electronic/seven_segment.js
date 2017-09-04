@@ -2,7 +2,7 @@ import { validateNumber } from '../core/validate';
 import Utils from '../core/utils';
 import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
-import CommandManager from '../communicate/command-manager';
+import Control from '../communicate/control';
 
 /**
  * SevenSegment sensor module
@@ -24,7 +24,7 @@ class SevenSegment extends Electronic {
 
   run() {
     let buf = Utils.composer(protocolAssembler.setSevenSegment, [this.args.port, this.args.number]);
-    CommandManager.write(buf);
+    Control.write(buf);
     return this;
   }
 

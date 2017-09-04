@@ -6,7 +6,7 @@ import {
 import Utils from '../core/utils';
 import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
-import CommandManager from '../communicate/command-manager';
+import Control from '../communicate/control';
 import { TONE_TO_HZ, SUPPORTLIST } from '../mainboard/settings';
 const MCORE_ = SUPPORTLIST[0].toLowerCase();
 
@@ -66,7 +66,7 @@ class Buzzer extends Electronic {
       default:
         buf = Utils.composer(protocolAssembler.setBuzzer, [this.args.hz, this.args.beat]);
     }
-    CommandManager.write(buf);
+    Control.write(buf);
     return this;
   }
 

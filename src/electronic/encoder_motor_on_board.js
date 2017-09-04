@@ -1,7 +1,7 @@
 import Utils from '../core/utils';
 import BaseEncoderMotor from './BaseEncoderMotor';
 import protocolAssembler from '../protocol/cmd';
-import CommandManager from '../communicate/command-manager';
+import Control from '../communicate/control';
 
 const bufComposer = function(args){
   return Utils.composer(protocolAssembler.readEncoderMotorOnBoard, [args.slot, args.type]);
@@ -22,7 +22,7 @@ class EncoderMotorOnBoard extends BaseEncoderMotor {
   async getSpeed(){
     this.args.type = 0x02;
     let buf = bufComposer(this.args);
-    return await CommandManager.read(buf);
+    return await Control.read(buf);
   }
 
   /**
@@ -32,7 +32,7 @@ class EncoderMotorOnBoard extends BaseEncoderMotor {
   async getAngle(){
     this.args.type = 0x01;
     let buf = bufComposer(this.args);
-    return await CommandManager.read(buf);
+    return await Control.read(buf);
   }
 
   static supportStamp(){
