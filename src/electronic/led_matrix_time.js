@@ -22,7 +22,7 @@ class LedMatrixTime extends BaseLedMatrix {
    */
   separator(separator){
     separator = warnParamNotInList(separator, [':', ' ']) || ':';
-    separator = separator === ':'? 0x01 : 0x02;
+    separator = separator === ':'? 0x01 : 0x00;
     this.args.separator = separator;
     return this;
   }

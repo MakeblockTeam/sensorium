@@ -108,6 +108,14 @@ class BaseRgbLed extends Electronic {
   }
 
   /**
+   * run led with colors set before
+   */
+  run() {
+    commandWrite(this.args);
+    return this;
+  }
+
+  /**
    * Turn off all the leds
    */
   turnOffAll(){

@@ -588,17 +588,12 @@ var _transport2 = _interopRequireDefault(_transport);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
+ * @private
+ */
+/**
  * @fileOverview Control 类，管理数据读写调度，对外提供以下接口：pipe、read、write
  * @author Jeremy
  */
-var send_ = function send_() {
-  return _transport2.default.send.bind(this);
-};
-
-/**
- * @private
- */
-
 var Control = function () {
   /**
    * Create a control.
@@ -617,7 +612,7 @@ var Control = function () {
   (0, _createClass3.default)(Control, [{
     key: 'write',
     value: function write(buf) {
-      _write2.default.addRequest(send_, buf);
+      _write2.default.addRequest(_transport2.default.send.bind(_transport2.default), buf);
     }
 
     /**
@@ -635,8 +630,8 @@ var Control = function () {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return new _promise2.default(function (resolve) {
-                  _read2.default.addRequest(send_, buf, function (val) {
+                return new _promise2.default(function (resolve, reject) {
+                  _read2.default.addRequest(_transport2.default.send.bind(_transport2.default), buf, function (val) {
                     resolve(val);
                   });
                 });
@@ -3212,6 +3207,17 @@ var BaseRgbLed = function (_Electronic) {
     value: function turnOnAll() {
       this.position(0);
       return this.turnOn();
+    }
+
+    /**
+     * run led with colors set before
+     */
+
+  }, {
+    key: 'run',
+    value: function run() {
+      commandWrite(this.args);
+      return this;
     }
 
     /**
@@ -8866,7 +8872,7 @@ var LedMatrixTime = function (_BaseLedMatrix) {
     key: 'separator',
     value: function separator(_separator) {
       _separator = (0, _validate.warnParamNotInList)(_separator, [':', ' ']) || ':';
-      _separator = _separator === ':' ? 0x01 : 0x02;
+      _separator = _separator === ':' ? 0x01 : 0x00;
       this.args.separator = _separator;
       return this;
     }
