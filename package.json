@@ -12,7 +12,8 @@
     "coverage-i": " istanbul cover node_modules/mocha/bin/_mocha ./test/interface/interface_test.js",
     "coverage-p": " istanbul cover node_modules/mocha/bin/_mocha ./test/protocol-test",
     "doc": "./node_modules/.bin/jsdoc src/mainboard/mcore.js -d docs/api/ -r",
-    "jsdoc": "node_modules/.bin/jsdoc -c jsdoc_conf.json"
+    "jsdoc": "node_modules/.bin/jsdoc -c jsdoc_conf.json",
+    "tsc": "tsc"
   },
   "repository": {
     "type": "git",
@@ -39,6 +40,7 @@
     "log": "^1.4.0",
     "mocha": "^2.5.3",
     "serialport": "^4.0.7",
+    "ts-loader": "^2.3.4",
     "webpack": "^3.0.0",
     "xml2js": "^0.4.17"
   },
@@ -54,7 +56,15 @@
     },
     "extends": "eslint:recommended",
     "rules": {
-      "no-console": ["error", { "allow": ["warn", "error"] }]
+      "no-console": [
+        "error",
+        {
+          "allow": [
+            "warn",
+            "error"
+          ]
+        }
+      ]
     },
     "globals": {
       "Promise": false,
@@ -63,5 +73,9 @@
       "Int8Array": false
     }
   },
-  "eslintIgnore": ["./node_modules/*", "./test/*", "./jsdoc/*"]
+  "eslintIgnore": [
+    "./node_modules/*",
+    "./test/*",
+    "./jsdoc/*"
+  ]
 }
