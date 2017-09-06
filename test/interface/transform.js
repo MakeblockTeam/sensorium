@@ -21,8 +21,8 @@ function Transform() {
 }
 
 //解析数据时对每条XML做自定义处理
-function revertquote(name) {
-  var outputName = name.replace(/&#39;/g, "'");
+function revertquote(value) {
+  var outputName = value.replace(/&#39;/g, "'");
   return outputName;
 }
 
@@ -32,13 +32,15 @@ Transform.transformData = function () { //callback
     //之后将要提取的数据（仅有名字和摘要字段）暂存在extractedXml_s,extractedXml_g
     var extractedXml_s = [];
     var extractedXml_g = [];
+    console.log("data: ",data)
     //result是解析后的数据，是一个json对象。从json对象中读取需要的字段：用例名t_case和摘要（包括方法以及预期值）
     parser.parseString(data, function (err, result) { //解析并提取
       //自定义一个方法loopThrough：遍历result对象，将每层结构保存为相应的json格式，并将每一个用例名和摘要都保存在正确的位置；
+      console.log("result: ",result)
       function loopThrough(result_s, caseDir) { //
         if (result_s.testsuite) {
           //遍历每个用例集
-          var ceseDir_w = ceseDir;
+          var caseDir_w = ceseDir;
           for (var suite in result_s.testsuite) {
             // extractedXml_s[result_s.testsuite[suite].$.name] = {};
             caseDir_w = caseDir + "/" + result_s.testsuite[suite].$.name;
@@ -65,7 +67,7 @@ Transform.transformData = function () { //callback
                 extractedXml_sendData.caseName = _case_.$.name; //[]//提取用例名至extractedXml
                 extractedXml_sendData.caseSummary = [];
 
-                var summaryToSub = summaryToStr.substring(9, summaryToStr.length - 8); //将摘要中前后多余的<p>\r\n\t等字符除去 
+                let summaryToSub = summaryToStr.substring(summaryToStr.indexOf("single-setCmd:"), summaryToStr.indexOf("</p>")); //将摘要中前后多余的<p>\r\n\t等字符除去 
                 console.log(summaryToStr);
                 extractedXml_sendData.caseSummary = summaryToSub.split("`"); //提取用例摘要
                 
@@ -82,7 +84,7 @@ Transform.transformData = function () { //callback
                 extractedXml_getData.caseName = _case_.$.name; //[]//提取用例名至extractedXml
                 extractedXml_getData.caseSummary = [];
 
-                var summaryToSub = summaryToStr.substring(9, summaryToStr.length - 8); //将摘要中前后多余的<p>\r\n\t等字符除去 
+                let summaryToSub = summaryToStr.substring(9, summaryToStr.length - 8); //将摘要中前后多余的<p>\r\n\t等字符除去 
                 console.log(summaryToStr);
                 extractedXml_getData.caseSummary = summaryToSub.split("`"); //提取用例摘要
                 if(extractedXml_getData == null) {

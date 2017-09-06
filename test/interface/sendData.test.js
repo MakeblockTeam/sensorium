@@ -1,14 +1,14 @@
 /**
- * @fileOverview  do sendData-test for sensorium
+ * @fileOverview  do sendData-test for sensorium 
  *[为sensorium库做发送数据的接口测试，测试用例由testlink上导出，运行命令：node transform.js后即可得到]
  */
-import Utils from '../../src/core/utils';
-import protocolAssembler from '../../src/protocol/cmd';
-import Control from '../../src/communicate/control';
+// import Utils from '../../src/core/utils';
+// import protocolAssembler from '../../src/protocol/cmd';
+import CommandManager from '../../src/communicate/command-manager';
 import Auriga from '../../src/mainboard/auriga';
 import mCore from '../../src/mainboard/mcore';
 import chai from 'chai';
-const expect = chai.expect;
+// const expect = chai.expect;
 
 let auriga = new Auriga();
 let mcore = new mCore();
@@ -24,9 +24,9 @@ var drivenData = temporaryData.drivenData;//得到测试数据
 //获取执行指令的发送数据
 function captureWriteBuf(run) {
   let capturedBuf;
-  let write_ = Control.write;
+  let write_ = CommandManager.write;
   //override to captrue the buf
-  Control.write = function (buf) {
+  CommandManager.write = function (buf) {
     capturedBuf = buf;
     return;
   }
@@ -36,7 +36,7 @@ function captureWriteBuf(run) {
     return newVal.length == 1 ? '0' + newVal : newVal;
   });
   // console.log('capturedBuf-------->', capturedBuf);
-  Control.write = write_;
+  CommandManager.write = write_;
   return currentCmd.join(' ');
 }
 
@@ -44,9 +44,9 @@ function captureWriteBuf(run) {
 //获取读指令的返回数据
 function captureReadBuf(run) {
   let capturedBuf;
-  let read_ = Control.read;
+  let read_ = CommandManager.read;
   //override to captrue the buf
-  Control.read = function (buf) {
+  CommandManager.read = function (buf) {
     capturedBuf = buf;
     return;
   }
@@ -56,7 +56,7 @@ function captureReadBuf(run) {
     return newVal.length == 1 ? '0' + newVal : newVal;
   });
   // recovery the method
-  Control.read = read_;
+  CommandManager.read = read_;
   return currentCmd.join(' ');
 }
 
@@ -83,7 +83,7 @@ describe('sendDataTest:', function () {
           var sendOrder = eval(d.caseSummary[2]); //相应的接口发送的实际指令
           let currentArrayCmd = captureWriteBuf(sendOrder.run.bind(sendOrder));
           console.log('实际发送指令 : ', currentArrayCmd)
-          var presetOrder = presetOrders[i]; //对应的预设值
+          var presetOrder = presetOrders[i]; //对应的预设值 
           console.log('预期发送指令 : ', presetOrder)
           assert.equal(currentArrayCmd, presetOrder);
         }

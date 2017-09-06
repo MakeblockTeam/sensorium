@@ -2,7 +2,6 @@
  * @fileOverview  do getData-test for sensorium 
  *[为sensorium库做接收数据的接口测试，测试用例由testlink上导出，运行命令：node transform.js后即可得到]
  */
-// import chai from 'chai';
 var assert = require('chai').assert;
 var fs = require('fs');
 
@@ -45,8 +44,7 @@ describe('getDataTest:', function () {
           console.log(e);
         })
       }
-      if (d.caseSummary[0] == "loop-readCmd:") {
-        let loop = [];
+      if (d.caseSummary[0] == "loop-readCmd:") { 
         let sendOrder = eval(d.caseSummary[1]); //相应的接口发送的实际指令
         let range = d.caseSummary[3].split('~');
         let loopFunction = function () {
@@ -74,6 +72,7 @@ describe('getDataTest:', function () {
         start();
 
          //使用promise+map+reduce的方法实现重复获取（同步）传感器的值
+        //  let loop = [];
         // for (let i = 0; i < 15; i++) {
         //   console.log('push')
         //   loop.push(loopFunction);
