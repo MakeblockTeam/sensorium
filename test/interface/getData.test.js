@@ -33,8 +33,9 @@ describe('getDataTest:', function () {
     it(d.caseDir + " ： " + d.caseName, function (done) {
       if (d.caseSummary[0] == "single-readCmd:") {
         let sendOrder = eval(d.caseSummary[1]); //相应的接口发送的实际指令
-        let range = d.caseSummary[3].split('~');
-        sendOrder.getData().then((result) => {
+        let getSensorValue = d.caseSummary[2]; //相应的获取传感器值接口
+        let range = d.caseSummary[4].split('~');
+        sendOrder[getSensorValue]().then((result) => {
           console.log('sensorValue：', result);
           assert.isNumber(result);
           assert.isAtLeast(result, Number(range[0]));
@@ -46,10 +47,11 @@ describe('getDataTest:', function () {
       }
       if (d.caseSummary[0] == "loop-readCmd:") { 
         let sendOrder = eval(d.caseSummary[1]); //相应的接口发送的实际指令
-        let range = d.caseSummary[3].split('~');
+        let getSensorValue = d.caseSummary[2]; //相应的获取传感器值接口
+        let range = d.caseSummary[4].split('~');
         let loopFunction = function () {
           return new Promise((resolve, reject) => {
-            sendOrder.getData().then((result) => {
+            sendOrder[getSensorValue]().then((result) => {
               console.log('sensorValue：', result);
               assert.isNumber(result);
               assert.isAtLeast(result, Number(range[0]));
@@ -64,7 +66,7 @@ describe('getDataTest:', function () {
 
         //使用await+async的方法实现重复获取（同步）传感器的值
         let start = async function () {
-          for (let i = 0; i < 15; i++) {//重复读取一个传感器的返回值20次
+          for (let i = 0; i < 255; i++) {//重复读取一个传感器的返回值255次
             await loopFunction();
           }
           done();
@@ -73,7 +75,7 @@ describe('getDataTest:', function () {
 
          //使用promise+map+reduce的方法实现重复获取（同步）传感器的值
         //  let loop = [];
-        // for (let i = 0; i < 15; i++) {
+        // for (let i = 0; i < 255; i++) {
         //   console.log('push')
         //   loop.push(loopFunction);
         // }

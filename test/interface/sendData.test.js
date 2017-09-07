@@ -4,7 +4,7 @@
  */
 // import Utils from '../../src/core/utils';
 // import protocolAssembler from '../../src/protocol/cmd';
-import CommandManager from '../../src/communicate/command-manager';
+import CommandManager from '../../src/communicate/control';
 import Auriga from '../../src/mainboard/auriga';
 import mCore from '../../src/mainboard/mcore';
 import chai from 'chai';
@@ -90,19 +90,24 @@ describe('sendDataTest:', function () {
         done();
       } else if (d.caseSummary[0] == "single-readCmd:") {
         let sendOrder = eval(d.caseSummary[1]); //相应的接口发送的实际指令
-        let currentArrayCmd = captureReadBuf(sendOrder.getData.bind(sendOrder));
+        let getSensorValue = d.caseSummary[2]; //相应的获取传感器值接口
+        let currentArrayCmd = captureReadBuf(sendOrder[getSensorValue].bind(sendOrder));
         console.log('实际发送指令 : ', currentArrayCmd)
-        let presetOrder = d.caseSummary[2]; //对应的预设值
+        let presetOrder = d.caseSummary[3]; //对应的预设值
         console.log('预期发送指令 : ', presetOrder)
         assert.equal(currentArrayCmd, presetOrder);//断言发送指令是否正确
         done();
       } else if (d.caseSummary[0] == "loop-readCmd:") {
         let sendOrder = eval(d.caseSummary[1]); //相应的接口发送的实际指令
-        let currentArrayCmd = captureReadBuf(sendOrder.getData.bind(sendOrder));
-        console.log('实际发送指令 : ', currentArrayCmd)
-        let presetOrder = d.caseSummary[2]; //对应的预设值
-        console.log('预期发送指令 : ', presetOrder)
-        assert.equal(currentArrayCmd, presetOrder);//断言发送指令是否正确
+        let getSensorValue = d.caseSummary[2]; //相应的获取传感器值接口
+        let presetOrder = d.caseSummary[3]; //对应的预设值
+
+        for (let i = 0; i < 255; i++) {
+          let currentArrayCmd = captureReadBuf(sendOrder[getSensorValue].bind(sendOrder));
+          console.log('实际发送指令 : ', currentArrayCmd)
+          console.log('预期发送指令 : ', presetOrder)
+          assert.equal(currentArrayCmd, presetOrder);//断言发送指令是否正确
+        }
         done();
       }
     });
