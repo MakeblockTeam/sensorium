@@ -27,6 +27,10 @@ class Shutter extends Electronic {
     return this;
   }
 
+  /**
+   * run shutter with mode set before
+   * @return {this}  模块实例
+   */
   run() {
     let buf = Utils.composer(protocolAssembler.setShutter, [this.args.port, this.args.action]);
     Control.write(buf);

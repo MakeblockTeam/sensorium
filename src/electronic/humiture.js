@@ -22,11 +22,31 @@ class Humiture extends Electronic {
     };
   }
 
+  /**
+   * Get Humidity of Humiture sensor
+   * @return {Promise}
+   * @example
+   * mcore.Humiture(1)
+   *      .getHumidity()
+   *        .then((val) => {
+   *          console.log(val)
+   *        });
+   */
   async getHumidity(){
     this.args.type = 0;
     return await commandRead(this.args);
   }
 
+  /**
+   * Get Temperature of Humiture sensor
+   * @return {Promise}
+   * @example
+   * mcore.Humiture(1)
+   *      .getTemperature()
+   *        .then((val) => {
+   *          console.log(val)
+   *        });
+   */
   async getTemperature(){
     this.args.type = 1;
     return await commandRead(this.args);

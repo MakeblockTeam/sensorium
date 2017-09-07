@@ -1,6 +1,6 @@
 /**
- * Electron
  * @description 所有电子模块的抽象类
+ * @private
  */
 class Electronic {
   /**

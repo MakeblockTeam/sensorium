@@ -16,12 +16,20 @@ class SevenSegment extends Electronic {
       number: 1
     };
   }
-
+  /**
+   * set the number you want show on the segment tube
+   * @param  {Number} num
+   * @return {Instance}     @this
+   */
   number(num) {
     this.args.number = validateNumber(num, this.args.number);
     return this;
   }
 
+  /**
+   * run and show the number
+   * @return {Instance}     @this
+   */
   run() {
     let buf = Utils.composer(protocolAssembler.setSevenSegment, [this.args.port, this.args.number]);
     Control.write(buf);

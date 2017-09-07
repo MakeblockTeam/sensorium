@@ -3,7 +3,6 @@ import BaseLedMatrix from './BaseLedMatrix';
 /**
  * LedMatrix sensor module run as 'Char Mode'
  * @extends BaseLedMatrix
- * @private
  */
 class LedMatrixChar extends BaseLedMatrix {
   constructor(port) {
@@ -17,7 +16,8 @@ class LedMatrixChar extends BaseLedMatrix {
 
   /**
    * set the X axis coordinate of the char
-   * @param  {Number} x 
+   * @param  {Number} x
+   * @return {Instance}     @this
    */
   x(x){
     this.args.x = validateNumber(x, this.args.x);
@@ -27,12 +27,18 @@ class LedMatrixChar extends BaseLedMatrix {
   /**
    * set the Y axis coordinate of the char
    * @param  {Number} y
+   * @return {Instance}     @this
    */
   y(y){
     this.args.y = validateNumber(y, this.args.y);
     return this;
   }
 
+  /**
+   * set char as the content shown on the led maxtrix
+   * @param  {String} str the content string
+   * @return {Instance}     @this
+   */
   char(str) {
     this.args.char = validateString(str);
     return this;
@@ -53,6 +59,9 @@ class LedMatrixChar extends BaseLedMatrix {
     return this.char(str);
   }
 
+  /**
+   * run
+   */
   run(){
     let type = 0x01;
     let bufArray = [this.args.port, type, this.args.x, this.args.y, this.args.char.length];

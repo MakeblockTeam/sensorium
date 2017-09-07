@@ -5,6 +5,12 @@ import { SUPPORTLIST } from '../mainboard/settings';
 /**
  * RgbLedOnBoard sensor module
  * @extends BaseRgbLed
+ * @example
+ * // turn on left led and right led on board of mcore
+ * mcore.RgbLedOnBoard().position(1).red().position(2).blue()
+ *
+ * // turn on all led on board of auriga
+ * auriga.RgbLedOnBoard().white();
  */
 class RgbLedOnBoard extends BaseRgbLed {
   constructor(){

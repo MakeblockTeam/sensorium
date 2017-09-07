@@ -3,6 +3,13 @@ import BaseGyro from './BaseGyro';
 /**
  * Gyro sensor module
  * @extends BaseGyro
+ * @example
+ * mcore.Gyro()
+ *      .axis(1)
+ *      .getData()
+ *        .then((val) => {
+ *          console.log(val)
+ *        });
  */
 class Gyro extends BaseGyro {
   constructor() {

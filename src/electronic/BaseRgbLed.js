@@ -17,9 +17,9 @@ let commandWrite = function(obj){
 }
 
 /**
- * @Class BaseRgbLed
  * @description It is a base Class of RgbLed
  * @extends Electronic
+ * @private
  */
 class BaseRgbLed extends Electronic {
   /**
@@ -31,7 +31,7 @@ class BaseRgbLed extends Electronic {
     super();
     this.args = {
       port: validateNumber(port),
-      slot: validateNumber(slot),
+      slot: validateNumber(slot, 2),
       ledPosition: 0,
       rgb: [0, 0, 0]
     };

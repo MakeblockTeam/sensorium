@@ -12,12 +12,17 @@ class DcMotor extends BaseMotor {
   constructor(port) {
     super(port);
   }
-
+  /**
+   * run reversely
+   */
   reverse() {
     this.speed(-1 * this.args.speed);
     return this.run();
   }
 
+  /**
+   * run
+   */
   run() {
     let buf = Utils.composer(protocolAssembler.setDcMotor, [this.args.port, this.args.speed]);
     Control.write(buf);

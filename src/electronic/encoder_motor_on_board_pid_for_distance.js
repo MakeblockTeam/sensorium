@@ -31,6 +31,9 @@ class EncoderMotorPIDForDistance {
     return this;
   }
 
+  /**
+   * run
+   */
   run() {
     let buf = Utils.composer(protocolAssembler.setEncoderMotorPIDDistance, [this.args.distance, this.args.speed]);
     Control.write(buf);

@@ -5,9 +5,9 @@ import protocolAssembler from '../protocol/cmd';
 import Control from '../communicate/control';
 
 /**
- * @Class BaseSound
  * @description It is a base Class of Sound
  * @extends Electronic
+ * @private
  */
 class BaseSound extends Electronic {
   /**

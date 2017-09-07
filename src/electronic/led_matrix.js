@@ -8,6 +8,22 @@ import LedMatrixTime from './led_matrix_time';
 /**
  * LedMatrix sensor module, who can be play as 'charMode','emotionMode','numberMode','timeMode'
  * @extends Electronic
+ *
+ * @example
+ * // char mode
+ * mcore.LedMatrix(1).charMode().x(10).y(12).char('hello').run()
+ *
+ * // char mode
+ * mcore.LedMatrix(1).charMode().content('hello', 10, 12).run()
+ *
+ * // emotion mode
+ * mcore.LedMatrix(1).emotionMode().x(10).y(12).emotion('0010011101010101001010').run()
+ *
+ * // emotion mode
+ * mcore.LedMatrix(1).timeMode().separator(':').hour(12).minute(12).run()
+ *
+ * // number mode
+ * mcore.LedMatrix(1).numberMode().number('9999).hour(12).minute(12).run()
  */
 class LedMatrix extends Electronic {
   constructor(port) {

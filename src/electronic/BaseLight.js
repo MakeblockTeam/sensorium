@@ -4,9 +4,9 @@ import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
 import Control from '../communicate/control';
 /**
- * @Class BaseLight
  * @description It is a base Class of Light
  * @extends Electronic
+ * @private
  */
 class BaseLight extends Electronic {
   /**

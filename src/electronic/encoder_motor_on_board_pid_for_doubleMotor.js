@@ -40,25 +40,37 @@ class PIDForDoubleMotor {
     return this;
   }
 
-  //direction + run
+  /**
+   * direction + run
+   * @return {[type]} [description]
+   */
   forward() {
     this.args.direction = 1;
     return this.run();
   }
 
-  //direction + run
+  /**
+   * direction + run
+   * @return {[type]} [description]
+   */
   backward() {
     this.args.direction = 2;
     return this.run();
   }
 
-  //direction + run
+  /**
+   * direction + run
+   * @return {[type]} [description]
+   */
   turnleft() {
     this.args.direction = 3;
     return this.run();
   }
 
-  //direction + run
+  /**
+   * direction + run
+   * @return {[type]} [description]
+   */
   turnright() {
     this.args.direction = 4;
     return this.run();

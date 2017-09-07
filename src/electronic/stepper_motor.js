@@ -36,6 +36,9 @@ class StepperMotor extends BaseMotor {
     return this;
   }
 
+  /**
+   * run
+   */
   run() {
     let buf = Utils.composer(protocolAssembler.setStepperMotor, [this.args.port, this.args.speed, this.args.distance]);
     Control.write(buf);

@@ -43,6 +43,7 @@ class Board {
 
   /**
    * 电子模块实例工厂
+   * @private
    * @param  {Function} eModule 电子模块类
    * @param  {Array-Like} args    [port, slot, id...]
    * @param  {String} host    电子模块的宿主，即主控板名——大部分电子模块是无需识别宿主的，少数电子模块因为宿主不同而表现不同特征
@@ -64,6 +65,14 @@ class Board {
 
   /**
    * 获取版本号，所有主控板支持
+   *
+   * @example
+   * let sensorium = new Sensorium();
+   * let mcore = sensorium.createMcore();
+   * mcore.getVersion()
+   *         .then((val) => {
+   *           console.log(val);
+   *         })
    */
   async getVersion(){
     if(this.version){

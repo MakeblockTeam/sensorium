@@ -19,6 +19,10 @@ class EncoderMotorOnBoard extends BaseEncoderMotor {
     });
   }
 
+  /**
+   * Get Speed of the encoder motor runs
+   * @return  {Promise} return promise
+   */
   async getSpeed(){
     this.args.type = 0x02;
     let buf = bufComposer(this.args);
@@ -27,7 +31,7 @@ class EncoderMotorOnBoard extends BaseEncoderMotor {
 
   /**
    * get angle offset to the start position
-   * @param  {Function} callback
+   * @return  {Promise} return promise
    */
   async getAngle(){
     this.args.type = 0x01;

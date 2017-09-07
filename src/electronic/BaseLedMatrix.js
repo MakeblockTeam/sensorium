@@ -11,9 +11,9 @@ function write(bufArray) {
   Control.write(buf);
 }
 /**
- * @Class BaseLedMatrix
  * @description It is a base Class of LedMatrix
  * @extends Electronic
+ * @private
  */
 class BaseLedMatrix extends Electronic {
   /**

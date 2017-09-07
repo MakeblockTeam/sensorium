@@ -36,14 +36,20 @@ class SmartServo extends Electronic {
     }
   }
 
-  //锁定
+  /**
+   * 锁定
+   * @return {[type]} [description]
+   */
   lock(){
     let extraCmd = 0x00;
     this.args.subCmd = 0x01;
     write(this.args, extraCmd);
     return this;
   }
-  //解锁
+  /**
+   * 解锁
+   * @return {[type]} [description]
+   */
   unclock(){
     let extraCmd = 0x01;
     this.args.subCmd = 0x01;
@@ -125,44 +131,64 @@ class SmartServo extends Electronic {
     return this;
   }
 
-  //设置零点
+  /**
+   * 设置零点
+   */
   setZeroPoint(){
     this.args.subCmd = 0x07;
     write(this.args);
     return this;
   }
 
-  //回到起点
+  /**
+   * 回到起点
+   * @return {[type]} [description]
+   */
   backToStart(){
     this.args.subCmd = 0x08;
     write(this.args);
     return this;
   }
 
-  //读速度
+  /**
+   * 读速度
+   * @return {Promise}
+   */
   async readSpeed(){
     this.args.subCmd = 0x09;
     return await read(this.args);
   }
-  //读温度
+  /**
+   * 读温度
+   * @return {Promise}
+   */
   async readTemperature(){
     this.args.subCmd = 0x0a;
     return await read(this.args);
   }
 
-  //读电流
+  /**
+   * 读电流
+   * @return {Promise}
+   */
   async readCurrent(){
     this.args.subCmd = 0x0b;
     return await read(this.args);
   }
 
-  //读电压
+  /**
+   * 读电压
+   * @return {Promise}
+   */
   async readVoltage(){
     this.args.subCmd = 0x0c;
     return await read(this.args);
   }
 
-  //读角度
+  /**
+   * 读角度
+   * @return {Promise}
+   */
   async readAngle(){
     this.args.subCmd = 0x0d;
     return await read(this.args);

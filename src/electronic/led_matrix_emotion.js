@@ -4,7 +4,6 @@ import BaseLedMatrix from './BaseLedMatrix';
 /**
  * LedMatrix sensor module run as 'Emotion Mode'
  * @extends BaseLedMatrix
- * @private
  */
 class LedMatrixEmotion extends BaseLedMatrix {
   constructor(port) {

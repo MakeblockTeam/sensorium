@@ -42,7 +42,9 @@ class EncoderMotorOnBoardPID extends Electronic {
 
   /**
    * 设置零点
-   * 调用方式: new EncoderMotorOnBoardPID().setZeroPoint()
+   * @example
+   * let pid = new EncoderMotorOnBoardPID()
+   * pid.setZeroPoint()
    */
   setZeroPoint(){
     let subCmd;

@@ -4,7 +4,6 @@ import BaseLedMatrix from './BaseLedMatrix';
 /**
  * LedMatrix sensor module run as 'Time Mode'
  * @extends BaseLedMatrix
- * @private
  */
 class LedMatrixTime extends BaseLedMatrix {
   constructor(port) {
@@ -60,6 +59,9 @@ class LedMatrixTime extends BaseLedMatrix {
     return this;
   }
 
+  /**
+   * run
+   */
   run(){
     let type = 0x03;
     let bufArray = [this.args.port, type, this.args.separator, this.args.hour, this.args.minute];

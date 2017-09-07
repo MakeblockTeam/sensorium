@@ -5,9 +5,9 @@ import protocolAssembler from '../protocol/cmd';
 import Control from '../communicate/control';
 
 /**
- * @Class BaseEncoderMotor
  * @description It is a base Class of EncoderMotor
  * @extends BaseMotor
+ * @private
  */
 class BaseEncoderMotor extends BaseMotor {
   /**

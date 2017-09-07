@@ -39,6 +39,7 @@ function bufAssembler(obj, ...args){
 function protocolAssembler() {
   /**
    * Set dc motor speed.
+   * @private
    * @param {number} port  port number, vailable is: 1,2,3,4
    * @param {number} speed speed, the range is -255 ~ 255
    * @example
@@ -171,8 +172,8 @@ function protocolAssembler() {
   /**
    * Set Firmware mode.
    * @private
-   * @param {number} subCmd 
-   * @param {number} mode 
+   * @param {number} subCmd
+   * @param {number} mode
    * @example
    *     ff 55 05 00 02 3c 11 00
    */
@@ -216,7 +217,7 @@ function protocolAssembler() {
    * @exmaple
    * ff 55 0a 00 02 29 06 01 00 01 02 48 69
    */
-  
+
   /**
    * Set led matrix emotion.
    * @param {number} port   port number, vailable is 6,7,8,9,10
@@ -227,7 +228,7 @@ function protocolAssembler() {
    * @example
    * ff 55 17 00 02 29 06 02 00 00 00 00 40 48 44 42 02 02 02 02 42 44 48 40 00 00
    */
-  
+
   /**
    * Set led matrix time.
    * @param {number} port   port number, vailable is 6,7,8,9,10
@@ -237,7 +238,7 @@ function protocolAssembler() {
    * @example
    *     ff 55 08 00 02 29 06 03 01 0a 14
    */
-  
+
   /**
    * Set led matrix number.
    * @private
@@ -274,6 +275,7 @@ function protocolAssembler() {
 
   /**
    * set buzzer only for mcore.
+   * @private
    * @param {string} hz , "A2" ~ "D8" 对应的 hz
    * @param {number} beat , 125: eight; 250: quater; 500: half; 1000: one; 2000: double
    * @example
@@ -577,7 +579,7 @@ function protocolAssembler() {
       distanceArr[0],
       speed & 0xff, 0);
   };
-  
+
   /**
    * 板载编码电机 PID 运动 02模式速度模式
    * @private
@@ -605,7 +607,7 @@ function protocolAssembler() {
   },
 
   /**
-   * 板载编码电机PID运动，设置当前位置为零点: 
+   * 板载编码电机PID运动，设置当前位置为零点:
    * buf: ff 55 05 00 02 3e 04 01
    * (megaPiPro buf: ff 55 05 00 02 3e 03 01)
    * @param {Number} subCmd    二级命令
@@ -617,7 +619,7 @@ function protocolAssembler() {
   }
 
   /**
-   * 板载编码电机 PID 运动 05模式双电机模式: 
+   * 板载编码电机 PID 运动 05模式双电机模式:
    * buf: ff 55 0b 00 02 3e 05 01 e8 03 00 00 64 00
    * @private
    * @param {Number} subCmd      0x05
@@ -663,7 +665,7 @@ function protocolAssembler() {
   };
 
   /**
-   * * @private
+   * @private
    */
   this.setSmartServoForAbsoluteAngle = function(index, subCmd, angle, speed) {
     let port = 0x05; //defualt port
@@ -674,9 +676,9 @@ function protocolAssembler() {
       ...speedBytes
     );
   };
-  
+
   /**
-   * * @private
+   * @private
    */
   this.setSmartServoForRelativeAngle = function(index, subCmd, angle, speed) {
     let port = 0x05; //defualt port

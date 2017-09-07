@@ -12,6 +12,10 @@ class Reset extends Electronic {
     super();
   }
 
+  /**
+   * reset
+   * @return {Promise}
+   */
   async reset() {
     let buf = Utils.composer(protocolAssembler.reset);
     return await Control.read(buf);

@@ -1,14 +1,14 @@
 import { validateNumber } from '../core/validate';
 import Electronic from './electronic';
 /**
- * @Class BaseMotor
  * @description It is a base Class of Motor
  * @extends Electronic
+ * @private
  */
 class BaseMotor extends Electronic {
   /**
    * Create a motor
-   * @param {Number} port 
+   * @param {Number} port
    */
   constructor(port) {
     super();

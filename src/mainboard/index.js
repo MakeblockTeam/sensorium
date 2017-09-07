@@ -32,6 +32,8 @@ const boards = {
 class Sensorium {
   /**
    * Create a sensorium.
+   * @example
+   * let sensorium = new Sensorium();
    */
   constructor(){
     for(let name of SUPPORTLIST){
@@ -43,6 +45,11 @@ class Sensorium {
    * Create a mainboard instance
    * @param {String} mainboardName 主控板名，忽略大小写
    * @param {Object} opts     (optional)
+   * @example
+   * // create a mcore with mainboardName, both upperCase and lowerCase are allow
+   * let mcore1 = sensorium.create('mcore');
+   * let mcore2 = sensorium.create('mCore');
+   * mcore1 === mcore2
    */
   create(mainboardName, opts){
     let board = boards[mainboardName.toLowerCase()];
@@ -75,6 +82,9 @@ class Sensorium {
    * set transport such as bluetooth、serialport、wifi
    * @param {Function} sender send method
    * @param {Function} transport.onReceived onReceived method
+   * @example
+   * let sender = () => {...}
+   * sensorium.setSender(sender);
    */
   setSender(sender){
     Transport.sender = sender;
@@ -92,6 +102,9 @@ class Sensorium {
   /**
    * read firmware verion and parse the device info
    * @return {Promise} a promise instance
+   * @example
+   * sensorium.readFirmwareInfo()
+   *             .then((val) => {console.log(val)});
    */
   async readFirmwareInfo(){
     return await Version.getVersion().then((val) =>{
@@ -108,7 +121,8 @@ class Sensorium {
    * write protocol buffer
    * now this interface is just for debug the protocol
    * @param  {Array} buf
-   * @return {Promise}
+   * @example
+   * sensorium.send([0xff, 0x55, 0x01...]);
    */
   send (buf){
     Control.write(buf);
@@ -116,6 +130,10 @@ class Sensorium {
 
   /**
    * Get supported mainboard
+   * @example
+   * sensorium.getSupported()
+   * // => ['auriga', 'mcore', 'megapi', 'orion', 'megapipro', 'arduino']
+   * @return {Array}  a support list
    */
   getSupported(){
     return Object.keys(boards);

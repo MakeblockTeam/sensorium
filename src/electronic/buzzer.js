@@ -13,6 +13,12 @@ const MCORE_ = SUPPORTLIST[0].toLowerCase();
 /**
  * Buzzer sensor module
  * @extends Electronic
+ *
+ * @example
+ * mcore.Buzzer()
+ *      .hz(1000)
+ *      .beat(1000)
+ *      .run()
  */
 class Buzzer extends Electronic {
   constructor() {

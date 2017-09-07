@@ -5,9 +5,9 @@ import protocolAssembler from '../protocol/cmd';
 import Control from '../communicate/control';
 
 /**
- * @Class BaseGyro
  * @description It is a base Class of Gyro
  * @extends Electronic
+ * @private
  */
 class BaseGyro extends Electronic {
   /**
