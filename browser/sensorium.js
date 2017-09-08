@@ -750,6 +750,7 @@ function bufAssembler(obj) {
 function protocolAssembler() {
   /**
    * Set dc motor speed.
+   * @private
    * @param {number} port  port number, vailable is: 1,2,3,4
    * @param {number} speed speed, the range is -255 ~ 255
    * @example
@@ -859,8 +860,8 @@ function protocolAssembler() {
   /**
    * Set Firmware mode.
    * @private
-   * @param {number} subCmd 
-   * @param {number} mode 
+   * @param {number} subCmd
+   * @param {number} mode
    * @example
    *     ff 55 05 00 02 3c 11 00
    */
@@ -962,6 +963,7 @@ function protocolAssembler() {
 
   /**
    * set buzzer only for mcore.
+   * @private
    * @param {string} hz , "A2" ~ "D8" 对应的 hz
    * @param {number} beat , 125: eight; 250: quater; 500: half; 1000: one; 2000: double
    * @example
@@ -1277,7 +1279,7 @@ function protocolAssembler() {
   },
 
   /**
-   * 板载编码电机PID运动，设置当前位置为零点: 
+   * 板载编码电机PID运动，设置当前位置为零点:
    * buf: ff 55 05 00 02 3e 04 01
    * (megaPiPro buf: ff 55 05 00 02 3e 03 01)
    * @param {Number} subCmd    二级命令
@@ -1289,7 +1291,7 @@ function protocolAssembler() {
   };
 
   /**
-   * 板载编码电机 PID 运动 05模式双电机模式: 
+   * 板载编码电机 PID 运动 05模式双电机模式:
    * buf: ff 55 0b 00 02 3e 05 01 e8 03 00 00 64 00
    * @private
    * @param {Number} subCmd      0x05
@@ -1327,7 +1329,7 @@ function protocolAssembler() {
   };
 
   /**
-   * * @private
+   * @private
    */
   this.setSmartServoForAbsoluteAngle = function (index, subCmd, angle, speed) {
     var port = 0x05; //defualt port
@@ -1337,7 +1339,7 @@ function protocolAssembler() {
   };
 
   /**
-   * * @private
+   * @private
    */
   this.setSmartServoForRelativeAngle = function (index, subCmd, angle, speed) {
     var port = 0x05; //defualt port
@@ -1584,8 +1586,8 @@ var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
- * Electron
  * @description 所有电子模块的抽象类
+ * @private
  */
 var Electronic =
 /**
@@ -2047,6 +2049,7 @@ var Board = function () {
 
   /**
    * 电子模块实例工厂
+   * @private
    * @param  {Function} eModule 电子模块类
    * @param  {Array-Like} args    [port, slot, id...]
    * @param  {String} host    电子模块的宿主，即主控板名——大部分电子模块是无需识别宿主的，少数电子模块因为宿主不同而表现不同特征
@@ -2072,6 +2075,14 @@ var Board = function () {
 
     /**
      * 获取版本号，所有主控板支持
+     *
+     * @example
+     * let sensorium = new Sensorium();
+     * let mcore = sensorium.createMcore();
+     * mcore.getVersion()
+     *         .then((val) => {
+     *           console.log(val);
+     *         })
      */
 
   }, {
@@ -2605,9 +2616,9 @@ function write(bufArray) {
   _control2.default.write(buf);
 }
 /**
- * @Class BaseLedMatrix
  * @description It is a base Class of LedMatrix
  * @extends Electronic
+ * @private
  */
 
 var BaseLedMatrix = function (_Electronic) {
@@ -2953,16 +2964,16 @@ var _electronic2 = _interopRequireDefault(_electronic);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
- * @Class BaseMotor
  * @description It is a base Class of Motor
  * @extends Electronic
+ * @private
  */
 var BaseMotor = function (_Electronic) {
   (0, _inherits3.default)(BaseMotor, _Electronic);
 
   /**
    * Create a motor
-   * @param {Number} port 
+   * @param {Number} port
    */
   function BaseMotor(port) {
     (0, _classCallCheck3.default)(this, BaseMotor);
@@ -3085,9 +3096,9 @@ var commandWrite = function commandWrite(obj) {
 };
 
 /**
- * @Class BaseRgbLed
  * @description It is a base Class of RgbLed
  * @extends Electronic
+ * @private
  */
 
 var BaseRgbLed = function (_Electronic) {
@@ -3105,7 +3116,7 @@ var BaseRgbLed = function (_Electronic) {
 
     _this.args = {
       port: (0, _validate.validateNumber)(port),
-      slot: (0, _validate.validateNumber)(slot),
+      slot: (0, _validate.validateNumber)(slot, 2),
       ledPosition: 0,
       rgb: [0, 0, 0]
     };
@@ -3741,8 +3752,8 @@ var _createClass3 = _interopRequireDefault(_createClass2);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
- * @fileOverview Transport 类，协议指令的传输通道
- * 由 Transport.send 将协议发送给蓝牙，串口，2.4G，wifi等
+ * @fileOverview Transport 类，协议指令的传输通道，由 Transport.send 将协议发送给蓝牙，串口，2.4G，wifi等
+ * @private
  */
 var Transport = function () {
   /**
@@ -3756,6 +3767,7 @@ var Transport = function () {
 
   /**
    * setter interface
+   * @private
    * @param  {Function} fn this fn will be set as the sender
    * @return {Undefined}
    */
@@ -4093,6 +4105,9 @@ var _control2 = _interopRequireDefault(_control);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * @private
+ */
 var Version = function () {
   function Version() {
     (0, _classCallCheck3.default)(this, Version);
@@ -4196,9 +4211,9 @@ var _control2 = _interopRequireDefault(_control);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
- * @Class BaseEncoderMotor
  * @description It is a base Class of EncoderMotor
  * @extends BaseMotor
+ * @private
  */
 var BaseEncoderMotor = function (_BaseMotor) {
   (0, _inherits3.default)(BaseEncoderMotor, _BaseMotor);
@@ -4329,9 +4344,9 @@ var _control2 = _interopRequireDefault(_control);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
- * @Class BaseLight
  * @description It is a base Class of Light
  * @extends Electronic
+ * @private
  */
 var BaseLight = function (_Electronic) {
   (0, _inherits3.default)(BaseLight, _Electronic);
@@ -4453,9 +4468,9 @@ var _control2 = _interopRequireDefault(_control);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
- * @Class BaseGyro
  * @description It is a base Class of Gyro
  * @extends Electronic
+ * @private
  */
 var BaseGyro = function (_Electronic) {
   (0, _inherits3.default)(BaseGyro, _Electronic);
@@ -4590,9 +4605,9 @@ var _control2 = _interopRequireDefault(_control);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
- * @Class BaseSound
  * @description It is a base Class of Sound
  * @extends Electronic
+ * @private
  */
 var BaseSound = function (_Electronic) {
   (0, _inherits3.default)(BaseSound, _Electronic);
@@ -4752,6 +4767,8 @@ var boards = {
 var Sensorium = function () {
   /**
    * Create a sensorium.
+   * @example
+   * let sensorium = new Sensorium();
    */
   function Sensorium() {
     var _this = this;
@@ -4793,6 +4810,11 @@ var Sensorium = function () {
    * Create a mainboard instance
    * @param {String} mainboardName 主控板名，忽略大小写
    * @param {Object} opts     (optional)
+   * @example
+   * // create a mcore with mainboardName, both upperCase and lowerCase are allow
+   * let mcore1 = sensorium.create('mcore');
+   * let mcore2 = sensorium.create('mCore');
+   * mcore1 === mcore2
    */
 
 
@@ -4820,6 +4842,9 @@ var Sensorium = function () {
      * set transport such as bluetooth、serialport、wifi
      * @param {Function} sender send method
      * @param {Function} transport.onReceived onReceived method
+     * @example
+     * let sender = () => {...}
+     * sensorium.setSender(sender);
      */
 
   }, {
@@ -4843,6 +4868,9 @@ var Sensorium = function () {
     /**
      * read firmware verion and parse the device info
      * @return {Promise} a promise instance
+     * @example
+     * sensorium.readFirmwareInfo()
+     *             .then((val) => {console.log(val)});
      */
 
   }, {
@@ -4886,7 +4914,8 @@ var Sensorium = function () {
      * write protocol buffer
      * now this interface is just for debug the protocol
      * @param  {Array} buf
-     * @return {Promise}
+     * @example
+     * sensorium.send([0xff, 0x55, 0x01...]);
      */
 
   }, {
@@ -4897,6 +4926,10 @@ var Sensorium = function () {
 
     /**
      * Get supported mainboard
+     * @example
+     * sensorium.getSupported()
+     * // => ['auriga', 'mcore', 'megapi', 'orion', 'megapipro', 'arduino']
+     * @return {Array}  a support list
      */
 
   }, {
@@ -7269,6 +7302,10 @@ var DcMotor = function (_BaseMotor) {
     (0, _classCallCheck3.default)(this, DcMotor);
     return (0, _possibleConstructorReturn3.default)(this, (DcMotor.__proto__ || (0, _getPrototypeOf2.default)(DcMotor)).call(this, port));
   }
+  /**
+   * run reversely
+   */
+
 
   (0, _createClass3.default)(DcMotor, [{
     key: 'reverse',
@@ -7276,6 +7313,11 @@ var DcMotor = function (_BaseMotor) {
       this.speed(-1 * this.args.speed);
       return this.run();
     }
+
+    /**
+     * run
+     */
+
   }, {
     key: 'run',
     value: function run() {
@@ -7364,6 +7406,14 @@ var VirtualJoystick = function (_Electronic) {
     return _this;
   }
 
+  /**
+   * set both left speed and right speed
+   * @param  {Number} leftSpeed  the left speed
+   * @param  {Number} rightSpeed  the right speed
+   * @return {Instance} @this
+   */
+
+
   (0, _createClass3.default)(VirtualJoystick, [{
     key: 'speed',
     value: function speed(leftSpeed, rightSpeed) {
@@ -7371,18 +7421,39 @@ var VirtualJoystick = function (_Electronic) {
       this.args.rightSpeed = (0, _validate.validateNumber)(rightSpeed, this.args.rightSpeed);
       return this;
     }
+
+    /**
+     * set left speed
+     * @param  {Number} speed  the left speed
+     * @return {Instance} @this
+     */
+
   }, {
     key: 'leftSpeed',
     value: function leftSpeed(speed) {
       this.args.leftSpeed = (0, _validate.validateNumber)(speed, 0);
       return this;
     }
+
+    /**
+     * set right speed
+     * @param  {Number} speed  the right speed
+     * @return {Instance} @this
+     */
+
   }, {
     key: 'rightSpeed',
     value: function rightSpeed(speed) {
       this.args.rightSpeed = (0, _validate.validateNumber)(speed, 0);
       return this;
     }
+
+    /**
+     * run
+     * @param  {Number} speed  the balance speed
+     * @return {Instance} @this
+     */
+
   }, {
     key: 'run',
     value: function run() {
@@ -7390,6 +7461,12 @@ var VirtualJoystick = function (_Electronic) {
       _control2.default.write(buf);
       return this;
     }
+
+    /**
+     * stop, that is run with 0 speed
+     * @return {Instance} @this
+     */
+
   }, {
     key: 'stop',
     value: function stop() {
@@ -7473,19 +7550,38 @@ var VirtualJoystickForBalance = function (_Electronic) {
     };
     return _this;
   }
+  /**
+   * set speed
+   * @param  {Number} speed  the balance speed
+   * @return {Instance} @this
+   */
+
 
   (0, _createClass3.default)(VirtualJoystickForBalance, [{
     key: 'speed',
-    value: function speed(leftSpeed) {
-      this.args.speed = leftSpeed || 0;
+    value: function speed(_speed) {
+      this.args.speed = _speed || 0;
       return this;
     }
+
+    /**
+     * set range
+     * @param  {Number} range  the balance rotate angle
+     * @return {Instance} @this
+     */
+
   }, {
     key: 'turnRange',
     value: function turnRange(range) {
       this.args.turnRange = range || 0;
       return this;
     }
+
+    /**
+     * run with range and speed set before
+     * @return {Instance} @this
+     */
+
   }, {
     key: 'run',
     value: function run() {
@@ -7625,6 +7721,11 @@ var StepperMotor = function (_BaseMotor) {
       this.speed(-1 * this.args.distance);
       return this;
     }
+
+    /**
+     * run
+     */
+
   }, {
     key: 'run',
     value: function run() {
@@ -7842,6 +7943,12 @@ var EncoderMotorOnBoard = function (_BaseEncoderMotor) {
     return _this;
   }
 
+  /**
+   * Get Speed of the encoder motor runs
+   * @return  {Promise} return promise
+   */
+
+
   (0, _createClass3.default)(EncoderMotorOnBoard, [{
     key: 'getSpeed',
     value: function () {
@@ -7876,7 +7983,7 @@ var EncoderMotorOnBoard = function (_BaseEncoderMotor) {
 
     /**
      * get angle offset to the start position
-     * @param  {Function} callback
+     * @return  {Promise} return promise
      */
 
   }, {
@@ -8029,6 +8136,11 @@ var ServoMotor = function (_Electronic) {
       this.angle(180);
       return this.run();
     }
+
+    /**
+     * run
+     */
+
   }, {
     key: 'run',
     value: function run() {
@@ -8086,7 +8198,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 /**
  * FourLed sensor module
- * @extends Electronic
+ * @extends BaseRgbLed
  */
 var FourLeds = function (_BaseRgbLed) {
   (0, _inherits3.default)(FourLeds, _BaseRgbLed);
@@ -8148,6 +8260,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 /**
  * RgbLed sensor module
  * @extends BaseRgbLed
+ *  * @example
+ * // turn on led attached to mcore
+ * mcore.RgbLed(2).position(1).red()
+ *
+ * // turn on all led attached to auriga
+ * auriga.RgbLed(2).white();
  */
 var RgbLed = function (_BaseRgbLed) {
   (0, _inherits3.default)(RgbLed, _BaseRgbLed);
@@ -8212,6 +8330,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 /**
  * RgbLedOnBoard sensor module
  * @extends BaseRgbLed
+ * @example
+ * // turn on left led and right led on board of mcore
+ * mcore.RgbLedOnBoard().position(1).red().position(2).blue()
+ *
+ * // turn on all led on board of auriga
+ * auriga.RgbLedOnBoard().white();
  */
 var RgbLedOnBoard = function (_BaseRgbLed) {
   (0, _inherits3.default)(RgbLedOnBoard, _BaseRgbLed);
@@ -8307,6 +8431,22 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 /**
  * LedMatrix sensor module, who can be play as 'charMode','emotionMode','numberMode','timeMode'
  * @extends Electronic
+ *
+ * @example
+ * // char mode
+ * mcore.LedMatrix(1).charMode().x(10).y(12).char('hello').run()
+ *
+ * // char mode
+ * mcore.LedMatrix(1).charMode().content('hello', 10, 12).run()
+ *
+ * // emotion mode
+ * mcore.LedMatrix(1).emotionMode().x(10).y(12).emotion('0010011101010101001010').run()
+ *
+ * // emotion mode
+ * mcore.LedMatrix(1).timeMode().separator(':').hour(12).minute(12).run()
+ *
+ * // number mode
+ * mcore.LedMatrix(1).numberMode().number('9999).hour(12).minute(12).run()
  */
 var LedMatrix = function (_Electronic) {
   (0, _inherits3.default)(LedMatrix, _Electronic);
@@ -8407,7 +8547,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 /**
  * LedMatrix sensor module run as 'Char Mode'
  * @extends BaseLedMatrix
- * @private
  */
 var LedMatrixChar = function (_BaseLedMatrix) {
   (0, _inherits3.default)(LedMatrixChar, _BaseLedMatrix);
@@ -8427,7 +8566,8 @@ var LedMatrixChar = function (_BaseLedMatrix) {
 
   /**
    * set the X axis coordinate of the char
-   * @param  {Number} x 
+   * @param  {Number} x
+   * @return {Instance}     @this
    */
 
 
@@ -8441,6 +8581,7 @@ var LedMatrixChar = function (_BaseLedMatrix) {
     /**
      * set the Y axis coordinate of the char
      * @param  {Number} y
+     * @return {Instance}     @this
      */
 
   }, {
@@ -8449,6 +8590,13 @@ var LedMatrixChar = function (_BaseLedMatrix) {
       this.args.y = (0, _validate.validateNumber)(_y, this.args.y);
       return this;
     }
+
+    /**
+     * set char as the content shown on the led maxtrix
+     * @param  {String} str the content string
+     * @return {Instance}     @this
+     */
+
   }, {
     key: 'char',
     value: function char(str) {
@@ -8473,6 +8621,11 @@ var LedMatrixChar = function (_BaseLedMatrix) {
       this.y(coordinate[1]);
       return this.char(str);
     }
+
+    /**
+     * run
+     */
+
   }, {
     key: 'run',
     value: function run() {
@@ -8597,7 +8750,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 /**
  * LedMatrix sensor module run as 'Emotion Mode'
  * @extends BaseLedMatrix
- * @private
  */
 var LedMatrixEmotion = function (_BaseLedMatrix) {
   (0, _inherits3.default)(LedMatrixEmotion, _BaseLedMatrix);
@@ -8743,7 +8895,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 /**
  * LedMatrix sensor module run as 'Number Mode'
  * @extends BaseLedMatrix
- * @private
  */
 var LedMatrixNumber = function (_BaseLedMatrix) {
   (0, _inherits3.default)(LedMatrixNumber, _BaseLedMatrix);
@@ -8758,6 +8909,12 @@ var LedMatrixNumber = function (_BaseLedMatrix) {
     });
     return _this;
   }
+
+  /**
+   * set number
+   * @param  {Number} number the number you want show on the led matrix
+   */
+
 
   (0, _createClass3.default)(LedMatrixNumber, [{
     key: 'number',
@@ -8844,7 +9001,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 /**
  * LedMatrix sensor module run as 'Time Mode'
  * @extends BaseLedMatrix
- * @private
  */
 var LedMatrixTime = function (_BaseLedMatrix) {
   (0, _inherits3.default)(LedMatrixTime, _BaseLedMatrix);
@@ -8918,6 +9074,11 @@ var LedMatrixTime = function (_BaseLedMatrix) {
       this.minute(Number(timeArr[2]));
       return this;
     }
+
+    /**
+     * run
+     */
+
   }, {
     key: 'run',
     value: function run() {
@@ -8990,6 +9151,12 @@ var MCORE_ = _settings.SUPPORTLIST[0].toLowerCase();
 /**
  * Buzzer sensor module
  * @extends Electronic
+ *
+ * @example
+ * mcore.Buzzer()
+ *      .hz(1000)
+ *      .beat(1000)
+ *      .run()
  */
 
 var Buzzer = function (_Electronic) {
@@ -9148,6 +9315,12 @@ var SevenSegment = function (_Electronic) {
     };
     return _this;
   }
+  /**
+   * set the number you want show on the segment tube
+   * @param  {Number} num
+   * @return {Instance}     @this
+   */
+
 
   (0, _createClass3.default)(SevenSegment, [{
     key: 'number',
@@ -9155,6 +9328,12 @@ var SevenSegment = function (_Electronic) {
       this.args.number = (0, _validate.validateNumber)(num, this.args.number);
       return this;
     }
+
+    /**
+     * run and show the number
+     * @return {Instance}     @this
+     */
+
   }, {
     key: 'run',
     value: function run() {
@@ -9256,6 +9435,12 @@ var Shutter = function (_Electronic) {
       this.args.action = (0, _validate.validateNumber)(actionId);
       return this;
     }
+
+    /**
+     * run shutter with mode set before
+     * @return {this}  模块实例
+     */
+
   }, {
     key: 'run',
     value: function run() {
@@ -9394,7 +9579,10 @@ var SmartServo = function (_Electronic) {
     return _this;
   }
 
-  //锁定
+  /**
+   * 锁定
+   * @return {[type]} [description]
+   */
 
 
   (0, _createClass3.default)(SmartServo, [{
@@ -9405,7 +9593,10 @@ var SmartServo = function (_Electronic) {
       write(this.args, extraCmd);
       return this;
     }
-    //解锁
+    /**
+     * 解锁
+     * @return {[type]} [description]
+     */
 
   }, {
     key: 'unclock',
@@ -9508,7 +9699,9 @@ var SmartServo = function (_Electronic) {
       return this;
     }
 
-    //设置零点
+    /**
+     * 设置零点
+     */
 
   }, {
     key: 'setZeroPoint',
@@ -9518,7 +9711,10 @@ var SmartServo = function (_Electronic) {
       return this;
     }
 
-    //回到起点
+    /**
+     * 回到起点
+     * @return {[type]} [description]
+     */
 
   }, {
     key: 'backToStart',
@@ -9528,7 +9724,10 @@ var SmartServo = function (_Electronic) {
       return this;
     }
 
-    //读速度
+    /**
+     * 读速度
+     * @return {Promise}
+     */
 
   }, {
     key: 'readSpeed',
@@ -9559,7 +9758,10 @@ var SmartServo = function (_Electronic) {
 
       return readSpeed;
     }()
-    //读温度
+    /**
+     * 读温度
+     * @return {Promise}
+     */
 
   }, {
     key: 'readTemperature',
@@ -9591,7 +9793,10 @@ var SmartServo = function (_Electronic) {
       return readTemperature;
     }()
 
-    //读电流
+    /**
+     * 读电流
+     * @return {Promise}
+     */
 
   }, {
     key: 'readCurrent',
@@ -9623,7 +9828,10 @@ var SmartServo = function (_Electronic) {
       return readCurrent;
     }()
 
-    //读电压
+    /**
+     * 读电压
+     * @return {Promise}
+     */
 
   }, {
     key: 'readVoltage',
@@ -9655,7 +9863,10 @@ var SmartServo = function (_Electronic) {
       return readVoltage;
     }()
 
-    //读角度
+    /**
+     * 读角度
+     * @return {Promise}
+     */
 
   }, {
     key: 'readAngle',
@@ -9804,7 +10015,9 @@ var EncoderMotorOnBoardPID = function (_Electronic) {
 
   /**
    * 设置零点
-   * 调用方式: new EncoderMotorOnBoardPID().setZeroPoint()
+   * @example
+   * let pid = new EncoderMotorOnBoardPID()
+   * pid.setZeroPoint()
    */
 
 
@@ -9901,6 +10114,11 @@ var EncoderMotorPIDForDistance = function () {
       this.args.speed = (0, _validate.validateNumber)(_speed, this.args.speed);
       return this;
     }
+
+    /**
+     * run
+     */
+
   }, {
     key: 'run',
     value: function run() {
@@ -10130,7 +10348,10 @@ var PIDForDoubleMotor = function () {
       return this;
     }
 
-    //direction + run
+    /**
+     * direction + run
+     * @return {[type]} [description]
+     */
 
   }, {
     key: 'forward',
@@ -10139,7 +10360,10 @@ var PIDForDoubleMotor = function () {
       return this.run();
     }
 
-    //direction + run
+    /**
+     * direction + run
+     * @return {[type]} [description]
+     */
 
   }, {
     key: 'backward',
@@ -10148,7 +10372,10 @@ var PIDForDoubleMotor = function () {
       return this.run();
     }
 
-    //direction + run
+    /**
+     * direction + run
+     * @return {[type]} [description]
+     */
 
   }, {
     key: 'turnleft',
@@ -10157,7 +10384,10 @@ var PIDForDoubleMotor = function () {
       return this.run();
     }
 
-    //direction + run
+    /**
+     * direction + run
+     * @return {[type]} [description]
+     */
 
   }, {
     key: 'turnright',
@@ -10271,6 +10501,12 @@ var Reset = function (_Electronic) {
     (0, _classCallCheck3.default)(this, Reset);
     return (0, _possibleConstructorReturn3.default)(this, (Reset.__proto__ || (0, _getPrototypeOf2.default)(Reset)).call(this));
   }
+
+  /**
+   * reset
+   * @return {Promise}
+   */
+
 
   (0, _createClass3.default)(Reset, [{
     key: 'reset',
@@ -11115,6 +11351,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 /**
  * Gyro sensor module
  * @extends BaseGyro
+ * @example
+ * mcore.Gyro()
+ *      .axis(1)
+ *      .getData()
+ *        .then((val) => {
+ *          console.log(val)
+ *        });
  */
 var Gyro = function (_BaseGyro) {
   (0, _inherits3.default)(Gyro, _BaseGyro);
@@ -11177,6 +11420,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 /**
  * GyroOnBoard sensor module
  * @extends BaseGyro
+ * @example
+ * mcore.Gyro()
+ *      .axis(1)
+ *      .getData()
+ *        .then((val) => {
+ *          console.log(val)
+ *        });
  */
 var GyroOnBoard = function (_BaseGyro) {
   (0, _inherits3.default)(GyroOnBoard, _BaseGyro);
@@ -12200,6 +12450,18 @@ var Humiture = function (_Electronic) {
     return _this;
   }
 
+  /**
+   * Get Humidity of Humiture sensor
+   * @return {Promise}
+   * @example
+   * mcore.Humiture(1)
+   *      .getHumidity()
+   *        .then((val) => {
+   *          console.log(val)
+   *        });
+   */
+
+
   (0, _createClass3.default)(Humiture, [{
     key: 'getHumidity',
     value: function () {
@@ -12229,6 +12491,18 @@ var Humiture = function (_Electronic) {
 
       return getHumidity;
     }()
+
+    /**
+     * Get Temperature of Humiture sensor
+     * @return {Promise}
+     * @example
+     * mcore.Humiture(1)
+     *      .getTemperature()
+     *        .then((val) => {
+     *          console.log(val)
+     *        });
+     */
+
   }, {
     key: 'getTemperature',
     value: function () {

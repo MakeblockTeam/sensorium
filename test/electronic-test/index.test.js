@@ -64,7 +64,7 @@ describe('test all the electronic modules', function() {
           }
           //组合模式中的继承
           for (let fn of instance_fn) {
-            let instance_instance_ = instance_[fn](); 
+            let instance_instance_ = instance_[fn]();
             //instance_instance_ 是非 Object 类的实例
             if(!isInstanceOfObject(instance_instance_)){
               //读取所有包括原型链上的 API
