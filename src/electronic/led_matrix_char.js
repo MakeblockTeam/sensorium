@@ -20,7 +20,7 @@ class LedMatrixChar extends BaseLedMatrix {
    * @return {Instance}     @this
    */
   x(x){
-    this.args.x = validateNumber(x, this.args.x);
+    this.args.x = validateNumber(Math.floor(x), this.args.x);
     return this;
   }
 
@@ -30,7 +30,7 @@ class LedMatrixChar extends BaseLedMatrix {
    * @return {Instance}     @this
    */
   y(y){
-    this.args.y = validateNumber(y, this.args.y);
+    this.args.y = validateNumber(Math.floor(y), this.args.y);
     return this;
   }
 

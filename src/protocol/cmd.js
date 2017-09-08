@@ -19,16 +19,15 @@ function bufAssembler(obj, ...args){
   let bufAttr;
   //todo：完善抛错提示
   if(obj.mode == 0x04){
-    bufAttr = new Array(obj.index || 0, obj.mode);
+    bufAttr = Array.of(obj.index || 0, obj.mode);
   }else{
-    if(modes.indexOf(obj.mode) === -1){
+    if(!modes.includes(obj.mode)){
       throw new Error(`mode should be one of ${modes}`);
     }else if(typeof obj.id === 'undefined'){
       throw new Error(`id should not be empty`);
     }
-    bufAttr = new Array(obj.index || 0, obj.mode, obj.id);
+    bufAttr = Array.of(obj.index || 0, obj.mode, obj.id);
   }
-  //to fix:
   bufLength = bufAttr.length + args.length;
   return bufHead.concat([bufLength], bufAttr, args);
 }
@@ -247,8 +246,10 @@ function protocolAssembler() {
    * @exmaple
       ff 55 09 00 02 29 06 04 00 00 00 00
    */
-  this.setLedMatrix = function() {
-    return bufAssembler({mode: 0x02, id: 0x29}, ...arguments);
+  this.setLedMatrix = function(...args) {
+    args[2] = args[2] & 0xff;
+    args[3] = args[3] & 0xff;
+    return bufAssembler({mode: 0x02, id: 0x29}, ...args);
   };
 
   /**

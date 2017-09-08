@@ -1,4 +1,4 @@
-import { validateString } from '../core/validate';
+import { validateString, validateNumber } from '../core/validate';
 import Utils from '../core/utils';
 import BaseLedMatrix from './BaseLedMatrix';
 /**
@@ -20,7 +20,7 @@ class LedMatrixEmotion extends BaseLedMatrix {
    * @param  {Number} x
    */
   x(x){
-    this.args.x = x;
+    this.args.x = validateNumber(Math.floor(x), this.args.x);
     return this;
   }
 
@@ -29,7 +29,7 @@ class LedMatrixEmotion extends BaseLedMatrix {
    * @param  {Number} y
    */
   y(y){
-    this.args.y = y;
+    this.args.y = validateNumber(Math.floor(y), this.args.y);
     return this;
   }
 
