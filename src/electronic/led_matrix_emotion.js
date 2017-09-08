@@ -60,7 +60,7 @@ class LedMatrixEmotion extends BaseLedMatrix {
 
   run(){
     let type = 0x02;
-    let byteResult = Utils.byteString2binaryByte(this.args.emotion);
+    let byteResult = Utils.emotionByteString2binaryByte(this.args.emotion);
     let bufArray = [this.args.port, type, this.args.x, this.args.y].concat(byteResult);
     super.run(bufArray);
     return this;

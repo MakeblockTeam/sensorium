@@ -202,36 +202,6 @@ export default {
   },
 
   /**
-   * transform matrix array to bytes
-   * @param  {Array} matrixArray 8*16 led matrix array, such as:
-   *
-   * [
-   *    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-   *    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-   *    0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0,
-   *    0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0,
-   *    0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0,
-   *    0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0,
-   *    0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0,
-   *    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-   * ]
-   * @return {Array} result 16 length bytes array, such as
-   *
-   * [0, 0, 0, 0, 28, 56, 28, 56, 28, 56, 3, 192, 3, 192, 0, 0]
-   */
-  emotionArrayToBytes: function(matrixArray) {
-    var result = [];
-    for (var i = 0; i < matrixArray.length; i++) {
-      if (((i + 1) % 8) == 0) {
-        var byteString = matrixArray.slice(i - 7, i + 1).join('');
-        var byte = parseInt(byteString, 2);
-        result.push(byte);
-      }
-    }
-    return result;
-  },
-
-  /**
    * n个byte转成int值
    * @param  {Array} bytes 传入的bytes数组
    * @return {Number}          返回的int数值
@@ -282,10 +252,14 @@ export default {
 
   /**
    * Continuous byte string to binary byte
+   * 单元测试可参看以下:
+   * 标准笑脸输入: "000000000000000000010000001000000100000000100000000100100000001
+   *           00000001000010010001000000100000000100000000100000000000000000000"
+   * 最终发送协议: [255, 85, 23, 0, 2, 41, 1, 2, 0, 0, 0, 0, 16, 32, 64, 32, 18, 2, 2, 18, 32, 64, 32, 16, 0, 0]
    * @param  {String} byteStrs
-   * @return {Array}        
+   * @return {Array}
    */
-  byteString2binaryByte(byteStrs) {
+  emotionByteString2binaryByte(byteStrs) {
     let byteResult = [];
     let len = byteStrs.length + 1;
     for (let i = 1; i < len; i++) {
