@@ -9,7 +9,7 @@ class LedMatrixChar extends BaseLedMatrix {
     super(port);
     Object.assign(this.args, {
       x: 0,
-      y: 0,
+      y: 7,  //默认将字体垂直居中，输入的 y 值时将在 y=7 上做偏移
       char: ''
     });
   }
@@ -30,7 +30,7 @@ class LedMatrixChar extends BaseLedMatrix {
    * @return {Instance}     @this
    */
   y(y){
-    this.args.y = validateNumber(Math.floor(y), this.args.y);
+    this.args.y = validateNumber(Math.floor(y) + 7, this.args.y);
     return this;
   }
 

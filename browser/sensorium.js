@@ -8605,7 +8605,7 @@ var LedMatrixChar = function (_BaseLedMatrix) {
 
     (0, _assign2.default)(_this.args, {
       x: 0,
-      y: 0,
+      y: 7, //默认将字体垂直居中，输入的 y 值时将在 y=7 上做偏移
       char: ''
     });
     return _this;
@@ -8634,7 +8634,7 @@ var LedMatrixChar = function (_BaseLedMatrix) {
   }, {
     key: 'y',
     value: function y(_y) {
-      this.args.y = (0, _validate.validateNumber)(Math.floor(_y), this.args.y);
+      this.args.y = (0, _validate.validateNumber)(Math.floor(_y) + 7, this.args.y);
       return this;
     }
 
