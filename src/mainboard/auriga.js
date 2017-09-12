@@ -1,7 +1,7 @@
 import Board from '../core/Board';
 import electronics from '../electronic/index';
 import Mode from './firmware/mode';
-import { SUPPORTLIST } from './settings';
+import { SUPPORTLIST } from '../settings';
 //支持位置
 const SUPPORT_INDEX = SUPPORTLIST.indexOf('Auriga');
 
@@ -21,7 +21,7 @@ class Auriga extends Board{
     this.name = 'Auriga';
     //@member {Number} {current mode}
     this.currentMode = null;
-    // @member {Object} modules is connecting to the mainboard 
+    // @member {Object} modules is connecting to the mainboard
     // @override
     this.connecting = {};
     // 挂载电子模块

@@ -1,7 +1,7 @@
 import { validateNumber } from '../core/validate';
 import BaseLight from './BaseLight';
 import { warnNotSupport } from '../core/validate';
-import { SUPPORTLIST } from '../mainboard/settings';
+import { SUPPORTLIST } from '../settings';
 
 /**
  * LightOnBoard sensor module

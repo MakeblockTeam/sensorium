@@ -1,7 +1,7 @@
 import Board from '../core/Board';
 import electronics from '../electronic/index';
 import Mode from './firmware/mode';
-import {SUPPORTLIST} from './settings';
+import {SUPPORTLIST} from '../settings';
 //支持位置
 const SUPPORT_INDEX = SUPPORTLIST.indexOf('MegaPiPro');
 
@@ -50,7 +50,7 @@ class MegaPiPro extends Board{
   //TODO: 数据缓存
   async getFirmwareMode(){
     let subCmd = 0x72;
-    return await Mode.getMode(subCmd);    
+    return await Mode.getMode(subCmd);
   }
 }
 

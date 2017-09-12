@@ -1,4 +1,4 @@
-import { SUPPORTLIST } from '../mainboard/settings';
+import { SUPPORTLIST } from '../settings';
 
 function validateType(type) {
   return function(param, defaultValue) {
@@ -82,7 +82,7 @@ function warnParamNotDateFormat(timeStr) {
   if(reg.test(timeStr)){
     let timeArr = timeStr.split(/:|\s/);
     let separator = timeStr.replace(/\d/g, '');
-    timeArr.splice(1, 0, separator); 
+    timeArr.splice(1, 0, separator);
     return timeArr;
   }else{
     console.warn(`Param ${timeStr} should be 'HH:MM' or 'HH MM' or 'H:M'}`);

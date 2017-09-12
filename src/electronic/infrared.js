@@ -3,7 +3,7 @@ import Utils from '../core/utils';
 import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
 import Control from '../communicate/control';
-import { SUPPORTLIST } from '../mainboard/settings';
+import { SUPPORTLIST } from '../settings';
 let MCORE_NAME = SUPPORTLIST[0].toLowerCase();
 /**
  * Infrared sensor module

@@ -1,6 +1,6 @@
 import BaseRgbLed from './BaseRgbLed';
 import { warnNotSupport } from '../core/validate';
-import { SUPPORTLIST } from '../mainboard/settings';
+import { SUPPORTLIST } from '../settings';
 
 /**
  * RgbLedOnBoard sensor module

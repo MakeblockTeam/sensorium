@@ -1,7 +1,7 @@
 import Utils from '../../core/utils';
 import protocolAssembler from '../../protocol/cmd';
 import Control from '../../communicate/control';
-import { FIRM_MODES } from '../settings';
+import { FIRM_MODES } from '../../settings';
 
 class Mode {
   constructor() {

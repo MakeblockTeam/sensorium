@@ -6,7 +6,7 @@
 import Transport from './communicate/transport';
 import Control from './communicate/control';
 import Version from './electronic/version';
-import { SUPPORTLIST, FIRMWARE_ID } from './mainboard/settings';
+import { SUPPORTLIST, FIRMWARE_ID } from './settings';
 import Mcore from './mainboard/mcore';
 import Orion from './mainboard/orion';
 import Auriga from './mainboard/auriga';

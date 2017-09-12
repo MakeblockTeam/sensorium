@@ -13,14 +13,15 @@ class StepperMotor extends BaseMotor {
   constructor(port) {
     super(port);
     Object.assign(this.args, {
-      distance: 0
+      distance: 0,
+      direction: 1
     })
   }
 
   /**
    * set distance
    * @param  {Number} speed
-   * @return {Object} the instance
+   * @return {Instance} @this
    */
   distance(distance){
     this.args.distance = validateNumber(distance, 0);
@@ -28,8 +29,21 @@ class StepperMotor extends BaseMotor {
   }
 
   /**
+   * set direction of stepper motor rotate
+   * @param  {Number} type  type is 1 or -1. 1 means rotate clockwise, and -1 means anticlockwise
+   * @return {Instance} @this
+   */
+  direction(type) {
+    if(type !== -1){
+      type = 1;
+    }
+    this.args.direction = type;
+    return this;
+  }
+
+  /**
    * run reversely
-   * @return {Object} the instance
+   * @return {Instance} @this
    */
   reverse() {
     this.speed(-1 * this.args.distance);
@@ -40,7 +54,7 @@ class StepperMotor extends BaseMotor {
    * run
    */
   run() {
-    let buf = Utils.composer(protocolAssembler.setStepperMotor, [this.args.port, this.args.speed, this.args.distance]);
+    let buf = Utils.composer(protocolAssembler.setStepperMotor, [this.args.port, this.args.speed, this.args.distance * this.args.direction]);
     Control.write(buf);
     return this;
   }

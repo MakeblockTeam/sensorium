@@ -8,7 +8,7 @@ import PIDForDoubleMotor from './encoder_motor_on_board_pid_for_doubleMotor';
 
 import protocolAssembler from '../protocol/cmd';
 import Control from '../communicate/control';
-import { SUPPORTLIST } from '../mainboard/settings';
+import { SUPPORTLIST } from '../settings';
 
 let auriga = SUPPORTLIST[1].toLowerCase();
 let megapipro = SUPPORTLIST[5].toLowerCase();

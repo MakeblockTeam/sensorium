@@ -5,7 +5,7 @@ import {
 import Utils from '../core/utils';
 import protocolAssembler from '../protocol/cmd';
 import Control from '../communicate/control';
-import { MOVE_DIRECTION } from '../mainboard/settings';
+import { MOVE_DIRECTION } from '../settings';
 
 class PIDForDoubleMotor {
   constructor() {

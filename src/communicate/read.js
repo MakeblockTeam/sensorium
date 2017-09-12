@@ -2,7 +2,7 @@
  * @fileOverview Read 对象，所有'读'请求的处理器
  * @author Jeremy
  */
-import { OVERTIME, AUTO_OVERTIME } from '../mainboard/settings';
+import { OVERTIME, AUTO_OVERTIME } from '../settings';
 
 //最大记录数
 const MAX_RECORD = 256;

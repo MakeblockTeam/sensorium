@@ -1,6 +1,6 @@
 import Board from '../core/Board';
 import electronics from '../electronic/index';
-import {SUPPORTLIST} from './settings';
+import {SUPPORTLIST} from '../settings';
 //支持位置
 const SUPPORT_INDEX = SUPPORTLIST.indexOf('Mcore');
 
