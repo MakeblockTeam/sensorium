@@ -2631,7 +2631,7 @@ var BaseLedMatrix = function (_Electronic) {
     key: 'clear',
     value: function clear() {
       var type = 0x02;
-      var byteResult = _utils2.default.byteString2binaryByte('0'.repeat(128));
+      var byteResult = _utils2.default.emotionByteString2binaryByte('0'.repeat(128));
       var bufArray = [this.args.port, type, 0, 0].concat(byteResult);
       write(bufArray);
       return this;

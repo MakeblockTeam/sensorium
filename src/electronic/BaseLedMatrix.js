@@ -32,7 +32,7 @@ class BaseLedMatrix extends Electronic {
    */
   clear() {
     let type = 0x02;
-    let byteResult = Utils.byteString2binaryByte('0'.repeat(128));
+    let byteResult = Utils.emotionByteString2binaryByte('0'.repeat(128));
     let bufArray = [this.args.port, type, 0, 0].concat(byteResult);
     write(bufArray);
     return this;
