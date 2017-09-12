@@ -3,16 +3,16 @@
  * @version 0.2.2
  * @author Jeremy
  */
-import Transport from '../communicate/transport';
-import Control from '../communicate/control';
-import Version from '../electronic/version';
-import { SUPPORTLIST, FIRMWARE_ID } from './settings';
-import Mcore from './mcore';
-import Orion from './orion';
-import Auriga from './auriga';
-import MegaPi from './megaPi';
-import MegaPiPro from './megaPiPro';
-import Arduino from './arduino';
+import Transport from './communicate/transport';
+import Control from './communicate/control';
+import Version from './electronic/version';
+import { SUPPORTLIST, FIRMWARE_ID } from './mainboard/settings';
+import Mcore from './mainboard/mcore';
+import Orion from './mainboard/orion';
+import Auriga from './mainboard/auriga';
+import MegaPi from './mainboard/megaPi';
+import MegaPiPro from './mainboard/megaPiPro';
+import Arduino from './mainboard/arduino';
 
 //@private
 const boards = {
@@ -142,6 +142,3 @@ class Sensorium {
 
 //webpack umd
 module.exports = Sensorium;
-
-
-
