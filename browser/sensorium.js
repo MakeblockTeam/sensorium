@@ -756,18 +756,18 @@ function protocolAssembler() {
    * set encoder motor.
    * @private
    * @param  {Number} index [description]
-   * @param  {Number} port  vailable: 1,2,3,4
    * @param  {Number} slot  vailable: 1，2
    * @param  {Number} speed  0 ~ 300, 单位：rpm（每分钟转多少圈）
    * @param  {Float} angle  相对位移, -2147483648 ~ 2147483647
    * @example
    * ff 55 0b 00 02 0c 08 01 96 00 00 00 34 44
    */
-  this.setEncoderMotor = function (port, slot, speed, angle) {
-    port = port || 0x08; //I2C地址，目前无意义(软件稳定后可能会重新设计)，用来占位
+  this.setEncoderMotor = function (slot, speed, angle) {
+    // 编码电机的协议中不使用 port
+    var i2c = 0x08; //I2C地址，目前无意义(软件稳定后可能会重新设计)，用来占位
     speed = _utils2.default.limitValue(speed, [0, 300]);
     var byte4Array = _utils2.default.float32ToBytes(angle);
-    return bufAssembler.apply(undefined, [{ mode: 0x02, id: 0x0c }, port, slot, speed & 0xff, speed >> 8 & 0xff].concat((0, _toConsumableArray3.default)(byte4Array)));
+    return bufAssembler.apply(undefined, [{ mode: 0x02, id: 0x0c }, i2c, slot, speed & 0xff, speed >> 8 & 0xff].concat((0, _toConsumableArray3.default)(byte4Array)));
   };
 
   /**
@@ -4258,7 +4258,7 @@ var BaseEncoderMotor = function (_BaseMotor) {
       if (this.args.port == 0) {
         buf = _utils2.default.composer(_cmd2.default.setEncoderMotorOnBoard, [this.args.slot, this.args.speed]);
       } else {
-        buf = _utils2.default.composer(_cmd2.default.setEncoderMotor, [this.args.port, this.args.slot, this.args.speed, this.args.angle]);
+        buf = _utils2.default.composer(_cmd2.default.setEncoderMotor, [this.args.slot, this.args.speed, this.args.angle]);
       }
       _control2.default.write(buf);
       return this;
@@ -8312,6 +8312,9 @@ var RgbLed = function (_BaseRgbLed) {
     (0, _classCallCheck3.default)(this, RgbLed);
     return (0, _possibleConstructorReturn3.default)(this, (RgbLed.__proto__ || (0, _getPrototypeOf2.default)(RgbLed)).call(this, port, slot));
   }
+
+  // orion 不能 port8 slot1和port7 slot1不能用于灯条
+
 
   (0, _createClass3.default)(RgbLed, null, [{
     key: 'supportStamp',

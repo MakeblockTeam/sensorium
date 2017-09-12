@@ -67,20 +67,20 @@ function protocolAssembler() {
    * set encoder motor.
    * @private
    * @param  {Number} index [description]
-   * @param  {Number} port  vailable: 1,2,3,4
    * @param  {Number} slot  vailable: 1，2
    * @param  {Number} speed  0 ~ 300, 单位：rpm（每分钟转多少圈）
    * @param  {Float} angle  相对位移, -2147483648 ~ 2147483647
    * @example
    * ff 55 0b 00 02 0c 08 01 96 00 00 00 34 44
    */
-  this.setEncoderMotor = function(port, slot, speed, angle) {
-    port = port || 0x08; //I2C地址，目前无意义(软件稳定后可能会重新设计)，用来占位
+  this.setEncoderMotor = function(slot, speed, angle) {
+    // 编码电机的协议中不使用 port
+    let i2c = 0x08; //I2C地址，目前无意义(软件稳定后可能会重新设计)，用来占位
     speed = Utils.limitValue(speed, [0, 300]);
     let byte4Array = Utils.float32ToBytes(angle);
     return bufAssembler(
       {mode: 0x02, id: 0x0c},
-      port,
+      i2c,
       slot,
       speed & 0xff,
       (speed >> 8) & 0xff,

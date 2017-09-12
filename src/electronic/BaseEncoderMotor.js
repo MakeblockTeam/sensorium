@@ -42,7 +42,7 @@ class BaseEncoderMotor extends BaseMotor {
     if(this.args.port == 0){
       buf = Utils.composer(protocolAssembler.setEncoderMotorOnBoard, [this.args.slot, this.args.speed]);
     }else{
-      buf = Utils.composer(protocolAssembler.setEncoderMotor, [this.args.port, this.args.slot, this.args.speed, this.args.angle]);
+      buf = Utils.composer(protocolAssembler.setEncoderMotor, [this.args.slot, this.args.speed, this.args.angle]);
     }
     Control.write(buf);
     return this;
