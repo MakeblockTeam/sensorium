@@ -1,4 +1,9 @@
 # Changelog
+## [0.2.7] - 2017-09-12
+### Changed
+-  优化文件结构
+-  完善接口文档 （npm run jsdoc 查看文档）
+
 ## [0.2.6] - 2017-08-29
 ### Changed
 -  sensorium 实例调用 setSender 设置传输方法
