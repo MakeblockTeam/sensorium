@@ -101,7 +101,6 @@ describe('sendDataTest:', function () {
         let sendOrder = eval(d.caseSummary[1]); //相应的接口发送的实际指令
         let getSensorValue = d.caseSummary[2]; //相应的获取传感器值接口
         let presetOrder = d.caseSummary[3]; //对应的预设值
-
         for (let i = 0; i < 255; i++) {
           let currentArrayCmd = captureReadBuf(sendOrder[getSensorValue].bind(sendOrder));
           console.log('实际发送指令 : ', currentArrayCmd)
@@ -110,6 +109,7 @@ describe('sendDataTest:', function () {
         }
         done();
       }
+      
     });
   });
 });

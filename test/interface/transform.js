@@ -21,8 +21,16 @@ function Transform() {
 }
 
 //解析数据时对每条XML做自定义处理
-function revertquote(value) {
-  var outputName = value.replace(/&#39;/g, "'");
+function revertquote(value, summary) {
+  var outputName = value;
+  if (summary === "summary") {
+    outputName = value.replace(/&#39;/g, "'");
+    outputName = outputName.replace(/\n/g, "");
+    outputName = outputName.replace(/\t/g, "");
+    outputName = outputName.replace(/\r/g, "");
+    outputName = outputName.replace(/<p>/g, "");
+
+  }
   return outputName;
 }
 
@@ -32,20 +40,26 @@ Transform.transformData = function () { //callback
     //之后将要提取的数据（仅有名字和摘要字段）暂存在extractedXml_s,extractedXml_g
     var extractedXml_s = [];
     var extractedXml_g = [];
-    console.log("data: ",data)
+    console.log("data: ", data)
+
     //result是解析后的数据，是一个json对象。从json对象中读取需要的字段：用例名t_case和摘要（包括方法以及预期值）
     parser.parseString(data, function (err, result) { //解析并提取
       //自定义一个方法loopThrough：遍历result对象，将每层结构保存为相应的json格式，并将每一个用例名和摘要都保存在正确的位置；
-      console.log("result: ",result)
-      function loopThrough(result_s, caseDir) { //
+      console.log("result: ", result)
+      result_s = JSON.stringify(result);
+      fs.writeFile(__dirname + '/datatest.json', result_s, function (err) {
+        if (err) {
+          console.log("写入失败");
+          throw err;
+        }
+      });
+      function loopThrough(result_s, caseDir) {
         if (result_s.testsuite) {
           //遍历每个用例集
-          var caseDir_w = ceseDir;
+          var caseDir_w = caseDir;
           for (var suite in result_s.testsuite) {
-            // extractedXml_s[result_s.testsuite[suite].$.name] = {};
             caseDir_w = caseDir + "/" + result_s.testsuite[suite].$.name;
-            // console.log(strDir_w);
-            loopThrough(result_s.testsuite[suite], caseDir_w); //extractedXml_s[result_s.testsuite[suite].$.name]
+            loopThrough(result_s.testsuite[suite], caseDir_w);
           }
         }
 
@@ -57,7 +71,6 @@ Transform.transformData = function () { //callback
 
             var _case_ = result_s.testcase[t_case];
             var summaryToStr = JSON.stringify(_case_.summary); //现将摘要转为字符
-            // console.log(summaryToStr);
             if (summaryToStr == "[\"\"]") {
               //并非接口测试用例；
             } else {
@@ -70,10 +83,10 @@ Transform.transformData = function () { //callback
                 let summaryToSub = summaryToStr.substring(summaryToStr.indexOf("single-setCmd:"), summaryToStr.indexOf("</p>")); //将摘要中前后多余的<p>\r\n\t等字符除去 
                 console.log(summaryToStr);
                 extractedXml_sendData.caseSummary = summaryToSub.split("`"); //提取用例摘要
-                
-                if(extractedXml_getData === null) {
+
+                if (extractedXml_getData === null) {
                   continue;
-                }else {
+                } else {
                   extractedXml_s.push(extractedXml_sendData);
                 }
                 interfaceCaseNumber++;
@@ -87,9 +100,9 @@ Transform.transformData = function () { //callback
                 let summaryToSub = summaryToStr.substring(9, summaryToStr.length - 8); //将摘要中前后多余的<p>\r\n\t等字符除去 
                 console.log(summaryToStr);
                 extractedXml_getData.caseSummary = summaryToSub.split("`"); //提取用例摘要
-                if(extractedXml_getData == null) {
+                if (extractedXml_getData == null) {
                   continue;
-                }else {
+                } else {
                   extractedXml_s.push(extractedXml_getData);
                   extractedXml_g.push(extractedXml_getData);
                 }
@@ -107,26 +120,29 @@ Transform.transformData = function () { //callback
       }
 
       //调用
-      if (result.testsuite) { //如果对象不为空
-        var rootDir = result.testsuite;
-        // extractedXml[rootDir.$.name] = {};
-        var ceseDir = rootDir.$.name;
+      if (result.testsuite) { //如果对象是一个目录（存在目录）
+        let rootDir = result.testsuite;
+        let ceseDir = rootDir.$.name;
         loopThrough(rootDir, ceseDir);
+      } else {           //如果对象是一个用例（不存在目录）
+        if (result.testcases) {
+          let rootDir = result.testcases;
+          let ceseDir = "根目录";
+          loopThrough(rootDir, ceseDir);
+        }
       }
     });
 
     //为提取的内容添加“头和尾巴”转换为可用数据
     writeData_s = "{ " + "\"drivenData\" :" + JSON.stringify(extractedXml_s) + "}";
     writeData_g = "{ " + "\"drivenData\" :" + JSON.stringify(extractedXml_g) + "}";
-    // drivenResult = writeData;
-    // callback(drivenResult);
     //将需要的完整的数据写入文件availableData.js
     fs.writeFile(__dirname + '/availableSendData.json', writeData_s, function (err) {
       if (err) {
         console.log("用例提取失败！！！");
         throw err;
       }
-      console.log("本次针对原始数据：./rawData.xml进行的用例提取全部完成，共筛选用例： " + interfaceCaseNumber + "个\n");
+      console.log("\n\n【./rawData.xml中的原始用例共有： " + interfaceCaseNumber + "个】\n");
       console.log("    --->其中提取的与发送指令（包括设置和读）相关的有效用例总数 ： " + sendDataCaseNumber + " 个\n");
     });
     fs.writeFile(__dirname + '/availableGetData.json', writeData_g, function (err) {
@@ -140,6 +156,6 @@ Transform.transformData = function () { //callback
   });
 }
 
-Transform.transformData(); //function(res) {console.log(res);}
+Transform.transformData();
 
 module.exports = Transform;
