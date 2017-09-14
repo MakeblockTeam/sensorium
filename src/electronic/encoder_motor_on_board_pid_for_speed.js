@@ -22,9 +22,15 @@ class PIDForSpeed {
     return this;
   }
 
+  /**
+   * 获取协议
+   */
+  protocol() {
+    return Utils.composer(protocolAssembler.setEncoderMotorPIDSpeed, [this.args.speed]);
+  }
+
   run() {
-    let buf = Utils.composer(protocolAssembler.setEncoderMotorPIDSpeed, [this.args.speed]);
-    Control.write(buf);
+    Control.write(this.protocol());
     return this;
   }
 }

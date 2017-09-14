@@ -32,7 +32,33 @@ class SmartServo extends Electronic {
     this.args = {
       index: index,
       subCmd: null,
-      speed: 0
+      speed: 0,
+      angle: null
+    }
+    this.extraCmd = null;
+  }
+
+  /**
+   * 获取协议
+   */
+  protocol() {
+    if (this.args.subCmd < 4 || this.args.subCmd === 7 || this.args.subCmd === 8) {
+      let baseCmd = [this.args.index, this.args.subCmd];
+      if (Array.isArray(this.extraCmd)) {
+        baseCmd.push(this.extraCmd);
+      } else {
+        baseCmd.push(this.extraCmd !== null ? [this.extraCmd] : []);
+      }
+      this.extraCmd = null;
+      return Utils.composer(protocolAssembler.setSmartServo, baseCmd);
+    } else if (this.args.subCmd === 4) {
+      return Utils.composer(protocolAssembler.setSmartServoForAbsoluteAngle, [this.args.index, this.args.subCmd, this.args.angle, this.args.speed]);
+    } else if (this.args.subCmd === 5) {
+      return Utils.composer(protocolAssembler.setSmartServoForRelativeAngle, [this.args.index, this.args.subCmd, this.args.angle, this.args.speed]);
+    } else if (this.args.subCmd === 6) {
+      return Utils.composer(protocolAssembler.setSmartServoForDcMotor, [this.args.index, this.args.subCmd, this.args.speed]);
+    } else {
+      return Utils.composer(protocolAssembler.readSmartServoParam, [this.args.index, this.args.subCmd]);
     }
   }
 
@@ -41,9 +67,9 @@ class SmartServo extends Electronic {
    * @return {[type]} [description]
    */
   lock(){
-    let extraCmd = 0x00;
+    this.isReadMode = false;
+    this.extraCmd = 0x00;
     this.args.subCmd = 0x01;
-    write(this.args, extraCmd);
     return this;
   }
   /**
@@ -51,9 +77,9 @@ class SmartServo extends Electronic {
    * @return {[type]} [description]
    */
   unclock(){
-    let extraCmd = 0x01;
+    this.isReadMode = false;
+    this.extraCmd = 0x01;
     this.args.subCmd = 0x01;
-    write(this.args, extraCmd);
     return this;
   }
 
@@ -61,17 +87,9 @@ class SmartServo extends Electronic {
    * set led color of the smart servo
    * @param {String|Array} hex_rgb #ff0064 or [255, 00, 100]
    */
-  setLedColor(hex_rgb){
-    let extraCmd;
-    if(typeof rgb === 'string'){
-      extraCmd = Utils.hexToRgb(hex_rgb);
-    }else if(Array.isArray(hex_rgb)){
-      extraCmd = hex_rgb;
-    }else{
-      extraCmd = [255, 0, 0];
-    }
+  ledColor(hex_rgb = [255, 0, 0]){
+    this.extraCmd = Array.isArray(hex_rgb) ? hex_rgb : Utils.hexToRgb(hex_rgb);
     this.args.subCmd = 0x02;
-    write(this.args, extraCmd);
     return this;
   }
 
@@ -80,7 +98,6 @@ class SmartServo extends Electronic {
    */
   handshake(){
     this.args.subCmd = 0x03;
-    write(this.args);
     return this;
   }
 
@@ -96,24 +113,18 @@ class SmartServo extends Electronic {
    * Move to the absolute angle
    * @param  {Number} angle the absolute angle
    */
-  runToAbsoluteAngle(angle){
+  absoluteAngle(angle){
     this.args.subCmd = 0x04;
-    angle = validateNumber(angle, 0);
-    let cmd = [this.args.index, this.args.subCmd, angle, this.args.speed];
-    let buf = Utils.composer(protocolAssembler.setSmartServoForAbsoluteAngle, cmd);
-    Control.write(buf);
+    this.angle = validateNumber(angle, 0);
     return this;
   }
   /**
    * Move to the relative angle
    * @param  {Number} angle the relative angle
    */
-  runToRelativeAngle(angle){
+  relativeAngle(angle){
     this.args.subCmd = 0x05;
-    angle = validateNumber(angle, 0);
-    let cmd = [this.args.index, this.args.subCmd, angle, this.args.speed];
-    let buf = Utils.composer(protocolAssembler.setSmartServoForRelativeAngle, cmd);
-    Control.write(buf);
+    this.angle = validateNumber(angle, 0);
     return this;
   }
   /**
@@ -125,9 +136,6 @@ class SmartServo extends Electronic {
     //限制速度 -255~255
     this.args.speed = Utils.limitValue(speed);
     this.args.subCmd = 0x06;
-    let cmd = [this.args.index, this.args.subCmd, this.args.speed];
-    let buf = Utils.composer(protocolAssembler.setSmartServoForDcMotor, cmd);
-    Control.write(buf);
     return this;
   }
 
@@ -136,7 +144,6 @@ class SmartServo extends Electronic {
    */
   setZeroPoint(){
     this.args.subCmd = 0x07;
-    write(this.args);
     return this;
   }
 
@@ -146,52 +153,55 @@ class SmartServo extends Electronic {
    */
   backToStart(){
     this.args.subCmd = 0x08;
-    write(this.args);
     return this;
   }
 
   /**
    * 读速度
-   * @return {Promise}
    */
-  async readSpeed(){
+  readSpeed(){
     this.args.subCmd = 0x09;
-    return await read(this.args);
+    return this;
   }
   /**
    * 读温度
-   * @return {Promise}
    */
-  async readTemperature(){
+  readTemperature(){
     this.args.subCmd = 0x0a;
-    return await read(this.args);
+    return this;
   }
 
   /**
    * 读电流
-   * @return {Promise}
    */
-  async readCurrent(){
+  readCurrent(){
     this.args.subCmd = 0x0b;
-    return await read(this.args);
+    return this;
   }
 
   /**
    * 读电压
-   * @return {Promise}
    */
-  async readVoltage(){
+  readVoltage(){
     this.args.subCmd = 0x0c;
-    return await read(this.args);
+    return this;
   }
 
   /**
    * 读角度
-   * @return {Promise}
    */
-  async readAngle(){
+  readAngle(){
     this.args.subCmd = 0x0d;
-    return await read(this.args);
+    return this;
+  }
+
+  run () {
+    Control.write(this.protocol());
+    return this;
+  }
+
+  async getData () {
+    return await Control.read(this.protocol());
   }
 
   static supportStamp(){

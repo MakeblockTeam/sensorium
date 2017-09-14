@@ -13,12 +13,18 @@ class Reset extends Electronic {
   }
 
   /**
+   * 获取协议
+   */
+  protocol() {
+    return Utils.composer(protocolAssembler.reset);
+  }
+
+  /**
    * reset
    * @return {Promise}
    */
   async reset() {
-    let buf = Utils.composer(protocolAssembler.reset);
-    return await Control.read(buf);
+    return await Control.read(this.protocol());
   }
 
   static supportStamp(){

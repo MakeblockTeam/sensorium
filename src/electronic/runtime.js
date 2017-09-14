@@ -11,13 +11,20 @@ class Runtime extends Electronic {
   constructor() {
     super();
   }
+
+  /**
+   * 获取协议
+   */
+  protocol() {
+    return Utils.composer(protocolAssembler.readRuntime);
+  }
+
   /**
    * Get data of Runtime sensor
    * @return {Promise}
    */
   async getData() {
-    let buf = Utils.composer(protocolAssembler.readRuntime);
-    return await Control.read(buf);
+    return await Control.read(this.protocol());
   }
 
   static supportStamp(){

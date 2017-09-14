@@ -16,13 +16,16 @@ class Ultrasonic extends Electronic {
     };
   }
 
+  protocol () {
+    return Utils.composer(protocolAssembler.readUltrasonic, [this.args.port]);
+  }
+
   /**
    * Get data of Ultrasonic sensor
    * @return {Promise}
    */
   async getData() {
-    let buf = Utils.composer(protocolAssembler.readUltrasonic, [this.args.port]);
-    return await Control.read(buf);
+    return await Control.read(this.protocol());
   }
 
   static supportStamp(){

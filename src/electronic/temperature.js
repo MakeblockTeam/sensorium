@@ -17,13 +17,16 @@ class Temperature extends Electronic {
     };
   }
 
+  protocol () {
+    return Utils.composer(protocolAssembler.readTemperature, [this.args.port, this.args.slot]);
+  }
+
   /**
    * Get data of Temperature sensor
    * @return {Promise}
    */
   async getData() {
-    let buf = Utils.composer(protocolAssembler.readTemperature, [this.args.port, this.args.slot]);
-    return await Control.read(buf);
+    return await Control.read(this.protocol());
   }
 
   static supportStamp(){

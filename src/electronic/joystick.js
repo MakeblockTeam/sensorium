@@ -21,13 +21,20 @@ class Joystick extends Electronic {
     this.args.axis = validateNumber(axis, this.args.axis);
     return this;
   }
+
+  /**
+   * 获取协议
+   */
+  protocol() {
+    return Utils.composer(protocolAssembler.readJoystick, [this.args.port, this.args.axis]);
+  }
+
   /**
    * Get data of Joystick sensor
    * @return {Promise}
    */
   async getData() {
-    let buf = Utils.composer(protocolAssembler.readJoystick, [this.args.port, this.args.axis]);
-    return await Control.read(buf);
+    return await Control.read(this.protocol());
   }
 
   static supportStamp(){

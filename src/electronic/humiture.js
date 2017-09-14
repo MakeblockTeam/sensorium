@@ -4,11 +4,6 @@ import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
 import Control from '../communicate/control';
 
-let commandRead = async function(args){
-  let buf = Utils.composer(protocolAssembler.readHumiture, [args.port, args.type]);
-  return await Control.read(buf);
-}
-
 /**
  * Humiture sensor module
  * @extends Electronic
@@ -27,14 +22,15 @@ class Humiture extends Electronic {
    * @return {Promise}
    * @example
    * mcore.Humiture(1)
-   *      .getHumidity()
-   *        .then((val) => {
-   *          console.log(val)
-   *        });
+   *      .readHumidity()
+   *        .getData()
+   *         .then((val) => {
+   *           console.log(val)
+   *         });
    */
-  async getHumidity(){
+  readHumidity(){
     this.args.type = 0;
-    return await commandRead(this.args);
+    return this;
   }
 
   /**
@@ -42,14 +38,26 @@ class Humiture extends Electronic {
    * @return {Promise}
    * @example
    * mcore.Humiture(1)
-   *      .getTemperature()
+   *      .readTemperature()
+   *       .getData()
    *        .then((val) => {
    *          console.log(val)
    *        });
    */
-  async getTemperature(){
+  readTemperature(){
     this.args.type = 1;
-    return await commandRead(this.args);
+    return this;
+  }
+
+  /**
+   * 获取协议
+   */
+  protocol() {
+    return Utils.composer(protocolAssembler.readHumiture, [this.args.port, this.args.type]);
+  }
+
+  async getData() {
+    return await Control.read(this.protocol());
   }
 
   static supportStamp(){

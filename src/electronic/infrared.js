@@ -20,11 +20,11 @@ class Infrared extends Electronic {
     //宿主
     this.hostname = host.toLowerCase();
   }
+
   /**
-   * Get data of Infrared sensor
-   * @return {Promise}
+   * 获取协议
    */
-  async getData() {
+  protocol() {
     let deviceId, aKey;
     //如果是 mcore，外接的红外传感器 id = 0x0e
     //如果非 mcore，外接的红外传感器 id = 0x10
@@ -38,8 +38,15 @@ class Infrared extends Electronic {
     }
     let argsArr = [deviceId, this.args.port];
     aKey ? argsArr.push(aKey) : null;
-    let buf = Utils.composer(protocolAssembler.readInfrared, argsArr);
-    return await Control.read(buf);
+    return Utils.composer(protocolAssembler.readInfrared, argsArr);
+  }
+
+  /**
+   * Get data of Infrared sensor
+   * @return {Promise}
+   */
+  async getData() {
+    return await Control.read(this.protocol());
   }
 
   static supportStamp(){

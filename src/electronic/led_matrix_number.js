@@ -9,7 +9,8 @@ class LedMatrixNumber extends BaseLedMatrix {
   constructor(port) {
     super(port);
     Object.assign(this.args, {
-      number: 0
+      number: 0,
+      type: BaseLedMatrix.NUMBER_TYPE()
     });
   }
 
@@ -28,13 +29,6 @@ class LedMatrixNumber extends BaseLedMatrix {
    */
   content(number) {
     return this.number(number);
-  }
-
-  run(){
-    let type = 0x04;
-    let bufArray = [this.args.port, type, ...Utils.float32ToBytes(this.args.number)];
-    super.run(bufArray);
-    return this;
   }
 }
 

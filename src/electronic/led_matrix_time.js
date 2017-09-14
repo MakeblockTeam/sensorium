@@ -11,7 +11,8 @@ class LedMatrixTime extends BaseLedMatrix {
     Object.assign(this.args, {
       separator: 0x01,
       hour: 0,
-      minute: 0
+      minute: 0,
+      type: BaseLedMatrix.TIME_TYPE()
     });
   }
 
@@ -56,16 +57,6 @@ class LedMatrixTime extends BaseLedMatrix {
     this.separator(timeArr[1]);
     this.hour(Number(timeArr[0]));
     this.minute(Number(timeArr[2]));
-    return this;
-  }
-
-  /**
-   * run
-   */
-  run(){
-    let type = 0x03;
-    let bufArray = [this.args.port, type, this.args.separator, this.args.hour, this.args.minute];
-    super.run(bufArray);
     return this;
   }
 }

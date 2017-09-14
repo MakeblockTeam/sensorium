@@ -22,15 +22,22 @@ class InfraredOnBoard extends Electronic {
     super();
     this.deviceId = 0x0e;
   }
+
+  /**
+   * 获取协议
+   */
+  protocol() {
+    let port = 0x00;
+    let aKey = 0x45;
+    return Utils.composer(protocolAssembler.readInfrared, [this.deviceId, port, aKey]);
+  }
+
   /**
    * Get data of Infrared sensor
    * @return {Promise}
    */
   async getData() {
-    let port = 0x00;
-    let aKey = 0x45;
-    let buf = Utils.composer(protocolAssembler.readInfrared, [this.deviceId, port, aKey]);
-    return await Control.read(buf);
+    return await Control.read(this.protocol());
   }
 
   static supportStamp(){

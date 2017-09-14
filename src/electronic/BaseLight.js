@@ -20,13 +20,16 @@ class BaseLight extends Electronic {
     };
   }
 
+  protocol () {
+    return Utils.composer(protocolAssembler.readLight, [this.args.port]);
+  }
+
   /**
    * Get data of the Light sensor
    * @return {Promise}
    */
   async getData() {
-    let buf = Utils.composer(protocolAssembler.readLight, [this.args.port]);
-    return await Control.read(buf);
+    return await Control.read(this.protocol());
   }
 }
 

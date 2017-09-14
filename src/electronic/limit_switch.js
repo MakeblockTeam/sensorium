@@ -15,13 +15,20 @@ class LimitSwitch extends Electronic {
       slot: validateNumber(slot)
     };
   }
+
+  /**
+   * 获取协议
+   */
+  protocol() {
+    return Utils.composer(protocolAssembler.readLimitSwitch, [this.args.port, this.args.slot]);
+  }
+
   /**
    * Get data of Joystick sensor
    * @return {Promise}
    */
   async getData() {
-    let buf = Utils.composer(protocolAssembler.readLimitSwitch, [this.args.port, this.args.slot]);
-    return await Control.read(buf);
+    return await Control.read(this.protocol());
   }
 
   static supportStamp(){

@@ -27,12 +27,18 @@ class SevenSegment extends Electronic {
   }
 
   /**
+   * 获取协议
+   */
+  protocol() {
+    return Utils.composer(protocolAssembler.setSevenSegment, [this.args.port, this.args.number]);
+  }
+
+  /**
    * run and show the number
    * @return {Instance}     @this
    */
   run() {
-    let buf = Utils.composer(protocolAssembler.setSevenSegment, [this.args.port, this.args.number]);
-    Control.write(buf);
+    Control.write(this.protocol());
     return this;
   }
 

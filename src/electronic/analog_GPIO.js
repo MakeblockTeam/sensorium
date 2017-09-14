@@ -20,12 +20,18 @@ class AnalogGPIO extends Electronic {
   }
 
   /**
+   * 获取协议
+   */
+  protocol() {
+    return Utils.composer(protocolAssembler.readAnalogGPIO, [this.args.port]);
+  }
+
+  /**
    * Get data of AnalogGPIO
    * @return {Promise}
    */
   async getData() {
-    let buf = Utils.composer(protocolAssembler.readAnalogGPIO, [this.args.port]);
-    return await Control.read(buf);
+    return await Control.read(this.protocol());
   }
 
   static supportStamp(){

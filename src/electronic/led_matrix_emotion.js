@@ -11,7 +11,8 @@ class LedMatrixEmotion extends BaseLedMatrix {
     Object.assign(this.args, {
       x: 0,
       y: 0,
-      emotion: 0
+      emotion: 0,
+      type: BaseLedMatrix.EMOTION_TYPE()
     });
   }
 
@@ -56,14 +57,6 @@ class LedMatrixEmotion extends BaseLedMatrix {
     this.x(coordinate[0]);
     this.y(coordinate[1]);
     return this.emotion(emotionStr);
-  }
-
-  run(){
-    let type = 0x02;
-    let byteResult = Utils.emotionByteString2binaryByte(this.args.emotion);
-    let bufArray = [this.args.port, type, this.args.x, this.args.y].concat(byteResult);
-    super.run(bufArray);
-    return this;
   }
 }
 

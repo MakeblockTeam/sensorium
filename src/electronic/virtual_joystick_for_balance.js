@@ -35,13 +35,16 @@ class VirtualJoystickForBalance extends Electronic {
     return this;
   }
 
+  protocol () {
+    return Utils.composer(protocolAssembler.setVirtualJoystickForBalance, [this.args.turnRange, this.args.speed]);
+  }
+
   /**
    * run with range and speed set before
    * @return {Instance} @this
    */
   run() {
-    let buf = Utils.composer(protocolAssembler.setVirtualJoystickForBalance, [this.args.turnRange, this.args.speed]);
-    Control.write(buf);
+    Control.write(this.protocol());
     return this;
   }
 

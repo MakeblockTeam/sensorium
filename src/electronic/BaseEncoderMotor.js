@@ -34,17 +34,24 @@ class BaseEncoderMotor extends BaseMotor {
   }
 
   /**
-   * EncoderMotor run
-   * @return {Object} the instance
+   * 获取协议
    */
-  run() {
+  protocol() {
     let buf;
     if(this.args.port == 0){
       buf = Utils.composer(protocolAssembler.setEncoderMotorOnBoard, [this.args.slot, this.args.speed]);
     }else{
       buf = Utils.composer(protocolAssembler.setEncoderMotor, [this.args.slot, this.args.speed, this.args.angle]);
     }
-    Control.write(buf);
+    return buf;
+  }
+
+  /**
+   * EncoderMotor run
+   * @return {Object} the instance
+   */
+  run() {
+    Control.write(this.protocol());
     return this;
   }
 

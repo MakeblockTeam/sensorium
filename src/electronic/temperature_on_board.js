@@ -12,13 +12,16 @@ class TemperatureOnBoard extends Electronic {
     super(0x0d);
   }
 
+  protocol () {
+    return Utils.composer(protocolAssembler.readTemperatureOnBoard);
+  }
+
   /**
    * Get data of TemperatureOnBoard sensor
    * @return {Promise}
    */
   async getData() {
-    let buf = Utils.composer(protocolAssembler.readTemperatureOnBoard);
-    return await Control.read(buf);
+    return await Control.read(this.protocol());
   }
 
   static supportStamp(){

@@ -32,12 +32,19 @@ class BaseGyro extends Electronic {
   }
 
   /**
+   * 获取协议
+   */
+  protocol() {
+    const buf = Utils.composer(protocolAssembler.readGyro, [this.args.port, this.args.axis]);
+    return buf;
+  }
+
+  /**
    * Get data of Gyro sensor
    * @return {Promise}
    */
   async getData() {
-    let buf = Utils.composer(protocolAssembler.readGyro, [this.args.port, this.args.axis]);
-    return await Control.read(buf);
+    return await Control.read(this.protocol());
   }
 }
 

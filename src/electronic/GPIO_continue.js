@@ -16,13 +16,20 @@ class GPIOContinue extends Electronic {
       key: validateNumber(key, 1)
     };
   }
+
+  /**
+   * 获取协议
+   */
+  protocol() {
+    return Utils.composer(protocolAssembler.readGPIOContinue, [this.args.port, this.args.key]);
+  }
+
   /**
    * Get data of GPIOContinue sensor
    * @return {Promise}
    */
   async getData() {
-    let buf = Utils.composer(protocolAssembler.readGPIOContinue, [this.args.port, this.args.key]);
-    return await Control.read(buf);
+    return await Control.read(this.protocol());
   }
 
   static supportStamp(){

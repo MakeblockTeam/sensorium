@@ -15,13 +15,20 @@ class Gas extends Electronic {
       port: validateNumber(port)
     };
   }
+
+  /**
+   * 获取协议
+   */
+  protocol() {
+    return Utils.composer(protocolAssembler.readGas, [this.args.port]);
+  }
+
   /**
    * Get data of Gas sensor
    * @return {Promise}
    */
   async getData() {
-    let buf = Utils.composer(protocolAssembler.readGas, [this.args.port]);
-    return await Control.read(buf);
+    return await Control.read(this.protocol());
   }
 
   static supportStamp(){

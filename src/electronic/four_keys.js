@@ -25,13 +25,20 @@ class FourKeys extends Electronic {
     this.args.key = validateNumber(index, this.args.key);
     return this;
   }
+
+  /**
+   * 获取协议
+   */
+  protocol() {
+    return Utils.composer(protocolAssembler.readFourKeys, [this.args.port, this.args.key]);
+  }
+
   /**
    * Get data of FourKeys sensor
    * @return {Promise}
    */
   async getData() {
-    let buf = Utils.composer(protocolAssembler.readFourKeys, [this.args.port, this.args.key]);
-    return await Control.read(buf);
+    return await Control.read(this.protocol());
   }
 
   static supportStamp(){

@@ -1472,7 +1472,7 @@ describe('【auriga_最新固件 协议测试】', function() {
         it(`发送读取板载slot ${slot} 上的速度的指令`, function() {
           let encoderMotorOnBoard = auriga.EncoderMotorOnBoard(slot);
           let targetCmd = dataman.auriga.read.encoderMotorOnBoard[i];
-          let currentCmd = captureReadBuf(encoderMotorOnBoard.getSpeed.bind(encoderMotorOnBoard));
+          let currentCmd = captureReadBuf(encoderMotorOnBoard.readSpeed().getData.bind(encoderMotorOnBoard));
           expect(currentCmd).to.equal(targetCmd);
         });
       }
@@ -1499,7 +1499,7 @@ describe('【auriga_最新固件 协议测试】', function() {
         it(`发送读取板载slot ${slot} 上的位置的指令`, function() {
           let encoderMotorOnBoard = auriga.EncoderMotorOnBoard(slot);
           let targetCmd = dataman.auriga.read.encoderMotorOnBoard[i+2];
-          let currentCmd = captureReadBuf(encoderMotorOnBoard.getAngle.bind(encoderMotorOnBoard));
+          let currentCmd = captureReadBuf(encoderMotorOnBoard.readAngle().getData.bind(encoderMotorOnBoard));
           expect(currentCmd).to.equal(targetCmd);
         });
       }

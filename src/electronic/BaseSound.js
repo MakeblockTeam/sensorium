@@ -22,12 +22,18 @@ class BaseSound extends Electronic {
   }
 
   /**
+   * 获取协议
+   */
+  protocol() {
+    return Utils.composer(protocolAssembler.readSound, [this.args.port]);
+  }
+
+  /**
    * Get data of Sound sensor
    * @return {Promise}
    */
   async getData() {
-    let buf = Utils.composer(protocolAssembler.readSound, [this.args.port]);
-    return await Control.read(buf);
+    return await Control.read(this.protocol());
   }
 }
 

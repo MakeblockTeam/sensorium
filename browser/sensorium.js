@@ -70,7 +70,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 89);
+/******/ 	return __webpack_require__(__webpack_require__.s = 88);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -555,7 +555,7 @@ var _parse = __webpack_require__(118);
 
 var _parse2 = _interopRequireDefault(_parse);
 
-var _transport = __webpack_require__(79);
+var _transport = __webpack_require__(78);
 
 var _transport2 = _interopRequireDefault(_transport);
 
@@ -1587,7 +1587,7 @@ exports.default = Electronic;
 /* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(94);
+module.exports = __webpack_require__(93);
 
 
 /***/ }),
@@ -1982,7 +1982,7 @@ var _createClass2 = __webpack_require__(1);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _version = __webpack_require__(84);
+var _version = __webpack_require__(83);
 
 var _version2 = _interopRequireDefault(_version);
 
@@ -2447,7 +2447,7 @@ module.exports = function(KEY, exec){
 /* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = { "default": __webpack_require__(96), __esModule: true };
+module.exports = { "default": __webpack_require__(95), __esModule: true };
 
 /***/ }),
 /* 38 */
@@ -2455,7 +2455,7 @@ module.exports = { "default": __webpack_require__(96), __esModule: true };
 
 "use strict";
 
-var $at  = __webpack_require__(97)(true);
+var $at  = __webpack_require__(96)(true);
 
 // 21.1.3.27 String.prototype[@@iterator]()
 __webpack_require__(69)(String, 'String', function(iterated){
@@ -2497,50 +2497,7 @@ module.exports = function(it, tag, stat){
 exports.f = {}.propertyIsEnumerable;
 
 /***/ }),
-/* 42 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-exports.__esModule = true;
-
-var _getPrototypeOf = __webpack_require__(2);
-
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
-
-var _getOwnPropertyDescriptor = __webpack_require__(165);
-
-var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = function get(object, property, receiver) {
-  if (object === null) object = Function.prototype;
-  var desc = (0, _getOwnPropertyDescriptor2.default)(object, property);
-
-  if (desc === undefined) {
-    var parent = (0, _getPrototypeOf2.default)(object);
-
-    if (parent === null) {
-      return undefined;
-    } else {
-      return get(parent, property, receiver);
-    }
-  } else if ("value" in desc) {
-    return desc.value;
-  } else {
-    var getter = desc.get;
-
-    if (getter === undefined) {
-      return undefined;
-    }
-
-    return getter.call(receiver);
-  }
-};
-
-/***/ }),
+/* 42 */,
 /* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2550,6 +2507,10 @@ exports.default = function get(object, property, receiver) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
+var _toConsumableArray2 = __webpack_require__(34);
+
+var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
 
 var _getPrototypeOf = __webpack_require__(2);
 
@@ -2616,8 +2577,21 @@ var BaseLedMatrix = function (_Electronic) {
     var _this = (0, _possibleConstructorReturn3.default)(this, (BaseLedMatrix.__proto__ || (0, _getPrototypeOf2.default)(BaseLedMatrix)).call(this));
 
     _this.args = {
-      port: (0, _validate.validateNumber)(port)
+      port: (0, _validate.validateNumber)(port),
+      type: null,
+      // char
+      char: null,
+      // emotion
+      emotion: null,
+      // number
+      number: null,
+      // time
+      separator: null,
+      hour: null,
+      minute: null
     };
+
+    _this.isClear = false;
     return _this;
   }
 
@@ -2630,24 +2604,76 @@ var BaseLedMatrix = function (_Electronic) {
   (0, _createClass3.default)(BaseLedMatrix, [{
     key: 'clear',
     value: function clear() {
-      var type = 0x02;
-      var byteResult = _utils2.default.emotionByteString2binaryByte('0'.repeat(128));
-      var bufArray = [this.args.port, type, 0, 0].concat(byteResult);
-      write(bufArray);
+      this.isClear = true;
       return this;
     }
 
     /**
-     * @abstract
-     * @param  {Array} bufArray  protocol buffer
-     * @return {Instance}
+     * 获取协议
+     */
+
+  }, {
+    key: 'protocol',
+    value: function protocol() {
+      // bufArray [port, type, x, y, ...byteArray]
+      var bufArray = [];
+
+      if (this.isClear) {
+        // if clear
+        var byteResult = _utils2.default.emotionByteString2binaryByte('0'.repeat(128));
+        bufArray = [this.args.port, BaseLedMatrix.EMOTION_TYPE(), 0, 0].concat((0, _toConsumableArray3.default)(byteResult));
+      } else if (this.args.char !== null) {
+        // if char mode
+        var charCodeArray = this.args.char.slice('').map(function (char) {
+          return char.charCodeAt();
+        });
+        bufArray = [this.args.port, this.args.type, this.args.x, this.args.y, this.args.char.length].concat((0, _toConsumableArray3.default)(charCodeArray));
+      } else if (this.args.emotion !== null) {
+        // if emotion mode
+        var _byteResult = _utils2.default.emotionByteString2binaryByte(this.args.emotion);
+        bufArray = [this.args.port, this.args.type, this.args.x, this.args.y].concat((0, _toConsumableArray3.default)(_byteResult));
+      } else if (this.args.number !== null) {
+        // if number mode
+        bufArray = [this.args.port, this.args.type].concat((0, _toConsumableArray3.default)(_utils2.default.float32ToBytes(this.args.number)));
+      } else if (this.args.separator !== null) {
+        // if time mode
+        bufArray = [this.args.port, this.args.type, this.args.separator, this.args.hour, this.args.minute];
+      }
+
+      var buf = _utils2.default.composer(_cmd2.default.setLedMatrix, bufArray);;
+      return buf;
+    }
+
+    /**
+     * run
      */
 
   }, {
     key: 'run',
-    value: function run(bufArray) {
-      write(bufArray);
+    value: function run() {
+      _control2.default.write(this.protocol());
+      this.isClear = false;
       return this;
+    }
+  }], [{
+    key: 'CHAR_TYPE',
+    value: function CHAR_TYPE() {
+      return 0x01;
+    }
+  }, {
+    key: 'EMOTION_TYPE',
+    value: function EMOTION_TYPE() {
+      return 0x02;
+    }
+  }, {
+    key: 'TIME_TYPE',
+    value: function TIME_TYPE() {
+      return 0x03;
+    }
+  }, {
+    key: 'NUMBER_TYPE',
+    value: function NUMBER_TYPE() {
+      return 0x04;
     }
   }]);
   return BaseLedMatrix;
@@ -2761,7 +2787,7 @@ module.exports = function(it, S){
 
 // 19.1.2.2 / 15.2.3.5 Object.create(O [, Properties])
 var anObject    = __webpack_require__(18)
-  , dPs         = __webpack_require__(99)
+  , dPs         = __webpack_require__(98)
   , enumBugKeys = __webpack_require__(49)
   , IE_PROTO    = __webpack_require__(47)('IE_PROTO')
   , Empty       = function(){ /* empty */ }
@@ -2806,7 +2832,7 @@ module.exports = Object.create || function create(O, Properties){
 /* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(100);
+__webpack_require__(99);
 var global        = __webpack_require__(15)
   , hide          = __webpack_require__(22)
   , Iterators     = __webpack_require__(33)
@@ -3389,7 +3415,7 @@ exports.default = new Mode();
 /* 64 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = { "default": __webpack_require__(90), __esModule: true };
+module.exports = { "default": __webpack_require__(89), __esModule: true };
 
 /***/ }),
 /* 65 */
@@ -3397,7 +3423,7 @@ module.exports = { "default": __webpack_require__(90), __esModule: true };
 
 var has          = __webpack_require__(21)
   , toIObject    = __webpack_require__(19)
-  , arrayIndexOf = __webpack_require__(92)(false)
+  , arrayIndexOf = __webpack_require__(91)(false)
   , IE_PROTO     = __webpack_require__(47)('IE_PROTO');
 
 module.exports = function(object, names){
@@ -3449,7 +3475,7 @@ var LIBRARY        = __webpack_require__(39)
   , hide           = __webpack_require__(22)
   , has            = __webpack_require__(21)
   , Iterators      = __webpack_require__(33)
-  , $iterCreate    = __webpack_require__(98)
+  , $iterCreate    = __webpack_require__(97)
   , setToStringTag = __webpack_require__(40)
   , getPrototypeOf = __webpack_require__(72)
   , ITERATOR       = __webpack_require__(14)('iterator')
@@ -3606,7 +3632,7 @@ module.exports = function(it){
 /***/ (function(module, exports, __webpack_require__) {
 
 var ctx                = __webpack_require__(26)
-  , invoke             = __webpack_require__(107)
+  , invoke             = __webpack_require__(106)
   , html               = __webpack_require__(71)
   , cel                = __webpack_require__(51)
   , global             = __webpack_require__(15)
@@ -3711,12 +3737,6 @@ module.exports = function(exec, skipClosing){
 /* 78 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = { "default": __webpack_require__(111), __esModule: true };
-
-/***/ }),
-/* 79 */
-/***/ (function(module, exports, __webpack_require__) {
-
 "use strict";
 
 
@@ -3770,7 +3790,7 @@ var Transport = function () {
 exports.default = new Transport();
 
 /***/ }),
-/* 80 */
+/* 79 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3797,7 +3817,7 @@ var global         = __webpack_require__(15)
   , toPrimitive    = __webpack_require__(52)
   , createDesc     = __webpack_require__(32)
   , _create        = __webpack_require__(53)
-  , gOPNExt        = __webpack_require__(81)
+  , gOPNExt        = __webpack_require__(80)
   , $GOPD          = __webpack_require__(59)
   , $DP            = __webpack_require__(17)
   , $keys          = __webpack_require__(25)
@@ -3923,7 +3943,7 @@ if(!USE_NATIVE){
 
   $GOPD.f = $getOwnPropertyDescriptor;
   $DP.f   = $defineProperty;
-  __webpack_require__(82).f = gOPNExt.f = $getOwnPropertyNames;
+  __webpack_require__(81).f = gOPNExt.f = $getOwnPropertyNames;
   __webpack_require__(41).f  = $propertyIsEnumerable;
   __webpack_require__(58).f = $getOwnPropertySymbols;
 
@@ -4011,12 +4031,12 @@ setToStringTag(Math, 'Math', true);
 setToStringTag(global.JSON, 'JSON', true);
 
 /***/ }),
-/* 81 */
+/* 80 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // fallback for IE11 buggy Object.getOwnPropertyNames with iframe and window
 var toIObject = __webpack_require__(19)
-  , gOPN      = __webpack_require__(82).f
+  , gOPN      = __webpack_require__(81).f
   , toString  = {}.toString;
 
 var windowNames = typeof window == 'object' && window && Object.getOwnPropertyNames
@@ -4036,7 +4056,7 @@ module.exports.f = function getOwnPropertyNames(it){
 
 
 /***/ }),
-/* 82 */
+/* 81 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.7 / 15.2.3.4 Object.getOwnPropertyNames(O)
@@ -4048,7 +4068,7 @@ exports.f = Object.getOwnPropertyNames || function getOwnPropertyNames(O){
 };
 
 /***/ }),
-/* 83 */
+/* 82 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4062,7 +4082,7 @@ module.exports = function(object, index, value){
 };
 
 /***/ }),
-/* 84 */
+/* 83 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4110,29 +4130,32 @@ var Version = function () {
     (0, _classCallCheck3.default)(this, Version);
   }
 
-  /**
-   * Get version of firmware
-   * @return {Promise}
-   */
-
-
   (0, _createClass3.default)(Version, [{
+    key: 'protocol',
+    value: function protocol() {
+      return _utils2.default.composer(_cmd2.default.readVersion);
+    }
+
+    /**
+     * Get version of firmware
+     * @return {Promise}
+     */
+
+  }, {
     key: 'getVersion',
     value: function () {
       var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
-        var buf;
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                buf = _utils2.default.composer(_cmd2.default.readVersion);
-                _context.next = 3;
-                return _control2.default.read(buf);
+                _context.next = 2;
+                return _control2.default.read(this.protocol());
 
-              case 3:
+              case 2:
                 return _context.abrupt('return', _context.sent);
 
-              case 4:
+              case 3:
               case 'end':
                 return _context.stop();
             }
@@ -4153,7 +4176,7 @@ var Version = function () {
 exports.default = new Version();
 
 /***/ }),
-/* 85 */
+/* 84 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4247,6 +4270,22 @@ var BaseEncoderMotor = function (_BaseMotor) {
     }
 
     /**
+     * 获取协议
+     */
+
+  }, {
+    key: 'protocol',
+    value: function protocol() {
+      var buf = void 0;
+      if (this.args.port == 0) {
+        buf = _utils2.default.composer(_cmd2.default.setEncoderMotorOnBoard, [this.args.slot, this.args.speed]);
+      } else {
+        buf = _utils2.default.composer(_cmd2.default.setEncoderMotor, [this.args.slot, this.args.speed, this.args.angle]);
+      }
+      return buf;
+    }
+
+    /**
      * EncoderMotor run
      * @return {Object} the instance
      */
@@ -4254,13 +4293,7 @@ var BaseEncoderMotor = function (_BaseMotor) {
   }, {
     key: 'run',
     value: function run() {
-      var buf = void 0;
-      if (this.args.port == 0) {
-        buf = _utils2.default.composer(_cmd2.default.setEncoderMotorOnBoard, [this.args.slot, this.args.speed]);
-      } else {
-        buf = _utils2.default.composer(_cmd2.default.setEncoderMotor, [this.args.slot, this.args.speed, this.args.angle]);
-      }
-      _control2.default.write(buf);
+      _control2.default.write(this.protocol());
       return this;
     }
 
@@ -4282,7 +4315,7 @@ var BaseEncoderMotor = function (_BaseMotor) {
 exports.default = BaseEncoderMotor;
 
 /***/ }),
-/* 86 */
+/* 85 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4363,29 +4396,32 @@ var BaseLight = function (_Electronic) {
     return _this;
   }
 
-  /**
-   * Get data of the Light sensor
-   * @return {Promise}
-   */
-
-
   (0, _createClass3.default)(BaseLight, [{
+    key: 'protocol',
+    value: function protocol() {
+      return _utils2.default.composer(_cmd2.default.readLight, [this.args.port]);
+    }
+
+    /**
+     * Get data of the Light sensor
+     * @return {Promise}
+     */
+
+  }, {
     key: 'getData',
     value: function () {
       var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
-        var buf;
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                buf = _utils2.default.composer(_cmd2.default.readLight, [this.args.port]);
-                _context.next = 3;
-                return _control2.default.read(buf);
+                _context.next = 2;
+                return _control2.default.read(this.protocol());
 
-              case 3:
+              case 2:
                 return _context.abrupt('return', _context.sent);
 
-              case 4:
+              case 3:
               case 'end':
                 return _context.stop();
             }
@@ -4406,7 +4442,7 @@ var BaseLight = function (_Electronic) {
 exports.default = BaseLight;
 
 /***/ }),
-/* 87 */
+/* 86 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4502,6 +4538,17 @@ var BaseGyro = function (_Electronic) {
     }
 
     /**
+     * 获取协议
+     */
+
+  }, {
+    key: 'protocol',
+    value: function protocol() {
+      var buf = _utils2.default.composer(_cmd2.default.readGyro, [this.args.port, this.args.axis]);
+      return buf;
+    }
+
+    /**
      * Get data of Gyro sensor
      * @return {Promise}
      */
@@ -4510,19 +4557,17 @@ var BaseGyro = function (_Electronic) {
     key: 'getData',
     value: function () {
       var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
-        var buf;
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                buf = _utils2.default.composer(_cmd2.default.readGyro, [this.args.port, this.args.axis]);
-                _context.next = 3;
-                return _control2.default.read(buf);
+                _context.next = 2;
+                return _control2.default.read(this.protocol());
 
-              case 3:
+              case 2:
                 return _context.abrupt('return', _context.sent);
 
-              case 4:
+              case 3:
               case 'end':
                 return _context.stop();
             }
@@ -4543,7 +4588,7 @@ var BaseGyro = function (_Electronic) {
 exports.default = BaseGyro;
 
 /***/ }),
-/* 88 */
+/* 87 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4625,28 +4670,36 @@ var BaseSound = function (_Electronic) {
   }
 
   /**
-   * Get data of Sound sensor
-   * @return {Promise}
+   * 获取协议
    */
 
 
   (0, _createClass3.default)(BaseSound, [{
+    key: 'protocol',
+    value: function protocol() {
+      return _utils2.default.composer(_cmd2.default.readSound, [this.args.port]);
+    }
+
+    /**
+     * Get data of Sound sensor
+     * @return {Promise}
+     */
+
+  }, {
     key: 'getData',
     value: function () {
       var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
-        var buf;
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                buf = _utils2.default.composer(_cmd2.default.readSound, [this.args.port]);
-                _context.next = 3;
-                return _control2.default.read(buf);
+                _context.next = 2;
+                return _control2.default.read(this.protocol());
 
-              case 3:
+              case 2:
                 return _context.abrupt('return', _context.sent);
 
-              case 4:
+              case 3:
               case 'end':
                 return _context.stop();
             }
@@ -4667,7 +4720,7 @@ var BaseSound = function (_Electronic) {
 exports.default = BaseSound;
 
 /***/ }),
-/* 89 */
+/* 88 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4689,7 +4742,7 @@ var _asyncToGenerator2 = __webpack_require__(11);
 
 var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
 
-var _getIterator2 = __webpack_require__(78);
+var _getIterator2 = __webpack_require__(110);
 
 var _getIterator3 = _interopRequireDefault(_getIterator2);
 
@@ -4701,7 +4754,7 @@ var _createClass2 = __webpack_require__(1);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _transport = __webpack_require__(79);
+var _transport = __webpack_require__(78);
 
 var _transport2 = _interopRequireDefault(_transport);
 
@@ -4709,7 +4762,7 @@ var _control = __webpack_require__(6);
 
 var _control2 = _interopRequireDefault(_control);
 
-var _version = __webpack_require__(84);
+var _version = __webpack_require__(83);
 
 var _version2 = _interopRequireDefault(_version);
 
@@ -4944,14 +4997,14 @@ var Sensorium = function () {
 module.exports = Sensorium;
 
 /***/ }),
-/* 90 */
+/* 89 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(91);
+__webpack_require__(90);
 module.exports = __webpack_require__(12).Object.keys;
 
 /***/ }),
-/* 91 */
+/* 90 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.14 Object.keys(O)
@@ -4965,14 +5018,14 @@ __webpack_require__(36)('keys', function(){
 });
 
 /***/ }),
-/* 92 */
+/* 91 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // false -> Array#indexOf
 // true  -> Array#includes
 var toIObject = __webpack_require__(19)
   , toLength  = __webpack_require__(45)
-  , toIndex   = __webpack_require__(93);
+  , toIndex   = __webpack_require__(92);
 module.exports = function(IS_INCLUDES){
   return function($this, el, fromIndex){
     var O      = toIObject($this)
@@ -4991,7 +5044,7 @@ module.exports = function(IS_INCLUDES){
 };
 
 /***/ }),
-/* 93 */
+/* 92 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var toInteger = __webpack_require__(46)
@@ -5003,7 +5056,7 @@ module.exports = function(index, length){
 };
 
 /***/ }),
-/* 94 */
+/* 93 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // This method of obtaining a reference to the global object needs to be
@@ -5024,7 +5077,7 @@ var oldRuntime = hadRuntime && g.regeneratorRuntime;
 // Force reevalutation of runtime.js.
 g.regeneratorRuntime = undefined;
 
-module.exports = __webpack_require__(95);
+module.exports = __webpack_require__(94);
 
 if (hadRuntime) {
   // Restore the original runtime.
@@ -5040,7 +5093,7 @@ if (hadRuntime) {
 
 
 /***/ }),
-/* 95 */
+/* 94 */
 /***/ (function(module, exports) {
 
 /**
@@ -5782,17 +5835,17 @@ if (hadRuntime) {
 
 
 /***/ }),
-/* 96 */
+/* 95 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(68);
 __webpack_require__(38);
 __webpack_require__(54);
-__webpack_require__(103);
+__webpack_require__(102);
 module.exports = __webpack_require__(12).Promise;
 
 /***/ }),
-/* 97 */
+/* 96 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var toInteger = __webpack_require__(46)
@@ -5814,7 +5867,7 @@ module.exports = function(TO_STRING){
 };
 
 /***/ }),
-/* 98 */
+/* 97 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5833,7 +5886,7 @@ module.exports = function(Constructor, NAME, next){
 };
 
 /***/ }),
-/* 99 */
+/* 98 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var dP       = __webpack_require__(17)
@@ -5851,13 +5904,13 @@ module.exports = __webpack_require__(20) ? Object.defineProperties : function de
 };
 
 /***/ }),
-/* 100 */
+/* 99 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var addToUnscopables = __webpack_require__(101)
-  , step             = __webpack_require__(102)
+var addToUnscopables = __webpack_require__(100)
+  , step             = __webpack_require__(101)
   , Iterators        = __webpack_require__(33)
   , toIObject        = __webpack_require__(19);
 
@@ -5891,13 +5944,13 @@ addToUnscopables('values');
 addToUnscopables('entries');
 
 /***/ }),
-/* 101 */
+/* 100 */
 /***/ (function(module, exports) {
 
 module.exports = function(){ /* empty */ };
 
 /***/ }),
-/* 102 */
+/* 101 */
 /***/ (function(module, exports) {
 
 module.exports = function(done, value){
@@ -5905,7 +5958,7 @@ module.exports = function(done, value){
 };
 
 /***/ }),
-/* 103 */
+/* 102 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5917,11 +5970,11 @@ var LIBRARY            = __webpack_require__(39)
   , $export            = __webpack_require__(16)
   , isObject           = __webpack_require__(27)
   , aFunction          = __webpack_require__(50)
-  , anInstance         = __webpack_require__(104)
-  , forOf              = __webpack_require__(105)
-  , speciesConstructor = __webpack_require__(106)
+  , anInstance         = __webpack_require__(103)
+  , forOf              = __webpack_require__(104)
+  , speciesConstructor = __webpack_require__(105)
   , task               = __webpack_require__(76).set
-  , microtask          = __webpack_require__(108)()
+  , microtask          = __webpack_require__(107)()
   , PROMISE            = 'Promise'
   , TypeError          = global.TypeError
   , process            = global.process
@@ -6113,7 +6166,7 @@ if(!USE_NATIVE){
     this._h = 0;              // <- rejection state, 0 - default, 1 - handled, 2 - unhandled
     this._n = false;          // <- notify
   };
-  Internal.prototype = __webpack_require__(109)($Promise.prototype, {
+  Internal.prototype = __webpack_require__(108)($Promise.prototype, {
     // 25.4.5.3 Promise.prototype.then(onFulfilled, onRejected)
     then: function then(onFulfilled, onRejected){
       var reaction    = newPromiseCapability(speciesConstructor(this, $Promise));
@@ -6140,7 +6193,7 @@ if(!USE_NATIVE){
 
 $export($export.G + $export.W + $export.F * !USE_NATIVE, {Promise: $Promise});
 __webpack_require__(40)($Promise, PROMISE);
-__webpack_require__(110)(PROMISE);
+__webpack_require__(109)(PROMISE);
 Wrapper = __webpack_require__(12)[PROMISE];
 
 // statics
@@ -6210,7 +6263,7 @@ $export($export.S + $export.F * !(USE_NATIVE && __webpack_require__(77)(function
 });
 
 /***/ }),
-/* 104 */
+/* 103 */
 /***/ (function(module, exports) {
 
 module.exports = function(it, Constructor, name, forbiddenField){
@@ -6220,7 +6273,7 @@ module.exports = function(it, Constructor, name, forbiddenField){
 };
 
 /***/ }),
-/* 105 */
+/* 104 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var ctx         = __webpack_require__(26)
@@ -6250,7 +6303,7 @@ exports.BREAK  = BREAK;
 exports.RETURN = RETURN;
 
 /***/ }),
-/* 106 */
+/* 105 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 7.3.20 SpeciesConstructor(O, defaultConstructor)
@@ -6263,7 +6316,7 @@ module.exports = function(O, D){
 };
 
 /***/ }),
-/* 107 */
+/* 106 */
 /***/ (function(module, exports) {
 
 // fast apply, http://jsperf.lnkit.com/fast-apply/5
@@ -6284,7 +6337,7 @@ module.exports = function(fn, args, that){
 };
 
 /***/ }),
-/* 108 */
+/* 107 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var global    = __webpack_require__(15)
@@ -6357,7 +6410,7 @@ module.exports = function(){
 };
 
 /***/ }),
-/* 109 */
+/* 108 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var hide = __webpack_require__(22);
@@ -6369,7 +6422,7 @@ module.exports = function(target, src, safe){
 };
 
 /***/ }),
-/* 110 */
+/* 109 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6387,6 +6440,12 @@ module.exports = function(KEY){
     get: function(){ return this; }
   });
 };
+
+/***/ }),
+/* 110 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = { "default": __webpack_require__(111), __esModule: true };
 
 /***/ }),
 /* 111 */
@@ -6812,7 +6871,7 @@ module.exports = { "default": __webpack_require__(120), __esModule: true };
 /* 120 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(80);
+__webpack_require__(79);
 module.exports = __webpack_require__(12).Object.getOwnPropertySymbols;
 
 /***/ }),
@@ -6940,7 +6999,7 @@ module.exports = function getOwnPropertyNames(it){
 
 // 19.1.2.7 Object.getOwnPropertyNames(O)
 __webpack_require__(36)('getOwnPropertyNames', function(){
-  return __webpack_require__(81).f;
+  return __webpack_require__(80).f;
 });
 
 /***/ }),
@@ -6990,7 +7049,7 @@ var ctx            = __webpack_require__(26)
   , call           = __webpack_require__(74)
   , isArrayIter    = __webpack_require__(75)
   , toLength       = __webpack_require__(45)
-  , createProperty = __webpack_require__(83)
+  , createProperty = __webpack_require__(82)
   , getIterFn      = __webpack_require__(55);
 
 $export($export.S + $export.F * !__webpack_require__(77)(function(iter){ Array.from(iter); }), 'Array', {
@@ -7042,7 +7101,7 @@ module.exports = __webpack_require__(12).Array.of;
 "use strict";
 
 var $export        = __webpack_require__(16)
-  , createProperty = __webpack_require__(83);
+  , createProperty = __webpack_require__(82);
 
 // WebKit Array.of isn't generic
 $export($export.S + $export.F * __webpack_require__(23)(function(){
@@ -7170,7 +7229,7 @@ module.exports = { "default": __webpack_require__(140), __esModule: true };
 /* 140 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(80);
+__webpack_require__(79);
 __webpack_require__(68);
 __webpack_require__(141);
 __webpack_require__(142);
@@ -7336,14 +7395,23 @@ var DcMotor = function (_BaseMotor) {
     }
 
     /**
+     * 获取协议
+     */
+
+  }, {
+    key: 'protocol',
+    value: function protocol() {
+      return _utils2.default.composer(_cmd2.default.setDcMotor, [this.args.port, this.args.speed]);
+    }
+
+    /**
      * run
      */
 
   }, {
     key: 'run',
     value: function run() {
-      var buf = _utils2.default.composer(_cmd2.default.setDcMotor, [this.args.port, this.args.speed]);
-      _control2.default.write(buf);
+      _control2.default.write(this.protocol());
       return this;
     }
   }], [{
@@ -7468,6 +7536,11 @@ var VirtualJoystick = function (_Electronic) {
       this.args.rightSpeed = (0, _validate.validateNumber)(speed, 0);
       return this;
     }
+  }, {
+    key: 'protocol',
+    value: function protocol() {
+      return _utils2.default.composer(_cmd2.default.setJoystick, [this.args.leftSpeed, this.args.rightSpeed]);
+    }
 
     /**
      * run
@@ -7478,8 +7551,7 @@ var VirtualJoystick = function (_Electronic) {
   }, {
     key: 'run',
     value: function run() {
-      var buf = _utils2.default.composer(_cmd2.default.setJoystick, [this.args.leftSpeed, this.args.rightSpeed]);
-      _control2.default.write(buf);
+      _control2.default.write(this.protocol());
       return this;
     }
 
@@ -7597,6 +7669,11 @@ var VirtualJoystickForBalance = function (_Electronic) {
       this.args.turnRange = range || 0;
       return this;
     }
+  }, {
+    key: 'protocol',
+    value: function protocol() {
+      return _utils2.default.composer(_cmd2.default.setVirtualJoystickForBalance, [this.args.turnRange, this.args.speed]);
+    }
 
     /**
      * run with range and speed set before
@@ -7606,8 +7683,7 @@ var VirtualJoystickForBalance = function (_Electronic) {
   }, {
     key: 'run',
     value: function run() {
-      var buf = _utils2.default.composer(_cmd2.default.setVirtualJoystickForBalance, [this.args.turnRange, this.args.speed]);
-      _control2.default.write(buf);
+      _control2.default.write(this.protocol());
       return this;
     }
 
@@ -7868,7 +7944,7 @@ var _inherits2 = __webpack_require__(4);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _BaseEncoderMotor2 = __webpack_require__(85);
+var _BaseEncoderMotor2 = __webpack_require__(84);
 
 var _BaseEncoderMotor3 = _interopRequireDefault(_BaseEncoderMotor2);
 
@@ -7944,7 +8020,7 @@ var _utils = __webpack_require__(5);
 
 var _utils2 = _interopRequireDefault(_utils);
 
-var _BaseEncoderMotor2 = __webpack_require__(85);
+var _BaseEncoderMotor2 = __webpack_require__(84);
 
 var _BaseEncoderMotor3 = _interopRequireDefault(_BaseEncoderMotor2);
 
@@ -7958,15 +8034,10 @@ var _control2 = _interopRequireDefault(_control);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var bufComposer = function bufComposer(args) {
-  return _utils2.default.composer(_cmd2.default.readEncoderMotorOnBoard, [args.slot, args.type]);
-};
-
 /**
  * EncoderMotorOnBoard sensor module
  * @extends BaseEncoderMotor
  */
-
 var EncoderMotorOnBoard = function (_BaseEncoderMotor) {
   (0, _inherits3.default)(EncoderMotorOnBoard, _BaseEncoderMotor);
 
@@ -7982,42 +8053,27 @@ var EncoderMotorOnBoard = function (_BaseEncoderMotor) {
   }
 
   /**
-   * Get Speed of the encoder motor runs
-   * @return  {Promise} return promise
+   * 获取协议
    */
 
 
   (0, _createClass3.default)(EncoderMotorOnBoard, [{
-    key: 'getSpeed',
-    value: function () {
-      var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
-        var buf;
-        return _regenerator2.default.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                this.args.type = 0x02;
-                buf = bufComposer(this.args);
-                _context.next = 4;
-                return _control2.default.read(buf);
+    key: 'protocol',
+    value: function protocol() {
+      return _utils2.default.composer(_cmd2.default.readEncoderMotorOnBoard, [this.args.slot, this.args.type]);
+    }
 
-              case 4:
-                return _context.abrupt('return', _context.sent);
+    /**
+     * Get Speed of the encoder motor runs
+     * @return  {Promise} return promise
+     */
 
-              case 5:
-              case 'end':
-                return _context.stop();
-            }
-          }
-        }, _callee, this);
-      }));
-
-      function getSpeed() {
-        return _ref.apply(this, arguments);
-      }
-
-      return getSpeed;
-    }()
+  }, {
+    key: 'readSpeed',
+    value: function readSpeed() {
+      this.args.type = 0x02;
+      return this;
+    }
 
     /**
      * get angle offset to the start position
@@ -8025,35 +8081,38 @@ var EncoderMotorOnBoard = function (_BaseEncoderMotor) {
      */
 
   }, {
-    key: 'getAngle',
+    key: 'readAngle',
+    value: function readAngle() {
+      this.args.type = 0x01;
+      return this;
+    }
+  }, {
+    key: 'getData',
     value: function () {
-      var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
-        var buf;
-        return _regenerator2.default.wrap(function _callee2$(_context2) {
+      var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
+        return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context.prev = _context.next) {
               case 0:
-                this.args.type = 0x01;
-                buf = bufComposer(this.args);
-                _context2.next = 4;
-                return _control2.default.read(buf);
+                _context.next = 2;
+                return _control2.default.read(this.protocol());
 
-              case 4:
-                return _context2.abrupt('return', _context2.sent);
+              case 2:
+                return _context.abrupt('return', _context.sent);
 
-              case 5:
+              case 3:
               case 'end':
-                return _context2.stop();
+                return _context.stop();
             }
           }
-        }, _callee2, this);
+        }, _callee, this);
       }));
 
-      function getAngle() {
-        return _ref2.apply(this, arguments);
+      function getData() {
+        return _ref.apply(this, arguments);
       }
 
-      return getAngle;
+      return getData;
     }()
   }], [{
     key: 'supportStamp',
@@ -8176,14 +8235,23 @@ var ServoMotor = function (_Electronic) {
     }
 
     /**
+     * 获取协议
+     */
+
+  }, {
+    key: 'protocol',
+    value: function protocol() {
+      return _utils2.default.composer(_cmd2.default.setServoMotor, [this.args.port, this.args.slot, this.args.angle]);
+    }
+
+    /**
      * run
      */
 
   }, {
     key: 'run',
     value: function run() {
-      var buf = _utils2.default.composer(_cmd2.default.setServoMotor, [this.args.port, this.args.slot, this.args.angle]);
-      _control2.default.write(buf);
+      _control2.default.write(this.protocol());
       return this;
     }
   }], [{
@@ -8545,10 +8613,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _getIterator2 = __webpack_require__(78);
-
-var _getIterator3 = _interopRequireDefault(_getIterator2);
-
 var _assign = __webpack_require__(24);
 
 var _assign2 = _interopRequireDefault(_assign);
@@ -8568,10 +8632,6 @@ var _createClass3 = _interopRequireDefault(_createClass2);
 var _possibleConstructorReturn2 = __webpack_require__(3);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-var _get2 = __webpack_require__(42);
-
-var _get3 = _interopRequireDefault(_get2);
 
 var _inherits2 = __webpack_require__(4);
 
@@ -8600,7 +8660,8 @@ var LedMatrixChar = function (_BaseLedMatrix) {
     (0, _assign2.default)(_this.args, {
       x: 0,
       y: 7, //默认将字体垂直居中，输入的 y 值时将在 y=7 上做偏移
-      char: ''
+      char: '',
+      type: _BaseLedMatrix3.default.CHAR_TYPE()
     });
     return _this;
   }
@@ -8662,45 +8723,6 @@ var LedMatrixChar = function (_BaseLedMatrix) {
       this.y(coordinate[1]);
       return this.char(str);
     }
-
-    /**
-     * run
-     */
-
-  }, {
-    key: 'run',
-    value: function run() {
-      var type = 0x01;
-      var bufArray = [this.args.port, type, this.args.x, this.args.y, this.args.char.length];
-      var _iteratorNormalCompletion = true;
-      var _didIteratorError = false;
-      var _iteratorError = undefined;
-
-      try {
-        for (var _iterator = (0, _getIterator3.default)(this.args.char), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-          var char = _step.value;
-
-          bufArray.push(char.charCodeAt());
-        }
-        // console.log('Matrix panel show chars ===>', bufArray);
-      } catch (err) {
-        _didIteratorError = true;
-        _iteratorError = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion && _iterator.return) {
-            _iterator.return();
-          }
-        } finally {
-          if (_didIteratorError) {
-            throw _iteratorError;
-          }
-        }
-      }
-
-      (0, _get3.default)(LedMatrixChar.prototype.__proto__ || (0, _getPrototypeOf2.default)(LedMatrixChar.prototype), 'run', this).call(this, bufArray);
-      return this;
-    }
   }]);
   return LedMatrixChar;
 }(_BaseLedMatrix3.default);
@@ -8708,36 +8730,9 @@ var LedMatrixChar = function (_BaseLedMatrix) {
 exports.default = LedMatrixChar;
 
 /***/ }),
-/* 165 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = { "default": __webpack_require__(166), __esModule: true };
-
-/***/ }),
-/* 166 */
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__(167);
-var $Object = __webpack_require__(12).Object;
-module.exports = function getOwnPropertyDescriptor(it, key){
-  return $Object.getOwnPropertyDescriptor(it, key);
-};
-
-/***/ }),
-/* 167 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// 19.1.2.6 Object.getOwnPropertyDescriptor(O, P)
-var toIObject                 = __webpack_require__(19)
-  , $getOwnPropertyDescriptor = __webpack_require__(59).f;
-
-__webpack_require__(36)('getOwnPropertyDescriptor', function(){
-  return function getOwnPropertyDescriptor(it, key){
-    return $getOwnPropertyDescriptor(toIObject(it), key);
-  };
-});
-
-/***/ }),
+/* 165 */,
+/* 166 */,
+/* 167 */,
 /* 168 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8767,10 +8762,6 @@ var _createClass3 = _interopRequireDefault(_createClass2);
 var _possibleConstructorReturn2 = __webpack_require__(3);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-var _get2 = __webpack_require__(42);
-
-var _get3 = _interopRequireDefault(_get2);
 
 var _inherits2 = __webpack_require__(4);
 
@@ -8803,7 +8794,8 @@ var LedMatrixEmotion = function (_BaseLedMatrix) {
     (0, _assign2.default)(_this.args, {
       x: 0,
       y: 0,
-      emotion: 0
+      emotion: 0,
+      type: _BaseLedMatrix3.default.EMOTION_TYPE()
     });
     return _this;
   }
@@ -8863,15 +8855,6 @@ var LedMatrixEmotion = function (_BaseLedMatrix) {
       this.y(coordinate[1]);
       return this.emotion(emotionStr);
     }
-  }, {
-    key: 'run',
-    value: function run() {
-      var type = 0x02;
-      var byteResult = _utils2.default.emotionByteString2binaryByte(this.args.emotion);
-      var bufArray = [this.args.port, type, this.args.x, this.args.y].concat(byteResult);
-      (0, _get3.default)(LedMatrixEmotion.prototype.__proto__ || (0, _getPrototypeOf2.default)(LedMatrixEmotion.prototype), 'run', this).call(this, bufArray);
-      return this;
-    }
   }]);
   return LedMatrixEmotion;
 }(_BaseLedMatrix3.default);
@@ -8888,10 +8871,6 @@ exports.default = LedMatrixEmotion;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-
-var _toConsumableArray2 = __webpack_require__(34);
-
-var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
 
 var _assign = __webpack_require__(24);
 
@@ -8912,10 +8891,6 @@ var _createClass3 = _interopRequireDefault(_createClass2);
 var _possibleConstructorReturn2 = __webpack_require__(3);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-var _get2 = __webpack_require__(42);
-
-var _get3 = _interopRequireDefault(_get2);
 
 var _inherits2 = __webpack_require__(4);
 
@@ -8946,7 +8921,8 @@ var LedMatrixNumber = function (_BaseLedMatrix) {
     var _this = (0, _possibleConstructorReturn3.default)(this, (LedMatrixNumber.__proto__ || (0, _getPrototypeOf2.default)(LedMatrixNumber)).call(this, port));
 
     (0, _assign2.default)(_this.args, {
-      number: 0
+      number: 0,
+      type: _BaseLedMatrix3.default.NUMBER_TYPE()
     });
     return _this;
   }
@@ -8973,14 +8949,6 @@ var LedMatrixNumber = function (_BaseLedMatrix) {
     key: 'content',
     value: function content(number) {
       return this.number(number);
-    }
-  }, {
-    key: 'run',
-    value: function run() {
-      var type = 0x04;
-      var bufArray = [this.args.port, type].concat((0, _toConsumableArray3.default)(_utils2.default.float32ToBytes(this.args.number)));
-      (0, _get3.default)(LedMatrixNumber.prototype.__proto__ || (0, _getPrototypeOf2.default)(LedMatrixNumber.prototype), 'run', this).call(this, bufArray);
-      return this;
     }
   }]);
   return LedMatrixNumber;
@@ -9019,10 +8987,6 @@ var _possibleConstructorReturn2 = __webpack_require__(3);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-var _get2 = __webpack_require__(42);
-
-var _get3 = _interopRequireDefault(_get2);
-
 var _inherits2 = __webpack_require__(4);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
@@ -9054,7 +9018,8 @@ var LedMatrixTime = function (_BaseLedMatrix) {
     (0, _assign2.default)(_this.args, {
       separator: 0x01,
       hour: 0,
-      minute: 0
+      minute: 0,
+      type: _BaseLedMatrix3.default.TIME_TYPE()
     });
     return _this;
   }
@@ -9113,19 +9078,6 @@ var LedMatrixTime = function (_BaseLedMatrix) {
       this.separator(timeArr[1]);
       this.hour(Number(timeArr[0]));
       this.minute(Number(timeArr[2]));
-      return this;
-    }
-
-    /**
-     * run
-     */
-
-  }, {
-    key: 'run',
-    value: function run() {
-      var type = 0x03;
-      var bufArray = [this.args.port, type, this.args.separator, this.args.hour, this.args.minute];
-      (0, _get3.default)(LedMatrixTime.prototype.__proto__ || (0, _getPrototypeOf2.default)(LedMatrixTime.prototype), 'run', this).call(this, bufArray);
       return this;
     }
   }]);
@@ -9259,12 +9211,12 @@ var Buzzer = function (_Electronic) {
     }
 
     /**
-     * run Buzzer sensor
+     * 获取协议
      */
 
   }, {
-    key: 'run',
-    value: function run() {
+    key: 'protocol',
+    value: function protocol() {
       var buf = [];
       switch (this.hostname) {
         case MCORE_:
@@ -9273,7 +9225,17 @@ var Buzzer = function (_Electronic) {
         default:
           buf = _utils2.default.composer(_cmd2.default.setBuzzer, [this.args.hz, this.args.beat]);
       }
-      _control2.default.write(buf);
+      return buf;
+    }
+
+    /**
+     * run Buzzer sensor
+     */
+
+  }, {
+    key: 'run',
+    value: function run() {
+      _control2.default.write(this.protocol());
       return this;
     }
   }], [{
@@ -9371,6 +9333,16 @@ var SevenSegment = function (_Electronic) {
     }
 
     /**
+     * 获取协议
+     */
+
+  }, {
+    key: 'protocol',
+    value: function protocol() {
+      return _utils2.default.composer(_cmd2.default.setSevenSegment, [this.args.port, this.args.number]);
+    }
+
+    /**
      * run and show the number
      * @return {Instance}     @this
      */
@@ -9378,8 +9350,7 @@ var SevenSegment = function (_Electronic) {
   }, {
     key: 'run',
     value: function run() {
-      var buf = _utils2.default.composer(_cmd2.default.setSevenSegment, [this.args.port, this.args.number]);
-      _control2.default.write(buf);
+      _control2.default.write(this.protocol());
       return this;
     }
   }], [{
@@ -9478,6 +9449,16 @@ var Shutter = function (_Electronic) {
     }
 
     /**
+     * 获取协议
+     */
+
+  }, {
+    key: 'protocol',
+    value: function protocol() {
+      return _utils2.default.composer(_cmd2.default.setShutter, [this.args.port, this.args.action]);
+    }
+
+    /**
      * run shutter with mode set before
      * @return {this}  模块实例
      */
@@ -9485,8 +9466,7 @@ var Shutter = function (_Electronic) {
   }, {
     key: 'run',
     value: function run() {
-      var buf = _utils2.default.composer(_cmd2.default.setShutter, [this.args.port, this.args.action]);
-      _control2.default.write(buf);
+      _control2.default.write(this.protocol());
       return this;
     }
   }], [{
@@ -9615,23 +9595,52 @@ var SmartServo = function (_Electronic) {
     _this.args = {
       index: index,
       subCmd: null,
-      speed: 0
+      speed: 0,
+      angle: null
     };
+    _this.extraCmd = null;
     return _this;
   }
 
   /**
-   * 锁定
-   * @return {[type]} [description]
+   * 获取协议
    */
 
 
   (0, _createClass3.default)(SmartServo, [{
+    key: 'protocol',
+    value: function protocol() {
+      if (this.args.subCmd < 4 || this.args.subCmd === 7 || this.args.subCmd === 8) {
+        var baseCmd = [this.args.index, this.args.subCmd];
+        if (Array.isArray(this.extraCmd)) {
+          baseCmd.push(this.extraCmd);
+        } else {
+          baseCmd.push(this.extraCmd !== null ? [this.extraCmd] : []);
+        }
+        this.extraCmd = null;
+        return _utils2.default.composer(_cmd2.default.setSmartServo, baseCmd);
+      } else if (this.args.subCmd === 4) {
+        return _utils2.default.composer(_cmd2.default.setSmartServoForAbsoluteAngle, [this.args.index, this.args.subCmd, this.args.angle, this.args.speed]);
+      } else if (this.args.subCmd === 5) {
+        return _utils2.default.composer(_cmd2.default.setSmartServoForRelativeAngle, [this.args.index, this.args.subCmd, this.args.angle, this.args.speed]);
+      } else if (this.args.subCmd === 6) {
+        return _utils2.default.composer(_cmd2.default.setSmartServoForDcMotor, [this.args.index, this.args.subCmd, this.args.speed]);
+      } else {
+        return _utils2.default.composer(_cmd2.default.readSmartServoParam, [this.args.index, this.args.subCmd]);
+      }
+    }
+
+    /**
+     * 锁定
+     * @return {[type]} [description]
+     */
+
+  }, {
     key: 'lock',
     value: function lock() {
-      var extraCmd = 0x00;
+      this.isReadMode = false;
+      this.extraCmd = 0x00;
       this.args.subCmd = 0x01;
-      write(this.args, extraCmd);
       return this;
     }
     /**
@@ -9642,9 +9651,9 @@ var SmartServo = function (_Electronic) {
   }, {
     key: 'unclock',
     value: function unclock() {
-      var extraCmd = 0x01;
+      this.isReadMode = false;
+      this.extraCmd = 0x01;
       this.args.subCmd = 0x01;
-      write(this.args, extraCmd);
       return this;
     }
 
@@ -9654,18 +9663,12 @@ var SmartServo = function (_Electronic) {
      */
 
   }, {
-    key: 'setLedColor',
-    value: function setLedColor(hex_rgb) {
-      var extraCmd = void 0;
-      if (typeof rgb === 'string') {
-        extraCmd = _utils2.default.hexToRgb(hex_rgb);
-      } else if (Array.isArray(hex_rgb)) {
-        extraCmd = hex_rgb;
-      } else {
-        extraCmd = [255, 0, 0];
-      }
+    key: 'ledColor',
+    value: function ledColor() {
+      var hex_rgb = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [255, 0, 0];
+
+      this.extraCmd = Array.isArray(hex_rgb) ? hex_rgb : _utils2.default.hexToRgb(hex_rgb);
       this.args.subCmd = 0x02;
-      write(this.args, extraCmd);
       return this;
     }
 
@@ -9677,7 +9680,6 @@ var SmartServo = function (_Electronic) {
     key: 'handshake',
     value: function handshake() {
       this.args.subCmd = 0x03;
-      write(this.args);
       return this;
     }
 
@@ -9698,13 +9700,10 @@ var SmartServo = function (_Electronic) {
      */
 
   }, {
-    key: 'runToAbsoluteAngle',
-    value: function runToAbsoluteAngle(angle) {
+    key: 'absoluteAngle',
+    value: function absoluteAngle(angle) {
       this.args.subCmd = 0x04;
-      angle = (0, _validate.validateNumber)(angle, 0);
-      var cmd = [this.args.index, this.args.subCmd, angle, this.args.speed];
-      var buf = _utils2.default.composer(_cmd2.default.setSmartServoForAbsoluteAngle, cmd);
-      _control2.default.write(buf);
+      this.angle = (0, _validate.validateNumber)(angle, 0);
       return this;
     }
     /**
@@ -9713,13 +9712,10 @@ var SmartServo = function (_Electronic) {
      */
 
   }, {
-    key: 'runToRelativeAngle',
-    value: function runToRelativeAngle(angle) {
+    key: 'relativeAngle',
+    value: function relativeAngle(angle) {
       this.args.subCmd = 0x05;
-      angle = (0, _validate.validateNumber)(angle, 0);
-      var cmd = [this.args.index, this.args.subCmd, angle, this.args.speed];
-      var buf = _utils2.default.composer(_cmd2.default.setSmartServoForRelativeAngle, cmd);
-      _control2.default.write(buf);
+      this.angle = (0, _validate.validateNumber)(angle, 0);
       return this;
     }
     /**
@@ -9734,9 +9730,6 @@ var SmartServo = function (_Electronic) {
       //限制速度 -255~255
       this.args.speed = _utils2.default.limitValue(speed);
       this.args.subCmd = 0x06;
-      var cmd = [this.args.index, this.args.subCmd, this.args.speed];
-      var buf = _utils2.default.composer(_cmd2.default.setSmartServoForDcMotor, cmd);
-      _control2.default.write(buf);
       return this;
     }
 
@@ -9748,7 +9741,6 @@ var SmartServo = function (_Electronic) {
     key: 'setZeroPoint',
     value: function setZeroPoint() {
       this.args.subCmd = 0x07;
-      write(this.args);
       return this;
     }
 
@@ -9761,31 +9753,83 @@ var SmartServo = function (_Electronic) {
     key: 'backToStart',
     value: function backToStart() {
       this.args.subCmd = 0x08;
-      write(this.args);
       return this;
     }
 
     /**
      * 读速度
-     * @return {Promise}
      */
 
   }, {
     key: 'readSpeed',
+    value: function readSpeed() {
+      this.args.subCmd = 0x09;
+      return this;
+    }
+    /**
+     * 读温度
+     */
+
+  }, {
+    key: 'readTemperature',
+    value: function readTemperature() {
+      this.args.subCmd = 0x0a;
+      return this;
+    }
+
+    /**
+     * 读电流
+     */
+
+  }, {
+    key: 'readCurrent',
+    value: function readCurrent() {
+      this.args.subCmd = 0x0b;
+      return this;
+    }
+
+    /**
+     * 读电压
+     */
+
+  }, {
+    key: 'readVoltage',
+    value: function readVoltage() {
+      this.args.subCmd = 0x0c;
+      return this;
+    }
+
+    /**
+     * 读角度
+     */
+
+  }, {
+    key: 'readAngle',
+    value: function readAngle() {
+      this.args.subCmd = 0x0d;
+      return this;
+    }
+  }, {
+    key: 'run',
+    value: function run() {
+      _control2.default.write(this.protocol());
+      return this;
+    }
+  }, {
+    key: 'getData',
     value: function () {
       var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
         return _regenerator2.default.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                this.args.subCmd = 0x09;
-                _context2.next = 3;
-                return read(this.args);
+                _context2.next = 2;
+                return _control2.default.read(this.protocol());
 
-              case 3:
+              case 2:
                 return _context2.abrupt('return', _context2.sent);
 
-              case 4:
+              case 3:
               case 'end':
                 return _context2.stop();
             }
@@ -9793,150 +9837,11 @@ var SmartServo = function (_Electronic) {
         }, _callee2, this);
       }));
 
-      function readSpeed() {
+      function getData() {
         return _ref2.apply(this, arguments);
       }
 
-      return readSpeed;
-    }()
-    /**
-     * 读温度
-     * @return {Promise}
-     */
-
-  }, {
-    key: 'readTemperature',
-    value: function () {
-      var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3() {
-        return _regenerator2.default.wrap(function _callee3$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                this.args.subCmd = 0x0a;
-                _context3.next = 3;
-                return read(this.args);
-
-              case 3:
-                return _context3.abrupt('return', _context3.sent);
-
-              case 4:
-              case 'end':
-                return _context3.stop();
-            }
-          }
-        }, _callee3, this);
-      }));
-
-      function readTemperature() {
-        return _ref3.apply(this, arguments);
-      }
-
-      return readTemperature;
-    }()
-
-    /**
-     * 读电流
-     * @return {Promise}
-     */
-
-  }, {
-    key: 'readCurrent',
-    value: function () {
-      var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4() {
-        return _regenerator2.default.wrap(function _callee4$(_context4) {
-          while (1) {
-            switch (_context4.prev = _context4.next) {
-              case 0:
-                this.args.subCmd = 0x0b;
-                _context4.next = 3;
-                return read(this.args);
-
-              case 3:
-                return _context4.abrupt('return', _context4.sent);
-
-              case 4:
-              case 'end':
-                return _context4.stop();
-            }
-          }
-        }, _callee4, this);
-      }));
-
-      function readCurrent() {
-        return _ref4.apply(this, arguments);
-      }
-
-      return readCurrent;
-    }()
-
-    /**
-     * 读电压
-     * @return {Promise}
-     */
-
-  }, {
-    key: 'readVoltage',
-    value: function () {
-      var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee5() {
-        return _regenerator2.default.wrap(function _callee5$(_context5) {
-          while (1) {
-            switch (_context5.prev = _context5.next) {
-              case 0:
-                this.args.subCmd = 0x0c;
-                _context5.next = 3;
-                return read(this.args);
-
-              case 3:
-                return _context5.abrupt('return', _context5.sent);
-
-              case 4:
-              case 'end':
-                return _context5.stop();
-            }
-          }
-        }, _callee5, this);
-      }));
-
-      function readVoltage() {
-        return _ref5.apply(this, arguments);
-      }
-
-      return readVoltage;
-    }()
-
-    /**
-     * 读角度
-     * @return {Promise}
-     */
-
-  }, {
-    key: 'readAngle',
-    value: function () {
-      var _ref6 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee6() {
-        return _regenerator2.default.wrap(function _callee6$(_context6) {
-          while (1) {
-            switch (_context6.prev = _context6.next) {
-              case 0:
-                this.args.subCmd = 0x0d;
-                _context6.next = 3;
-                return read(this.args);
-
-              case 3:
-                return _context6.abrupt('return', _context6.sent);
-
-              case 4:
-              case 'end':
-                return _context6.stop();
-            }
-          }
-        }, _callee6, this);
-      }));
-
-      function readAngle() {
-        return _ref6.apply(this, arguments);
-      }
-
-      return readAngle;
+      return getData;
     }()
   }], [{
     key: 'supportStamp',
@@ -10051,28 +9956,48 @@ var EncoderMotorOnBoardPID = function (_Electronic) {
         return new _encoder_motor_on_board_pid_for_doubleMotor2.default();
       };
     }
+
+    _this.reset = false;
     return _this;
   }
 
   /**
-   * 设置零点
-   * @example
-   * let pid = new EncoderMotorOnBoardPID()
-   * pid.setZeroPoint()
+   * 获取协议
    */
 
 
   (0, _createClass3.default)(EncoderMotorOnBoardPID, [{
+    key: 'protocol',
+    value: function protocol() {
+      var subCmd = [];
+      if (this.reset) {
+        this.reset = false;
+        if (this.hostname == auriga) {
+          subCmd = [0x04];
+        } else if (this.hostname == megapipro) {
+          subCmd = [0x03];
+        }
+      }
+      return _utils2.default.composer(_cmd2.default.setEncoderMotorPIDZeroPoint, subCmd);
+    }
+
+    /**
+     * 设置零点
+     * @example
+     * let pid = new EncoderMotorOnBoardPID()
+     * pid.setZeroPoint()
+     */
+
+  }, {
     key: 'setZeroPoint',
     value: function setZeroPoint() {
-      var subCmd = void 0;
-      if (this.hostname == auriga) {
-        subCmd = 0x04;
-      } else if (this.hostname == megapipro) {
-        subCmd = 0x03;
-      }
-      var buf = _utils2.default.composer(_cmd2.default.setEncoderMotorPIDZeroPoint, [subCmd]);
-      _control2.default.write(buf);
+      this.reset = true;
+      return this;
+    }
+  }, {
+    key: 'run',
+    value: function run() {
+      _control2.default.write(this.protocol());
       return this;
     }
   }], [{
@@ -10157,14 +10082,23 @@ var EncoderMotorPIDForDistance = function () {
     }
 
     /**
+     * 获取协议
+     */
+
+  }, {
+    key: 'protocol',
+    value: function protocol() {
+      return _utils2.default.composer(_cmd2.default.setEncoderMotorPIDDistance, [this.args.distance, this.args.speed]);
+    }
+
+    /**
      * run
      */
 
   }, {
     key: 'run',
     value: function run() {
-      var buf = _utils2.default.composer(_cmd2.default.setEncoderMotorPIDDistance, [this.args.distance, this.args.speed]);
-      _control2.default.write(buf);
+      _control2.default.write(this.protocol());
       return this;
     }
   }]);
@@ -10230,11 +10164,20 @@ var PIDForSpeed = function () {
       this.args.speed = (0, _validate.validateNumber)(_speed, this.args.speed);
       return this;
     }
+
+    /**
+     * 获取协议
+     */
+
+  }, {
+    key: 'protocol',
+    value: function protocol() {
+      return _utils2.default.composer(_cmd2.default.setEncoderMotorPIDSpeed, [this.args.speed]);
+    }
   }, {
     key: 'run',
     value: function run() {
-      var buf = _utils2.default.composer(_cmd2.default.setEncoderMotorPIDSpeed, [this.args.speed]);
-      _control2.default.write(buf);
+      _control2.default.write(this.protocol());
       return this;
     }
   }]);
@@ -10300,11 +10243,20 @@ var PIDForPwm = function () {
       this.args.speed = (0, _validate.validateNumber)(_speed, this.args.speed);
       return this;
     }
+
+    /**
+     * 获取协议
+     */
+
+  }, {
+    key: 'protocol',
+    value: function protocol() {
+      return _utils2.default.composer(_cmd2.default.setEncoderMotorPIDPwm, [this.args.speed]);
+    }
   }, {
     key: 'run',
     value: function run() {
-      var buf = _utils2.default.composer(_cmd2.default.setEncoderMotorPIDPwm, [this.args.speed]);
-      _control2.default.write(buf);
+      _control2.default.write(this.protocol());
       return this;
     }
   }]);
@@ -10461,11 +10413,20 @@ var PIDForDoubleMotor = function () {
       this.args.speed = (0, _validate.validateNumber)(_speed, this.args.speed);
       return this;
     }
+
+    /**
+     * 获取协议
+     */
+
+  }, {
+    key: 'protocol',
+    value: function protocol() {
+      return _utils2.default.composer(_cmd2.default.setEncoderMotorPIDDoubleMotor, [this.args.direction, this.args.distance, this.args.speed]);
+    }
   }, {
     key: 'run',
     value: function run() {
-      var buf = _utils2.default.composer(_cmd2.default.setEncoderMotorPIDDoubleMotor, [this.args.direction, this.args.distance, this.args.speed]);
-      _control2.default.write(buf);
+      _control2.default.write(this.protocol());
       return this;
     }
   }]);
@@ -10544,28 +10505,36 @@ var Reset = function (_Electronic) {
   }
 
   /**
-   * reset
-   * @return {Promise}
+   * 获取协议
    */
 
 
   (0, _createClass3.default)(Reset, [{
+    key: 'protocol',
+    value: function protocol() {
+      return _utils2.default.composer(_cmd2.default.reset);
+    }
+
+    /**
+     * reset
+     * @return {Promise}
+     */
+
+  }, {
     key: 'reset',
     value: function () {
       var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
-        var buf;
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                buf = _utils2.default.composer(_cmd2.default.reset);
-                _context.next = 3;
-                return _control2.default.read(buf);
+                _context.next = 2;
+                return _control2.default.read(this.protocol());
 
-              case 3:
+              case 2:
                 return _context.abrupt('return', _context.sent);
 
-              case 4:
+              case 3:
               case 'end':
                 return _context.stop();
             }
@@ -10667,29 +10636,32 @@ var Ultrasonic = function (_Electronic) {
     return _this;
   }
 
-  /**
-   * Get data of Ultrasonic sensor
-   * @return {Promise}
-   */
-
-
   (0, _createClass3.default)(Ultrasonic, [{
+    key: 'protocol',
+    value: function protocol() {
+      return _utils2.default.composer(_cmd2.default.readUltrasonic, [this.args.port]);
+    }
+
+    /**
+     * Get data of Ultrasonic sensor
+     * @return {Promise}
+     */
+
+  }, {
     key: 'getData',
     value: function () {
       var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
-        var buf;
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                buf = _utils2.default.composer(_cmd2.default.readUltrasonic, [this.args.port]);
-                _context.next = 3;
-                return _control2.default.read(buf);
+                _context.next = 2;
+                return _control2.default.read(this.protocol());
 
-              case 3:
+              case 2:
                 return _context.abrupt('return', _context.sent);
 
-              case 4:
+              case 3:
               case 'end':
                 return _context.stop();
             }
@@ -10792,29 +10764,32 @@ var Temperature = function (_Electronic) {
     return _this;
   }
 
-  /**
-   * Get data of Temperature sensor
-   * @return {Promise}
-   */
-
-
   (0, _createClass3.default)(Temperature, [{
+    key: 'protocol',
+    value: function protocol() {
+      return _utils2.default.composer(_cmd2.default.readTemperature, [this.args.port, this.args.slot]);
+    }
+
+    /**
+     * Get data of Temperature sensor
+     * @return {Promise}
+     */
+
+  }, {
     key: 'getData',
     value: function () {
       var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
-        var buf;
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                buf = _utils2.default.composer(_cmd2.default.readTemperature, [this.args.port, this.args.slot]);
-                _context.next = 3;
-                return _control2.default.read(buf);
+                _context.next = 2;
+                return _control2.default.read(this.protocol());
 
-              case 3:
+              case 2:
                 return _context.abrupt('return', _context.sent);
 
-              case 4:
+              case 3:
               case 'end':
                 return _context.stop();
             }
@@ -10908,29 +10883,32 @@ var TemperatureOnBoard = function (_Electronic) {
     return (0, _possibleConstructorReturn3.default)(this, (TemperatureOnBoard.__proto__ || (0, _getPrototypeOf2.default)(TemperatureOnBoard)).call(this, 0x0d));
   }
 
-  /**
-   * Get data of TemperatureOnBoard sensor
-   * @return {Promise}
-   */
-
-
   (0, _createClass3.default)(TemperatureOnBoard, [{
+    key: 'protocol',
+    value: function protocol() {
+      return _utils2.default.composer(_cmd2.default.readTemperatureOnBoard);
+    }
+
+    /**
+     * Get data of TemperatureOnBoard sensor
+     * @return {Promise}
+     */
+
+  }, {
     key: 'getData',
     value: function () {
       var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
-        var buf;
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                buf = _utils2.default.composer(_cmd2.default.readTemperatureOnBoard);
-                _context.next = 3;
-                return _control2.default.read(buf);
+                _context.next = 2;
+                return _control2.default.read(this.protocol());
 
-              case 3:
+              case 2:
                 return _context.abrupt('return', _context.sent);
 
-              case 4:
+              case 3:
               case 'end':
                 return _context.stop();
             }
@@ -10986,7 +10964,7 @@ var _inherits2 = __webpack_require__(4);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _BaseLight2 = __webpack_require__(86);
+var _BaseLight2 = __webpack_require__(85);
 
 var _BaseLight3 = _interopRequireDefault(_BaseLight2);
 
@@ -11048,7 +11026,7 @@ var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _validate = __webpack_require__(8);
 
-var _BaseLight2 = __webpack_require__(86);
+var _BaseLight2 = __webpack_require__(85);
 
 var _BaseLight3 = _interopRequireDefault(_BaseLight2);
 
@@ -11173,29 +11151,38 @@ var Potentionmeter = function (_Electronic) {
     };
     return _this;
   }
+
   /**
-   * Get data of Potentionmeter sensor
-   * @return {Promise}
+   * 获取协议
    */
 
 
   (0, _createClass3.default)(Potentionmeter, [{
+    key: 'protocol',
+    value: function protocol() {
+      return _utils2.default.composer(_cmd2.default.readPotentionmeter, [this.args.port]);
+    }
+
+    /**
+     * Get data of Potentionmeter sensor
+     * @return {Promise}
+     */
+
+  }, {
     key: 'getData',
     value: function () {
       var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
-        var buf;
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                buf = _utils2.default.composer(_cmd2.default.readPotentionmeter, [this.args.port]);
-                _context.next = 3;
-                return _control2.default.read(buf);
+                _context.next = 2;
+                return _control2.default.read(this.protocol());
 
-              case 3:
+              case 2:
                 return _context.abrupt('return', _context.sent);
 
-              case 4:
+              case 3:
               case 'end':
                 return _context.stop();
             }
@@ -11306,6 +11293,17 @@ var Joystick = function (_Electronic) {
       this.args.axis = (0, _validate.validateNumber)(_axis, this.args.axis);
       return this;
     }
+
+    /**
+     * 获取协议
+     */
+
+  }, {
+    key: 'protocol',
+    value: function protocol() {
+      return _utils2.default.composer(_cmd2.default.readJoystick, [this.args.port, this.args.axis]);
+    }
+
     /**
      * Get data of Joystick sensor
      * @return {Promise}
@@ -11315,19 +11313,17 @@ var Joystick = function (_Electronic) {
     key: 'getData',
     value: function () {
       var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
-        var buf;
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                buf = _utils2.default.composer(_cmd2.default.readJoystick, [this.args.port, this.args.axis]);
-                _context.next = 3;
-                return _control2.default.read(buf);
+                _context.next = 2;
+                return _control2.default.read(this.protocol());
 
-              case 3:
+              case 2:
                 return _context.abrupt('return', _context.sent);
 
-              case 4:
+              case 3:
               case 'end':
                 return _context.stop();
             }
@@ -11383,7 +11379,7 @@ var _inherits2 = __webpack_require__(4);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _BaseGyro2 = __webpack_require__(87);
+var _BaseGyro2 = __webpack_require__(86);
 
 var _BaseGyro3 = _interopRequireDefault(_BaseGyro2);
 
@@ -11452,7 +11448,7 @@ var _inherits2 = __webpack_require__(4);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _BaseGyro2 = __webpack_require__(87);
+var _BaseGyro2 = __webpack_require__(86);
 
 var _BaseGyro3 = _interopRequireDefault(_BaseGyro2);
 
@@ -11519,7 +11515,7 @@ var _inherits2 = __webpack_require__(4);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _BaseSound2 = __webpack_require__(88);
+var _BaseSound2 = __webpack_require__(87);
 
 var _BaseSound3 = _interopRequireDefault(_BaseSound2);
 
@@ -11579,7 +11575,7 @@ var _inherits2 = __webpack_require__(4);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _BaseSound2 = __webpack_require__(88);
+var _BaseSound2 = __webpack_require__(87);
 
 var _BaseSound3 = _interopRequireDefault(_BaseSound2);
 
@@ -11685,29 +11681,38 @@ var Pirmotion = function (_Electronic) {
     };
     return _this;
   }
+
   /**
-   * Get data of Pirmotion sensor
-   * @return {Promise}
+   * 获取协议
    */
 
 
   (0, _createClass3.default)(Pirmotion, [{
+    key: 'protocol',
+    value: function protocol() {
+      return _utils2.default.composer(_cmd2.default.readPirmotion, [this.args.port]);
+    }
+
+    /**
+     * Get data of Pirmotion sensor
+     * @return {Promise}
+     */
+
+  }, {
     key: 'getData',
     value: function () {
       var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
-        var buf;
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                buf = _utils2.default.composer(_cmd2.default.readPirmotion, [this.args.port]);
-                _context.next = 3;
-                return _control2.default.read(buf);
+                _context.next = 2;
+                return _control2.default.read(this.protocol());
 
-              case 3:
+              case 2:
                 return _context.abrupt('return', _context.sent);
 
-              case 4:
+              case 3:
               case 'end':
                 return _context.stop();
             }
@@ -11816,49 +11821,52 @@ var Infrared = function (_Electronic) {
     _this.hostname = host.toLowerCase();
     return _this;
   }
+
   /**
-   * Get data of Infrared sensor
-   * @return {Promise}
+   * 获取协议
    */
 
 
   (0, _createClass3.default)(Infrared, [{
+    key: 'protocol',
+    value: function protocol() {
+      var deviceId = void 0,
+          aKey = void 0;
+      //如果是 mcore，外接的红外传感器 id = 0x0e
+      //如果非 mcore，外接的红外传感器 id = 0x10
+      switch (this.hostname) {
+        case MCORE_NAME:
+          deviceId = 0x0e;
+          aKey = 0x45;
+          break;
+        default:
+          deviceId = 0x10;
+      }
+      var argsArr = [deviceId, this.args.port];
+      aKey ? argsArr.push(aKey) : null;
+      return _utils2.default.composer(_cmd2.default.readInfrared, argsArr);
+    }
+
+    /**
+     * Get data of Infrared sensor
+     * @return {Promise}
+     */
+
+  }, {
     key: 'getData',
     value: function () {
       var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
-        var deviceId, aKey, argsArr, buf;
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                deviceId = void 0, aKey = void 0;
-                //如果是 mcore，外接的红外传感器 id = 0x0e
-                //如果非 mcore，外接的红外传感器 id = 0x10
+                _context.next = 2;
+                return _control2.default.read(this.protocol());
 
-                _context.t0 = this.hostname;
-                _context.next = _context.t0 === MCORE_NAME ? 4 : 7;
-                break;
-
-              case 4:
-                deviceId = 0x0e;
-                aKey = 0x45;
-                return _context.abrupt('break', 8);
-
-              case 7:
-                deviceId = 0x10;
-
-              case 8:
-                argsArr = [deviceId, this.args.port];
-
-                aKey ? argsArr.push(aKey) : null;
-                buf = _utils2.default.composer(_cmd2.default.readInfrared, argsArr);
-                _context.next = 13;
-                return _control2.default.read(buf);
-
-              case 13:
+              case 2:
                 return _context.abrupt('return', _context.sent);
 
-              case 14:
+              case 3:
               case 'end':
                 return _context.stop();
             }
@@ -11966,31 +11974,40 @@ var InfraredOnBoard = function (_Electronic) {
     _this.deviceId = 0x0e;
     return _this;
   }
+
   /**
-   * Get data of Infrared sensor
-   * @return {Promise}
+   * 获取协议
    */
 
 
   (0, _createClass3.default)(InfraredOnBoard, [{
+    key: 'protocol',
+    value: function protocol() {
+      var port = 0x00;
+      var aKey = 0x45;
+      return _utils2.default.composer(_cmd2.default.readInfrared, [this.deviceId, port, aKey]);
+    }
+
+    /**
+     * Get data of Infrared sensor
+     * @return {Promise}
+     */
+
+  }, {
     key: 'getData',
     value: function () {
       var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
-        var port, aKey, buf;
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                port = 0x00;
-                aKey = 0x45;
-                buf = _utils2.default.composer(_cmd2.default.readInfrared, [this.deviceId, port, aKey]);
-                _context.next = 5;
-                return _control2.default.read(buf);
+                _context.next = 2;
+                return _control2.default.read(this.protocol());
 
-              case 5:
+              case 2:
                 return _context.abrupt('return', _context.sent);
 
-              case 6:
+              case 3:
               case 'end':
                 return _context.stop();
             }
@@ -12092,29 +12109,38 @@ var LimitSwitch = function (_Electronic) {
     };
     return _this;
   }
+
   /**
-   * Get data of Joystick sensor
-   * @return {Promise}
+   * 获取协议
    */
 
 
   (0, _createClass3.default)(LimitSwitch, [{
+    key: 'protocol',
+    value: function protocol() {
+      return _utils2.default.composer(_cmd2.default.readLimitSwitch, [this.args.port, this.args.slot]);
+    }
+
+    /**
+     * Get data of Joystick sensor
+     * @return {Promise}
+     */
+
+  }, {
     key: 'getData',
     value: function () {
       var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
-        var buf;
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                buf = _utils2.default.composer(_cmd2.default.readLimitSwitch, [this.args.port, this.args.slot]);
-                _context.next = 3;
-                return _control2.default.read(buf);
+                _context.next = 2;
+                return _control2.default.read(this.protocol());
 
-              case 3:
+              case 2:
                 return _context.abrupt('return', _context.sent);
 
-              case 4:
+              case 3:
               case 'end':
                 return _context.stop();
             }
@@ -12215,29 +12241,38 @@ var LineFollower = function (_Electronic) {
     };
     return _this;
   }
+
   /**
-   * Get data of LineFollower sensor
-   * @return {Promise}
+   * 获取协议
    */
 
 
   (0, _createClass3.default)(LineFollower, [{
+    key: 'protocol',
+    value: function protocol() {
+      return _utils2.default.composer(_cmd2.default.readLineFollower, [this.args.port]);
+    }
+
+    /**
+     * Get data of LineFollower sensor
+     * @return {Promise}
+     */
+
+  }, {
     key: 'getData',
     value: function () {
       var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
-        var buf;
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                buf = _utils2.default.composer(_cmd2.default.readLineFollower, [this.args.port]);
-                _context.next = 3;
-                return _control2.default.read(buf);
+                _context.next = 2;
+                return _control2.default.read(this.protocol());
 
-              case 3:
+              case 2:
                 return _context.abrupt('return', _context.sent);
 
-              case 4:
+              case 3:
               case 'end':
                 return _context.stop();
             }
@@ -12338,29 +12373,38 @@ var Compass = function (_Electronic) {
     };
     return _this;
   }
+
   /**
-   * Get data of Compass sensor
-   * @return {Promise}
+   * 获取协议
    */
 
 
   (0, _createClass3.default)(Compass, [{
+    key: 'protocol',
+    value: function protocol() {
+      return _utils2.default.composer(_cmd2.default.readCompass, [this.args.port]);
+    }
+
+    /**
+     * Get data of Compass sensor
+     * @return {Promise}
+     */
+
+  }, {
     key: 'getData',
     value: function () {
       var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
-        var buf;
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                buf = _utils2.default.composer(_cmd2.default.readCompass, [this.args.port]);
-                _context.next = 3;
-                return _control2.default.read(buf);
+                _context.next = 2;
+                return _control2.default.read(this.protocol());
 
-              case 3:
+              case 2:
                 return _context.abrupt('return', _context.sent);
 
-              case 4:
+              case 3:
               case 'end':
                 return _context.stop();
             }
@@ -12396,6 +12440,14 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _regenerator = __webpack_require__(10);
+
+var _regenerator2 = _interopRequireDefault(_regenerator);
+
+var _asyncToGenerator2 = __webpack_require__(11);
+
+var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+
 var _getPrototypeOf = __webpack_require__(2);
 
 var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
@@ -12415,14 +12467,6 @@ var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorRet
 var _inherits2 = __webpack_require__(4);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
-
-var _regenerator = __webpack_require__(10);
-
-var _regenerator2 = _interopRequireDefault(_regenerator);
-
-var _asyncToGenerator2 = __webpack_require__(11);
-
-var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
 
 var _validate = __webpack_require__(8);
 
@@ -12444,38 +12488,10 @@ var _control2 = _interopRequireDefault(_control);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var commandRead = function () {
-  var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(args) {
-    var buf;
-    return _regenerator2.default.wrap(function _callee$(_context) {
-      while (1) {
-        switch (_context.prev = _context.next) {
-          case 0:
-            buf = _utils2.default.composer(_cmd2.default.readHumiture, [args.port, args.type]);
-            _context.next = 3;
-            return _control2.default.read(buf);
-
-          case 3:
-            return _context.abrupt('return', _context.sent);
-
-          case 4:
-          case 'end':
-            return _context.stop();
-        }
-      }
-    }, _callee, this);
-  }));
-
-  return function commandRead(_x) {
-    return _ref.apply(this, arguments);
-  };
-}();
-
 /**
  * Humiture sensor module
  * @extends Electronic
  */
-
 var Humiture = function (_Electronic) {
   (0, _inherits3.default)(Humiture, _Electronic);
 
@@ -12496,82 +12512,76 @@ var Humiture = function (_Electronic) {
    * @return {Promise}
    * @example
    * mcore.Humiture(1)
-   *      .getHumidity()
-   *        .then((val) => {
-   *          console.log(val)
-   *        });
+   *      .readHumidity()
+   *        .getData()
+   *         .then((val) => {
+   *           console.log(val)
+   *         });
    */
 
 
   (0, _createClass3.default)(Humiture, [{
-    key: 'getHumidity',
-    value: function () {
-      var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
-        return _regenerator2.default.wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                this.args.type = 0;
-                _context2.next = 3;
-                return commandRead(this.args);
-
-              case 3:
-                return _context2.abrupt('return', _context2.sent);
-
-              case 4:
-              case 'end':
-                return _context2.stop();
-            }
-          }
-        }, _callee2, this);
-      }));
-
-      function getHumidity() {
-        return _ref2.apply(this, arguments);
-      }
-
-      return getHumidity;
-    }()
+    key: 'readHumidity',
+    value: function readHumidity() {
+      this.args.type = 0;
+      return this;
+    }
 
     /**
      * Get Temperature of Humiture sensor
      * @return {Promise}
      * @example
      * mcore.Humiture(1)
-     *      .getTemperature()
+     *      .readTemperature()
+     *       .getData()
      *        .then((val) => {
      *          console.log(val)
      *        });
      */
 
   }, {
-    key: 'getTemperature',
+    key: 'readTemperature',
+    value: function readTemperature() {
+      this.args.type = 1;
+      return this;
+    }
+
+    /**
+     * 获取协议
+     */
+
+  }, {
+    key: 'protocol',
+    value: function protocol() {
+      return _utils2.default.composer(_cmd2.default.readHumiture, [this.args.port, this.args.type]);
+    }
+  }, {
+    key: 'getData',
     value: function () {
-      var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3() {
-        return _regenerator2.default.wrap(function _callee3$(_context3) {
+      var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
+        return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context.prev = _context.next) {
               case 0:
-                this.args.type = 1;
-                _context3.next = 3;
-                return commandRead(this.args);
+                _context.next = 2;
+                return _control2.default.read(this.protocol());
+
+              case 2:
+                return _context.abrupt('return', _context.sent);
 
               case 3:
-                return _context3.abrupt('return', _context3.sent);
-
-              case 4:
               case 'end':
-                return _context3.stop();
+                return _context.stop();
             }
           }
-        }, _callee3, this);
+        }, _callee, this);
       }));
 
-      function getTemperature() {
-        return _ref3.apply(this, arguments);
+      function getData() {
+        return _ref.apply(this, arguments);
       }
 
-      return getTemperature;
+      return getData;
     }()
   }], [{
     key: 'supportStamp',
@@ -12660,29 +12670,38 @@ var Flame = function (_Electronic) {
     };
     return _this;
   }
+
   /**
-   * Get data of Flame sensor
-   * @return {Promise}
+   * 获取协议
    */
 
 
   (0, _createClass3.default)(Flame, [{
+    key: 'protocol',
+    value: function protocol() {
+      return _utils2.default.composer(_cmd2.default.readFlame, [this.args.port]);
+    }
+
+    /**
+     * Get data of Flame sensor
+     * @return {Promise}
+     */
+
+  }, {
     key: 'getData',
     value: function () {
       var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
-        var buf;
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                buf = _utils2.default.composer(_cmd2.default.readFlame, [this.args.port]);
-                _context.next = 3;
-                return _control2.default.read(buf);
+                _context.next = 2;
+                return _control2.default.read(this.protocol());
 
-              case 3:
+              case 2:
                 return _context.abrupt('return', _context.sent);
 
-              case 4:
+              case 3:
               case 'end':
                 return _context.stop();
             }
@@ -12783,29 +12802,38 @@ var Gas = function (_Electronic) {
     };
     return _this;
   }
+
   /**
-   * Get data of Gas sensor
-   * @return {Promise}
+   * 获取协议
    */
 
 
   (0, _createClass3.default)(Gas, [{
+    key: 'protocol',
+    value: function protocol() {
+      return _utils2.default.composer(_cmd2.default.readGas, [this.args.port]);
+    }
+
+    /**
+     * Get data of Gas sensor
+     * @return {Promise}
+     */
+
+  }, {
     key: 'getData',
     value: function () {
       var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
-        var buf;
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                buf = _utils2.default.composer(_cmd2.default.readGas, [this.args.port]);
-                _context.next = 3;
-                return _control2.default.read(buf);
+                _context.next = 2;
+                return _control2.default.read(this.protocol());
 
-              case 3:
+              case 2:
                 return _context.abrupt('return', _context.sent);
 
-              case 4:
+              case 3:
               case 'end':
                 return _context.stop();
             }
@@ -12907,29 +12935,32 @@ var Touch = function (_Electronic) {
     return _this;
   }
 
-  /**
-   * Get data of Touch sensor
-   * @return {Promise}
-   */
-
-
   (0, _createClass3.default)(Touch, [{
+    key: 'protocol',
+    value: function protocol() {
+      return _utils2.default.composer(_cmd2.default.readTouch, [this.args.port]);
+    }
+
+    /**
+     * Get data of Touch sensor
+     * @return {Promise}
+     */
+
+  }, {
     key: 'getData',
     value: function () {
       var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
-        var buf;
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                buf = _utils2.default.composer(_cmd2.default.readTouch, [this.args.port]);
-                _context.next = 3;
-                return _control2.default.read(buf);
+                _context.next = 2;
+                return _control2.default.read(this.protocol());
 
-              case 3:
+              case 2:
                 return _context.abrupt('return', _context.sent);
 
-              case 4:
+              case 3:
               case 'end':
                 return _context.stop();
             }
@@ -13044,6 +13075,17 @@ var FourKeys = function (_Electronic) {
       this.args.key = (0, _validate.validateNumber)(index, this.args.key);
       return this;
     }
+
+    /**
+     * 获取协议
+     */
+
+  }, {
+    key: 'protocol',
+    value: function protocol() {
+      return _utils2.default.composer(_cmd2.default.readFourKeys, [this.args.port, this.args.key]);
+    }
+
     /**
      * Get data of FourKeys sensor
      * @return {Promise}
@@ -13053,19 +13095,17 @@ var FourKeys = function (_Electronic) {
     key: 'getData',
     value: function () {
       var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
-        var buf;
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                buf = _utils2.default.composer(_cmd2.default.readFourKeys, [this.args.port, this.args.key]);
-                _context.next = 3;
-                return _control2.default.read(buf);
+                _context.next = 2;
+                return _control2.default.read(this.protocol());
 
-              case 3:
+              case 2:
                 return _context.abrupt('return', _context.sent);
 
-              case 4:
+              case 3:
               case 'end':
                 return _context.stop();
             }
@@ -13166,29 +13206,38 @@ var DigGPIO = function (_Electronic) {
     };
     return _this;
   }
+
   /**
-   * Get data of DigGPIO sensor
-   * @return {Promise}
+   * 获取协议
    */
 
 
   (0, _createClass3.default)(DigGPIO, [{
+    key: 'protocol',
+    value: function protocol() {
+      return _utils2.default.composer(_cmd2.default.readDigGPIO, [this.args.port]);
+    }
+
+    /**
+     * Get data of DigGPIO sensor
+     * @return {Promise}
+     */
+
+  }, {
     key: 'getData',
     value: function () {
       var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
-        var buf;
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                buf = _utils2.default.composer(_cmd2.default.readDigGPIO, [this.args.port]);
-                _context.next = 3;
-                return _control2.default.read(buf);
+                _context.next = 2;
+                return _control2.default.read(this.protocol());
 
-              case 3:
+              case 2:
                 return _context.abrupt('return', _context.sent);
 
-              case 4:
+              case 3:
               case 'end':
                 return _context.stop();
             }
@@ -13294,28 +13343,36 @@ var AnalogGPIO = function (_Electronic) {
   }
 
   /**
-   * Get data of AnalogGPIO
-   * @return {Promise}
+   * 获取协议
    */
 
 
   (0, _createClass3.default)(AnalogGPIO, [{
+    key: 'protocol',
+    value: function protocol() {
+      return _utils2.default.composer(_cmd2.default.readAnalogGPIO, [this.args.port]);
+    }
+
+    /**
+     * Get data of AnalogGPIO
+     * @return {Promise}
+     */
+
+  }, {
     key: 'getData',
     value: function () {
       var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
-        var buf;
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                buf = _utils2.default.composer(_cmd2.default.readAnalogGPIO, [this.args.port]);
-                _context.next = 3;
-                return _control2.default.read(buf);
+                _context.next = 2;
+                return _control2.default.read(this.protocol());
 
-              case 3:
+              case 2:
                 return _context.abrupt('return', _context.sent);
 
-              case 4:
+              case 3:
               case 'end':
                 return _context.stop();
             }
@@ -13417,29 +13474,38 @@ var GPIOContinue = function (_Electronic) {
     };
     return _this;
   }
+
   /**
-   * Get data of GPIOContinue sensor
-   * @return {Promise}
+   * 获取协议
    */
 
 
   (0, _createClass3.default)(GPIOContinue, [{
+    key: 'protocol',
+    value: function protocol() {
+      return _utils2.default.composer(_cmd2.default.readGPIOContinue, [this.args.port, this.args.key]);
+    }
+
+    /**
+     * Get data of GPIOContinue sensor
+     * @return {Promise}
+     */
+
+  }, {
     key: 'getData',
     value: function () {
       var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
-        var buf;
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                buf = _utils2.default.composer(_cmd2.default.readGPIOContinue, [this.args.port, this.args.key]);
-                _context.next = 3;
-                return _control2.default.read(buf);
+                _context.next = 2;
+                return _control2.default.read(this.protocol());
 
-              case 3:
+              case 2:
                 return _context.abrupt('return', _context.sent);
 
-              case 4:
+              case 3:
               case 'end':
                 return _context.stop();
             }
@@ -13541,29 +13607,38 @@ var DoubleGPIO = function (_Electronic) {
     };
     return _this;
   }
+
   /**
-   * Get data of DoubleGPIO sensor
-   * @return {Promise}
+   * 获取协议
    */
 
 
   (0, _createClass3.default)(DoubleGPIO, [{
+    key: 'protocol',
+    value: function protocol() {
+      return _utils2.default.composer(_cmd2.default.readDoubleGPIO, [this.args.port1, this.args.port2]);
+    }
+
+    /**
+     * Get data of DoubleGPIO sensor
+     * @return {Promise}
+     */
+
+  }, {
     key: 'getData',
     value: function () {
       var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
-        var buf;
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                buf = _utils2.default.composer(_cmd2.default.readDoubleGPIO, [this.args.port1, this.args.port2]);
-                _context.next = 3;
-                return _control2.default.read(buf);
+                _context.next = 2;
+                return _control2.default.read(this.protocol());
 
-              case 3:
+              case 2:
                 return _context.abrupt('return', _context.sent);
 
-              case 4:
+              case 3:
               case 'end':
                 return _context.stop();
             }
@@ -13656,29 +13731,38 @@ var Runtime = function (_Electronic) {
     (0, _classCallCheck3.default)(this, Runtime);
     return (0, _possibleConstructorReturn3.default)(this, (Runtime.__proto__ || (0, _getPrototypeOf2.default)(Runtime)).call(this));
   }
+
   /**
-   * Get data of Runtime sensor
-   * @return {Promise}
+   * 获取协议
    */
 
 
   (0, _createClass3.default)(Runtime, [{
+    key: 'protocol',
+    value: function protocol() {
+      return _utils2.default.composer(_cmd2.default.readRuntime);
+    }
+
+    /**
+     * Get data of Runtime sensor
+     * @return {Promise}
+     */
+
+  }, {
     key: 'getData',
     value: function () {
       var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
-        var buf;
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                buf = _utils2.default.composer(_cmd2.default.readRuntime);
-                _context.next = 3;
-                return _control2.default.read(buf);
+                _context.next = 2;
+                return _control2.default.read(this.protocol());
 
-              case 3:
+              case 2:
                 return _context.abrupt('return', _context.sent);
 
-              case 4:
+              case 3:
               case 'end':
                 return _context.stop();
             }

@@ -10,13 +10,16 @@ class Version {
 
   }
 
+  protocol () {
+    return Utils.composer(protocolAssembler.readVersion);
+  }
+
   /**
    * Get version of firmware
    * @return {Promise}
    */
   async getVersion() {
-    let buf = Utils.composer(protocolAssembler.readVersion);
-    return await Control.read(buf);
+    return await Control.read(this.protocol());
   }
 }
 

@@ -61,9 +61,9 @@ class Buzzer extends Electronic {
   }
 
   /**
-   * run Buzzer sensor
+   * 获取协议
    */
-  run() {
+  protocol () {
     let buf = [];
     switch (this.hostname) {
       case MCORE_:
@@ -72,7 +72,14 @@ class Buzzer extends Electronic {
       default:
         buf = Utils.composer(protocolAssembler.setBuzzer, [this.args.hz, this.args.beat]);
     }
-    Control.write(buf);
+    return buf;
+  }
+
+  /**
+   * run Buzzer sensor
+   */
+  run() {
+    Control.write(this.protocol());
     return this;
   }
 

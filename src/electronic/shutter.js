@@ -28,12 +28,18 @@ class Shutter extends Electronic {
   }
 
   /**
+   * 获取协议
+   */
+  protocol() {
+    return Utils.composer(protocolAssembler.setShutter, [this.args.port, this.args.action]);
+  }
+
+  /**
    * run shutter with mode set before
    * @return {this}  模块实例
    */
   run() {
-    let buf = Utils.composer(protocolAssembler.setShutter, [this.args.port, this.args.action]);
-    Control.write(buf);
+    Control.write(this.protocol());
     return this;
   }
 

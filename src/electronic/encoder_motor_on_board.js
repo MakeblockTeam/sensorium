@@ -3,10 +3,6 @@ import BaseEncoderMotor from './BaseEncoderMotor';
 import protocolAssembler from '../protocol/cmd';
 import Control from '../communicate/control';
 
-const bufComposer = function(args){
-  return Utils.composer(protocolAssembler.readEncoderMotorOnBoard, [args.slot, args.type]);
-}
-
 /**
  * EncoderMotorOnBoard sensor module
  * @extends BaseEncoderMotor
@@ -20,23 +16,32 @@ class EncoderMotorOnBoard extends BaseEncoderMotor {
   }
 
   /**
+   * 获取协议
+   */
+  protocol() {
+    return Utils.composer(protocolAssembler.readEncoderMotorOnBoard, [this.args.slot, this.args.type]);
+  }
+
+  /**
    * Get Speed of the encoder motor runs
    * @return  {Promise} return promise
    */
-  async getSpeed(){
+  readSpeed(){
     this.args.type = 0x02;
-    let buf = bufComposer(this.args);
-    return await Control.read(buf);
+    return this;
   }
 
   /**
    * get angle offset to the start position
    * @return  {Promise} return promise
    */
-  async getAngle(){
+  readAngle(){
     this.args.type = 0x01;
-    let buf = bufComposer(this.args);
-    return await Control.read(buf);
+    return this;
+  }
+
+  async getData () {
+    return await Control.read(this.protocol());
   }
 
   static supportStamp(){

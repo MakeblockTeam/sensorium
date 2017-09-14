@@ -10,7 +10,8 @@ class LedMatrixChar extends BaseLedMatrix {
     Object.assign(this.args, {
       x: 0,
       y: 7,  //默认将字体垂直居中，输入的 y 值时将在 y=7 上做偏移
-      char: ''
+      char: '',
+      type: BaseLedMatrix.CHAR_TYPE()
     });
   }
 
@@ -57,20 +58,6 @@ class LedMatrixChar extends BaseLedMatrix {
     this.x(coordinate[0]);
     this.y(coordinate[1]);
     return this.char(str);
-  }
-
-  /**
-   * run
-   */
-  run(){
-    let type = 0x01;
-    let bufArray = [this.args.port, type, this.args.x, this.args.y, this.args.char.length];
-    for (let char of this.args.char) {
-      bufArray.push(char.charCodeAt());
-    }
-    // console.log('Matrix panel show chars ===>', bufArray);
-    super.run(bufArray);
-    return this;
   }
 }
 

@@ -38,6 +38,24 @@ class EncoderMotorOnBoardPID extends Electronic {
         return new PIDForDoubleMotor();
       }
     }
+
+    this.reset = false;
+  }
+
+  /**
+   * 获取协议
+   */
+  protocol() {
+    let subCmd = [];
+    if (this.reset) {
+      this.reset = false;
+      if (this.hostname == auriga){
+        subCmd = [0x04];
+      } else if (this.hostname == megapipro){
+        subCmd = [0x03];
+      }
+    }
+    return Utils.composer(protocolAssembler.setEncoderMotorPIDZeroPoint, subCmd);
   }
 
   /**
@@ -46,15 +64,13 @@ class EncoderMotorOnBoardPID extends Electronic {
    * let pid = new EncoderMotorOnBoardPID()
    * pid.setZeroPoint()
    */
-  setZeroPoint(){
-    let subCmd;
-    if(this.hostname == auriga){
-      subCmd = 0x04;
-    }else if(this.hostname == megapipro){
-      subCmd = 0x03;
-    }
-    let buf = Utils.composer(protocolAssembler.setEncoderMotorPIDZeroPoint, [subCmd]);
-    Control.write(buf);
+  setZeroPoint() {
+    this.reset = true;
+    return this;
+  }
+
+  run () {
+    Control.write(this.protocol());
     return this;
   }
 

@@ -21,11 +21,17 @@ class DcMotor extends BaseMotor {
   }
 
   /**
+   * 获取协议
+   */
+  protocol () {
+    return Utils.composer(protocolAssembler.setDcMotor, [this.args.port, this.args.speed]);
+  }
+
+  /**
    * run
    */
   run() {
-    let buf = Utils.composer(protocolAssembler.setDcMotor, [this.args.port, this.args.speed]);
-    Control.write(buf);
+    Control.write(this.protocol());
     return this;
   }
 

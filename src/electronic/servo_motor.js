@@ -47,11 +47,17 @@ class ServoMotor extends Electronic {
   }
 
   /**
+   * 获取协议
+   */
+  protocol() {
+    return Utils.composer(protocolAssembler.setServoMotor, [this.args.port, this.args.slot, this.args.angle]);
+  }
+
+  /**
    * run
    */
   run(){
-    let buf = Utils.composer(protocolAssembler.setServoMotor, [this.args.port, this.args.slot, this.args.angle]);
-    Control.write(buf);
+    Control.write(this.protocol());
     return this;
   }
 

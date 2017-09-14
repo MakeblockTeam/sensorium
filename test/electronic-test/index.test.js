@@ -48,6 +48,9 @@ describe('test all the electronic modules', function() {
           //实例原型链上的 API
           let apis = Util.getAllMethods(instance_.__proto__);
           for (let method of apis) {
+            if (method === 'protocol') {
+              continue;
+            }
             let obj = instance_[method]();
             if(isPromiseObject(obj)){
               it(`${method} : should be promise methods and resolve(null)`, function(done) {
@@ -70,6 +73,9 @@ describe('test all the electronic modules', function() {
               //读取所有包括原型链上的 API
               let apis = Util.getAllMethods(instance_instance_);
               for (let method of apis) {
+                if (method === 'protocol') {
+                  continue;
+                }
                 let obj = instance_instance_[method]();
                 if(isPromiseObject(obj)){
                   it(`${method} : should be promise methods and resolve(null)`, function(done) {
@@ -92,6 +98,9 @@ describe('test all the electronic modules', function() {
             //读取所有 API 包括原型链上的 API
             let apis = Util.getAllMethods(instance_);
             for (let method of apis) {
+              if (method === 'protocol') {
+                continue;
+              }
               let obj = instance_[method]();
               if(isPromiseObject(obj)){
                 it(`${method} : should be promise methods and resolve(null)`, function(done) {
