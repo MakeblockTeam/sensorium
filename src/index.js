@@ -129,6 +129,17 @@ class Sensorium {
   }
 
   /**
+   * read protocol buffer
+   * now this interface is just for debug the protocol
+   * @param  {Array} buf
+   * @example
+   * sensorium.send([0xff, 0x55, 0x01...]);
+   */
+  async read (buf){
+    return await Control.read(buf);
+  }
+
+  /**
    * Get supported mainboard
    * @example
    * sensorium.getSupported()
