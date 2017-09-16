@@ -5,7 +5,10 @@
 var fs = require('fs');
 var xml2js = require('xml2js');
 var parser = new xml2js.Parser({
-  valueProcessors: [revertquote]
+  valueProcessors: [revertquote],
+  // tagNameProcessors: [revertquote1],
+  // validator: [filterNode]
+
 });
 
 
@@ -32,6 +35,20 @@ function revertquote(value, summary) {
 
   }
   return outputName;
+}
+//解析数据时对每条XML做自定义处理
+function revertquote1(name) {
+  // if (name === "summary" || name === "testcases" || name === "testsuite") {
+  //   return name ;
+  // } else {
+  //   // this.remove();
+  //   return 1;
+  // }
+    return name;
+}
+
+function filterNode(name) {
+ 
 }
 
 Transform.transformData = function () { //callback
@@ -74,7 +91,7 @@ Transform.transformData = function () { //callback
             if (summaryToStr == "[\"\"]") {
               //并非接口测试用例；
             } else {
-              if (summaryToStr.indexOf("single-setCmd:") > 0 || summaryToStr.indexOf("loop-setCmd:") > 0) { //针对返回值的验证用例
+              if (summaryToStr.indexOf("single-setCmd:") > 0) { //针对返回值的验证用例
                 var extractedXml_sendData = {};
                 extractedXml_sendData.caseDir = caseDir;
                 extractedXml_sendData.caseName = _case_.$.name; //[]//提取用例名至extractedXml
@@ -91,13 +108,48 @@ Transform.transformData = function () { //callback
                 }
                 interfaceCaseNumber++;
                 sendDataCaseNumber++;
-              } else if (summaryToStr.indexOf("single-readCmd:") > 0 || summaryToStr.indexOf("loop-readCmd:") > 0) { //针对返回的传感器值的验证用例
+              } else if (summaryToStr.indexOf("loop-setCmd:") > 0) {
+                var extractedXml_sendData = {};
+                extractedXml_sendData.caseDir = caseDir;
+                extractedXml_sendData.caseName = _case_.$.name; //[]//提取用例名至extractedXml
+                extractedXml_sendData.caseSummary = [];
+
+                let summaryToSub = summaryToStr.substring(summaryToStr.indexOf("loop-setCmd:"), summaryToStr.indexOf("</p>")); //将摘要中前后多余的<p>\r\n\t等字符除去 
+                console.log(summaryToStr);
+                extractedXml_sendData.caseSummary = summaryToSub.split("`"); //提取用例摘要
+
+                if (extractedXml_getData === null) {
+                  continue;
+                } else {
+                  extractedXml_s.push(extractedXml_sendData);
+                }
+                interfaceCaseNumber++;
+                sendDataCaseNumber++;
+              } else if (summaryToStr.indexOf("single-readCmd:") > 0) { //针对返回的传感器值的验证用例
                 var extractedXml_getData = {};
                 extractedXml_getData.caseDir = caseDir;
                 extractedXml_getData.caseName = _case_.$.name; //[]//提取用例名至extractedXml
                 extractedXml_getData.caseSummary = [];
 
-                let summaryToSub = summaryToStr.substring(9, summaryToStr.length - 8); //将摘要中前后多余的<p>\r\n\t等字符除去 
+                let summaryToSub = summaryToStr.substring(summaryToStr.indexOf("single-readCmd:"), summaryToStr.indexOf("</p>")); //将摘要中前后多余的<p>\r\n\t等字符除去 
+                console.log(summaryToStr);
+                extractedXml_getData.caseSummary = summaryToSub.split("`"); //提取用例摘要
+                if (extractedXml_getData == null) {
+                  continue;
+                } else {
+                  extractedXml_s.push(extractedXml_getData);
+                  extractedXml_g.push(extractedXml_getData);
+                }
+                interfaceCaseNumber++;
+                sendDataCaseNumber++;
+                getDataCaseNumber++;
+              } else if (summaryToStr.indexOf("loop-readCmd:") > 0) {
+                var extractedXml_getData = {};
+                extractedXml_getData.caseDir = caseDir;
+                extractedXml_getData.caseName = _case_.$.name; //[]//提取用例名至extractedXml
+                extractedXml_getData.caseSummary = [];
+
+                let summaryToSub = summaryToStr.substring(summaryToStr.indexOf("loop-readCmd:"), summaryToStr.indexOf("</p>")); //将摘要中前后多余的<p>\r\n\t等字符除去 
                 console.log(summaryToStr);
                 extractedXml_getData.caseSummary = summaryToSub.split("`"); //提取用例摘要
                 if (extractedXml_getData == null) {

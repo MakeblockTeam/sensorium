@@ -11,7 +11,7 @@
 	<externalid><![CDATA[15]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	loop-setCmd:`mcore.VirtualJoystick().speed(100,100)`ff 55 07 00 02 05 64 00 64 00</p>
+	single-setCmd:`mcore.VirtualJoystick().speed(100,100)`ff 55 07 00 02 05 64 00 64 00</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	设备正确连接可运行，蓝牙通信正常</p>

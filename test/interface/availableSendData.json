@@ -1,16 +1,16 @@
 {
     "drivenData": [
         {
-            "caseDir": "运动（Move）/mCore/运动语句",
+            "caseDir": "mCore/运动语句",
             "caseName": "运动向前速度100",
             "caseSummary": [
-                "single-setCmd:",
+                "loop-setCmd:",
                 "mcore.VirtualJoystick().speed(100,100)",
                 "ff 55 07 00 02 05 64 00 64 00"
             ]
         },
         {
-            "caseDir": "运动（Move）/mCore/运动语句",
+            "caseDir": "mCore/运动语句",
             "caseName": "运动向后速度255",
             "caseSummary": [
                 "single-setCmd:",
@@ -19,7 +19,7 @@
             ]
         },
         {
-            "caseDir": "运动（Move）/mCore/运动语句",
+            "caseDir": "mCore/运动语句",
             "caseName": "左转速度256",
             "caseSummary": [
                 "single-setCmd:",
@@ -28,7 +28,7 @@
             ]
         },
         {
-            "caseDir": "运动（Move）/mCore/运动语句",
+            "caseDir": "mCore/运动语句",
             "caseName": "右转速度100",
             "caseSummary": [
                 "single-setCmd:",
@@ -37,7 +37,7 @@
             ]
         },
         {
-            "caseDir": "运动（Move）/mCore/运动语句",
+            "caseDir": "mCore/运动语句",
             "caseName": "运动向前速度0",
             "caseSummary": [
                 "single-setCmd:",
@@ -46,7 +46,7 @@
             ]
         },
         {
-            "caseDir": "运动（Move）/mCore/运动语句",
+            "caseDir": "mCore/运动语句",
             "caseName": "运动向前速度-256",
             "caseSummary": [
                 "single-setCmd:",
@@ -55,7 +55,7 @@
             ]
         },
         {
-            "caseDir": "运动（Move）/mCore/运动语句",
+            "caseDir": "mCore/运动语句",
             "caseName": "停止运动",
             "caseSummary": [
                 "single-setCmd:",
@@ -64,7 +64,7 @@
             ]
         },
         {
-            "caseDir": "运动（Move）/mCore/运动语句",
+            "caseDir": "mCore/运动语句",
             "caseName": "运动向前速度-255",
             "caseSummary": [
                 "single-setCmd:",
@@ -73,17 +73,17 @@
             ]
         },
         {
-            "caseDir": "运动（Move）/mCore/直流电机",
+            "caseDir": "mCore/直流电机",
             "caseName": "设置直流电机M1在速度取值正常范围以内，即【100,255，150,0,-100，-255,-150】",
             "caseSummary": [
-                "[\"loop-setCmd:",
+                "loop-setCmd:",
                 "100,255,150,0,-100,-255,-150",
                 "mcore.DcMotor(9).speed(arg)",
                 "ff 55 06 00 02 0a 09 64 00,ff 55 06 00 02 0a 09 ff 00,ff 55 06 00 02 0a 09 96 00,ff 55 06 00 02 0a 09 00 00,ff 55 06 00 02 0a 09 9c ff,ff 55 06 00 02 0a 09 01 ff,ff 55 06 00 02 0a 09 6a ff"
             ]
         },
         {
-            "caseDir": "运动（Move）/mCore/直流电机",
+            "caseDir": "mCore/直流电机",
             "caseName": "设置直流电机M2速度255",
             "caseSummary": [
                 "single-setCmd:",
@@ -92,7 +92,7 @@
             ]
         },
         {
-            "caseDir": "运动（Move）/mCore/直流电机",
+            "caseDir": "mCore/直流电机",
             "caseName": "设置直流电机M2速度-256",
             "caseSummary": [
                 "single-setCmd:",
@@ -101,7 +101,7 @@
             ]
         },
         {
-            "caseDir": "运动（Move）/mCore/舵机",
+            "caseDir": "mCore/舵机",
             "caseName": "设置舵机【端口1】插槽【1】角度【90】",
             "caseSummary": [
                 "single-setCmd:",
@@ -110,7 +110,7 @@
             ]
         },
         {
-            "caseDir": "运动（Move）/mCore/舵机",
+            "caseDir": "mCore/舵机",
             "caseName": "设置舵机【端口1】插槽【2】角度【0】",
             "caseSummary": [
                 "single-setCmd:",
@@ -119,7 +119,7 @@
             ]
         },
         {
-            "caseDir": "运动（Move）/mCore/舵机",
+            "caseDir": "mCore/舵机",
             "caseName": "设置舵机【端口2】插槽【1】角度【180】",
             "caseSummary": [
                 "single-setCmd:",
@@ -128,7 +128,7 @@
             ]
         },
         {
-            "caseDir": "运动（Move）/mCore/舵机",
+            "caseDir": "mCore/舵机",
             "caseName": "设置舵机【端口3】插槽【2】角度【181】",
             "caseSummary": [
                 "single-setCmd:",
@@ -137,7 +137,7 @@
             ]
         },
         {
-            "caseDir": "运动（Move）/mCore/舵机",
+            "caseDir": "mCore/舵机",
             "caseName": "设置舵机【端口4】插槽【1】角度【-1】",
             "caseSummary": [
                 "single-setCmd:",
