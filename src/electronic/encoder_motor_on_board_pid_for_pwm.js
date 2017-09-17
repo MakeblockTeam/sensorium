@@ -23,12 +23,12 @@ class PIDForPwm {
   /**
    * 获取协议
    */
-  protocol() {
+  get protocol() {
     return Utils.composer(protocolAssembler.setEncoderMotorPIDPwm, [this.args.speed]);
   }
 
   run() {
-    Control.write(this.protocol());
+    Control.write(this.protocol);
     return this;
   }
 }

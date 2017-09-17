@@ -23,7 +23,7 @@ class Orion extends Board{
     // 挂载电子模块
     for (let name in electronics) {
       let eModule = electronics[name];
-      if(eModule.supportStamp().charAt(SUPPORT_INDEX) === '1'){
+      if(eModule.supportStamp.charAt(SUPPORT_INDEX) === '1'){
         this[name] = function(){
           return this_.eModuleFactory(eModule, arguments);
         };

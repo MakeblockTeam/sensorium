@@ -23,7 +23,7 @@ class DcMotor extends BaseMotor {
   /**
    * 获取协议
    */
-  protocol () {
+  get protocol () {
     return Utils.composer(protocolAssembler.setDcMotor, [this.args.port, this.args.speed]);
   }
 
@@ -31,11 +31,11 @@ class DcMotor extends BaseMotor {
    * run
    */
   run() {
-    Control.write(this.protocol());
+    Control.write(this.protocol);
     return this;
   }
 
-  static supportStamp(){
+  static get supportStamp(){
     return '1111';
   }
 }

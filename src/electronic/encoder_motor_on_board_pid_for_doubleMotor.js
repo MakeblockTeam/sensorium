@@ -98,12 +98,12 @@ class PIDForDoubleMotor {
   /**
    * 获取协议
    */
-  protocol() {
+  get protocol() {
     return Utils.composer(protocolAssembler.setEncoderMotorPIDDoubleMotor, [this.args.direction, this.args.distance, this.args.speed]);
   }
 
   run() {
-    Control.write(this.protocol());
+    Control.write(this.protocol);
     return this;
   }
 }

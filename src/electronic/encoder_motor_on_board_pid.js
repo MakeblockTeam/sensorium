@@ -45,7 +45,7 @@ class EncoderMotorOnBoardPID extends Electronic {
   /**
    * 获取协议
    */
-  protocol() {
+  get protocol() {
     let subCmd = [];
     if (this.reset) {
       this.reset = false;
@@ -70,11 +70,11 @@ class EncoderMotorOnBoardPID extends Electronic {
   }
 
   run () {
-    Control.write(this.protocol());
+    Control.write(this.protocol);
     return this;
   }
 
-  static supportStamp(){
+  static get supportStamp(){
     return '010001';
   }
 }

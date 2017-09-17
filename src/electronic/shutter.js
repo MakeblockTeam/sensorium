@@ -30,7 +30,7 @@ class Shutter extends Electronic {
   /**
    * 获取协议
    */
-  protocol() {
+  get protocol() {
     return Utils.composer(protocolAssembler.setShutter, [this.args.port, this.args.action]);
   }
 
@@ -39,11 +39,11 @@ class Shutter extends Electronic {
    * @return {this}  模块实例
    */
   run() {
-    Control.write(this.protocol());
+    Control.write(this.protocol);
     return this;
   }
 
-  static supportStamp(){
+  static get supportStamp(){
     return '1111';
   }
 }

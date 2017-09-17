@@ -63,7 +63,7 @@ class Buzzer extends Electronic {
   /**
    * 获取协议
    */
-  protocol () {
+  get protocol () {
     let buf = [];
     switch (this.hostname) {
       case MCORE_:
@@ -79,11 +79,11 @@ class Buzzer extends Electronic {
    * run Buzzer sensor
    */
   run() {
-    Control.write(this.protocol());
+    Control.write(this.protocol);
     return this;
   }
 
-  static supportStamp() {
+  static get supportStamp() {
     return '11111';
   }
 }

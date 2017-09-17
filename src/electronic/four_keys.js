@@ -29,7 +29,7 @@ class FourKeys extends Electronic {
   /**
    * 获取协议
    */
-  protocol() {
+  get protocol() {
     return Utils.composer(protocolAssembler.readFourKeys, [this.args.port, this.args.key]);
   }
 
@@ -38,10 +38,10 @@ class FourKeys extends Electronic {
    * @return {Promise}
    */
   async getData() {
-    return await Control.read(this.protocol());
+    return await Control.read(this.protocol);
   }
 
-  static supportStamp(){
+  static get supportStamp(){
     return '1111';
   }
 }

@@ -18,7 +18,7 @@ class EncoderMotorOnBoard extends BaseEncoderMotor {
   /**
    * 获取协议
    */
-  protocol() {
+  get protocol() {
     return Utils.composer(protocolAssembler.readEncoderMotorOnBoard, [this.args.slot, this.args.type]);
   }
 
@@ -41,10 +41,10 @@ class EncoderMotorOnBoard extends BaseEncoderMotor {
   }
 
   async getData () {
-    return await Control.read(this.protocol());
+    return await Control.read(this.protocol);
   }
 
-  static supportStamp(){
+  static get supportStamp(){
     return '0110';
   }
 }

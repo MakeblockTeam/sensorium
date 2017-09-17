@@ -34,7 +34,7 @@ class BaseGyro extends Electronic {
   /**
    * 获取协议
    */
-  protocol() {
+  get protocol() {
     const buf = Utils.composer(protocolAssembler.readGyro, [this.args.port, this.args.axis]);
     return buf;
   }
@@ -44,7 +44,7 @@ class BaseGyro extends Electronic {
    * @return {Promise}
    */
   async getData() {
-    return await Control.read(this.protocol());
+    return await Control.read(this.protocol);
   }
 }
 

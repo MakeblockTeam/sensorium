@@ -17,7 +17,7 @@ class Gyro extends BaseGyro {
     super(0);
   }
 
-  static supportStamp(){
+  static get supportStamp(){
     return '1111';
   }
 }

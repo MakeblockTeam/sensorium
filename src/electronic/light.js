@@ -9,7 +9,7 @@ class Light extends BaseLight {
     super(port);
   }
 
-  static supportStamp(){
+  static get supportStamp(){
     return '111111';
   }
 }

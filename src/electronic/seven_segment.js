@@ -29,7 +29,7 @@ class SevenSegment extends Electronic {
   /**
    * 获取协议
    */
-  protocol() {
+  get protocol() {
     return Utils.composer(protocolAssembler.setSevenSegment, [this.args.port, this.args.number]);
   }
 
@@ -38,11 +38,11 @@ class SevenSegment extends Electronic {
    * @return {Instance}     @this
    */
   run() {
-    Control.write(this.protocol());
+    Control.write(this.protocol);
     return this;
   }
 
-  static supportStamp(){
+  static get supportStamp(){
     return '1111';
   }
 }

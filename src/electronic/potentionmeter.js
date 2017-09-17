@@ -31,7 +31,7 @@ class Potentionmeter extends Electronic {
     return await Control.read(this.protocol());
   }
 
-  static supportStamp(){
+  static get supportStamp(){
     return '1111';
   }
 }

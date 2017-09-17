@@ -30,7 +30,7 @@ class RgbLedOnBoard extends BaseRgbLed {
     }
   }
 
-  static supportStamp(){
+  static get supportStamp(){
     return '110000';
   }
 }

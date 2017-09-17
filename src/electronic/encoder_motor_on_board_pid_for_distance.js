@@ -34,7 +34,7 @@ class EncoderMotorPIDForDistance {
   /**
    * 获取协议
    */
-  protocol() {
+  get protocol() {
     return Utils.composer(protocolAssembler.setEncoderMotorPIDDistance, [this.args.distance, this.args.speed]);
   }
 
@@ -42,7 +42,7 @@ class EncoderMotorPIDForDistance {
    * run
    */
   run() {
-    Control.write(this.protocol());
+    Control.write(this.protocol);
     return this;
   }
 }

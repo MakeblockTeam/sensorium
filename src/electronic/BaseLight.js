@@ -20,7 +20,7 @@ class BaseLight extends Electronic {
     };
   }
 
-  protocol () {
+  get protocol () {
     return Utils.composer(protocolAssembler.readLight, [this.args.port]);
   }
 
@@ -29,7 +29,7 @@ class BaseLight extends Electronic {
    * @return {Promise}
    */
   async getData() {
-    return await Control.read(this.protocol());
+    return await Control.read(this.protocol);
   }
 }
 

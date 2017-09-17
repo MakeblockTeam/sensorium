@@ -19,7 +19,7 @@ class Compass extends Electronic {
   /**
    * 获取协议
    */
-  protocol () {
+  get protocol () {
     return Utils.composer(protocolAssembler.readCompass, [this.args.port]);
   }
 
@@ -28,10 +28,10 @@ class Compass extends Electronic {
    * @return {Promise}
    */
   async getData() {
-    return await Control.read(this.protocol());
+    return await Control.read(this.protocol);
   }
 
-  static supportStamp(){
+  static get supportStamp(){
     return '1110';
   }
 }

@@ -16,7 +16,7 @@ class Ultrasonic extends Electronic {
     };
   }
 
-  protocol () {
+  get protocol () {
     return Utils.composer(protocolAssembler.readUltrasonic, [this.args.port]);
   }
 
@@ -25,10 +25,10 @@ class Ultrasonic extends Electronic {
    * @return {Promise}
    */
   async getData() {
-    return await Control.read(this.protocol());
+    return await Control.read(this.protocol);
   }
 
-  static supportStamp(){
+  static get supportStamp(){
     return '1111';
   }
 }

@@ -88,19 +88,19 @@ class BaseLedMatrix extends Electronic {
     return this;
   }
 
-  static CHAR_TYPE () {
+  static get CHAR_TYPE () {
     return 0x01;
   }
 
-  static EMOTION_TYPE () {
+  static get EMOTION_TYPE () {
     return 0x02;
   }
 
-  static TIME_TYPE () {
+  static get TIME_TYPE () {
     return 0x03;
   }
   
-  static NUMBER_TYPE () {
+  static get NUMBER_TYPE () {
     return 0x04;
   }
 }

@@ -49,7 +49,7 @@ class VirtualJoystick extends Electronic {
     return this;
   }
 
-  protocol () {
+  get protocol () {
     return Utils.composer(protocolAssembler.setJoystick, [this.args.leftSpeed, this.args.rightSpeed]);
   }
 
@@ -59,7 +59,7 @@ class VirtualJoystick extends Electronic {
    * @return {Instance} @this
    */
   run() {
-    Control.write(this.protocol());
+    Control.write(this.protocol);
     return this;
   }
 
@@ -71,7 +71,7 @@ class VirtualJoystick extends Electronic {
     return this.speed(0,0).run();
   }
 
-  static supportStamp(){
+  static get supportStamp(){
     return '1111';
   }
 }

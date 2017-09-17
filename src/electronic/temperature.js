@@ -17,7 +17,7 @@ class Temperature extends Electronic {
     };
   }
 
-  protocol () {
+  get protocol () {
     return Utils.composer(protocolAssembler.readTemperature, [this.args.port, this.args.slot]);
   }
 
@@ -26,10 +26,10 @@ class Temperature extends Electronic {
    * @return {Promise}
    */
   async getData() {
-    return await Control.read(this.protocol());
+    return await Control.read(this.protocol);
   }
 
-  static supportStamp(){
+  static get supportStamp(){
     return '1111';
   }
 

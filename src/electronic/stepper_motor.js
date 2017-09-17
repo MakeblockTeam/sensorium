@@ -59,7 +59,7 @@ class StepperMotor extends BaseMotor {
     return this;
   }
 
-  static supportStamp(){
+  static get supportStamp(){
     return '0111';
   }
 }

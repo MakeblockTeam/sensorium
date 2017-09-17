@@ -36,7 +36,7 @@ class BaseEncoderMotor extends BaseMotor {
   /**
    * 获取协议
    */
-  protocol() {
+  get protocol() {
     let buf;
     if(this.args.port == 0){
       buf = Utils.composer(protocolAssembler.setEncoderMotorOnBoard, [this.args.slot, this.args.speed]);
@@ -51,7 +51,7 @@ class BaseEncoderMotor extends BaseMotor {
    * @return {Object} the instance
    */
   run() {
-    Control.write(this.protocol());
+    Control.write(this.protocol);
     return this;
   }
 

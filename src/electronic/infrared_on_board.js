@@ -26,7 +26,7 @@ class InfraredOnBoard extends Electronic {
   /**
    * 获取协议
    */
-  protocol() {
+  get protocol() {
     let port = 0x00;
     let aKey = 0x45;
     return Utils.composer(protocolAssembler.readInfrared, [this.deviceId, port, aKey]);
@@ -37,10 +37,10 @@ class InfraredOnBoard extends Electronic {
    * @return {Promise}
    */
   async getData() {
-    return await Control.read(this.protocol());
+    return await Control.read(this.protocol);
   }
 
-  static supportStamp(){
+  static get supportStamp(){
     return '10000';
   }
 }

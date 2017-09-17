@@ -35,7 +35,7 @@ class VirtualJoystickForBalance extends Electronic {
     return this;
   }
 
-  protocol () {
+  get protocol () {
     return Utils.composer(protocolAssembler.setVirtualJoystickForBalance, [this.args.turnRange, this.args.speed]);
   }
 
@@ -44,7 +44,7 @@ class VirtualJoystickForBalance extends Electronic {
    * @return {Instance} @this
    */
   run() {
-    Control.write(this.protocol());
+    Control.write(this.protocol);
     return this;
   }
 
@@ -65,7 +65,7 @@ class VirtualJoystickForBalance extends Electronic {
     return this.speed(0).run();
   }
 
-  static supportStamp(){
+  static get supportStamp(){
     return '0110';
   }
 }

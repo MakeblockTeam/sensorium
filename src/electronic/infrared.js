@@ -24,7 +24,7 @@ class Infrared extends Electronic {
   /**
    * 获取协议
    */
-  protocol() {
+  get protocol() {
     let deviceId, aKey;
     //如果是 mcore，外接的红外传感器 id = 0x0e
     //如果非 mcore，外接的红外传感器 id = 0x10
@@ -46,10 +46,10 @@ class Infrared extends Electronic {
    * @return {Promise}
    */
   async getData() {
-    return await Control.read(this.protocol());
+    return await Control.read(this.protocol);
   }
 
-  static supportStamp(){
+  static get supportStamp(){
     return '1111';
   }
 }

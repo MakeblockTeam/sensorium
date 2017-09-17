@@ -9,7 +9,7 @@ class SoundOnBoard extends BaseSound {
     super(14);
   }
 
-  static supportStamp(){
+  static get supportStamp(){
     return '010000';
   }
 

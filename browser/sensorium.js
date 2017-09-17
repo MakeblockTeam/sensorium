@@ -2641,22 +2641,22 @@ var BaseLedMatrix = function (_Electronic) {
     }
   }], [{
     key: 'CHAR_TYPE',
-    value: function CHAR_TYPE() {
+    get: function get() {
       return 0x01;
     }
   }, {
     key: 'EMOTION_TYPE',
-    value: function EMOTION_TYPE() {
+    get: function get() {
       return 0x02;
     }
   }, {
     key: 'TIME_TYPE',
-    value: function TIME_TYPE() {
+    get: function get() {
       return 0x03;
     }
   }, {
     key: 'NUMBER_TYPE',
-    value: function NUMBER_TYPE() {
+    get: function get() {
       return 0x04;
     }
   }]);
@@ -4130,18 +4130,13 @@ var Version = function () {
   }
 
   (0, _createClass3.default)(Version, [{
-    key: 'protocol',
-    value: function protocol() {
-      return _utils2.default.composer(_cmd2.default.readVersion);
-    }
+    key: 'getVersion',
+
 
     /**
      * Get version of firmware
      * @return {Promise}
      */
-
-  }, {
-    key: 'getVersion',
     value: function () {
       var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
         return _regenerator2.default.wrap(function _callee$(_context) {
@@ -4149,7 +4144,7 @@ var Version = function () {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return _control2.default.read(this.protocol());
+                return _control2.default.read(this.protocol);
 
               case 2:
                 return _context.abrupt('return', _context.sent);
@@ -4168,6 +4163,11 @@ var Version = function () {
 
       return getVersion;
     }()
+  }, {
+    key: 'protocol',
+    get: function get() {
+      return _utils2.default.composer(_cmd2.default.readVersion);
+    }
   }]);
   return Version;
 }();
@@ -4273,26 +4273,15 @@ var BaseEncoderMotor = function (_BaseMotor) {
      */
 
   }, {
-    key: 'protocol',
-    value: function protocol() {
-      var buf = void 0;
-      if (this.args.port == 0) {
-        buf = _utils2.default.composer(_cmd2.default.setEncoderMotorOnBoard, [this.args.slot, this.args.speed]);
-      } else {
-        buf = _utils2.default.composer(_cmd2.default.setEncoderMotor, [this.args.slot, this.args.speed, this.args.angle]);
-      }
-      return buf;
-    }
+    key: 'run',
+
 
     /**
      * EncoderMotor run
      * @return {Object} the instance
      */
-
-  }, {
-    key: 'run',
     value: function run() {
-      _control2.default.write(this.protocol());
+      _control2.default.write(this.protocol);
       return this;
     }
 
@@ -4306,6 +4295,17 @@ var BaseEncoderMotor = function (_BaseMotor) {
     value: function reverse() {
       this.offsetAngle(-1 * this.args.angle);
       return this.run();
+    }
+  }, {
+    key: 'protocol',
+    get: function get() {
+      var buf = void 0;
+      if (this.args.port == 0) {
+        buf = _utils2.default.composer(_cmd2.default.setEncoderMotorOnBoard, [this.args.slot, this.args.speed]);
+      } else {
+        buf = _utils2.default.composer(_cmd2.default.setEncoderMotor, [this.args.slot, this.args.speed, this.args.angle]);
+      }
+      return buf;
     }
   }]);
   return BaseEncoderMotor;
@@ -4396,18 +4396,13 @@ var BaseLight = function (_Electronic) {
   }
 
   (0, _createClass3.default)(BaseLight, [{
-    key: 'protocol',
-    value: function protocol() {
-      return _utils2.default.composer(_cmd2.default.readLight, [this.args.port]);
-    }
+    key: 'getData',
+
 
     /**
      * Get data of the Light sensor
      * @return {Promise}
      */
-
-  }, {
-    key: 'getData',
     value: function () {
       var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
         return _regenerator2.default.wrap(function _callee$(_context) {
@@ -4415,7 +4410,7 @@ var BaseLight = function (_Electronic) {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return _control2.default.read(this.protocol());
+                return _control2.default.read(this.protocol);
 
               case 2:
                 return _context.abrupt('return', _context.sent);
@@ -4434,6 +4429,11 @@ var BaseLight = function (_Electronic) {
 
       return getData;
     }()
+  }, {
+    key: 'protocol',
+    get: function get() {
+      return _utils2.default.composer(_cmd2.default.readLight, [this.args.port]);
+    }
   }]);
   return BaseLight;
 }(_electronic2.default);
@@ -4541,19 +4541,13 @@ var BaseGyro = function (_Electronic) {
      */
 
   }, {
-    key: 'protocol',
-    value: function protocol() {
-      var buf = _utils2.default.composer(_cmd2.default.readGyro, [this.args.port, this.args.axis]);
-      return buf;
-    }
+    key: 'getData',
+
 
     /**
      * Get data of Gyro sensor
      * @return {Promise}
      */
-
-  }, {
-    key: 'getData',
     value: function () {
       var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
         return _regenerator2.default.wrap(function _callee$(_context) {
@@ -4561,7 +4555,7 @@ var BaseGyro = function (_Electronic) {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return _control2.default.read(this.protocol());
+                return _control2.default.read(this.protocol);
 
               case 2:
                 return _context.abrupt('return', _context.sent);
@@ -4580,6 +4574,12 @@ var BaseGyro = function (_Electronic) {
 
       return getData;
     }()
+  }, {
+    key: 'protocol',
+    get: function get() {
+      var buf = _utils2.default.composer(_cmd2.default.readGyro, [this.args.port, this.args.axis]);
+      return buf;
+    }
   }]);
   return BaseGyro;
 }(_electronic2.default);
@@ -4674,18 +4674,13 @@ var BaseSound = function (_Electronic) {
 
 
   (0, _createClass3.default)(BaseSound, [{
-    key: 'protocol',
-    value: function protocol() {
-      return _utils2.default.composer(_cmd2.default.readSound, [this.args.port]);
-    }
+    key: 'getData',
+
 
     /**
      * Get data of Sound sensor
      * @return {Promise}
      */
-
-  }, {
-    key: 'getData',
     value: function () {
       var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
         return _regenerator2.default.wrap(function _callee$(_context) {
@@ -4693,7 +4688,7 @@ var BaseSound = function (_Electronic) {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return _control2.default.read(this.protocol());
+                return _control2.default.read(this.protocol);
 
               case 2:
                 return _context.abrupt('return', _context.sent);
@@ -4712,6 +4707,11 @@ var BaseSound = function (_Electronic) {
 
       return getData;
     }()
+  }, {
+    key: 'protocol',
+    get: function get() {
+      return _utils2.default.composer(_cmd2.default.readSound, [this.args.port]);
+    }
   }]);
   return BaseSound;
 }(_electronic2.default);
@@ -7223,7 +7223,7 @@ var Mcore = function (_Board) {
 
     var _loop = function _loop(name) {
       var eModule = _index2.default[name];
-      if (eModule.supportStamp().charAt(SUPPORT_INDEX) === '1') {
+      if (eModule.supportStamp.charAt(SUPPORT_INDEX) === '1') {
         _this[name] = function () {
           return this_.eModuleFactory(eModule, arguments, this.name);
         };
@@ -7435,24 +7435,24 @@ var DcMotor = function (_BaseMotor) {
      */
 
   }, {
-    key: 'protocol',
-    value: function protocol() {
-      return _utils2.default.composer(_cmd2.default.setDcMotor, [this.args.port, this.args.speed]);
-    }
+    key: 'run',
+
 
     /**
      * run
      */
-
-  }, {
-    key: 'run',
     value: function run() {
-      _control2.default.write(this.protocol());
+      _control2.default.write(this.protocol);
       return this;
+    }
+  }, {
+    key: 'protocol',
+    get: function get() {
+      return _utils2.default.composer(_cmd2.default.setDcMotor, [this.args.port, this.args.speed]);
     }
   }], [{
     key: 'supportStamp',
-    value: function supportStamp() {
+    get: function get() {
       return '1111';
     }
   }]);
@@ -7573,21 +7573,16 @@ var VirtualJoystick = function (_Electronic) {
       return this;
     }
   }, {
-    key: 'protocol',
-    value: function protocol() {
-      return _utils2.default.composer(_cmd2.default.setJoystick, [this.args.leftSpeed, this.args.rightSpeed]);
-    }
+    key: 'run',
+
 
     /**
      * run
      * @param  {Number} speed  the balance speed
      * @return {Instance} @this
      */
-
-  }, {
-    key: 'run',
     value: function run() {
-      _control2.default.write(this.protocol());
+      _control2.default.write(this.protocol);
       return this;
     }
 
@@ -7601,9 +7596,14 @@ var VirtualJoystick = function (_Electronic) {
     value: function stop() {
       return this.speed(0, 0).run();
     }
+  }, {
+    key: 'protocol',
+    get: function get() {
+      return _utils2.default.composer(_cmd2.default.setJoystick, [this.args.leftSpeed, this.args.rightSpeed]);
+    }
   }], [{
     key: 'supportStamp',
-    value: function supportStamp() {
+    get: function get() {
       return '1111';
     }
   }]);
@@ -7706,20 +7706,15 @@ var VirtualJoystickForBalance = function (_Electronic) {
       return this;
     }
   }, {
-    key: 'protocol',
-    value: function protocol() {
-      return _utils2.default.composer(_cmd2.default.setVirtualJoystickForBalance, [this.args.turnRange, this.args.speed]);
-    }
+    key: 'run',
+
 
     /**
      * run with range and speed set before
      * @return {Instance} @this
      */
-
-  }, {
-    key: 'run',
     value: function run() {
-      _control2.default.write(this.protocol());
+      _control2.default.write(this.protocol);
       return this;
     }
 
@@ -7745,9 +7740,14 @@ var VirtualJoystickForBalance = function (_Electronic) {
     value: function stop() {
       return this.speed(0).run();
     }
+  }, {
+    key: 'protocol',
+    get: function get() {
+      return _utils2.default.composer(_cmd2.default.setVirtualJoystickForBalance, [this.args.turnRange, this.args.speed]);
+    }
   }], [{
     key: 'supportStamp',
-    value: function supportStamp() {
+    get: function get() {
       return '0110';
     }
   }]);
@@ -7885,7 +7885,7 @@ var StepperMotor = function (_BaseMotor) {
     }
   }], [{
     key: 'supportStamp',
-    value: function supportStamp() {
+    get: function get() {
       return '0111';
     }
   }]);
@@ -8000,7 +8000,7 @@ var EncoderMotor = function (_BaseEncoderMotor) {
 
   (0, _createClass3.default)(EncoderMotor, null, [{
     key: 'supportStamp',
-    value: function supportStamp() {
+    get: function get() {
       return '0101';
     }
   }]);
@@ -8094,18 +8094,13 @@ var EncoderMotorOnBoard = function (_BaseEncoderMotor) {
 
 
   (0, _createClass3.default)(EncoderMotorOnBoard, [{
-    key: 'protocol',
-    value: function protocol() {
-      return _utils2.default.composer(_cmd2.default.readEncoderMotorOnBoard, [this.args.slot, this.args.type]);
-    }
+    key: 'readSpeed',
+
 
     /**
      * Get Speed of the encoder motor runs
      * @return  {Promise} return promise
      */
-
-  }, {
-    key: 'readSpeed',
     value: function readSpeed() {
       this.args.type = 0x02;
       return this;
@@ -8131,7 +8126,7 @@ var EncoderMotorOnBoard = function (_BaseEncoderMotor) {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return _control2.default.read(this.protocol());
+                return _control2.default.read(this.protocol);
 
               case 2:
                 return _context.abrupt('return', _context.sent);
@@ -8150,9 +8145,14 @@ var EncoderMotorOnBoard = function (_BaseEncoderMotor) {
 
       return getData;
     }()
+  }, {
+    key: 'protocol',
+    get: function get() {
+      return _utils2.default.composer(_cmd2.default.readEncoderMotorOnBoard, [this.args.slot, this.args.type]);
+    }
   }], [{
     key: 'supportStamp',
-    value: function supportStamp() {
+    get: function get() {
       return '0110';
     }
   }]);
@@ -8275,24 +8275,24 @@ var ServoMotor = function (_Electronic) {
      */
 
   }, {
-    key: 'protocol',
-    value: function protocol() {
-      return _utils2.default.composer(_cmd2.default.setServoMotor, [this.args.port, this.args.slot, this.args.angle]);
-    }
+    key: 'run',
+
 
     /**
      * run
      */
-
-  }, {
-    key: 'run',
     value: function run() {
-      _control2.default.write(this.protocol());
+      _control2.default.write(this.protocol);
       return this;
+    }
+  }, {
+    key: 'protocol',
+    get: function get() {
+      return _utils2.default.composer(_cmd2.default.setServoMotor, [this.args.port, this.args.slot, this.args.angle]);
     }
   }], [{
     key: 'supportStamp',
-    value: function supportStamp() {
+    get: function get() {
       return '1111';
     }
   }]);
@@ -8353,7 +8353,7 @@ var FourLeds = function (_BaseRgbLed) {
 
   (0, _createClass3.default)(FourLeds, null, [{
     key: 'supportStamp',
-    value: function supportStamp() {
+    get: function get() {
       return '1111';
     }
   }]);
@@ -8422,7 +8422,7 @@ var RgbLed = function (_BaseRgbLed) {
 
   (0, _createClass3.default)(RgbLed, null, [{
     key: 'supportStamp',
-    value: function supportStamp() {
+    get: function get() {
       return '111111';
     }
   }]);
@@ -8509,7 +8509,7 @@ var RgbLedOnBoard = function (_BaseRgbLed) {
 
   (0, _createClass3.default)(RgbLedOnBoard, null, [{
     key: 'supportStamp',
-    value: function supportStamp() {
+    get: function get() {
       return '110000';
     }
   }]);
@@ -8629,7 +8629,7 @@ var LedMatrix = function (_Electronic) {
 
   (0, _createClass3.default)(LedMatrix, null, [{
     key: 'supportStamp',
-    value: function supportStamp() {
+    get: function get() {
       return '1110';
     }
   }]);
@@ -9248,8 +9248,19 @@ var Buzzer = function (_Electronic) {
      */
 
   }, {
+    key: 'run',
+
+
+    /**
+     * run Buzzer sensor
+     */
+    value: function run() {
+      _control2.default.write(this.protocol);
+      return this;
+    }
+  }, {
     key: 'protocol',
-    value: function protocol() {
+    get: function get() {
       var buf = [];
       switch (this.hostname) {
         case MCORE_:
@@ -9260,20 +9271,9 @@ var Buzzer = function (_Electronic) {
       }
       return buf;
     }
-
-    /**
-     * run Buzzer sensor
-     */
-
-  }, {
-    key: 'run',
-    value: function run() {
-      _control2.default.write(this.protocol());
-      return this;
-    }
   }], [{
     key: 'supportStamp',
-    value: function supportStamp() {
+    get: function get() {
       return '11111';
     }
   }]);
@@ -9370,25 +9370,25 @@ var SevenSegment = function (_Electronic) {
      */
 
   }, {
-    key: 'protocol',
-    value: function protocol() {
-      return _utils2.default.composer(_cmd2.default.setSevenSegment, [this.args.port, this.args.number]);
-    }
+    key: 'run',
+
 
     /**
      * run and show the number
      * @return {Instance}     @this
      */
-
-  }, {
-    key: 'run',
     value: function run() {
-      _control2.default.write(this.protocol());
+      _control2.default.write(this.protocol);
       return this;
+    }
+  }, {
+    key: 'protocol',
+    get: function get() {
+      return _utils2.default.composer(_cmd2.default.setSevenSegment, [this.args.port, this.args.number]);
     }
   }], [{
     key: 'supportStamp',
-    value: function supportStamp() {
+    get: function get() {
       return '1111';
     }
   }]);
@@ -9486,25 +9486,25 @@ var Shutter = function (_Electronic) {
      */
 
   }, {
-    key: 'protocol',
-    value: function protocol() {
-      return _utils2.default.composer(_cmd2.default.setShutter, [this.args.port, this.args.action]);
-    }
+    key: 'run',
+
 
     /**
      * run shutter with mode set before
      * @return {this}  模块实例
      */
-
-  }, {
-    key: 'run',
     value: function run() {
-      _control2.default.write(this.protocol());
+      _control2.default.write(this.protocol);
       return this;
+    }
+  }, {
+    key: 'protocol',
+    get: function get() {
+      return _utils2.default.composer(_cmd2.default.setShutter, [this.args.port, this.args.action]);
     }
   }], [{
     key: 'supportStamp',
-    value: function supportStamp() {
+    get: function get() {
       return '1111';
     }
   }]);
@@ -9641,35 +9641,13 @@ var SmartServo = function (_Electronic) {
 
 
   (0, _createClass3.default)(SmartServo, [{
-    key: 'protocol',
-    value: function protocol() {
-      if (this.args.subCmd < 4 || this.args.subCmd === 7 || this.args.subCmd === 8) {
-        var baseCmd = [this.args.index, this.args.subCmd];
-        if (Array.isArray(this.extraCmd)) {
-          baseCmd.push(this.extraCmd);
-        } else {
-          baseCmd.push(this.extraCmd !== null ? [this.extraCmd] : []);
-        }
-        this.extraCmd = null;
-        return _utils2.default.composer(_cmd2.default.setSmartServo, baseCmd);
-      } else if (this.args.subCmd === 4) {
-        return _utils2.default.composer(_cmd2.default.setSmartServoForAbsoluteAngle, [this.args.index, this.args.subCmd, this.args.angle, this.args.speed]);
-      } else if (this.args.subCmd === 5) {
-        return _utils2.default.composer(_cmd2.default.setSmartServoForRelativeAngle, [this.args.index, this.args.subCmd, this.args.angle, this.args.speed]);
-      } else if (this.args.subCmd === 6) {
-        return _utils2.default.composer(_cmd2.default.setSmartServoForDcMotor, [this.args.index, this.args.subCmd, this.args.speed]);
-      } else {
-        return _utils2.default.composer(_cmd2.default.readSmartServoParam, [this.args.index, this.args.subCmd]);
-      }
-    }
+    key: 'lock',
+
 
     /**
      * 锁定
      * @return {[type]} [description]
      */
-
-  }, {
-    key: 'lock',
     value: function lock() {
       this.isReadMode = false;
       this.extraCmd = 0x00;
@@ -9845,7 +9823,7 @@ var SmartServo = function (_Electronic) {
   }, {
     key: 'run',
     value: function run() {
-      _control2.default.write(this.protocol());
+      _control2.default.write(this.protocol);
       return this;
     }
   }, {
@@ -9857,7 +9835,7 @@ var SmartServo = function (_Electronic) {
             switch (_context2.prev = _context2.next) {
               case 0:
                 _context2.next = 2;
-                return _control2.default.read(this.protocol());
+                return _control2.default.read(this.protocol);
 
               case 2:
                 return _context2.abrupt('return', _context2.sent);
@@ -9876,9 +9854,31 @@ var SmartServo = function (_Electronic) {
 
       return getData;
     }()
+  }, {
+    key: 'protocol',
+    get: function get() {
+      if (this.args.subCmd < 4 || this.args.subCmd === 7 || this.args.subCmd === 8) {
+        var baseCmd = [this.args.index, this.args.subCmd];
+        if (Array.isArray(this.extraCmd)) {
+          baseCmd.push(this.extraCmd);
+        } else {
+          baseCmd.push(this.extraCmd !== null ? [this.extraCmd] : []);
+        }
+        this.extraCmd = null;
+        return _utils2.default.composer(_cmd2.default.setSmartServo, baseCmd);
+      } else if (this.args.subCmd === 4) {
+        return _utils2.default.composer(_cmd2.default.setSmartServoForAbsoluteAngle, [this.args.index, this.args.subCmd, this.args.angle, this.args.speed]);
+      } else if (this.args.subCmd === 5) {
+        return _utils2.default.composer(_cmd2.default.setSmartServoForRelativeAngle, [this.args.index, this.args.subCmd, this.args.angle, this.args.speed]);
+      } else if (this.args.subCmd === 6) {
+        return _utils2.default.composer(_cmd2.default.setSmartServoForDcMotor, [this.args.index, this.args.subCmd, this.args.speed]);
+      } else {
+        return _utils2.default.composer(_cmd2.default.readSmartServoParam, [this.args.index, this.args.subCmd]);
+      }
+    }
   }], [{
     key: 'supportStamp',
-    value: function supportStamp() {
+    get: function get() {
       return '0100';
     }
   }]);
@@ -10000,8 +10000,28 @@ var EncoderMotorOnBoardPID = function (_Electronic) {
 
 
   (0, _createClass3.default)(EncoderMotorOnBoardPID, [{
+    key: 'setZeroPoint',
+
+
+    /**
+     * 设置零点
+     * @example
+     * let pid = new EncoderMotorOnBoardPID()
+     * pid.setZeroPoint()
+     */
+    value: function setZeroPoint() {
+      this.reset = true;
+      return this;
+    }
+  }, {
+    key: 'run',
+    value: function run() {
+      _control2.default.write(this.protocol);
+      return this;
+    }
+  }, {
     key: 'protocol',
-    value: function protocol() {
+    get: function get() {
       var subCmd = [];
       if (this.reset) {
         this.reset = false;
@@ -10013,29 +10033,9 @@ var EncoderMotorOnBoardPID = function (_Electronic) {
       }
       return _utils2.default.composer(_cmd2.default.setEncoderMotorPIDZeroPoint, subCmd);
     }
-
-    /**
-     * 设置零点
-     * @example
-     * let pid = new EncoderMotorOnBoardPID()
-     * pid.setZeroPoint()
-     */
-
-  }, {
-    key: 'setZeroPoint',
-    value: function setZeroPoint() {
-      this.reset = true;
-      return this;
-    }
-  }, {
-    key: 'run',
-    value: function run() {
-      _control2.default.write(this.protocol());
-      return this;
-    }
   }], [{
     key: 'supportStamp',
-    value: function supportStamp() {
+    get: function get() {
       return '010001';
     }
   }]);
@@ -10119,20 +10119,20 @@ var EncoderMotorPIDForDistance = function () {
      */
 
   }, {
-    key: 'protocol',
-    value: function protocol() {
-      return _utils2.default.composer(_cmd2.default.setEncoderMotorPIDDistance, [this.args.distance, this.args.speed]);
-    }
+    key: 'run',
+
 
     /**
      * run
      */
-
-  }, {
-    key: 'run',
     value: function run() {
-      _control2.default.write(this.protocol());
+      _control2.default.write(this.protocol);
       return this;
+    }
+  }, {
+    key: 'protocol',
+    get: function get() {
+      return _utils2.default.composer(_cmd2.default.setEncoderMotorPIDDistance, [this.args.distance, this.args.speed]);
     }
   }]);
   return EncoderMotorPIDForDistance;
@@ -10203,15 +10203,15 @@ var PIDForSpeed = function () {
      */
 
   }, {
-    key: 'protocol',
-    value: function protocol() {
-      return _utils2.default.composer(_cmd2.default.setEncoderMotorPIDSpeed, [this.args.speed]);
-    }
-  }, {
     key: 'run',
     value: function run() {
-      _control2.default.write(this.protocol());
+      _control2.default.write(this.protocol);
       return this;
+    }
+  }, {
+    key: 'protocol',
+    get: function get() {
+      return _utils2.default.composer(_cmd2.default.setEncoderMotorPIDSpeed, [this.args.speed]);
     }
   }]);
   return PIDForSpeed;
@@ -10282,15 +10282,15 @@ var PIDForPwm = function () {
      */
 
   }, {
-    key: 'protocol',
-    value: function protocol() {
-      return _utils2.default.composer(_cmd2.default.setEncoderMotorPIDPwm, [this.args.speed]);
-    }
-  }, {
     key: 'run',
     value: function run() {
-      _control2.default.write(this.protocol());
+      _control2.default.write(this.protocol);
       return this;
+    }
+  }, {
+    key: 'protocol',
+    get: function get() {
+      return _utils2.default.composer(_cmd2.default.setEncoderMotorPIDPwm, [this.args.speed]);
     }
   }]);
   return PIDForPwm;
@@ -10452,15 +10452,15 @@ var PIDForDoubleMotor = function () {
      */
 
   }, {
-    key: 'protocol',
-    value: function protocol() {
-      return _utils2.default.composer(_cmd2.default.setEncoderMotorPIDDoubleMotor, [this.args.direction, this.args.distance, this.args.speed]);
-    }
-  }, {
     key: 'run',
     value: function run() {
-      _control2.default.write(this.protocol());
+      _control2.default.write(this.protocol);
       return this;
+    }
+  }, {
+    key: 'protocol',
+    get: function get() {
+      return _utils2.default.composer(_cmd2.default.setEncoderMotorPIDDoubleMotor, [this.args.direction, this.args.distance, this.args.speed]);
     }
   }]);
   return PIDForDoubleMotor;
@@ -10583,7 +10583,7 @@ var Reset = function (_Electronic) {
     }()
   }], [{
     key: 'supportStamp',
-    value: function supportStamp() {
+    get: function get() {
       return '1111';
     }
   }]);
@@ -10670,18 +10670,13 @@ var Ultrasonic = function (_Electronic) {
   }
 
   (0, _createClass3.default)(Ultrasonic, [{
-    key: 'protocol',
-    value: function protocol() {
-      return _utils2.default.composer(_cmd2.default.readUltrasonic, [this.args.port]);
-    }
+    key: 'getData',
+
 
     /**
      * Get data of Ultrasonic sensor
      * @return {Promise}
      */
-
-  }, {
-    key: 'getData',
     value: function () {
       var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
         return _regenerator2.default.wrap(function _callee$(_context) {
@@ -10689,7 +10684,7 @@ var Ultrasonic = function (_Electronic) {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return _control2.default.read(this.protocol());
+                return _control2.default.read(this.protocol);
 
               case 2:
                 return _context.abrupt('return', _context.sent);
@@ -10708,9 +10703,14 @@ var Ultrasonic = function (_Electronic) {
 
       return getData;
     }()
+  }, {
+    key: 'protocol',
+    get: function get() {
+      return _utils2.default.composer(_cmd2.default.readUltrasonic, [this.args.port]);
+    }
   }], [{
     key: 'supportStamp',
-    value: function supportStamp() {
+    get: function get() {
       return '1111';
     }
   }]);
@@ -10798,18 +10798,13 @@ var Temperature = function (_Electronic) {
   }
 
   (0, _createClass3.default)(Temperature, [{
-    key: 'protocol',
-    value: function protocol() {
-      return _utils2.default.composer(_cmd2.default.readTemperature, [this.args.port, this.args.slot]);
-    }
+    key: 'getData',
+
 
     /**
      * Get data of Temperature sensor
      * @return {Promise}
      */
-
-  }, {
-    key: 'getData',
     value: function () {
       var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
         return _regenerator2.default.wrap(function _callee$(_context) {
@@ -10817,7 +10812,7 @@ var Temperature = function (_Electronic) {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return _control2.default.read(this.protocol());
+                return _control2.default.read(this.protocol);
 
               case 2:
                 return _context.abrupt('return', _context.sent);
@@ -10836,9 +10831,14 @@ var Temperature = function (_Electronic) {
 
       return getData;
     }()
+  }, {
+    key: 'protocol',
+    get: function get() {
+      return _utils2.default.composer(_cmd2.default.readTemperature, [this.args.port, this.args.slot]);
+    }
   }], [{
     key: 'supportStamp',
-    value: function supportStamp() {
+    get: function get() {
       return '1111';
     }
   }]);
@@ -10917,18 +10917,13 @@ var TemperatureOnBoard = function (_Electronic) {
   }
 
   (0, _createClass3.default)(TemperatureOnBoard, [{
-    key: 'protocol',
-    value: function protocol() {
-      return _utils2.default.composer(_cmd2.default.readTemperatureOnBoard);
-    }
+    key: 'getData',
+
 
     /**
      * Get data of TemperatureOnBoard sensor
      * @return {Promise}
      */
-
-  }, {
-    key: 'getData',
     value: function () {
       var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
         return _regenerator2.default.wrap(function _callee$(_context) {
@@ -10936,7 +10931,7 @@ var TemperatureOnBoard = function (_Electronic) {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return _control2.default.read(this.protocol());
+                return _control2.default.read(this.protocol);
 
               case 2:
                 return _context.abrupt('return', _context.sent);
@@ -10955,9 +10950,14 @@ var TemperatureOnBoard = function (_Electronic) {
 
       return getData;
     }()
+  }, {
+    key: 'protocol',
+    get: function get() {
+      return _utils2.default.composer(_cmd2.default.readTemperatureOnBoard);
+    }
   }], [{
     key: 'supportStamp',
-    value: function supportStamp() {
+    get: function get() {
       return '0100';
     }
   }]);
@@ -11017,7 +11017,7 @@ var Light = function (_BaseLight) {
 
   (0, _createClass3.default)(Light, null, [{
     key: 'supportStamp',
-    value: function supportStamp() {
+    get: function get() {
       return '111111';
     }
   }]);
@@ -11099,7 +11099,7 @@ var LightOnBoard = function (_BaseLight) {
 
   (0, _createClass3.default)(LightOnBoard, null, [{
     key: 'supportStamp',
-    value: function supportStamp() {
+    get: function get() {
       return '111111';
     }
   }]);
@@ -11231,7 +11231,7 @@ var Potentionmeter = function (_Electronic) {
     }()
   }], [{
     key: 'supportStamp',
-    value: function supportStamp() {
+    get: function get() {
       return '1111';
     }
   }]);
@@ -11332,18 +11332,13 @@ var Joystick = function (_Electronic) {
      */
 
   }, {
-    key: 'protocol',
-    value: function protocol() {
-      return _utils2.default.composer(_cmd2.default.readJoystick, [this.args.port, this.args.axis]);
-    }
+    key: 'getData',
+
 
     /**
      * Get data of Joystick sensor
      * @return {Promise}
      */
-
-  }, {
-    key: 'getData',
     value: function () {
       var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
         return _regenerator2.default.wrap(function _callee$(_context) {
@@ -11351,7 +11346,7 @@ var Joystick = function (_Electronic) {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return _control2.default.read(this.protocol());
+                return _control2.default.read(this.protocol);
 
               case 2:
                 return _context.abrupt('return', _context.sent);
@@ -11370,9 +11365,14 @@ var Joystick = function (_Electronic) {
 
       return getData;
     }()
+  }, {
+    key: 'protocol',
+    get: function get() {
+      return _utils2.default.composer(_cmd2.default.readJoystick, [this.args.port, this.args.axis]);
+    }
   }], [{
     key: 'supportStamp',
-    value: function supportStamp() {
+    get: function get() {
       return '1111';
     }
   }]);
@@ -11441,7 +11441,7 @@ var Gyro = function (_BaseGyro) {
 
   (0, _createClass3.default)(Gyro, null, [{
     key: 'supportStamp',
-    value: function supportStamp() {
+    get: function get() {
       return '1111';
     }
   }]);
@@ -11508,7 +11508,7 @@ var GyroOnBoard = function (_BaseGyro) {
 
   (0, _createClass3.default)(GyroOnBoard, null, [{
     key: 'supportStamp',
-    value: function supportStamp() {
+    get: function get() {
       return '011001';
     }
   }]);
@@ -11568,7 +11568,7 @@ var Sound = function (_BaseSound) {
 
   (0, _createClass3.default)(Sound, null, [{
     key: 'supportStamp',
-    value: function supportStamp() {
+    get: function get() {
       return '111111';
     }
   }]);
@@ -11628,7 +11628,7 @@ var SoundOnBoard = function (_BaseSound) {
 
   (0, _createClass3.default)(SoundOnBoard, null, [{
     key: 'supportStamp',
-    value: function supportStamp() {
+    get: function get() {
       return '010000';
     }
   }]);
@@ -11761,7 +11761,7 @@ var Pirmotion = function (_Electronic) {
     }()
   }], [{
     key: 'supportStamp',
-    value: function supportStamp() {
+    get: function get() {
       return '1111';
     }
   }]);
@@ -11861,32 +11861,13 @@ var Infrared = function (_Electronic) {
 
 
   (0, _createClass3.default)(Infrared, [{
-    key: 'protocol',
-    value: function protocol() {
-      var deviceId = void 0,
-          aKey = void 0;
-      //如果是 mcore，外接的红外传感器 id = 0x0e
-      //如果非 mcore，外接的红外传感器 id = 0x10
-      switch (this.hostname) {
-        case MCORE_NAME:
-          deviceId = 0x0e;
-          aKey = 0x45;
-          break;
-        default:
-          deviceId = 0x10;
-      }
-      var argsArr = [deviceId, this.args.port];
-      aKey ? argsArr.push(aKey) : null;
-      return _utils2.default.composer(_cmd2.default.readInfrared, argsArr);
-    }
+    key: 'getData',
+
 
     /**
      * Get data of Infrared sensor
      * @return {Promise}
      */
-
-  }, {
-    key: 'getData',
     value: function () {
       var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
         return _regenerator2.default.wrap(function _callee$(_context) {
@@ -11894,7 +11875,7 @@ var Infrared = function (_Electronic) {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return _control2.default.read(this.protocol());
+                return _control2.default.read(this.protocol);
 
               case 2:
                 return _context.abrupt('return', _context.sent);
@@ -11913,9 +11894,28 @@ var Infrared = function (_Electronic) {
 
       return getData;
     }()
+  }, {
+    key: 'protocol',
+    get: function get() {
+      var deviceId = void 0,
+          aKey = void 0;
+      //如果是 mcore，外接的红外传感器 id = 0x0e
+      //如果非 mcore，外接的红外传感器 id = 0x10
+      switch (this.hostname) {
+        case MCORE_NAME:
+          deviceId = 0x0e;
+          aKey = 0x45;
+          break;
+        default:
+          deviceId = 0x10;
+      }
+      var argsArr = [deviceId, this.args.port];
+      aKey ? argsArr.push(aKey) : null;
+      return _utils2.default.composer(_cmd2.default.readInfrared, argsArr);
+    }
   }], [{
     key: 'supportStamp',
-    value: function supportStamp() {
+    get: function get() {
       return '1111';
     }
   }]);
@@ -12014,20 +12014,13 @@ var InfraredOnBoard = function (_Electronic) {
 
 
   (0, _createClass3.default)(InfraredOnBoard, [{
-    key: 'protocol',
-    value: function protocol() {
-      var port = 0x00;
-      var aKey = 0x45;
-      return _utils2.default.composer(_cmd2.default.readInfrared, [this.deviceId, port, aKey]);
-    }
+    key: 'getData',
+
 
     /**
      * Get data of Infrared sensor
      * @return {Promise}
      */
-
-  }, {
-    key: 'getData',
     value: function () {
       var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
         return _regenerator2.default.wrap(function _callee$(_context) {
@@ -12035,7 +12028,7 @@ var InfraredOnBoard = function (_Electronic) {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return _control2.default.read(this.protocol());
+                return _control2.default.read(this.protocol);
 
               case 2:
                 return _context.abrupt('return', _context.sent);
@@ -12054,9 +12047,16 @@ var InfraredOnBoard = function (_Electronic) {
 
       return getData;
     }()
+  }, {
+    key: 'protocol',
+    get: function get() {
+      var port = 0x00;
+      var aKey = 0x45;
+      return _utils2.default.composer(_cmd2.default.readInfrared, [this.deviceId, port, aKey]);
+    }
   }], [{
     key: 'supportStamp',
-    value: function supportStamp() {
+    get: function get() {
       return '10000';
     }
   }]);
@@ -12149,18 +12149,13 @@ var LimitSwitch = function (_Electronic) {
 
 
   (0, _createClass3.default)(LimitSwitch, [{
-    key: 'protocol',
-    value: function protocol() {
-      return _utils2.default.composer(_cmd2.default.readLimitSwitch, [this.args.port, this.args.slot]);
-    }
+    key: 'getData',
+
 
     /**
      * Get data of Joystick sensor
      * @return {Promise}
      */
-
-  }, {
-    key: 'getData',
     value: function () {
       var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
         return _regenerator2.default.wrap(function _callee$(_context) {
@@ -12168,7 +12163,7 @@ var LimitSwitch = function (_Electronic) {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return _control2.default.read(this.protocol());
+                return _control2.default.read(this.protocol);
 
               case 2:
                 return _context.abrupt('return', _context.sent);
@@ -12187,9 +12182,14 @@ var LimitSwitch = function (_Electronic) {
 
       return getData;
     }()
+  }, {
+    key: 'protocol',
+    get: function get() {
+      return _utils2.default.composer(_cmd2.default.readLimitSwitch, [this.args.port, this.args.slot]);
+    }
   }], [{
     key: 'supportStamp',
-    value: function supportStamp() {
+    get: function get() {
       return '1111';
     }
   }]);
@@ -12281,18 +12281,13 @@ var LineFollower = function (_Electronic) {
 
 
   (0, _createClass3.default)(LineFollower, [{
-    key: 'protocol',
-    value: function protocol() {
-      return _utils2.default.composer(_cmd2.default.readLineFollower, [this.args.port]);
-    }
+    key: 'getData',
+
 
     /**
      * Get data of LineFollower sensor
      * @return {Promise}
      */
-
-  }, {
-    key: 'getData',
     value: function () {
       var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
         return _regenerator2.default.wrap(function _callee$(_context) {
@@ -12300,7 +12295,7 @@ var LineFollower = function (_Electronic) {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return _control2.default.read(this.protocol());
+                return _control2.default.read(this.protocol);
 
               case 2:
                 return _context.abrupt('return', _context.sent);
@@ -12319,9 +12314,14 @@ var LineFollower = function (_Electronic) {
 
       return getData;
     }()
+  }, {
+    key: 'protocol',
+    get: function get() {
+      return _utils2.default.composer(_cmd2.default.readLineFollower, [this.args.port]);
+    }
   }], [{
     key: 'supportStamp',
-    value: function supportStamp() {
+    get: function get() {
       return '1111';
     }
   }]);
@@ -12413,18 +12413,13 @@ var Compass = function (_Electronic) {
 
 
   (0, _createClass3.default)(Compass, [{
-    key: 'protocol',
-    value: function protocol() {
-      return _utils2.default.composer(_cmd2.default.readCompass, [this.args.port]);
-    }
+    key: 'getData',
+
 
     /**
      * Get data of Compass sensor
      * @return {Promise}
      */
-
-  }, {
-    key: 'getData',
     value: function () {
       var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
         return _regenerator2.default.wrap(function _callee$(_context) {
@@ -12432,7 +12427,7 @@ var Compass = function (_Electronic) {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return _control2.default.read(this.protocol());
+                return _control2.default.read(this.protocol);
 
               case 2:
                 return _context.abrupt('return', _context.sent);
@@ -12451,9 +12446,14 @@ var Compass = function (_Electronic) {
 
       return getData;
     }()
+  }, {
+    key: 'protocol',
+    get: function get() {
+      return _utils2.default.composer(_cmd2.default.readCompass, [this.args.port]);
+    }
   }], [{
     key: 'supportStamp',
-    value: function supportStamp() {
+    get: function get() {
       return '1110';
     }
   }]);
@@ -12584,11 +12584,6 @@ var Humiture = function (_Electronic) {
      */
 
   }, {
-    key: 'protocol',
-    value: function protocol() {
-      return _utils2.default.composer(_cmd2.default.readHumiture, [this.args.port, this.args.type]);
-    }
-  }, {
     key: 'getData',
     value: function () {
       var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
@@ -12597,7 +12592,7 @@ var Humiture = function (_Electronic) {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return _control2.default.read(this.protocol());
+                return _control2.default.read(this.protocol);
 
               case 2:
                 return _context.abrupt('return', _context.sent);
@@ -12616,9 +12611,14 @@ var Humiture = function (_Electronic) {
 
       return getData;
     }()
+  }, {
+    key: 'protocol',
+    get: function get() {
+      return _utils2.default.composer(_cmd2.default.readHumiture, [this.args.port, this.args.type]);
+    }
   }], [{
     key: 'supportStamp',
-    value: function supportStamp() {
+    get: function get() {
       return '1111';
     }
   }]);
@@ -12710,18 +12710,13 @@ var Flame = function (_Electronic) {
 
 
   (0, _createClass3.default)(Flame, [{
-    key: 'protocol',
-    value: function protocol() {
-      return _utils2.default.composer(_cmd2.default.readFlame, [this.args.port]);
-    }
+    key: 'getData',
+
 
     /**
      * Get data of Flame sensor
      * @return {Promise}
      */
-
-  }, {
-    key: 'getData',
     value: function () {
       var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
         return _regenerator2.default.wrap(function _callee$(_context) {
@@ -12729,7 +12724,7 @@ var Flame = function (_Electronic) {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return _control2.default.read(this.protocol());
+                return _control2.default.read(this.protocol);
 
               case 2:
                 return _context.abrupt('return', _context.sent);
@@ -12748,9 +12743,14 @@ var Flame = function (_Electronic) {
 
       return getData;
     }()
+  }, {
+    key: 'protocol',
+    get: function get() {
+      return _utils2.default.composer(_cmd2.default.readFlame, [this.args.port]);
+    }
   }], [{
     key: 'supportStamp',
-    value: function supportStamp() {
+    get: function get() {
       return '1111';
     }
   }]);
@@ -12842,18 +12842,13 @@ var Gas = function (_Electronic) {
 
 
   (0, _createClass3.default)(Gas, [{
-    key: 'protocol',
-    value: function protocol() {
-      return _utils2.default.composer(_cmd2.default.readGas, [this.args.port]);
-    }
+    key: 'getData',
+
 
     /**
      * Get data of Gas sensor
      * @return {Promise}
      */
-
-  }, {
-    key: 'getData',
     value: function () {
       var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
         return _regenerator2.default.wrap(function _callee$(_context) {
@@ -12861,7 +12856,7 @@ var Gas = function (_Electronic) {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return _control2.default.read(this.protocol());
+                return _control2.default.read(this.protocol);
 
               case 2:
                 return _context.abrupt('return', _context.sent);
@@ -12880,9 +12875,14 @@ var Gas = function (_Electronic) {
 
       return getData;
     }()
+  }, {
+    key: 'protocol',
+    get: function get() {
+      return _utils2.default.composer(_cmd2.default.readGas, [this.args.port]);
+    }
   }], [{
     key: 'supportStamp',
-    value: function supportStamp() {
+    get: function get() {
       return '1111';
     }
   }]);
@@ -12969,18 +12969,13 @@ var Touch = function (_Electronic) {
   }
 
   (0, _createClass3.default)(Touch, [{
-    key: 'protocol',
-    value: function protocol() {
-      return _utils2.default.composer(_cmd2.default.readTouch, [this.args.port]);
-    }
+    key: 'getData',
+
 
     /**
      * Get data of Touch sensor
      * @return {Promise}
      */
-
-  }, {
-    key: 'getData',
     value: function () {
       var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
         return _regenerator2.default.wrap(function _callee$(_context) {
@@ -12988,7 +12983,7 @@ var Touch = function (_Electronic) {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return _control2.default.read(this.protocol());
+                return _control2.default.read(this.protocol);
 
               case 2:
                 return _context.abrupt('return', _context.sent);
@@ -13007,9 +13002,14 @@ var Touch = function (_Electronic) {
 
       return getData;
     }()
+  }, {
+    key: 'protocol',
+    get: function get() {
+      return _utils2.default.composer(_cmd2.default.readTouch, [this.args.port]);
+    }
   }], [{
     key: 'supportStamp',
-    value: function supportStamp() {
+    get: function get() {
       return '1111';
     }
   }]);
@@ -13114,18 +13114,13 @@ var FourKeys = function (_Electronic) {
      */
 
   }, {
-    key: 'protocol',
-    value: function protocol() {
-      return _utils2.default.composer(_cmd2.default.readFourKeys, [this.args.port, this.args.key]);
-    }
+    key: 'getData',
+
 
     /**
      * Get data of FourKeys sensor
      * @return {Promise}
      */
-
-  }, {
-    key: 'getData',
     value: function () {
       var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
         return _regenerator2.default.wrap(function _callee$(_context) {
@@ -13133,7 +13128,7 @@ var FourKeys = function (_Electronic) {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return _control2.default.read(this.protocol());
+                return _control2.default.read(this.protocol);
 
               case 2:
                 return _context.abrupt('return', _context.sent);
@@ -13152,9 +13147,14 @@ var FourKeys = function (_Electronic) {
 
       return getData;
     }()
+  }, {
+    key: 'protocol',
+    get: function get() {
+      return _utils2.default.composer(_cmd2.default.readFourKeys, [this.args.port, this.args.key]);
+    }
   }], [{
     key: 'supportStamp',
-    value: function supportStamp() {
+    get: function get() {
       return '1111';
     }
   }]);
@@ -13246,18 +13246,13 @@ var DigGPIO = function (_Electronic) {
 
 
   (0, _createClass3.default)(DigGPIO, [{
-    key: 'protocol',
-    value: function protocol() {
-      return _utils2.default.composer(_cmd2.default.readDigGPIO, [this.args.port]);
-    }
+    key: 'getData',
+
 
     /**
      * Get data of DigGPIO sensor
      * @return {Promise}
      */
-
-  }, {
-    key: 'getData',
     value: function () {
       var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
         return _regenerator2.default.wrap(function _callee$(_context) {
@@ -13265,7 +13260,7 @@ var DigGPIO = function (_Electronic) {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return _control2.default.read(this.protocol());
+                return _control2.default.read(this.protocol);
 
               case 2:
                 return _context.abrupt('return', _context.sent);
@@ -13284,9 +13279,14 @@ var DigGPIO = function (_Electronic) {
 
       return getData;
     }()
+  }, {
+    key: 'protocol',
+    get: function get() {
+      return _utils2.default.composer(_cmd2.default.readDigGPIO, [this.args.port]);
+    }
   }], [{
     key: 'supportStamp',
-    value: function supportStamp() {
+    get: function get() {
       return '00001';
     }
   }]);
@@ -13381,18 +13381,13 @@ var AnalogGPIO = function (_Electronic) {
 
 
   (0, _createClass3.default)(AnalogGPIO, [{
-    key: 'protocol',
-    value: function protocol() {
-      return _utils2.default.composer(_cmd2.default.readAnalogGPIO, [this.args.port]);
-    }
+    key: 'getData',
+
 
     /**
      * Get data of AnalogGPIO
      * @return {Promise}
      */
-
-  }, {
-    key: 'getData',
     value: function () {
       var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
         return _regenerator2.default.wrap(function _callee$(_context) {
@@ -13400,7 +13395,7 @@ var AnalogGPIO = function (_Electronic) {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return _control2.default.read(this.protocol());
+                return _control2.default.read(this.protocol);
 
               case 2:
                 return _context.abrupt('return', _context.sent);
@@ -13419,9 +13414,14 @@ var AnalogGPIO = function (_Electronic) {
 
       return getData;
     }()
+  }, {
+    key: 'protocol',
+    get: function get() {
+      return _utils2.default.composer(_cmd2.default.readAnalogGPIO, [this.args.port]);
+    }
   }], [{
     key: 'supportStamp',
-    value: function supportStamp() {
+    get: function get() {
       return '00001';
     }
   }]);
@@ -13514,18 +13514,13 @@ var GPIOContinue = function (_Electronic) {
 
 
   (0, _createClass3.default)(GPIOContinue, [{
-    key: 'protocol',
-    value: function protocol() {
-      return _utils2.default.composer(_cmd2.default.readGPIOContinue, [this.args.port, this.args.key]);
-    }
+    key: 'getData',
+
 
     /**
      * Get data of GPIOContinue sensor
      * @return {Promise}
      */
-
-  }, {
-    key: 'getData',
     value: function () {
       var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
         return _regenerator2.default.wrap(function _callee$(_context) {
@@ -13533,7 +13528,7 @@ var GPIOContinue = function (_Electronic) {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return _control2.default.read(this.protocol());
+                return _control2.default.read(this.protocol);
 
               case 2:
                 return _context.abrupt('return', _context.sent);
@@ -13552,9 +13547,14 @@ var GPIOContinue = function (_Electronic) {
 
       return getData;
     }()
+  }, {
+    key: 'protocol',
+    get: function get() {
+      return _utils2.default.composer(_cmd2.default.readGPIOContinue, [this.args.port, this.args.key]);
+    }
   }], [{
     key: 'supportStamp',
-    value: function supportStamp() {
+    get: function get() {
       return '00001';
     }
   }]);
@@ -13647,18 +13647,13 @@ var DoubleGPIO = function (_Electronic) {
 
 
   (0, _createClass3.default)(DoubleGPIO, [{
-    key: 'protocol',
-    value: function protocol() {
-      return _utils2.default.composer(_cmd2.default.readDoubleGPIO, [this.args.port1, this.args.port2]);
-    }
+    key: 'getData',
+
 
     /**
      * Get data of DoubleGPIO sensor
      * @return {Promise}
      */
-
-  }, {
-    key: 'getData',
     value: function () {
       var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
         return _regenerator2.default.wrap(function _callee$(_context) {
@@ -13666,7 +13661,7 @@ var DoubleGPIO = function (_Electronic) {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return _control2.default.read(this.protocol());
+                return _control2.default.read(this.protocol);
 
               case 2:
                 return _context.abrupt('return', _context.sent);
@@ -13685,9 +13680,14 @@ var DoubleGPIO = function (_Electronic) {
 
       return getData;
     }()
+  }, {
+    key: 'protocol',
+    get: function get() {
+      return _utils2.default.composer(_cmd2.default.readDoubleGPIO, [this.args.port1, this.args.port2]);
+    }
   }], [{
     key: 'supportStamp',
-    value: function supportStamp() {
+    get: function get() {
       return '00001';
     }
   }]);
@@ -13771,18 +13771,13 @@ var Runtime = function (_Electronic) {
 
 
   (0, _createClass3.default)(Runtime, [{
-    key: 'protocol',
-    value: function protocol() {
-      return _utils2.default.composer(_cmd2.default.readRuntime);
-    }
+    key: 'getData',
+
 
     /**
      * Get data of Runtime sensor
      * @return {Promise}
      */
-
-  }, {
-    key: 'getData',
     value: function () {
       var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
         return _regenerator2.default.wrap(function _callee$(_context) {
@@ -13790,7 +13785,7 @@ var Runtime = function (_Electronic) {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return _control2.default.read(this.protocol());
+                return _control2.default.read(this.protocol);
 
               case 2:
                 return _context.abrupt('return', _context.sent);
@@ -13809,9 +13804,14 @@ var Runtime = function (_Electronic) {
 
       return getData;
     }()
+  }, {
+    key: 'protocol',
+    get: function get() {
+      return _utils2.default.composer(_cmd2.default.readRuntime);
+    }
   }], [{
     key: 'supportStamp',
-    value: function supportStamp() {
+    get: function get() {
       return '000010';
     }
   }]);
@@ -13888,7 +13888,7 @@ var Orion = function (_Board) {
 
     var _loop = function _loop(name) {
       var eModule = _index2.default[name];
-      if (eModule.supportStamp().charAt(SUPPORT_INDEX) === '1') {
+      if (eModule.supportStamp.charAt(SUPPORT_INDEX) === '1') {
         _this[name] = function () {
           return this_.eModuleFactory(eModule, arguments);
         };
@@ -13993,7 +13993,7 @@ var Auriga = function (_Board) {
 
     var _loop = function _loop(name) {
       var eModule = _index2.default[name];
-      if (eModule.supportStamp().charAt(SUPPORT_INDEX) === '1') {
+      if (eModule.supportStamp.charAt(SUPPORT_INDEX) === '1') {
         _this[name] = function () {
           return this_.eModuleFactory(eModule, arguments, this_.name);
         };
@@ -14181,7 +14181,7 @@ var MegaPi = function (_Board) {
 
     var _loop = function _loop(name) {
       var eModule = _index2.default[name];
-      if (eModule.supportStamp().charAt(SUPPORT_INDEX) === '1') {
+      if (eModule.supportStamp.charAt(SUPPORT_INDEX) === '1') {
         _this[name] = function () {
           return this_.eModuleFactory(eModule, arguments);
         };
@@ -14335,7 +14335,7 @@ var MegaPiPro = function (_Board) {
 
     var _loop = function _loop(name) {
       var eModule = _index2.default[name];
-      if (eModule.supportStamp().charAt(SUPPORT_INDEX) === '1') {
+      if (eModule.supportStamp.charAt(SUPPORT_INDEX) === '1') {
         _this[name] = function () {
           return this_.eModuleFactory(eModule, arguments, this_.name);
         };
@@ -14471,7 +14471,7 @@ var Arduino = function (_Board) {
 
     var _loop = function _loop(name) {
       var eModule = _index2.default[name];
-      if (eModule.supportStamp().charAt(SUPPORT_INDEX) === '1') {
+      if (eModule.supportStamp.charAt(SUPPORT_INDEX) === '1') {
         _this[name] = function () {
           return this_.eModuleFactory(eModule, arguments);
         };

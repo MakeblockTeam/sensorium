@@ -16,7 +16,7 @@ class RgbLed extends BaseRgbLed {
   }
 
   // orion 不能 port8 slot1和port7 slot1不能用于灯条
-  static supportStamp(){
+  static get supportStamp(){
     return '111111';
   }
 }

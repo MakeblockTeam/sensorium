@@ -49,7 +49,7 @@ class ServoMotor extends Electronic {
   /**
    * 获取协议
    */
-  protocol() {
+  get protocol() {
     return Utils.composer(protocolAssembler.setServoMotor, [this.args.port, this.args.slot, this.args.angle]);
   }
 
@@ -57,11 +57,11 @@ class ServoMotor extends Electronic {
    * run
    */
   run(){
-    Control.write(this.protocol());
+    Control.write(this.protocol);
     return this;
   }
 
-  static supportStamp(){
+  static get supportStamp(){
     return '1111';
   }
 }

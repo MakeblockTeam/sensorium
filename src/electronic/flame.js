@@ -19,7 +19,7 @@ class Flame extends Electronic {
   /**
    * 获取协议
    */
-  protocol() {
+  get protocol() {
     return Utils.composer(protocolAssembler.readFlame, [this.args.port]);
   }
 
@@ -28,10 +28,10 @@ class Flame extends Electronic {
    * @return {Promise}
    */
   async getData() {
-    return await Control.read(this.protocol());
+    return await Control.read(this.protocol);
   }
 
-  static supportStamp(){
+  static get supportStamp(){
     return '1111';
   }
 }

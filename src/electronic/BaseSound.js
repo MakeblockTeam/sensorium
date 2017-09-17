@@ -24,7 +24,7 @@ class BaseSound extends Electronic {
   /**
    * 获取协议
    */
-  protocol() {
+  get protocol() {
     return Utils.composer(protocolAssembler.readSound, [this.args.port]);
   }
 
@@ -33,7 +33,7 @@ class BaseSound extends Electronic {
    * @return {Promise}
    */
   async getData() {
-    return await Control.read(this.protocol());
+    return await Control.read(this.protocol);
   }
 }
 

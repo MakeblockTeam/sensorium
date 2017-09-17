@@ -9,7 +9,7 @@ class Sound extends BaseSound {
     super(port);
   }
 
-  static supportStamp(){
+  static get supportStamp(){
     return '111111';
   }
 

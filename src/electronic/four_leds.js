@@ -10,7 +10,7 @@ class FourLeds extends BaseRgbLed {
     //接Adapter模块可以选择SLOT1(01) 和SLOT2(02)
   }
 
-  static supportStamp(){
+  static get supportStamp(){
     return '1111';
   }
 }

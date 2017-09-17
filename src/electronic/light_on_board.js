@@ -26,7 +26,7 @@ class LightOnBoard extends BaseLight {
     }
   }
 
-  static supportStamp(){
+  static get supportStamp(){
     return '111111';
   }
 }

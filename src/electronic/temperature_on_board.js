@@ -12,7 +12,7 @@ class TemperatureOnBoard extends Electronic {
     super(0x0d);
   }
 
-  protocol () {
+  get protocol () {
     return Utils.composer(protocolAssembler.readTemperatureOnBoard);
   }
 
@@ -21,10 +21,10 @@ class TemperatureOnBoard extends Electronic {
    * @return {Promise}
    */
   async getData() {
-    return await Control.read(this.protocol());
+    return await Control.read(this.protocol);
   }
 
-  static supportStamp(){
+  static get supportStamp(){
     return '0100';
   }
 }

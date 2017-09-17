@@ -10,7 +10,7 @@ class Version {
 
   }
 
-  protocol () {
+  get protocol () {
     return Utils.composer(protocolAssembler.readVersion);
   }
 
@@ -19,7 +19,7 @@ class Version {
    * @return {Promise}
    */
   async getVersion() {
-    return await Control.read(this.protocol());
+    return await Control.read(this.protocol);
   }
 }
 

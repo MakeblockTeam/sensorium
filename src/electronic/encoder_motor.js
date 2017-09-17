@@ -8,7 +8,7 @@ class EncoderMotor extends BaseEncoderMotor {
     super(port, slot);
   }
 
-  static supportStamp(){
+  static get supportStamp(){
     return '0101';
   }
 }

@@ -16,7 +16,7 @@ class GyroOnBoard extends BaseGyro {
     super(1);
   }
 
-  static supportStamp(){
+  static get supportStamp(){
     return '011001';
   }
 }

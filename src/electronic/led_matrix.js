@@ -53,7 +53,7 @@ class LedMatrix extends Electronic {
     }
   }
 
-  static supportStamp(){
+  static get supportStamp(){
     return '1110';
   }
 }

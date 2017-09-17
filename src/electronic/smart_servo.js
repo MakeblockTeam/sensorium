@@ -41,7 +41,7 @@ class SmartServo extends Electronic {
   /**
    * 获取协议
    */
-  protocol() {
+  get protocol() {
     if (this.args.subCmd < 4 || this.args.subCmd === 7 || this.args.subCmd === 8) {
       let baseCmd = [this.args.index, this.args.subCmd];
       if (Array.isArray(this.extraCmd)) {
@@ -196,15 +196,15 @@ class SmartServo extends Electronic {
   }
 
   run () {
-    Control.write(this.protocol());
+    Control.write(this.protocol);
     return this;
   }
 
   async getData () {
-    return await Control.read(this.protocol());
+    return await Control.read(this.protocol);
   }
 
-  static supportStamp(){
+  static get supportStamp(){
     return '0100';
   }
 }

@@ -19,16 +19,16 @@ class ButtonOnBoard extends Electronic {
     };
   }
 
-  protocol() {
+  get protocol() {
     return Utils.composer(protocolAssembler.ButtonOnBoard, [this.args.port, this.args.slot, this.args.angle]);
   }
 
   run(){
-    Control.write(this.protocol());
+    Control.write(this.protocol);
     return this;
   }
 
-  static supportStamp(){
+  static get supportStamp(){
     return '1111';
   }
 }
