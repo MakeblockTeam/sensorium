@@ -5013,14 +5013,14 @@ var Sensorium = function () {
     /**
      * Get supported mainboard
      * @example
-     * sensorium.getSupported()
+     * sensorium.supportStamp
      * // => ['auriga', 'mcore', 'megapi', 'orion', 'megapipro', 'arduino']
      * @return {Array}  a support list
      */
 
   }, {
-    key: 'getSupported',
-    value: function getSupported() {
+    key: 'supportStamp',
+    get: function get() {
       return (0, _keys2.default)(boards);
     }
   }]);

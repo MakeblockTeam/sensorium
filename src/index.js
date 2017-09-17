@@ -142,11 +142,11 @@ class Sensorium {
   /**
    * Get supported mainboard
    * @example
-   * sensorium.getSupported()
+   * sensorium.supportStamp
    * // => ['auriga', 'mcore', 'megapi', 'orion', 'megapipro', 'arduino']
    * @return {Array}  a support list
    */
-  getSupported(){
+  get supportStamp() {
     return Object.keys(boards);
   }
 }
