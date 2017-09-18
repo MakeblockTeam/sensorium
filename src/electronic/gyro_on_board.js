@@ -1,4 +1,6 @@
 import BaseGyro from './BaseGyro';
+import Utils from '../core/utils';
+import { SUPPORTLIST } from '../settings';
 
 /**
  * GyroOnBoard sensor module
@@ -16,8 +18,8 @@ class GyroOnBoard extends BaseGyro {
     super(1);
   }
 
-  static get supportStamp(){
-    return '011001';
+  static get SUPPORT(){
+    return Utils.fiterWithBinaryStr(SUPPORTLIST, '011001');
   }
 }
 

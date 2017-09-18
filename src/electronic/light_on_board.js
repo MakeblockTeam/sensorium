@@ -2,6 +2,7 @@ import { validateNumber } from '../core/validate';
 import BaseLight from './BaseLight';
 import { warnNotSupport } from '../core/validate';
 import { SUPPORTLIST } from '../settings';
+import Utils from '../core/utils';
 
 /**
  * LightOnBoard sensor module
@@ -26,8 +27,8 @@ class LightOnBoard extends BaseLight {
     }
   }
 
-  static get supportStamp(){
-    return '111111';
+  static get SUPPORT(){
+    return Utils.fiterWithBinaryStr(SUPPORTLIST, '111111');
   }
 }
 

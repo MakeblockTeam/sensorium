@@ -2,7 +2,7 @@ import Utils from '../core/utils';
 import BaseMotor from './BaseMotor';
 import protocolAssembler from '../protocol/cmd';
 import Control from '../communicate/control';
-
+import { SUPPORTLIST } from '../settings';
 /**
  * DcMotor sensor module
  * @extends BaseMotor
@@ -35,8 +35,8 @@ class DcMotor extends BaseMotor {
     return this;
   }
 
-  static get supportStamp(){
-    return '1111';
+  static get SUPPORT(){
+    return Utils.fiterWithBinaryStr(SUPPORTLIST, '1111');
   }
 }
 

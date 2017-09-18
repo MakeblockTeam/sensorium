@@ -290,5 +290,20 @@ export default {
       Object.getPrototypeOf(obj) //not the the Object prototype methods (hasOwnProperty, etc...)
     )
     return props;
+  },
+
+  /**
+   * filter array with a binaried string
+   * @param  {Array}  arr  an array like [1, 2, 3]
+   * @param  {String} bstr a binaried string like '10101011'
+   * @return {Array}      filtered array
+   */
+  fiterWithBinaryStr(arr, bstr) {
+    let filter = function(val, index) {
+      if(bstr[index] === '1') {
+        return val;
+      }
+    }
+    return arr.filter(filter);
   }
 }

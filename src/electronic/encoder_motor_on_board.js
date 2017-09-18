@@ -2,6 +2,7 @@ import Utils from '../core/utils';
 import BaseEncoderMotor from './BaseEncoderMotor';
 import protocolAssembler from '../protocol/cmd';
 import Control from '../communicate/control';
+import { SUPPORTLIST } from '../settings';
 
 /**
  * EncoderMotorOnBoard sensor module
@@ -44,8 +45,8 @@ class EncoderMotorOnBoard extends BaseEncoderMotor {
     return await Control.read(this.protocol);
   }
 
-  static get supportStamp(){
-    return '0110';
+  static get SUPPORT(){
+    return Utils.fiterWithBinaryStr(SUPPORTLIST, '0110');
   }
 }
 

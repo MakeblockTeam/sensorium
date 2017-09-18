@@ -83,8 +83,8 @@ class Buzzer extends Electronic {
     return this;
   }
 
-  static get supportStamp() {
-    return '11111';
+  static get SUPPORT() {
+    return Utils.fiterWithBinaryStr(SUPPORTLIST, '11111');
   }
 }
 

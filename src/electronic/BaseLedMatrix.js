@@ -58,7 +58,7 @@ class BaseLedMatrix extends Electronic {
     if (this.isClear) {
       // if clear
       let byteResult = Utils.emotionByteString2binaryByte('0'.repeat(128));
-      bufArray = [this.args.port, BaseLedMatrix.EMOTION_TYPE(), 0, 0, ...byteResult];
+      bufArray = [this.args.port, BaseLedMatrix.EMOTION_TYPE, 0, 0, ...byteResult];
     } else if (this.args.char !== null) {
       // if char mode
       const charCodeArray = this.args.char.slice('').map(char => (char.charCodeAt()));

@@ -49,8 +49,8 @@ class Infrared extends Electronic {
     return await Control.read(this.protocol);
   }
 
-  static get supportStamp(){
-    return '1111';
+  static get SUPPORT(){
+    return Utils.fiterWithBinaryStr(SUPPORTLIST, '1111');
   }
 }
 

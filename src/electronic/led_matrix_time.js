@@ -12,7 +12,7 @@ class LedMatrixTime extends BaseLedMatrix {
       separator: 0x01,
       hour: 0,
       minute: 0,
-      type: BaseLedMatrix.TIME_TYPE()
+      type: super.TIME_TYPE()
     });
   }
 

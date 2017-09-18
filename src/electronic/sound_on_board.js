@@ -1,4 +1,7 @@
 import BaseSound from './BaseSound';
+import Utils from '../core/utils';
+import { SUPPORTLIST } from '../settings';
+
 
 /**
  * SoundOnBoard sensor module
@@ -9,10 +12,9 @@ class SoundOnBoard extends BaseSound {
     super(14);
   }
 
-  static get supportStamp(){
-    return '010000';
+  static get SUPPORT(){
+    return Utils.fiterWithBinaryStr(SUPPORTLIST, '010000');
   }
-
 }
 
 export default SoundOnBoard;

@@ -3,6 +3,8 @@ import Utils from '../core/utils';
 import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
 import Control from '../communicate/control';
+import { SUPPORTLIST } from '../settings';
+
 /**
  * Pirmotion sensor module
  * @describe passive infrared ( PIR) sensor
@@ -31,8 +33,8 @@ class Pirmotion extends Electronic {
     return await Control.read(this.protocol());
   }
 
-  static get supportStamp(){
-    return '1111';
+  static get SUPPORT(){
+    return Utils.fiterWithBinaryStr(SUPPORTLIST, '1111');
   }
 }
 

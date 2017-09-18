@@ -1,4 +1,7 @@
 import BaseEncoderMotor from './BaseEncoderMotor';
+import Utils from '../core/utils';
+import { SUPPORTLIST } from '../settings';
+
 /**
  * EncoderMotor sensor module
  * @extends BaseEncoderMotor
@@ -8,8 +11,8 @@ class EncoderMotor extends BaseEncoderMotor {
     super(port, slot);
   }
 
-  static get supportStamp(){
-    return '0101';
+  static get SUPPORT(){
+    return Utils.fiterWithBinaryStr(SUPPORTLIST, '0101');
   }
 }
 

@@ -1,4 +1,6 @@
 import BaseLight from './BaseLight';
+import Utils from '../core/utils';
+import { SUPPORTLIST } from '../settings';
 
 /**
  * Light sensor module
@@ -9,8 +11,8 @@ class Light extends BaseLight {
     super(port);
   }
 
-  static get supportStamp(){
-    return '111111';
+  static get SUPPORT(){
+    return Utils.fiterWithBinaryStr(SUPPORTLIST, '111111');
   }
 }
 

@@ -1,4 +1,6 @@
 import BaseRgbLed from './BaseRgbLed';
+import Utils from '../core/utils';
+import { SUPPORTLIST } from '../settings';
 
 /**
  * FourLed sensor module
@@ -10,8 +12,8 @@ class FourLeds extends BaseRgbLed {
     //接Adapter模块可以选择SLOT1(01) 和SLOT2(02)
   }
 
-  static get supportStamp(){
-    return '1111';
+  static get SUPPORT(){
+    return Utils.fiterWithBinaryStr(SUPPORTLIST, '1111');
   }
 }
 

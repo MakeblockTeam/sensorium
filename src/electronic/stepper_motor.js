@@ -3,6 +3,7 @@ import Utils from '../core/utils';
 import BaseMotor from './BaseMotor';
 import protocolAssembler from '../protocol/cmd';
 import Control from '../communicate/control';
+import { SUPPORTLIST } from '../settings';
 
 /**
  * StepperMotor sensor module
@@ -59,8 +60,8 @@ class StepperMotor extends BaseMotor {
     return this;
   }
 
-  static get supportStamp(){
-    return '0111';
+  static get SUPPORT(){
+    return Utils.fiterWithBinaryStr(SUPPORTLIST, '0111');
   }
 }
 

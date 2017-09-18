@@ -3,6 +3,7 @@ import Utils from '../core/utils';
 import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
 import Control from '../communicate/control';
+import { SUPPORTLIST } from '../settings';
 
 /**
  * @Class AnalogGPIO
@@ -34,8 +35,8 @@ class AnalogGPIO extends Electronic {
     return await Control.read(this.protocol);
   }
 
-  static get supportStamp() {
-    return '00001';
+  static get SUPPORT() {
+    return Utils.fiterWithBinaryStr(SUPPORTLIST, '00001');
   }
 }
 

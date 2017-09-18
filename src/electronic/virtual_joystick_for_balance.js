@@ -2,6 +2,7 @@ import Utils from '../core/utils';
 import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
 import Control from '../communicate/control';
+import { SUPPORTLIST } from '../settings';
 
 /**
  * VirtualJoystick for Balance car, actually it's a motor module
@@ -68,8 +69,8 @@ class VirtualJoystickForBalance extends Electronic {
     return this.speed(0).run();
   }
 
-  static get supportStamp(){
-    return '0110';
+  static get SUPPORT(){
+    return Utils.fiterWithBinaryStr(SUPPORTLIST, '0110');
   }
 }
 

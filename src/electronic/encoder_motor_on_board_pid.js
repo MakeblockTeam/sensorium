@@ -64,8 +64,8 @@ class EncoderMotorOnBoardPID extends Electronic {
     return this;
   }
 
-  static get supportStamp(){
-    return '010001';
+  static get SUPPORT(){
+    return Utils.fiterWithBinaryStr(SUPPORTLIST, '010001');
   }
 }
 

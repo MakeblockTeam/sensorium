@@ -1,5 +1,6 @@
 import BaseRgbLed from './BaseRgbLed';
-
+import { SUPPORTLIST } from '../settings';
+import Utils from '../core/utils';
 /**
  * RgbLed sensor module
  * @extends BaseRgbLed
@@ -16,8 +17,8 @@ class RgbLed extends BaseRgbLed {
   }
 
   // orion 不能 port8 slot1和port7 slot1不能用于灯条
-  static get supportStamp(){
-    return '111111';
+  static get SUPPORT(){
+    return Utils.fiterWithBinaryStr(SUPPORTLIST, '111111');
   }
 }
 

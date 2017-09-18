@@ -3,6 +3,7 @@ import Utils from '../core/utils';
 import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
 import Control from '../communicate/control';
+import { SUPPORTLIST } from '../settings';
 
 /**
  * VirtualJoystick, actually it's a motor module
@@ -74,8 +75,8 @@ class VirtualJoystick extends Electronic {
     return this.speed(0,0).run();
   }
 
-  static get supportStamp(){
-    return '1111';
+  static get SUPPORT(){
+    return Utils.fiterWithBinaryStr(SUPPORTLIST, '1111');
   }
 }
 

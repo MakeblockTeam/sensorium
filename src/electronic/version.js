@@ -1,7 +1,6 @@
 import Utils from '../core/utils';
 import protocolAssembler from '../protocol/cmd';
 import Control from '../communicate/control';
-
 /**
  * @private
  */

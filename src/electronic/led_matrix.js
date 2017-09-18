@@ -4,6 +4,8 @@ import LedMatrixChar from './led_matrix_char';
 import LedMatrixEmotion from './led_matrix_emotion';
 import LedMatrixNumber from './led_matrix_number';
 import LedMatrixTime from './led_matrix_time';
+import Utils from '../core/utils';
+import { SUPPORTLIST } from '../settings';
 
 /**
  * LedMatrix sensor module, who can be play as 'charMode','emotionMode','numberMode','timeMode'
@@ -53,8 +55,8 @@ class LedMatrix extends Electronic {
     }
   }
 
-  static get supportStamp(){
-    return '1110';
+  static get SUPPORT(){
+    return Utils.fiterWithBinaryStr(SUPPORTLIST, '1110');
   }
 }
 

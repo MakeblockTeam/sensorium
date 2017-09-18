@@ -1,4 +1,6 @@
 import BaseSound from './BaseSound';
+import Utils from '../core/utils';
+import { SUPPORTLIST } from '../settings';
 
 /**
  * Sound sensor module
@@ -9,10 +11,9 @@ class Sound extends BaseSound {
     super(port);
   }
 
-  static get supportStamp(){
-    return '111111';
+  static get SUPPORT(){
+    return Utils.fiterWithBinaryStr(SUPPORTLIST, '111111');
   }
-
 }
 
 export default Sound;
