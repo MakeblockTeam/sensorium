@@ -17,7 +17,7 @@ class Compass extends Electronic {
   }
 
   /**
-   * 获取协议
+   * getter of protocol
    */
   get protocol () {
     return Utils.composer(protocolAssembler.readCompass, [this.args.port]);

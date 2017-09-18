@@ -35,6 +35,9 @@ class VirtualJoystickForBalance extends Electronic {
     return this;
   }
 
+  /**
+   * getter of protocol
+   */
   get protocol () {
     return Utils.composer(protocolAssembler.setVirtualJoystickForBalance, [this.args.turnRange, this.args.speed]);
   }

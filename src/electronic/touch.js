@@ -16,12 +16,21 @@ class Touch extends Electronic {
     };
   }
 
+  /**
+   * getter of protocol
+   */
   get protocol () {
     return Utils.composer(protocolAssembler.readTouch, [this.args.port]);
   }
 
   /**
    * Get data of Touch sensor
+   * @example
+   * mcore.Touch(1)
+   *      .getData()
+   *      .then((val) => {
+   *        console.log(val)
+   *       });
    * @return {Promise}
    */
   async getData() {

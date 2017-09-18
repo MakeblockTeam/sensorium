@@ -47,7 +47,7 @@ class ServoMotor extends Electronic {
   }
 
   /**
-   * 获取协议
+   * getter of protocol
    */
   get protocol() {
     return Utils.composer(protocolAssembler.setServoMotor, [this.args.port, this.args.slot, this.args.angle]);

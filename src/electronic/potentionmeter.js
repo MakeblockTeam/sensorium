@@ -17,7 +17,7 @@ class Potentionmeter extends Electronic {
   }
 
   /**
-   * 获取协议
+   * getter of protocol
    */
   protocol() {
     return Utils.composer(protocolAssembler.readPotentionmeter, [this.args.port]);

@@ -16,7 +16,7 @@ class EncoderMotorOnBoard extends BaseEncoderMotor {
   }
 
   /**
-   * 获取协议
+   * getter of protocol
    */
   get protocol() {
     return Utils.composer(protocolAssembler.readEncoderMotorOnBoard, [this.args.slot, this.args.type]);

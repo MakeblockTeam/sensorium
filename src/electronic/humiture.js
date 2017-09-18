@@ -19,14 +19,14 @@ class Humiture extends Electronic {
 
   /**
    * Get Humidity of Humiture sensor
-   * @return {Promise}
    * @example
    * mcore.Humiture(1)
    *      .readHumidity()
-   *        .getData()
-   *         .then((val) => {
-   *           console.log(val)
-   *         });
+   *      .getData()
+   *      .then((val) => {
+   *        console.log(val)
+   *       });
+   * @return {Instance} @this
    */
   readHumidity(){
     this.args.type = 0;
@@ -35,14 +35,14 @@ class Humiture extends Electronic {
 
   /**
    * Get Temperature of Humiture sensor
-   * @return {Promise}
    * @example
    * mcore.Humiture(1)
    *      .readTemperature()
-   *       .getData()
-   *        .then((val) => {
-   *          console.log(val)
-   *        });
+   *      .getData()
+   *      .then((val) => {
+   *        console.log(val)
+   *      });
+   * @return {Instance} @this
    */
   readTemperature(){
     this.args.type = 1;
@@ -50,12 +50,23 @@ class Humiture extends Electronic {
   }
 
   /**
-   * 获取协议
+   * getter of protocol
    */
   get protocol() {
     return Utils.composer(protocolAssembler.readHumiture, [this.args.port, this.args.type]);
   }
 
+  /**
+   * 获取数据
+   * @example
+   * mcore.Humiture(1)
+   *      .readTemperature()
+   *      .getData()
+   *      .then((val) => {
+   *        console.log(val)
+   *      });
+   * @return {Promise}
+   */
   async getData() {
     return await Control.read(this.protocol);
   }

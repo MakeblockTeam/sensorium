@@ -24,7 +24,7 @@ class InfraredOnBoard extends Electronic {
   }
 
   /**
-   * 获取协议
+   * getter of protocol
    */
   get protocol() {
     let port = 0x00;

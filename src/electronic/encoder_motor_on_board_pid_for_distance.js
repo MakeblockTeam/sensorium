@@ -32,7 +32,7 @@ class EncoderMotorPIDForDistance {
   }
 
   /**
-   * 获取协议
+   * getter of protocol
    */
   get protocol() {
     return Utils.composer(protocolAssembler.setEncoderMotorPIDDistance, [this.args.distance, this.args.speed]);

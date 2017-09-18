@@ -39,7 +39,7 @@ class SmartServo extends Electronic {
   }
 
   /**
-   * 获取协议
+   * getter of protocol
    */
   get protocol() {
     if (this.args.subCmd < 4 || this.args.subCmd === 7 || this.args.subCmd === 8) {
@@ -195,11 +195,30 @@ class SmartServo extends Electronic {
     return this;
   }
 
+  /**
+   * run of write API such as speed, runAsDcMotor, setZeroPoint and so on
+   * @example
+   * mcore.SmartServo(1)
+   *      .speed()
+   *      .run()
+   * @return {Instance} @this
+   */
   run () {
     Control.write(this.protocol);
     return this;
   }
 
+  /**
+   * Get data of read API such as readSpeed, readVoltage, readAngle and so on
+   * @example
+   * mcore.SmartServo(1)
+   *      .readSpeed()
+   *      .getData()
+   *      .then((val) => {
+   *        console.log(val)
+   *       });
+   * @return {Promise}
+   */
   async getData () {
     return await Control.read(this.protocol);
   }

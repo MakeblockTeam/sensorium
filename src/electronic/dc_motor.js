@@ -21,7 +21,7 @@ class DcMotor extends BaseMotor {
   }
 
   /**
-   * 获取协议
+   * getter of protocol
    */
   get protocol () {
     return Utils.composer(protocolAssembler.setDcMotor, [this.args.port, this.args.speed]);

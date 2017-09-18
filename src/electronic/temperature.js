@@ -17,6 +17,9 @@ class Temperature extends Electronic {
     };
   }
 
+  /**
+   * getter of protocol
+   */
   get protocol () {
     return Utils.composer(protocolAssembler.readTemperature, [this.args.port, this.args.slot]);
   }

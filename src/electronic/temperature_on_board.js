@@ -12,6 +12,9 @@ class TemperatureOnBoard extends Electronic {
     super(0x0d);
   }
 
+  /**
+   * getter of protocol
+   */
   get protocol () {
     return Utils.composer(protocolAssembler.readTemperatureOnBoard);
   }

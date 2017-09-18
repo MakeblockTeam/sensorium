@@ -10,6 +10,9 @@ class Version {
 
   }
 
+  /**
+   * getter of protocol
+   */
   get protocol () {
     return Utils.composer(protocolAssembler.readVersion);
   }

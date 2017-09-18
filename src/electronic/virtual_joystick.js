@@ -49,6 +49,9 @@ class VirtualJoystick extends Electronic {
     return this;
   }
 
+  /**
+   * getter of protocol
+   */
   get protocol () {
     return Utils.composer(protocolAssembler.setJoystick, [this.args.leftSpeed, this.args.rightSpeed]);
   }

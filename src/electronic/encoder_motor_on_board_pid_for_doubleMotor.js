@@ -96,7 +96,7 @@ class PIDForDoubleMotor {
   }
 
   /**
-   * 获取协议
+   * getter of protocol
    */
   get protocol() {
     return Utils.composer(protocolAssembler.setEncoderMotorPIDDoubleMotor, [this.args.direction, this.args.distance, this.args.speed]);

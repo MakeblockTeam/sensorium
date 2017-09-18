@@ -49,7 +49,7 @@ class BaseLedMatrix extends Electronic {
   }
 
   /**
-   * 获取协议
+   * getter of protocol
    */
   protocol() {
     // bufArray [port, type, x, y, ...byteArray]
@@ -74,7 +74,7 @@ class BaseLedMatrix extends Electronic {
       // if time mode
       bufArray = [this.args.port, this.args.type, this.args.separator, this.args.hour, this.args.minute];
     }
-    
+
     const buf = Utils.composer(protocolAssembler.setLedMatrix, bufArray);;
     return buf;
   }
@@ -99,7 +99,7 @@ class BaseLedMatrix extends Electronic {
   static get TIME_TYPE () {
     return 0x03;
   }
-  
+
   static get NUMBER_TYPE () {
     return 0x04;
   }

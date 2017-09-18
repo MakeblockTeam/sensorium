@@ -17,7 +17,7 @@ class Pirmotion extends Electronic {
   }
 
   /**
-   * 获取协议
+   * getter of protocol
    */
   protocol() {
     return Utils.composer(protocolAssembler.readPirmotion, [this.args.port]);

@@ -18,7 +18,7 @@ class DoubleGPIO extends Electronic {
   }
 
   /**
-   * 获取协议
+   * getter of protocol
    */
   get protocol() {
     return Utils.composer(protocolAssembler.readDoubleGPIO, [this.args.port1, this.args.port2]);

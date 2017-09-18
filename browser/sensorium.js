@@ -2593,7 +2593,7 @@ var BaseLedMatrix = function (_Electronic) {
     }
 
     /**
-     * 获取协议
+     * getter of protocol
      */
 
   }, {
@@ -4129,6 +4129,11 @@ var Version = function () {
     (0, _classCallCheck3.default)(this, Version);
   }
 
+  /**
+   * getter of protocol
+   */
+
+
   (0, _createClass3.default)(Version, [{
     key: 'getVersion',
 
@@ -4269,7 +4274,7 @@ var BaseEncoderMotor = function (_BaseMotor) {
     }
 
     /**
-     * 获取协议
+     * getter of protocol
      */
 
   }, {
@@ -4537,7 +4542,7 @@ var BaseGyro = function (_Electronic) {
     }
 
     /**
-     * 获取协议
+     * getter of protocol
      */
 
   }, {
@@ -4669,7 +4674,7 @@ var BaseSound = function (_Electronic) {
   }
 
   /**
-   * 获取协议
+   * getter of protocol
    */
 
 
@@ -7431,7 +7436,7 @@ var DcMotor = function (_BaseMotor) {
     }
 
     /**
-     * 获取协议
+     * getter of protocol
      */
 
   }, {
@@ -7572,6 +7577,11 @@ var VirtualJoystick = function (_Electronic) {
       this.args.rightSpeed = (0, _validate.validateNumber)(speed, 0);
       return this;
     }
+
+    /**
+     * getter of protocol
+     */
+
   }, {
     key: 'run',
 
@@ -7705,6 +7715,11 @@ var VirtualJoystickForBalance = function (_Electronic) {
       this.args.turnRange = range || 0;
       return this;
     }
+
+    /**
+     * getter of protocol
+     */
+
   }, {
     key: 'run',
 
@@ -8089,7 +8104,7 @@ var EncoderMotorOnBoard = function (_BaseEncoderMotor) {
   }
 
   /**
-   * 获取协议
+   * getter of protocol
    */
 
 
@@ -8271,7 +8286,7 @@ var ServoMotor = function (_Electronic) {
     }
 
     /**
-     * 获取协议
+     * getter of protocol
      */
 
   }, {
@@ -9244,7 +9259,7 @@ var Buzzer = function (_Electronic) {
     }
 
     /**
-     * 获取协议
+     * getter of protocol
      */
 
   }, {
@@ -9366,7 +9381,7 @@ var SevenSegment = function (_Electronic) {
     }
 
     /**
-     * 获取协议
+     * getter of protocol
      */
 
   }, {
@@ -9482,7 +9497,7 @@ var Shutter = function (_Electronic) {
     }
 
     /**
-     * 获取协议
+     * getter of protocol
      */
 
   }, {
@@ -9636,7 +9651,7 @@ var SmartServo = function (_Electronic) {
   }
 
   /**
-   * 获取协议
+   * getter of protocol
    */
 
 
@@ -9820,12 +9835,35 @@ var SmartServo = function (_Electronic) {
       this.args.subCmd = 0x0d;
       return this;
     }
+
+    /**
+     * run of write API such as speed, runAsDcMotor, setZeroPoint and so on
+     * @example
+     * mcore.SmartServo(1)
+     *      .speed()
+     *      .run()
+     * @return {Instance} @this
+     */
+
   }, {
     key: 'run',
     value: function run() {
       _control2.default.write(this.protocol);
       return this;
     }
+
+    /**
+     * Get data of read API such as readSpeed, readVoltage, readAngle and so on
+     * @example
+     * mcore.SmartServo(1)
+     *      .readSpeed()
+     *      .getData()
+     *      .then((val) => {
+     *        console.log(val)
+     *       });
+     * @return {Promise}
+     */
+
   }, {
     key: 'getData',
     value: function () {
@@ -9989,13 +10027,11 @@ var EncoderMotorOnBoardPID = function (_Electronic) {
         return new _encoder_motor_on_board_pid_for_doubleMotor2.default();
       };
     }
-
-    _this.reset = false;
     return _this;
   }
 
   /**
-   * 获取协议
+   * getter of protocol
    */
 
 
@@ -10010,12 +10046,6 @@ var EncoderMotorOnBoardPID = function (_Electronic) {
      * pid.setZeroPoint()
      */
     value: function setZeroPoint() {
-      this.reset = true;
-      return this;
-    }
-  }, {
-    key: 'run',
-    value: function run() {
       _control2.default.write(this.protocol);
       return this;
     }
@@ -10023,13 +10053,10 @@ var EncoderMotorOnBoardPID = function (_Electronic) {
     key: 'protocol',
     get: function get() {
       var subCmd = [];
-      if (this.reset) {
-        this.reset = false;
-        if (this.hostname == auriga) {
-          subCmd = [0x04];
-        } else if (this.hostname == megapipro) {
-          subCmd = [0x03];
-        }
+      if (this.hostname == auriga) {
+        subCmd = [0x04];
+      } else if (this.hostname == megapipro) {
+        subCmd = [0x03];
       }
       return _utils2.default.composer(_cmd2.default.setEncoderMotorPIDZeroPoint, subCmd);
     }
@@ -10115,7 +10142,7 @@ var EncoderMotorPIDForDistance = function () {
     }
 
     /**
-     * 获取协议
+     * getter of protocol
      */
 
   }, {
@@ -10199,7 +10226,7 @@ var PIDForSpeed = function () {
     }
 
     /**
-     * 获取协议
+     * getter of protocol
      */
 
   }, {
@@ -10278,7 +10305,7 @@ var PIDForPwm = function () {
     }
 
     /**
-     * 获取协议
+     * getter of protocol
      */
 
   }, {
@@ -10448,7 +10475,7 @@ var PIDForDoubleMotor = function () {
     }
 
     /**
-     * 获取协议
+     * getter of protocol
      */
 
   }, {
@@ -10538,7 +10565,7 @@ var Reset = function (_Electronic) {
   }
 
   /**
-   * 获取协议
+   * getter of protocol
    */
 
 
@@ -10669,12 +10696,23 @@ var Ultrasonic = function (_Electronic) {
     return _this;
   }
 
+  /**
+   * getter of protocol
+   */
+
+
   (0, _createClass3.default)(Ultrasonic, [{
     key: 'getData',
 
 
     /**
      * Get data of Ultrasonic sensor
+     * @example
+     * mcore.Ultrasonic(1)
+     *      .getData()
+     *      .then((val) => {
+     *        console.log(val)
+     *       });
      * @return {Promise}
      */
     value: function () {
@@ -10797,6 +10835,11 @@ var Temperature = function (_Electronic) {
     return _this;
   }
 
+  /**
+   * getter of protocol
+   */
+
+
   (0, _createClass3.default)(Temperature, [{
     key: 'getData',
 
@@ -10915,6 +10958,11 @@ var TemperatureOnBoard = function (_Electronic) {
     (0, _classCallCheck3.default)(this, TemperatureOnBoard);
     return (0, _possibleConstructorReturn3.default)(this, (TemperatureOnBoard.__proto__ || (0, _getPrototypeOf2.default)(TemperatureOnBoard)).call(this, 0x0d));
   }
+
+  /**
+   * getter of protocol
+   */
+
 
   (0, _createClass3.default)(TemperatureOnBoard, [{
     key: 'getData',
@@ -11186,7 +11234,7 @@ var Potentionmeter = function (_Electronic) {
   }
 
   /**
-   * 获取协议
+   * getter of protocol
    */
 
 
@@ -11328,7 +11376,7 @@ var Joystick = function (_Electronic) {
     }
 
     /**
-     * 获取协议
+     * getter of protocol
      */
 
   }, {
@@ -11716,7 +11764,7 @@ var Pirmotion = function (_Electronic) {
   }
 
   /**
-   * 获取协议
+   * getter of protocol
    */
 
 
@@ -11856,7 +11904,7 @@ var Infrared = function (_Electronic) {
   }
 
   /**
-   * 获取协议
+   * getter of protocol
    */
 
 
@@ -12009,7 +12057,7 @@ var InfraredOnBoard = function (_Electronic) {
   }
 
   /**
-   * 获取协议
+   * getter of protocol
    */
 
 
@@ -12144,7 +12192,7 @@ var LimitSwitch = function (_Electronic) {
   }
 
   /**
-   * 获取协议
+   * getter of protocol
    */
 
 
@@ -12276,7 +12324,7 @@ var LineFollower = function (_Electronic) {
   }
 
   /**
-   * 获取协议
+   * getter of protocol
    */
 
 
@@ -12408,7 +12456,7 @@ var Compass = function (_Electronic) {
   }
 
   /**
-   * 获取协议
+   * getter of protocol
    */
 
 
@@ -12542,14 +12590,14 @@ var Humiture = function (_Electronic) {
 
   /**
    * Get Humidity of Humiture sensor
-   * @return {Promise}
    * @example
    * mcore.Humiture(1)
    *      .readHumidity()
-   *        .getData()
-   *         .then((val) => {
-   *           console.log(val)
-   *         });
+   *      .getData()
+   *      .then((val) => {
+   *        console.log(val)
+   *       });
+   * @return {Instance} @this
    */
 
 
@@ -12562,14 +12610,14 @@ var Humiture = function (_Electronic) {
 
     /**
      * Get Temperature of Humiture sensor
-     * @return {Promise}
      * @example
      * mcore.Humiture(1)
      *      .readTemperature()
-     *       .getData()
-     *        .then((val) => {
-     *          console.log(val)
-     *        });
+     *      .getData()
+     *      .then((val) => {
+     *        console.log(val)
+     *      });
+     * @return {Instance} @this
      */
 
   }, {
@@ -12580,11 +12628,24 @@ var Humiture = function (_Electronic) {
     }
 
     /**
-     * 获取协议
+     * getter of protocol
      */
 
   }, {
     key: 'getData',
+
+
+    /**
+     * 获取数据
+     * @example
+     * mcore.Humiture(1)
+     *      .readTemperature()
+     *      .getData()
+     *      .then((val) => {
+     *        console.log(val)
+     *      });
+     * @return {Promise}
+     */
     value: function () {
       var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
         return _regenerator2.default.wrap(function _callee$(_context) {
@@ -12705,7 +12766,7 @@ var Flame = function (_Electronic) {
   }
 
   /**
-   * 获取协议
+   * getter of protocol
    */
 
 
@@ -12837,7 +12898,7 @@ var Gas = function (_Electronic) {
   }
 
   /**
-   * 获取协议
+   * getter of protocol
    */
 
 
@@ -12968,12 +13029,23 @@ var Touch = function (_Electronic) {
     return _this;
   }
 
+  /**
+   * getter of protocol
+   */
+
+
   (0, _createClass3.default)(Touch, [{
     key: 'getData',
 
 
     /**
      * Get data of Touch sensor
+     * @example
+     * mcore.Touch(1)
+     *      .getData()
+     *      .then((val) => {
+     *        console.log(val)
+     *       });
      * @return {Promise}
      */
     value: function () {
@@ -13110,7 +13182,7 @@ var FourKeys = function (_Electronic) {
     }
 
     /**
-     * 获取协议
+     * getter of protocol
      */
 
   }, {
@@ -13241,7 +13313,7 @@ var DigGPIO = function (_Electronic) {
   }
 
   /**
-   * 获取协议
+   * getter of protocol
    */
 
 
@@ -13376,7 +13448,7 @@ var AnalogGPIO = function (_Electronic) {
   }
 
   /**
-   * 获取协议
+   * getter of protocol
    */
 
 
@@ -13509,7 +13581,7 @@ var GPIOContinue = function (_Electronic) {
   }
 
   /**
-   * 获取协议
+   * getter of protocol
    */
 
 
@@ -13642,7 +13714,7 @@ var DoubleGPIO = function (_Electronic) {
   }
 
   /**
-   * 获取协议
+   * getter of protocol
    */
 
 
@@ -13766,7 +13838,7 @@ var Runtime = function (_Electronic) {
   }
 
   /**
-   * 获取协议
+   * getter of protocol
    */
 
 

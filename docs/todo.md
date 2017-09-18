@@ -22,7 +22,7 @@
 `execFunc`、`callbackProxy`
 
 
-## DONE
+### DONE
 - [x]发布一个npm包，实现串口连接主板调试
 - [x]实现在线蓝牙版本
 - [x] auriga缺的接口包括：外接编码电机、表情面板、快门线模块、设置TONE输出、智能舵机；以及所有的读指令
@@ -50,4 +50,5 @@
 
 // 将异步用 promise 来做
 // typescript 来重构部分代码
+
 
