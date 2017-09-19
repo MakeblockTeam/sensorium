@@ -1,4 +1,12 @@
 # Changelog
+## [0.2.7] - 2017-09-19
+### Changed
+-  优化文件结构
+-  完善接口文档 （npm run jsdoc 查看文档）
+-  Humiture Class change api getHumidity, getTemperature to readHumidity, readTemperature
+-  EncoderMotorOnBoard Class change api getSpeed, getAngle to readSpeed, readAngle
+
+
 ## [0.2.7] - 2017-09-12
 ### Changed
 -  优化文件结构

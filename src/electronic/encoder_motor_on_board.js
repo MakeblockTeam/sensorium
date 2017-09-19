@@ -12,15 +12,8 @@ class EncoderMotorOnBoard extends BaseEncoderMotor {
   constructor(slot) {
     super(0, slot);
     Object.assign(this.args, {
-      type: 2
+      type: 0x02
     });
-  }
-
-  /**
-   * getter of protocol
-   */
-  get protocol() {
-    return Utils.composer(protocolAssembler.readEncoderMotorOnBoard, [this.args.slot, this.args.type]);
   }
 
   /**
@@ -28,6 +21,7 @@ class EncoderMotorOnBoard extends BaseEncoderMotor {
    * @return  {Promise} return promise
    */
   readSpeed(){
+    this.isReadType = true;
     this.args.type = 0x02;
     return this;
   }
@@ -37,6 +31,7 @@ class EncoderMotorOnBoard extends BaseEncoderMotor {
    * @return  {Promise} return promise
    */
   readAngle(){
+    this.isReadType = true;
     this.args.type = 0x01;
     return this;
   }

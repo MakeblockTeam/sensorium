@@ -20,7 +20,7 @@ class Potentionmeter extends Electronic {
   /**
    * getter of protocol
    */
-  protocol() {
+  get protocol() {
     return Utils.composer(protocolAssembler.readPotentionmeter, [this.args.port]);
   }
 
@@ -29,7 +29,7 @@ class Potentionmeter extends Electronic {
    * @return {Promise}
    */
   async getData() {
-    return await Control.read(this.protocol());
+    return await Control.read(this.protocol);
   }
 
   static get SUPPORT(){

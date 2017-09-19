@@ -16,7 +16,7 @@ class Reset extends Electronic {
   /**
    * getter of protocol
    */
-  protocol() {
+  get protocol() {
     return Utils.composer(protocolAssembler.reset);
   }
 
@@ -25,7 +25,7 @@ class Reset extends Electronic {
    * @return {Promise}
    */
   async reset() {
-    return await Control.read(this.protocol());
+    return await Control.read(this.protocol);
   }
 
   static get SUPPORT(){

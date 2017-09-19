@@ -48,7 +48,14 @@ describe('test all the electronic modules', function() {
           //实例原型链上的 API
           let apis = Util.getAllMethods(instance_.__proto__);
           for (let method of apis) {
-            if (method === 'protocol') {
+            // console.log(apis, instance_[method]);
+            //当是 getter 时
+            if(method === 'protocol') {
+              it(`${method} : should be getter function and its result is an Array`, function() {
+                let myProtocal = instance_[method];
+                // console.log(myProtocal);
+                expect(myProtocal).to.be.an.instanceof(Array);
+              });
               continue;
             }
             let obj = instance_[method]();
@@ -65,7 +72,7 @@ describe('test all the electronic modules', function() {
               })
             }
           }
-          //组合模式中的继承
+          // 组合模式中的继承
           for (let fn of instance_fn) {
             let instance_instance_ = instance_[fn]();
             //instance_instance_ 是非 Object 类的实例
@@ -73,7 +80,13 @@ describe('test all the electronic modules', function() {
               //读取所有包括原型链上的 API
               let apis = Util.getAllMethods(instance_instance_);
               for (let method of apis) {
+                //当是 getter 时
                 if (method === 'protocol') {
+                  it(`${method} : should be getter function and its result is an Array`, function() {
+                    let myProtocal = instance_instance_[method];
+                    // console.log(myProtocal);
+                    expect(myProtocal).to.be.an.instanceof(Array);
+                  });
                   continue;
                 }
                 let obj = instance_instance_[method]();
@@ -93,12 +106,17 @@ describe('test all the electronic modules', function() {
             }
           }
         }
-        //纯继承模式
+        // //纯继承模式
         else{
             //读取所有 API 包括原型链上的 API
             let apis = Util.getAllMethods(instance_);
             for (let method of apis) {
               if (method === 'protocol') {
+                it(`${method} : should be getter function and its result is an Array`, function() {
+                  let myProtocal = instance_[method];
+                  // console.log(myProtocal);
+                  expect(myProtocal).to.be.an.instanceof(Array);
+                });
                 continue;
               }
               let obj = instance_[method]();

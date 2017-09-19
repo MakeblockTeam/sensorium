@@ -78,7 +78,7 @@ describe('test: repeatly initialize the electronic module', function() {
     let PID2 = auriga.EncoderMotorOnBoardPID(1);
     let PID3 = auriga.EncoderMotorOnBoardPID(1);
     let PID4 = auriga.EncoderMotorOnBoardPID(1, 2);
-    let PID5 = PID4.setZeroPoint().run();
+    let PID5 = PID4.setZeroPoint();
     expect(PID1).to.eql(PID2);
     expect(PID1).to.eql(PID3);
     expect(PID1).to.eql(PID4);

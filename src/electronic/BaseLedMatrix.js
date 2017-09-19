@@ -3,13 +3,7 @@ import Electronic from './electronic';
 import Utils from '../core/utils';
 import protocolAssembler from '../protocol/cmd';
 import Control from '../communicate/control';
-/**
- * @private
- */
-function write(bufArray) {
-  let buf = Utils.composer(protocolAssembler.setLedMatrix, bufArray);
-  Control.write(buf);
-}
+
 /**
  * @description It is a base Class of LedMatrix
  * @extends Electronic
@@ -23,20 +17,10 @@ class BaseLedMatrix extends Electronic {
     super();
     this.args = {
       port: validateNumber(port),
-      type: null,
-      // char
-      char: null,
-      // emotion
-      emotion: null,
-      // number
-      number: null,
-      // time
-      separator: null,
-      hour: null,
-      minute: null
+      type: null
     }
 
-    this.isClear = false;
+    this.isClearType = false;
   }
 
   /**
@@ -44,47 +28,44 @@ class BaseLedMatrix extends Electronic {
    * TOIMPROVE: 甚至可以提供接口清除某个区域
    */
   clear() {
-    this.isClear = true;
+    this.isClearType = true;
     return this;
   }
 
   /**
    * getter of protocol
    */
-  protocol() {
+  get protocol() {
     // bufArray [port, type, x, y, ...byteArray]
     let bufArray = [];
-
-    if (this.isClear) {
+    if (this.isClearType) {
       // if clear
       let byteResult = Utils.emotionByteString2binaryByte('0'.repeat(128));
       bufArray = [this.args.port, BaseLedMatrix.EMOTION_TYPE, 0, 0, ...byteResult];
-    } else if (this.args.char !== null) {
+      this.isClearType = false;
+    } else if (this.args.type === BaseLedMatrix.CHAR_TYPE) {
       // if char mode
-      const charCodeArray = this.args.char.slice('').map(char => (char.charCodeAt()));
+      let charCodeArray = this.args.char.slice('').map(char => (char.charCodeAt()));
       bufArray = [this.args.port, this.args.type, this.args.x, this.args.y, this.args.char.length, ...charCodeArray];
-    } else if (this.args.emotion !== null) {
+    } else if (this.args.emotion === BaseLedMatrix.EMOTION_TYPE) {
       // if emotion mode
-      const byteResult = Utils.emotionByteString2binaryByte(this.args.emotion);
+      let byteResult = Utils.emotionByteString2binaryByte(this.args.emotion);
       bufArray = [this.args.port, this.args.type, this.args.x, this.args.y, ...byteResult];
-    } else if (this.args.number !== null) {
+    } else if (this.args.number === BaseLedMatrix.NUMBER_TYPE) {
       // if number mode
       bufArray = [this.args.port, this.args.type, ...Utils.float32ToBytes(this.args.number)];
-    } else if (this.args.separator !== null) {
+    } else if (this.args.separator === BaseLedMatrix.TIME_TYPE) {
       // if time mode
       bufArray = [this.args.port, this.args.type, this.args.separator, this.args.hour, this.args.minute];
     }
-
-    const buf = Utils.composer(protocolAssembler.setLedMatrix, bufArray);;
-    return buf;
+    return Utils.composer(protocolAssembler.setLedMatrix, bufArray);
   }
 
   /**
    * run
    */
   run(){
-    Control.write(this.protocol());
-    this.isClear = false;
+    Control.write(this.protocol);
     return this;
   }
 

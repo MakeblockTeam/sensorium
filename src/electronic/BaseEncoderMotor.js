@@ -20,7 +20,8 @@ class BaseEncoderMotor extends BaseMotor {
     Object.assign(this.args, {
       slot: validateNumber(slot),
       angle: 0
-    })
+    });
+    this.isReadType = false;
   }
 
   /**
@@ -29,19 +30,36 @@ class BaseEncoderMotor extends BaseMotor {
    * @return {[type]}       [description]
    */
   offsetAngle(angle){
+    this.isReadType = false;
     this.args.angle = validateNumber(angle, this.args.angle);
     return this;
   }
 
   /**
+   * Set speed to the motor
+   * @param  {Number} speed
+   * @return {Instance} the motor instance
+   */
+  speed(speed){
+    this.isReadType = false;
+    this.args.speed = validateNumber(speed, 0);
+    return this;
+  }
+
+  /**
    * getter of protocol
+   * only encoder motor on board has read value type
    */
   get protocol() {
     let buf;
-    if(this.args.port == 0){
-      buf = Utils.composer(protocolAssembler.setEncoderMotorOnBoard, [this.args.slot, this.args.speed]);
-    }else{
-      buf = Utils.composer(protocolAssembler.setEncoderMotor, [this.args.slot, this.args.speed, this.args.angle]);
+    if(this.isReadType){
+      buf = Utils.composer(protocolAssembler.readEncoderMotorOnBoard, [this.args.slot, this.args.type]);
+    }else {
+      if(this.args.port == 0){
+        buf = Utils.composer(protocolAssembler.setEncoderMotorOnBoard, [this.args.slot, this.args.speed]);
+      }else{
+        buf = Utils.composer(protocolAssembler.setEncoderMotor, [this.args.slot, this.args.speed, this.args.angle]);
+      }
     }
     return buf;
   }

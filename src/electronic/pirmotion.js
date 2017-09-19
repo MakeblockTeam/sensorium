@@ -21,7 +21,7 @@ class Pirmotion extends Electronic {
   /**
    * getter of protocol
    */
-  protocol() {
+  get protocol() {
     return Utils.composer(protocolAssembler.readPirmotion, [this.args.port]);
   }
 
@@ -30,7 +30,7 @@ class Pirmotion extends Electronic {
    * @return {Promise}
    */
   async getData() {
-    return await Control.read(this.protocol());
+    return await Control.read(this.protocol);
   }
 
   static get SUPPORT(){

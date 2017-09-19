@@ -52,11 +52,19 @@ class StepperMotor extends BaseMotor {
   }
 
   /**
+   * getter of protocol
+   */
+  get protocol() {
+    let buf = Utils.composer(protocolAssembler.setStepperMotor,
+        [this.args.port, this.args.speed, this.args.distance * this.args.direction]);
+    return buf;
+  }
+
+  /**
    * run
    */
   run() {
-    let buf = Utils.composer(protocolAssembler.setStepperMotor, [this.args.port, this.args.speed, this.args.distance * this.args.direction]);
-    Control.write(buf);
+    Control.write(this.protocol);
     return this;
   }
 

@@ -274,16 +274,22 @@ export default {
   getAllMethods(obj) {
     let props = []
     do {
-      const l = Object.getOwnPropertyNames(obj)
+      const all = Object.getOwnPropertyNames(obj)
         .concat(Object.getOwnPropertySymbols(obj).map(s => s.toString()))
         .sort()
-        .filter((p, i, arr) =>
-          typeof obj[p] === 'function' && //only the methods
-          p !== 'constructor' && //not the constructor
-          (i == 0 || p !== arr[i - 1]) && //not overriding in this prototype
-          props.indexOf(p) === -1 //not overridden in a child
-        )
-      props = props.concat(l)
+        .filter((p, i, arr) => {
+          if ((i == 0 || p !== arr[i - 1]) && //not overriding in this prototype
+            !props.includes(p)) { //not overridden in a child
+            let desc = Object.getOwnPropertyDescriptor(obj, p);
+            if (desc.get || desc.set) { //getter or setter
+              return true;
+            } else {
+              return typeof obj[p] === 'function' && //only the methods
+                p !== 'constructor' //not the constructor
+            }
+          }
+        })
+      props = props.concat(all)
     }
     while (
       (obj = Object.getPrototypeOf(obj)) && //walk-up the prototype chain
@@ -300,7 +306,7 @@ export default {
    */
   fiterWithBinaryStr(arr, bstr) {
     let filter = function(val, index) {
-      if(bstr[index] === '1') {
+      if (bstr[index] === '1') {
         return val;
       }
     }
