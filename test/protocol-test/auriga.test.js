@@ -189,243 +189,105 @@ describe('【auriga_最新固件 协议测试】', function() {
       }
     });
 
-    // describe('RGB LED灯条：RgbLed(6~10,1/2,0~12,0~255,0~255,0~255)', function() {
-    //   let ports = [6, 7, 8, 9, 10];
-    //   for (let i = 0; i < ports.length; i++) {
-    //     let port = ports[i];
-    //     it(`将端口号${port} slot1的灯条的全部位置上亮起红色`, function() {
-    //       let rgbLed = auriga.RgbLed(port, 1).position(0);
-    //       let targetCmd = dataman.auriga.write.led[i];
-    //       let currentCmd = formatProtocol(rgbLed.protocol);
-    //       expect(currentCmd).to.equal(targetCmd);
-    //     });
-    //   }
+    describe('RGB LED灯条：RgbLed(6~10,1/2,0~12,0~255,0~255,0~255)', function() {
+      let ports = [6, 7, 8, 9, 10];
+      for (let i = 0; i < ports.length; i++) {
+        let port = ports[i];
+        it(`将端口号${port} slot1的灯条的全部位置上亮起红色`, function() {
+          let rgbLed = auriga.RgbLed(port, 1).position(0).rgb('#ff0000');
+          let targetCmd = dataman.auriga.write.led[i];
+          let currentCmd = formatProtocol(rgbLed.protocol);
+          expect(currentCmd).to.equal(targetCmd);
+        });
+      }
 
-    //   let positions = [0, 2, 13, -1];
-    //   for (let i = 0; i < positions.length; i++) {
-    //     let position = positions[i];
-    //     it(`将端口号6 slot2 的灯条的 ${position}位置上亮起红色`, function() {
-    //       let rgbLed = auriga.RgbLed(6, 2).position(position);
-    //       let targetCmd = dataman.auriga.write.led[i + 5];
-    //       let currentCmd = formatProtocol(rgbLed.protocol);
-    //       expect(currentCmd).to.equal(targetCmd);
-    //     });
-    //   }
+      let positions = [0, 2, 13, -1];
+      for (let i = 0; i < positions.length; i++) {
+        let position = positions[i];
+        it(`将端口号6 slot2 的灯条的 ${position}位置上亮起红色`, function() {
+          let rgbLed = auriga.RgbLed(6, 2).position(position).rgb('#ff0000');
+          let targetCmd = dataman.auriga.write.led[i + 5];
+          let currentCmd = formatProtocol(rgbLed.protocol);
+          expect(currentCmd).to.equal(targetCmd);
+        });
+      }
 
-    //   it(`将端口号6 slot2的灯条的全部位置上亮起混合色`, function() {
-    //     let rgbLed = auriga.RgbLed(6, 2).r(125).g(100).b(55);
-    //     let targetCmd = dataman.auriga.write.led[9];
-    //     let currentCmd = formatProtocol(rgbLed.protocol);
-    //     expect(currentCmd).to.equal(targetCmd);
-    //   });
+      it(`将端口号6 slot2的灯条的全部位置上亮起混合色`, function() {
+        let rgbLed = auriga.RgbLed(6, 2).r(125).g(100).b(55);
+        let targetCmd = dataman.auriga.write.led[9];
+        let currentCmd = formatProtocol(rgbLed.protocol);
+        expect(currentCmd).to.equal(targetCmd);
+      });
 
-    //   let colorsApi = ['blue', 'green', 'white'];
-    //   for (let i = 0; i < colorsApi.length; i++) {
-    //     let color = colorsApi[i];
-    //     it(`将端口号6 slot2 的灯条的全部位置上亮起${color}`, function() {
-    //       let rgbLed = auriga.RgbLed(6, 2).position(0);
-    //       let targetCmd = dataman.auriga.write.led[i + 10];
-    //       let currentCmd = formatProtocol(rgbLed.protocol);
-    //       expect(currentCmd).to.equal(targetCmd);
-    //     });
-    //   }
+      // let colorsApi = ['blue', 'green', 'white'];
+      // for (let i = 0; i < colorsApi.length; i++) {
+      //   let color = colorsApi[i];
+      //   it(`将端口号6 slot2 的灯条的全部位置上亮起${color}`, function() {
+      //     let rgbLed = auriga.RgbLed(6, 2).position(0).rgb('#ff0000');
+      //     let targetCmd = dataman.auriga.write.led[i + 10];
+      //     let currentCmd = formatProtocol(rgbLed.protocol);
+      //     expect(currentCmd).to.equal(targetCmd);
+      //   });
+      // }
 
-    //   it('将端口号6 slot2的灯条的全部位置上熄灭（turnOffAll)', function() {
-    //     let rgbLed = auriga.RgbLed(6, 2);
-    //     let targetCmd = dataman.auriga.write.led[13];
-    //     let currentCmd = formatProtocol(rgbLed.protocol);
-    //     expect(currentCmd).to.equal(targetCmd);
-    //   });
+      // it('将端口号6 slot2的灯条的全部位置上熄灭（turnOffAll)', function() {
+      //   let rgbLed = auriga.RgbLed(6, 2);
+      //   let targetCmd = dataman.auriga.write.led[13];
+      //   let currentCmd = formatProtocol(rgbLed.protocol);
+      //   expect(currentCmd).to.equal(targetCmd);
+      // });
 
-    //   it('将端口号6 slot2的灯条的全部位置上亮起红色（超出界限0～255）', function() {
-    //     let rgbLed = auriga.RgbLed(6, 2).r(256).g(0).b(0);
-    //     let targetCmd = dataman.auriga.write.led[14];
-    //     let currentCmd = formatProtocol(rgbLed.protocol);
-    //     expect(currentCmd).to.equal(targetCmd);
-    //   });
+      it('将端口号6 slot2的灯条的全部位置上亮起红色（超出界限0～255）', function() {
+        let rgbLed = auriga.RgbLed(6, 2).r(256).g(0).b(0);
+        let targetCmd = dataman.auriga.write.led[14];
+        let currentCmd = formatProtocol(rgbLed.protocol);
+        expect(currentCmd).to.equal(targetCmd);
+      });
 
-    //   it('将端口号6 slot2的灯条的全部位置上不亮（超出界限0～255）', function() {
-    //     let rgbLed = auriga.RgbLed(6, 2).r(0).g(-1).b(0);
-    //     let targetCmd = dataman.auriga.write.led[15];
-    //     let currentCmd = formatProtocol(rgbLed.protocol);
-    //     expect(currentCmd).to.equal(targetCmd);
-    //   });
-    // });
+      it('将端口号6 slot2的灯条的全部位置上不亮（超出界限0～255）', function() {
+        let rgbLed = auriga.RgbLed(6, 2).r(0).g(-1).b(0);
+        let targetCmd = dataman.auriga.write.led[15];
+        let currentCmd = formatProtocol(rgbLed.protocol);
+        expect(currentCmd).to.equal(targetCmd);
+      });
+    });
 
-    // describe('板载灯盘即板载灯：RgbLedOnBoard(0~12,0~255,0~255,0~255)', function() {
-    //   let positions = [0, 2, 13, -1];
-    //   for (let i = 0; i < positions.length; i++) {
-    //     let position = positions[i];
-    //     it(`将端口号6 slot2 的灯条的 ${position}位置上亮起红色`, function() {
-    //       let ledPanelOnBoard = auriga.RgbLedOnBoard(6).position(position);
-    //       let targetCmd = dataman.auriga.write.ledPanelOnBoard[i];
-    //       let currentCmd = formatProtocol(ledPanelOnBoard.protocol);
-    //       expect(currentCmd).to.equal(targetCmd);
-    //     });
-    //   }
+    describe('板载灯盘即板载灯：RgbLedOnBoard(0~12,0~255,0~255,0~255)', function() {
+      let positions = [0, 2, 13, -1];
+      for (let i = 0; i < positions.length; i++) {
+        let position = positions[i];
+        it(`将端口号6 slot2 的灯条的 ${position}位置上亮起红色`, function() {
+          let ledPanelOnBoard = auriga.RgbLedOnBoard(6).position(position).r(256);
+          let targetCmd = dataman.auriga.write.ledPanelOnBoard[i];
+          let currentCmd = formatProtocol(ledPanelOnBoard.protocol);
+          expect(currentCmd).to.equal(targetCmd);
+        });
+      }
+    });
 
-    //   // it('将板载灯盘的全部位置上亮起混合色（125，100，55）', function() {
-    //   //   var targetCmd = dataman.auriga.write.ledPanelOnBoard[4];
-    //   //   var cmd = auriga.setLedPanelOnBoard(0, 125, 100, 55);
-    //   //   assert.equal(targetCmd, cmd);
-    //   // });
+    describe('四键led灯：setFourLeds(6～10，0~4,0~255,0~255,0~255)', function() {
+      let ports = [6, 7, 8, 9, 10];
+      for (let i = 0; i < ports.length; i++) {
+        let port = ports[i];
+        it(`将端口号${port}上的四键led灯的全部位置上亮起红色`, function() {
+          let fourLed = auriga.FourLeds(port).position(0).r(256);
+          let targetCmd = dataman.auriga.write.fourLeds[i];
+          let currentCmd = formatProtocol(fourLed.protocol);
+          expect(currentCmd).to.equal(targetCmd);
+        });
+      }
 
-    //   // it('将板载灯盘的全部位置上亮起蓝色', function() {
-    //   //   var targetCmd = dataman.auriga.write.ledPanelOnBoard[5];
-    //   //   var cmd = auriga.setLedPanelOnBoard(0, 0, 0, 255);
-    //   //   assert.equal(targetCmd, cmd);
-    //   // });
-
-    //   // it('将板载灯盘的全部位置上亮起绿色', function() {
-    //   //   var targetCmd = dataman.auriga.write.ledPanelOnBoard[6];
-    //   //   var cmd = auriga.setLedPanelOnBoard(0, 0, 255, 0);
-    //   //   assert.equal(targetCmd, cmd);
-    //   // });
-
-    //   // it('将板载灯盘的全部位置上亮起白色', function() {
-    //   //   var targetCmd = dataman.auriga.write.ledPanelOnBoard[7];
-    //   //   var cmd = auriga.setLedPanelOnBoard(0, 255, 255, 255);
-    //   //   assert.equal(targetCmd, cmd);
-    //   // });
-
-    //   // it('将板载灯盘的全部位置上亮起红色（超出界限0～255）', function() {
-    //   //   var targetCmd = dataman.auriga.write.ledPanelOnBoard[8];
-    //   //   var cmd = auriga.setLedPanelOnBoard(0, 256, 0, 0);
-    //   //   assert.equal(targetCmd, cmd);
-    //   // });
-
-    //   // it('将板载灯盘的全部位置上不亮（熄灭）（超出界限0～255）', function() {
-    //   //   var targetCmd = dataman.auriga.write.ledPanelOnBoard[9];
-    //   //   var cmd = auriga.setLedPanelOnBoard(0, 0, -1, 0);
-    //   //   assert.equal(targetCmd, cmd);
-    //   // });
-
-    //   // it('将板载灯盘的全部位置上熄灭（不亮）', function() {
-    //   //   var targetCmd = dataman.auriga.write.ledPanelOnBoard[10];
-    //   //   var cmd = auriga.turnOffLedPanelOnBoard(0);
-    //   //   assert.equal(targetCmd, cmd);
-    //   // });
-
-    //   // it('将板载灯盘的05位置上熄灭（不亮）', function() {
-    //   //   var targetCmd = dataman.auriga.write.ledPanelOnBoard[11];
-    //   //   var cmd = auriga.turnOffLedPanelOnBoard(5);
-    //   //   assert.equal(targetCmd, cmd);
-    //   // });
-
-    //   // it('将板载灯盘的13位置上熄灭（不亮）', function() {
-    //   //   var targetCmd = dataman.auriga.write.ledPanelOnBoard[12];
-    //   //   var cmd = auriga.turnOffLedPanelOnBoard(13);
-    //   //   assert.equal(targetCmd, cmd);
-    //   // });
-
-    //   //  it('将板载灯盘的-1位置上熄灭（不亮）', function() {
-    //   //   var targetCmd = dataman.auriga.write.ledPanelOnBoard[13];
-    //   //   var cmd = auriga.turnOffLedPanelOnBoard(-1);
-    //   //   assert.equal(targetCmd, cmd);
-    //   // });
-    // });
-
-    // describe('四键led灯：setFourLeds(6～10，0~4,0~255,0~255,0~255)', function() {
-    //   let ports = [6, 7, 8, 9, 10];
-    //   for (let i = 0; i < ports.length; i++) {
-    //     let port = ports[i];
-    //     it(`将端口号${port}上的四键led灯的全部位置上亮起红色`, function() {
-    //       let fourLed = auriga.FourLed(port).position(0);
-    //       let targetCmd = dataman.auriga.write.fourLeds[i];
-    //       let currentCmd = fourLed.protocol;
-    //       expect(currentCmd).to.equal(targetCmd);
-    //     });
-    //   }
-
-    //   let positions = [2, 5, -1];
-    //   for (let i = 0; i < positions.length; i++) {
-    //     let position = positions[i];
-    //     it(`将端口6上的四键led灯的 ${position}位置上亮起红色`, function() {
-    //       let fourLed = auriga.FourLed(6).position(position);
-    //       let targetCmd = dataman.auriga.write.fourLeds[i + 5];
-    //       let currentCmd = fourLed.protocol;
-    //       expect(currentCmd).to.equal(targetCmd);
-    //     });
-    //   }
-
-    //   // it('将端口6上的四键led灯的02位置上亮起红色', function() {
-    //   //   var targetCmd = dataman.auriga.write.fourLeds[5];
-    //   //   var cmd = auriga.setFourLeds(6, 2, 255, 0, 0);
-    //   //   assert.equal(targetCmd, cmd);
-    //   // });
-
-    //   // it('将端口6上的四键led灯的5位置上亮起红色', function() {
-    //   //   var targetCmd = dataman.auriga.write.fourLeds[6];
-    //   //   var cmd = auriga.setFourLeds(6, 5, 255, 0, 0);
-    //   //   assert.equal(targetCmd, cmd);
-    //   // });
-
-    //   // it('将端口6上的四键led灯的-1位置上亮起红色', function() {
-    //   //   var targetCmd = dataman.auriga.write.fourLeds[7];
-    //   //   var cmd = auriga.setFourLeds(6, -1, 255, 0, 0);
-    //   //   assert.equal(targetCmd, cmd);
-    //   // });
-
-    //   // it('将端口6上的四键led灯的全部位置上亮起混合色（125，100，55）', function() {
-    //   //   var targetCmd = dataman.auriga.write.fourLeds[8];
-    //   //   var cmd = auriga.setFourLeds(6, 0, 125, 100, 55);
-    //   //   assert.equal(targetCmd, cmd);
-    //   // });
-
-    //   // it('将端口6上的四键led灯的全部位置上亮起蓝色', function() {
-    //   //   var targetCmd = dataman.auriga.write.fourLeds[9];
-    //   //   var cmd = auriga.setFourLeds(6, 0, 0, 0, 255);
-    //   //   assert.equal(targetCmd, cmd);
-    //   // });
-
-    //   // it('将端口6上的四键led灯的全部位置上亮起绿色', function() {
-    //   //   var targetCmd = dataman.auriga.write.fourLeds[10];
-    //   //   var cmd = auriga.setFourLeds(6, 0, 0, 255, 0);
-    //   //   assert.equal(targetCmd, cmd);
-    //   // });
-
-    //   // it('将端口6上的四键led灯的全部位置上亮起白色', function() {
-    //   //   var targetCmd = dataman.auriga.write.fourLeds[11];
-    //   //   var cmd = auriga.setFourLeds(6, 0, 255, 255, 255);
-    //   //   assert.equal(targetCmd, cmd);
-    //   // });
-
-    //   // it('将端口6上的四键led灯的全部位置上亮起红色（超出界限0～255）', function() {
-    //   //   var targetCmd = dataman.auriga.write.fourLeds[12];
-    //   //   var cmd = auriga.setFourLeds(6, 0, 256, 0, 0);
-    //   //   assert.equal(targetCmd, cmd);
-    //   // });
-
-    //   // it('将端口6上的四键led灯的全部位置上不亮（熄灭）（超出界限0～255）', function() {
-    //   //   var targetCmd = dataman.auriga.write.fourLeds[13];
-    //   //   var cmd = auriga.setFourLeds(6, 0, 0, -1, 0);
-    //   //   assert.equal(targetCmd, cmd);
-    //   // });
-
-    //   // it('将端口6上的四键led灯的全部位置上熄灭（不亮）', function() {
-    //   //   var targetCmd = dataman.auriga.write.fourLeds[14];
-    //   //   var cmd = auriga.turnOffFourLeds(6, 0);
-    //   //   assert.equal(targetCmd, cmd);
-    //   // });
-
-    //   // it('将端口6上的四键led灯的03位置上熄灭（不亮）', function() {
-    //   //   var targetCmd = dataman.auriga.write.fourLeds[15];
-    //   //   var cmd = auriga.turnOffFourLeds(6, 3);
-    //   //   assert.equal(targetCmd, cmd);
-    //   // });
-
-    //   // it('将端口6上的四键led灯的5位置上熄灭（不亮）', function() {
-    //   //   var targetCmd = dataman.auriga.write.fourLeds[16];
-    //   //   var cmd = auriga.turnOffFourLeds(6, 5);
-    //   //   assert.equal(targetCmd, cmd);
-    //   // });
-
-    //   //  it('将端口6上的四键led灯的-1位置上熄灭（不亮）', function() {
-    //   //   var targetCmd = dataman.auriga.write.fourLeds[17];
-    //   //   var cmd = auriga.setFourLeds(6, -1);
-    //   //   assert.equal(targetCmd, cmd);
-    //   // });
-    // });
+      let positions = [2, 5, -1];
+      for (let i = 0; i < positions.length; i++) {
+        let position = positions[i];
+        it(`将端口6上的四键led灯的 ${position}位置上亮起红色`, function() {
+          let fourLed = auriga.FourLeds(6).position(position).r(256);
+          let targetCmd = dataman.auriga.write.fourLeds[i + 5];
+          let currentCmd = formatProtocol(fourLed.protocol);
+          expect(currentCmd).to.equal(targetCmd);
+        });
+      }
+    });
 
     describe('主板通用命令：auriga.setFirmwareMode(0～4)', function() {
       let modes =     [0,         1,        2,       3,       4,     5,        -1,        3.5];

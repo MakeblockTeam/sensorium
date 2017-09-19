@@ -82,12 +82,24 @@ class BaseRgbLed extends Electronic {
     return this;
   }
 
+  get protocol() {
+    let args = [this.args.port, this.args.slot, this.args.ledPosition, ...this.args.rgb];
+    return Utils.composer(protocolAssembler.setLed, args);
+  }
+
+  /**
+   * run led with colors set before
+   */
+  run() {
+    Control.write(this.protocol);
+    return this;
+  }
+
   /**
    * Turn on led
    */
   turnOn() {
-    commandWrite(this.args);
-    return this;
+    return this.run();
   }
 
   /**
@@ -95,8 +107,7 @@ class BaseRgbLed extends Electronic {
    */
   turnOff() {
     this.args.rgb = [0, 0, 0];
-    commandWrite(this.args);
-    return this;
+    return this.run();
   }
 
   /**
@@ -105,14 +116,6 @@ class BaseRgbLed extends Electronic {
   turnOnAll(){
     this.position(0);
     return this.turnOn();
-  }
-
-  /**
-   * run led with colors set before
-   */
-  run() {
-    commandWrite(this.args);
-    return this;
   }
 
   /**
@@ -128,8 +131,7 @@ class BaseRgbLed extends Electronic {
    */
   red() {
     this.args.rgb = [255, 0, 0];
-    commandWrite(this.args);
-    return this;
+    return this.run();
   }
 
   /**
@@ -137,8 +139,7 @@ class BaseRgbLed extends Electronic {
    */
   green() {
     this.args.rgb = [0, 255, 0];
-    commandWrite(this.args);
-    return this;
+    return this.run();
   }
 
   /**
@@ -146,8 +147,7 @@ class BaseRgbLed extends Electronic {
    */
   blue() {
     this.args.rgb = [0, 0, 255];
-    commandWrite(this.args);
-    return this;
+    return this.run();
   }
 
   /**
@@ -155,8 +155,7 @@ class BaseRgbLed extends Electronic {
    */
   white(){
     this.args.rgb = [255, 255, 255];
-    commandWrite(this.args);
-    return this;
+    return this.run();
   }
 }
 

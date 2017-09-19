@@ -1,11 +1,13 @@
 # Changelog
-## [0.2.7] - 2017-09-19
+## [0.3.0] - 2017-09-19
 ### Changed
 -  优化文件结构
--  完善接口文档 （npm run jsdoc 查看文档）
--  Humiture Class change api getHumidity, getTemperature to readHumidity, readTemperature
--  EncoderMotorOnBoard Class change api getSpeed, getAngle to readSpeed, readAngle
-
+-  Humiture 类将旧版本 API getHumidity, getTemperature 改为 readHumidity, readTemperature
+-  EncoderMotorOnBoard 类将旧版本 API getSpeed, getAngle 改为 readSpeed, readAngle
+-  FourLeds 类将旧版本类名 FourLed 改为 FourLeds
+-  FourKeys 类将旧版本类名 FourKey 改为 FourKeys
+-  所有的电子模块增加一个 protocol 方法，该方法为一个 getter 函数，以便提供获取协议的能力
+-  规范所有模块提供 `run` 接口， 用于执行，并提供 `getData` 接口，用于读值。此外还提供了一些它们的封装接口
 
 ## [0.2.7] - 2017-09-12
 ### Changed
