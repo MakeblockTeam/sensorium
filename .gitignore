@@ -14,5 +14,6 @@ jsdoc
 
 test/lib
 test/coverage
+coverage
 
 ts
