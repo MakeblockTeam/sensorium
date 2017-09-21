@@ -42,6 +42,7 @@
     "jsdoc": "^3.5.4",
     "log": "^1.4.0",
     "mocha": "^3.5.0",
+    "mocha-junit-reporter": "^1.13.0",
     "serialport": "^4.0.7",
     "ts-loader": "^2.3.4",
     "webpack": "^3.0.0",
