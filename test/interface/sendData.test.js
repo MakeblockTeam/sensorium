@@ -7,11 +7,15 @@
 import CommandManager from '../../src/communicate/control';
 import Auriga from '../../src/mainboard/auriga';
 import mCore from '../../src/mainboard/mcore';
+import Orion from '../../src/mainboard/orion';
+import MegaPi from '../../src/mainboard/megaPi';
 import chai from 'chai';
 // const expect = chai.expect;
 
 let auriga = new Auriga();
 let mcore = new mCore();
+let orion = new Orion();
+let megapi = new MegaPi();
 var assert = require('chai').assert;
 var fs = require('fs');
 
