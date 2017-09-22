@@ -59,6 +59,7 @@
     </pre>
   </div>
   <script src="sensorium.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
   <script>
     var Tool = {
       arrayBufferFromArray: function (data) {
@@ -108,20 +109,12 @@
     }
     //串口
     else{
-      var xhr = new XMLHttpRequest();
-      xhr.onreadystatechange = function(e) {
-        if (this.readyState == 4 && this.status == 200) {
-          var buff = JSON.parse(this.response).data;
-          Tool.receiveInfo(buff);
-          sensorium.doRecevied(buff);
-        }
-      };
+      var socket = io.connect('http://localhost:8800');
+      socket.on('sensor2web', function (data) {
+          sensorium.doRecevied(JSON.parse(data));
+      });
       sensorium.setSender(function(buf) {
-        Tool.sendInfo(buf);
-        let host = 'http://127.0.0.1:8800';
-        var data = '/?buf='+ JSON.stringify(buf) + '&sensor=';
-        xhr.open("GET", host + data ,true);
-        xhr.send(null);
+          socket.emit('web2sensor', { buf: JSON.stringify(buf), sensor: 'None' });
       });
     }
 

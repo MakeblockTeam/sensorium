@@ -19,26 +19,19 @@ npm install sensorium-server -g
 Then create a HTML page in the root directory, index.html for example, and type in the following code:
 ```
 <script src="./browser/sensorium.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
 <script>
   //firstly initialize
   var sensorium = new Sensorium();
   var mcore = sensorium.create('Mcore');
 
-  //secondly set transport through `XMLHttpRequest` like this:
-  var xhr = new XMLHttpRequest();
-  xhr.onreadystatechange = function(e) {
-    if (this.readyState == 4 && this.status == 200) {
-      var buff = JSON.parse(this.response).data;
-      Tool.receiveInfo(buff);
-      **sensorium.doRecevied(buff);**
-    }
-  };
+  //secondly set transport through `socket.io` like this:
+  var socket = io.connect('http://localhost:8800');
+  socket.on('sensor2web', function (data) {
+      sensorium.doRecevied(JSON.parse(data));
+  });
   sensorium.setSender(function(buf) {
-    Tool.sendInfo(buf);
-    let host = 'http://127.0.0.1:8800';
-    var data = '/?buf='+ JSON.stringify(buf) + '&sensor=';
-    xhr.open("GET", host + data ,true);
-    xhr.send(null);
+      socket.emit('web2sensor', { buf: JSON.stringify(buf), sensor: 'None' });
   });
 
   // set speed and run the motor.
