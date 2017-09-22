@@ -1,4 +1,9 @@
 # Changelog
+
+## [0.3.0] - 2017-09-21
+### Fixed
+-  fix bug: sensorium.SUPPORT instead of sensorium.getSupport()
+
 ## [0.3.0] - 2017-09-19
 ### Changed
 -  优化文件结构

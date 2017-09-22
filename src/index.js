@@ -146,7 +146,7 @@ class Sensorium {
    * // => ['auriga', 'mcore', 'megapi', 'orion', 'megapipro', 'arduino']
    * @return {Array}  a support list
    */
-  get supportStamp() {
+  get SUPPORT() {
     return Object.keys(boards);
   }
 }
