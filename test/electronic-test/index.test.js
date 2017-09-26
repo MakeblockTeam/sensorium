@@ -3,7 +3,7 @@
  * @Jeremy
  */
 import eModuleList from "../../src/electronic/index";
-import Util from "../../src/core/utils";
+import * as Util from "../../src/core/utils";
 import Read from '../../src/communicate/read';
 import chai from 'chai';
 const expect = chai.expect;

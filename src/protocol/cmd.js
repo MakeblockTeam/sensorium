@@ -4,7 +4,8 @@
 import {
   limitValue,
   float32ToBytes,
-  longToBytes
+  longToBytes,
+  bigIntToBytes
 } from "../core/utils";
 /**
  * buf 协议组装器

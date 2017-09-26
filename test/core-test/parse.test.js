@@ -1,18 +1,18 @@
-import utils  from "../../src/core/utils";
-import Parse  from "../../src/core/parse";
+import * as utils from "../../src/core/utils";
+import Parse from "../../src/core/parse";
 import chai from 'chai';
 const expect = chai.expect;
 
-function counter(number){
+function counter(number) {
   let NUM = number;
   let i = 0;
   let result = [];
-  return function(buf, callback){
+  return function(buf, callback) {
     let buff = Parse.doParse(buf);
-    if(buff){
+    if (buff) {
       result.push(buff);
     }
-    if(++i == NUM){
+    if (++i == NUM) {
       callback(result);
     }
   }

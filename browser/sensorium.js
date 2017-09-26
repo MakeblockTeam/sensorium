@@ -366,7 +366,7 @@ function float32ToBytes(value) {
       bytesInt = bytesInt | significand & ~(-1 << 23);
       break;
   }
-  var bytesArray = this.bigIntToBytes(bytesInt);
+  var bytesArray = bigIntToBytes(bytesInt);
   return bytesArray;
 }
 

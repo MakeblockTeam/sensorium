@@ -1,7 +1,7 @@
 //test latest_auriga：09.01.012
 //cmd is also ok
 const dataman = require('./dataman');
-import Utils from '../../src/core/utils';
+import * as Utils from "../../src/core/utils";
 import protocolAssembler from '../../src/protocol/cmd';
 import Auriga from '../../src/mainboard/auriga';
 import Control from '../../src/communicate/control';
@@ -15,25 +15,6 @@ function formatProtocol(protocol) {
   });
   return currentCmd.join(' ');
 }
-
-// function captureReadBuf(run) {
-//   let capturedBuf;
-//   let read_ = Control.read;
-//   //override to captrue the buf
-//   Control.read = function(buf) {
-//     capturedBuf = buf;
-//     return;
-//   }
-//   run();
-//   let currentCmd = capturedBuf.map(function(val) {
-//     let newVal = val.toString(16);
-//     return newVal.length == 1 ? '0' + newVal : newVal;
-//   });
-//   // recovery the method
-//   Control.read = read_;
-//   return currentCmd.join(' ');
-// }
-
 
 let auriga = new Auriga();
 
