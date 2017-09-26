@@ -1,6 +1,10 @@
 import BaseEncoderMotor from './BaseEncoderMotor';
-import Utils from '../core/utils';
-import { SUPPORTLIST } from '../settings';
+import {
+  fiterWithBinaryStr
+} from '../core/utils';
+import {
+  SUPPORTLIST
+} from '../settings';
 
 /**
  * EncoderMotor sensor module
@@ -11,8 +15,8 @@ class EncoderMotor extends BaseEncoderMotor {
     super(port, slot);
   }
 
-  static get SUPPORT(){
-    return Utils.fiterWithBinaryStr(SUPPORTLIST, '0101');
+  static get SUPPORT() {
+    return fiterWithBinaryStr(SUPPORTLIST, '0101');
   }
 }
 

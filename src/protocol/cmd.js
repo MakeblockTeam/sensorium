@@ -1,7 +1,11 @@
 /**
  * @fileOverview  protocol API list
  */
-import Utils from "../core/utils";
+import {
+  limitValue,
+  float32ToBytes,
+  longToBytes
+} from "../core/utils";
 /**
  * buf 协议组装器
  * @private
@@ -12,18 +16,18 @@ import Utils from "../core/utils";
  * @param  {Arguments} args 其他参数
  * @return {Array}      返回数组
  */
-function bufAssembler(obj, ...args){
+function bufAssembler(obj, ...args) {
   const modes = [0x01, 0x02, 0x04];
-  const bufHead = [0xff,0x55];
+  const bufHead = [0xff, 0x55];
   let bufLength = 0;
   let bufAttr;
   //todo：完善抛错提示
-  if(obj.mode == 0x04){
+  if (obj.mode == 0x04) {
     bufAttr = Array.of(obj.index || 0, obj.mode);
-  }else{
-    if(!modes.includes(obj.mode)){
+  } else {
+    if (!modes.includes(obj.mode)) {
       throw new Error(`mode should be one of ${modes}`);
-    }else if(typeof obj.id === 'undefined'){
+    } else if (typeof obj.id === 'undefined') {
       throw new Error(`id should not be empty`);
     }
     bufAttr = Array.of(obj.index || 0, obj.mode, obj.id);
@@ -45,8 +49,11 @@ function protocolAssembler() {
    *     ff 55 06 00 02 0a 01 ff 00
    */
   this.setDcMotor = function(port, speed) {
-    speed = Utils.limitValue(speed);
-    return bufAssembler({mode: 0x02, id: 0x0a}, port, speed & 0xff, (speed >> 8) & 0xff);
+    speed = limitValue(speed);
+    return bufAssembler({
+      mode: 0x02,
+      id: 0x0a
+    }, port, speed & 0xff, (speed >> 8) & 0xff);
   };
 
   /**
@@ -58,9 +65,12 @@ function protocolAssembler() {
    *     ff 55 07 00 02 3d 00 01 64 00
    */
   this.setEncoderMotorOnBoard = function(slot, speed) {
-    speed = Utils.limitValue(speed);
+    speed = limitValue(speed);
     let port = 0x00; //板载
-    return bufAssembler({mode: 0x02, id: 0x3d}, port, slot, speed & 0xff, (speed >> 8) & 0xff);
+    return bufAssembler({
+      mode: 0x02,
+      id: 0x3d
+    }, port, slot, speed & 0xff, (speed >> 8) & 0xff);
   };
 
   /**
@@ -76,10 +86,12 @@ function protocolAssembler() {
   this.setEncoderMotor = function(slot, speed, angle) {
     // 编码电机的协议中不使用 port
     let i2c = 0x08; //I2C地址，目前无意义(软件稳定后可能会重新设计)，用来占位
-    speed = Utils.limitValue(speed, [0, 300]);
-    let byte4Array = Utils.float32ToBytes(angle);
-    return bufAssembler(
-      {mode: 0x02, id: 0x0c},
+    speed = limitValue(speed, [0, 300]);
+    let byte4Array = float32ToBytes(angle);
+    return bufAssembler({
+        mode: 0x02,
+        id: 0x0c
+      },
       i2c,
       slot,
       speed & 0xff,
@@ -96,10 +108,12 @@ function protocolAssembler() {
    *     ff 55 07 00 02 05 64 00 64 00
    */
   this.setJoystick = function(leftSpeed, rightSpeed) {
-    leftSpeed = Utils.limitValue(leftSpeed);
-    rightSpeed = Utils.limitValue(rightSpeed);
-    return bufAssembler(
-      {mode: 0x02, id: 0x05},
+    leftSpeed = limitValue(leftSpeed);
+    rightSpeed = limitValue(rightSpeed);
+    return bufAssembler({
+        mode: 0x02,
+        id: 0x05
+      },
       leftSpeed & 0xff,
       (leftSpeed >> 8) & 0xff,
       rightSpeed & 0xff,
@@ -115,11 +129,13 @@ function protocolAssembler() {
    *     ff 55 08 00 02 34 00 64 00 64 00
    */
   this.setVirtualJoystickForBalance = function(turnRange, speed) {
-    let turnExtent = Utils.limitValue(turnRange);
+    let turnExtent = limitValue(turnRange);
     let port = 0x00; //板载虚拟摇杆 port = 00
-    speed = Utils.limitValue(speed);
-    return bufAssembler(
-      {mode: 0x02, id: 0x34},
+    speed = limitValue(speed);
+    return bufAssembler({
+        mode: 0x02,
+        id: 0x34
+      },
       port,
       turnExtent & 0xff,
       (turnExtent >> 8) & 0xff,
@@ -137,9 +153,12 @@ function protocolAssembler() {
    *     ff 55 0a 00 02 28 01 b8 0b e8 03 00 00
    */
   this.setStepperMotor = function(port, speed, distance) {
-    speed = Utils.limitValue(speed, [0, 3000]);
-    var distanceBytes = Utils.longToBytes(distance);
-    return bufAssembler({mode: 0x02, id: 0x28}, port,
+    speed = limitValue(speed, [0, 3000]);
+    var distanceBytes = longToBytes(distance);
+    return bufAssembler({
+        mode: 0x02,
+        id: 0x28
+      }, port,
       speed & 0xff,
       (speed >> 8) & 0xff,
       distanceBytes[3],
@@ -161,11 +180,14 @@ function protocolAssembler() {
    *     ff 55 09 00 02 08 06 02 00 ff 00 00
    */
   this.setLed = function(port, slot, position, r, g, b) {
-    r = Utils.limitValue(r, [0, 255]);
-    g = Utils.limitValue(g, [0, 255]);
-    b = Utils.limitValue(b, [0, 255]);
-    position = Utils.limitValue(position, [0]);
-    return bufAssembler({mode: 0x02, id: 0x08}, port, slot, position, r, g, b);
+    r = limitValue(r, [0, 255]);
+    g = limitValue(g, [0, 255]);
+    b = limitValue(b, [0, 255]);
+    position = limitValue(position, [0]);
+    return bufAssembler({
+      mode: 0x02,
+      id: 0x08
+    }, port, slot, position, r, g, b);
   };
 
   /**
@@ -178,7 +200,10 @@ function protocolAssembler() {
    */
   this.setFirmwareMode = function(subCmd, mode) {
     var sub = subCmd || 0x11; //Auriga是 0x11, megapi是 0x12
-    return bufAssembler({mode: 0x02, id: 0x3c}, sub, mode);
+    return bufAssembler({
+      mode: 0x02,
+      id: 0x3c
+    }, sub, mode);
   };
 
   /**
@@ -189,8 +214,11 @@ function protocolAssembler() {
    * @param {[type]} degree servo degree, the range is 0 ~ 180
    */
   this.setServoMotor = function(port, slot, degree) {
-    degree = Utils.limitValue(degree, [0, 180]);
-    return bufAssembler({mode: 0x02, id: 0x0b}, port, slot, degree);
+    degree = limitValue(degree, [0, 180]);
+    return bufAssembler({
+      mode: 0x02,
+      id: 0x0b
+    }, port, slot, degree);
   };
 
   /**
@@ -202,9 +230,12 @@ function protocolAssembler() {
    *     ff 55 08 00 02 09 06 00 00 c8 42
    */
   this.setSevenSegment = function(port, number) {
-    number = Utils.limitValue(number, [-999, 9999]);
-    var byte4Array = Utils.float32ToBytes(number);
-    return bufAssembler({mode: 0x02, id: 0x09}, port, ...byte4Array);
+    number = limitValue(number, [-999, 9999]);
+    var byte4Array = float32ToBytes(number);
+    return bufAssembler({
+      mode: 0x02,
+      id: 0x09
+    }, port, ...byte4Array);
   };
 
   /**
@@ -249,7 +280,10 @@ function protocolAssembler() {
   this.setLedMatrix = function(...args) {
     args[2] = args[2] & 0xff;
     args[3] = args[3] & 0xff;
-    return bufAssembler({mode: 0x02, id: 0x29}, ...args);
+    return bufAssembler({
+      mode: 0x02,
+      id: 0x29
+    }, ...args);
   };
 
   /**
@@ -261,7 +295,10 @@ function protocolAssembler() {
       ff 55 05 00 02 14 06 02
    */
   this.setShutter = function(port, action) {
-    return bufAssembler({mode: 0x02, id: 0x14}, port, action);
+    return bufAssembler({
+      mode: 0x02,
+      id: 0x14
+    }, port, action);
   };
 
   /**
@@ -271,7 +308,9 @@ function protocolAssembler() {
       ff 55 02 00 04
    */
   this.reset = function() {
-    return bufAssembler({mode: 0x04});
+    return bufAssembler({
+      mode: 0x04
+    });
   };
 
   /**
@@ -283,7 +322,10 @@ function protocolAssembler() {
    * C2，quater beat: ff 55 08 00 02 22 09 41 00 f4 01
    */
   this.setBuzzerForMcore = function(hz, beat) {
-    return bufAssembler({mode: 0x02, id: 0x22},
+    return bufAssembler({
+        mode: 0x02,
+        id: 0x22
+      },
       (hz & 0xff),
       (hz >> 8) & 0xff,
       (beat & 0xff),
@@ -296,9 +338,12 @@ function protocolAssembler() {
    * @example
    * 播放引脚为 0x2d，音调为B2，节拍为四分之一：ff 55 08 00 02 22 2d 7b 00 fa 00
    */
-  this.setBuzzer = function (hz, beat) {
+  this.setBuzzer = function(hz, beat) {
     beat = beat ? beat : 250;
-    return bufAssembler({mode: 0x02, id: 0x22},
+    return bufAssembler({
+        mode: 0x02,
+        id: 0x22
+      },
       0x2d,
       (hz & 0xff),
       (hz >> 8) & 0xff,
@@ -311,7 +356,10 @@ function protocolAssembler() {
    * @private
    */
   this.readVersion = function() {
-    return bufAssembler({mode: 0x01, id: 0x00});
+    return bufAssembler({
+      mode: 0x01,
+      id: 0x00
+    });
   };
 
   /**
@@ -325,7 +373,10 @@ function protocolAssembler() {
    * ff 55 04 00 01 01 03
    */
   this.readUltrasonic = function(port) {
-    return bufAssembler({mode: 0x01, id: 0x01}, port);
+    return bufAssembler({
+      mode: 0x01,
+      id: 0x01
+    }, port);
   };
 
   /**
@@ -337,7 +388,10 @@ function protocolAssembler() {
    * ff 55 05 00 01 02 01 02
    */
   this.readTemperature = function(port, slot) {
-    return bufAssembler({mode: 0x01, id: 0x02}, port, slot);
+    return bufAssembler({
+      mode: 0x01,
+      id: 0x02
+    }, port, slot);
   };
 
   /**
@@ -349,7 +403,10 @@ function protocolAssembler() {
    * ff 55 04 00 01 03 07
    */
   this.readLight = function(port) {
-    return bufAssembler({mode: 0x01, id: 0x03}, port);
+    return bufAssembler({
+      mode: 0x01,
+      id: 0x03
+    }, port);
   };
 
   /**
@@ -361,7 +418,10 @@ function protocolAssembler() {
    * ff 55 04 00 01 04 06
    */
   this.readPotentionmeter = function(port) {
-    return bufAssembler({mode: 0x01, id: 0x04}, port);
+    return bufAssembler({
+      mode: 0x01,
+      id: 0x04
+    }, port);
   };
 
   /**
@@ -373,7 +433,10 @@ function protocolAssembler() {
    * ff 55 05 00 01 05 06 01
    */
   this.readJoystick = function(port, axis) {
-    return bufAssembler({mode: 0x01, id: 0x05}, port, axis);
+    return bufAssembler({
+      mode: 0x01,
+      id: 0x05
+    }, port, axis);
   };
 
   /**
@@ -386,7 +449,10 @@ function protocolAssembler() {
    * ff 55 05 00 01 06 00 01
    */
   this.readGyro = function(port, axis) {
-    return bufAssembler({mode: 0x01, id: 0x06}, port, axis);
+    return bufAssembler({
+      mode: 0x01,
+      id: 0x06
+    }, port, axis);
   };
 
   /**
@@ -398,7 +464,10 @@ function protocolAssembler() {
    * ff 55 04 00 01 07 06
    */
   this.readSound = function(port) {
-    return bufAssembler({mode: 0x01, id: 0x07}, port);
+    return bufAssembler({
+      mode: 0x01,
+      id: 0x07
+    }, port);
   };
 
   /**
@@ -409,7 +478,10 @@ function protocolAssembler() {
    */
   this.readTemperatureOnBoard = function() {
     var port = 0x0d;
-    return bufAssembler({mode: 0x01, id: 0x1b}, port);
+    return bufAssembler({
+      mode: 0x01,
+      id: 0x1b
+    }, port);
   };
 
   /**
@@ -422,10 +494,16 @@ function protocolAssembler() {
    * ff 55 05 00 01 0e 00
    */
   this.readInfrared = function(id, port, akey) {
-    if(akey){
-      return bufAssembler({mode: 0x01, id: id}, port, akey);
-    }else{
-      return bufAssembler({mode: 0x01, id: id}, port);
+    if (akey) {
+      return bufAssembler({
+        mode: 0x01,
+        id: id
+      }, port, akey);
+    } else {
+      return bufAssembler({
+        mode: 0x01,
+        id: id
+      }, port);
     }
   };
 
@@ -438,7 +516,10 @@ function protocolAssembler() {
    * ff 55 04 00 01 0f 06
    */
   this.readPirmotion = function(port) {
-    return bufAssembler({mode: 0x01, id: 0x0f}, port);
+    return bufAssembler({
+      mode: 0x01,
+      id: 0x0f
+    }, port);
   };
 
   /**
@@ -455,7 +536,10 @@ function protocolAssembler() {
     * ff 55 04 00 01 11 02
    */
   this.readLineFollower = function(port) {
-    return bufAssembler({mode: 0x01, id: 0x11}, port);
+    return bufAssembler({
+      mode: 0x01,
+      id: 0x11
+    }, port);
   };
 
   /**
@@ -468,7 +552,10 @@ function protocolAssembler() {
    * ff 55 05 00 01 15 06 02
    */
   this.readLimitSwitch = function(port, slot) {
-    return bufAssembler({mode: 0x01, id: 0x15}, port, slot);
+    return bufAssembler({
+      mode: 0x01,
+      id: 0x15
+    }, port, slot);
   };
 
   /**
@@ -480,7 +567,10 @@ function protocolAssembler() {
    * ff 55 04 00 01 1a 06
    */
   this.readCompass = function(port) {
-    return bufAssembler({mode: 0x01, id: 0x1a}, port);
+    return bufAssembler({
+      mode: 0x01,
+      id: 0x1a
+    }, port);
   };
 
   /**
@@ -493,7 +583,10 @@ function protocolAssembler() {
    * ff 55 05 00 01 17 06 00
    */
   this.readHumiture = function(port, type) {
-    return bufAssembler({mode: 0x01, id: 0x17}, port, type);
+    return bufAssembler({
+      mode: 0x01,
+      id: 0x17
+    }, port, type);
   };
 
   /**
@@ -505,7 +598,10 @@ function protocolAssembler() {
    * ff 55 04 00 01 18 03
    */
   this.readFlame = function(port) {
-    return bufAssembler({mode: 0x01, id: 0x18}, port);
+    return bufAssembler({
+      mode: 0x01,
+      id: 0x18
+    }, port);
   };
 
   /**
@@ -517,7 +613,10 @@ function protocolAssembler() {
    * ff 55 04 00 01 19 06
    */
   this.readGas = function(port) {
-    return bufAssembler({mode: 0x01, id: 0x19}, port);
+    return bufAssembler({
+      mode: 0x01,
+      id: 0x19
+    }, port);
   };
 
   /**
@@ -529,7 +628,10 @@ function protocolAssembler() {
    * ff 55 04 00 01 33 06
    */
   this.readTouch = function(port) {
-    return bufAssembler({mode: 0x01, id: 0x33}, port);
+    return bufAssembler({
+      mode: 0x01,
+      id: 0x33
+    }, port);
   };
 
   /**
@@ -542,7 +644,10 @@ function protocolAssembler() {
    * ff 55 05 00 01 16 03 01
    */
   this.readFourKeys = function(port, key) {
-    return bufAssembler({mode: 0x01, id: 0x16}, port, key);
+    return bufAssembler({
+      mode: 0x01,
+      id: 0x16
+    }, port, key);
   };
 
   /**
@@ -555,7 +660,10 @@ function protocolAssembler() {
    */
   this.readEncoderMotorOnBoard = function(slot, type) {
     let port = 0x00; //板载 port
-    return bufAssembler({mode: 0x01, id: 0x3d}, port, slot, type);
+    return bufAssembler({
+      mode: 0x01,
+      id: 0x3d
+    }, port, slot, type);
   };
 
   /**
@@ -566,12 +674,15 @@ function protocolAssembler() {
    * @example
    * buf: ff 55 0b 00 02 3e 01 01 00 00 00 00 00 00
    */
-  this.setEncoderMotorPIDDistance = function (distance, speed) {
-    let distanceArr = Utils.longToBytes(distance);
+  this.setEncoderMotorPIDDistance = function(distance, speed) {
+    let distanceArr = longToBytes(distance);
     let subCmd = 0x05;
     let slot = 0x01;
-    speed = Utils.limitValue(speed);
-    return bufAssembler({mode: 0x02, id: 0x3e},
+    speed = limitValue(speed);
+    return bufAssembler({
+        mode: 0x02,
+        id: 0x3e
+      },
       subCmd,
       slot,
       distanceArr[3],
@@ -588,36 +699,45 @@ function protocolAssembler() {
    * @example
    * buf: ff 55 07 00 02 3e 02 01 00 00
    */
-  this.setEncoderMotorPIDSpeed = function (speed) {
-    let subCmd = 0x02;
-    let slot = 0x01;
-    speed = Utils.limitValue(speed);
-    return bufAssembler({mode: 0x02, id: 0x3e}, subCmd, slot, speed & 0xff, (speed >> 8) & 0xff);
-  },
-  /**
-   * 板载编码电机 PID 运动 03模式 pwm 模式
-   * buf: ff 55 07 00 02 3e 03 01 00 00
-   * @param {Number} speed    速度
-   * @private
-   */
-  this.setEncoderMotorPIDPwm = function (speed) {
-    let subCmd = 0x03;
-    let slot = 0x01;
-    speed = Utils.limitValue(speed);
-    return bufAssembler({mode: 0x02, id: 0x3e}, subCmd, slot, speed & 0xff, (speed >> 8) & 0xff);
-  },
+  this.setEncoderMotorPIDSpeed = function(speed) {
+      let subCmd = 0x02;
+      let slot = 0x01;
+      speed = limitValue(speed);
+      return bufAssembler({
+        mode: 0x02,
+        id: 0x3e
+      }, subCmd, slot, speed & 0xff, (speed >> 8) & 0xff);
+    },
+    /**
+     * 板载编码电机 PID 运动 03模式 pwm 模式
+     * buf: ff 55 07 00 02 3e 03 01 00 00
+     * @param {Number} speed    速度
+     * @private
+     */
+    this.setEncoderMotorPIDPwm = function(speed) {
+      let subCmd = 0x03;
+      let slot = 0x01;
+      speed = limitValue(speed);
+      return bufAssembler({
+        mode: 0x02,
+        id: 0x3e
+      }, subCmd, slot, speed & 0xff, (speed >> 8) & 0xff);
+    },
 
-  /**
-   * 板载编码电机PID运动，设置当前位置为零点:
-   * buf: ff 55 05 00 02 3e 04 01
-   * (megaPiPro buf: ff 55 05 00 02 3e 03 01)
-   * @param {Number} subCmd    二级命令
-   * @private
-   */
-  this.setEncoderMotorPIDZeroPoint = function (subCmd) {
-    let slot = 0x01;
-    return bufAssembler({mode: 0x01, id: 0x3e}, subCmd, slot);
-  }
+    /**
+     * 板载编码电机PID运动，设置当前位置为零点:
+     * buf: ff 55 05 00 02 3e 04 01
+     * (megaPiPro buf: ff 55 05 00 02 3e 03 01)
+     * @param {Number} subCmd    二级命令
+     * @private
+     */
+    this.setEncoderMotorPIDZeroPoint = function(subCmd) {
+      let slot = 0x01;
+      return bufAssembler({
+        mode: 0x01,
+        id: 0x3e
+      }, subCmd, slot);
+    }
 
   /**
    * 板载编码电机 PID 运动 05模式双电机模式:
@@ -628,11 +748,14 @@ function protocolAssembler() {
    * @param {Number} distance  位移
    * @param {Number} speed     速度
    */
-  this.setEncoderMotorPIDDoubleMotor = function (direction, distance, speed) {
-    let distanceArr = Utils.longToBytes(distance);
+  this.setEncoderMotorPIDDoubleMotor = function(direction, distance, speed) {
+    let distanceArr = longToBytes(distance);
     let subCmd = 0x05;
-    speed = Utils.limitValue(speed);
-    return bufAssembler({mode: 0x02, id: 0x3e},
+    speed = limitValue(speed);
+    return bufAssembler({
+        mode: 0x02,
+        id: 0x3e
+      },
       subCmd,
       direction,
       distanceArr[3],
@@ -662,7 +785,10 @@ function protocolAssembler() {
    */
   this.setSmartServo = function(index, subCmd, extraCmd) {
     let port = 0x05; //defualt port
-    return bufAssembler({mode: 0x02, id: 0x40}, subCmd, port, index, ...extraCmd);
+    return bufAssembler({
+      mode: 0x02,
+      id: 0x40
+    }, subCmd, port, index, ...extraCmd);
   };
 
   /**
@@ -670,9 +796,12 @@ function protocolAssembler() {
    */
   this.setSmartServoForAbsoluteAngle = function(index, subCmd, angle, speed) {
     let port = 0x05; //defualt port
-    let angleBytes = Utils.longToBytes(angle);
-    let speedBytes = Utils.float32ToBytes(speed);
-    return bufAssembler({mode: 0x02, id: 0x40}, subCmd, port, index,
+    let angleBytes = longToBytes(angle);
+    let speedBytes = float32ToBytes(speed);
+    return bufAssembler({
+        mode: 0x02,
+        id: 0x40
+      }, subCmd, port, index,
       ...angleBytes.reverse(),
       ...speedBytes
     );
@@ -683,9 +812,12 @@ function protocolAssembler() {
    */
   this.setSmartServoForRelativeAngle = function(index, subCmd, angle, speed) {
     let port = 0x05; //defualt port
-    let angleBytes = Utils.longToBytes(angle);
-    let speedBytes = Utils.float32ToBytes(speed);
-    return bufAssembler({mode: 0x02, id: 0x40}, subCmd, port, index,
+    let angleBytes = longToBytes(angle);
+    let speedBytes = float32ToBytes(speed);
+    return bufAssembler({
+        mode: 0x02,
+        id: 0x40
+      }, subCmd, port, index,
       ...angleBytes.reverse(),
       ...speedBytes
     );
@@ -696,7 +828,10 @@ function protocolAssembler() {
    */
   this.setSmartServoForDcMotor = function(index, subCmd, speed) {
     let port = 0x05; //defualt port
-    return bufAssembler({mode: 0x02, id: 0x40}, subCmd, port, index,
+    return bufAssembler({
+        mode: 0x02,
+        id: 0x40
+      }, subCmd, port, index,
       speed & 0xff, (speed >> 8) & 0xff
     );
   };
@@ -715,7 +850,10 @@ function protocolAssembler() {
    */
   this.readSmartServoParam = function(index, subCmd) {
     let port = 0x05; //defualt port
-    return bufAssembler({mode: 0x01, id: 0x3d}, subCmd, port, index);
+    return bufAssembler({
+      mode: 0x01,
+      id: 0x3d
+    }, subCmd, port, index);
   };
 
   /**
@@ -727,7 +865,10 @@ function protocolAssembler() {
    */
   this.readFirmwareMode = function(subCmd) {
     //auriga 电压(0x70) 模式(0x71), megapi模式(0x72) 比赛模式(0x75)
-    return bufAssembler({mode: 0x01, id: 0x3c}, subCmd);
+    return bufAssembler({
+      mode: 0x01,
+      id: 0x3c
+    }, subCmd);
   };
 
   /**
@@ -738,7 +879,10 @@ function protocolAssembler() {
    * ff 55 04 00 01 1e 09
    */
   this.readDigGPIO = function(port) {
-    return bufAssembler({mode: 0x01, id: 0x1e}, port);
+    return bufAssembler({
+      mode: 0x01,
+      id: 0x1e
+    }, port);
   };
 
   /**
@@ -749,7 +893,10 @@ function protocolAssembler() {
    * ff 55 04 00 01 1f 02
    */
   this.readAnalogGPIO = function(port) {
-    return bufAssembler({mode: 0x01, id: 0x1f}, port);
+    return bufAssembler({
+      mode: 0x01,
+      id: 0x1f
+    }, port);
   };
 
   /**
@@ -761,7 +908,10 @@ function protocolAssembler() {
    * ff 55 05 00 01 25 0d 20 4e
    */
   this.readGPIOContinue = function(port, key) {
-    return bufAssembler({mode: 0x01, id: 0x25}, port, key);
+    return bufAssembler({
+      mode: 0x01,
+      id: 0x25
+    }, port, key);
   };
 
   /**
@@ -773,7 +923,10 @@ function protocolAssembler() {
    * ff 55 05 00 01 24 45 40
    */
   this.readDoubleGPIO = function(port1, port2) {
-    return bufAssembler({mode: 0x01, id: 0x24}, port1, port2);
+    return bufAssembler({
+      mode: 0x01,
+      id: 0x24
+    }, port1, port2);
   };
 
   /**
@@ -785,7 +938,10 @@ function protocolAssembler() {
    * ff 55 03 00 01 32
    */
   this.readRuntime = function() {
-    return bufAssembler({mode: 0x01, id: 0x32});
+    return bufAssembler({
+      mode: 0x01,
+      id: 0x32
+    });
   };
 }
 

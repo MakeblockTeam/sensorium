@@ -1,7 +1,9 @@
 import BaseRgbLed from './BaseRgbLed';
 import { warnNotSupport } from '../core/validate';
 import { SUPPORTLIST } from '../settings';
-import Utils from '../core/utils';
+import {
+  fiterWithBinaryStr
+} from '../core/utils';
 
 /**
  * RgbLedOnBoard sensor module
@@ -32,7 +34,7 @@ class RgbLedOnBoard extends BaseRgbLed {
   }
 
   static get SUPPORT(){
-    return Utils.fiterWithBinaryStr(SUPPORTLIST, '110000');
+    return fiterWithBinaryStr(SUPPORTLIST, '110000');
   }
 }
 

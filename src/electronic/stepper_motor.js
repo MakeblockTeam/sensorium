@@ -1,9 +1,16 @@
-import { validateNumber } from '../core/validate';
-import Utils from '../core/utils';
+import {
+  validateNumber
+} from '../core/validate';
+import {
+  composer,
+  fiterWithBinaryStr
+} from '../core/utils';
 import BaseMotor from './BaseMotor';
 import protocolAssembler from '../protocol/cmd';
 import Control from '../communicate/control';
-import { SUPPORTLIST } from '../settings';
+import {
+  SUPPORTLIST
+} from '../settings';
 
 /**
  * StepperMotor sensor module
@@ -24,7 +31,7 @@ class StepperMotor extends BaseMotor {
    * @param  {Number} speed
    * @return {Instance} @this
    */
-  distance(distance){
+  distance(distance) {
     this.args.distance = validateNumber(distance, 0);
     return this;
   }
@@ -35,7 +42,7 @@ class StepperMotor extends BaseMotor {
    * @return {Instance} @this
    */
   direction(type) {
-    if(type !== -1){
+    if (type !== -1) {
       type = 1;
     }
     this.args.direction = type;
@@ -55,8 +62,8 @@ class StepperMotor extends BaseMotor {
    * getter of protocol
    */
   get protocol() {
-    let buf = Utils.composer(protocolAssembler.setStepperMotor,
-        [this.args.port, this.args.speed, this.args.distance * this.args.direction]);
+    let buf = composer(protocolAssembler.setStepperMotor, [this.args.port, this.args.speed,
+      this.args.distance * this.args.direction]);
     return buf;
   }
 
@@ -68,8 +75,8 @@ class StepperMotor extends BaseMotor {
     return this;
   }
 
-  static get SUPPORT(){
-    return Utils.fiterWithBinaryStr(SUPPORTLIST, '0111');
+  static get SUPPORT() {
+    return fiterWithBinaryStr(SUPPORTLIST, '0111');
   }
 }
 

@@ -1,9 +1,17 @@
-import { validateNumber, warnNotSupport } from '../core/validate';
-import Utils from '../core/utils';
+import {
+  validateNumber,
+  warnNotSupport
+} from '../core/validate';
+import {
+  composer,
+  fiterWithBinaryStr
+} from '../core/utils';
 import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
 import Control from '../communicate/control';
-import { SUPPORTLIST } from '../settings';
+import {
+  SUPPORTLIST
+} from '../settings';
 let MCORE_NAME = SUPPORTLIST[0].toLowerCase();
 /**
  * Infrared sensor module
@@ -16,7 +24,7 @@ class Infrared extends Electronic {
     this.args = {
       port: validateNumber(port)
     };
-    let host = warnNotSupport(arguments[arguments.length-1]) || '';
+    let host = warnNotSupport(arguments[arguments.length - 1]) || '';
     //宿主
     this.hostname = host.toLowerCase();
   }
@@ -38,7 +46,7 @@ class Infrared extends Electronic {
     }
     let argsArr = [deviceId, this.args.port];
     aKey ? argsArr.push(aKey) : null;
-    return Utils.composer(protocolAssembler.readInfrared, argsArr);
+    return composer(protocolAssembler.readInfrared, argsArr);
   }
 
   /**
@@ -49,8 +57,8 @@ class Infrared extends Electronic {
     return await Control.read(this.protocol);
   }
 
-  static get SUPPORT(){
-    return Utils.fiterWithBinaryStr(SUPPORTLIST, '1111');
+  static get SUPPORT() {
+    return fiterWithBinaryStr(SUPPORTLIST, '1111');
   }
 }
 

@@ -1,5 +1,8 @@
 import { validateNumber } from '../core/validate';
-import Utils from '../core/utils';
+import {
+  composer,
+  fiterWithBinaryStr
+} from '../core/utils';
 import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
 import Control from '../communicate/control';
@@ -21,7 +24,7 @@ class LineFollower extends Electronic {
    * getter of protocol
    */
   get protocol() {
-    return Utils.composer(protocolAssembler.readLineFollower, [this.args.port]);
+    return composer(protocolAssembler.readLineFollower, [this.args.port]);
   }
 
   /**
@@ -33,7 +36,7 @@ class LineFollower extends Electronic {
   }
 
   static get SUPPORT(){
-    return Utils.fiterWithBinaryStr(SUPPORTLIST, '1111');
+    return fiterWithBinaryStr(SUPPORTLIST, '1111');
   }
 }
 

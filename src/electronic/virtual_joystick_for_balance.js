@@ -1,8 +1,13 @@
-import Utils from '../core/utils';
+import {
+  composer,
+  fiterWithBinaryStr
+} from '../core/utils';
 import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
 import Control from '../communicate/control';
-import { SUPPORTLIST } from '../settings';
+import {
+  SUPPORTLIST
+} from '../settings';
 
 /**
  * VirtualJoystick for Balance car, actually it's a motor module
@@ -10,17 +15,17 @@ import { SUPPORTLIST } from '../settings';
  */
 class VirtualJoystickForBalance extends Electronic {
   constructor() {
-    super();
-    this.args = {
-      speed: 0,
-      turnRange: 0,
-    };
-  }
-  /**
-   * set speed
-   * @param  {Number} speed  the balance speed
-   * @return {Instance} @this
-   */
+      super();
+      this.args = {
+        speed: 0,
+        turnRange: 0,
+      };
+    }
+    /**
+     * set speed
+     * @param  {Number} speed  the balance speed
+     * @return {Instance} @this
+     */
   speed(speed) {
     this.args.speed = speed || 0;
     return this;
@@ -31,7 +36,7 @@ class VirtualJoystickForBalance extends Electronic {
    * @param  {Number} range  the balance rotate angle
    * @return {Instance} @this
    */
-  turnRange(range){
+  turnRange(range) {
     this.args.turnRange = range || 0;
     return this;
   }
@@ -39,8 +44,8 @@ class VirtualJoystickForBalance extends Electronic {
   /**
    * getter of protocol
    */
-  get protocol () {
-    return Utils.composer(protocolAssembler.setVirtualJoystickForBalance, [this.args.turnRange, this.args.speed]);
+  get protocol() {
+    return composer(protocolAssembler.setVirtualJoystickForBalance, [this.args.turnRange, this.args.speed]);
   }
 
   /**
@@ -69,8 +74,8 @@ class VirtualJoystickForBalance extends Electronic {
     return this.speed(0).run();
   }
 
-  static get SUPPORT(){
-    return Utils.fiterWithBinaryStr(SUPPORTLIST, '0110');
+  static get SUPPORT() {
+    return fiterWithBinaryStr(SUPPORTLIST, '0110');
   }
 }
 

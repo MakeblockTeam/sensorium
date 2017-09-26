@@ -134,356 +134,6 @@ module.exports = { "default": __webpack_require__(131), __esModule: true };
 "use strict";
 
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _getOwnPropertyDescriptor = __webpack_require__(79);
-
-var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
-
-var _getOwnPropertySymbols = __webpack_require__(122);
-
-var _getOwnPropertySymbols2 = _interopRequireDefault(_getOwnPropertySymbols);
-
-var _getOwnPropertyNames = __webpack_require__(128);
-
-var _getOwnPropertyNames2 = _interopRequireDefault(_getOwnPropertyNames);
-
-var _getPrototypeOf = __webpack_require__(2);
-
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
-
-var _toConsumableArray2 = __webpack_require__(34);
-
-var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/**
- * @fileOverview 工具类函数
- */
-exports.default = {
-  /**
-   * limit value
-   * @param  {Number} value
-   * @param  {Array} range  (optional) limit value range, such as [-255, 255], [0, 3000], default is [-255, 255]
-   * @return {Number} newSpeed the result value in limit.
-   */
-  limitValue: function limitValue(value, range) {
-    var newValue = value;
-    range = range || [-255, 255];
-    if (value < range[0]) {
-      newValue = range[0];
-    }
-
-    if (value > range[1]) {
-      newValue = range[1];
-    }
-    return newValue;
-  },
-
-  /**
-   * Convert array of int to ArrayBuffer.
-   * @param  {[int]} data array of int
-   * @return {ArrayBuffer}      result array buffer
-   * @private
-   */
-  arrayBufferFromArray: function arrayBufferFromArray(data) {
-    var buffer = new ArrayBuffer(data.length);
-    var result = new Int8Array(buffer);
-    for (var i = 0; i < data.length; i++) {
-      result[i] = data[i];
-    }
-    return buffer;
-  },
-
-  /**
-   * Convert ArrayBuffer from array of int
-   * @param  {ArrayBuffer} buffer the source arraybuffer
-   * @return {[int]}        int array as the result;
-   * @private
-   */
-  arrayFromArrayBuffer: function arrayFromArrayBuffer(buffer) {
-    var dataView = new Uint8Array(buffer);
-    var result = [];
-    for (var i = 0; i < dataView.length; i++) {
-      result.push(dataView[i]);
-    }
-    return result;
-  },
-
-  /**
-   * [buffer2string converts array buffer to string format]
-   * @param  {ArrayBuffer} buf [the input array buffer]
-   * @return {String}     [the output string]
-   */
-  buffer2string: function buffer2string(buf) {
-    var buffer = new Uint8Array(buf);
-    return Array.prototype.join.call(buffer, " ");
-  },
-
-  /**
-   * [string2buffer converts string to array buffer format]
-   * @param  {String} str [the input string]
-   * @return {Uint8Array}     [the output uint8 array buffer]
-   */
-  string2buffer: function string2buffer(str) {
-    var buffer = new Uint8Array(str.split(" "));
-    return buffer;
-  },
-
-  /**
-   * 将十进制字符串数组转为16进制
-   * @param  {Array}  data        to be transformed data, such as: ["01", "55", "12"]
-   * @param  {Boolean} isUpperCase whether need output upperCase string.
-   * @return {String} 16 进制字符串
-   */
-  intStrToHexStr: function intStrToHexStr(data, isUpperCase) {
-    var temp = [];
-    for (var i = 0; i < data.length; i++) {
-      if (data[i] != null) {
-        var item = parseInt(data[i]).toString(16);
-        if (isUpperCase) {
-          item = parseInt(data[i]).toString(16).toUpperCase();
-        }
-        if (item.length == 1) {
-          item = "0" + item;
-        }
-        temp.push(item);
-      }
-    }
-    return temp.join(" ");
-  },
-
-  // 十六进制字符串转成十进制
-  hexStr2IntArray: function hexStr2IntArray(str) {
-    var a = str.split(" ");
-    var arr = [];
-    for (var i in a) {
-      var num = parseInt(a[i], 16);
-      arr.push(num);
-    }
-    arr.reverse();
-    return arr;
-  },
-
-  /**
-   * Float to bytes.
-   * 现将float转成整形，再将整形转成字节表示
-   * @param  {float} float number
-   * @return {bytes}
-   */
-  float32ToBytes: function float32ToBytes(value) {
-    // TOFIX: hack
-    if (value == 0) {
-      return [0, 0, 0, 0];
-    }
-    var bytesInt = 0;
-    switch (value) {
-      case Number.POSITIVE_INFINITY:
-        bytesInt = 0x7F800000;
-        break;
-      case Number.NEGATIVE_INFINITY:
-        bytesInt = 0xFF800000;
-        break;
-      case +0.0:
-        bytesInt = 0x40000000;
-        break;
-      case -0.0:
-        bytesInt = 0xC0000000;
-        break;
-      default:
-        // if (Number.isNaN(value)) { bytesInt = 0x7FC00000; break; }
-        if (value <= -0.0) {
-          bytesInt = 0x80000000;
-          value = -value;
-        }
-
-        var exponent = Math.floor(Math.log(value) / Math.log(2));
-        var significand = value / Math.pow(2, exponent) * 0x00800000 | 0;
-
-        exponent += 127;
-        if (exponent >= 0xFF) {
-          exponent = 0xFF;
-          significand = 0;
-        } else if (exponent < 0) exponent = 0;
-
-        bytesInt = bytesInt | exponent << 23;
-        bytesInt = bytesInt | significand & ~(-1 << 23);
-        break;
-    }
-    var bytesArray = this.bigIntToBytes(bytesInt);
-    return bytesArray;
-  },
-
-  /**
-   * 整形转换成字节数组
-   * @param  {number} value 整形
-   * @return {array}  array数组
-   */
-  bigIntToBytes: function bigIntToBytes(value) {
-    var bytesArray = [];
-    var b1 = value & 0xff;
-    var b2 = value >> 8 & 0xff;
-    var b3 = value >> 16 & 0xff;
-    var b4 = value >> 24 & 0xff;
-    bytesArray.push(b1);
-    bytesArray.push(b2);
-    bytesArray.push(b3);
-    bytesArray.push(b4);
-    return bytesArray;
-  },
-
-  /**
-   * 32位整数转成字节，js最多只支持32位有符号整数，不支持64位，因此最多只能转成4byte
-   * @param  {Number} float number
-   * @return {Array} bytes array
-   */
-  longToBytes: function longToBytes(value) {
-    var bytes = [];
-    var i = 4;
-    do {
-      bytes[--i] = value & 255;
-      value = value >> 8;
-    } while (i);
-    return bytes;
-  },
-
-  /**
-   * 将单词的第一个字母转成大写
-   * @param  {string} str string.
-   * @return {string}     target string.
-   */
-  upperCaseFirstLetter: function upperCaseFirstLetter(str) {
-    var reg = /\b(\w)|\s(\w)/g;
-    // str = str.toLowerCase();
-    return str.replace(reg, function (m) {
-      return m.toUpperCase();
-    });
-  },
-
-  /**
-   * n个byte转成int值
-   * @param  {Array} bytes 传入的bytes数组
-   * @return {Number}          返回的int数值
-   */
-  bytesToInt: function bytesToInt(bytes) {
-    var val = 0;
-    for (var i = bytes.length - 1; i >= 0; i--) {
-      val += bytes[bytes.length - i - 1] << i * 8;
-    }
-    return val;
-  },
-
-  /**
-   * transform int to ascii
-   * @param  {Array} bytes int array
-   * @return {String} str string
-   */
-  bytesToString: function bytesToString(bytes) {
-    var str = "";
-    for (var i = 0; i < bytes.length; i++) {
-      str += String.fromCharCode(bytes[i]);
-    }
-    return str;
-  },
-
-  hexToRgb: function hexToRgb(hex) {
-    var validHexColorReg = /^#(?:[0-9a-f]{3}){1,2}$/i;
-    if (!validHexColorReg.test(hex)) {
-      throw Error(hex + " is not a valid hex color");
-    }
-    var r = parseInt(hex.substr(1, 2), 16),
-        g = parseInt(hex.substr(3, 2), 16),
-        b = parseInt(hex.substr(5, 2), 16);
-    return [r, g, b];
-  },
-
-  /**
-   * 函数式编程
-   * @param  {!Function} func 方法
-   * @param  {Array} args 方法的参数数组
-   * @return {*}      返回结果由方法决定
-   */
-  composer: function composer(func, args) {
-    if (!args) {
-      args = [];
-    }
-    return func.apply(undefined, (0, _toConsumableArray3.default)(args));
-  },
-
-
-  /**
-   * Continuous byte string to binary byte
-   * 单元测试可参看以下:
-   * 标准笑脸输入: "000000000000000000010000001000000100000000100000000100100000001
-   *           00000001000010010001000000100000000100000000100000000000000000000"
-   * 最终发送协议: [255, 85, 23, 0, 2, 41, 1, 2, 0, 0, 0, 0, 16, 32, 64, 32, 18, 2, 2, 18, 32, 64, 32, 16, 0, 0]
-   * @param  {String} byteStrs
-   * @return {Array}
-   */
-  emotionByteString2binaryByte: function emotionByteString2binaryByte(byteStrs) {
-    var byteResult = [];
-    var len = byteStrs.length + 1;
-    for (var i = 1; i < len; i++) {
-      if (i % 8 === 0) {
-        var byteStr = byteStrs.slice(i - 8, i);
-        byteResult.push(parseInt(byteStr, 2));
-      }
-    }
-    return byteResult;
-  },
-  getAllMethods: function getAllMethods(obj) {
-    var props = [];
-    do {
-      var all = (0, _getOwnPropertyNames2.default)(obj).concat((0, _getOwnPropertySymbols2.default)(obj).map(function (s) {
-        return s.toString();
-      })).sort().filter(function (p, i, arr) {
-        if ((i == 0 || p !== arr[i - 1]) && //not overriding in this prototype
-        !props.includes(p)) {
-          //not overridden in a child
-          var desc = (0, _getOwnPropertyDescriptor2.default)(obj, p);
-          if (desc.get || desc.set) {
-            //getter or setter
-            return true;
-          } else {
-            return typeof obj[p] === 'function' && //only the methods
-            p !== 'constructor'; //not the constructor
-          }
-        }
-      });
-      props = props.concat(all);
-    } while ((obj = (0, _getPrototypeOf2.default)(obj)) && //walk-up the prototype chain
-    (0, _getPrototypeOf2.default)(obj) //not the the Object prototype methods (hasOwnProperty, etc...)
-    );
-    return props;
-  },
-
-
-  /**
-   * filter array with a binaried string
-   * @param  {Array}  arr  an array like [1, 2, 3]
-   * @param  {String} bstr a binaried string like '10101011'
-   * @return {Array}      filtered array
-   */
-  fiterWithBinaryStr: function fiterWithBinaryStr(arr, bstr) {
-    var filter = function filter(val, index) {
-      if (bstr[index] === '1') {
-        return val;
-      }
-    };
-    return arr.filter(filter);
-  }
-};
-
-/***/ }),
-/* 4 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
 exports.__esModule = true;
 
 var _typeof2 = __webpack_require__(60);
@@ -501,7 +151,7 @@ exports.default = function (self, call) {
 };
 
 /***/ }),
-/* 5 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -538,6 +188,365 @@ exports.default = function (subClass, superClass) {
   });
   if (superClass) _setPrototypeOf2.default ? (0, _setPrototypeOf2.default)(subClass, superClass) : subClass.__proto__ = superClass;
 };
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.fiterWithBinaryStr = exports.getAllMethods = exports.emotionByteString2binaryByte = exports.composer = exports.hexToRgb = exports.bytesToString = exports.bytesToInt = exports.upperCaseFirstLetter = exports.longToBytes = exports.bigIntToBytes = exports.float32ToBytes = exports.hexStr2IntArray = exports.intStrToHexStr = exports.string2buffer = exports.buffer2string = exports.arrayFromArrayBuffer = exports.arrayBufferFromArray = exports.limitValue = undefined;
+
+var _getOwnPropertyDescriptor = __webpack_require__(79);
+
+var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
+
+var _getOwnPropertySymbols = __webpack_require__(122);
+
+var _getOwnPropertySymbols2 = _interopRequireDefault(_getOwnPropertySymbols);
+
+var _getOwnPropertyNames = __webpack_require__(128);
+
+var _getOwnPropertyNames2 = _interopRequireDefault(_getOwnPropertyNames);
+
+var _getPrototypeOf = __webpack_require__(2);
+
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+var _toConsumableArray2 = __webpack_require__(34);
+
+var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function limitValue(value, range) {
+  var newValue = value;
+  range = range || [-255, 255];
+  if (value < range[0]) {
+    newValue = range[0];
+  }
+
+  if (value > range[1]) {
+    newValue = range[1];
+  }
+  return newValue;
+}
+
+/**
+ * Convert array of int to ArrayBuffer.
+ * @param  {[int]} data array of int
+ * @return {ArrayBuffer}      result array buffer
+ * @private
+ */
+function arrayBufferFromArray(data) {
+  var buffer = new ArrayBuffer(data.length);
+  var result = new Int8Array(buffer);
+  for (var i = 0; i < data.length; i++) {
+    result[i] = data[i];
+  }
+  return buffer;
+}
+
+/**
+ * Convert ArrayBuffer from array of int
+ * @param  {ArrayBuffer} buffer the source arraybuffer
+ * @return {[int]}        int array as the result;
+ * @private
+ */
+function arrayFromArrayBuffer(buffer) {
+  var dataView = new Uint8Array(buffer);
+  var result = [];
+  for (var i = 0; i < dataView.length; i++) {
+    result.push(dataView[i]);
+  }
+  return result;
+}
+
+/**
+ * [buffer2string converts array buffer to string format]
+ * @param  {ArrayBuffer} buf [the input array buffer]
+ * @return {String}     [the output string]
+ */
+function buffer2string(buf) {
+  var buffer = new Uint8Array(buf);
+  return Array.prototype.join.call(buffer, " ");
+}
+
+/**
+ * [string2buffer converts string to array buffer format]
+ * @param  {String} str [the input string]
+ * @return {Uint8Array}     [the output uint8 array buffer]
+ */
+function string2buffer(str) {
+  var buffer = new Uint8Array(str.split(" "));
+  return buffer;
+}
+
+/**
+ * 将十进制字符串数组转为16进制
+ * @param  {Array}  data        to be transformed data, such as: ["01", "55", "12"]
+ * @param  {Boolean} isUpperCase whether need output upperCase string.
+ * @return {String} 16 进制字符串
+ */
+function intStrToHexStr(data, isUpperCase) {
+  var temp = [];
+  for (var i = 0; i < data.length; i++) {
+    if (data[i] != null) {
+      var item = parseInt(data[i]).toString(16);
+      if (isUpperCase) {
+        item = parseInt(data[i]).toString(16).toUpperCase();
+      }
+      if (item.length == 1) {
+        item = "0" + item;
+      }
+      temp.push(item);
+    }
+  }
+  return temp.join(" ");
+}
+
+// 十六进制字符串转成十进制
+function hexStr2IntArray(str) {
+  var a = str.split(" ");
+  var arr = [];
+  for (var i in a) {
+    var num = parseInt(a[i], 16);
+    arr.push(num);
+  }
+  arr.reverse();
+  return arr;
+}
+
+/**
+ * Float to bytes.
+ * 现将float转成整形，再将整形转成字节表示
+ * @param  {float} float number
+ * @return {bytes}
+ */
+function float32ToBytes(value) {
+  // TOFIX: hack
+  if (value == 0) {
+    return [0, 0, 0, 0];
+  }
+  var bytesInt = 0;
+  switch (value) {
+    case Number.POSITIVE_INFINITY:
+      bytesInt = 0x7F800000;
+      break;
+    case Number.NEGATIVE_INFINITY:
+      bytesInt = 0xFF800000;
+      break;
+    case +0.0:
+      bytesInt = 0x40000000;
+      break;
+    case -0.0:
+      bytesInt = 0xC0000000;
+      break;
+    default:
+      // if (Number.isNaN(value)) { bytesInt = 0x7FC00000; break; }
+      if (value <= -0.0) {
+        bytesInt = 0x80000000;
+        value = -value;
+      }
+
+      var exponent = Math.floor(Math.log(value) / Math.log(2));
+      var significand = value / Math.pow(2, exponent) * 0x00800000 | 0;
+
+      exponent += 127;
+      if (exponent >= 0xFF) {
+        exponent = 0xFF;
+        significand = 0;
+      } else if (exponent < 0) exponent = 0;
+
+      bytesInt = bytesInt | exponent << 23;
+      bytesInt = bytesInt | significand & ~(-1 << 23);
+      break;
+  }
+  var bytesArray = this.bigIntToBytes(bytesInt);
+  return bytesArray;
+}
+
+/**
+ * 整形转换成字节数组
+ * @param  {number} value 整形
+ * @return {array}  array数组
+ */
+function bigIntToBytes(value) {
+  var bytesArray = [];
+  var b1 = value & 0xff;
+  var b2 = value >> 8 & 0xff;
+  var b3 = value >> 16 & 0xff;
+  var b4 = value >> 24 & 0xff;
+  bytesArray.push(b1);
+  bytesArray.push(b2);
+  bytesArray.push(b3);
+  bytesArray.push(b4);
+  return bytesArray;
+}
+
+/**
+ * 32位整数转成字节，js最多只支持32位有符号整数，不支持64位，因此最多只能转成4byte
+ * @param  {Number} float number
+ * @return {Array} bytes array
+ */
+function longToBytes(value) {
+  var bytes = [];
+  var i = 4;
+  do {
+    bytes[--i] = value & 255;
+    value = value >> 8;
+  } while (i);
+  return bytes;
+}
+
+/**
+ * 将单词的第一个字母转成大写
+ * @param  {string} str string.
+ * @return {string}     target string.
+ */
+function upperCaseFirstLetter(str) {
+  var reg = /\b(\w)|\s(\w)/g;
+  // str = str.toLowerCase();
+  return str.replace(reg, function (m) {
+    return m.toUpperCase();
+  });
+}
+
+/**
+ * n个byte转成int值
+ * @param  {Array} bytes 传入的bytes数组
+ * @return {Number}          返回的int数值
+ */
+function bytesToInt(bytes) {
+  var val = 0;
+  for (var i = bytes.length - 1; i >= 0; i--) {
+    val += bytes[bytes.length - i - 1] << i * 8;
+  }
+  return val;
+}
+
+/**
+ * transform int to ascii
+ * @param  {Array} bytes int array
+ * @return {String} str string
+ */
+function bytesToString(bytes) {
+  var str = "";
+  for (var i = 0; i < bytes.length; i++) {
+    str += String.fromCharCode(bytes[i]);
+  }
+  return str;
+}
+
+function hexToRgb(hex) {
+  var validHexColorReg = /^#(?:[0-9a-f]{3}){1,2}$/i;
+  if (!validHexColorReg.test(hex)) {
+    throw Error(hex + " is not a valid hex color");
+  }
+  var r = parseInt(hex.substr(1, 2), 16),
+      g = parseInt(hex.substr(3, 2), 16),
+      b = parseInt(hex.substr(5, 2), 16);
+  return [r, g, b];
+}
+/**
+ * 函数式编程
+ * @param  {!Function} func 方法
+ * @param  {Array} args 方法的参数数组
+ * @return {*}      返回结果由方法决定
+ */
+function composer(func, args) {
+  if (!args) {
+    args = [];
+  }
+  return func.apply(undefined, (0, _toConsumableArray3.default)(args));
+}
+
+/**
+ * Continuous byte string to binary byte
+ * 单元测试可参看以下:
+ * 标准笑脸输入: "000000000000000000010000001000000100000000100000000100100000001
+ *           00000001000010010001000000100000000100000000100000000000000000000"
+ * 最终发送协议: [255, 85, 23, 0, 2, 41, 1, 2, 0, 0, 0, 0, 16, 32, 64, 32, 18, 2, 2, 18, 32, 64, 32, 16, 0, 0]
+ * @param  {String} byteStrs
+ * @return {Array}
+ */
+function emotionByteString2binaryByte(byteStrs) {
+  var byteResult = [];
+  var len = byteStrs.length + 1;
+  for (var i = 1; i < len; i++) {
+    if (i % 8 === 0) {
+      var byteStr = byteStrs.slice(i - 8, i);
+      byteResult.push(parseInt(byteStr, 2));
+    }
+  }
+  return byteResult;
+}
+
+function getAllMethods(obj) {
+  var props = [];
+  do {
+    var all = (0, _getOwnPropertyNames2.default)(obj).concat((0, _getOwnPropertySymbols2.default)(obj).map(function (s) {
+      return s.toString();
+    })).sort().filter(function (p, i, arr) {
+      if ((i == 0 || p !== arr[i - 1]) && //not overriding in this prototype
+      !props.includes(p)) {
+        //not overridden in a child
+        var desc = (0, _getOwnPropertyDescriptor2.default)(obj, p);
+        if (desc.get || desc.set) {
+          //getter or setter
+          return true;
+        } else {
+          return typeof obj[p] === 'function' && //only the methods
+          p !== 'constructor'; //not the constructor
+        }
+      }
+    });
+    props = props.concat(all);
+  } while ((obj = (0, _getPrototypeOf2.default)(obj)) && //walk-up the prototype chain
+  (0, _getPrototypeOf2.default)(obj) //not the the Object prototype methods (hasOwnProperty, etc...)
+  );
+  return props;
+}
+
+/**
+ * filter array with a binaried string
+ * @param  {Array}  arr  an array like [1, 2, 3]
+ * @param  {String} bstr a binaried string like '10101011'
+ * @return {Array}      filtered array
+ */
+function fiterWithBinaryStr(arr, bstr) {
+  var filter = function filter(val, index) {
+    if (bstr[index] === '1') {
+      return val;
+    }
+  };
+  return arr.filter(filter);
+}
+/**
+ * @fileOverview 工具类函数
+ */
+exports.limitValue = limitValue;
+exports.arrayBufferFromArray = arrayBufferFromArray;
+exports.arrayFromArrayBuffer = arrayFromArrayBuffer;
+exports.buffer2string = buffer2string;
+exports.string2buffer = string2buffer;
+exports.intStrToHexStr = intStrToHexStr;
+exports.hexStr2IntArray = hexStr2IntArray;
+exports.float32ToBytes = float32ToBytes;
+exports.bigIntToBytes = bigIntToBytes;
+exports.longToBytes = longToBytes;
+exports.upperCaseFirstLetter = upperCaseFirstLetter;
+exports.bytesToInt = bytesToInt;
+exports.bytesToString = bytesToString;
+exports.hexToRgb = hexToRgb;
+exports.composer = composer;
+exports.emotionByteString2binaryByte = emotionByteString2binaryByte;
+exports.getAllMethods = getAllMethods;
+exports.fiterWithBinaryStr = fiterWithBinaryStr;
 
 /***/ }),
 /* 6 */
@@ -795,9 +804,7 @@ var _of = __webpack_require__(136);
 
 var _of2 = _interopRequireDefault(_of);
 
-var _utils = __webpack_require__(3);
-
-var _utils2 = _interopRequireDefault(_utils);
+var _utils = __webpack_require__(5);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -852,8 +859,11 @@ function protocolAssembler() {
    *     ff 55 06 00 02 0a 01 ff 00
    */
   this.setDcMotor = function (port, speed) {
-    speed = _utils2.default.limitValue(speed);
-    return bufAssembler({ mode: 0x02, id: 0x0a }, port, speed & 0xff, speed >> 8 & 0xff);
+    speed = (0, _utils.limitValue)(speed);
+    return bufAssembler({
+      mode: 0x02,
+      id: 0x0a
+    }, port, speed & 0xff, speed >> 8 & 0xff);
   };
 
   /**
@@ -865,9 +875,12 @@ function protocolAssembler() {
    *     ff 55 07 00 02 3d 00 01 64 00
    */
   this.setEncoderMotorOnBoard = function (slot, speed) {
-    speed = _utils2.default.limitValue(speed);
+    speed = (0, _utils.limitValue)(speed);
     var port = 0x00; //板载
-    return bufAssembler({ mode: 0x02, id: 0x3d }, port, slot, speed & 0xff, speed >> 8 & 0xff);
+    return bufAssembler({
+      mode: 0x02,
+      id: 0x3d
+    }, port, slot, speed & 0xff, speed >> 8 & 0xff);
   };
 
   /**
@@ -883,9 +896,12 @@ function protocolAssembler() {
   this.setEncoderMotor = function (slot, speed, angle) {
     // 编码电机的协议中不使用 port
     var i2c = 0x08; //I2C地址，目前无意义(软件稳定后可能会重新设计)，用来占位
-    speed = _utils2.default.limitValue(speed, [0, 300]);
-    var byte4Array = _utils2.default.float32ToBytes(angle);
-    return bufAssembler.apply(undefined, [{ mode: 0x02, id: 0x0c }, i2c, slot, speed & 0xff, speed >> 8 & 0xff].concat((0, _toConsumableArray3.default)(byte4Array)));
+    speed = (0, _utils.limitValue)(speed, [0, 300]);
+    var byte4Array = (0, _utils.float32ToBytes)(angle);
+    return bufAssembler.apply(undefined, [{
+      mode: 0x02,
+      id: 0x0c
+    }, i2c, slot, speed & 0xff, speed >> 8 & 0xff].concat((0, _toConsumableArray3.default)(byte4Array)));
   };
 
   /**
@@ -897,9 +913,12 @@ function protocolAssembler() {
    *     ff 55 07 00 02 05 64 00 64 00
    */
   this.setJoystick = function (leftSpeed, rightSpeed) {
-    leftSpeed = _utils2.default.limitValue(leftSpeed);
-    rightSpeed = _utils2.default.limitValue(rightSpeed);
-    return bufAssembler({ mode: 0x02, id: 0x05 }, leftSpeed & 0xff, leftSpeed >> 8 & 0xff, rightSpeed & 0xff, rightSpeed >> 8 & 0xff);
+    leftSpeed = (0, _utils.limitValue)(leftSpeed);
+    rightSpeed = (0, _utils.limitValue)(rightSpeed);
+    return bufAssembler({
+      mode: 0x02,
+      id: 0x05
+    }, leftSpeed & 0xff, leftSpeed >> 8 & 0xff, rightSpeed & 0xff, rightSpeed >> 8 & 0xff);
   };
 
   /**
@@ -911,10 +930,13 @@ function protocolAssembler() {
    *     ff 55 08 00 02 34 00 64 00 64 00
    */
   this.setVirtualJoystickForBalance = function (turnRange, speed) {
-    var turnExtent = _utils2.default.limitValue(turnRange);
+    var turnExtent = (0, _utils.limitValue)(turnRange);
     var port = 0x00; //板载虚拟摇杆 port = 00
-    speed = _utils2.default.limitValue(speed);
-    return bufAssembler({ mode: 0x02, id: 0x34 }, port, turnExtent & 0xff, turnExtent >> 8 & 0xff, speed & 0xff, speed >> 8 & 0xff);
+    speed = (0, _utils.limitValue)(speed);
+    return bufAssembler({
+      mode: 0x02,
+      id: 0x34
+    }, port, turnExtent & 0xff, turnExtent >> 8 & 0xff, speed & 0xff, speed >> 8 & 0xff);
   };
 
   /**
@@ -927,9 +949,12 @@ function protocolAssembler() {
    *     ff 55 0a 00 02 28 01 b8 0b e8 03 00 00
    */
   this.setStepperMotor = function (port, speed, distance) {
-    speed = _utils2.default.limitValue(speed, [0, 3000]);
-    var distanceBytes = _utils2.default.longToBytes(distance);
-    return bufAssembler({ mode: 0x02, id: 0x28 }, port, speed & 0xff, speed >> 8 & 0xff, distanceBytes[3], distanceBytes[2], distanceBytes[1], distanceBytes[0]);
+    speed = (0, _utils.limitValue)(speed, [0, 3000]);
+    var distanceBytes = (0, _utils.longToBytes)(distance);
+    return bufAssembler({
+      mode: 0x02,
+      id: 0x28
+    }, port, speed & 0xff, speed >> 8 & 0xff, distanceBytes[3], distanceBytes[2], distanceBytes[1], distanceBytes[0]);
   };
 
   /**
@@ -945,11 +970,14 @@ function protocolAssembler() {
    *     ff 55 09 00 02 08 06 02 00 ff 00 00
    */
   this.setLed = function (port, slot, position, r, g, b) {
-    r = _utils2.default.limitValue(r, [0, 255]);
-    g = _utils2.default.limitValue(g, [0, 255]);
-    b = _utils2.default.limitValue(b, [0, 255]);
-    position = _utils2.default.limitValue(position, [0]);
-    return bufAssembler({ mode: 0x02, id: 0x08 }, port, slot, position, r, g, b);
+    r = (0, _utils.limitValue)(r, [0, 255]);
+    g = (0, _utils.limitValue)(g, [0, 255]);
+    b = (0, _utils.limitValue)(b, [0, 255]);
+    position = (0, _utils.limitValue)(position, [0]);
+    return bufAssembler({
+      mode: 0x02,
+      id: 0x08
+    }, port, slot, position, r, g, b);
   };
 
   /**
@@ -962,7 +990,10 @@ function protocolAssembler() {
    */
   this.setFirmwareMode = function (subCmd, mode) {
     var sub = subCmd || 0x11; //Auriga是 0x11, megapi是 0x12
-    return bufAssembler({ mode: 0x02, id: 0x3c }, sub, mode);
+    return bufAssembler({
+      mode: 0x02,
+      id: 0x3c
+    }, sub, mode);
   };
 
   /**
@@ -973,8 +1004,11 @@ function protocolAssembler() {
    * @param {[type]} degree servo degree, the range is 0 ~ 180
    */
   this.setServoMotor = function (port, slot, degree) {
-    degree = _utils2.default.limitValue(degree, [0, 180]);
-    return bufAssembler({ mode: 0x02, id: 0x0b }, port, slot, degree);
+    degree = (0, _utils.limitValue)(degree, [0, 180]);
+    return bufAssembler({
+      mode: 0x02,
+      id: 0x0b
+    }, port, slot, degree);
   };
 
   /**
@@ -986,9 +1020,12 @@ function protocolAssembler() {
    *     ff 55 08 00 02 09 06 00 00 c8 42
    */
   this.setSevenSegment = function (port, number) {
-    number = _utils2.default.limitValue(number, [-999, 9999]);
-    var byte4Array = _utils2.default.float32ToBytes(number);
-    return bufAssembler.apply(undefined, [{ mode: 0x02, id: 0x09 }, port].concat((0, _toConsumableArray3.default)(byte4Array)));
+    number = (0, _utils.limitValue)(number, [-999, 9999]);
+    var byte4Array = (0, _utils.float32ToBytes)(number);
+    return bufAssembler.apply(undefined, [{
+      mode: 0x02,
+      id: 0x09
+    }, port].concat((0, _toConsumableArray3.default)(byte4Array)));
   };
 
   /**
@@ -1037,7 +1074,10 @@ function protocolAssembler() {
 
     args[2] = args[2] & 0xff;
     args[3] = args[3] & 0xff;
-    return bufAssembler.apply(undefined, [{ mode: 0x02, id: 0x29 }].concat(args));
+    return bufAssembler.apply(undefined, [{
+      mode: 0x02,
+      id: 0x29
+    }].concat(args));
   };
 
   /**
@@ -1049,7 +1089,10 @@ function protocolAssembler() {
       ff 55 05 00 02 14 06 02
    */
   this.setShutter = function (port, action) {
-    return bufAssembler({ mode: 0x02, id: 0x14 }, port, action);
+    return bufAssembler({
+      mode: 0x02,
+      id: 0x14
+    }, port, action);
   };
 
   /**
@@ -1059,7 +1102,9 @@ function protocolAssembler() {
       ff 55 02 00 04
    */
   this.reset = function () {
-    return bufAssembler({ mode: 0x04 });
+    return bufAssembler({
+      mode: 0x04
+    });
   };
 
   /**
@@ -1071,7 +1116,10 @@ function protocolAssembler() {
    * C2，quater beat: ff 55 08 00 02 22 09 41 00 f4 01
    */
   this.setBuzzerForMcore = function (hz, beat) {
-    return bufAssembler({ mode: 0x02, id: 0x22 }, hz & 0xff, hz >> 8 & 0xff, beat & 0xff, beat >> 8 & 0xff);
+    return bufAssembler({
+      mode: 0x02,
+      id: 0x22
+    }, hz & 0xff, hz >> 8 & 0xff, beat & 0xff, beat >> 8 & 0xff);
   };
 
   /**
@@ -1082,7 +1130,10 @@ function protocolAssembler() {
    */
   this.setBuzzer = function (hz, beat) {
     beat = beat ? beat : 250;
-    return bufAssembler({ mode: 0x02, id: 0x22 }, 0x2d, hz & 0xff, hz >> 8 & 0xff, beat & 0xff, beat >> 8 & 0xff);
+    return bufAssembler({
+      mode: 0x02,
+      id: 0x22
+    }, 0x2d, hz & 0xff, hz >> 8 & 0xff, beat & 0xff, beat >> 8 & 0xff);
   };
 
   /**
@@ -1090,7 +1141,10 @@ function protocolAssembler() {
    * @private
    */
   this.readVersion = function () {
-    return bufAssembler({ mode: 0x01, id: 0x00 });
+    return bufAssembler({
+      mode: 0x01,
+      id: 0x00
+    });
   };
 
   /**
@@ -1104,7 +1158,10 @@ function protocolAssembler() {
    * ff 55 04 00 01 01 03
    */
   this.readUltrasonic = function (port) {
-    return bufAssembler({ mode: 0x01, id: 0x01 }, port);
+    return bufAssembler({
+      mode: 0x01,
+      id: 0x01
+    }, port);
   };
 
   /**
@@ -1116,7 +1173,10 @@ function protocolAssembler() {
    * ff 55 05 00 01 02 01 02
    */
   this.readTemperature = function (port, slot) {
-    return bufAssembler({ mode: 0x01, id: 0x02 }, port, slot);
+    return bufAssembler({
+      mode: 0x01,
+      id: 0x02
+    }, port, slot);
   };
 
   /**
@@ -1128,7 +1188,10 @@ function protocolAssembler() {
    * ff 55 04 00 01 03 07
    */
   this.readLight = function (port) {
-    return bufAssembler({ mode: 0x01, id: 0x03 }, port);
+    return bufAssembler({
+      mode: 0x01,
+      id: 0x03
+    }, port);
   };
 
   /**
@@ -1140,7 +1203,10 @@ function protocolAssembler() {
    * ff 55 04 00 01 04 06
    */
   this.readPotentionmeter = function (port) {
-    return bufAssembler({ mode: 0x01, id: 0x04 }, port);
+    return bufAssembler({
+      mode: 0x01,
+      id: 0x04
+    }, port);
   };
 
   /**
@@ -1152,7 +1218,10 @@ function protocolAssembler() {
    * ff 55 05 00 01 05 06 01
    */
   this.readJoystick = function (port, axis) {
-    return bufAssembler({ mode: 0x01, id: 0x05 }, port, axis);
+    return bufAssembler({
+      mode: 0x01,
+      id: 0x05
+    }, port, axis);
   };
 
   /**
@@ -1165,7 +1234,10 @@ function protocolAssembler() {
    * ff 55 05 00 01 06 00 01
    */
   this.readGyro = function (port, axis) {
-    return bufAssembler({ mode: 0x01, id: 0x06 }, port, axis);
+    return bufAssembler({
+      mode: 0x01,
+      id: 0x06
+    }, port, axis);
   };
 
   /**
@@ -1177,7 +1249,10 @@ function protocolAssembler() {
    * ff 55 04 00 01 07 06
    */
   this.readSound = function (port) {
-    return bufAssembler({ mode: 0x01, id: 0x07 }, port);
+    return bufAssembler({
+      mode: 0x01,
+      id: 0x07
+    }, port);
   };
 
   /**
@@ -1188,7 +1263,10 @@ function protocolAssembler() {
    */
   this.readTemperatureOnBoard = function () {
     var port = 0x0d;
-    return bufAssembler({ mode: 0x01, id: 0x1b }, port);
+    return bufAssembler({
+      mode: 0x01,
+      id: 0x1b
+    }, port);
   };
 
   /**
@@ -1202,9 +1280,15 @@ function protocolAssembler() {
    */
   this.readInfrared = function (id, port, akey) {
     if (akey) {
-      return bufAssembler({ mode: 0x01, id: id }, port, akey);
+      return bufAssembler({
+        mode: 0x01,
+        id: id
+      }, port, akey);
     } else {
-      return bufAssembler({ mode: 0x01, id: id }, port);
+      return bufAssembler({
+        mode: 0x01,
+        id: id
+      }, port);
     }
   };
 
@@ -1217,7 +1301,10 @@ function protocolAssembler() {
    * ff 55 04 00 01 0f 06
    */
   this.readPirmotion = function (port) {
-    return bufAssembler({ mode: 0x01, id: 0x0f }, port);
+    return bufAssembler({
+      mode: 0x01,
+      id: 0x0f
+    }, port);
   };
 
   /**
@@ -1234,7 +1321,10 @@ function protocolAssembler() {
     * ff 55 04 00 01 11 02
    */
   this.readLineFollower = function (port) {
-    return bufAssembler({ mode: 0x01, id: 0x11 }, port);
+    return bufAssembler({
+      mode: 0x01,
+      id: 0x11
+    }, port);
   };
 
   /**
@@ -1247,7 +1337,10 @@ function protocolAssembler() {
    * ff 55 05 00 01 15 06 02
    */
   this.readLimitSwitch = function (port, slot) {
-    return bufAssembler({ mode: 0x01, id: 0x15 }, port, slot);
+    return bufAssembler({
+      mode: 0x01,
+      id: 0x15
+    }, port, slot);
   };
 
   /**
@@ -1259,7 +1352,10 @@ function protocolAssembler() {
    * ff 55 04 00 01 1a 06
    */
   this.readCompass = function (port) {
-    return bufAssembler({ mode: 0x01, id: 0x1a }, port);
+    return bufAssembler({
+      mode: 0x01,
+      id: 0x1a
+    }, port);
   };
 
   /**
@@ -1272,7 +1368,10 @@ function protocolAssembler() {
    * ff 55 05 00 01 17 06 00
    */
   this.readHumiture = function (port, type) {
-    return bufAssembler({ mode: 0x01, id: 0x17 }, port, type);
+    return bufAssembler({
+      mode: 0x01,
+      id: 0x17
+    }, port, type);
   };
 
   /**
@@ -1284,7 +1383,10 @@ function protocolAssembler() {
    * ff 55 04 00 01 18 03
    */
   this.readFlame = function (port) {
-    return bufAssembler({ mode: 0x01, id: 0x18 }, port);
+    return bufAssembler({
+      mode: 0x01,
+      id: 0x18
+    }, port);
   };
 
   /**
@@ -1296,7 +1398,10 @@ function protocolAssembler() {
    * ff 55 04 00 01 19 06
    */
   this.readGas = function (port) {
-    return bufAssembler({ mode: 0x01, id: 0x19 }, port);
+    return bufAssembler({
+      mode: 0x01,
+      id: 0x19
+    }, port);
   };
 
   /**
@@ -1308,7 +1413,10 @@ function protocolAssembler() {
    * ff 55 04 00 01 33 06
    */
   this.readTouch = function (port) {
-    return bufAssembler({ mode: 0x01, id: 0x33 }, port);
+    return bufAssembler({
+      mode: 0x01,
+      id: 0x33
+    }, port);
   };
 
   /**
@@ -1321,7 +1429,10 @@ function protocolAssembler() {
    * ff 55 05 00 01 16 03 01
    */
   this.readFourKeys = function (port, key) {
-    return bufAssembler({ mode: 0x01, id: 0x16 }, port, key);
+    return bufAssembler({
+      mode: 0x01,
+      id: 0x16
+    }, port, key);
   };
 
   /**
@@ -1334,7 +1445,10 @@ function protocolAssembler() {
    */
   this.readEncoderMotorOnBoard = function (slot, type) {
     var port = 0x00; //板载 port
-    return bufAssembler({ mode: 0x01, id: 0x3d }, port, slot, type);
+    return bufAssembler({
+      mode: 0x01,
+      id: 0x3d
+    }, port, slot, type);
   };
 
   /**
@@ -1346,11 +1460,14 @@ function protocolAssembler() {
    * buf: ff 55 0b 00 02 3e 01 01 00 00 00 00 00 00
    */
   this.setEncoderMotorPIDDistance = function (distance, speed) {
-    var distanceArr = _utils2.default.longToBytes(distance);
+    var distanceArr = (0, _utils.longToBytes)(distance);
     var subCmd = 0x05;
     var slot = 0x01;
-    speed = _utils2.default.limitValue(speed);
-    return bufAssembler({ mode: 0x02, id: 0x3e }, subCmd, slot, distanceArr[3], distanceArr[2], distanceArr[1], distanceArr[0], speed & 0xff, 0);
+    speed = (0, _utils.limitValue)(speed);
+    return bufAssembler({
+      mode: 0x02,
+      id: 0x3e
+    }, subCmd, slot, distanceArr[3], distanceArr[2], distanceArr[1], distanceArr[0], speed & 0xff, 0);
   };
 
   /**
@@ -1363,8 +1480,11 @@ function protocolAssembler() {
   this.setEncoderMotorPIDSpeed = function (speed) {
     var subCmd = 0x02;
     var slot = 0x01;
-    speed = _utils2.default.limitValue(speed);
-    return bufAssembler({ mode: 0x02, id: 0x3e }, subCmd, slot, speed & 0xff, speed >> 8 & 0xff);
+    speed = (0, _utils.limitValue)(speed);
+    return bufAssembler({
+      mode: 0x02,
+      id: 0x3e
+    }, subCmd, slot, speed & 0xff, speed >> 8 & 0xff);
   },
   /**
    * 板载编码电机 PID 运动 03模式 pwm 模式
@@ -1375,8 +1495,11 @@ function protocolAssembler() {
   this.setEncoderMotorPIDPwm = function (speed) {
     var subCmd = 0x03;
     var slot = 0x01;
-    speed = _utils2.default.limitValue(speed);
-    return bufAssembler({ mode: 0x02, id: 0x3e }, subCmd, slot, speed & 0xff, speed >> 8 & 0xff);
+    speed = (0, _utils.limitValue)(speed);
+    return bufAssembler({
+      mode: 0x02,
+      id: 0x3e
+    }, subCmd, slot, speed & 0xff, speed >> 8 & 0xff);
   },
 
   /**
@@ -1388,7 +1511,10 @@ function protocolAssembler() {
    */
   this.setEncoderMotorPIDZeroPoint = function (subCmd) {
     var slot = 0x01;
-    return bufAssembler({ mode: 0x01, id: 0x3e }, subCmd, slot);
+    return bufAssembler({
+      mode: 0x01,
+      id: 0x3e
+    }, subCmd, slot);
   };
 
   /**
@@ -1401,10 +1527,13 @@ function protocolAssembler() {
    * @param {Number} speed     速度
    */
   this.setEncoderMotorPIDDoubleMotor = function (direction, distance, speed) {
-    var distanceArr = _utils2.default.longToBytes(distance);
+    var distanceArr = (0, _utils.longToBytes)(distance);
     var subCmd = 0x05;
-    speed = _utils2.default.limitValue(speed);
-    return bufAssembler({ mode: 0x02, id: 0x3e }, subCmd, direction, distanceArr[3], distanceArr[2], distanceArr[1], distanceArr[0], speed & 0xff, 0);
+    speed = (0, _utils.limitValue)(speed);
+    return bufAssembler({
+      mode: 0x02,
+      id: 0x3e
+    }, subCmd, direction, distanceArr[3], distanceArr[2], distanceArr[1], distanceArr[0], speed & 0xff, 0);
   };
 
   /**
@@ -1426,7 +1555,10 @@ function protocolAssembler() {
    */
   this.setSmartServo = function (index, subCmd, extraCmd) {
     var port = 0x05; //defualt port
-    return bufAssembler.apply(undefined, [{ mode: 0x02, id: 0x40 }, subCmd, port, index].concat((0, _toConsumableArray3.default)(extraCmd)));
+    return bufAssembler.apply(undefined, [{
+      mode: 0x02,
+      id: 0x40
+    }, subCmd, port, index].concat((0, _toConsumableArray3.default)(extraCmd)));
   };
 
   /**
@@ -1434,9 +1566,12 @@ function protocolAssembler() {
    */
   this.setSmartServoForAbsoluteAngle = function (index, subCmd, angle, speed) {
     var port = 0x05; //defualt port
-    var angleBytes = _utils2.default.longToBytes(angle);
-    var speedBytes = _utils2.default.float32ToBytes(speed);
-    return bufAssembler.apply(undefined, [{ mode: 0x02, id: 0x40 }, subCmd, port, index].concat((0, _toConsumableArray3.default)(angleBytes.reverse()), (0, _toConsumableArray3.default)(speedBytes)));
+    var angleBytes = (0, _utils.longToBytes)(angle);
+    var speedBytes = (0, _utils.float32ToBytes)(speed);
+    return bufAssembler.apply(undefined, [{
+      mode: 0x02,
+      id: 0x40
+    }, subCmd, port, index].concat((0, _toConsumableArray3.default)(angleBytes.reverse()), (0, _toConsumableArray3.default)(speedBytes)));
   };
 
   /**
@@ -1444,9 +1579,12 @@ function protocolAssembler() {
    */
   this.setSmartServoForRelativeAngle = function (index, subCmd, angle, speed) {
     var port = 0x05; //defualt port
-    var angleBytes = _utils2.default.longToBytes(angle);
-    var speedBytes = _utils2.default.float32ToBytes(speed);
-    return bufAssembler.apply(undefined, [{ mode: 0x02, id: 0x40 }, subCmd, port, index].concat((0, _toConsumableArray3.default)(angleBytes.reverse()), (0, _toConsumableArray3.default)(speedBytes)));
+    var angleBytes = (0, _utils.longToBytes)(angle);
+    var speedBytes = (0, _utils.float32ToBytes)(speed);
+    return bufAssembler.apply(undefined, [{
+      mode: 0x02,
+      id: 0x40
+    }, subCmd, port, index].concat((0, _toConsumableArray3.default)(angleBytes.reverse()), (0, _toConsumableArray3.default)(speedBytes)));
   };
 
   /**
@@ -1454,7 +1592,10 @@ function protocolAssembler() {
    */
   this.setSmartServoForDcMotor = function (index, subCmd, speed) {
     var port = 0x05; //defualt port
-    return bufAssembler({ mode: 0x02, id: 0x40 }, subCmd, port, index, speed & 0xff, speed >> 8 & 0xff);
+    return bufAssembler({
+      mode: 0x02,
+      id: 0x40
+    }, subCmd, port, index, speed & 0xff, speed >> 8 & 0xff);
   };
 
   /**
@@ -1471,7 +1612,10 @@ function protocolAssembler() {
    */
   this.readSmartServoParam = function (index, subCmd) {
     var port = 0x05; //defualt port
-    return bufAssembler({ mode: 0x01, id: 0x3d }, subCmd, port, index);
+    return bufAssembler({
+      mode: 0x01,
+      id: 0x3d
+    }, subCmd, port, index);
   };
 
   /**
@@ -1483,7 +1627,10 @@ function protocolAssembler() {
    */
   this.readFirmwareMode = function (subCmd) {
     //auriga 电压(0x70) 模式(0x71), megapi模式(0x72) 比赛模式(0x75)
-    return bufAssembler({ mode: 0x01, id: 0x3c }, subCmd);
+    return bufAssembler({
+      mode: 0x01,
+      id: 0x3c
+    }, subCmd);
   };
 
   /**
@@ -1494,7 +1641,10 @@ function protocolAssembler() {
    * ff 55 04 00 01 1e 09
    */
   this.readDigGPIO = function (port) {
-    return bufAssembler({ mode: 0x01, id: 0x1e }, port);
+    return bufAssembler({
+      mode: 0x01,
+      id: 0x1e
+    }, port);
   };
 
   /**
@@ -1505,7 +1655,10 @@ function protocolAssembler() {
    * ff 55 04 00 01 1f 02
    */
   this.readAnalogGPIO = function (port) {
-    return bufAssembler({ mode: 0x01, id: 0x1f }, port);
+    return bufAssembler({
+      mode: 0x01,
+      id: 0x1f
+    }, port);
   };
 
   /**
@@ -1517,7 +1670,10 @@ function protocolAssembler() {
    * ff 55 05 00 01 25 0d 20 4e
    */
   this.readGPIOContinue = function (port, key) {
-    return bufAssembler({ mode: 0x01, id: 0x25 }, port, key);
+    return bufAssembler({
+      mode: 0x01,
+      id: 0x25
+    }, port, key);
   };
 
   /**
@@ -1529,7 +1685,10 @@ function protocolAssembler() {
    * ff 55 05 00 01 24 45 40
    */
   this.readDoubleGPIO = function (port1, port2) {
-    return bufAssembler({ mode: 0x01, id: 0x24 }, port1, port2);
+    return bufAssembler({
+      mode: 0x01,
+      id: 0x24
+    }, port1, port2);
   };
 
   /**
@@ -1541,7 +1700,10 @@ function protocolAssembler() {
    * ff 55 03 00 01 32
    */
   this.readRuntime = function () {
-    return bufAssembler({ mode: 0x01, id: 0x32 });
+    return bufAssembler({
+      mode: 0x01,
+      id: 0x32
+    });
   };
 }
 
@@ -2606,11 +2768,11 @@ var _createClass2 = __webpack_require__(1);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _possibleConstructorReturn2 = __webpack_require__(4);
+var _possibleConstructorReturn2 = __webpack_require__(3);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-var _inherits2 = __webpack_require__(5);
+var _inherits2 = __webpack_require__(4);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
@@ -2620,9 +2782,7 @@ var _electronic = __webpack_require__(10);
 
 var _electronic2 = _interopRequireDefault(_electronic);
 
-var _utils = __webpack_require__(3);
-
-var _utils2 = _interopRequireDefault(_utils);
+var _utils = __webpack_require__(5);
 
 var _cmd = __webpack_require__(8);
 
@@ -2694,7 +2854,7 @@ var BaseLedMatrix = function (_Electronic) {
       var bufArray = [];
       if (this.isClearType) {
         // if clear
-        var byteResult = _utils2.default.emotionByteString2binaryByte('0'.repeat(128));
+        var byteResult = (0, _utils.emotionByteString2binaryByte)('0'.repeat(128));
         bufArray = [this.args.port, BaseLedMatrix.EMOTION_TYPE, 0, 0].concat((0, _toConsumableArray3.default)(byteResult));
         this.isClearType = false;
       } else if (this.args.type === BaseLedMatrix.CHAR_TYPE) {
@@ -2705,16 +2865,16 @@ var BaseLedMatrix = function (_Electronic) {
         bufArray = [this.args.port, this.args.type, this.args.x, this.args.y, this.args.char.length].concat((0, _toConsumableArray3.default)(charCodeArray));
       } else if (this.args.emotion === BaseLedMatrix.EMOTION_TYPE) {
         // if emotion mode
-        var _byteResult = _utils2.default.emotionByteString2binaryByte(this.args.emotion);
+        var _byteResult = (0, _utils.emotionByteString2binaryByte)(this.args.emotion);
         bufArray = [this.args.port, this.args.type, this.args.x, this.args.y].concat((0, _toConsumableArray3.default)(_byteResult));
       } else if (this.args.number === BaseLedMatrix.NUMBER_TYPE) {
         // if number mode
-        bufArray = [this.args.port, this.args.type].concat((0, _toConsumableArray3.default)(_utils2.default.float32ToBytes(this.args.number)));
+        bufArray = [this.args.port, this.args.type].concat((0, _toConsumableArray3.default)((0, _utils.float32ToBytes)(this.args.number)));
       } else if (this.args.separator === BaseLedMatrix.TIME_TYPE) {
         // if time mode
         bufArray = [this.args.port, this.args.type, this.args.separator, this.args.hour, this.args.minute];
       }
-      return _utils2.default.composer(_cmd2.default.setLedMatrix, bufArray);
+      return (0, _utils.composer)(_cmd2.default.setLedMatrix, bufArray);
     }
   }], [{
     key: 'CHAR_TYPE',
@@ -3017,11 +3177,11 @@ var _createClass2 = __webpack_require__(1);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _possibleConstructorReturn2 = __webpack_require__(4);
+var _possibleConstructorReturn2 = __webpack_require__(3);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-var _inherits2 = __webpack_require__(5);
+var _inherits2 = __webpack_require__(4);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
@@ -3109,6 +3269,10 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _toConsumableArray2 = __webpack_require__(34);
+
+var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
+
 var _getPrototypeOf = __webpack_require__(2);
 
 var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
@@ -3121,23 +3285,17 @@ var _createClass2 = __webpack_require__(1);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _possibleConstructorReturn2 = __webpack_require__(4);
+var _possibleConstructorReturn2 = __webpack_require__(3);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-var _inherits2 = __webpack_require__(5);
+var _inherits2 = __webpack_require__(4);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _toConsumableArray2 = __webpack_require__(34);
-
-var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
-
 var _validate = __webpack_require__(9);
 
-var _utils = __webpack_require__(3);
-
-var _utils2 = _interopRequireDefault(_utils);
+var _utils = __webpack_require__(5);
 
 var _electronic = __webpack_require__(10);
 
@@ -3153,24 +3311,11 @@ var _control2 = _interopRequireDefault(_control);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-//@private
-var bufComposer = function bufComposer(obj) {
-  var args = [obj.port, obj.slot, obj.ledPosition].concat((0, _toConsumableArray3.default)(obj.rgb));
-  return _utils2.default.composer(_cmd2.default.setLed, args);
-};
-
-//@private
-var commandWrite = function commandWrite(obj) {
-  var buf = bufComposer(obj);
-  _control2.default.write(buf);
-};
-
 /**
  * @description It is a base Class of RgbLed
  * @extends Electronic
  * @private
  */
-
 var BaseRgbLed = function (_Electronic) {
   (0, _inherits3.default)(BaseRgbLed, _Electronic);
 
@@ -3252,7 +3397,7 @@ var BaseRgbLed = function (_Electronic) {
     value: function rgb() {
       var hex = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '#ff0000';
 
-      this.args.rgb = _utils2.default.hexToRgb(hex);
+      this.args.rgb = (0, _utils.hexToRgb)(hex);
       return this;
     }
   }, {
@@ -3357,7 +3502,7 @@ var BaseRgbLed = function (_Electronic) {
     key: 'protocol',
     get: function get() {
       var args = [this.args.port, this.args.slot, this.args.ledPosition].concat((0, _toConsumableArray3.default)(this.args.rgb));
-      return _utils2.default.composer(_cmd2.default.setLed, args);
+      return (0, _utils.composer)(_cmd2.default.setLed, args);
     }
   }]);
   return BaseRgbLed;
@@ -3384,9 +3529,7 @@ var _createClass2 = __webpack_require__(1);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _utils = __webpack_require__(3);
-
-var _utils2 = _interopRequireDefault(_utils);
+var _utils = __webpack_require__(5);
 
 var _cmd = __webpack_require__(8);
 
@@ -3432,9 +3575,9 @@ var Mode = function () {
     key: 'protocol',
     get: function get() {
       if (this.isReadType) {
-        return _utils2.default.composer(_cmd2.default.readFirmwareMode, [subCmd]);
+        return (0, _utils.composer)(_cmd2.default.readFirmwareMode, [subCmd]);
       } else {
-        return _utils2.default.composer(_cmd2.default.setFirmwareMode, [subCmd, mode]);
+        return (0, _utils.composer)(_cmd2.default.setFirmwareMode, [subCmd, mode]);
       }
     }
 
@@ -4157,9 +4300,7 @@ var _createClass2 = __webpack_require__(1);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _utils = __webpack_require__(3);
-
-var _utils2 = _interopRequireDefault(_utils);
+var _utils = __webpack_require__(5);
 
 var _cmd = __webpack_require__(8);
 
@@ -4221,7 +4362,7 @@ var Version = function () {
   }, {
     key: 'protocol',
     get: function get() {
-      return _utils2.default.composer(_cmd2.default.readVersion);
+      return (0, _utils.composer)(_cmd2.default.readVersion);
     }
   }]);
   return Version;
@@ -4256,17 +4397,15 @@ var _createClass2 = __webpack_require__(1);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _possibleConstructorReturn2 = __webpack_require__(4);
+var _possibleConstructorReturn2 = __webpack_require__(3);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-var _inherits2 = __webpack_require__(5);
+var _inherits2 = __webpack_require__(4);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _utils = __webpack_require__(3);
-
-var _utils2 = _interopRequireDefault(_utils);
+var _utils = __webpack_require__(5);
 
 var _BaseMotor2 = __webpack_require__(61);
 
@@ -4373,12 +4512,12 @@ var BaseEncoderMotor = function (_BaseMotor) {
     get: function get() {
       var buf = void 0;
       if (this.isReadType) {
-        buf = _utils2.default.composer(_cmd2.default.readEncoderMotorOnBoard, [this.args.slot, this.args.type]);
+        buf = (0, _utils.composer)(_cmd2.default.readEncoderMotorOnBoard, [this.args.slot, this.args.type]);
       } else {
         if (this.args.port == 0) {
-          buf = _utils2.default.composer(_cmd2.default.setEncoderMotorOnBoard, [this.args.slot, this.args.speed]);
+          buf = (0, _utils.composer)(_cmd2.default.setEncoderMotorOnBoard, [this.args.slot, this.args.speed]);
         } else {
-          buf = _utils2.default.composer(_cmd2.default.setEncoderMotor, [this.args.slot, this.args.speed, this.args.angle]);
+          buf = (0, _utils.composer)(_cmd2.default.setEncoderMotor, [this.args.slot, this.args.speed, this.args.angle]);
         }
       }
       return buf;
@@ -4420,19 +4559,17 @@ var _createClass2 = __webpack_require__(1);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _possibleConstructorReturn2 = __webpack_require__(4);
+var _possibleConstructorReturn2 = __webpack_require__(3);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-var _inherits2 = __webpack_require__(5);
+var _inherits2 = __webpack_require__(4);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _validate = __webpack_require__(9);
 
-var _utils = __webpack_require__(3);
-
-var _utils2 = _interopRequireDefault(_utils);
+var _utils = __webpack_require__(5);
 
 var _electronic = __webpack_require__(10);
 
@@ -4508,7 +4645,7 @@ var BaseLight = function (_Electronic) {
   }, {
     key: 'protocol',
     get: function get() {
-      return _utils2.default.composer(_cmd2.default.readLight, [this.args.port]);
+      return (0, _utils.composer)(_cmd2.default.readLight, [this.args.port]);
     }
   }]);
   return BaseLight;
@@ -4547,19 +4684,17 @@ var _createClass2 = __webpack_require__(1);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _possibleConstructorReturn2 = __webpack_require__(4);
+var _possibleConstructorReturn2 = __webpack_require__(3);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-var _inherits2 = __webpack_require__(5);
+var _inherits2 = __webpack_require__(4);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _validate = __webpack_require__(9);
 
-var _utils = __webpack_require__(3);
-
-var _utils2 = _interopRequireDefault(_utils);
+var _utils = __webpack_require__(5);
 
 var _electronic = __webpack_require__(10);
 
@@ -4653,7 +4788,7 @@ var BaseGyro = function (_Electronic) {
   }, {
     key: 'protocol',
     get: function get() {
-      var buf = _utils2.default.composer(_cmd2.default.readGyro, [this.args.port, this.args.axis]);
+      var buf = (0, _utils.composer)(_cmd2.default.readGyro, [this.args.port, this.args.axis]);
       return buf;
     }
   }]);
@@ -4693,19 +4828,17 @@ var _createClass2 = __webpack_require__(1);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _possibleConstructorReturn2 = __webpack_require__(4);
+var _possibleConstructorReturn2 = __webpack_require__(3);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-var _inherits2 = __webpack_require__(5);
+var _inherits2 = __webpack_require__(4);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _validate = __webpack_require__(9);
 
-var _utils = __webpack_require__(3);
-
-var _utils2 = _interopRequireDefault(_utils);
+var _utils = __webpack_require__(5);
 
 var _electronic = __webpack_require__(10);
 
@@ -4786,7 +4919,7 @@ var BaseSound = function (_Electronic) {
   }, {
     key: 'protocol',
     get: function get() {
-      return _utils2.default.composer(_cmd2.default.readSound, [this.args.port]);
+      return (0, _utils.composer)(_cmd2.default.readSound, [this.args.port]);
     }
   }]);
   return BaseSound;
@@ -6809,11 +6942,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _utils = __webpack_require__(3);
-
-var _utils2 = _interopRequireDefault(_utils);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _utils = __webpack_require__(5);
 
 // 获取到的最大指令长度
 var REC_BUF_MAX_LENGTH = 40; /**
@@ -6826,6 +6955,7 @@ var BUF_END_FLAG = [0x0d, 0x0a];
 function checkStart(flag1, flag2) {
   return flag1 === BUF_START_FLAG[0] && flag2 === BUF_START_FLAG[1];
 }
+
 function checkEnd(flag1, flag2) {
   return flag1 === BUF_END_FLAG[0] && flag2 === BUF_END_FLAG[1];
 }
@@ -6846,7 +6976,7 @@ exports.default = {
     var isAllowRecv = false;
     var tempBuf = [];
 
-    var data = _utils2.default.arrayFromArrayBuffer(buffData);
+    var data = (0, _utils.arrayFromArrayBuffer)(buffData);
     var newdata = this.cacheBuffer.concat(data);
     this.cacheBuffer = newdata;
     // parse buffer newdata
@@ -6918,7 +7048,7 @@ exports.default = {
       case 4:
         // 字符串
         var bytes = buf.splice(3, buf[2]);
-        result = _utils2.default.bytesToString(bytes);
+        result = (0, _utils.bytesToString)(bytes);
         break;
       case "2":
       case "5":
@@ -6942,7 +7072,6 @@ exports.default = {
    */
   calculateResponseValue: function calculateResponseValue(intArray) {
     var result = null;
-
     // FIXME: int字节转浮点型
     var intBitsToFloat = function intBitsToFloat(num) {
       /* s 为符号（sign）；e 为指数（exponent）；m 为有效位数（mantissa）*/
@@ -6951,7 +7080,7 @@ exports.default = {
           m = e == 0 ? (num & 0x7fffff) << 1 : num & 0x7fffff | 0x800000;
       return s * m * Math.pow(2, e - 150);
     };
-    var intValue = _utils2.default.bytesToInt(intArray);
+    var intValue = (0, _utils.bytesToInt)(intArray);
     // TOFIX
     if (intValue < 100000 && intValue > 0) {
       result = intValue;
@@ -7263,11 +7392,11 @@ var _classCallCheck2 = __webpack_require__(0);
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-var _possibleConstructorReturn2 = __webpack_require__(4);
+var _possibleConstructorReturn2 = __webpack_require__(3);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-var _inherits2 = __webpack_require__(5);
+var _inherits2 = __webpack_require__(4);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
@@ -7464,17 +7593,15 @@ var _createClass2 = __webpack_require__(1);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _possibleConstructorReturn2 = __webpack_require__(4);
+var _possibleConstructorReturn2 = __webpack_require__(3);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-var _inherits2 = __webpack_require__(5);
+var _inherits2 = __webpack_require__(4);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _utils = __webpack_require__(3);
-
-var _utils2 = _interopRequireDefault(_utils);
+var _utils = __webpack_require__(5);
 
 var _BaseMotor2 = __webpack_require__(61);
 
@@ -7533,12 +7660,12 @@ var DcMotor = function (_BaseMotor) {
   }, {
     key: 'protocol',
     get: function get() {
-      return _utils2.default.composer(_cmd2.default.setDcMotor, [this.args.port, this.args.speed]);
+      return (0, _utils.composer)(_cmd2.default.setDcMotor, [this.args.port, this.args.speed]);
     }
   }], [{
     key: 'SUPPORT',
     get: function get() {
-      return _utils2.default.fiterWithBinaryStr(_settings.SUPPORTLIST, '1111');
+      return (0, _utils.fiterWithBinaryStr)(_settings.SUPPORTLIST, '1111');
     }
   }]);
   return DcMotor;
@@ -7569,19 +7696,17 @@ var _createClass2 = __webpack_require__(1);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _possibleConstructorReturn2 = __webpack_require__(4);
+var _possibleConstructorReturn2 = __webpack_require__(3);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-var _inherits2 = __webpack_require__(5);
+var _inherits2 = __webpack_require__(4);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _validate = __webpack_require__(9);
 
-var _utils = __webpack_require__(3);
-
-var _utils2 = _interopRequireDefault(_utils);
+var _utils = __webpack_require__(5);
 
 var _electronic = __webpack_require__(10);
 
@@ -7691,12 +7816,12 @@ var VirtualJoystick = function (_Electronic) {
   }, {
     key: 'protocol',
     get: function get() {
-      return _utils2.default.composer(_cmd2.default.setJoystick, [this.args.leftSpeed, this.args.rightSpeed]);
+      return (0, _utils.composer)(_cmd2.default.setJoystick, [this.args.leftSpeed, this.args.rightSpeed]);
     }
   }], [{
     key: 'SUPPORT',
     get: function get() {
-      return _utils2.default.fiterWithBinaryStr(_settings.SUPPORTLIST, '1111');
+      return (0, _utils.fiterWithBinaryStr)(_settings.SUPPORTLIST, '1111');
     }
   }]);
   return VirtualJoystick;
@@ -7727,17 +7852,15 @@ var _createClass2 = __webpack_require__(1);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _possibleConstructorReturn2 = __webpack_require__(4);
+var _possibleConstructorReturn2 = __webpack_require__(3);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-var _inherits2 = __webpack_require__(5);
+var _inherits2 = __webpack_require__(4);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _utils = __webpack_require__(3);
-
-var _utils2 = _interopRequireDefault(_utils);
+var _utils = __webpack_require__(5);
 
 var _electronic = __webpack_require__(10);
 
@@ -7842,12 +7965,12 @@ var VirtualJoystickForBalance = function (_Electronic) {
   }, {
     key: 'protocol',
     get: function get() {
-      return _utils2.default.composer(_cmd2.default.setVirtualJoystickForBalance, [this.args.turnRange, this.args.speed]);
+      return (0, _utils.composer)(_cmd2.default.setVirtualJoystickForBalance, [this.args.turnRange, this.args.speed]);
     }
   }], [{
     key: 'SUPPORT',
     get: function get() {
-      return _utils2.default.fiterWithBinaryStr(_settings.SUPPORTLIST, '0110');
+      return (0, _utils.fiterWithBinaryStr)(_settings.SUPPORTLIST, '0110');
     }
   }]);
   return VirtualJoystickForBalance;
@@ -7882,19 +8005,17 @@ var _createClass2 = __webpack_require__(1);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _possibleConstructorReturn2 = __webpack_require__(4);
+var _possibleConstructorReturn2 = __webpack_require__(3);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-var _inherits2 = __webpack_require__(5);
+var _inherits2 = __webpack_require__(4);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _validate = __webpack_require__(9);
 
-var _utils = __webpack_require__(3);
-
-var _utils2 = _interopRequireDefault(_utils);
+var _utils = __webpack_require__(5);
 
 var _BaseMotor2 = __webpack_require__(61);
 
@@ -7991,13 +8112,13 @@ var StepperMotor = function (_BaseMotor) {
   }, {
     key: 'protocol',
     get: function get() {
-      var buf = _utils2.default.composer(_cmd2.default.setStepperMotor, [this.args.port, this.args.speed, this.args.distance * this.args.direction]);
+      var buf = (0, _utils.composer)(_cmd2.default.setStepperMotor, [this.args.port, this.args.speed, this.args.distance * this.args.direction]);
       return buf;
     }
   }], [{
     key: 'SUPPORT',
     get: function get() {
-      return _utils2.default.fiterWithBinaryStr(_settings.SUPPORTLIST, '0111');
+      return (0, _utils.fiterWithBinaryStr)(_settings.SUPPORTLIST, '0111');
     }
   }]);
   return StepperMotor;
@@ -8083,11 +8204,11 @@ var _createClass2 = __webpack_require__(1);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _possibleConstructorReturn2 = __webpack_require__(4);
+var _possibleConstructorReturn2 = __webpack_require__(3);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-var _inherits2 = __webpack_require__(5);
+var _inherits2 = __webpack_require__(4);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
@@ -8095,9 +8216,7 @@ var _BaseEncoderMotor2 = __webpack_require__(85);
 
 var _BaseEncoderMotor3 = _interopRequireDefault(_BaseEncoderMotor2);
 
-var _utils = __webpack_require__(3);
-
-var _utils2 = _interopRequireDefault(_utils);
+var _utils = __webpack_require__(5);
 
 var _settings = __webpack_require__(6);
 
@@ -8118,7 +8237,7 @@ var EncoderMotor = function (_BaseEncoderMotor) {
   (0, _createClass3.default)(EncoderMotor, null, [{
     key: 'SUPPORT',
     get: function get() {
-      return _utils2.default.fiterWithBinaryStr(_settings.SUPPORTLIST, '0101');
+      return (0, _utils.fiterWithBinaryStr)(_settings.SUPPORTLIST, '0101');
     }
   }]);
   return EncoderMotor;
@@ -8161,17 +8280,15 @@ var _createClass2 = __webpack_require__(1);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _possibleConstructorReturn2 = __webpack_require__(4);
+var _possibleConstructorReturn2 = __webpack_require__(3);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-var _inherits2 = __webpack_require__(5);
+var _inherits2 = __webpack_require__(4);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _utils = __webpack_require__(3);
-
-var _utils2 = _interopRequireDefault(_utils);
+var _utils = __webpack_require__(5);
 
 var _BaseEncoderMotor2 = __webpack_require__(85);
 
@@ -8264,7 +8381,7 @@ var EncoderMotorOnBoard = function (_BaseEncoderMotor) {
   }], [{
     key: 'SUPPORT',
     get: function get() {
-      return _utils2.default.fiterWithBinaryStr(_settings.SUPPORTLIST, '0110');
+      return (0, _utils.fiterWithBinaryStr)(_settings.SUPPORTLIST, '0110');
     }
   }]);
   return EncoderMotorOnBoard;
@@ -8295,19 +8412,17 @@ var _createClass2 = __webpack_require__(1);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _possibleConstructorReturn2 = __webpack_require__(4);
+var _possibleConstructorReturn2 = __webpack_require__(3);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-var _inherits2 = __webpack_require__(5);
+var _inherits2 = __webpack_require__(4);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _validate = __webpack_require__(9);
 
-var _utils = __webpack_require__(3);
-
-var _utils2 = _interopRequireDefault(_utils);
+var _utils = __webpack_require__(5);
 
 var _electronic = __webpack_require__(10);
 
@@ -8401,12 +8516,12 @@ var ServoMotor = function (_Electronic) {
   }, {
     key: 'protocol',
     get: function get() {
-      return _utils2.default.composer(_cmd2.default.setServoMotor, [this.args.port, this.args.slot, this.args.angle]);
+      return (0, _utils.composer)(_cmd2.default.setServoMotor, [this.args.port, this.args.slot, this.args.angle]);
     }
   }], [{
     key: 'SUPPORT',
     get: function get() {
-      return _utils2.default.fiterWithBinaryStr(_settings.SUPPORTLIST, '1111');
+      return (0, _utils.fiterWithBinaryStr)(_settings.SUPPORTLIST, '1111');
     }
   }]);
   return ServoMotor;
@@ -8437,11 +8552,11 @@ var _createClass2 = __webpack_require__(1);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _possibleConstructorReturn2 = __webpack_require__(4);
+var _possibleConstructorReturn2 = __webpack_require__(3);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-var _inherits2 = __webpack_require__(5);
+var _inherits2 = __webpack_require__(4);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
@@ -8449,9 +8564,7 @@ var _BaseRgbLed2 = __webpack_require__(62);
 
 var _BaseRgbLed3 = _interopRequireDefault(_BaseRgbLed2);
 
-var _utils = __webpack_require__(3);
-
-var _utils2 = _interopRequireDefault(_utils);
+var _utils = __webpack_require__(5);
 
 var _settings = __webpack_require__(6);
 
@@ -8473,7 +8586,7 @@ var FourLeds = function (_BaseRgbLed) {
   (0, _createClass3.default)(FourLeds, null, [{
     key: 'SUPPORT',
     get: function get() {
-      return _utils2.default.fiterWithBinaryStr(_settings.SUPPORTLIST, '1111');
+      return (0, _utils.fiterWithBinaryStr)(_settings.SUPPORTLIST, '1111');
     }
   }]);
   return FourLeds;
@@ -8504,11 +8617,11 @@ var _createClass2 = __webpack_require__(1);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _possibleConstructorReturn2 = __webpack_require__(4);
+var _possibleConstructorReturn2 = __webpack_require__(3);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-var _inherits2 = __webpack_require__(5);
+var _inherits2 = __webpack_require__(4);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
@@ -8518,9 +8631,7 @@ var _BaseRgbLed3 = _interopRequireDefault(_BaseRgbLed2);
 
 var _settings = __webpack_require__(6);
 
-var _utils = __webpack_require__(3);
-
-var _utils2 = _interopRequireDefault(_utils);
+var _utils = __webpack_require__(5);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -8548,7 +8659,7 @@ var RgbLed = function (_BaseRgbLed) {
   (0, _createClass3.default)(RgbLed, null, [{
     key: 'SUPPORT',
     get: function get() {
-      return _utils2.default.fiterWithBinaryStr(_settings.SUPPORTLIST, '111111');
+      return (0, _utils.fiterWithBinaryStr)(_settings.SUPPORTLIST, '111111');
     }
   }]);
   return RgbLed;
@@ -8579,11 +8690,11 @@ var _createClass2 = __webpack_require__(1);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _possibleConstructorReturn2 = __webpack_require__(4);
+var _possibleConstructorReturn2 = __webpack_require__(3);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-var _inherits2 = __webpack_require__(5);
+var _inherits2 = __webpack_require__(4);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
@@ -8595,9 +8706,7 @@ var _validate = __webpack_require__(9);
 
 var _settings = __webpack_require__(6);
 
-var _utils = __webpack_require__(3);
-
-var _utils2 = _interopRequireDefault(_utils);
+var _utils = __webpack_require__(5);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -8639,7 +8748,7 @@ var RgbLedOnBoard = function (_BaseRgbLed) {
   (0, _createClass3.default)(RgbLedOnBoard, null, [{
     key: 'SUPPORT',
     get: function get() {
-      return _utils2.default.fiterWithBinaryStr(_settings.SUPPORTLIST, '110000');
+      return (0, _utils.fiterWithBinaryStr)(_settings.SUPPORTLIST, '110000');
     }
   }]);
   return RgbLedOnBoard;
@@ -8670,11 +8779,11 @@ var _createClass2 = __webpack_require__(1);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _possibleConstructorReturn2 = __webpack_require__(4);
+var _possibleConstructorReturn2 = __webpack_require__(3);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-var _inherits2 = __webpack_require__(5);
+var _inherits2 = __webpack_require__(4);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
@@ -8700,9 +8809,7 @@ var _led_matrix_time = __webpack_require__(170);
 
 var _led_matrix_time2 = _interopRequireDefault(_led_matrix_time);
 
-var _utils = __webpack_require__(3);
-
-var _utils2 = _interopRequireDefault(_utils);
+var _utils = __webpack_require__(5);
 
 var _settings = __webpack_require__(6);
 
@@ -8726,7 +8833,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * mcore.LedMatrix(1).timeMode().separator(':').hour(12).minute(12).run()
  *
  * // number mode
- * mcore.LedMatrix(1).numberMode().number('9999).hour(12).minute(12).run()
+ * mcore.LedMatrix(1).numberMode().number('9999).run()
  */
 var LedMatrix = function (_Electronic) {
   (0, _inherits3.default)(LedMatrix, _Electronic);
@@ -8765,7 +8872,7 @@ var LedMatrix = function (_Electronic) {
   (0, _createClass3.default)(LedMatrix, null, [{
     key: 'SUPPORT',
     get: function get() {
-      return _utils2.default.fiterWithBinaryStr(_settings.SUPPORTLIST, '1110');
+      return (0, _utils.fiterWithBinaryStr)(_settings.SUPPORTLIST, '1110');
     }
   }]);
   return LedMatrix;
@@ -8800,11 +8907,11 @@ var _createClass2 = __webpack_require__(1);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _possibleConstructorReturn2 = __webpack_require__(4);
+var _possibleConstructorReturn2 = __webpack_require__(3);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-var _inherits2 = __webpack_require__(5);
+var _inherits2 = __webpack_require__(4);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
@@ -8931,11 +9038,11 @@ var _createClass2 = __webpack_require__(1);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _possibleConstructorReturn2 = __webpack_require__(4);
+var _possibleConstructorReturn2 = __webpack_require__(3);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-var _inherits2 = __webpack_require__(5);
+var _inherits2 = __webpack_require__(4);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
@@ -8944,10 +9051,6 @@ var _get2 = __webpack_require__(42);
 var _get3 = _interopRequireDefault(_get2);
 
 var _validate = __webpack_require__(9);
-
-var _utils = __webpack_require__(3);
-
-var _utils2 = _interopRequireDefault(_utils);
 
 var _BaseLedMatrix2 = __webpack_require__(43);
 
@@ -9064,11 +9167,11 @@ var _createClass2 = __webpack_require__(1);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _possibleConstructorReturn2 = __webpack_require__(4);
+var _possibleConstructorReturn2 = __webpack_require__(3);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-var _inherits2 = __webpack_require__(5);
+var _inherits2 = __webpack_require__(4);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
@@ -9077,10 +9180,6 @@ var _get2 = __webpack_require__(42);
 var _get3 = _interopRequireDefault(_get2);
 
 var _validate = __webpack_require__(9);
-
-var _utils = __webpack_require__(3);
-
-var _utils2 = _interopRequireDefault(_utils);
 
 var _BaseLedMatrix2 = __webpack_require__(43);
 
@@ -9163,11 +9262,11 @@ var _createClass2 = __webpack_require__(1);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _possibleConstructorReturn2 = __webpack_require__(4);
+var _possibleConstructorReturn2 = __webpack_require__(3);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-var _inherits2 = __webpack_require__(5);
+var _inherits2 = __webpack_require__(4);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
@@ -9177,9 +9276,7 @@ var _get3 = _interopRequireDefault(_get2);
 
 var _validate = __webpack_require__(9);
 
-var _utils = __webpack_require__(3);
-
-var _utils2 = _interopRequireDefault(_utils);
+var _utils = __webpack_require__(5);
 
 var _BaseLedMatrix2 = __webpack_require__(43);
 
@@ -9231,7 +9328,7 @@ var LedMatrixTime = function (_BaseLedMatrix) {
   }, {
     key: 'hour',
     value: function hour(h) {
-      h = _utils2.default.limitValue(h, [0, 23]);
+      h = (0, _utils.limitValue)(h, [0, 23]);
       this.args.hour = (0, _validate.validateNumber)(h);
       return this;
     }
@@ -9244,7 +9341,7 @@ var LedMatrixTime = function (_BaseLedMatrix) {
   }, {
     key: 'minute',
     value: function minute(m) {
-      m = _utils2.default.limitValue(m, [0, 59]);
+      m = (0, _utils.limitValue)(m, [0, 59]);
       this.args.minute = (0, _validate.validateNumber)(m);
       return this;
     }
@@ -9293,19 +9390,17 @@ var _createClass2 = __webpack_require__(1);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _possibleConstructorReturn2 = __webpack_require__(4);
+var _possibleConstructorReturn2 = __webpack_require__(3);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-var _inherits2 = __webpack_require__(5);
+var _inherits2 = __webpack_require__(4);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _validate = __webpack_require__(9);
 
-var _utils = __webpack_require__(3);
-
-var _utils2 = _interopRequireDefault(_utils);
+var _utils = __webpack_require__(5);
 
 var _electronic = __webpack_require__(10);
 
@@ -9415,17 +9510,17 @@ var Buzzer = function (_Electronic) {
       var buf = [];
       switch (this.hostname) {
         case MCORE_:
-          buf = _utils2.default.composer(_cmd2.default.setBuzzerForMcore, [this.args.hz, this.args.beat]);
+          buf = (0, _utils.composer)(_cmd2.default.setBuzzerForMcore, [this.args.hz, this.args.beat]);
           break;
         default:
-          buf = _utils2.default.composer(_cmd2.default.setBuzzer, [this.args.hz, this.args.beat]);
+          buf = (0, _utils.composer)(_cmd2.default.setBuzzer, [this.args.hz, this.args.beat]);
       }
       return buf;
     }
   }], [{
     key: 'SUPPORT',
     get: function get() {
-      return _utils2.default.fiterWithBinaryStr(_settings.SUPPORTLIST, '11111');
+      return (0, _utils.fiterWithBinaryStr)(_settings.SUPPORTLIST, '11111');
     }
   }]);
   return Buzzer;
@@ -9456,19 +9551,17 @@ var _createClass2 = __webpack_require__(1);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _possibleConstructorReturn2 = __webpack_require__(4);
+var _possibleConstructorReturn2 = __webpack_require__(3);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-var _inherits2 = __webpack_require__(5);
+var _inherits2 = __webpack_require__(4);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _validate = __webpack_require__(9);
 
-var _utils = __webpack_require__(3);
-
-var _utils2 = _interopRequireDefault(_utils);
+var _utils = __webpack_require__(5);
 
 var _electronic = __webpack_require__(10);
 
@@ -9537,12 +9630,12 @@ var SevenSegment = function (_Electronic) {
   }, {
     key: 'protocol',
     get: function get() {
-      return _utils2.default.composer(_cmd2.default.setSevenSegment, [this.args.port, this.args.number]);
+      return (0, _utils.composer)(_cmd2.default.setSevenSegment, [this.args.port, this.args.number]);
     }
   }], [{
     key: 'SUPPORT',
     get: function get() {
-      return _utils2.default.fiterWithBinaryStr(_settings.SUPPORTLIST, '1111');
+      return (0, _utils.fiterWithBinaryStr)(_settings.SUPPORTLIST, '1111');
     }
   }]);
   return SevenSegment;
@@ -9573,19 +9666,17 @@ var _createClass2 = __webpack_require__(1);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _possibleConstructorReturn2 = __webpack_require__(4);
+var _possibleConstructorReturn2 = __webpack_require__(3);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-var _inherits2 = __webpack_require__(5);
+var _inherits2 = __webpack_require__(4);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _validate = __webpack_require__(9);
 
-var _utils = __webpack_require__(3);
-
-var _utils2 = _interopRequireDefault(_utils);
+var _utils = __webpack_require__(5);
 
 var _electronic = __webpack_require__(10);
 
@@ -9655,12 +9746,12 @@ var Shutter = function (_Electronic) {
   }, {
     key: 'protocol',
     get: function get() {
-      return _utils2.default.composer(_cmd2.default.setShutter, [this.args.port, this.args.action]);
+      return (0, _utils.composer)(_cmd2.default.setShutter, [this.args.port, this.args.action]);
     }
   }], [{
     key: 'SUPPORT',
     get: function get() {
-      return _utils2.default.fiterWithBinaryStr(_settings.SUPPORTLIST, '1111');
+      return (0, _utils.fiterWithBinaryStr)(_settings.SUPPORTLIST, '1111');
     }
   }]);
   return Shutter;
@@ -9691,11 +9782,11 @@ var _createClass2 = __webpack_require__(1);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _possibleConstructorReturn2 = __webpack_require__(4);
+var _possibleConstructorReturn2 = __webpack_require__(3);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-var _inherits2 = __webpack_require__(5);
+var _inherits2 = __webpack_require__(4);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
@@ -9715,7 +9806,7 @@ var read = function () {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            buf = _utils2.default.composer(_cmd2.default.readSmartServoParam, [baseArgs.index, baseArgs.subCmd]);
+            buf = (0, _utils.composer)(_cmd2.default.readSmartServoParam, [baseArgs.index, baseArgs.subCmd]);
             _context.next = 3;
             return _control2.default.read(buf);
 
@@ -9743,9 +9834,7 @@ var read = function () {
 
 var _validate = __webpack_require__(9);
 
-var _utils = __webpack_require__(3);
-
-var _utils2 = _interopRequireDefault(_utils);
+var _utils = __webpack_require__(5);
 
 var _electronic = __webpack_require__(10);
 
@@ -9771,7 +9860,7 @@ function write(baseArgs, extra) {
   } else {
     baseCmd.push(extra);
   }
-  var buf = _utils2.default.composer(_cmd2.default.setSmartServo, baseCmd);
+  var buf = (0, _utils.composer)(_cmd2.default.setSmartServo, baseCmd);
   _control2.default.write(buf);
 }
 var SmartServo = function (_Electronic) {
@@ -9835,7 +9924,7 @@ var SmartServo = function (_Electronic) {
     value: function ledColor() {
       var hex_rgb = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [255, 0, 0];
 
-      this.extraCmd = Array.isArray(hex_rgb) ? hex_rgb : _utils2.default.hexToRgb(hex_rgb);
+      this.extraCmd = Array.isArray(hex_rgb) ? hex_rgb : (0, _utils.hexToRgb)(hex_rgb);
       this.args.subCmd = 0x02;
       return this;
     }
@@ -9896,7 +9985,7 @@ var SmartServo = function (_Electronic) {
     value: function runAsDcMotor(speed) {
       speed = (0, _validate.validateNumber)(speed, this.args.speed);
       //限制速度 -255~255
-      this.args.speed = _utils2.default.limitValue(speed);
+      this.args.speed = (0, _utils.limitValue)(speed);
       this.args.subCmd = 0x06;
       return this;
     }
@@ -10045,21 +10134,21 @@ var SmartServo = function (_Electronic) {
           baseCmd.push(this.extraCmd !== null ? [this.extraCmd] : []);
         }
         this.extraCmd = null;
-        return _utils2.default.composer(_cmd2.default.setSmartServo, baseCmd);
+        return (0, _utils.composer)(_cmd2.default.setSmartServo, baseCmd);
       } else if (this.args.subCmd === 4) {
-        return _utils2.default.composer(_cmd2.default.setSmartServoForAbsoluteAngle, [this.args.index, this.args.subCmd, this.args.angle, this.args.speed]);
+        return (0, _utils.composer)(_cmd2.default.setSmartServoForAbsoluteAngle, [this.args.index, this.args.subCmd, this.args.angle, this.args.speed]);
       } else if (this.args.subCmd === 5) {
-        return _utils2.default.composer(_cmd2.default.setSmartServoForRelativeAngle, [this.args.index, this.args.subCmd, this.args.angle, this.args.speed]);
+        return (0, _utils.composer)(_cmd2.default.setSmartServoForRelativeAngle, [this.args.index, this.args.subCmd, this.args.angle, this.args.speed]);
       } else if (this.args.subCmd === 6) {
-        return _utils2.default.composer(_cmd2.default.setSmartServoForDcMotor, [this.args.index, this.args.subCmd, this.args.speed]);
+        return (0, _utils.composer)(_cmd2.default.setSmartServoForDcMotor, [this.args.index, this.args.subCmd, this.args.speed]);
       } else {
-        return _utils2.default.composer(_cmd2.default.readSmartServoParam, [this.args.index, this.args.subCmd]);
+        return (0, _utils.composer)(_cmd2.default.readSmartServoParam, [this.args.index, this.args.subCmd]);
       }
     }
   }], [{
     key: 'SUPPORT',
     get: function get() {
-      return _utils2.default.fiterWithBinaryStr(_settings.SUPPORTLIST, '0100');
+      return (0, _utils.fiterWithBinaryStr)(_settings.SUPPORTLIST, '0100');
     }
   }]);
   return SmartServo;
@@ -10090,19 +10179,17 @@ var _createClass2 = __webpack_require__(1);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _possibleConstructorReturn2 = __webpack_require__(4);
+var _possibleConstructorReturn2 = __webpack_require__(3);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-var _inherits2 = __webpack_require__(5);
+var _inherits2 = __webpack_require__(4);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _validate = __webpack_require__(9);
 
-var _utils = __webpack_require__(3);
-
-var _utils2 = _interopRequireDefault(_utils);
+var _utils = __webpack_require__(5);
 
 var _electronic = __webpack_require__(10);
 
@@ -10200,12 +10287,12 @@ var EncoderMotorOnBoardPID = function (_Electronic) {
       } else if (this.hostname == megapipro) {
         subCmd = [0x03];
       }
-      return _utils2.default.composer(_cmd2.default.setEncoderMotorPIDZeroPoint, subCmd);
+      return (0, _utils.composer)(_cmd2.default.setEncoderMotorPIDZeroPoint, subCmd);
     }
   }], [{
     key: 'SUPPORT',
     get: function get() {
-      return _utils2.default.fiterWithBinaryStr(_settings.SUPPORTLIST, '010001');
+      return (0, _utils.fiterWithBinaryStr)(_settings.SUPPORTLIST, '010001');
     }
   }]);
   return EncoderMotorOnBoardPID;
@@ -10234,9 +10321,7 @@ var _createClass3 = _interopRequireDefault(_createClass2);
 
 var _validate = __webpack_require__(9);
 
-var _utils = __webpack_require__(3);
-
-var _utils2 = _interopRequireDefault(_utils);
+var _utils = __webpack_require__(5);
 
 var _cmd = __webpack_require__(8);
 
@@ -10301,7 +10386,7 @@ var EncoderMotorPIDForDistance = function () {
   }, {
     key: 'protocol',
     get: function get() {
-      return _utils2.default.composer(_cmd2.default.setEncoderMotorPIDDistance, [this.args.distance, this.args.speed]);
+      return (0, _utils.composer)(_cmd2.default.setEncoderMotorPIDDistance, [this.args.distance, this.args.speed]);
     }
   }]);
   return EncoderMotorPIDForDistance;
@@ -10330,9 +10415,7 @@ var _createClass3 = _interopRequireDefault(_createClass2);
 
 var _validate = __webpack_require__(9);
 
-var _utils = __webpack_require__(3);
-
-var _utils2 = _interopRequireDefault(_utils);
+var _utils = __webpack_require__(5);
 
 var _cmd = __webpack_require__(8);
 
@@ -10380,7 +10463,7 @@ var PIDForSpeed = function () {
   }, {
     key: 'protocol',
     get: function get() {
-      return _utils2.default.composer(_cmd2.default.setEncoderMotorPIDSpeed, [this.args.speed]);
+      return (0, _utils.composer)(_cmd2.default.setEncoderMotorPIDSpeed, [this.args.speed]);
     }
   }]);
   return PIDForSpeed;
@@ -10409,9 +10492,7 @@ var _createClass3 = _interopRequireDefault(_createClass2);
 
 var _validate = __webpack_require__(9);
 
-var _utils = __webpack_require__(3);
-
-var _utils2 = _interopRequireDefault(_utils);
+var _utils = __webpack_require__(5);
 
 var _cmd = __webpack_require__(8);
 
@@ -10459,7 +10540,7 @@ var PIDForPwm = function () {
   }, {
     key: 'protocol',
     get: function get() {
-      return _utils2.default.composer(_cmd2.default.setEncoderMotorPIDPwm, [this.args.speed]);
+      return (0, _utils.composer)(_cmd2.default.setEncoderMotorPIDPwm, [this.args.speed]);
     }
   }]);
   return PIDForPwm;
@@ -10488,9 +10569,7 @@ var _createClass3 = _interopRequireDefault(_createClass2);
 
 var _validate = __webpack_require__(9);
 
-var _utils = __webpack_require__(3);
-
-var _utils2 = _interopRequireDefault(_utils);
+var _utils = __webpack_require__(5);
 
 var _cmd = __webpack_require__(8);
 
@@ -10629,7 +10708,7 @@ var PIDForDoubleMotor = function () {
   }, {
     key: 'protocol',
     get: function get() {
-      return _utils2.default.composer(_cmd2.default.setEncoderMotorPIDDoubleMotor, [this.args.direction, this.args.distance, this.args.speed]);
+      return (0, _utils.composer)(_cmd2.default.setEncoderMotorPIDDoubleMotor, [this.args.direction, this.args.distance, this.args.speed]);
     }
   }]);
   return PIDForDoubleMotor;
@@ -10668,17 +10747,15 @@ var _createClass2 = __webpack_require__(1);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _possibleConstructorReturn2 = __webpack_require__(4);
+var _possibleConstructorReturn2 = __webpack_require__(3);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-var _inherits2 = __webpack_require__(5);
+var _inherits2 = __webpack_require__(4);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _utils = __webpack_require__(3);
-
-var _utils2 = _interopRequireDefault(_utils);
+var _utils = __webpack_require__(5);
 
 var _electronic = __webpack_require__(10);
 
@@ -10750,12 +10827,12 @@ var Reset = function (_Electronic) {
   }, {
     key: 'protocol',
     get: function get() {
-      return _utils2.default.composer(_cmd2.default.reset);
+      return (0, _utils.composer)(_cmd2.default.reset);
     }
   }], [{
     key: 'SUPPORT',
     get: function get() {
-      return _utils2.default.fiterWithBinaryStr(_settings.SUPPORTLIST, '1111');
+      return (0, _utils.fiterWithBinaryStr)(_settings.SUPPORTLIST, '1111');
     }
   }]);
   return Reset;
@@ -10794,19 +10871,17 @@ var _createClass2 = __webpack_require__(1);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _possibleConstructorReturn2 = __webpack_require__(4);
+var _possibleConstructorReturn2 = __webpack_require__(3);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-var _inherits2 = __webpack_require__(5);
+var _inherits2 = __webpack_require__(4);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _validate = __webpack_require__(9);
 
-var _utils = __webpack_require__(3);
-
-var _utils2 = _interopRequireDefault(_utils);
+var _utils = __webpack_require__(5);
 
 var _electronic = __webpack_require__(10);
 
@@ -10890,12 +10965,12 @@ var Ultrasonic = function (_Electronic) {
   }, {
     key: 'protocol',
     get: function get() {
-      return _utils2.default.composer(_cmd2.default.readUltrasonic, [this.args.port]);
+      return (0, _utils.composer)(_cmd2.default.readUltrasonic, [this.args.port]);
     }
   }], [{
     key: 'SUPPORT',
     get: function get() {
-      return _utils2.default.fiterWithBinaryStr(_settings.SUPPORTLIST, '1111');
+      return (0, _utils.fiterWithBinaryStr)(_settings.SUPPORTLIST, '1111');
     }
   }]);
   return Ultrasonic;
@@ -10934,19 +11009,17 @@ var _createClass2 = __webpack_require__(1);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _possibleConstructorReturn2 = __webpack_require__(4);
+var _possibleConstructorReturn2 = __webpack_require__(3);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-var _inherits2 = __webpack_require__(5);
+var _inherits2 = __webpack_require__(4);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _validate = __webpack_require__(9);
 
-var _utils = __webpack_require__(3);
-
-var _utils2 = _interopRequireDefault(_utils);
+var _utils = __webpack_require__(5);
 
 var _electronic = __webpack_require__(10);
 
@@ -11025,12 +11098,12 @@ var Temperature = function (_Electronic) {
   }, {
     key: 'protocol',
     get: function get() {
-      return _utils2.default.composer(_cmd2.default.readTemperature, [this.args.port, this.args.slot]);
+      return (0, _utils.composer)(_cmd2.default.readTemperature, [this.args.port, this.args.slot]);
     }
   }], [{
     key: 'SUPPORT',
     get: function get() {
-      return _utils2.default.fiterWithBinaryStr(_settings.SUPPORTLIST, '1111');
+      return (0, _utils.fiterWithBinaryStr)(_settings.SUPPORTLIST, '1111');
     }
   }]);
   return Temperature;
@@ -11069,17 +11142,15 @@ var _createClass2 = __webpack_require__(1);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _possibleConstructorReturn2 = __webpack_require__(4);
+var _possibleConstructorReturn2 = __webpack_require__(3);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-var _inherits2 = __webpack_require__(5);
+var _inherits2 = __webpack_require__(4);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _utils = __webpack_require__(3);
-
-var _utils2 = _interopRequireDefault(_utils);
+var _utils = __webpack_require__(5);
 
 var _electronic = __webpack_require__(10);
 
@@ -11151,12 +11222,12 @@ var TemperatureOnBoard = function (_Electronic) {
   }, {
     key: 'protocol',
     get: function get() {
-      return _utils2.default.composer(_cmd2.default.readTemperatureOnBoard);
+      return (0, _utils.composer)(_cmd2.default.readTemperatureOnBoard);
     }
   }], [{
     key: 'SUPPORT',
     get: function get() {
-      return _utils2.default.fiterWithBinaryStr(_settings.SUPPORTLIST, '0100');
+      return (0, _utils.fiterWithBinaryStr)(_settings.SUPPORTLIST, '0100');
     }
   }]);
   return TemperatureOnBoard;
@@ -11187,11 +11258,11 @@ var _createClass2 = __webpack_require__(1);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _possibleConstructorReturn2 = __webpack_require__(4);
+var _possibleConstructorReturn2 = __webpack_require__(3);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-var _inherits2 = __webpack_require__(5);
+var _inherits2 = __webpack_require__(4);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
@@ -11199,9 +11270,7 @@ var _BaseLight2 = __webpack_require__(86);
 
 var _BaseLight3 = _interopRequireDefault(_BaseLight2);
 
-var _utils = __webpack_require__(3);
-
-var _utils2 = _interopRequireDefault(_utils);
+var _utils = __webpack_require__(5);
 
 var _settings = __webpack_require__(6);
 
@@ -11222,7 +11291,7 @@ var Light = function (_BaseLight) {
   (0, _createClass3.default)(Light, null, [{
     key: 'SUPPORT',
     get: function get() {
-      return _utils2.default.fiterWithBinaryStr(_settings.SUPPORTLIST, '111111');
+      return (0, _utils.fiterWithBinaryStr)(_settings.SUPPORTLIST, '111111');
     }
   }]);
   return Light;
@@ -11253,11 +11322,11 @@ var _createClass2 = __webpack_require__(1);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _possibleConstructorReturn2 = __webpack_require__(4);
+var _possibleConstructorReturn2 = __webpack_require__(3);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-var _inherits2 = __webpack_require__(5);
+var _inherits2 = __webpack_require__(4);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
@@ -11269,9 +11338,7 @@ var _BaseLight3 = _interopRequireDefault(_BaseLight2);
 
 var _settings = __webpack_require__(6);
 
-var _utils = __webpack_require__(3);
-
-var _utils2 = _interopRequireDefault(_utils);
+var _utils = __webpack_require__(5);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -11308,7 +11375,7 @@ var LightOnBoard = function (_BaseLight) {
   (0, _createClass3.default)(LightOnBoard, null, [{
     key: 'SUPPORT',
     get: function get() {
-      return _utils2.default.fiterWithBinaryStr(_settings.SUPPORTLIST, '111111');
+      return (0, _utils.fiterWithBinaryStr)(_settings.SUPPORTLIST, '111111');
     }
   }]);
   return LightOnBoard;
@@ -11347,19 +11414,17 @@ var _createClass2 = __webpack_require__(1);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _possibleConstructorReturn2 = __webpack_require__(4);
+var _possibleConstructorReturn2 = __webpack_require__(3);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-var _inherits2 = __webpack_require__(5);
+var _inherits2 = __webpack_require__(4);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _validate = __webpack_require__(9);
 
-var _utils = __webpack_require__(3);
-
-var _utils2 = _interopRequireDefault(_utils);
+var _utils = __webpack_require__(5);
 
 var _electronic = __webpack_require__(10);
 
@@ -11437,12 +11502,12 @@ var Potentionmeter = function (_Electronic) {
   }, {
     key: 'protocol',
     get: function get() {
-      return _utils2.default.composer(_cmd2.default.readPotentionmeter, [this.args.port]);
+      return (0, _utils.composer)(_cmd2.default.readPotentionmeter, [this.args.port]);
     }
   }], [{
     key: 'SUPPORT',
     get: function get() {
-      return _utils2.default.fiterWithBinaryStr(_settings.SUPPORTLIST, '1111');
+      return (0, _utils.fiterWithBinaryStr)(_settings.SUPPORTLIST, '1111');
     }
   }]);
   return Potentionmeter;
@@ -11481,19 +11546,17 @@ var _createClass2 = __webpack_require__(1);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _possibleConstructorReturn2 = __webpack_require__(4);
+var _possibleConstructorReturn2 = __webpack_require__(3);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-var _inherits2 = __webpack_require__(5);
+var _inherits2 = __webpack_require__(4);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _validate = __webpack_require__(9);
 
-var _utils = __webpack_require__(3);
-
-var _utils2 = _interopRequireDefault(_utils);
+var _utils = __webpack_require__(5);
 
 var _electronic = __webpack_require__(10);
 
@@ -11580,12 +11643,12 @@ var Joystick = function (_Electronic) {
   }, {
     key: 'protocol',
     get: function get() {
-      return _utils2.default.composer(_cmd2.default.readJoystick, [this.args.port, this.args.axis]);
+      return (0, _utils.composer)(_cmd2.default.readJoystick, [this.args.port, this.args.axis]);
     }
   }], [{
     key: 'SUPPORT',
     get: function get() {
-      return _utils2.default.fiterWithBinaryStr(_settings.SUPPORTLIST, '1111');
+      return (0, _utils.fiterWithBinaryStr)(_settings.SUPPORTLIST, '1111');
     }
   }]);
   return Joystick;
@@ -11616,11 +11679,11 @@ var _createClass2 = __webpack_require__(1);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _possibleConstructorReturn2 = __webpack_require__(4);
+var _possibleConstructorReturn2 = __webpack_require__(3);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-var _inherits2 = __webpack_require__(5);
+var _inherits2 = __webpack_require__(4);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
@@ -11628,9 +11691,7 @@ var _BaseGyro2 = __webpack_require__(87);
 
 var _BaseGyro3 = _interopRequireDefault(_BaseGyro2);
 
-var _utils = __webpack_require__(3);
-
-var _utils2 = _interopRequireDefault(_utils);
+var _utils = __webpack_require__(5);
 
 var _settings = __webpack_require__(6);
 
@@ -11660,7 +11721,7 @@ var Gyro = function (_BaseGyro) {
   (0, _createClass3.default)(Gyro, null, [{
     key: 'SUPPORT',
     get: function get() {
-      return _utils2.default.fiterWithBinaryStr(_settings.SUPPORTLIST, '1111');
+      return (0, _utils.fiterWithBinaryStr)(_settings.SUPPORTLIST, '1111');
     }
   }]);
   return Gyro;
@@ -11691,11 +11752,11 @@ var _createClass2 = __webpack_require__(1);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _possibleConstructorReturn2 = __webpack_require__(4);
+var _possibleConstructorReturn2 = __webpack_require__(3);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-var _inherits2 = __webpack_require__(5);
+var _inherits2 = __webpack_require__(4);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
@@ -11703,9 +11764,7 @@ var _BaseGyro2 = __webpack_require__(87);
 
 var _BaseGyro3 = _interopRequireDefault(_BaseGyro2);
 
-var _utils = __webpack_require__(3);
-
-var _utils2 = _interopRequireDefault(_utils);
+var _utils = __webpack_require__(5);
 
 var _settings = __webpack_require__(6);
 
@@ -11733,7 +11792,7 @@ var GyroOnBoard = function (_BaseGyro) {
   (0, _createClass3.default)(GyroOnBoard, null, [{
     key: 'SUPPORT',
     get: function get() {
-      return _utils2.default.fiterWithBinaryStr(_settings.SUPPORTLIST, '011001');
+      return (0, _utils.fiterWithBinaryStr)(_settings.SUPPORTLIST, '011001');
     }
   }]);
   return GyroOnBoard;
@@ -11764,11 +11823,11 @@ var _createClass2 = __webpack_require__(1);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _possibleConstructorReturn2 = __webpack_require__(4);
+var _possibleConstructorReturn2 = __webpack_require__(3);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-var _inherits2 = __webpack_require__(5);
+var _inherits2 = __webpack_require__(4);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
@@ -11776,9 +11835,7 @@ var _BaseSound2 = __webpack_require__(88);
 
 var _BaseSound3 = _interopRequireDefault(_BaseSound2);
 
-var _utils = __webpack_require__(3);
-
-var _utils2 = _interopRequireDefault(_utils);
+var _utils = __webpack_require__(5);
 
 var _settings = __webpack_require__(6);
 
@@ -11799,7 +11856,7 @@ var Sound = function (_BaseSound) {
   (0, _createClass3.default)(Sound, null, [{
     key: 'SUPPORT',
     get: function get() {
-      return _utils2.default.fiterWithBinaryStr(_settings.SUPPORTLIST, '111111');
+      return (0, _utils.fiterWithBinaryStr)(_settings.SUPPORTLIST, '111111');
     }
   }]);
   return Sound;
@@ -11830,11 +11887,11 @@ var _createClass2 = __webpack_require__(1);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _possibleConstructorReturn2 = __webpack_require__(4);
+var _possibleConstructorReturn2 = __webpack_require__(3);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-var _inherits2 = __webpack_require__(5);
+var _inherits2 = __webpack_require__(4);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
@@ -11842,9 +11899,7 @@ var _BaseSound2 = __webpack_require__(88);
 
 var _BaseSound3 = _interopRequireDefault(_BaseSound2);
 
-var _utils = __webpack_require__(3);
-
-var _utils2 = _interopRequireDefault(_utils);
+var _utils = __webpack_require__(5);
 
 var _settings = __webpack_require__(6);
 
@@ -11865,7 +11920,7 @@ var SoundOnBoard = function (_BaseSound) {
   (0, _createClass3.default)(SoundOnBoard, null, [{
     key: 'SUPPORT',
     get: function get() {
-      return _utils2.default.fiterWithBinaryStr(_settings.SUPPORTLIST, '010000');
+      return (0, _utils.fiterWithBinaryStr)(_settings.SUPPORTLIST, '010000');
     }
   }]);
   return SoundOnBoard;
@@ -11904,19 +11959,17 @@ var _createClass2 = __webpack_require__(1);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _possibleConstructorReturn2 = __webpack_require__(4);
+var _possibleConstructorReturn2 = __webpack_require__(3);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-var _inherits2 = __webpack_require__(5);
+var _inherits2 = __webpack_require__(4);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _validate = __webpack_require__(9);
 
-var _utils = __webpack_require__(3);
-
-var _utils2 = _interopRequireDefault(_utils);
+var _utils = __webpack_require__(5);
 
 var _electronic = __webpack_require__(10);
 
@@ -11995,12 +12048,12 @@ var Pirmotion = function (_Electronic) {
   }, {
     key: 'protocol',
     get: function get() {
-      return _utils2.default.composer(_cmd2.default.readPirmotion, [this.args.port]);
+      return (0, _utils.composer)(_cmd2.default.readPirmotion, [this.args.port]);
     }
   }], [{
     key: 'SUPPORT',
     get: function get() {
-      return _utils2.default.fiterWithBinaryStr(_settings.SUPPORTLIST, '1111');
+      return (0, _utils.fiterWithBinaryStr)(_settings.SUPPORTLIST, '1111');
     }
   }]);
   return Pirmotion;
@@ -12039,19 +12092,17 @@ var _createClass2 = __webpack_require__(1);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _possibleConstructorReturn2 = __webpack_require__(4);
+var _possibleConstructorReturn2 = __webpack_require__(3);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-var _inherits2 = __webpack_require__(5);
+var _inherits2 = __webpack_require__(4);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _validate = __webpack_require__(9);
 
-var _utils = __webpack_require__(3);
-
-var _utils2 = _interopRequireDefault(_utils);
+var _utils = __webpack_require__(5);
 
 var _electronic = __webpack_require__(10);
 
@@ -12149,12 +12200,12 @@ var Infrared = function (_Electronic) {
       }
       var argsArr = [deviceId, this.args.port];
       aKey ? argsArr.push(aKey) : null;
-      return _utils2.default.composer(_cmd2.default.readInfrared, argsArr);
+      return (0, _utils.composer)(_cmd2.default.readInfrared, argsArr);
     }
   }], [{
     key: 'SUPPORT',
     get: function get() {
-      return _utils2.default.fiterWithBinaryStr(_settings.SUPPORTLIST, '1111');
+      return (0, _utils.fiterWithBinaryStr)(_settings.SUPPORTLIST, '1111');
     }
   }]);
   return Infrared;
@@ -12193,17 +12244,15 @@ var _createClass2 = __webpack_require__(1);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _possibleConstructorReturn2 = __webpack_require__(4);
+var _possibleConstructorReturn2 = __webpack_require__(3);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-var _inherits2 = __webpack_require__(5);
+var _inherits2 = __webpack_require__(4);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _utils = __webpack_require__(3);
-
-var _utils2 = _interopRequireDefault(_utils);
+var _utils = __webpack_require__(5);
 
 var _electronic = __webpack_require__(10);
 
@@ -12292,12 +12341,12 @@ var InfraredOnBoard = function (_Electronic) {
     get: function get() {
       var port = 0x00;
       var aKey = 0x45;
-      return _utils2.default.composer(_cmd2.default.readInfrared, [this.deviceId, port, aKey]);
+      return (0, _utils.composer)(_cmd2.default.readInfrared, [this.deviceId, port, aKey]);
     }
   }], [{
     key: 'SUPPORT',
     get: function get() {
-      return _utils2.default.fiterWithBinaryStr(_settings.SUPPORTLIST, '10000');
+      return (0, _utils.fiterWithBinaryStr)(_settings.SUPPORTLIST, '10000');
     }
   }]);
   return InfraredOnBoard;
@@ -12336,19 +12385,17 @@ var _createClass2 = __webpack_require__(1);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _possibleConstructorReturn2 = __webpack_require__(4);
+var _possibleConstructorReturn2 = __webpack_require__(3);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-var _inherits2 = __webpack_require__(5);
+var _inherits2 = __webpack_require__(4);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _validate = __webpack_require__(9);
 
-var _utils = __webpack_require__(3);
-
-var _utils2 = _interopRequireDefault(_utils);
+var _utils = __webpack_require__(5);
 
 var _electronic = __webpack_require__(10);
 
@@ -12427,12 +12474,12 @@ var LimitSwitch = function (_Electronic) {
   }, {
     key: 'protocol',
     get: function get() {
-      return _utils2.default.composer(_cmd2.default.readLimitSwitch, [this.args.port, this.args.slot]);
+      return (0, _utils.composer)(_cmd2.default.readLimitSwitch, [this.args.port, this.args.slot]);
     }
   }], [{
     key: 'SUPPORT',
     get: function get() {
-      return _utils2.default.fiterWithBinaryStr(_settings.SUPPORTLIST, '1111');
+      return (0, _utils.fiterWithBinaryStr)(_settings.SUPPORTLIST, '1111');
     }
   }]);
   return LimitSwitch;
@@ -12471,19 +12518,17 @@ var _createClass2 = __webpack_require__(1);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _possibleConstructorReturn2 = __webpack_require__(4);
+var _possibleConstructorReturn2 = __webpack_require__(3);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-var _inherits2 = __webpack_require__(5);
+var _inherits2 = __webpack_require__(4);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _validate = __webpack_require__(9);
 
-var _utils = __webpack_require__(3);
-
-var _utils2 = _interopRequireDefault(_utils);
+var _utils = __webpack_require__(5);
 
 var _electronic = __webpack_require__(10);
 
@@ -12561,12 +12606,12 @@ var LineFollower = function (_Electronic) {
   }, {
     key: 'protocol',
     get: function get() {
-      return _utils2.default.composer(_cmd2.default.readLineFollower, [this.args.port]);
+      return (0, _utils.composer)(_cmd2.default.readLineFollower, [this.args.port]);
     }
   }], [{
     key: 'SUPPORT',
     get: function get() {
-      return _utils2.default.fiterWithBinaryStr(_settings.SUPPORTLIST, '1111');
+      return (0, _utils.fiterWithBinaryStr)(_settings.SUPPORTLIST, '1111');
     }
   }]);
   return LineFollower;
@@ -12605,19 +12650,17 @@ var _createClass2 = __webpack_require__(1);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _possibleConstructorReturn2 = __webpack_require__(4);
+var _possibleConstructorReturn2 = __webpack_require__(3);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-var _inherits2 = __webpack_require__(5);
+var _inherits2 = __webpack_require__(4);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _validate = __webpack_require__(9);
 
-var _utils = __webpack_require__(3);
-
-var _utils2 = _interopRequireDefault(_utils);
+var _utils = __webpack_require__(5);
 
 var _electronic = __webpack_require__(10);
 
@@ -12695,12 +12738,12 @@ var Compass = function (_Electronic) {
   }, {
     key: 'protocol',
     get: function get() {
-      return _utils2.default.composer(_cmd2.default.readCompass, [this.args.port]);
+      return (0, _utils.composer)(_cmd2.default.readCompass, [this.args.port]);
     }
   }], [{
     key: 'SUPPORT',
     get: function get() {
-      return _utils2.default.fiterWithBinaryStr(_settings.SUPPORTLIST, '1110');
+      return (0, _utils.fiterWithBinaryStr)(_settings.SUPPORTLIST, '1110');
     }
   }]);
   return Compass;
@@ -12739,19 +12782,17 @@ var _createClass2 = __webpack_require__(1);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _possibleConstructorReturn2 = __webpack_require__(4);
+var _possibleConstructorReturn2 = __webpack_require__(3);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-var _inherits2 = __webpack_require__(5);
+var _inherits2 = __webpack_require__(4);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _validate = __webpack_require__(9);
 
-var _utils = __webpack_require__(3);
-
-var _utils2 = _interopRequireDefault(_utils);
+var _utils = __webpack_require__(5);
 
 var _electronic = __webpack_require__(10);
 
@@ -12875,12 +12916,12 @@ var Humiture = function (_Electronic) {
   }, {
     key: 'protocol',
     get: function get() {
-      return _utils2.default.composer(_cmd2.default.readHumiture, [this.args.port, this.args.type]);
+      return (0, _utils.composer)(_cmd2.default.readHumiture, [this.args.port, this.args.type]);
     }
   }], [{
     key: 'SUPPORT',
     get: function get() {
-      return _utils2.default.fiterWithBinaryStr(_settings.SUPPORTLIST, '1111');
+      return (0, _utils.fiterWithBinaryStr)(_settings.SUPPORTLIST, '1111');
     }
   }]);
   return Humiture;
@@ -12919,19 +12960,17 @@ var _createClass2 = __webpack_require__(1);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _possibleConstructorReturn2 = __webpack_require__(4);
+var _possibleConstructorReturn2 = __webpack_require__(3);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-var _inherits2 = __webpack_require__(5);
+var _inherits2 = __webpack_require__(4);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _validate = __webpack_require__(9);
 
-var _utils = __webpack_require__(3);
-
-var _utils2 = _interopRequireDefault(_utils);
+var _utils = __webpack_require__(5);
 
 var _electronic = __webpack_require__(10);
 
@@ -13009,12 +13048,12 @@ var Flame = function (_Electronic) {
   }, {
     key: 'protocol',
     get: function get() {
-      return _utils2.default.composer(_cmd2.default.readFlame, [this.args.port]);
+      return (0, _utils.composer)(_cmd2.default.readFlame, [this.args.port]);
     }
   }], [{
     key: 'SUPPORT',
     get: function get() {
-      return _utils2.default.fiterWithBinaryStr(_settings.SUPPORTLIST, '1111');
+      return (0, _utils.fiterWithBinaryStr)(_settings.SUPPORTLIST, '1111');
     }
   }]);
   return Flame;
@@ -13053,19 +13092,17 @@ var _createClass2 = __webpack_require__(1);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _possibleConstructorReturn2 = __webpack_require__(4);
+var _possibleConstructorReturn2 = __webpack_require__(3);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-var _inherits2 = __webpack_require__(5);
+var _inherits2 = __webpack_require__(4);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _validate = __webpack_require__(9);
 
-var _utils = __webpack_require__(3);
-
-var _utils2 = _interopRequireDefault(_utils);
+var _utils = __webpack_require__(5);
 
 var _electronic = __webpack_require__(10);
 
@@ -13143,12 +13180,12 @@ var Gas = function (_Electronic) {
   }, {
     key: 'protocol',
     get: function get() {
-      return _utils2.default.composer(_cmd2.default.readGas, [this.args.port]);
+      return (0, _utils.composer)(_cmd2.default.readGas, [this.args.port]);
     }
   }], [{
     key: 'SUPPORT',
     get: function get() {
-      return _utils2.default.fiterWithBinaryStr(_settings.SUPPORTLIST, '1111');
+      return (0, _utils.fiterWithBinaryStr)(_settings.SUPPORTLIST, '1111');
     }
   }]);
   return Gas;
@@ -13187,19 +13224,17 @@ var _createClass2 = __webpack_require__(1);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _possibleConstructorReturn2 = __webpack_require__(4);
+var _possibleConstructorReturn2 = __webpack_require__(3);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-var _inherits2 = __webpack_require__(5);
+var _inherits2 = __webpack_require__(4);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _validate = __webpack_require__(9);
 
-var _utils = __webpack_require__(3);
-
-var _utils2 = _interopRequireDefault(_utils);
+var _utils = __webpack_require__(5);
 
 var _electronic = __webpack_require__(10);
 
@@ -13283,12 +13318,12 @@ var Touch = function (_Electronic) {
   }, {
     key: 'protocol',
     get: function get() {
-      return _utils2.default.composer(_cmd2.default.readTouch, [this.args.port]);
+      return (0, _utils.composer)(_cmd2.default.readTouch, [this.args.port]);
     }
   }], [{
     key: 'SUPPORT',
     get: function get() {
-      return _utils2.default.fiterWithBinaryStr(_settings.SUPPORTLIST, '1111');
+      return (0, _utils.fiterWithBinaryStr)(_settings.SUPPORTLIST, '1111');
     }
   }]);
   return Touch;
@@ -13327,19 +13362,17 @@ var _createClass2 = __webpack_require__(1);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _possibleConstructorReturn2 = __webpack_require__(4);
+var _possibleConstructorReturn2 = __webpack_require__(3);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-var _inherits2 = __webpack_require__(5);
+var _inherits2 = __webpack_require__(4);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _validate = __webpack_require__(9);
 
-var _utils = __webpack_require__(3);
-
-var _utils2 = _interopRequireDefault(_utils);
+var _utils = __webpack_require__(5);
 
 var _electronic = __webpack_require__(10);
 
@@ -13430,12 +13463,12 @@ var FourKeys = function (_Electronic) {
   }, {
     key: 'protocol',
     get: function get() {
-      return _utils2.default.composer(_cmd2.default.readFourKeys, [this.args.port, this.args.key]);
+      return (0, _utils.composer)(_cmd2.default.readFourKeys, [this.args.port, this.args.key]);
     }
   }], [{
     key: 'SUPPORT',
     get: function get() {
-      return _utils2.default.fiterWithBinaryStr(_settings.SUPPORTLIST, '1111');
+      return (0, _utils.fiterWithBinaryStr)(_settings.SUPPORTLIST, '1111');
     }
   }]);
   return FourKeys;
@@ -13474,19 +13507,17 @@ var _createClass2 = __webpack_require__(1);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _possibleConstructorReturn2 = __webpack_require__(4);
+var _possibleConstructorReturn2 = __webpack_require__(3);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-var _inherits2 = __webpack_require__(5);
+var _inherits2 = __webpack_require__(4);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _validate = __webpack_require__(9);
 
-var _utils = __webpack_require__(3);
-
-var _utils2 = _interopRequireDefault(_utils);
+var _utils = __webpack_require__(5);
 
 var _electronic = __webpack_require__(10);
 
@@ -13564,12 +13595,12 @@ var DigGPIO = function (_Electronic) {
   }, {
     key: 'protocol',
     get: function get() {
-      return _utils2.default.composer(_cmd2.default.readDigGPIO, [this.args.port]);
+      return (0, _utils.composer)(_cmd2.default.readDigGPIO, [this.args.port]);
     }
   }], [{
     key: 'SUPPORT',
     get: function get() {
-      return _utils2.default.fiterWithBinaryStr(_settings.SUPPORTLIST, '00001');
+      return (0, _utils.fiterWithBinaryStr)(_settings.SUPPORTLIST, '00001');
     }
   }]);
   return DigGPIO;
@@ -13608,19 +13639,17 @@ var _createClass2 = __webpack_require__(1);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _possibleConstructorReturn2 = __webpack_require__(4);
+var _possibleConstructorReturn2 = __webpack_require__(3);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-var _inherits2 = __webpack_require__(5);
+var _inherits2 = __webpack_require__(4);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _validate = __webpack_require__(9);
 
-var _utils = __webpack_require__(3);
-
-var _utils2 = _interopRequireDefault(_utils);
+var _utils = __webpack_require__(5);
 
 var _electronic = __webpack_require__(10);
 
@@ -13701,12 +13730,12 @@ var AnalogGPIO = function (_Electronic) {
   }, {
     key: 'protocol',
     get: function get() {
-      return _utils2.default.composer(_cmd2.default.readAnalogGPIO, [this.args.port]);
+      return (0, _utils.composer)(_cmd2.default.readAnalogGPIO, [this.args.port]);
     }
   }], [{
     key: 'SUPPORT',
     get: function get() {
-      return _utils2.default.fiterWithBinaryStr(_settings.SUPPORTLIST, '00001');
+      return (0, _utils.fiterWithBinaryStr)(_settings.SUPPORTLIST, '00001');
     }
   }]);
   return AnalogGPIO;
@@ -13745,19 +13774,17 @@ var _createClass2 = __webpack_require__(1);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _possibleConstructorReturn2 = __webpack_require__(4);
+var _possibleConstructorReturn2 = __webpack_require__(3);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-var _inherits2 = __webpack_require__(5);
+var _inherits2 = __webpack_require__(4);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _validate = __webpack_require__(9);
 
-var _utils = __webpack_require__(3);
-
-var _utils2 = _interopRequireDefault(_utils);
+var _utils = __webpack_require__(5);
 
 var _electronic = __webpack_require__(10);
 
@@ -13836,12 +13863,12 @@ var GPIOContinue = function (_Electronic) {
   }, {
     key: 'protocol',
     get: function get() {
-      return _utils2.default.composer(_cmd2.default.readGPIOContinue, [this.args.port, this.args.key]);
+      return (0, _utils.composer)(_cmd2.default.readGPIOContinue, [this.args.port, this.args.key]);
     }
   }], [{
     key: 'SUPPORT',
     get: function get() {
-      return _utils2.default.fiterWithBinaryStr(_settings.SUPPORTLIST, '00001');
+      return (0, _utils.fiterWithBinaryStr)(_settings.SUPPORTLIST, '00001');
     }
   }]);
   return GPIOContinue;
@@ -13880,19 +13907,17 @@ var _createClass2 = __webpack_require__(1);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _possibleConstructorReturn2 = __webpack_require__(4);
+var _possibleConstructorReturn2 = __webpack_require__(3);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-var _inherits2 = __webpack_require__(5);
+var _inherits2 = __webpack_require__(4);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _validate = __webpack_require__(9);
 
-var _utils = __webpack_require__(3);
-
-var _utils2 = _interopRequireDefault(_utils);
+var _utils = __webpack_require__(5);
 
 var _electronic = __webpack_require__(10);
 
@@ -13971,12 +13996,12 @@ var DoubleGPIO = function (_Electronic) {
   }, {
     key: 'protocol',
     get: function get() {
-      return _utils2.default.composer(_cmd2.default.readDoubleGPIO, [this.args.port1, this.args.port2]);
+      return (0, _utils.composer)(_cmd2.default.readDoubleGPIO, [this.args.port1, this.args.port2]);
     }
   }], [{
     key: 'SUPPORT',
     get: function get() {
-      return _utils2.default.fiterWithBinaryStr(_settings.SUPPORTLIST, '00001');
+      return (0, _utils.fiterWithBinaryStr)(_settings.SUPPORTLIST, '00001');
     }
   }]);
   return DoubleGPIO;
@@ -14015,17 +14040,15 @@ var _createClass2 = __webpack_require__(1);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _possibleConstructorReturn2 = __webpack_require__(4);
+var _possibleConstructorReturn2 = __webpack_require__(3);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-var _inherits2 = __webpack_require__(5);
+var _inherits2 = __webpack_require__(4);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _utils = __webpack_require__(3);
-
-var _utils2 = _interopRequireDefault(_utils);
+var _utils = __webpack_require__(5);
 
 var _electronic = __webpack_require__(10);
 
@@ -14097,12 +14120,12 @@ var Runtime = function (_Electronic) {
   }, {
     key: 'protocol',
     get: function get() {
-      return _utils2.default.composer(_cmd2.default.readRuntime);
+      return (0, _utils.composer)(_cmd2.default.readRuntime);
     }
   }], [{
     key: 'SUPPORT',
     get: function get() {
-      return _utils2.default.fiterWithBinaryStr(_settings.SUPPORTLIST, '000010');
+      return (0, _utils.fiterWithBinaryStr)(_settings.SUPPORTLIST, '000010');
     }
   }]);
   return Runtime;
@@ -14129,11 +14152,11 @@ var _classCallCheck2 = __webpack_require__(0);
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-var _possibleConstructorReturn2 = __webpack_require__(4);
+var _possibleConstructorReturn2 = __webpack_require__(3);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-var _inherits2 = __webpack_require__(5);
+var _inherits2 = __webpack_require__(4);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
@@ -14221,11 +14244,11 @@ var _createClass2 = __webpack_require__(1);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _possibleConstructorReturn2 = __webpack_require__(4);
+var _possibleConstructorReturn2 = __webpack_require__(3);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-var _inherits2 = __webpack_require__(5);
+var _inherits2 = __webpack_require__(4);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
@@ -14402,11 +14425,11 @@ var _createClass2 = __webpack_require__(1);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _possibleConstructorReturn2 = __webpack_require__(4);
+var _possibleConstructorReturn2 = __webpack_require__(3);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-var _inherits2 = __webpack_require__(5);
+var _inherits2 = __webpack_require__(4);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
@@ -14573,11 +14596,11 @@ var _createClass2 = __webpack_require__(1);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _possibleConstructorReturn2 = __webpack_require__(4);
+var _possibleConstructorReturn2 = __webpack_require__(3);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-var _inherits2 = __webpack_require__(5);
+var _inherits2 = __webpack_require__(4);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
@@ -14732,11 +14755,11 @@ var _classCallCheck2 = __webpack_require__(0);
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-var _possibleConstructorReturn2 = __webpack_require__(4);
+var _possibleConstructorReturn2 = __webpack_require__(3);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-var _inherits2 = __webpack_require__(5);
+var _inherits2 = __webpack_require__(4);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 

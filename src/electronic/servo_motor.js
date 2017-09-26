@@ -1,9 +1,16 @@
-import { validateNumber } from '../core/validate';
-import Utils from '../core/utils';
+import {
+  validateNumber
+} from '../core/validate';
+import {
+  composer,
+  fiterWithBinaryStr
+} from '../core/utils';
 import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
 import Control from '../communicate/control';
-import { SUPPORTLIST } from '../settings';
+import {
+  SUPPORTLIST
+} from '../settings';
 
 /**
  * ServoMotor sensor module
@@ -24,7 +31,7 @@ class ServoMotor extends Electronic {
    * @param  {Number} degree
    * @return {Object} the instance
    */
-  angle(degree){
+  angle(degree) {
     this.args.angle = validateNumber(degree, 0);
     return this;
   }
@@ -33,7 +40,7 @@ class ServoMotor extends Electronic {
    * go to the start
    * @return {[type]} [description]
    */
-  toStart(){
+  toStart() {
     this.angle(0);
     return this.run();
   }
@@ -42,7 +49,7 @@ class ServoMotor extends Electronic {
    * go to the end
    * @return {[type]} [description]
    */
-  toEnd(){
+  toEnd() {
     this.angle(180);
     return this.run();
   }
@@ -51,19 +58,19 @@ class ServoMotor extends Electronic {
    * getter of protocol
    */
   get protocol() {
-    return Utils.composer(protocolAssembler.setServoMotor, [this.args.port, this.args.slot, this.args.angle]);
+    return composer(protocolAssembler.setServoMotor, [this.args.port, this.args.slot, this.args.angle]);
   }
 
   /**
    * run
    */
-  run(){
+  run() {
     Control.write(this.protocol);
     return this;
   }
 
-  static get SUPPORT(){
-    return Utils.fiterWithBinaryStr(SUPPORTLIST, '1111');
+  static get SUPPORT() {
+    return fiterWithBinaryStr(SUPPORTLIST, '1111');
   }
 }
 

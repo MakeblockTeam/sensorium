@@ -1,5 +1,4 @@
 import { validateString, validateNumber } from '../core/validate';
-import Utils from '../core/utils';
 import BaseLedMatrix from './BaseLedMatrix';
 /**
  * LedMatrix sensor module run as 'Emotion Mode'

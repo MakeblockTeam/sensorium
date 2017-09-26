@@ -1,11 +1,18 @@
-import { validateNumber, warnNotSupport } from '../core/validate';
+import {
+  validateNumber,
+  warnNotSupport
+} from '../core/validate';
 import Electronic from './electronic';
 import LedMatrixChar from './led_matrix_char';
 import LedMatrixEmotion from './led_matrix_emotion';
 import LedMatrixNumber from './led_matrix_number';
 import LedMatrixTime from './led_matrix_time';
-import Utils from '../core/utils';
-import { SUPPORTLIST } from '../settings';
+import {
+  fiterWithBinaryStr
+} from '../core/utils';
+import {
+  SUPPORTLIST
+} from '../settings';
 
 /**
  * LedMatrix sensor module, who can be play as 'charMode','emotionMode','numberMode','timeMode'
@@ -25,38 +32,38 @@ import { SUPPORTLIST } from '../settings';
  * mcore.LedMatrix(1).timeMode().separator(':').hour(12).minute(12).run()
  *
  * // number mode
- * mcore.LedMatrix(1).numberMode().number('9999).hour(12).minute(12).run()
+ * mcore.LedMatrix(1).numberMode().number('9999).run()
  */
 class LedMatrix extends Electronic {
   constructor(port) {
     super();
-    let host = warnNotSupport(arguments[arguments.length-1]) || '';
+    let host = warnNotSupport(arguments[arguments.length - 1]) || '';
     port = validateNumber(port);
     //宿主
     this.hostname = host.toLowerCase();
     //字符模式
-    this.charMode = function(){
+    this.charMode = function() {
       return new LedMatrixChar(port);
     }
 
     //表情模式
-    this.emotionMode = function(){
+    this.emotionMode = function() {
       return new LedMatrixEmotion(port);
     }
 
     //数字模式
-    this.numberMode = function(){
+    this.numberMode = function() {
       return new LedMatrixNumber(port);
     }
 
     //时间模式
-    this.timeMode = function(){
+    this.timeMode = function() {
       return new LedMatrixTime(port);
     }
   }
 
-  static get SUPPORT(){
-    return Utils.fiterWithBinaryStr(SUPPORTLIST, '1110');
+  static get SUPPORT() {
+    return fiterWithBinaryStr(SUPPORTLIST, '1110');
   }
 }
 

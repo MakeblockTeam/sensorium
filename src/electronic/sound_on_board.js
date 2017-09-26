@@ -1,5 +1,7 @@
 import BaseSound from './BaseSound';
-import Utils from '../core/utils';
+import {
+  fiterWithBinaryStr
+} from '../core/utils';
 import { SUPPORTLIST } from '../settings';
 
 
@@ -13,7 +15,7 @@ class SoundOnBoard extends BaseSound {
   }
 
   static get SUPPORT(){
-    return Utils.fiterWithBinaryStr(SUPPORTLIST, '010000');
+    return fiterWithBinaryStr(SUPPORTLIST, '010000');
   }
 }
 

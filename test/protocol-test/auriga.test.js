@@ -16,23 +16,23 @@ function formatProtocol(protocol) {
   return currentCmd.join(' ');
 }
 
-function captureReadBuf(run) {
-  let capturedBuf;
-  let read_ = Control.read;
-  //override to captrue the buf
-  Control.read = function(buf) {
-    capturedBuf = buf;
-    return;
-  }
-  run();
-  let currentCmd = capturedBuf.map(function(val) {
-    let newVal = val.toString(16);
-    return newVal.length == 1 ? '0' + newVal : newVal;
-  });
-  // recovery the method
-  Control.read = read_;
-  return currentCmd.join(' ');
-}
+// function captureReadBuf(run) {
+//   let capturedBuf;
+//   let read_ = Control.read;
+//   //override to captrue the buf
+//   Control.read = function(buf) {
+//     capturedBuf = buf;
+//     return;
+//   }
+//   run();
+//   let currentCmd = capturedBuf.map(function(val) {
+//     let newVal = val.toString(16);
+//     return newVal.length == 1 ? '0' + newVal : newVal;
+//   });
+//   // recovery the method
+//   Control.read = read_;
+//   return currentCmd.join(' ');
+// }
 
 
 let auriga = new Auriga();

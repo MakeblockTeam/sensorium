@@ -1,5 +1,8 @@
 import { validateNumber } from '../core/validate';
-import Utils from '../core/utils';
+import {
+  composer,
+  fiterWithBinaryStr
+} from '../core/utils';
 import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
 import Control from '../communicate/control';
@@ -31,7 +34,7 @@ class SevenSegment extends Electronic {
    * getter of protocol
    */
   get protocol() {
-    return Utils.composer(protocolAssembler.setSevenSegment, [this.args.port, this.args.number]);
+    return composer(protocolAssembler.setSevenSegment, [this.args.port, this.args.number]);
   }
 
   /**
@@ -44,7 +47,7 @@ class SevenSegment extends Electronic {
   }
 
   static get SUPPORT(){
-    return Utils.fiterWithBinaryStr(SUPPORTLIST, '1111');
+    return fiterWithBinaryStr(SUPPORTLIST, '1111');
   }
 }
 

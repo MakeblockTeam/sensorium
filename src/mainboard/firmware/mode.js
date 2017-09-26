@@ -1,4 +1,4 @@
-import Utils from '../../core/utils';
+import {composer} from '../../core/utils';
 import protocolAssembler from '../../protocol/cmd';
 import Control from '../../communicate/control';
 import {
@@ -30,9 +30,9 @@ class Mode {
 
   get protocol() {
     if (this.isReadType) {
-      return Utils.composer(protocolAssembler.readFirmwareMode, [subCmd]);
+      return composer(protocolAssembler.readFirmwareMode, [subCmd]);
     } else {
-      return Utils.composer(protocolAssembler.setFirmwareMode, [subCmd, mode]);
+      return composer(protocolAssembler.setFirmwareMode, [subCmd, mode]);
     }
   }
 

@@ -1,5 +1,10 @@
-import { warnNotSupport } from '../core/validate';
-import Utils from '../core/utils';
+import {
+  warnNotSupport
+} from '../core/validate';
+import {
+  composer,
+  fiterWithBinaryStr
+} from '../core/utils';
 import Electronic from './electronic';
 import PIDForDistance from './encoder_motor_on_board_pid_for_distance';
 import PIDForSpeed from './encoder_motor_on_board_pid_for_speed';
@@ -8,7 +13,9 @@ import PIDForDoubleMotor from './encoder_motor_on_board_pid_for_doubleMotor';
 
 import protocolAssembler from '../protocol/cmd';
 import Control from '../communicate/control';
-import { SUPPORTLIST } from '../settings';
+import {
+  SUPPORTLIST
+} from '../settings';
 
 let auriga = SUPPORTLIST[1].toLowerCase();
 let megapipro = SUPPORTLIST[5].toLowerCase();
@@ -16,25 +23,25 @@ let megapipro = SUPPORTLIST[5].toLowerCase();
 class EncoderMotorOnBoardPID extends Electronic {
   constructor() {
     super();
-    let host = warnNotSupport(arguments[arguments.length-1]) || megapipro;
+    let host = warnNotSupport(arguments[arguments.length - 1]) || megapipro;
     //宿主
     this.hostname = host.toLowerCase();
     //位置模式
-    this.distanceMode = function(){
-      return new PIDForDistance();
-    }
-    //速度模式
-    this.speedMode = function(){
-      return new PIDForSpeed();
-    }
-    //auriga 会多出两个 API
-    if(this.hostname === auriga){
-      //pwm 模式
-      this.pwmMode = function(){
-        return new PIDForPwm();
+    this.distanceMode = function() {
+        return new PIDForDistance();
       }
-      //双电机模式
-      this.doubleMotorMode = function(){
+      //速度模式
+    this.speedMode = function() {
+        return new PIDForSpeed();
+      }
+      //auriga 会多出两个 API
+    if (this.hostname === auriga) {
+      //pwm 模式
+      this.pwmMode = function() {
+          return new PIDForPwm();
+        }
+        //双电机模式
+      this.doubleMotorMode = function() {
         return new PIDForDoubleMotor();
       }
     }
@@ -45,12 +52,12 @@ class EncoderMotorOnBoardPID extends Electronic {
    */
   get protocol() {
     let subCmd = [];
-    if (this.hostname == auriga){
+    if (this.hostname == auriga) {
       subCmd = [0x04];
-    } else if (this.hostname == megapipro){
+    } else if (this.hostname == megapipro) {
       subCmd = [0x03];
     }
-    return Utils.composer(protocolAssembler.setEncoderMotorPIDZeroPoint, subCmd);
+    return composer(protocolAssembler.setEncoderMotorPIDZeroPoint, subCmd);
   }
 
   /**
@@ -64,8 +71,8 @@ class EncoderMotorOnBoardPID extends Electronic {
     return this;
   }
 
-  static get SUPPORT(){
-    return Utils.fiterWithBinaryStr(SUPPORTLIST, '010001');
+  static get SUPPORT() {
+    return fiterWithBinaryStr(SUPPORTLIST, '010001');
   }
 }
 

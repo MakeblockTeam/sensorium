@@ -1,8 +1,12 @@
-import Utils from '../core/utils';
+import {
+  fiterWithBinaryStr
+} from '../core/utils';
 import BaseEncoderMotor from './BaseEncoderMotor';
 import protocolAssembler from '../protocol/cmd';
 import Control from '../communicate/control';
-import { SUPPORTLIST } from '../settings';
+import {
+  SUPPORTLIST
+} from '../settings';
 
 /**
  * EncoderMotorOnBoard sensor module
@@ -20,7 +24,7 @@ class EncoderMotorOnBoard extends BaseEncoderMotor {
    * Get Speed of the encoder motor runs
    * @return  {Promise} return promise
    */
-  readSpeed(){
+  readSpeed() {
     this.isReadType = true;
     this.args.type = 0x02;
     return this;
@@ -30,18 +34,18 @@ class EncoderMotorOnBoard extends BaseEncoderMotor {
    * get angle offset to the start position
    * @return  {Promise} return promise
    */
-  readAngle(){
+  readAngle() {
     this.isReadType = true;
     this.args.type = 0x01;
     return this;
   }
 
-  async getData () {
+  async getData() {
     return await Control.read(this.protocol);
   }
 
-  static get SUPPORT(){
-    return Utils.fiterWithBinaryStr(SUPPORTLIST, '0110');
+  static get SUPPORT() {
+    return fiterWithBinaryStr(SUPPORTLIST, '0110');
   }
 }
 

@@ -1,18 +1,22 @@
 /**
  * @fileOverview 解析器负责数据解析，对外输出解析方法.
  */
-
-import Utils from "../core/utils";
+import {
+  arrayFromArrayBuffer,
+  bytesToString,
+  bytesToInt
+} from "../core/utils";
 
 // 获取到的最大指令长度
 const REC_BUF_MAX_LENGTH = 40;
 const BUF_START_FLAG = [0xff, 0x55];
 const BUF_END_FLAG = [0x0d, 0x0a];
 
-function checkStart(flag1, flag2){
+function checkStart(flag1, flag2) {
   return flag1 === BUF_START_FLAG[0] && flag2 === BUF_START_FLAG[1]
 }
-function checkEnd(flag1, flag2){
+
+function checkEnd(flag1, flag2) {
   return flag1 === BUF_END_FLAG[0] && flag2 === BUF_END_FLAG[1];
 }
 
@@ -32,13 +36,13 @@ export default {
     let isAllowRecv = false;
     let tempBuf = [];
 
-    let data = Utils.arrayFromArrayBuffer(buffData);
+    let data = arrayFromArrayBuffer(buffData);
     let newdata = this.cacheBuffer.concat(data);
     this.cacheBuffer = newdata;
     // parse buffer newdata
     for (let i = 0; i < newdata.length; i++) {
-      let data1 = parseInt(newdata[i-1]),
-          data2 = parseInt(newdata[i]);
+      let data1 = parseInt(newdata[i - 1]),
+        data2 = parseInt(newdata[i]);
       // start data
       if (checkStart(data1, data2)) {
         recvLength = 0;
@@ -48,10 +52,10 @@ export default {
       // end data
       else if (checkEnd(data1, data2)) {
         //没有头部但有尾部 - 说明是无效数据
-        if(!isAllowRecv){
+        if (!isAllowRecv) {
           this.cacheBuffer = [];
           return undefined;
-        }else{
+        } else {
           isAllowRecv = false;
         }
         let resultBuf = tempBuf.slice(0, recvLength - 1);
@@ -61,7 +65,7 @@ export default {
       }
       // the data we really want
       else {
-        if(isAllowRecv) {
+        if (isAllowRecv) {
           if (recvLength >= REC_BUF_MAX_LENGTH) {
             console.warn("receive buffer overflow!");
           }
@@ -104,7 +108,7 @@ export default {
       case 4:
         // 字符串
         var bytes = buf.splice(3, buf[2]);
-        result = Utils.bytesToString(bytes);
+        result = bytesToString(bytes);
         break;
       case "2":
       case "5":
@@ -128,7 +132,6 @@ export default {
    */
   calculateResponseValue: function(intArray) {
     var result = null;
-
     // FIXME: int字节转浮点型
     var intBitsToFloat = function(num) {
       /* s 为符号（sign）；e 为指数（exponent）；m 为有效位数（mantissa）*/
@@ -139,7 +142,7 @@ export default {
         (num & 0x7fffff) | 0x800000;
       return s * m * Math.pow(2, e - 150);
     };
-    var intValue = Utils.bytesToInt(intArray);
+    var intValue = bytesToInt(intArray);
     // TOFIX
     if (intValue < 100000 && intValue > 0) {
       result = intValue;

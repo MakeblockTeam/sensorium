@@ -1,5 +1,7 @@
 import { validateNumber, warnParamNotDateFormat, warnParamNotInList } from '../core/validate';
-import Utils from '../core/utils';
+import {
+  limitValue
+} from '../core/utils';
 import BaseLedMatrix from './BaseLedMatrix';
 /**
  * LedMatrix sensor module run as 'Time Mode'
@@ -32,7 +34,7 @@ class LedMatrixTime extends BaseLedMatrix {
    * @param  {Number} h hour
    */
   hour(h){
-    h = Utils.limitValue(h, [0, 23]);
+    h = limitValue(h, [0, 23]);
     this.args.hour = validateNumber(h);
     return this;
   }
@@ -42,7 +44,7 @@ class LedMatrixTime extends BaseLedMatrix {
    * @param  {Number} m minute
    */
   minute(m){
-    m = Utils.limitValue(m, [0, 59]);
+    m = limitValue(m, [0, 59]);
     this.args.minute = validateNumber(m);
     return this;
   }

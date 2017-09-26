@@ -1,9 +1,16 @@
-import { validateNumber } from '../core/validate';
-import Utils from '../core/utils';
+import {
+  validateNumber
+} from '../core/validate';
+import {
+  composer,
+  fiterWithBinaryStr
+} from '../core/utils';
 import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
 import Control from '../communicate/control';
-import { SUPPORTLIST } from '../settings';
+import {
+  SUPPORTLIST
+} from '../settings';
 
 /**
  * VirtualJoystick, actually it's a motor module
@@ -35,7 +42,7 @@ class VirtualJoystick extends Electronic {
    * @param  {Number} speed  the left speed
    * @return {Instance} @this
    */
-  leftSpeed(speed){
+  leftSpeed(speed) {
     this.args.leftSpeed = validateNumber(speed, 0);
     return this;
   }
@@ -45,7 +52,7 @@ class VirtualJoystick extends Electronic {
    * @param  {Number} speed  the right speed
    * @return {Instance} @this
    */
-  rightSpeed(speed){
+  rightSpeed(speed) {
     this.args.rightSpeed = validateNumber(speed, 0);
     return this;
   }
@@ -53,8 +60,8 @@ class VirtualJoystick extends Electronic {
   /**
    * getter of protocol
    */
-  get protocol () {
-    return Utils.composer(protocolAssembler.setJoystick, [this.args.leftSpeed, this.args.rightSpeed]);
+  get protocol() {
+    return composer(protocolAssembler.setJoystick, [this.args.leftSpeed, this.args.rightSpeed]);
   }
 
   /**
@@ -72,11 +79,11 @@ class VirtualJoystick extends Electronic {
    * @return {Instance} @this
    */
   stop() {
-    return this.speed(0,0).run();
+    return this.speed(0, 0).run();
   }
 
-  static get SUPPORT(){
-    return Utils.fiterWithBinaryStr(SUPPORTLIST, '1111');
+  static get SUPPORT() {
+    return fiterWithBinaryStr(SUPPORTLIST, '1111');
   }
 }
 

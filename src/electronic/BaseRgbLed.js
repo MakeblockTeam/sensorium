@@ -1,20 +1,13 @@
-import { validateNumber } from '../core/validate';
-import Utils from '../core/utils';
+import {
+  validateNumber
+} from '../core/validate';
+import {
+  hexToRgb,
+  composer
+} from '../core/utils';
 import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
 import Control from '../communicate/control';
-
-//@private
-let bufComposer = function(obj){
-  let args = [obj.port, obj.slot, obj.ledPosition, ...obj.rgb];
-  return Utils.composer(protocolAssembler.setLed, args);
-}
-
-//@private
-let commandWrite = function(obj){
-  let buf = bufComposer(obj);
-  Control.write(buf);
-}
 
 /**
  * @description It is a base Class of RgbLed
@@ -77,14 +70,14 @@ class BaseRgbLed extends Electronic {
    * Set led color with hex-color
    * @param  {String} hex  hex color like '#ff0088'
    */
-  rgb(hex='#ff0000'){
-    this.args.rgb = Utils.hexToRgb(hex);
+  rgb(hex = '#ff0000') {
+    this.args.rgb = hexToRgb(hex);
     return this;
   }
 
   get protocol() {
     let args = [this.args.port, this.args.slot, this.args.ledPosition, ...this.args.rgb];
-    return Utils.composer(protocolAssembler.setLed, args);
+    return composer(protocolAssembler.setLed, args);
   }
 
   /**
@@ -113,7 +106,7 @@ class BaseRgbLed extends Electronic {
   /**
    * Turn on all the leds
    */
-  turnOnAll(){
+  turnOnAll() {
     this.position(0);
     return this.turnOn();
   }
@@ -121,7 +114,7 @@ class BaseRgbLed extends Electronic {
   /**
    * Turn off all the leds
    */
-  turnOffAll(){
+  turnOffAll() {
     this.position(0);
     return this.turnOff();
   }
@@ -153,7 +146,7 @@ class BaseRgbLed extends Electronic {
   /**
    * Light on let with white color
    */
-  white(){
+  white() {
     this.args.rgb = [255, 255, 255];
     return this.run();
   }

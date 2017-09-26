@@ -1,9 +1,16 @@
-import { validateNumber } from '../core/validate';
-import Utils from '../core/utils';
+import {
+  validateNumber
+} from '../core/validate';
+import {
+  composer,
+  fiterWithBinaryStr
+} from '../core/utils';
 import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
 import Control from '../communicate/control';
-import { SUPPORTLIST } from '../settings';
+import {
+  SUPPORTLIST
+} from '../settings';
 
 /**
  * @Class AnalogGPIO
@@ -24,7 +31,7 @@ class AnalogGPIO extends Electronic {
    * getter of protocol
    */
   get protocol() {
-    return Utils.composer(protocolAssembler.readAnalogGPIO, [this.args.port]);
+    return composer(protocolAssembler.readAnalogGPIO, [this.args.port]);
   }
 
   /**
@@ -36,7 +43,7 @@ class AnalogGPIO extends Electronic {
   }
 
   static get SUPPORT() {
-    return Utils.fiterWithBinaryStr(SUPPORTLIST, '00001');
+    return fiterWithBinaryStr(SUPPORTLIST, '00001');
   }
 }
 

@@ -1,4 +1,4 @@
-import Utils from '../core/utils';
+import {composer} from '../core/utils';
 import BaseMotor from './BaseMotor';
 import { validateNumber } from '../core/validate';
 import protocolAssembler from '../protocol/cmd';
@@ -53,12 +53,12 @@ class BaseEncoderMotor extends BaseMotor {
   get protocol() {
     let buf;
     if(this.isReadType){
-      buf = Utils.composer(protocolAssembler.readEncoderMotorOnBoard, [this.args.slot, this.args.type]);
+      buf = composer(protocolAssembler.readEncoderMotorOnBoard, [this.args.slot, this.args.type]);
     }else {
       if(this.args.port == 0){
-        buf = Utils.composer(protocolAssembler.setEncoderMotorOnBoard, [this.args.slot, this.args.speed]);
+        buf = composer(protocolAssembler.setEncoderMotorOnBoard, [this.args.slot, this.args.speed]);
       }else{
-        buf = Utils.composer(protocolAssembler.setEncoderMotor, [this.args.slot, this.args.speed, this.args.angle]);
+        buf = composer(protocolAssembler.setEncoderMotor, [this.args.slot, this.args.speed, this.args.angle]);
       }
     }
     return buf;

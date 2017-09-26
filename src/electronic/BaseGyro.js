@@ -1,5 +1,5 @@
 import { validateNumber } from '../core/validate';
-import Utils from '../core/utils';
+import {composer} from '../core/utils';
 import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
 import Control from '../communicate/control';
@@ -35,7 +35,7 @@ class BaseGyro extends Electronic {
    * getter of protocol
    */
   get protocol() {
-    const buf = Utils.composer(protocolAssembler.readGyro, [this.args.port, this.args.axis]);
+    const buf = composer(protocolAssembler.readGyro, [this.args.port, this.args.axis]);
     return buf;
   }
 

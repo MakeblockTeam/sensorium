@@ -1,5 +1,7 @@
 import BaseLight from './BaseLight';
-import Utils from '../core/utils';
+import {
+  fiterWithBinaryStr
+} from '../core/utils';
 import { SUPPORTLIST } from '../settings';
 
 /**
@@ -12,7 +14,7 @@ class Light extends BaseLight {
   }
 
   static get SUPPORT(){
-    return Utils.fiterWithBinaryStr(SUPPORTLIST, '111111');
+    return fiterWithBinaryStr(SUPPORTLIST, '111111');
   }
 }
 

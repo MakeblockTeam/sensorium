@@ -1,5 +1,10 @@
 import { validateNumber } from '../core/validate';
-import Utils from '../core/utils';
+import {
+  composer,
+  fiterWithBinaryStr,
+  hexToRgb,
+  limitValue
+} from '../core/utils';
 import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
 import Control from '../communicate/control';
@@ -13,13 +18,13 @@ function write(baseArgs, extra){
   }else{
     baseCmd.push(extra);
   }
-  let buf = Utils.composer(protocolAssembler.setSmartServo, baseCmd);
+  let buf = composer(protocolAssembler.setSmartServo, baseCmd);
   Control.write(buf);
 }
 
 //@private
 async function read(baseArgs){
-  let buf = Utils.composer(protocolAssembler.readSmartServoParam, [baseArgs.index, baseArgs.subCmd]);
+  let buf = composer(protocolAssembler.readSmartServoParam, [baseArgs.index, baseArgs.subCmd]);
   return await Control.read(buf);
 }
 
@@ -51,15 +56,15 @@ class SmartServo extends Electronic {
         baseCmd.push(this.extraCmd !== null ? [this.extraCmd] : []);
       }
       this.extraCmd = null;
-      return Utils.composer(protocolAssembler.setSmartServo, baseCmd);
+      return composer(protocolAssembler.setSmartServo, baseCmd);
     } else if (this.args.subCmd === 4) {
-      return Utils.composer(protocolAssembler.setSmartServoForAbsoluteAngle, [this.args.index, this.args.subCmd, this.args.angle, this.args.speed]);
+      return composer(protocolAssembler.setSmartServoForAbsoluteAngle, [this.args.index, this.args.subCmd, this.args.angle, this.args.speed]);
     } else if (this.args.subCmd === 5) {
-      return Utils.composer(protocolAssembler.setSmartServoForRelativeAngle, [this.args.index, this.args.subCmd, this.args.angle, this.args.speed]);
+      return composer(protocolAssembler.setSmartServoForRelativeAngle, [this.args.index, this.args.subCmd, this.args.angle, this.args.speed]);
     } else if (this.args.subCmd === 6) {
-      return Utils.composer(protocolAssembler.setSmartServoForDcMotor, [this.args.index, this.args.subCmd, this.args.speed]);
+      return composer(protocolAssembler.setSmartServoForDcMotor, [this.args.index, this.args.subCmd, this.args.speed]);
     } else {
-      return Utils.composer(protocolAssembler.readSmartServoParam, [this.args.index, this.args.subCmd]);
+      return composer(protocolAssembler.readSmartServoParam, [this.args.index, this.args.subCmd]);
     }
   }
 
@@ -89,7 +94,7 @@ class SmartServo extends Electronic {
    * @param {String|Array} hex_rgb #ff0064 or [255, 00, 100]
    */
   ledColor(hex_rgb = [255, 0, 0]){
-    this.extraCmd = Array.isArray(hex_rgb) ? hex_rgb : Utils.hexToRgb(hex_rgb);
+    this.extraCmd = Array.isArray(hex_rgb) ? hex_rgb : hexToRgb(hex_rgb);
     this.args.subCmd = 0x02;
     return this;
   }
@@ -135,7 +140,7 @@ class SmartServo extends Electronic {
   runAsDcMotor(speed){
     speed = validateNumber(speed, this.args.speed);
     //限制速度 -255~255
-    this.args.speed = Utils.limitValue(speed);
+    this.args.speed = limitValue(speed);
     this.args.subCmd = 0x06;
     return this;
   }
@@ -225,7 +230,7 @@ class SmartServo extends Electronic {
   }
 
   static get SUPPORT(){
-    return Utils.fiterWithBinaryStr(SUPPORTLIST, '0100');
+    return fiterWithBinaryStr(SUPPORTLIST, '0100');
   }
 }
 export default SmartServo;

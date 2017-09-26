@@ -2,25 +2,29 @@ import {
   validateNumber,
   warnParamNotInList
 } from '../core/validate';
-import Utils from '../core/utils';
+import {
+  composer
+} from '../core/utils';
 import protocolAssembler from '../protocol/cmd';
 import Control from '../communicate/control';
-import { MOVE_DIRECTION } from '../settings';
+import {
+  MOVE_DIRECTION
+} from '../settings';
 
 class PIDForDoubleMotor {
   constructor() {
-    this.args = {
-      distance: 0,
-      direction: 1,
-      speed: 0
-    };
-  }
-  /**
-   * set direction with a string argument
-   * @param  {String} dir dir should be uppercase or lowercase of 'FORWARD'、'BACKWARD'、'TURNLEF'、'TURNRIGHT'
-   */
+      this.args = {
+        distance: 0,
+        direction: 1,
+        speed: 0
+      };
+    }
+    /**
+     * set direction with a string argument
+     * @param  {String} dir dir should be uppercase or lowercase of 'FORWARD'、'BACKWARD'、'TURNLEF'、'TURNRIGHT'
+     */
   direction(dir) {
-    dir = warnParamNotInList((dir||'').toUpperCase(), MOVE_DIRECTION);
+    dir = warnParamNotInList((dir || '').toUpperCase(), MOVE_DIRECTION);
     switch (dir) {
       case MOVE_DIRECTION[0]:
         this.args.direction = 1;
@@ -99,7 +103,7 @@ class PIDForDoubleMotor {
    * getter of protocol
    */
   get protocol() {
-    return Utils.composer(protocolAssembler.setEncoderMotorPIDDoubleMotor, [this.args.direction, this.args.distance, this.args.speed]);
+    return composer(protocolAssembler.setEncoderMotorPIDDoubleMotor, [this.args.direction, this.args.distance, this.args.speed]);
   }
 
   run() {

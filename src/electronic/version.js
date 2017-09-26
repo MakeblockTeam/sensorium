@@ -1,4 +1,6 @@
-import Utils from '../core/utils';
+import {
+  composer
+} from '../core/utils';
 import protocolAssembler from '../protocol/cmd';
 import Control from '../communicate/control';
 /**
@@ -13,7 +15,7 @@ class Version {
    * getter of protocol
    */
   get protocol () {
-    return Utils.composer(protocolAssembler.readVersion);
+    return composer(protocolAssembler.readVersion);
   }
 
   /**

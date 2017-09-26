@@ -1,8 +1,13 @@
-import Utils from '../core/utils';
+import {
+  composer,
+  fiterWithBinaryStr
+} from '../core/utils';
 import BaseMotor from './BaseMotor';
 import protocolAssembler from '../protocol/cmd';
 import Control from '../communicate/control';
-import { SUPPORTLIST } from '../settings';
+import {
+  SUPPORTLIST
+} from '../settings';
 /**
  * DcMotor sensor module
  * @extends BaseMotor
@@ -10,11 +15,11 @@ import { SUPPORTLIST } from '../settings';
 class DcMotor extends BaseMotor {
 
   constructor(port) {
-    super(port);
-  }
-  /**
-   * run reversely
-   */
+      super(port);
+    }
+    /**
+     * run reversely
+     */
   reverse() {
     this.speed(-1 * this.args.speed);
     return this.run();
@@ -23,8 +28,8 @@ class DcMotor extends BaseMotor {
   /**
    * getter of protocol
    */
-  get protocol () {
-    return Utils.composer(protocolAssembler.setDcMotor, [this.args.port, this.args.speed]);
+  get protocol() {
+    return composer(protocolAssembler.setDcMotor, [this.args.port, this.args.speed]);
   }
 
   /**
@@ -35,8 +40,8 @@ class DcMotor extends BaseMotor {
     return this;
   }
 
-  static get SUPPORT(){
-    return Utils.fiterWithBinaryStr(SUPPORTLIST, '1111');
+  static get SUPPORT() {
+    return fiterWithBinaryStr(SUPPORTLIST, '1111');
   }
 }
 

@@ -1,6 +1,10 @@
 import BaseRgbLed from './BaseRgbLed';
-import { SUPPORTLIST } from '../settings';
-import Utils from '../core/utils';
+import {
+  SUPPORTLIST
+} from '../settings';
+import {
+  fiterWithBinaryStr
+} from '../core/utils';
 /**
  * RgbLed sensor module
  * @extends BaseRgbLed
@@ -12,13 +16,13 @@ import Utils from '../core/utils';
  * auriga.RgbLed(2).white();
  */
 class RgbLed extends BaseRgbLed {
-  constructor(port, slot){
+  constructor(port, slot) {
     super(port, slot);
   }
 
   // orion 不能 port8 slot1和port7 slot1不能用于灯条
-  static get SUPPORT(){
-    return Utils.fiterWithBinaryStr(SUPPORTLIST, '111111');
+  static get SUPPORT() {
+    return fiterWithBinaryStr(SUPPORTLIST, '111111');
   }
 }
 

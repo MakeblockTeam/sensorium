@@ -1,5 +1,5 @@
 /**
- * @fileOverview  do sendData-test for sensorium 
+ * @fileOverview  do sendData-test for sensorium
  *[为sensorium库做发送数据的接口测试，测试用例由testlink上导出，运行命令：node transform.js后即可得到]
  */
 // import Utils from '../../src/core/utils';
@@ -73,6 +73,8 @@ describe('sendDataTest:', function () {
         // let currentArrayCmd = Utils.composer(protocolAssembler.setDcMotor, [sendOrder.args.port, sendOrder.args.speed]);
         // let currentCmd = Utils.intStrToHexStr(currentArrayCmd);
         let sendOrder = eval(d.caseSummary[1]); //相应的接口发送的实际指令
+        let currentArrayCmd = sendOrder.protocol;
+
         let currentArrayCmd = captureWriteBuf(sendOrder.run.bind(sendOrder));
         console.log('实际发送指令 : ', currentArrayCmd)
         let presetOrder = d.caseSummary[2]; //对应的预设值
@@ -87,7 +89,7 @@ describe('sendDataTest:', function () {
           var sendOrder = eval(d.caseSummary[2]); //相应的接口发送的实际指令
           let currentArrayCmd = captureWriteBuf(sendOrder.run.bind(sendOrder));
           console.log('实际发送指令 : ', currentArrayCmd)
-          var presetOrder = presetOrders[i]; //对应的预设值 
+          var presetOrder = presetOrders[i]; //对应的预设值
           console.log('预期发送指令 : ', presetOrder)
           assert.equal(currentArrayCmd, presetOrder);
         }
@@ -113,7 +115,7 @@ describe('sendDataTest:', function () {
         }
         done();
       }
-      
+
     });
   });
 });

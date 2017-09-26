@@ -1,9 +1,16 @@
-import { validateNumber } from '../core/validate';
-import Utils from '../core/utils';
+import {
+  validateNumber
+} from '../core/validate';
+import {
+  composer,
+  fiterWithBinaryStr
+} from '../core/utils';
 import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
 import Control from '../communicate/control';
-import { SUPPORTLIST } from '../settings';
+import {
+  SUPPORTLIST
+} from '../settings';
 /**
  * Humiture sensor module
  * @extends Electronic
@@ -28,7 +35,7 @@ class Humiture extends Electronic {
    *       });
    * @return {Instance} @this
    */
-  readHumidity(){
+  readHumidity() {
     this.args.type = 0;
     return this;
   }
@@ -44,7 +51,7 @@ class Humiture extends Electronic {
    *      });
    * @return {Instance} @this
    */
-  readTemperature(){
+  readTemperature() {
     this.args.type = 1;
     return this;
   }
@@ -53,7 +60,7 @@ class Humiture extends Electronic {
    * getter of protocol
    */
   get protocol() {
-    return Utils.composer(protocolAssembler.readHumiture, [this.args.port, this.args.type]);
+    return composer(protocolAssembler.readHumiture, [this.args.port, this.args.type]);
   }
 
   /**
@@ -71,8 +78,8 @@ class Humiture extends Electronic {
     return await Control.read(this.protocol);
   }
 
-  static get SUPPORT(){
-    return Utils.fiterWithBinaryStr(SUPPORTLIST, '1111');
+  static get SUPPORT() {
+    return fiterWithBinaryStr(SUPPORTLIST, '1111');
   }
 }
 

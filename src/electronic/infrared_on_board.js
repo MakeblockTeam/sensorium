@@ -1,8 +1,13 @@
-import Utils from '../core/utils';
+import {
+  composer,
+  fiterWithBinaryStr
+} from '../core/utils';
 import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
 import Control from '../communicate/control';
-import { SUPPORTLIST } from '../settings';
+import {
+  SUPPORTLIST
+} from '../settings';
 
 /**
  * 所有主控板（包括MegaPiPro）都有 2 种类型：外接的红外传感器，外接的被动式红外探测器
@@ -31,7 +36,7 @@ class InfraredOnBoard extends Electronic {
   get protocol() {
     let port = 0x00;
     let aKey = 0x45;
-    return Utils.composer(protocolAssembler.readInfrared, [this.deviceId, port, aKey]);
+    return composer(protocolAssembler.readInfrared, [this.deviceId, port, aKey]);
   }
 
   /**
@@ -42,8 +47,8 @@ class InfraredOnBoard extends Electronic {
     return await Control.read(this.protocol);
   }
 
-  static get SUPPORT(){
-    return Utils.fiterWithBinaryStr(SUPPORTLIST, '10000');
+  static get SUPPORT() {
+    return fiterWithBinaryStr(SUPPORTLIST, '10000');
   }
 }
 

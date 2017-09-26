@@ -11,7 +11,6 @@
     "test": "mocha --compilers js:babel-core/register",
     "coverage-i": " istanbul cover node_modules/mocha/bin/_mocha ./test/interface/interface_test.js",
     "coverage-p": " istanbul cover node_modules/mocha/bin/_mocha ./test/protocol-test",
-    "doc": "./node_modules/.bin/jsdoc src/mainboard/mcore.js -d docs/api/ -r",
     "jsdoc": "node_modules/.bin/jsdoc -c jsdoc_conf.json",
     "tsc": "tsc"
   },
