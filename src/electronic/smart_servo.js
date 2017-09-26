@@ -11,22 +11,22 @@ import Control from '../communicate/control';
 import { SUPPORTLIST } from '../settings';
 
 //@private
-function write(baseArgs, extra){
-  let baseCmd = [baseArgs.index, baseArgs.subCmd];
-  if(!Array.isArray(extra)){
-    baseCmd.push(typeof extra !== 'undefined'?[extra]:[]);
-  }else{
-    baseCmd.push(extra);
-  }
-  let buf = composer(protocolAssembler.setSmartServo, baseCmd);
-  Control.write(buf);
-}
+// function write(baseArgs, extra){
+//   let baseCmd = [baseArgs.index, baseArgs.subCmd];
+//   if(!Array.isArray(extra)){
+//     baseCmd.push(typeof extra !== 'undefined'?[extra]:[]);
+//   }else{
+//     baseCmd.push(extra);
+//   }
+//   let buf = composer(protocolAssembler.setSmartServo, baseCmd);
+//   Control.write(buf);
+// }
 
-//@private
-async function read(baseArgs){
-  let buf = composer(protocolAssembler.readSmartServoParam, [baseArgs.index, baseArgs.subCmd]);
-  return await Control.read(buf);
-}
+// //@private
+// async function read(baseArgs){
+//   let buf = composer(protocolAssembler.readSmartServoParam, [baseArgs.index, baseArgs.subCmd]);
+//   return await Control.read(buf);
+// }
 
 /**
  * SmartServo sensor module

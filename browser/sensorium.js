@@ -3535,10 +3535,6 @@ var _cmd = __webpack_require__(8);
 
 var _cmd2 = _interopRequireDefault(_cmd);
 
-var _control = __webpack_require__(7);
-
-var _control2 = _interopRequireDefault(_control);
-
 var _settings = __webpack_require__(6);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -3575,9 +3571,9 @@ var Mode = function () {
     key: 'protocol',
     get: function get() {
       if (this.isReadType) {
-        return (0, _utils.composer)(_cmd2.default.readFirmwareMode, [subCmd]);
+        return (0, _utils.composer)(_cmd2.default.readFirmwareMode, [this.args.subCmd]);
       } else {
-        return (0, _utils.composer)(_cmd2.default.setFirmwareMode, [subCmd, mode]);
+        return (0, _utils.composer)(_cmd2.default.setFirmwareMode, [this.args.subCmd, this.args.mode]);
       }
     }
 
@@ -8294,10 +8290,6 @@ var _BaseEncoderMotor2 = __webpack_require__(85);
 
 var _BaseEncoderMotor3 = _interopRequireDefault(_BaseEncoderMotor2);
 
-var _cmd = __webpack_require__(8);
-
-var _cmd2 = _interopRequireDefault(_cmd);
-
 var _control = __webpack_require__(7);
 
 var _control2 = _interopRequireDefault(_control);
@@ -9770,6 +9762,14 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _regenerator = __webpack_require__(11);
+
+var _regenerator2 = _interopRequireDefault(_regenerator);
+
+var _asyncToGenerator2 = __webpack_require__(12);
+
+var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+
 var _getPrototypeOf = __webpack_require__(2);
 
 var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
@@ -9789,48 +9789,6 @@ var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorRet
 var _inherits2 = __webpack_require__(4);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
-
-var _regenerator = __webpack_require__(11);
-
-var _regenerator2 = _interopRequireDefault(_regenerator);
-
-var _asyncToGenerator2 = __webpack_require__(12);
-
-var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
-
-//@private
-var read = function () {
-  var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(baseArgs) {
-    var buf;
-    return _regenerator2.default.wrap(function _callee$(_context) {
-      while (1) {
-        switch (_context.prev = _context.next) {
-          case 0:
-            buf = (0, _utils.composer)(_cmd2.default.readSmartServoParam, [baseArgs.index, baseArgs.subCmd]);
-            _context.next = 3;
-            return _control2.default.read(buf);
-
-          case 3:
-            return _context.abrupt('return', _context.sent);
-
-          case 4:
-          case 'end':
-            return _context.stop();
-        }
-      }
-    }, _callee, this);
-  }));
-
-  return function read(_x) {
-    return _ref.apply(this, arguments);
-  };
-}();
-
-/**
- * SmartServo sensor module
- * @extends Electronic
- */
-
 
 var _validate = __webpack_require__(9);
 
@@ -9853,16 +9811,27 @@ var _settings = __webpack_require__(6);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //@private
-function write(baseArgs, extra) {
-  var baseCmd = [baseArgs.index, baseArgs.subCmd];
-  if (!Array.isArray(extra)) {
-    baseCmd.push(typeof extra !== 'undefined' ? [extra] : []);
-  } else {
-    baseCmd.push(extra);
-  }
-  var buf = (0, _utils.composer)(_cmd2.default.setSmartServo, baseCmd);
-  _control2.default.write(buf);
-}
+// function write(baseArgs, extra){
+//   let baseCmd = [baseArgs.index, baseArgs.subCmd];
+//   if(!Array.isArray(extra)){
+//     baseCmd.push(typeof extra !== 'undefined'?[extra]:[]);
+//   }else{
+//     baseCmd.push(extra);
+//   }
+//   let buf = composer(protocolAssembler.setSmartServo, baseCmd);
+//   Control.write(buf);
+// }
+
+// //@private
+// async function read(baseArgs){
+//   let buf = composer(protocolAssembler.readSmartServoParam, [baseArgs.index, baseArgs.subCmd]);
+//   return await Control.read(buf);
+// }
+
+/**
+ * SmartServo sensor module
+ * @extends Electronic
+ */
 var SmartServo = function (_Electronic) {
   (0, _inherits3.default)(SmartServo, _Electronic);
 
@@ -10098,27 +10067,27 @@ var SmartServo = function (_Electronic) {
   }, {
     key: 'getData',
     value: function () {
-      var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
-        return _regenerator2.default.wrap(function _callee2$(_context2) {
+      var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
+        return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context.prev = _context.next) {
               case 0:
-                _context2.next = 2;
+                _context.next = 2;
                 return _control2.default.read(this.protocol);
 
               case 2:
-                return _context2.abrupt('return', _context2.sent);
+                return _context.abrupt('return', _context.sent);
 
               case 3:
               case 'end':
-                return _context2.stop();
+                return _context.stop();
             }
           }
-        }, _callee2, this);
+        }, _callee, this);
       }));
 
       function getData() {
-        return _ref2.apply(this, arguments);
+        return _ref.apply(this, arguments);
       }
 
       return getData;
@@ -14264,6 +14233,10 @@ var _mode = __webpack_require__(63);
 
 var _mode2 = _interopRequireDefault(_mode);
 
+var _control = __webpack_require__(7);
+
+var _control2 = _interopRequireDefault(_control);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
@@ -14351,7 +14324,7 @@ var Auriga = function (_Board) {
   }, {
     key: 'run',
     value: function run() {
-      Control.write(_mode2.default.protocol);
+      _control2.default.write(_mode2.default.protocol);
       return this;
     }
 
@@ -14369,7 +14342,7 @@ var Auriga = function (_Board) {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return Control.read(_mode2.default.protocol);
+                return _control2.default.read(_mode2.default.protocol);
 
               case 2:
                 return _context.abrupt('return', _context.sent);
@@ -14444,6 +14417,10 @@ var _index2 = _interopRequireDefault(_index);
 var _mode = __webpack_require__(63);
 
 var _mode2 = _interopRequireDefault(_mode);
+
+var _control = __webpack_require__(7);
+
+var _control2 = _interopRequireDefault(_control);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -14522,7 +14499,7 @@ var MegaPi = function (_Board) {
   }, {
     key: 'run',
     value: function run() {
-      Control.write(_mode2.default.protocol);
+      _control2.default.write(_mode2.default.protocol);
       return this;
     }
 
@@ -14540,7 +14517,7 @@ var MegaPi = function (_Board) {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return Control.read(_mode2.default.protocol);
+                return _control2.default.read(_mode2.default.protocol);
 
               case 2:
                 return _context.abrupt('return', _context.sent);
@@ -14615,6 +14592,10 @@ var _index2 = _interopRequireDefault(_index);
 var _mode = __webpack_require__(63);
 
 var _mode2 = _interopRequireDefault(_mode);
+
+var _control = __webpack_require__(7);
+
+var _control2 = _interopRequireDefault(_control);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -14693,7 +14674,7 @@ var MegaPiPro = function (_Board) {
   }, {
     key: 'run',
     value: function run() {
-      Control.write(_mode2.default.protocol);
+      _control2.default.write(_mode2.default.protocol);
       return this;
     }
 
@@ -14711,7 +14692,7 @@ var MegaPiPro = function (_Board) {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return Control.read(_mode2.default.protocol);
+                return _control2.default.read(_mode2.default.protocol);
 
               case 2:
                 return _context.abrupt('return', _context.sent);

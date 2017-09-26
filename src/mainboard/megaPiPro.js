@@ -1,6 +1,7 @@
 import Board from '../core/Board';
 import electronics from '../electronic/index';
 import Mode from './firmware/mode';
+import Control from '../communicate/control';
 
 /**
  * MegaPiPro Class for 'MegaPiPro' mainboard.
