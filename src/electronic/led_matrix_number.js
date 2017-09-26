@@ -9,7 +9,7 @@ class LedMatrixNumber extends BaseLedMatrix {
     super(port);
     Object.assign(this.args, {
       number: 0,
-      type: super.NUMBER_TYPE
+      type: BaseLedMatrix.NUMBER_TYPE
     });
   }
 

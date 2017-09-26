@@ -51,7 +51,7 @@ class BaseLedMatrix extends Electronic {
       this.isClearType = false;
     } else if (this.args.type === BaseLedMatrix.CHAR_TYPE) {
       // if char mode
-      let charCodeArray = this.args.char.slice('').map(char => (char.charCodeAt()));
+      let charCodeArray = this.args.char.split('').map(char => (char.charCodeAt()));
       bufArray = [this.args.port, this.args.type, this.args.x, this.args.y, this.args.char.length, ...charCodeArray];
     } else if (this.args.emotion === BaseLedMatrix.EMOTION_TYPE) {
       // if emotion mode
@@ -64,6 +64,7 @@ class BaseLedMatrix extends Electronic {
       // if time mode
       bufArray = [this.args.port, this.args.type, this.args.separator, this.args.hour, this.args.minute];
     }
+    console.log(this.isClearType, this.args.type, '['+ bufArray.join(','));
     return composer(protocolAssembler.setLedMatrix, bufArray);
   }
 

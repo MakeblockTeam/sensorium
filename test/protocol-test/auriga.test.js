@@ -353,32 +353,33 @@ describe('【auriga_最新固件 协议测试】', function() {
       }
     });
 
-    // describe('表情面板：LedMatrix(6, 0, 1, "Hi")', function() {
-    //   let ports = [6, 7, 8, 9, 10];
-    //   for (let i = 0; i < ports.length; i++) {
-    //     let port = ports[i];
-    //     it(`在端口 ${port} x：0 y：0 的表情面板上显示字符串‘Hi’`, function() {
-    //       let ledMatrixChar = auriga.LedMatrix(port).charMode().x(0).y(0).char('Hi');
-    //       let targetCmd = dataman.auriga.write.ledMatrixChar[i];
-    //       let currentCmd = formatProtocol(ledMatrixChar.protocol);
-    //       expect(currentCmd).to.equal(targetCmd);
-    //     });
-    //   }
+    describe('表情面板：LedMatrix(6, 0, 1, "Hi")', function() {
+      let ports = [6, 7, 8, 9, 10];
+      for (let i = 0; i < ports.length; i++) {
+        let port = ports[i];
+        it(`在端口 ${port} x：0 y：0 的表情面板上显示字符串‘Hi’`, function() {
+          let ledMatrixChar = auriga.LedMatrix(port).charMode().x(0).y(0).char('Hi');
+          let targetCmd = dataman.auriga.write.ledMatrixChar[i];
+          // console.log(auriga.LedMatrix(port).charMode(), ledMatrixChar.protocol);
+          let currentCmd = formatProtocol(ledMatrixChar.protocol);
+          expect(currentCmd).to.equal(targetCmd);
+        });
+      }
 
-    //   let xy = [{x: 1, y:0}, {x: 0, y:1}, {x: 1, y:2}, {x: -1, y: 0},
-    //     {x: 0, y: -4}, {x: -1, y: -5}
-    //   ];
-    //   for (let i = 0; i < xy.length; i++) {
-    //     let x = xy[i].x;
-    //     let y = xy[i].y;
-    //     it(`在端口 6 x：${x} y：${y} 的表情面板上显示字符串‘Hi’`, function() {
-    //       let ledMatrixChar = auriga.LedMatrix(6).charMode().x(x).y(y).char('Hi');
-    //       let targetCmd = dataman.auriga.write.ledMatrixChar[i+5];
-    //       let currentCmd = formatProtocol(ledMatrixChar.protocol);
-    //       expect(currentCmd).to.equal(targetCmd);
-    //     });
-    //   }
-    // });
+      let xy = [{x: 1, y:0}, {x: 0, y:1}, {x: 1, y:2}, {x: -1, y: 0},
+        {x: 0, y: -4}, {x: -1, y: -5}
+      ];
+      for (let i = 0; i < xy.length; i++) {
+        let x = xy[i].x;
+        let y = xy[i].y;
+        it(`在端口 6 x：${x} y：${y} 的表情面板上显示字符串‘Hi’`, function() {
+          let ledMatrixChar = auriga.LedMatrix(6).charMode().x(x).y(y).char('Hi');
+          let targetCmd = dataman.auriga.write.ledMatrixChar[i+5];
+          let currentCmd = formatProtocol(ledMatrixChar.protocol);
+          expect(currentCmd).to.equal(targetCmd);
+        });
+      }
+    });
 
   // describe('表情面板-显示表情：setLedMatrixChar(6, 0, 0, "默认表情")', function() {
     //   it("在端口6 x：0 y：0的表情面板上显示表情‘？？’", function() {

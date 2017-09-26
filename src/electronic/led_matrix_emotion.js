@@ -11,7 +11,7 @@ class LedMatrixEmotion extends BaseLedMatrix {
       x: 0,
       y: 0,
       emotion: 0,
-      type: super.EMOTION_TYPE
+      type: BaseLedMatrix.EMOTION_TYPE
     });
   }
 

@@ -11,7 +11,7 @@ class LedMatrixChar extends BaseLedMatrix {
       x: 0,
       y: 7,  //默认将字体垂直居中，输入的 y 值时将在 y=7 上做偏移
       char: '',
-      type: super.CHAR_TYPE
+      type: BaseLedMatrix.CHAR_TYPE
     });
   }
 
