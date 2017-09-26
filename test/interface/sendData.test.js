@@ -25,6 +25,18 @@ var temporaryData = JSON.parse(fs.readFileSync(availableData));//读取json文�
 var drivenData = temporaryData.drivenData;//得到测试数据
 
 
+//获取 执行 & 读 指令的发送数据
+function formatProtocol(protocol) {
+  let currentCmd = protocol.map(function(val) {
+    let newVal = val.toString(16);
+    return newVal.length == 1 ? '0' + newVal : newVal;
+  });
+  return currentCmd.join(' ');
+}
+
+
+
+
 //获取执行指令的发送数据
 function captureWriteBuf(run) {
   let capturedBuf;
@@ -70,12 +82,16 @@ describe('sendDataTest:', function () {
     it(d.caseDir + " ： " + d.caseName, function (done) {
       if (d.caseSummary[0] == "single-setCmd:") {
         //console.log(eval(d.caseSummary[j][0]),d.caseSummary[j][1]);//注意！添加这一句，等于是开启一条新线程
+        //第一次采用的协议截取方法，已弃用
         // let currentArrayCmd = Utils.composer(protocolAssembler.setDcMotor, [sendOrder.args.port, sendOrder.args.speed]);
         // let currentCmd = Utils.intStrToHexStr(currentArrayCmd);
         let sendOrder = eval(d.caseSummary[1]); //相应的接口发送的实际指令
-        let currentArrayCmd = sendOrder.protocol;
 
-        let currentArrayCmd = captureWriteBuf(sendOrder.run.bind(sendOrder));
+        //第二次采用的协议截取方法，已弃用
+        // let currentArrayCmd = captureWriteBuf(sendOrder.run.bind(sendOrder));
+
+        //第三次采用的协议截取方法
+        let currentArrayCmd = formatProtocol(sendOrder.protocol);
         console.log('实际发送指令 : ', currentArrayCmd)
         let presetOrder = d.caseSummary[2]; //对应的预设值
         console.log('预期发送指令 : ', presetOrder)
@@ -87,7 +103,7 @@ describe('sendDataTest:', function () {
         for (let i = 0; i < args_arr.length; i++) {
           let arg = parseInt(args_arr[i]);
           var sendOrder = eval(d.caseSummary[2]); //相应的接口发送的实际指令
-          let currentArrayCmd = captureWriteBuf(sendOrder.run.bind(sendOrder));
+          let currentArrayCmd = formatProtocol(sendOrder.protocol);
           console.log('实际发送指令 : ', currentArrayCmd)
           var presetOrder = presetOrders[i]; //对应的预设值
           console.log('预期发送指令 : ', presetOrder)
@@ -97,7 +113,7 @@ describe('sendDataTest:', function () {
       } else if (d.caseSummary[0] == "single-readCmd:") {
         let sendOrder = eval(d.caseSummary[1]); //相应的接口发送的实际指令
         let getSensorValue = d.caseSummary[2]; //相应的获取传感器值接口
-        let currentArrayCmd = captureReadBuf(sendOrder[getSensorValue].bind(sendOrder));
+        let currentArrayCmd = formatProtocol(sendOrder.protocol);//captureReadBuf(sendOrder[getSensorValue].bind(sendOrder));
         console.log('实际发送指令 : ', currentArrayCmd)
         let presetOrder = d.caseSummary[3]; //对应的预设值
         console.log('预期发送指令 : ', presetOrder)
@@ -108,7 +124,7 @@ describe('sendDataTest:', function () {
         let getSensorValue = d.caseSummary[2]; //相应的获取传感器值接口
         let presetOrder = d.caseSummary[3]; //对应的预设值
         for (let i = 0; i < 255; i++) {
-          let currentArrayCmd = captureReadBuf(sendOrder[getSensorValue].bind(sendOrder));
+          let currentArrayCmd = formatProtocol(sendOrder.protocol);//captureReadBuf(sendOrder[getSensorValue].bind(sendOrder));
           console.log('实际发送指令 : ', currentArrayCmd)
           console.log('预期发送指令 : ', presetOrder)
           assert.equal(currentArrayCmd, presetOrder);//断言发送指令是否正确
