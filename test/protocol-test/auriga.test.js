@@ -200,23 +200,23 @@ describe('【auriga_最新固件 协议测试】', function() {
         expect(currentCmd).to.equal(targetCmd);
       });
 
-      // let colorsApi = ['blue', 'green', 'white'];
-      // for (let i = 0; i < colorsApi.length; i++) {
-      //   let color = colorsApi[i];
-      //   it(`将端口号6 slot2 的灯条的全部位置上亮起${color}`, function() {
-      //     let rgbLed = auriga.RgbLed(6, 2).position(0).rgb('#ff0000');
-      //     let targetCmd = dataman.auriga.write.led[i + 10];
-      //     let currentCmd = formatProtocol(rgbLed.protocol);
-      //     expect(currentCmd).to.equal(targetCmd);
-      //   });
-      // }
+      let colorsApi = ['blue', 'green', 'white'];
+      for (let i = 0; i < colorsApi.length; i++) {
+        let color = colorsApi[i];
+        it(`将端口号6 slot2 的灯条的全部位置上亮起${color}`, function() {
+          let rgbLed = (auriga.RgbLed(6, 2).position(0)[color])();
+          let targetCmd = dataman.auriga.write.led[i + 10];
+          let currentCmd = formatProtocol(rgbLed.protocol);
+          expect(currentCmd).to.equal(targetCmd);
+        });
+      }
 
-      // it('将端口号6 slot2的灯条的全部位置上熄灭（turnOffAll)', function() {
-      //   let rgbLed = auriga.RgbLed(6, 2);
-      //   let targetCmd = dataman.auriga.write.led[13];
-      //   let currentCmd = formatProtocol(rgbLed.protocol);
-      //   expect(currentCmd).to.equal(targetCmd);
-      // });
+      it('将端口号6 slot2的灯条的全部位置上熄灭（turnOffAll)', function() {
+        let rgbLed = auriga.RgbLed(6, 2).turnOffAll();
+        let targetCmd = dataman.auriga.write.led[13];
+        let currentCmd = formatProtocol(rgbLed.protocol);
+        expect(currentCmd).to.equal(targetCmd);
+      });
 
       it('将端口号6 slot2的灯条的全部位置上亮起红色（超出界限0～255）', function() {
         let rgbLed = auriga.RgbLed(6, 2).r(256).g(0).b(0);
@@ -278,11 +278,8 @@ describe('【auriga_最新固件 协议测试】', function() {
         let desc = modeDescs[i];
         it(`主板通用命令-设置模式为${desc}`, function() {
           let targetCmd = dataman.auriga.write.firmwareMode[i];
-
-          let currentCmd = captureWriteBuf(function(){
-            auriga.setFirmwareMode(mode);
-          });
-          expect(currentCmd).to.equal(targetCmd);
+          auriga.setFirmwareMode(mode);
+          expect(formatProtocol(auriga.protocol)).to.equal(targetCmd);
         });
       }
     });
@@ -770,9 +767,9 @@ describe('【auriga_最新固件 协议测试】', function() {
 
     describe('读取版本号: auriga.getVersion(0)', function() {
       //未完成
-      it('发送查询版本号的指令', function() {
+      it('查询版本号的指令', function() {
         let targetCmd = dataman.auriga.read.version[0];
-        let currentCmd = formatProtocol(auriga.getVersion.protocol);
+        let currentCmd = formatProtocol(auriga.getVersion().protocol);
         expect(currentCmd).to.equal(targetCmd);
       });
     });

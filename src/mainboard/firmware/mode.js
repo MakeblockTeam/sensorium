@@ -22,9 +22,11 @@ class Mode {
     if (typeof mode === 'number') {
       this.isReadType = false;
       this.args.mode = mode;
+    }else {
+      this.isReadType = true;
     }
-    this.isReadType = true;
     this.args.subCmd = subCmd;
+    return this;
   }
 
   get protocol() {

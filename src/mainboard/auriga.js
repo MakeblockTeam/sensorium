@@ -35,7 +35,12 @@ class Auriga extends Board{
 
   /**
    * set firmware mode
-   * @param {Number} mode 0、1、2、3、4
+   * @param {Number} mode
+   * 0: ble
+   * 1: 自动避障
+   * 2: 平衡车
+   * 3: 红外
+   * 4: 巡线
    */
   setFirmwareMode(mode){
     let subCmd = 0x11;
@@ -60,11 +65,15 @@ class Auriga extends Board{
     return this;
   }
 
+  get protocol (){
+    return Mode.protocol;
+  }
+
   /**
    * run
    */
   run() {
-    Control.write(Mode.protocol);
+    Control.write(this.protocol);
     return this;
   }
 
@@ -73,7 +82,7 @@ class Auriga extends Board{
    * @return {Promise}
    */
   async getData() {
-    return await Control.read(Mode.protocol);
+    return await Control.read(this.protocol);
   }
 }
 
