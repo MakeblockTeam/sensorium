@@ -64,7 +64,7 @@ class Board {
   }
 
   /**
-   * 获取版本号，所有主控板支持
+   * get version of this mainboard
    *
    * @example
    * let sensorium = new Sensorium();

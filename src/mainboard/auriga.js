@@ -33,7 +33,7 @@ class Auriga extends Board{
   }
 
   /**
-   * 设置固件模式
+   * set firmware mode
    * @param {Number} mode 0、1、2、3、4
    */
   setFirmwareMode(mode){
@@ -42,20 +42,37 @@ class Auriga extends Board{
     return this;
   }
   /**
-   * 获取固件模式
+   * get firmware mode
    */
-  //TODO: 数据缓存
-  async getFirmwareMode(){
+  readFirmwareMode(){
     let subCmd = 0x71;
-    return await Mode.getMode(subCmd);
+    Mode.setMode(subCmd);
+    return this;
   }
 
   /**
-   * 获取固件电压
+   * get voltage
    */
-  async getVoltage(){
+  readVoltage(){
     let subCmd = 0x70;
-    return await Mode.getMode(subCmd);
+    Mode.setMode(subCmd);
+    return this;
+  }
+
+  /**
+   * run
+   */
+  run() {
+    Control.write(Mode.protocol);
+    return this;
+  }
+
+  /**
+   * Get data of Voltage or FirmwareMode
+   * @return {Promise}
+   */
+  async getData() {
+    return await Control.read(Mode.protocol);
   }
 }
 

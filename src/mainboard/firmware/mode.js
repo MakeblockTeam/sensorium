@@ -1,32 +1,46 @@
 import Utils from '../../core/utils';
 import protocolAssembler from '../../protocol/cmd';
 import Control from '../../communicate/control';
-import { FIRM_MODES } from '../../settings';
+import {
+  FIRM_MODES
+} from '../../settings';
 
 class Mode {
   constructor() {
-
+    this.args = {
+      subCmd: 0x11,
+      mode: 0
+    }
+    this.isReadType = true;
   }
 
   /**
-   * 设置固件模式
+   * set firmware mode params
+   * @param {Number} subCmd
    * @param {Number} mode 0、1、2、3、4
    */
-  setMode(subCmd, mode){
-    let buf = Utils.composer(protocolAssembler.setFirmwareMode, [subCmd, mode]);
-    Control.write(buf);
+  setMode(subCmd, mode) {
+    if (typeof mode === 'number') {
+      this.isReadType = false;
+      this.args.mode = mode;
+    }
+    this.isReadType = true;
+    this.args.subCmd = subCmd;
   }
 
-  async getMode(subCmd){
-    let buf = Utils.composer(protocolAssembler.readFirmwareMode, [subCmd]);
-    return await Control.read(buf);
+  get protocol() {
+    if (this.isReadType) {
+      return Utils.composer(protocolAssembler.readFirmwareMode, [subCmd]);
+    } else {
+      return Utils.composer(protocolAssembler.setFirmwareMode, [subCmd, mode]);
+    }
   }
 
   /**
-   * 获取固件模式列表
-   * @return {Array} 模式列表
+   * get firmware modes list
+   * @return {Array}
    */
-  getModesList(){
+  get FIRMWARE_MODESLIST() {
     return FIRM_MODES;
   }
 }

@@ -2096,7 +2096,7 @@ var Board = function () {
     }
 
     /**
-     * 获取版本号，所有主控板支持
+     * get version of this mainboard
      *
      * @example
      * let sensorium = new Sensorium();
@@ -3376,14 +3376,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _regenerator = __webpack_require__(11);
-
-var _regenerator2 = _interopRequireDefault(_regenerator);
-
-var _asyncToGenerator2 = __webpack_require__(12);
-
-var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
-
 var _classCallCheck2 = __webpack_require__(0);
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
@@ -3411,10 +3403,17 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var Mode = function () {
   function Mode() {
     (0, _classCallCheck3.default)(this, Mode);
+
+    this.args = {
+      subCmd: 0x11,
+      mode: 0
+    };
+    this.isReadType = true;
   }
 
   /**
-   * 设置固件模式
+   * set firmware mode params
+   * @param {Number} subCmd
    * @param {Number} mode 0、1、2、3、4
    */
 
@@ -3422,48 +3421,31 @@ var Mode = function () {
   (0, _createClass3.default)(Mode, [{
     key: 'setMode',
     value: function setMode(subCmd, mode) {
-      var buf = _utils2.default.composer(_cmd2.default.setFirmwareMode, [subCmd, mode]);
-      _control2.default.write(buf);
+      if (typeof mode === 'number') {
+        this.isReadType = false;
+        this.args.mode = mode;
+      }
+      this.isReadType = true;
+      this.args.subCmd = subCmd;
     }
   }, {
-    key: 'getMode',
-    value: function () {
-      var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(subCmd) {
-        var buf;
-        return _regenerator2.default.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                buf = _utils2.default.composer(_cmd2.default.readFirmwareMode, [subCmd]);
-                _context.next = 3;
-                return _control2.default.read(buf);
-
-              case 3:
-                return _context.abrupt('return', _context.sent);
-
-              case 4:
-              case 'end':
-                return _context.stop();
-            }
-          }
-        }, _callee, this);
-      }));
-
-      function getMode(_x) {
-        return _ref.apply(this, arguments);
+    key: 'protocol',
+    get: function get() {
+      if (this.isReadType) {
+        return _utils2.default.composer(_cmd2.default.readFirmwareMode, [subCmd]);
+      } else {
+        return _utils2.default.composer(_cmd2.default.setFirmwareMode, [subCmd, mode]);
       }
-
-      return getMode;
-    }()
+    }
 
     /**
-     * 获取固件模式列表
-     * @return {Array} 模式列表
+     * get firmware modes list
+     * @return {Array}
      */
 
   }, {
-    key: 'getModesList',
-    value: function getModesList() {
+    key: 'FIRMWARE_MODESLIST',
+    get: function get() {
       return _settings.FIRM_MODES;
     }
   }]);
@@ -4903,7 +4885,7 @@ var boards = {
 
   /**
    * Sensorium
-   * @description  也是整个库的对外输出的唯一命名空间
+   * @description  Sensorium is the only namespace of this repository
    * @namespace
    */
 };
@@ -4951,7 +4933,7 @@ var Sensorium = function () {
 
   /**
    * Create a mainboard instance
-   * @param {String} mainboardName 主控板名，忽略大小写
+   * @param {String} mainboardName  both upperCase and lowerCase are allow
    * @param {Object} opts     (optional)
    * @example
    * // create a mcore with mainboardName, both upperCase and lowerCase are allow
@@ -4969,16 +4951,6 @@ var Sensorium = function () {
         throw new Error('sorry, the board ' + mainboardName + ' could not be supported!\n        You need pass in one of ' + this.getSupported().join(',') + ' as the first argument}');
       }
       return new board(opts);
-    }
-
-    /**
-     * this interface is out of use
-     */
-
-  }, {
-    key: 'setTransport',
-    value: function setTransport(transport) {
-      throw new Error('\n      Sorry for interface changes, you have to use new API as follows:\n      // Set sender like this\n      sensorium.setSender(function(buf) {\n        serialPort.write(buf);\n      });\n\n      // Recevie data like this\n      serialPort.on(\'data\', function(data) {\n        sensorium.doRecevied(data);\n      });\n    ');
     }
 
     /**
@@ -5000,7 +4972,6 @@ var Sensorium = function () {
      * 数据分发，目前只支持分发到 pipe
      * @param  {Buffer} buff
      */
-    // TODO:其他更多模块需要此分发
 
   }, {
     key: 'doRecevied',
@@ -5107,7 +5078,7 @@ var Sensorium = function () {
     /**
      * Get supported mainboard
      * @example
-     * sensorium.supportStamp
+     * sensorium.SUPPORT
      * // => ['auriga', 'mcore', 'megapi', 'orion', 'megapipro', 'arduino']
      * @return {Array}  a support list
      */
@@ -14314,7 +14285,7 @@ var Auriga = function (_Board) {
   }
 
   /**
-   * 设置固件模式
+   * set firmware mode
    * @param {Number} mode 0、1、2、3、4
    */
 
@@ -14327,27 +14298,60 @@ var Auriga = function (_Board) {
       return this;
     }
     /**
-     * 获取固件模式
+     * get firmware mode
      */
-    //TODO: 数据缓存
 
   }, {
-    key: 'getFirmwareMode',
+    key: 'readFirmwareMode',
+    value: function readFirmwareMode() {
+      var subCmd = 0x71;
+      _mode2.default.setMode(subCmd);
+      return this;
+    }
+
+    /**
+     * get voltage
+     */
+
+  }, {
+    key: 'readVoltage',
+    value: function readVoltage() {
+      var subCmd = 0x70;
+      _mode2.default.setMode(subCmd);
+      return this;
+    }
+
+    /**
+     * run
+     */
+
+  }, {
+    key: 'run',
+    value: function run() {
+      Control.write(_mode2.default.protocol);
+      return this;
+    }
+
+    /**
+     * Get data of Voltage or FirmwareMode
+     * @return {Promise}
+     */
+
+  }, {
+    key: 'getData',
     value: function () {
       var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
-        var subCmd;
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                subCmd = 0x71;
-                _context.next = 3;
-                return _mode2.default.getMode(subCmd);
+                _context.next = 2;
+                return Control.read(_mode2.default.protocol);
 
-              case 3:
+              case 2:
                 return _context.abrupt('return', _context.sent);
 
-              case 4:
+              case 3:
               case 'end':
                 return _context.stop();
             }
@@ -14355,46 +14359,11 @@ var Auriga = function (_Board) {
         }, _callee, this);
       }));
 
-      function getFirmwareMode() {
+      function getData() {
         return _ref.apply(this, arguments);
       }
 
-      return getFirmwareMode;
-    }()
-
-    /**
-     * 获取固件电压
-     */
-
-  }, {
-    key: 'getVoltage',
-    value: function () {
-      var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
-        var subCmd;
-        return _regenerator2.default.wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                subCmd = 0x70;
-                _context2.next = 3;
-                return _mode2.default.getMode(subCmd);
-
-              case 3:
-                return _context2.abrupt('return', _context2.sent);
-
-              case 4:
-              case 'end':
-                return _context2.stop();
-            }
-          }
-        }, _callee2, this);
-      }));
-
-      function getVoltage() {
-        return _ref2.apply(this, arguments);
-      }
-
-      return getVoltage;
+      return getData;
     }()
   }]);
   return Auriga;
@@ -14496,8 +14465,10 @@ var MegaPi = function (_Board) {
   }
 
   /**
-   * 设置固件模式
+   * set firmware mode
    * @param {Number} mode 0、1、2、3、4
+   * @example
+   *   megapi.setFirmwareMode(1).run()
    */
 
 
@@ -14508,29 +14479,50 @@ var MegaPi = function (_Board) {
       _mode2.default.setMode(subCmd, mode);
       return this;
     }
+
     /**
-     * 获取固件模式
-     * @param  {Function} callback 取值后回调函数
+     * get firmware mode
      */
-    //TODO: 数据缓存
 
   }, {
-    key: 'getFirmwareMode',
+    key: 'readFirmwareMode',
+    value: function readFirmwareMode() {
+      var subCmd = 0x72;
+      _mode2.default.setMode(subCmd);
+      return this;
+    }
+
+    /**
+     * run
+     */
+
+  }, {
+    key: 'run',
+    value: function run() {
+      Control.write(_mode2.default.protocol);
+      return this;
+    }
+
+    /**
+     * Get data of FirmwareMode
+     * @return {Promise}
+     */
+
+  }, {
+    key: 'getData',
     value: function () {
       var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
-        var subCmd;
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                subCmd = 0x72;
-                _context.next = 3;
-                return _mode2.default.getMode(subCmd);
+                _context.next = 2;
+                return Control.read(_mode2.default.protocol);
 
-              case 3:
+              case 2:
                 return _context.abrupt('return', _context.sent);
 
-              case 4:
+              case 3:
               case 'end':
                 return _context.stop();
             }
@@ -14538,11 +14530,11 @@ var MegaPi = function (_Board) {
         }, _callee, this);
       }));
 
-      function getFirmwareMode() {
+      function getData() {
         return _ref.apply(this, arguments);
       }
 
-      return getFirmwareMode;
+      return getData;
     }()
   }]);
   return MegaPi;
@@ -14644,8 +14636,10 @@ var MegaPiPro = function (_Board) {
   }
 
   /**
-   * 设置固件模式
+   * set firmware mode
    * @param {Number} mode 0、1、2、3、4
+   * @example
+   *   megapi.setFirmwareMode(1).run()
    */
 
 
@@ -14656,29 +14650,50 @@ var MegaPiPro = function (_Board) {
       _mode2.default.setMode(subCmd, mode);
       return this;
     }
+
     /**
-     * 获取固件模式
-     * @param  {Function} callback 取值后回调函数
+     * get firmware mode
      */
-    //TODO: 数据缓存
 
   }, {
-    key: 'getFirmwareMode',
+    key: 'readFirmwareMode',
+    value: function readFirmwareMode() {
+      var subCmd = 0x72;
+      _mode2.default.setMode(subCmd);
+      return this;
+    }
+
+    /**
+     * run
+     */
+
+  }, {
+    key: 'run',
+    value: function run() {
+      Control.write(_mode2.default.protocol);
+      return this;
+    }
+
+    /**
+     * Get data of FirmwareMode
+     * @return {Promise}
+     */
+
+  }, {
+    key: 'getData',
     value: function () {
       var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
-        var subCmd;
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                subCmd = 0x72;
-                _context.next = 3;
-                return _mode2.default.getMode(subCmd);
+                _context.next = 2;
+                return Control.read(_mode2.default.protocol);
 
-              case 3:
+              case 2:
                 return _context.abrupt('return', _context.sent);
 
-              case 4:
+              case 3:
               case 'end':
                 return _context.stop();
             }
@@ -14686,11 +14701,11 @@ var MegaPiPro = function (_Board) {
         }, _callee, this);
       }));
 
-      function getFirmwareMode() {
+      function getData() {
         return _ref.apply(this, arguments);
       }
 
-      return getFirmwareMode;
+      return getData;
     }()
   }]);
   return MegaPiPro;

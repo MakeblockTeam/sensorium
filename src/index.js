@@ -26,7 +26,7 @@ const boards = {
 
 /**
  * Sensorium
- * @description  也是整个库的对外输出的唯一命名空间
+ * @description  Sensorium is the only namespace of this repository
  * @namespace
  */
 class Sensorium {
@@ -43,7 +43,7 @@ class Sensorium {
 
   /**
    * Create a mainboard instance
-   * @param {String} mainboardName 主控板名，忽略大小写
+   * @param {String} mainboardName  both upperCase and lowerCase are allow
    * @param {Object} opts     (optional)
    * @example
    * // create a mcore with mainboardName, both upperCase and lowerCase are allow
@@ -58,24 +58,6 @@ class Sensorium {
         You need pass in one of ${this.getSupported().join(',')} as the first argument}`);
     }
     return new board(opts);
-  }
-
-  /**
-   * this interface is out of use
-   */
-  setTransport(transport){
-    throw new Error(`
-      Sorry for interface changes, you have to use new API as follows:
-      // Set sender like this
-      sensorium.setSender(function(buf) {
-        serialPort.write(buf);
-      });
-
-      // Recevie data like this
-      serialPort.on('data', function(data) {
-        sensorium.doRecevied(data);
-      });
-    `)
   }
 
   /**
@@ -94,7 +76,6 @@ class Sensorium {
    * 数据分发，目前只支持分发到 pipe
    * @param  {Buffer} buff
    */
-  // TODO:其他更多模块需要此分发
   doRecevied (buff) {
     Control.pipe(buff);
   }
@@ -142,7 +123,7 @@ class Sensorium {
   /**
    * Get supported mainboard
    * @example
-   * sensorium.supportStamp
+   * sensorium.SUPPORT
    * // => ['auriga', 'mcore', 'megapi', 'orion', 'megapipro', 'arduino']
    * @return {Array}  a support list
    */

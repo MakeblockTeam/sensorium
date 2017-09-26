@@ -32,22 +32,40 @@ class MegaPi extends Board{
   }
 
   /**
-   * 设置固件模式
+   * set firmware mode
    * @param {Number} mode 0、1、2、3、4
+   * @example
+   *   megapi.setFirmwareMode(1).run()
    */
   setFirmwareMode(mode){
     let subCmd = 0x12;
     Mode.setMode(subCmd, mode);
     return this;
   }
+
   /**
-   * 获取固件模式
-   * @param  {Function} callback 取值后回调函数
+   * get firmware mode
    */
-  //TODO: 数据缓存
-  async getFirmwareMode(){
+  readFirmwareMode(){
     let subCmd = 0x72;
-    return await Mode.getMode(subCmd);
+    Mode.setMode(subCmd);
+    return this;
+  }
+
+  /**
+   * run
+   */
+  run() {
+    Control.write(Mode.protocol);
+    return this;
+  }
+
+  /**
+   * Get data of FirmwareMode
+   * @return {Promise}
+   */
+  async getData() {
+    return await Control.read(Mode.protocol);
   }
 }
 
