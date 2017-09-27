@@ -869,7 +869,7 @@
 	<externalid><![CDATA[17]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	single-setCmd:`mcore.ServoMotor(4,1).angle(-20)`ff 55 06 00 02 0b 04 01 14</p>
+	single-setCmd:`mcore.ServoMotor(4,1).angle(-20)`ff 55 06 00 02 0b 04 01 00</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
@@ -909,7 +909,7 @@
 	单击执行语句块，查看机器人</p>
 ]]></actions>
 	<expectedresults><![CDATA[<p>
-	机器人接口4插头2的舵机角度转为20度</p>
+	机器人接口4插头2的舵机角度转为0度</p>
 ]]></expectedresults>
 	<execution_type><![CDATA[1]]></execution_type>
 </step>
@@ -2369,7 +2369,7 @@
 	<externalid><![CDATA[45]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	single-setCmd:`mcore.LedMatrix(1).timeMode(10).hour(0).minute(20)`ff 55 08 00 02 29 01 03 01 0a 14</p>
+	single-setCmd:`mcore.LedMatrix(1).timeMode(10).hour(10).minute(20)`ff 55 08 00 02 29 01 03 01 0a 14</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
@@ -2421,7 +2421,7 @@
 	<externalid><![CDATA[46]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	single-setCmd:`mcore.LedMatrix(2).timeMode().hour(12).separator(&#39; &#39;).minute(600)`ff 55 08 00 02 29 02 03 00 0c 58</p>
+	single-setCmd:`mcore.LedMatrix(2).timeMode().hour(12).separator(&#39; &#39;).minute(600)`ff 55 08 00 02 29 02 03 00 0c 3b</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
@@ -3173,7 +3173,7 @@
 	<externalid><![CDATA[60]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	single-setCmd:`mcore.SevenSegment(1).number(10000)`ff 55 08 00 02 09 01 00 40 1c 46</p>
+	single-setCmd:`mcore.SevenSegment(1).number(10000)`ff 55 08 00 02 09 01 00 3c 1c 46</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mBlock</p>
@@ -9446,7 +9446,7 @@
 	<externalid><![CDATA[193]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	single-setCmd:`orion.StepperMotor(1).speed(-500).distance(-1000)`ff 55 0a 00 02 28 01 0c fe 30 f8 ff ff</p>
+	single-setCmd:`orion.StepperMotor(1).speed(-500).distance(-1000)`ff 55 0a 00 02 28 01 00 00 18 fc ff ff</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
@@ -9498,7 +9498,7 @@
 	<externalid><![CDATA[194]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	single-setCmd:`orion.StepperMotor(2).speed(-1000).distance(2000)`ff 55 0a 00 02 28 02 18 fc d0 07 00 00</p>
+	single-setCmd:`orion.StepperMotor(2).speed(-1000).distance(2000)`ff 55 0a 00 02 28 02 00 00 d0 07 00 00</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
@@ -9711,7 +9711,7 @@
 	<externalid><![CDATA[198]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	single-setCmd:`orion.EncoderMotor(2,1).offsetAngle(1000).speed(-200)`ff 55 0b 00 02 0c 08 01 c8 00 00 00 7a 44</p>
+	single-setCmd:`orion.EncoderMotor(2,1).offsetAngle(1000).speed(-200)`ff 55 0b 00 02 0c 08 01 00 00 00 00 7a 44</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
@@ -9763,7 +9763,7 @@
 	<externalid><![CDATA[199]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	single-setCmd:`orion.EncoderMotor(2,2).offsetAngle(1000).speed(-200)`ff 55 0b 00 02 0c 08 02 c8 00 00 00 7a 44</p>
+	single-setCmd:`orion.EncoderMotor(2,2).offsetAngle(1000).speed(-200)`ff 55 0b 00 02 0c 08 02 00 00 00 00 7a 44</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
@@ -15852,7 +15852,7 @@
 	<externalid><![CDATA[313]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	single-setCmd:`auriga.EncoderMotorOnBoard(1).speed(100)`ff 55 07 00 02 3d 00 01 64 00</p>
+	single-setCmd:`auriga.EncoderMotorOnBoard(1).speed(100)`ff 55 07 00 02 3e 02 01 64 00</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
@@ -15904,7 +15904,7 @@
 	<externalid><![CDATA[314]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	single-setCmd:`auriga.EncoderMotorOnBoard(2).speed(-200)`ff 55 07 00 02 3d 00 02 38 ff</p>
+	single-setCmd:`auriga.EncoderMotorOnBoard(2).speed(-200)`ff 55 07 00 02 3e 02 02 38 ff</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
@@ -16008,7 +16008,7 @@
 	<externalid><![CDATA[316]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	single-setCmd:`auriga.EncoderMotorOnBoard(2).speed(0)`ff 55 07 00 02 3d 00 02 00 00</p>
+	single-setCmd:`auriga.EncoderMotorOnBoard(2).speed(0)`ff 55 07 00 02 3e 02 02 00 00</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
@@ -16060,7 +16060,7 @@
 	<externalid><![CDATA[317]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	single-setCmd:`auriga.EncoderMotorOnBoard(1).speed(-255)`ff 55 07 00 02 3d 00 01 01 ff</p>
+	single-setCmd:`auriga.EncoderMotorOnBoard(1).speed(-255)`ff 55 07 00 02 3e 02 01 01 ff</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
@@ -17248,7 +17248,7 @@
 	<externalid><![CDATA[339]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	single-setCmd:`auriga.ServoMotor(10,1).angle(-100)`ff 55 06 00 02 0b 0a 01 64</p>
+	single-setCmd:`auriga.ServoMotor(10,1).angle(-100)`ff 55 06 00 02 0b 0a 01 00</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
@@ -17288,7 +17288,7 @@
 	单击执行语句块，查看机器人</p>
 ]]></actions>
 	<expectedresults><![CDATA[<p>
-	机器人接口10插头2的舵机角度转为100度</p>
+	机器人接口10插头2的舵机角度转为0度</p>
 ]]></expectedresults>
 	<execution_type><![CDATA[1]]></execution_type>
 </step>
@@ -17409,7 +17409,7 @@
 	<externalid><![CDATA[342]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	single-setCmd:`auriga.StepperMotor(3).speed(-500).distance(-1000)`ff 55 0a 00 02 28 03 0c fe 30 f8 ff ff</p>
+	single-setCmd:`auriga.StepperMotor(3).speed(-500).distance(-1000)`ff 55 0a 00 02 28 03 00 00 18 fc ff ff</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
@@ -17461,7 +17461,7 @@
 	<externalid><![CDATA[343]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	single-setCmd:`auriga.StepperMotor(4).speed(-1000).distance(2000)`ff 55 0a 00 02 28 04 18 fc d0 07 00 00</p>
+	single-setCmd:`auriga.StepperMotor(4).speed(-1000).distance(2000)`ff 55 0a 00 02 28 04 00 00 d0 07 00 00</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
@@ -17674,7 +17674,7 @@
 	<externalid><![CDATA[347]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	single-setCmd:`auriga.EncoderMotor(2,1).offsetAngle(1000).speed(-200)`ff 55 0b 00 02 0c 08 01 c8 00 00 00 7a 44</p>
+	single-setCmd:`auriga.EncoderMotor(2,1).offsetAngle(1000).speed(-200)`ff 55 0b 00 02 0c 08 01 00 00 00 00 7a 44</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
@@ -17726,7 +17726,7 @@
 	<externalid><![CDATA[348]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	single-setCmd:`auriga.EncoderMotor(2,2).offsetAngle(1000).speed(-200)`ff 55 0b 00 02 0c 08 02 c8 00 00 00 7a 44</p>
+	single-setCmd:`auriga.EncoderMotor(2,2).offsetAngle(1000).speed(-200)`ff 55 0b 00 02 0c 08 02 00 00 00 00 7a 44</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
@@ -17778,7 +17778,7 @@
 	<externalid><![CDATA[349]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	single-setCmd:`auriga.EncoderMotor(3,2).offsetAngle(2000).speed(300)`ff 55 0b 00 02 0c 08 02 2c 01 00 00 fa 44</p>
+	single-setCmd:`auriga.EncoderMotor(3,2).offsetAngle(-2000).speed(300)`ff 55 0b 00 02 0c 08 02 2c 01 00 00 fa c4</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
@@ -18203,7 +18203,7 @@
 	<externalid><![CDATA[357]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	single-setCmd:`auriga.SevenSegment(6).number(10000)`ff 55 08 00 02 09 06 00 40 1c 46</p>
+	single-setCmd:`auriga.SevenSegment(6).number(10000)`ff 55 08 00 02 09 06 00 3c 1c 46</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接上mBlock</p>
@@ -19173,7 +19173,7 @@
 	<externalid><![CDATA[375]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	single-setCmd:`auriga.Buzzer().tone(&#39;A2&#39;).beat(1000)`ff 55 07 00 02 22 6e 00 e8 03</p>
+	single-setCmd:`auriga.Buzzer().tone(&#39;A2&#39;).beat(1000)`ff 55 08 00 02 22 2d 6e 00 e8 03</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
@@ -19225,7 +19225,7 @@
 	<externalid><![CDATA[376]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	single-setCmd:`auriga.Buzzer().tone(&#39;C4&#39;).beat(2000)`ff 55 07 00 02 22 06 01 d0 07</p>
+	single-setCmd:`auriga.Buzzer().tone(&#39;C4&#39;).beat(2000)`ff 55 08 00 02 22 2d 06 01 d0 07</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
@@ -19277,7 +19277,7 @@
 	<externalid><![CDATA[377]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	single-setCmd:`auriga.Buzzer().tone(&#39;E6&#39;).beat(125)`ff 55 07 00 02 22 27 05 7d 00</p>
+	single-setCmd:`auriga.Buzzer().tone(&#39;E6&#39;).beat(125)`ff 55 08 00 02 22 2d 27 05 7d 00</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
@@ -19329,7 +19329,7 @@
 	<externalid><![CDATA[378]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	single-setCmd:`auriga.Buzzer().tone(&#39;G4&#39;).beat(250)`ff 55 07 00 02 22 88 01 fa 00</p>
+	single-setCmd:`auriga.Buzzer().tone(&#39;G4&#39;).beat(250)`ff 55 08 00 02 22 2d 88 01 fa 00</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
@@ -19381,7 +19381,7 @@
 	<externalid><![CDATA[379]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	single-setCmd:`auriga.Buzzer().tone(&#39;F2&#39;).beat(500)`ff 55 07 00 02 22 57 00 f4 01</p>
+	single-setCmd:`auriga.Buzzer().tone(&#39;F2&#39;).beat(500)`ff 55 08 00 02 22 2d 57 00 f4 01</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
@@ -19916,7 +19916,7 @@
 	<externalid><![CDATA[389]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	single-setCmd:`auriga.LedMatrix(6).timeMode(10).hour(0).minute(20)`ff 55 08 00 02 29 06 03 01 0a 14</p>
+	single-setCmd:`auriga.LedMatrix(6).timeMode(10).hour(10).minute(20)`ff 55 08 00 02 29 06 03 01 0a 14</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
@@ -19968,7 +19968,7 @@
 	<externalid><![CDATA[390]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	single-setCmd:`auriga.LedMatrix(7).timeMode().hour(12).separator(&#39; &#39;).minute(600)`ff 55 08 00 02 29 09 03 00 0c 58</p>
+	single-setCmd:`auriga.LedMatrix(7).timeMode().hour(12).separator(&#39; &#39;).minute(600)`ff 55 08 00 02 29 07 03 00 0c 3b</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
@@ -21105,7 +21105,7 @@
 	<externalid><![CDATA[411]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	single-readCmd:`auriga.EncoderMotorOnBoard(1)`getSpeed`ff 55 04 00 01 3d 01 02`-1024~1024</p>
+	single-readCmd:`auriga.EncoderMotorOnBoard(1).readSpeed()`getData`ff 55 06 00 01 3d 00 01 02`-1024~1024</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	编码电机正面向前运动</p>
@@ -21157,7 +21157,7 @@
 	<externalid><![CDATA[412]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	single-readCmd:`auriga.EncoderMotorOnBoard(2)`getSpeed`ff 55 04 00 01 3d 02 02`-1024~1024</p>
+	single-readCmd:`auriga.EncoderMotorOnBoard(2).readSpeed()`getData`ff 55 06 00 01 3d 00 02 02`-1024~1024</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	编码电机反面向后运动</p>
@@ -21218,9 +21218,7 @@
 	<externalid><![CDATA[413]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	single-readCmd:`auriga.EncoderMotorOnBoard(1)`getAngle`ff 55 04 00 01 3d 01 01`-1024~1024</p>
-<div>
-	&nbsp;</div>
+	single-readCmd:`auriga.EncoderMotorOnBoard(1).readAngle()`getData`ff 55 06 00 01 3d 00 01 01`-1024~1024</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	编码电机正常运行中</p>
@@ -21272,9 +21270,7 @@
 	<externalid><![CDATA[414]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	single-readCmd:`auriga.EncoderMotorOnBoard(2)`getAngle`ff 55 04 00 01 3d 02 01`-1024~1024</p>
-<div>
-	&nbsp;</div>
+	single-readCmd:`auriga.EncoderMotorOnBoard(2).readAngle()`getData`ff 55 06 00 01 3d 00 02 01`-1024~1024</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	编码电机正常运行中</p>
@@ -29878,7 +29874,7 @@
 	<externalid><![CDATA[594]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	single-setCmd:`megapi.ServoMotor(7,1).angle(-100)`ff 55 06 00 02 0b 07 01 64</p>
+	single-setCmd:`megapi.ServoMotor(7,1).angle(-100)`ff 55 06 00 02 0b 07 01 00</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
@@ -30252,7 +30248,7 @@
 	<externalid><![CDATA[601]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	single-setCmd:`megapi.StepperMotor(2).speed(500).distance(2000)`ff 55 0a 00 02 28 02 f4 01 d0 07 00 00</p>
+	single-setCmd:`megapi.StepperMotor(2).speed(500).distance(-2000)`ff 55 0a 00 02 28 02 f4 01 30 f8 ff ff</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
@@ -30304,7 +30300,7 @@
 	<externalid><![CDATA[602]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	single-setCmd:`megapi.StepperMotor(3).speed(-500).distance(-1000)`ff 55 0a 00 02 28 03 0c fe 30 f8 ff ff</p>
+	single-setCmd:`megapi.StepperMotor(3).speed(-500).distance(-1000)`ff 55 0a 00 02 28 03 00 00 18 fc ff ff</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
@@ -30356,7 +30352,7 @@
 	<externalid><![CDATA[603]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	single-setCmd:`auriga.StepperMotor(4).speed(-1000).distance(2000)`ff 55 0a 00 02 28 04 18 fc d0 07 00 00</p>
+	single-setCmd:`auriga.StepperMotor(4).speed(-1000).distance(2000)`ff 55 0a 00 02 28 04 00 00 d0 07 00 00</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
@@ -32807,7 +32803,7 @@
 	<externalid><![CDATA[649]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	single-setCmd:`megapi.LedMatrix(6).timeMode(10).hour(0).minute(20)`ff 55 08 00 02 29 06 03 01 0a 14</p>
+	single-setCmd:`megapi.LedMatrix(6).timeMode(10).hour(10).minute(20)`ff 55 08 00 02 29 06 03 01 0a 14</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
@@ -32859,7 +32855,7 @@
 	<externalid><![CDATA[650]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	single-setCmd:`megapi.LedMatrix(7).timeMode().hour(12).separator(&#39; &#39;).minute(600)`ff 55 08 00 02 29 09 03 00 0c 58</p>
+	single-setCmd:`megapi.LedMatrix(7).timeMode().hour(12).separator(&#39; &#39;).minute(600)`ff 55 08 00 02 29 07 03 00 0c 3b</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
