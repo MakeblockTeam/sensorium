@@ -15112,12 +15112,12 @@
 	<externalid><![CDATA[299]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	语句块：【前进、后退、左转、右转】转速为【255~-255】</p>
+	single-setCmd:`auriga.VirtualJoystick().speed(255,255)`ff 55 07 00 02 05 ff 00 ff 00</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
 ]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[3]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -15164,12 +15164,12 @@
 	<externalid><![CDATA[300]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	语句块：【前进、后退、左转、右转】转速为【255~-255】</p>
+	single-setCmd:`auriga.VirtualJoystick().speed(-100,-100)`ff 55 07 00 02 05 9c ff 9c ff</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
 ]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[3]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -15216,12 +15216,12 @@
 	<externalid><![CDATA[301]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	语句块：【前进、后退、左转、右转】转速为【255~-255】</p>
+	single-setCmd:`auriga.VirtualJoystick().speed(-255,-255)`ff 55 07 00 02 05 01 ff 01 ff</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
 ]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[3]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -15268,12 +15268,12 @@
 	<externalid><![CDATA[302]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	语句块：【前进、后退、左转、右转】转速为【255~-255】</p>
+	single-setCmd:`auriga.VirtualJoystick().speed(0,0)`ff 55 07 00 02 05 00 00 00 00</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
 ]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[3]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -15320,12 +15320,12 @@
 	<externalid><![CDATA[303]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	语句块：【前进、后退、左转、右转】转速为【255~-255】</p>
+	single-setCmd:`auriga.VirtualJoystick().speed(-100,-100)`ff 55 07 00 02 05 9c ff 9c ff</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
 ]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[3]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -15372,12 +15372,12 @@
 	<externalid><![CDATA[304]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	语句块：【前进、后退、左转、右转】转速为【255~-255】</p>
+	single-setCmd:`auriga.VirtualJoystick().speed(200,200)`ff 55 07 00 02 05 c8 00 c8 00</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
 ]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[3]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -15424,12 +15424,12 @@
 	<externalid><![CDATA[305]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	语句块：【前进、后退、左转、右转】转速为【255~-255】</p>
+	single-setCmd:`auriga.VirtualJoystick().speed(-50,-50)`ff 55 07 00 02 05 ce ff ce ff</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
 ]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[3]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -15852,7 +15852,7 @@
 	<externalid><![CDATA[313]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	single-setCmd:`auriga.EncoderMotorOnBoard(1).speed(100)`ff 55 07 00 02 3e 02 01 64 00</p>
+	single-setCmd:`auriga.EncoderMotorOnBoardPID(1).speedMode().speed(100)`ff 55 07 00 02 3e 02 01 64 00</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
@@ -15904,7 +15904,7 @@
 	<externalid><![CDATA[314]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	single-setCmd:`auriga.EncoderMotorOnBoard(2).speed(-200)`ff 55 07 00 02 3e 02 02 38 ff</p>
+	single-setCmd:`auriga.EncoderMotorOnBoardPID(2).speedMode().speed(-200)`ff 55 07 00 02 3e 02 02 38 ff</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
@@ -15956,7 +15956,7 @@
 	<externalid><![CDATA[315]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	single-setCmd:`auriga.EncoderMotorOnBoard(2).speed(50)`ff 55 07 00 02 3e 02 02 32 00</p>
+	single-setCmd:`auriga.EncoderMotorOnBoardPID(2).speedMode().speed(50)`ff 55 07 00 02 3e 02 02 32 00</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
@@ -16008,7 +16008,7 @@
 	<externalid><![CDATA[316]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	single-setCmd:`auriga.EncoderMotorOnBoard(2).speed(0)`ff 55 07 00 02 3e 02 02 00 00</p>
+	single-setCmd:`auriga.EncoderMotorOnBoardPID(2).speedMode().speed(0)`ff 55 07 00 02 3e 02 02 00 00</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
@@ -16060,7 +16060,7 @@
 	<externalid><![CDATA[317]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	single-setCmd:`auriga.EncoderMotorOnBoard(1).speed(-255)`ff 55 07 00 02 3e 02 01 01 ff</p>
+	single-setCmd:`auriga.EncoderMotorOnBoardPID(1).speedMode().speed(-255)`ff 55 07 00 02 3e 02 01 01 ff</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
