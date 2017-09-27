@@ -388,7 +388,7 @@ describe('【auriga_最新固件 协议测试】', function() {
         // let emotionData = [00, 00, 0x40, 0x48, 0x44, 0x42, 0x02, 0x02, 0x02, 0x02, 0x42, 0x44, 0x48, 0x40, 0x00, 0x00];
         let LedMatrixEmotion = auriga.LedMatrix(6).emotionMode().x(0).y(0).emotion(emotionStr);
         let currentCmd = formatProtocol(LedMatrixEmotion.protocol);
-        console.log('LedMatrixEmotion.protocol', currentCmd)
+        // console.log('LedMatrixEmotion.protocol', currentCmd)
         // expect(currentCmd).to.equal(targetCmd);
       });
     })
@@ -522,86 +522,29 @@ describe('【auriga_最新固件 协议测试】', function() {
     //   });
     // });
 
-    // describe('表情面板-显示数字：setLedMatrixNumber(6, 0)', function() {
-    //   it("在端口6上的表情面板显示数字0 ", function() {
-    //     var targetCmd = dataman.auriga.write.ledMatrixNumber[0];
-    //     var cmd = auriga.setLedMatrixNumber(6, 0);
-    //     assert.equal(targetCmd, cmd);
-    //   });
+    describe('表情面板-显示数字：LedMatrix(port).numberMode()', function() {
+      let ports =   [6,   7,   8,   9,   10];
+      for (let i = 0; i < ports.length; i++) {
+        let port = ports[i];
+        it(`在端口 port${port} 上的表情面板显示数字0`, ()=>{
+          let targetCmd = dataman.auriga.write.ledMatrixNumber[i];
+          let LedMatrixNumber = auriga.LedMatrix(port).numberMode().number(0);
+          let currentCmd = formatProtocol(LedMatrixNumber.protocol);
+          expect(currentCmd).to.equal(targetCmd);
+        });
+      }
 
-    //   it("在端口7上的表情面板显示数字0 ", function() {
-    //     var targetCmd = dataman.auriga.write.ledMatrixNumber[1];
-    //     var cmd = auriga.setLedMatrixNumber(7, 0);
-    //     assert.equal(targetCmd, cmd);
-    //   });
-
-    //   it("在端口8上的表情面板显示数字0 ", function() {
-    //     var targetCmd = dataman.auriga.write.ledMatrixNumber[2];
-    //     var cmd = auriga.setLedMatrixNumber(8, 0);
-    //     assert.equal(targetCmd, cmd);
-    //   });
-
-    //   it("在端口9上的表情面板显示数字0", function() {
-    //     var targetCmd = dataman.auriga.write.ledMatrixNumber[3];
-    //     var cmd = auriga.setLedMatrixNumber(9, 0);
-    //     assert.equal(targetCmd, cmd);
-    //   });
-
-    //   it("在端口10上的表情面板显示数字0", function() {
-    //     var targetCmd = dataman.auriga.write.ledMatrixNumber[4];
-    //     var cmd = auriga.setLedMatrixNumber(10, 0);
-    //     assert.equal(targetCmd, cmd);
-    //   });
-
-    //   it("在端口 6 上的表情面板显示数字 -1 ", function() {
-    //     var targetCmd = dataman.auriga.write.ledMatrixNumber[5];
-    //     var cmd = auriga.setLedMatrixNumber(6, -1);
-    //     assert.equal(targetCmd, cmd);
-    //   });
-
-    //   it("在端口 6 上的表情面板显示数字 1 ", function() {
-    //     var targetCmd = dataman.auriga.write.ledMatrixNumber[6];
-    //     var cmd = auriga.setLedMatrixNumber(6, 1);
-    //     assert.equal(targetCmd, cmd);
-    //   });
-
-    //   it("在端口 6 上的表情面板显示数字 12.25", function() {
-    //     var targetCmd = dataman.auriga.write.ledMatrixNumber[7];
-    //     var cmd = auriga.setLedMatrixNumber(6, 12.25);
-    //     assert.equal(targetCmd, cmd);
-    //   });
-
-    //   it("在端口 6 上的表情面板显示数字 2147483647 ", function() {
-    //     var targetCmd = dataman.auriga.write.ledMatrixNumber[8];
-    //     var cmd = auriga.setLedMatrixNumber(6, 2147483647);
-    //     assert.equal(targetCmd, cmd);
-    //   });
-
-    //   it("在端口6上的表情面板显示数字 -2147483648", function() {
-    //     var targetCmd = dataman.auriga.write.ledMatrixNumber[9];
-    //     var cmd = auriga.setLedMatrixNumber(6, -2147483648);
-    //     assert.equal(targetCmd, cmd);
-    //   });
-
-    //   it("在端口6上的表情面板显示数字 2147483648 ", function() {
-    //     var targetCmd = dataman.auriga.write.ledMatrixNumber[10];
-    //     var cmd = auriga.setLedMatrixNumber(6, 2147483648);
-    //     assert.equal(targetCmd, cmd);
-    //   });
-
-    //   it("在端口6上的表情面板显示数字0 -2147483649 ", function() {
-    //     var targetCmd = dataman.auriga.write.ledMatrixNumber[11];
-    //     var cmd = auriga.setLedMatrixNumber(6, -2147483649);
-    //     assert.equal(targetCmd, cmd);
-    //   });
-
-    //   it("在端口6上的表情面板显示数字 ‘error’ ", function() {
-    //     var targetCmd = dataman.auriga.write.ledMatrixNumber[12];
-    //     var cmd = auriga.setLedMatrixNumber(6, 'error');
-    //     assert.equal(targetCmd, cmd);
-    //   });
-    // });
-
+      let numbers =   [-1,1,12.25,2147483647,-2147483648, 2147483648, -2147483649, 'error'];
+      for (let i = 0; i < numbers.length; i++) {
+        let number = numbers[i];
+        it(`在端口 port 6 上的表情面板显示数字 ${number}`, ()=>{
+          let targetCmd = dataman.auriga.write.ledMatrixNumber[i+5];
+          let LedMatrixNumber = auriga.LedMatrix(6).numberMode().number(number);
+          let currentCmd = formatProtocol(LedMatrixNumber.protocol);
+          expect(currentCmd).to.equal(targetCmd);
+        });
+      }
+    })
 
     // describe('快门线模块：setShutter(6, 2)', function() {
     //   it('在端口6的快门线设置为按下快门00 ', function() {
