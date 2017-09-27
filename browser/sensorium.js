@@ -2835,7 +2835,7 @@ var BaseLedMatrix = function (_Electronic) {
             break;
         }
       }
-      // console.log('bufArray', this.args.type, '['+ bufArray.join(','))
+      console.log('bufArray', this.args.type, '[' + bufArray.join(','));
       return (0, _utils.composer)(_cmd2.default.setLedMatrix, bufArray);
     }
   }], [{

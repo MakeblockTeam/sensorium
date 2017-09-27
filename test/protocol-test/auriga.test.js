@@ -436,91 +436,37 @@ describe('【auriga_最新固件 协议测试】', function() {
     //   });
     // });
 
-    // describe('表情面板-显示时间：setLedMatrixTime(6～10, 0/1, 0～23, 0～59)', function() {
-    //   it("在端口6上以分隔符‘：’显示时间10:20 ", function() {
-    //     var targetCmd = dataman.auriga.write.ledMatrixTime[0];
-    //     var cmd = auriga.setLedMatrixTime(6, 1, 10, 20);
-    //     assert.equal(targetCmd, cmd);
-    //   });
+    describe('表情面板显示时间-LedMatrixTime(6～10, 0/1, 0～23, 0～59)', function() {
+      let ports =   [6,   7,   8,   9,   10];
+      for (let i = 0; i < ports.length; i++) {
+        let port = ports[i];
+        it(`在端口 port${port} 以分隔符‘:’显示时间10:20`, ()=>{
+          let targetCmd = dataman.auriga.write.ledMatrixTime[i];
+          let LedMatrixTime = auriga.LedMatrix(port).timeMode().hour(10).minute(20);
+          let currentCmd = formatProtocol(LedMatrixTime.protocol);
+          expect(currentCmd).to.equal(targetCmd);
+        });
+      }
 
-    //   it("在端口7上以分隔符‘：’显示时间10:20 ", function() {
-    //     var targetCmd = dataman.auriga.write.ledMatrixTime[1];
-    //     var cmd = auriga.setLedMatrixTime(7, 1, 10, 20);
-    //     assert.equal(targetCmd, cmd);
-    //   });
-
-    //   it("在端口8上以分隔符‘：’显示时间10:20 ", function() {
-    //     var targetCmd = dataman.auriga.write.ledMatrixTime[2];
-    //     var cmd = auriga.setLedMatrixTime(8, 1, 10, 20);
-    //     assert.equal(targetCmd, cmd);
-    //   });
-
-    //   it("在端口9上以分隔符‘：’显示时间10:20 ", function() {
-    //     var targetCmd = dataman.auriga.write.ledMatrixTime[3];
-    //     var cmd = auriga.setLedMatrixTime(9, 1, 10, 20);
-    //     assert.equal(targetCmd, cmd);
-    //   });
-
-    //   it("在端口10上以分隔符‘：’显示时间10:20 ", function() {
-    //     var targetCmd = dataman.auriga.write.ledMatrixTime[4];
-    //     var cmd = auriga.setLedMatrixTime(10, 1, 10, 20);
-    //     assert.equal(targetCmd, cmd);
-    //   });
-
+      let hours =     [0,   23,   -1,  0,    23,  24, 'time',  15.5];
+      let minutes =   [0,   59,   0,   -1,   60,  0,  1,      12];
+      for (let i = 0; i < hours.length; i++) {
+        let hour = hours[i];
+        let minute = minutes[i];
+        it(`在端口6上以分隔符 ':'显示时间${hour}:${minute}`, ()=>{
+          let targetCmd = dataman.auriga.write.ledMatrixTime[i+6];
+          let LedMatrixTime = auriga.LedMatrix(6).timeMode().hour(hour).minute(minute);
+          let currentCmd = formatProtocol(LedMatrixTime.protocol);
+          expect(currentCmd).to.equal(targetCmd);
+        });
+      }
+    })
     //   it("在端口6上以分隔符‘ ’显示时间10 20 ", function() {
     //     var targetCmd = dataman.auriga.write.ledMatrixTime[5];
     //     var cmd = auriga.setLedMatrixTime(6, 0, 10, 20);
     //     assert.equal(targetCmd, cmd);
     //   });
 
-    //   it("在端口6上以分隔符‘：’显示时间00:00 ", function() {
-    //     var targetCmd = dataman.auriga.write.ledMatrixTime[6];
-    //     var cmd = auriga.setLedMatrixTime(6, 1, 0, 0);
-    //     assert.equal(targetCmd, cmd);
-    //   });
-
-    //   it("在端口6上以分隔符‘：’显示时间23:59 ", function() {
-    //     var targetCmd = dataman.auriga.write.ledMatrixTime[7];
-    //     var cmd = auriga.setLedMatrixTime(6, 1, 23, 59);
-    //     assert.equal(targetCmd, cmd);
-    //   });
-
-    //   it("在端口6上以分隔符‘：’显示时间-1:00 ", function() {
-    //     var targetCmd = dataman.auriga.write.ledMatrixTime[8];
-    //     var cmd = auriga.setLedMatrixTime(6, 1, -1, 0);
-    //     assert.equal(targetCmd, cmd);
-    //   });
-
-    //   it("在端口6上以分隔符‘：’显示时间00:-1 ", function() {
-    //     var targetCmd = dataman.auriga.write.ledMatrixTime[9];
-    //     var cmd = auriga.setLedMatrixTime(6, 1, 0, -1);
-    //     assert.equal(targetCmd, cmd);
-    //   });
-
-    //   it("在端口6上以分隔符‘：’显示时间23:60 ", function() {
-    //     var targetCmd = dataman.auriga.write.ledMatrixTime[10];
-    //     var cmd = auriga.setLedMatrixTime(6, 1, 23, 60);
-    //     assert.equal(targetCmd, cmd);
-    //   });
-
-    //   it("在端口6上以分隔符‘：’显示时间24:00 ", function() {
-    //     var targetCmd = dataman.auriga.write.ledMatrixTime[11];
-    //     var cmd = auriga.setLedMatrixTime(6, 1, 24, 0);
-    //     assert.equal(targetCmd, cmd);
-    //   });
-
-    //   it("在端口6上以分隔符‘：’显示时间time:01 ", function() {
-    //     var targetCmd = dataman.auriga.write.ledMatrixTime[12];
-    //     var cmd = auriga.setLedMatrixTime(6, 1, 'time', 01);
-    //     assert.equal(targetCmd, cmd);
-    //   });
-
-    //   it("在端口6上以分隔符‘：’显示时间15.5:12 ", function() {
-    //     var targetCmd = dataman.auriga.write.ledMatrixTime[13];
-    //     var cmd = auriga.setLedMatrixTime(6, 1, 15.5, 12);
-    //     assert.equal(targetCmd, cmd);
-    //   });
-    // });
 
     describe('表情面板-显示数字：LedMatrix(port).numberMode()', function() {
       let ports =   [6,   7,   8,   9,   10];
@@ -540,6 +486,7 @@ describe('【auriga_最新固件 协议测试】', function() {
         it(`在端口 port 6 上的表情面板显示数字 ${number}`, ()=>{
           let targetCmd = dataman.auriga.write.ledMatrixNumber[i+5];
           let LedMatrixNumber = auriga.LedMatrix(6).numberMode().number(number);
+          // console.log(LedMatrixNumber.protocol)
           let currentCmd = formatProtocol(LedMatrixNumber.protocol);
           expect(currentCmd).to.equal(targetCmd);
         });

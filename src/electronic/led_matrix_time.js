@@ -35,7 +35,7 @@ class LedMatrixTime extends BaseLedMatrix {
    */
   hour(h){
     h = limitValue(h, [0, 23]);
-    this.args.hour = validateNumber(h);
+    this.args.hour = validateNumber(h, 0);
     return this;
   }
 
@@ -45,7 +45,7 @@ class LedMatrixTime extends BaseLedMatrix {
    */
   minute(m){
     m = limitValue(m, [0, 59]);
-    this.args.minute = validateNumber(m);
+    this.args.minute = validateNumber(m, 0);
     return this;
   }
 
