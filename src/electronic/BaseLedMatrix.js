@@ -64,7 +64,6 @@ class BaseLedMatrix extends Electronic {
       // if time mode
       bufArray = [this.args.port, this.args.type, this.args.separator, this.args.hour, this.args.minute];
     }
-    console.log(this.isClearType, this.args.type, '['+ bufArray.join(','));
     return composer(protocolAssembler.setLedMatrix, bufArray);
   }
 
