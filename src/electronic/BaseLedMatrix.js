@@ -49,28 +49,34 @@ class BaseLedMatrix extends Electronic {
       let byteResult = emotionByteString2binaryByte('0'.repeat(128));
       bufArray = [this.args.port, BaseLedMatrix.EMOTION_TYPE, 0, 0, ...byteResult];
       this.isClearType = false;
-    } else if (this.args.type === BaseLedMatrix.CHAR_TYPE) {
-      // if char mode
-      let charCodeArray = this.args.char.split('').map(char => (char.charCodeAt()));
-      bufArray = [this.args.port, this.args.type, this.args.x, this.args.y, this.args.char.length, ...charCodeArray];
-    } else if (this.args.emotion === BaseLedMatrix.EMOTION_TYPE) {
-      // if emotion mode
-      let byteResult = emotionByteString2binaryByte(this.args.emotion);
-      bufArray = [this.args.port, this.args.type, this.args.x, this.args.y, ...byteResult];
-    } else if (this.args.number === BaseLedMatrix.NUMBER_TYPE) {
-      // if number mode
-      bufArray = [this.args.port, this.args.type, ...float32ToBytes(this.args.number)];
-    } else if (this.args.separator === BaseLedMatrix.TIME_TYPE) {
-      // if time mode
-      bufArray = [this.args.port, this.args.type, this.args.separator, this.args.hour, this.args.minute];
+    } else {
+      switch(this.args.type) {
+        case BaseLedMatrix.CHAR_TYPE:
+          let charCodeArray = this.args.char.split('').map(char => (char.charCodeAt()));
+          bufArray = [this.args.port, this.args.type, this.args.x, this.args.y, this.args.char.length, ...charCodeArray];
+          break;
+        case BaseLedMatrix.EMOTION_TYPE:
+          let byteResult = emotionByteString2binaryByte(this.args.emotion);
+          bufArray = [this.args.port, this.args.type, this.args.x, this.args.y, ...byteResult];
+          break;
+        case BaseLedMatrix.NUMBER_TYPE:
+          bufArray = [this.args.port, this.args.type, ...float32ToBytes(this.args.number)];
+          break;
+        case BaseLedMatrix.TIME_TYPE:
+          bufArray = [this.args.port, this.args.type, this.args.separator, this.args.hour, this.args.minute];
+          break;
+        default:
+          break;
+      }
     }
+    // console.log('bufArray', this.args.type, '['+ bufArray.join(','))
     return composer(protocolAssembler.setLedMatrix, bufArray);
   }
 
   /**
    * run
    */
-  run(){
+  run() {
     Control.write(this.protocol);
     return this;
   }

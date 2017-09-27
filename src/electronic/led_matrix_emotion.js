@@ -35,7 +35,7 @@ class LedMatrixEmotion extends BaseLedMatrix {
 
   /**
    * use lattice to describe the emotion
-   * @param  {String} emotion lattice
+   * @param  {String} emotion lattice '000000100000100001110001001'
    */
   emotion(emotion) {
     // TODO: validate the param

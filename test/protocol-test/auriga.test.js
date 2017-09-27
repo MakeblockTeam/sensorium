@@ -381,41 +381,17 @@ describe('【auriga_最新固件 协议测试】', function() {
       }
     });
 
-  // describe('表情面板-显示表情：setLedMatrixChar(6, 0, 0, "默认表情")', function() {
-    //   it("在端口6 x：0 y：0的表情面板上显示表情‘？？’", function() {
-    //     var targetCmd = dataman.auriga.write.ledMatrixEmotion[0];
-    //     var emotionData = [00, 00, 0x40, 0x48, 0x44, 0x42, 0x02, 0x02, 0x02, 0x02, 0x42, 0x44, 0x48, 0x40, 0x00, 0x00];
-    //     var cmd = auriga.setLedMatrixEmotion(6, 0, 0, emotionData);
-    //     assert.equal(targetCmd, cmd);
-    //   });
-
-    //   it("在端口7 x：0 y：0的表情面板上显示表情‘？？’", function() {
-    //     var targetCmd = dataman.auriga.write.ledMatrixEmotion[1];
-    //     var emotionData = [00, 00, 0x40, 0x48, 0x44, 0x42, 0x02, 0x02, 0x02, 0x02, 0x42, 0x44, 0x48, 0x40, 0x00, 0x00];
-    //     var cmd = auriga.setLedMatrixEmotion(7, 0, 0, emotionData);
-    //     assert.equal(targetCmd, cmd);
-    //   });
-
-    //   it("在端口8 x：0 y：0的表情面板上显示表情‘？？’", function() {
-    //     var targetCmd = dataman.auriga.write.ledMatrixEmotion[2];
-    //     var emotionData = [00, 00, 0x40, 0x48, 0x44, 0x42, 0x02, 0x02, 0x02, 0x02, 0x42, 0x44, 0x48, 0x40, 0x00, 0x00];
-    //     var cmd = auriga.setLedMatrixEmotion(8, 0, 0, emotionData);
-    //     assert.equal(targetCmd, cmd);
-    //   });
-
-    //   it("在端口9 x：0 y：0的表情面板上显示表情‘？？’", function() {
-    //     var targetCmd = dataman.auriga.write.ledMatrixEmotion[3];
-    //     var emotionData = [00, 00, 0x40, 0x48, 0x44, 0x42, 0x02, 0x02, 0x02, 0x02, 0x42, 0x44, 0x48, 0x40, 0x00, 0x00];
-    //     var cmd = auriga.setLedMatrixEmotion(9, 0, 0, emotionData);
-    //     assert.equal(targetCmd, cmd);
-    //   });
-
-    //   it("在端口10 x：0 y：0的表情面板上显示表情‘？？’", function() {
-    //     var targetCmd = dataman.auriga.write.ledMatrixEmotion[4];
-    //     var emotionData = [00, 00, 0x40, 0x48, 0x44, 0x42, 0x02, 0x02, 0x02, 0x02, 0x42, 0x44, 0x48, 0x40, 0x00, 0x00];
-    //     var cmd = auriga.setLedMatrixEmotion(10, 0, 0, emotionData);
-    //     assert.equal(targetCmd, cmd);
-    //   });
+    describe('表情面板-显示表情：setLedMatrixChar(6, 0, 0, "默认表情")', function() {
+      it("在端口6 x：0 y：0的表情面板上显示表情‘？？’", function() { // 6 7 8 9 10
+        let targetCmd = dataman.auriga.write.ledMatrixEmotion[0];
+        let emotionStr = "00000000000000000001000000100000010000000010000000010010000000100000001000010010001000000100000000100000000100000000000000000000";
+        // let emotionData = [00, 00, 0x40, 0x48, 0x44, 0x42, 0x02, 0x02, 0x02, 0x02, 0x42, 0x44, 0x48, 0x40, 0x00, 0x00];
+        let LedMatrixEmotion = auriga.LedMatrix(6).emotionMode().x(0).y(0).emotion(emotionStr);
+        let currentCmd = formatProtocol(LedMatrixEmotion.protocol);
+        console.log('LedMatrixEmotion.protocol', currentCmd)
+        // expect(currentCmd).to.equal(targetCmd);
+      });
+    })
 
     //   it("在端口6 x：1 y：0的表情面板上显示表情‘？？’", function() {
     //     var targetCmd = dataman.auriga.write.ledMatrixEmotion[5];

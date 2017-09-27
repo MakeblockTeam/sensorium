@@ -2813,24 +2813,29 @@ var BaseLedMatrix = function (_Electronic) {
         var byteResult = (0, _utils.emotionByteString2binaryByte)('0'.repeat(128));
         bufArray = [this.args.port, BaseLedMatrix.EMOTION_TYPE, 0, 0].concat((0, _toConsumableArray3.default)(byteResult));
         this.isClearType = false;
-      } else if (this.args.type === BaseLedMatrix.CHAR_TYPE) {
-        // if char mode
-        var charCodeArray = this.args.char.split('').map(function (char) {
-          return char.charCodeAt();
-        });
-        bufArray = [this.args.port, this.args.type, this.args.x, this.args.y, this.args.char.length].concat((0, _toConsumableArray3.default)(charCodeArray));
-      } else if (this.args.emotion === BaseLedMatrix.EMOTION_TYPE) {
-        // if emotion mode
-        var _byteResult = (0, _utils.emotionByteString2binaryByte)(this.args.emotion);
-        bufArray = [this.args.port, this.args.type, this.args.x, this.args.y].concat((0, _toConsumableArray3.default)(_byteResult));
-      } else if (this.args.number === BaseLedMatrix.NUMBER_TYPE) {
-        // if number mode
-        bufArray = [this.args.port, this.args.type].concat((0, _toConsumableArray3.default)((0, _utils.float32ToBytes)(this.args.number)));
-      } else if (this.args.separator === BaseLedMatrix.TIME_TYPE) {
-        // if time mode
-        bufArray = [this.args.port, this.args.type, this.args.separator, this.args.hour, this.args.minute];
+      } else {
+        switch (this.args.type) {
+          case BaseLedMatrix.CHAR_TYPE:
+            var charCodeArray = this.args.char.split('').map(function (char) {
+              return char.charCodeAt();
+            });
+            bufArray = [this.args.port, this.args.type, this.args.x, this.args.y, this.args.char.length].concat((0, _toConsumableArray3.default)(charCodeArray));
+            break;
+          case BaseLedMatrix.EMOTION_TYPE:
+            var _byteResult = (0, _utils.emotionByteString2binaryByte)(this.args.emotion);
+            bufArray = [this.args.port, this.args.type, this.args.x, this.args.y].concat((0, _toConsumableArray3.default)(_byteResult));
+            break;
+          case BaseLedMatrix.NUMBER_TYPE:
+            bufArray = [this.args.port, this.args.type].concat((0, _toConsumableArray3.default)((0, _utils.float32ToBytes)(this.args.number)));
+            break;
+          case BaseLedMatrix.TIME_TYPE:
+            bufArray = [this.args.port, this.args.type, this.args.separator, this.args.hour, this.args.minute];
+            break;
+          default:
+            break;
+        }
       }
-      console.log(this.isClearType, this.args.type, '[' + bufArray.join(','));
+      // console.log('bufArray', this.args.type, '['+ bufArray.join(','))
       return (0, _utils.composer)(_cmd2.default.setLedMatrix, bufArray);
     }
   }], [{
@@ -9049,7 +9054,7 @@ var LedMatrixEmotion = function (_BaseLedMatrix) {
 
     /**
      * use lattice to describe the emotion
-     * @param  {String} emotion lattice
+     * @param  {String} emotion lattice '000000100000100001110001001'
      */
 
   }, {

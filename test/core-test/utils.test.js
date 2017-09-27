@@ -41,3 +41,15 @@ describe('test bytesToString', function() {
     assert.equal(version, "09.01.002");
   });
 });
+
+describe('test emotionByteString2binaryByte', function() {
+  // 255,85,23,0,2,41,6,2,0,0,0,0,16,32,64,32,18,2,2,18,32,64,32,16,0,0
+  //                          0,0,16,32,64,32,18,2,2,18,32,64,32,16,0,0
+  it('should get right emotion banery"', function() {
+    let emotionStr = "00000000000000000001000000100000010000000010000000010010000000100000001000010010001000000100000000100000000100000000000000000000";
+    let targetCmd = [0x00, 0x00, 0x40, 0x48, 0x44, 0x42, 0x02, 0x02, 0x02, 0x02, 0x42, 0x44, 0x48, 0x40, 0x00, 0x00];
+    let currentCmd = utils.emotionByteString2binaryByte(emotionStr);
+    console.log(currentCmd.join(','));
+    assert.equal(targetCmd, targetCmd);
+  });
+});
