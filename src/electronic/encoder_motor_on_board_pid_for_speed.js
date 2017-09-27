@@ -8,9 +8,10 @@ import protocolAssembler from '../protocol/cmd';
 import Control from '../communicate/control';
 
 class PIDForSpeed {
-  constructor() {
+  constructor(slot) {
     this.args = {
-      speed: 0
+      speed: 0,
+      slot: validateNumber(slot, 1)
     };
   }
 
@@ -28,7 +29,7 @@ class PIDForSpeed {
    * getter of protocol
    */
   get protocol() {
-    return composer(protocolAssembler.setEncoderMotorPIDSpeed, [this.args.speed]);
+    return composer(protocolAssembler.setEncoderMotorPIDSpeed, [this.args.slot, this.args.speed]);
   }
 
   run() {

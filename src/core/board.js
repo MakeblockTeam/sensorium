@@ -2,7 +2,6 @@
  * @fileOverview Board 主控板的基类.
  * @author Jeremy
  */
-import Version from '../electronic/version';
 
 /**
  * Create id for electronic module joined into the mainboard
@@ -38,7 +37,7 @@ class Board {
     //已连接电子模块
     this.connecting = {};
     //固件版本
-    this.version = null;
+    // this.version = null;
   }
 
   /**
@@ -65,22 +64,18 @@ class Board {
 
   /**
    * get version of this mainboard
-   *
    * @example
    * let sensorium = new Sensorium();
    * let mcore = sensorium.createMcore();
-   * mcore.getVersion()
+   * mcore.readVersion()
+   *         .getData()
    *         .then((val) => {
    *           console.log(val);
    *         })
    */
-  async getVersion(){
-    if(this.version){
-      return Promise.resolve(this.version);
-    }else{
-      this.version = await Version.getVersion();
-      return this.version;
-    }
+  readVersion () {
+    this.currentMode = 'version';
+    return this;
   }
 }
 

@@ -11,7 +11,8 @@ class EncoderMotorPIDForDistance {
   constructor() {
     this.args = {
       distance: 0,
-      speed: 0
+      speed: 0,
+      slot: validateNumber(slot, 1)
     };
   }
 
@@ -37,7 +38,7 @@ class EncoderMotorPIDForDistance {
    * getter of protocol
    */
   get protocol() {
-    return composer(protocolAssembler.setEncoderMotorPIDDistance, [this.args.distance, this.args.speed]);
+    return composer(protocolAssembler.setEncoderMotorPIDDistance, [this.args.slot, this.args.distance, this.args.speed]);
   }
 
   /**

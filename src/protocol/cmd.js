@@ -675,10 +675,10 @@ function protocolAssembler() {
    * @example
    * buf: ff 55 0b 00 02 3e 01 01 00 00 00 00 00 00
    */
-  this.setEncoderMotorPIDDistance = function(distance, speed) {
+  this.setEncoderMotorPIDDistance = function(slot, distance, speed) {
     let distanceArr = longToBytes(distance);
     let subCmd = 0x05;
-    let slot = 0x01;
+    // let slot = 0x01;
     speed = limitValue(speed);
     return bufAssembler({
         mode: 0x02,
@@ -700,9 +700,9 @@ function protocolAssembler() {
    * @example
    * buf: ff 55 07 00 02 3e 02 01 00 00
    */
-  this.setEncoderMotorPIDSpeed = function(speed) {
+  this.setEncoderMotorPIDSpeed = function(slot, speed) {
       let subCmd = 0x02;
-      let slot = 0x01;
+      // let slot = 0x01;
       speed = limitValue(speed);
       return bufAssembler({
         mode: 0x02,
@@ -715,9 +715,9 @@ function protocolAssembler() {
      * @param {Number} speed    速度
      * @private
      */
-    this.setEncoderMotorPIDPwm = function(speed) {
+    this.setEncoderMotorPIDPwm = function(slot, speed) {
       let subCmd = 0x03;
-      let slot = 0x01;
+      // let slot = 0x01;
       speed = limitValue(speed);
       return bufAssembler({
         mode: 0x02,
@@ -732,8 +732,8 @@ function protocolAssembler() {
      * @param {Number} subCmd    二级命令
      * @private
      */
-    this.setEncoderMotorPIDZeroPoint = function(subCmd) {
-      let slot = 0x01;
+    this.setEncoderMotorPIDZeroPoint = function(slot, subCmd) {
+      // let slot = 0x01;
       return bufAssembler({
         mode: 0x01,
         id: 0x3e

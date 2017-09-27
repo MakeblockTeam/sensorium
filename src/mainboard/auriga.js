@@ -1,8 +1,10 @@
 import Board from '../core/Board';
 import electronics from '../electronic/index';
-import Mode from './firmware/mode';
+import Mode from '../electronic/mode';
 import Control from '../communicate/control';
+import Version from '../electronic/version';
 
+const FIRMWAREMODE = Symbol('firmware');
 /**
  * Auriga Class for 'Auriga' mainboard.
  * @extends Board
@@ -43,6 +45,7 @@ class Auriga extends Board{
    * 4: 巡线
    */
   setFirmwareMode(mode){
+    this.currentMode = FIRMWAREMODE;
     let subCmd = 0x11;
     Mode.setMode(subCmd, mode);
     return this;
@@ -51,6 +54,7 @@ class Auriga extends Board{
    * get firmware mode
    */
   readFirmwareMode(){
+    this.currentMode = FIRMWAREMODE;
     let subCmd = 0x71;
     Mode.setMode(subCmd);
     return this;
@@ -60,13 +64,22 @@ class Auriga extends Board{
    * get voltage
    */
   readVoltage(){
+    this.currentMode = FIRMWAREMODE;
     let subCmd = 0x70;
     Mode.setMode(subCmd);
     return this;
   }
 
+  /**
+   * protocol that sent directly by mainboard firmware
+   * @return {Array}
+   */
   get protocol (){
-    return Mode.protocol;
+    if(this.currentMode == FIRMWAREMODE) {
+      return Mode.protocol;
+    }else if( this.currentMode == 'version') {
+      return Version.protocol;
+    }
   }
 
   /**

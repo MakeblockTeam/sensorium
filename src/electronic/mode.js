@@ -1,8 +1,8 @@
-import {composer} from '../../core/utils';
-import protocolAssembler from '../../protocol/cmd';
+import {composer} from '../core/utils';
+import protocolAssembler from '../protocol/cmd';
 import {
   FIRM_MODES
-} from '../../settings';
+} from '../settings';
 
 class Mode {
   constructor() {

@@ -379,6 +379,14 @@ describe('【auriga_最新固件 协议测试】', function() {
           expect(currentCmd).to.equal(targetCmd);
         });
       }
+
+      it(`在端口 7 x：1 y：1 的表情面板上显示字符串‘hello world’`, function() {
+          let ledMatrixCharHelloWorld = auriga.LedMatrix(7).charMode().x(1).y(1).char('hello world');
+          let targetCmd = 'ff 55 0c 00 02 29 07 01 01 08 04 68 65 6c 6c';
+          console.log('hello world', ledMatrixCharHelloWorld.protocol.join(','));
+          let currentCmd = formatProtocol(ledMatrixCharHelloWorld.protocol);
+          expect(currentCmd).to.equal(targetCmd);
+        });
     });
 
     describe('表情面板-显示表情：setLedMatrixChar(6, 0, 0, "默认表情")', function() {
@@ -389,7 +397,7 @@ describe('【auriga_最新固件 协议测试】', function() {
         let LedMatrixEmotion = auriga.LedMatrix(6).emotionMode().x(0).y(0).emotion(emotionStr);
         let currentCmd = formatProtocol(LedMatrixEmotion.protocol);
         // console.log('LedMatrixEmotion.protocol', currentCmd)
-        // expect(currentCmd).to.equal(targetCmd);
+        expect(currentCmd).to.equal(targetCmd);
       });
     })
 
@@ -636,7 +644,8 @@ describe('【auriga_最新固件 协议测试】', function() {
       //未完成
       it('查询版本号的指令', function() {
         let targetCmd = dataman.auriga.read.version[0];
-        let currentCmd = formatProtocol(auriga.getVersion().protocol);
+        let currentCmd = formatProtocol(auriga.readVersion().protocol);
+        // console.log(currentCmd)
         expect(currentCmd).to.equal(targetCmd);
       });
     });

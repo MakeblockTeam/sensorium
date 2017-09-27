@@ -15,7 +15,7 @@ class PIDForDoubleMotor {
   constructor() {
       this.args = {
         distance: 0,
-        direction: 1,
+        direction: 1, // 实际是 slot
         speed: 0
       };
     }

@@ -6,7 +6,8 @@ import Control from '../communicate/control';
 class PIDForPwm {
   constructor() {
     this.args = {
-      speed: 0
+      speed: 0,
+      slot: validateNumber(slot, 1)
     };
   }
 
@@ -24,7 +25,7 @@ class PIDForPwm {
    * getter of protocol
    */
   get protocol() {
-    return composer(protocolAssembler.setEncoderMotorPIDPwm, [this.args.speed]);
+    return composer(protocolAssembler.setEncoderMotorPIDPwm, [this.args.slot, this.args.speed]);
   }
 
   run() {

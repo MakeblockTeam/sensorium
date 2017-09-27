@@ -20,29 +20,33 @@ import {
 let auriga = SUPPORTLIST[1].toLowerCase();
 let megapipro = SUPPORTLIST[5].toLowerCase();
 
+/**
+ * EncoderMotorOnBoardPID 的速度模式经常被直接作为板载编码电机的设置速度来使用
+ * 插头可选 slot1 slot2
+ */
 class EncoderMotorOnBoardPID extends Electronic {
-  constructor() {
+  constructor(slot) {
     super();
     let host = warnNotSupport(arguments[arguments.length - 1]) || megapipro;
     //宿主
     this.hostname = host.toLowerCase();
     //位置模式
     this.distanceMode = function() {
-        return new PIDForDistance();
+        return new PIDForDistance(slot);
       }
       //速度模式
     this.speedMode = function() {
-        return new PIDForSpeed();
+        return new PIDForSpeed(slot);
       }
       //auriga 会多出两个 API
     if (this.hostname === auriga) {
       //pwm 模式
       this.pwmMode = function() {
-          return new PIDForPwm();
+          return new PIDForPwm(slot);
         }
         //双电机模式
       this.doubleMotorMode = function() {
-        return new PIDForDoubleMotor();
+        return new PIDForDoubleMotor(slot);
       }
     }
   }

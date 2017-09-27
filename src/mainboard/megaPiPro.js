@@ -1,7 +1,9 @@
 import Board from '../core/Board';
 import electronics from '../electronic/index';
-import Mode from './firmware/mode';
+import Mode from '../electronic/mode';
+import Version from '../electronic/version';
 import Control from '../communicate/control';
+const FIRMWAREMODE = Symbol('firmware');
 
 /**
  * MegaPiPro Class for 'MegaPiPro' mainboard.
@@ -39,6 +41,7 @@ class MegaPiPro extends Board{
    *   megapi.setFirmwareMode(1).run()
    */
   setFirmwareMode(mode){
+    this.currentMode = FIRMWAREMODE;
     let subCmd = 0x12;
     Mode.setMode(subCmd, mode);
     return this;
@@ -48,9 +51,22 @@ class MegaPiPro extends Board{
    * get firmware mode
    */
   readFirmwareMode(){
+    this.currentMode = FIRMWAREMODE;
     let subCmd = 0x72;
     Mode.setMode(subCmd);
     return this;
+  }
+
+  /**
+   * protocol that sent directly by mainboard firmware
+   * @return {Array}
+   */
+  get protocol (){
+    if(this.currentMode == FIRMWAREMODE) {
+      return Mode.protocol;
+    }else if( this.currentMode == 'version') {
+      return Version.protocol;
+    }
   }
 
   /**

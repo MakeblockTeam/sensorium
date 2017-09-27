@@ -17,14 +17,6 @@ class Version {
   get protocol () {
     return composer(protocolAssembler.readVersion);
   }
-
-  /**
-   * Get version of firmware
-   * @return {Promise}
-   */
-  async getVersion() {
-    return await Control.read(this.protocol);
-  }
 }
 
 export default new Version();
