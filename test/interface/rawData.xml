@@ -869,7 +869,7 @@
 	<externalid><![CDATA[17]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	single-setCmd:`mcore.ServoMotor(4,1).angle(-20)`ff 55 06 00 02 0b 01 14</p>
+	single-setCmd:`mcore.ServoMotor(4,1).angle(-20)`ff 55 06 00 02 0b 04 01 14</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
@@ -2104,7 +2104,7 @@
 	<externalid><![CDATA[40]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	single-setCmd:`mcore.LedMatrix(1).numberMode().number(&#39;0&#39;)`ff 55 09 00 02 29 01 04 00 00 00 00</p>
+	single-setCmd:`mcore.LedMatrix(1).numberMode().number(0)`ff 55 09 00 02 29 01 04 00 00 00 00</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
@@ -2156,7 +2156,7 @@
 	<externalid><![CDATA[41]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	single-setCmd:`mcore.LedMatrix(2).numberMode().number(&#39;-998&#39;)`ff 55 09 00 02 29 02 04 00 80 79 c4</p>
+	single-setCmd:`mcore.LedMatrix(2).numberMode().number(-998)`ff 55 09 00 02 29 02 04 00 80 79 c4</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
@@ -2208,7 +2208,7 @@
 	<externalid><![CDATA[42]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	single-setCmd:`mcore.LedMatrix(3).numberMode().number(&#39;10000&#39;)`ff 55 09 00 02 29 03 04 00 40 1c 46</p>
+	single-setCmd:`mcore.LedMatrix(3).numberMode().number(10000)`ff 55 09 00 02 29 03 04 00 40 1c 46</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
@@ -2260,7 +2260,7 @@
 	<externalid><![CDATA[43]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	single-setCmd:`mcore.LedMatrix(4).numberMode().number(&#39;-99999&#39;)`ff 55 09 00 02 29 04 04 80 4f c3 c7</p>
+	single-setCmd:`mcore.LedMatrix(4).numberMode().number(-99999)`ff 55 09 00 02 29 04 04 80 4f c3 c7</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
@@ -2312,7 +2312,7 @@
 	<externalid><![CDATA[44]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	single-setCmd:`mcore.LedMatrix(4).numberMode().number(&#39;12.25&#39;)`ff 55 09 00 02 29 04 04 00 00 44 41</p>
+	single-setCmd:`mcore.LedMatrix(4).numberMode().number(12.25)`ff 55 09 00 02 29 04 04 00 00 44 41</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
@@ -17196,7 +17196,7 @@
 	<externalid><![CDATA[338]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	single-setCmd:`auriga.ServoMotor(9,2).angle(90)`ff 55 06 00 02 0b 09 02 b4</p>
+	single-setCmd:`auriga.ServoMotor(9,2).angle(180)`ff 55 06 00 02 0b 09 02 b4</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
