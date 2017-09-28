@@ -7,7 +7,7 @@ import {
 import protocolAssembler from '../protocol/cmd';
 import Control from '../communicate/control';
 
-class EncoderMotorPIDForDistance {
+class PIDForDistance {
   constructor() {
     this.args = {
       distance: 0,
@@ -50,4 +50,4 @@ class EncoderMotorPIDForDistance {
   }
 }
 
-export default EncoderMotorPIDForDistance;
+export default PIDForDistance;
