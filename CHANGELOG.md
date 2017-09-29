@@ -1,6 +1,13 @@
 # Changelog
 
-## [0.3.0] - 2017-09-21
+## [0.3.2] - 2017-09-29
+### Changed
+-  unify the mainboard apis call as follows:
+   - auriga.getVersion().getData().then((val) =>console.log(val))
+   - auriga.setFirmwareMode().run()
+   - auriga.readVoltage().getData().then((val) =>console.log(val))
+
+## [0.3.1] - 2017-09-21
 ### Fixed
 -  fix bug: sensorium.SUPPORT instead of sensorium.getSupport()
 
