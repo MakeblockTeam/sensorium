@@ -121,7 +121,7 @@ class SmartServo extends Electronic {
    */
   absoluteAngle(angle){
     this.args.subCmd = 0x04;
-    this.angle = validateNumber(angle, 0);
+    this.args.angle = validateNumber(angle, 0);
     return this;
   }
   /**
@@ -130,7 +130,7 @@ class SmartServo extends Electronic {
    */
   relativeAngle(angle){
     this.args.subCmd = 0x05;
-    this.angle = validateNumber(angle, 0);
+    this.args.angle = validateNumber(angle, 0);
     return this;
   }
   /**

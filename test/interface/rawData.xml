@@ -1199,7 +1199,7 @@
 	<externalid><![CDATA[23]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	single-setCmd:`mcore.RgbLed(1).position(1).red()`ff 55 09 00 02 08 01 02 01 ff 00 00</p>
+	single-setCmd:`mcore.FourLeds(1).position(1).red()`ff 55 09 00 02 08 01 02 01 ff 00 00</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
@@ -1251,7 +1251,7 @@
 	<externalid><![CDATA[24]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	single-setCmd:`mcore.RgbLed(2).position(2).r(0).g(60).b(0)`ff 55 09 00 02 08 02 02 02 00 3c 00</p>
+	single-setCmd:`mcore.FourLeds(2).position(2).r(0).g(60).b(0)`ff 55 09 00 02 08 02 02 02 00 3c 00</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
@@ -1303,7 +1303,7 @@
 	<externalid><![CDATA[25]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	single-setCmd:`mcore.RgbLed(3).position(3).r(0).g(0).b(90)`ff 55 09 00 02 08 03 02 03 00 00 5a</p>
+	single-setCmd:`mcore.FourLeds(3).position(3).r(0).g(0).b(90)`ff 55 09 00 02 08 03 02 03 00 00 5a</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
@@ -1355,7 +1355,7 @@
 	<externalid><![CDATA[26]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	single-setCmd:`mcore.RgbLed(4).position(4).r(90).g(0).b(90)`ff 55 09 00 02 08 04 02 04 5a 00 5a</p>
+	single-setCmd:`mcore.FourLeds(4).position(4).r(90).g(0).b(90)`ff 55 09 00 02 08 04 02 04 5a 00 5a</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
@@ -1407,7 +1407,7 @@
 	<externalid><![CDATA[27]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	single-setCmd:`mcore.RgbLed(1).position(0).r(255).g(255).b(255)`ff 55 09 00 02 08 01 02 00 ff ff ff</p>
+	single-setCmd:`mcore.FourLeds(1).position(0).r(255).g(255).b(255)`ff 55 09 00 02 08 01 02 00 ff ff ff</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
@@ -1459,7 +1459,7 @@
 	<externalid><![CDATA[28]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	single-setCmd:`mcore.RgbLed(1).position(0).r(0).g(0).b(0)`ff 55 09 00 02 08 01 02 00 00 00 00</p>
+	single-setCmd:`mcore.FourLeds(1).position(0).r(0).g(0).b(0)`ff 55 09 00 02 08 01 02 00 00 00 00</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
@@ -3339,7 +3339,7 @@
 	<externalid><![CDATA[63]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	语句块：设置相机快门【接口1、2、3、4】状态为【按下快门、松开开门、开始对焦、停止对焦】（没有此传感器）</p>
+	single-setCmd:`mcore.Shutter(1).action(0)`ff 55 05 00 02 14 01 00</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
@@ -3391,7 +3391,7 @@
 	<externalid><![CDATA[64]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	语句块：设置相机快门【接口1、2、3、4】状态为【按下快门、松开开门、开始对焦、停止对焦】（没有此传感器）</p>
+	single-setCmd:`mcore.Shutter(2).action(1)`ff 55 05 00 02 14 02 01</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
@@ -3443,7 +3443,7 @@
 	<externalid><![CDATA[65]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	语句块：设置相机快门【接口1、2、3、4】状态为【按下快门、松开开门、开始对焦、停止对焦】（没有此传感器）</p>
+	single-setCmd:`mcore.Shutter(3).action(2)`ff 55 05 00 02 14 03 02</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
@@ -3495,7 +3495,7 @@
 	<externalid><![CDATA[66]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	语句块：设置相机快门【接口1、2、3、4】状态为【按下快门、松开开门、开始对焦、停止对焦】（没有此传感器）</p>
+	single-setCmd:`mcore.Shutter(4).action(3)`ff 55 05 00 02 14 04 03</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
@@ -10247,7 +10247,7 @@
 	<externalid><![CDATA[208]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	single-setCmd:`orion.RgbLed(3).position(1).r(20).g(0).b(0)`ff 55 09 00 02 08 03 02 01 14 00 00</p>
+	single-setCmd:`orion.FourLeds(3).position(1).r(20).g(0).b(0)`ff 55 09 00 02 08 03 02 01 14 00 00</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
@@ -10299,7 +10299,7 @@
 	<externalid><![CDATA[209]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	single-setCmd:`orion.RgbLed(4).position(2).r(0).g(60).b(0)`ff 55 09 00 02 08 04 02 02 00 3c 00</p>
+	single-setCmd:`orion.FourLeds(4).position(2).r(0).g(60).b(0)`ff 55 09 00 02 08 04 02 02 00 3c 00</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
@@ -10351,7 +10351,7 @@
 	<externalid><![CDATA[210]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	single-setCmd:`orion.RgbLed(6).position(3).r(0).g(0).b(90)`ff 55 09 00 02 08 06 02 03 00 00 5a</p>
+	single-setCmd:`orion.FourLeds(6).position(3).r(0).g(0).b(90)`ff 55 09 00 02 08 06 02 03 00 00 5a</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
@@ -10403,7 +10403,7 @@
 	<externalid><![CDATA[211]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	single-setCmd:`orion.RgbLed(7).position(4).r(90).g(0).b(90)`ff 55 09 00 02 08 07 02 04 5a 00 5a</p>
+	single-setCmd:`orion.FourLeds(7).position(4).r(90).g(0).b(90)`ff 55 09 00 02 08 07 02 04 5a 00 5a</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
@@ -10455,7 +10455,7 @@
 	<externalid><![CDATA[212]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	single-setCmd:`orion.RgbLed(8).position(0).r(255).g(255).b(255)`ff 55 09 00 02 08 08 02 00 ff ff ff</p>
+	single-setCmd:`orion.FourLeds(8).position(0).r(255).g(255).b(255)`ff 55 09 00 02 08 08 02 00 ff ff ff</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
@@ -10507,7 +10507,7 @@
 	<externalid><![CDATA[213]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	single-setCmd:`orion.RgbLed(8).position(0).r(0).g(0).b(0)`ff 55 09 00 02 08 08 02 00 00 00 00</p>
+	single-setCmd:`orion.FourLeds(8).position(0).r(0).g(0).b(0)`ff 55 09 00 02 08 08 02 00 00 00 00</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
@@ -11162,7 +11162,7 @@
 	<externalid><![CDATA[225]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	语句块：设置相机快门【接口3、4、6】状态为【按下快门、松开开门、开始对焦、停止对焦】（没有此传感器）</p>
+	single-setCmd:`orion.Shutter(3).action(0)`ff 55 05 00 02 14 03 00</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
@@ -11214,7 +11214,7 @@
 	<externalid><![CDATA[226]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	语句块：设置相机快门【接口3、4、6】状态为【按下快门、松开开门、开始对焦、停止对焦】（没有此传感器）</p>
+	single-setCmd:`orion.Shutter(4).action(1)`ff 55 05 00 02 14 04 01</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
@@ -11266,7 +11266,7 @@
 	<externalid><![CDATA[227]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	语句块：设置相机快门【接口3、4、6】状态为【按下快门、松开开门、开始对焦、停止对焦】（没有此传感器）</p>
+	single-setCmd:`orion.Shutter(6).action(2)`ff 55 05 00 02 14 06 02</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
@@ -11318,7 +11318,7 @@
 	<externalid><![CDATA[228]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	语句块：设置相机快门【接口3、4、6】状态为【按下快门、松开开门、开始对焦、停止对焦】（没有此传感器）</p>
+	single-setCmd:`orion.Shutter(6).action(3)`ff 55 05 00 02 14 06 03</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
@@ -15483,12 +15483,12 @@
 	<externalid><![CDATA[306]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	语句块：【前进、后退、左转、右转】【1000】度，速度【300、200、100、0】圈每分钟</p>
+	single-setCmd:`auriga.EncoderMotorOnBoardPID().doubleMotorMode().direction(&#39;FORWARD&#39;).distance(1000).speed(300)`ff 55 0b 00 02 3e 05 01 e8 03 00 00 ff 00</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
 ]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[3]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -15535,12 +15535,12 @@
 	<externalid><![CDATA[307]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	语句块：【前进、后退、左转、右转】【1000】度，速度【300、200、100、0】圈每分钟</p>
+	single-setCmd:`auriga.EncoderMotorOnBoardPID().doubleMotorMode().direction(&#39;FORWARD&#39;).distance(3000).speed(100)`ff 55 0b 00 02 3e 05 01 b8 0b 00 00 64 00</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
 ]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[3]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -15587,12 +15587,12 @@
 	<externalid><![CDATA[308]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	语句块：【前进、后退、左转、右转】【1000】度，速度【300、200、100、0】圈每分钟</p>
+	single-setCmd:`auriga.EncoderMotorOnBoardPID().doubleMotorMode().direction(&#39;FORWARD&#39;).distance(-3000).speed(500)`ff 55 0b 00 02 3e 05 01 48 f4 ff ff ff 00</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
 ]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[3]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -15639,12 +15639,12 @@
 	<externalid><![CDATA[309]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	语句块：【前进、后退、左转、右转】【1000】度，速度【300、200、100、0】圈每分钟</p>
+	single-setCmd:`auriga.EncoderMotorOnBoardPID().doubleMotorMode().direction(&#39;BACKWARD&#39;).distance(1000).speed(-200)`ff 55 0b 00 02 3e 05 02 e8 03 00 00 00 00</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
 ]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[3]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -15686,17 +15686,17 @@
 </steps>
 </testcase>
 
-<testcase internalid="49541" name="Settings motor_005_左转~-5000~--200">
+<testcase internalid="49541" name="Settings motor_005_左转~-5000~-200">
 	<node_order><![CDATA[5]]></node_order>
 	<externalid><![CDATA[310]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	语句块：【前进、后退、左转、右转】【1000】度，速度【300、200、100、0】圈每分钟</p>
+	single-setCmd:`auriga.EncoderMotorOnBoardPID().doubleMotorMode().direction(&#39;TURNLEFT&#39;).distance(5000).speed(-200)`ff 55 0b 00 02 3e 05 03 88 13 00 00 00 00</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
 ]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[3]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -15743,12 +15743,12 @@
 	<externalid><![CDATA[311]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	语句块：【前进、后退、左转、右转】【1000】度，速度【300、200、100、0】圈每分钟</p>
+	single-setCmd:`auriga.EncoderMotorOnBoardPID().doubleMotorMode().direction(&#39;TURNRIGHT&#39;).distance(-1000).speed(-0)`ff 55 0b 00 02 3e 05 04 18 fc ff ff 00 00</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
 ]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[3]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -15795,12 +15795,12 @@
 	<externalid><![CDATA[312]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	语句块：【前进、后退、左转、右转】【1000】度，速度【300、200、100、0】圈每分钟</p>
+	single-setCmd:`auriga.EncoderMotorOnBoardPID().doubleMotorMode().direction(&#39;TURNRIGHT&#39;).distance(1000).speed(2000)`ff 55 0b 00 02 3e 05 04 e8 03 00 00 ff 00</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
 ]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[3]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -18533,7 +18533,7 @@
 	<externalid><![CDATA[363]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	single-setCmd:`auriga.RgbLed(6).position(1).r(20).g(0).b(0)`ff 55 09 00 02 08 06 02 01 14 00 00</p>
+	single-setCmd:`auriga.FourLeds(6).position(1).r(20).g(0).b(0)`ff 55 09 00 02 08 06 02 01 14 00 00</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
@@ -18585,7 +18585,7 @@
 	<externalid><![CDATA[364]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	single-setCmd:`auriga.RgbLed(7).position(2).r(0).g(60).b(0)`ff 55 09 00 02 08 07 02 02 00 3c 00</p>
+	single-setCmd:`auriga.FourLeds(7).position(2).r(0).g(60).b(0)`ff 55 09 00 02 08 07 02 02 00 3c 00</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
@@ -18637,7 +18637,7 @@
 	<externalid><![CDATA[365]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	single-setCmd:`auriga.RgbLed(8).position(3).r(0).g(0).b(90)`ff 55 09 00 02 08 08 02 03 00 00 5a</p>
+	single-setCmd:`auriga.FourLeds(8).position(3).r(0).g(0).b(90)`ff 55 09 00 02 08 08 02 03 00 00 5a</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
@@ -18689,7 +18689,7 @@
 	<externalid><![CDATA[366]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	single-setCmd:`auriga.RgbLed(9).position(4).r(90).g(0).b(90)`ff 55 09 00 02 08 09 02 04 5a 00 5a</p>
+	single-setCmd:`auriga.FourLeds(9).position(4).r(90).g(0).b(90)`ff 55 09 00 02 08 09 02 04 5a 00 5a</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
@@ -18741,7 +18741,7 @@
 	<externalid><![CDATA[367]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	single-setCmd:`auriga.RgbLed(10).position(0).r(255).g(255).b(255)`ff 55 09 00 02 08 0a 02 00 ff ff ff</p>
+	single-setCmd:`auriga.FourLeds(10).position(0).r(255).g(255).b(255)`ff 55 09 00 02 08 0a 02 00 ff ff ff</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
@@ -18793,7 +18793,7 @@
 	<externalid><![CDATA[368]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	single-setCmd:`auriga.RgbLed(10).position(0).r(0).g(0).b(0)`ff 55 09 00 02 08 0a 02 00 00 00 00</p>
+	single-setCmd:`auriga.FourLeds(10).position(0).r(0).g(0).b(0)`ff 55 09 00 02 08 0a 02 00 00 00 00</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
@@ -20514,7 +20514,7 @@
 	<externalid><![CDATA[400]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	语句块：设置相机快门【接口6、7、8、9、10】状态为【按下快门、松开开门、开始对焦、停止对焦】（没有此传感器）</p>
+	single-setCmd:`auriga.Shutter(6).action(0)`ff 55 05 00 02 14 06 00</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
@@ -20566,7 +20566,7 @@
 	<externalid><![CDATA[401]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	语句块：设置相机快门【接口6、7、8、9、10】状态为【按下快门、松开开门、开始对焦、停止对焦】（没有此传感器）</p>
+	single-setCmd:`auriga.Shutter(7).action(1)`ff 55 05 00 02 14 07 01</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
@@ -20618,7 +20618,7 @@
 	<externalid><![CDATA[402]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	语句块：设置相机快门【接口6、7、8、9、10】状态为【按下快门、松开开门、开始对焦、停止对焦】（没有此传感器）</p>
+	single-setCmd:`auriga.Shutter(8).action(2)`ff 55 05 00 02 14 08 02</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
@@ -20670,7 +20670,7 @@
 	<externalid><![CDATA[403]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	语句块：设置相机快门【接口6、7、8、9、10】状态为【按下快门、松开开门、开始对焦、停止对焦】（没有此传感器）</p>
+	single-setCmd:`auriga.Shutter(9).action(3)`ff 55 05 00 02 14 09 03</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
@@ -20722,7 +20722,7 @@
 	<externalid><![CDATA[404]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	语句块：设置相机快门【接口6、7、8、9、10】状态为【按下快门、松开开门、开始对焦、停止对焦】（没有此传感器）</p>
+	single-setCmd:`auriga.Shutter(10).action(3)`ff 55 05 00 02 14 0a 03</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
@@ -24524,12 +24524,10 @@
 	<externalid><![CDATA[477]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	数码管读取温湿度传感器【接口6、7、8、9、10】【温度、湿度】的值</p>
-<p>
-	&nbsp;</p>
+	single-readCmd:`auriga.Humiture(6).readTemperature()`getData`ff 55 05 00 01 17 06 01`0~100</p>
 ]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[2]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -24576,12 +24574,10 @@
 	<externalid><![CDATA[478]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	数码管读取温湿度传感器【接口6、7、8、9、10】【温度、湿度】的值</p>
-<p>
-	&nbsp;</p>
+	single-readCmd:`auriga.Humiture(7).readHumidity()`getData`ff 55 05 00 01 17 07 00`0~100</p>
 ]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[2]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -24628,12 +24624,10 @@
 	<externalid><![CDATA[479]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	数码管读取温湿度传感器【接口6、7、8、9、10】【温度、湿度】的值</p>
-<p>
-	&nbsp;</p>
+	single-readCmd:`auriga.Humiture(8).readTemperature()`getData`ff 55 05 00 01 17 08 01`0~100</p>
 ]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[2]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -24680,12 +24674,10 @@
 	<externalid><![CDATA[480]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	数码管读取温湿度传感器【接口6、7、8、9、10】【温度、湿度】的值</p>
-<p>
-	&nbsp;</p>
+	single-readCmd:`auriga.Humiture(9).readHumidity()`getData`ff 55 05 00 01 17 09 00`0~100</p>
 ]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[2]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -24732,12 +24724,10 @@
 	<externalid><![CDATA[481]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	数码管读取温湿度传感器【接口6、7、8、9、10】【温度、湿度】的值</p>
-<p>
-	&nbsp;</p>
+	single-readCmd:`auriga.Humiture(10).readTemperature()`getData`ff 55 05 00 01 17 0a 01`0~100</p>
 ]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[2]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -24791,12 +24781,10 @@
 	<externalid><![CDATA[482]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	数码管读取火焰传感器【接口6、7、8、9、10】的值</p>
-<p>
-	&nbsp;</p>
+	single-readCmd:`auriga.Flame(6)`getData`ff 55 04 00 01 18 06`0~1024</p>
 ]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[2]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -24843,12 +24831,10 @@
 	<externalid><![CDATA[483]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	数码管读取火焰传感器【接口6、7、8、9、10】的值</p>
-<p>
-	&nbsp;</p>
+	single-readCmd:`auriga.Flame(7)`getData`ff 55 04 00 01 18 07`0~1024</p>
 ]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[2]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -24895,12 +24881,10 @@
 	<externalid><![CDATA[484]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	数码管读取火焰传感器【接口6、7、8、9、10】的值</p>
-<p>
-	&nbsp;</p>
+	single-readCmd:`auriga.Flame(8)`getData`ff 55 04 00 01 18 08`0~1024</p>
 ]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[2]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -24947,12 +24931,10 @@
 	<externalid><![CDATA[485]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	数码管读取火焰传感器【接口6、7、8、9、10】的值</p>
-<p>
-	&nbsp;</p>
+	single-readCmd:`auriga.Flame(9)`getData`ff 55 04 00 01 18 09`0~1024</p>
 ]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[2]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -24999,12 +24981,10 @@
 	<externalid><![CDATA[486]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	数码管读取火焰传感器【接口6、7、8、9、10】的值</p>
-<p>
-	&nbsp;</p>
+	single-readCmd:`auriga.Flame(10)`getData`ff 55 04 00 01 18 0a`0~1024</p>
 ]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[2]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -25576,12 +25556,10 @@
 	<externalid><![CDATA[497]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	数码管显示判断语句块：触摸传感器【接口6、7、8、9、10】是否有触碰</p>
-<p>
-	触摸显示1，放开显示0</p>
+	single-readCmd:`auriga.Touch(6)`getData`ff 55 04 00 01 33 06`0~1</p>
 ]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[2]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -25628,12 +25606,10 @@
 	<externalid><![CDATA[498]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	数码管显示判断语句块：触摸传感器【接口6、7、8、9、10】是否有触碰</p>
-<p>
-	触摸显示1，放开显示0</p>
+	single-readCmd:`auriga.Touch(7)`getData`ff 55 04 00 01 33 07`0~1</p>
 ]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[2]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -25680,12 +25656,10 @@
 	<externalid><![CDATA[499]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	数码管显示判断语句块：触摸传感器【接口6、7、8、9、10】是否有触碰</p>
-<p>
-	触摸显示1，放开显示0</p>
+	single-readCmd:`auriga.Touch(8)`getData`ff 55 04 00 01 33 08`0~1</p>
 ]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[2]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -25732,12 +25706,10 @@
 	<externalid><![CDATA[500]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	数码管显示判断语句块：触摸传感器【接口6、7、8、9、10】是否有触碰</p>
-<p>
-	触摸显示1，放开显示0</p>
+	single-readCmd:`auriga.Touch(9)`getData`ff 55 04 00 01 33 09`0~1</p>
 ]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[2]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -25784,12 +25756,10 @@
 	<externalid><![CDATA[501]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	数码管显示判断语句块：触摸传感器【接口6、7、8、9、10】是否有触碰</p>
-<p>
-	触摸显示1，放开显示0</p>
+	single-readCmd:`auriga.Touch(10)`getData`ff 55 04 00 01 33 0a`0~1</p>
 ]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[2]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -25841,12 +25811,10 @@
 	<externalid><![CDATA[502]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	数码管显示判断语句块：按键【接口6、7、8、9、10】【Key1、2、3、4】是否按下</p>
-<p>
-	按下显示1，放开显示0</p>
+	single-readCmd:`auriga.FourKeys(6).key(1)`getData`ff 55 05 00 01 16 06 01`0~1</p>
 ]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[2]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -25893,12 +25861,10 @@
 	<externalid><![CDATA[503]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	数码管显示判断语句块：按键【接口6、7、8、9、10】【Key1、2、3、4】是否按下</p>
-<p>
-	按下显示1，放开显示0</p>
+	single-readCmd:`auriga.FourKeys(7).key(2)`getData`ff 55 05 00 01 16 07 02`0~1</p>
 ]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[2]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -25945,12 +25911,10 @@
 	<externalid><![CDATA[504]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	数码管显示判断语句块：按键【接口6、7、8、9、10】【Key1、2、3、4】是否按下</p>
-<p>
-	按下显示1，放开显示0</p>
+	single-readCmd:`auriga.FourKeys(8).key(3)`getData`ff 55 05 00 01 16 08 03`0~1</p>
 ]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[2]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -25997,12 +25961,10 @@
 	<externalid><![CDATA[505]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	数码管显示判断语句块：按键【接口6、7、8、9、10】【Key1、2、3、4】是否按下</p>
-<p>
-	按下显示1，放开显示0</p>
+	single-readCmd:`auriga.FourKeys(9).key(4)`getData`ff 55 05 00 01 16 09 04`0~1</p>
 ]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[2]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -26049,12 +26011,10 @@
 	<externalid><![CDATA[506]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	数码管显示判断语句块：按键【接口6、7、8、9、10】【Key1、2、3、4】是否按下</p>
-<p>
-	按下显示1，放开显示0</p>
+	single-readCmd:`auriga.FourKeys(10).key(4)`getData`ff 55 05 00 01 16 0a 04`0~1</p>
 ]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[2]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -26457,7 +26417,7 @@
 	<externalid><![CDATA[513]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	Reset执行过旋转角度（绝对角度）的智能舵机</p>
+	single-setCmd:`auriga.SmartServo(1).backToStart()`ff 55 06 00 02 40 08 05 01</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	执行过旋转角度，且没有重新设置0位的舵机</p>
@@ -26509,7 +26469,7 @@
 	<externalid><![CDATA[514]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	Reset执行过旋转角度（相对角度）的智能舵机</p>
+	single-setCmd:`auriga.SmartServo(2).backToStart()`ff 55 06 00 02 40 08 05 02</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	执行过旋转角度，且没有重新设置0位的舵机</p>
@@ -26561,7 +26521,7 @@
 	<externalid><![CDATA[515]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	Reset转动中的的智能舵机</p>
+	single-setCmd:`auriga.SmartServo(3).backToStart()`ff 55 06 00 02 40 08 05 03</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	正常转动的舵机</p>
@@ -26613,7 +26573,7 @@
 	<externalid><![CDATA[516]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	Reset亮着LED的智能舵机</p>
+	single-setCmd:`auriga.SmartServo(4).backToStart()`ff 55 06 00 02 40 08 05 04</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	智能舵机有转动过</p>
@@ -26671,7 +26631,9 @@
 	<node_order><![CDATA[1000]]></node_order>
 	<externalid><![CDATA[517]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	single-setCmd:`auriga.SmartServo(1).absoluteAngle(90).speed(30)`ff 55 0e 00 02 40 04 05 01 5a 00 00 00 00 00 f0 41</p>
+]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人插上智能舵机</p>
 ]]></preconditions>
@@ -26721,7 +26683,9 @@
 	<node_order><![CDATA[1001]]></node_order>
 	<externalid><![CDATA[518]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	single-setCmd:`auriga.SmartServo(2).absoluteAngle(-180).speed(80)`ff 55 0e 00 02 40 04 05 02 4c ff ff ff 00 00 a0 42</p>
+]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人插上智能舵机</p>
 ]]></preconditions>
@@ -26771,7 +26735,9 @@
 	<node_order><![CDATA[1002]]></node_order>
 	<externalid><![CDATA[519]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	single-setCmd:`auriga.SmartServo(3).absoluteAngle(-300).speed(-50)`ff 55 0e 00 02 40 04 05 03 d4 fe ff ff 00 00 48 c2</p>
+]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人插上智能舵机</p>
 ]]></preconditions>
@@ -26821,7 +26787,9 @@
 	<node_order><![CDATA[1003]]></node_order>
 	<externalid><![CDATA[520]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	single-setCmd:`auriga.SmartServo(4).absoluteAngle(600).speed(-50)`ff 55 0e 00 02 40 04 05 04 58 02 00 00 00 00 48 c2</p>
+]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人插上智能舵机</p>
 ]]></preconditions>
@@ -26871,7 +26839,9 @@
 	<node_order><![CDATA[1004]]></node_order>
 	<externalid><![CDATA[521]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	single-setCmd:`auriga.SmartServo(5).absoluteAngle(0).speed(50)`ff 55 0e 00 02 40 04 05 05 00 00 00 00 00 00 48 42</p>
+]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人插上智能舵机</p>
 ]]></preconditions>
@@ -26921,7 +26891,9 @@
 	<node_order><![CDATA[1005]]></node_order>
 	<externalid><![CDATA[522]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	single-setCmd:`auriga.SmartServo(4).absoluteAngle(500).speed(0)`ff 55 0e 00 02 40 04 05 04 f4 01 00 00 00 00 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人插上智能舵机</p>
 ]]></preconditions>
@@ -26971,7 +26943,9 @@
 	<node_order><![CDATA[1006]]></node_order>
 	<externalid><![CDATA[523]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	single-setCmd:`auriga.SmartServo(4).absoluteAngle(0).speed(0)`ff 55 0e 00 02 40 04 05 04 00 00 00 00 00 00 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人插上智能舵机</p>
 ]]></preconditions>
@@ -27028,7 +27002,9 @@
 	<node_order><![CDATA[1001]]></node_order>
 	<externalid><![CDATA[524]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	single-setCmd:`auriga.SmartServo(1).relativeAngle(90).speed(30)`ff 55 0e 00 02 40 05 05 01 5a 00 00 00 00 00 f0 41</p>
+]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人插上智能舵机</p>
 ]]></preconditions>
@@ -27078,7 +27054,9 @@
 	<node_order><![CDATA[1002]]></node_order>
 	<externalid><![CDATA[525]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	single-setCmd:`auriga.SmartServo(2).relativeAngle(-180).speed(80)`ff 55 0e 00 02 40 05 05 02 4c ff ff ff 00 00 a0 42</p>
+]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人插上智能舵机</p>
 ]]></preconditions>
@@ -27128,7 +27106,9 @@
 	<node_order><![CDATA[1003]]></node_order>
 	<externalid><![CDATA[526]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	single-setCmd:`auriga.SmartServo(3).relativeAngle(-300).speed(-50)`ff 55 0e 00 02 40 05 05 03 d4 fe ff ff 00 00 48 c2</p>
+]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人插上智能舵机</p>
 ]]></preconditions>
@@ -27178,7 +27158,9 @@
 	<node_order><![CDATA[1004]]></node_order>
 	<externalid><![CDATA[527]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	single-setCmd:`auriga.SmartServo(4).relativeAngle(600).speed(-50)`ff 55 0e 00 02 40 05 05 04 58 02 00 00 00 00 48 c2</p>
+]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人插上智能舵机</p>
 ]]></preconditions>
@@ -27228,7 +27210,9 @@
 	<node_order><![CDATA[1005]]></node_order>
 	<externalid><![CDATA[528]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	single-setCmd:`auriga.SmartServo(5).relativeAngle(0).speed(50)`ff 55 0e 00 02 40 05 05 05 00 00 00 00 00 00 48 42</p>
+]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人插上智能舵机</p>
 ]]></preconditions>
@@ -27278,7 +27262,9 @@
 	<node_order><![CDATA[1008]]></node_order>
 	<externalid><![CDATA[529]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	single-setCmd:`auriga.SmartServo(4).relativeAngle(500).speed(0)`ff 55 0e 00 02 40 05 05 04 f4 01 00 00 00 00 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人插上智能舵机</p>
 ]]></preconditions>
@@ -27328,7 +27314,9 @@
 	<node_order><![CDATA[1009]]></node_order>
 	<externalid><![CDATA[530]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[]]></summary>
+	<summary><![CDATA[<p>
+	single-setCmd:`auriga.SmartServo(4).relativeAngle(0).speed(0)`ff 55 0e 00 02 40 05 05 04 00 00 00 00 00 00 00 00</p>
+]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人插上智能舵机</p>
 ]]></preconditions>
@@ -27384,6 +27372,266 @@
 <p>
 	超过数值则按最大值运动</p>
 ]]></details> 
+
+<testcase internalid="61188" name="设置智能舵机（4）转速为（-300）">
+	<node_order><![CDATA[0]]></node_order>
+	<externalid><![CDATA[1441]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	single-setCmd:`auriga.SmartServo(4).runAsDcMotor(-300)`ff 55 08 00 02 40 06 05 04 01 ff</p>
+]]></summary>
+	<preconditions><![CDATA[<p>
+	机器人正确连接智能舵机，可通信</p>
+]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[3]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+<steps>
+<step>
+	<step_number><![CDATA[1]]></step_number>
+	<actions><![CDATA[<p>
+	拖动对应语句块到编辑区</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	成功移动</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+
+<step>
+	<step_number><![CDATA[2]]></step_number>
+	<actions><![CDATA[<p>
+	设置智能舵机（4）转速为（-300）</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	语句块正常设置</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+
+<step>
+	<step_number><![CDATA[3]]></step_number>
+	<actions><![CDATA[<p>
+	执行语句块</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	连接的第4个智能舵机以255的速度反向转动</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+</steps>
+</testcase>
+
+<testcase internalid="61173" name="设置智能舵机（1）转速为（255）">
+	<node_order><![CDATA[1]]></node_order>
+	<externalid><![CDATA[1438]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	single-setCmd:`auriga.SmartServo(1).runAsDcMotor(255)`ff 55 08 00 02 40 06 05 01 ff 00</p>
+]]></summary>
+	<preconditions><![CDATA[<p>
+	机器人正确连接智能舵机，可通信</p>
+]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[3]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+<steps>
+<step>
+	<step_number><![CDATA[1]]></step_number>
+	<actions><![CDATA[<p>
+	拖动对应语句块到编辑区</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	成功移动</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+
+<step>
+	<step_number><![CDATA[2]]></step_number>
+	<actions><![CDATA[<p>
+	设置智能舵机（1）转速为（255）</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	语句块正常设置</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+
+<step>
+	<step_number><![CDATA[3]]></step_number>
+	<actions><![CDATA[<p>
+	执行语句块</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	连接的第一个智能舵机以255的速度转动</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+</steps>
+</testcase>
+
+<testcase internalid="61178" name="设置智能舵机（2）转速为（-255）">
+	<node_order><![CDATA[2]]></node_order>
+	<externalid><![CDATA[1439]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	single-setCmd:`auriga.SmartServo(2).runAsDcMotor(-255)`ff 55 08 00 02 40 06 05 02 01 ff</p>
+]]></summary>
+	<preconditions><![CDATA[<p>
+	机器人正确连接智能舵机，可通信</p>
+]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[3]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+<steps>
+<step>
+	<step_number><![CDATA[1]]></step_number>
+	<actions><![CDATA[<p>
+	拖动对应语句块到编辑区</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	成功移动</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+
+<step>
+	<step_number><![CDATA[2]]></step_number>
+	<actions><![CDATA[<p>
+	设置智能舵机（2）转速为（-255）</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	语句块正常设置</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+
+<step>
+	<step_number><![CDATA[3]]></step_number>
+	<actions><![CDATA[<p>
+	执行语句块</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	连接的第2个智能舵机以255的速度反向转动</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+</steps>
+</testcase>
+
+<testcase internalid="61183" name="设置智能舵机（3）转速为（300）">
+	<node_order><![CDATA[3]]></node_order>
+	<externalid><![CDATA[1440]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	single-setCmd:`auriga.SmartServo(3).runAsDcMotor(300)`ff 55 08 00 02 40 06 05 03 ff 00</p>
+]]></summary>
+	<preconditions><![CDATA[<p>
+	机器人正确连接智能舵机，可通信</p>
+]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[3]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+<steps>
+<step>
+	<step_number><![CDATA[1]]></step_number>
+	<actions><![CDATA[<p>
+	拖动对应语句块到编辑区</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	成功移动</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+
+<step>
+	<step_number><![CDATA[2]]></step_number>
+	<actions><![CDATA[<p>
+	设置智能舵机（3）转速为（300）</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	语句块正常设置</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+
+<step>
+	<step_number><![CDATA[3]]></step_number>
+	<actions><![CDATA[<p>
+	执行语句块</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	连接的第3个智能舵机以255的速度转动</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+</steps>
+</testcase>
+
+<testcase internalid="61193" name="设置智能舵机（4）转速为（0）">
+	<node_order><![CDATA[4]]></node_order>
+	<externalid><![CDATA[1442]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	single-setCmd:`auriga.SmartServo(4).runAsDcMotor(0)`ff 55 08 00 02 40 06 05 04 00 00</p>
+]]></summary>
+	<preconditions><![CDATA[<p>
+	机器人正确连接智能舵机，可通信</p>
+]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[3]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+<steps>
+<step>
+	<step_number><![CDATA[1]]></step_number>
+	<actions><![CDATA[<p>
+	拖动对应语句块到编辑区</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	成功移动</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+
+<step>
+	<step_number><![CDATA[2]]></step_number>
+	<actions><![CDATA[<p>
+	设置智能舵机（4）转速为（0）</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	语句块正常设置</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+
+<step>
+	<step_number><![CDATA[3]]></step_number>
+	<actions><![CDATA[<p>
+	执行语句块</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	智能舵机不动</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+</steps>
+</testcase>
 </testsuite><testsuite id="50695" name="Servos LED_智能舵机LED" >
 <node_order><![CDATA[6]]></node_order>
 <details><![CDATA[<p>
@@ -27393,6 +27641,266 @@
 <p>
 	负值（-0~-255）（高-低）</p>
 ]]></details> 
+
+<testcase internalid="61198" name="设置智能舵机（1）LED 红（255）绿（0）蓝（0）">
+	<node_order><![CDATA[1000]]></node_order>
+	<externalid><![CDATA[1443]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	single-setCmd:`auriga.SmartServo(1).ledColor([255, 0, 0])`ff 55 09 00 02 40 02 05 01 ff 00 00</p>
+]]></summary>
+	<preconditions><![CDATA[<p>
+	auriga主板已经正确连接智能舵机，可通信</p>
+]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[3]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+<steps>
+<step>
+	<step_number><![CDATA[1]]></step_number>
+	<actions><![CDATA[<p>
+	拖动对应语句块到编辑区</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	成功移动</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+
+<step>
+	<step_number><![CDATA[2]]></step_number>
+	<actions><![CDATA[<p>
+	设置智能舵机（1）LED 红（255）绿（0）蓝（0）</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	语句块正常设置</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+
+<step>
+	<step_number><![CDATA[3]]></step_number>
+	<actions><![CDATA[<p>
+	执行语句块</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	连接的第一个智能舵机亮红色</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+</steps>
+</testcase>
+
+<testcase internalid="61203" name="设置智能舵机（2）LED 红（255）绿（255）蓝（255）">
+	<node_order><![CDATA[1001]]></node_order>
+	<externalid><![CDATA[1444]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	single-setCmd:`auriga.SmartServo(2).ledColor([255, 255, 255])`ff 55 09 00 02 40 02 05 02 ff ff ff</p>
+]]></summary>
+	<preconditions><![CDATA[<p>
+	auriga主板已经正确连接智能舵机，可通信</p>
+]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[3]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+<steps>
+<step>
+	<step_number><![CDATA[1]]></step_number>
+	<actions><![CDATA[<p>
+	拖动对应语句块到编辑区</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	成功移动</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+
+<step>
+	<step_number><![CDATA[2]]></step_number>
+	<actions><![CDATA[<p>
+	设置智能舵机（2）LED 红（255）绿（255）蓝（255）</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	语句块正常设置</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+
+<step>
+	<step_number><![CDATA[3]]></step_number>
+	<actions><![CDATA[<p>
+	执行语句块</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	连接的第2个智能舵机亮白色</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+</steps>
+</testcase>
+
+<testcase internalid="61208" name="设置智能舵机（3）LED 红（-450）绿（300）蓝（-255）">
+	<node_order><![CDATA[1002]]></node_order>
+	<externalid><![CDATA[1445]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	single-setCmd:`auriga.SmartServo(3).ledColor([-450, 300, -255])`ff 55 09 00 02 40 02 05 03 00 ff 00</p>
+]]></summary>
+	<preconditions><![CDATA[<p>
+	auriga主板已经正确连接智能舵机，可通信</p>
+]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[3]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+<steps>
+<step>
+	<step_number><![CDATA[1]]></step_number>
+	<actions><![CDATA[<p>
+	拖动对应语句块到编辑区</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	成功移动</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+
+<step>
+	<step_number><![CDATA[2]]></step_number>
+	<actions><![CDATA[<p>
+	设置智能舵机（3）LED 红（-450）绿（300）蓝（-255）</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	语句块正常设置</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+
+<step>
+	<step_number><![CDATA[3]]></step_number>
+	<actions><![CDATA[<p>
+	执行语句块</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	连接的第3个智能舵机亮绿色</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+</steps>
+</testcase>
+
+<testcase internalid="61213" name="设置智能舵机（4）LED 红（0）绿（0）蓝（0）">
+	<node_order><![CDATA[1003]]></node_order>
+	<externalid><![CDATA[1446]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	single-setCmd:`auriga.SmartServo(4).ledColor([0, 0, 0])`ff 55 09 00 02 40 02 05 04 00 00 00</p>
+]]></summary>
+	<preconditions><![CDATA[<p>
+	auriga主板已经正确连接智能舵机，可通信</p>
+]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[3]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+<steps>
+<step>
+	<step_number><![CDATA[1]]></step_number>
+	<actions><![CDATA[<p>
+	拖动对应语句块到编辑区</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	成功移动</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+
+<step>
+	<step_number><![CDATA[2]]></step_number>
+	<actions><![CDATA[<p>
+	设置智能舵机（4）LED 红（0）绿（0）蓝（0）</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	语句块正常设置</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+
+<step>
+	<step_number><![CDATA[3]]></step_number>
+	<actions><![CDATA[<p>
+	执行语句块</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	连接的第4个智能舵机不亮任何颜色</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+</steps>
+</testcase>
+
+<testcase internalid="61218" name="设置智能舵机（2）LED 红（100）绿（100）蓝（100）">
+	<node_order><![CDATA[1004]]></node_order>
+	<externalid><![CDATA[1447]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	single-setCmd:`auriga.SmartServo(2).ledColor([100, 100, 100])`ff 55 09 00 02 40 02 05 02 64 64 64</p>
+]]></summary>
+	<preconditions><![CDATA[<p>
+	auriga主板已经正确连接智能舵机，可通信</p>
+]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[3]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+<steps>
+<step>
+	<step_number><![CDATA[1]]></step_number>
+	<actions><![CDATA[<p>
+	拖动对应语句块到编辑区</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	成功移动</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+
+<step>
+	<step_number><![CDATA[2]]></step_number>
+	<actions><![CDATA[<p>
+	设置智能舵机（2）LED 红（100）绿（100）蓝（100）</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	语句块正常设置</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+
+<step>
+	<step_number><![CDATA[3]]></step_number>
+	<actions><![CDATA[<p>
+	执行语句块</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	连接的第2个智能舵机亮浅白色</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+</steps>
+</testcase>
 </testsuite></testsuite></testsuite><testsuite id="50696" name="Off-line_离线执行" >
 <node_order><![CDATA[3]]></node_order>
 <details><![CDATA[<p>
@@ -31629,7 +32137,7 @@
 	<externalid><![CDATA[627]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	single-setCmd:`megapi.RgbLed(6).position(1).r(20).g(0).b(0)`ff 55 09 00 02 08 06 02 01 14 00 00</p>
+	single-setCmd:`megapi.FourLeds(6).position(1).r(20).g(0).b(0)`ff 55 09 00 02 08 06 02 01 14 00 00</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
@@ -31681,7 +32189,7 @@
 	<externalid><![CDATA[628]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	single-setCmd:`megapi.RgbLed(7).position(2).r(0).g(60).b(0)`ff 55 09 00 02 08 07 02 02 00 3c 00</p>
+	single-setCmd:`megapi.FourLeds(7).position(2).r(0).g(60).b(0)`ff 55 09 00 02 08 07 02 02 00 3c 00</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
@@ -31733,7 +32241,7 @@
 	<externalid><![CDATA[629]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	single-setCmd:`megapi.RgbLed(8).position(3).r(0).g(0).b(90)`ff 55 09 00 02 08 08 02 03 00 00 5a</p>
+	single-setCmd:`megapi.FourLeds(8).position(3).r(0).g(0).b(90)`ff 55 09 00 02 08 08 02 03 00 00 5a</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
@@ -31785,7 +32293,7 @@
 	<externalid><![CDATA[630]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	single-setCmd:`megapi.RgbLed(8).position(4).r(90).g(0).b(90)`ff 55 09 00 02 08 08 02 04 5a 00 5a</p>
+	single-setCmd:`megapi.FourLeds(8).position(4).r(90).g(0).b(90)`ff 55 09 00 02 08 08 02 04 5a 00 5a</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
@@ -31837,7 +32345,7 @@
 	<externalid><![CDATA[631]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	single-setCmd:`megapi.RgbLed(8).position(0).r(255).g(255).b(255)`ff 55 09 00 02 08 08 02 00 ff ff ff</p>
+	single-setCmd:`megapi.FourLeds(8).position(0).r(255).g(255).b(255)`ff 55 09 00 02 08 08 02 00 ff ff ff</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
@@ -31889,7 +32397,7 @@
 	<externalid><![CDATA[632]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	single-setCmd:`megapi.RgbLed(8).position(0).r(0).g(0).b(0)`ff 55 09 00 02 08 08 02 00 00 00 00</p>
+	single-setCmd:`megapi.FourLeds(8).position(0).r(0).g(0).b(0)`ff 55 09 00 02 08 08 02 00 00 00 00</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
@@ -33297,7 +33805,7 @@
 	<externalid><![CDATA[658]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	语句块：设置相机快门【接口6、7、8】状态为【按下快门、松开开门、开始对焦、停止对焦】（没有此传感器）</p>
+	single-setCmd:`megapi.Shutter(6).action(0)`ff 55 05 00 02 14 06 00</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
@@ -33349,7 +33857,7 @@
 	<externalid><![CDATA[659]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	语句块：设置相机快门【接口6、7、8】状态为【按下快门、松开开门、开始对焦、停止对焦】（没有此传感器）</p>
+	single-setCmd:`megapi.Shutter(7).action(1)`ff 55 05 00 02 14 07 01</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
@@ -33401,7 +33909,7 @@
 	<externalid><![CDATA[660]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	语句块：设置相机快门【接口6、7、8】状态为【按下快门、松开开门、开始对焦、停止对焦】（没有此传感器）</p>
+	single-setCmd:`megapi.Shutter(8).action(2)`ff 55 05 00 02 14 08 02</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
@@ -33453,7 +33961,7 @@
 	<externalid><![CDATA[661]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	语句块：设置相机快门【接口6、7、8】状态为【按下快门、松开开门、开始对焦、停止对焦】（没有此传感器）</p>
+	single-setCmd:`megapi.Shutter(8).action(3)`ff 55 05 00 02 14 08 03</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
@@ -65057,15 +65565,15 @@
 <node_order><![CDATA[3]]></node_order>
 <details><![CDATA[]]></details> 
 
-<testcase internalid="59051" name="通过《通讯变量》的菜单栏删除该变量">
+<testcase internalid="59051" name="通过《变量》的菜单栏删除该变量">
 	<node_order><![CDATA[1001]]></node_order>
 	<externalid><![CDATA[1396]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	检查删除一个通讯变量</p>
+	检查删除一个变量</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
-	已存在通讯变量A</p>
+	已存在变量A</p>
 ]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[3]]></importance>
@@ -66825,7 +67333,18 @@
 	输入 &ldquo;A&rdquo;，点击确定</p>
 ]]></actions>
 	<expectedresults><![CDATA[<p>
-	弹窗收回，新建成功，Data一栏中的通讯变量下新增三个语句块：变量；将【A】设定为（0）；将【A】的值增加（0）</p>
+	弹出提示框：一个命名为A的（非通讯）变量已存在</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+
+<step>
+	<step_number><![CDATA[3]]></step_number>
+	<actions><![CDATA[<p>
+	点击提示框确定按钮</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	提示框和命名弹框均收回，仍只存在一个名为A的（非通讯）变量</p>
 ]]></expectedresults>
 	<execution_type><![CDATA[1]]></execution_type>
 </step>
