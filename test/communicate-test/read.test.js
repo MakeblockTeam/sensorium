@@ -8,8 +8,8 @@
  */
 import TransportHelp from './transport.help';
 import Transport from '../../src/communicate/transport';
-import Control from '../../src/communicate/control';
-import Read from '../../src/communicate/read';
+import Control from '../../src/core/control';
+import Read from '../../src/core/read';
 import chai from 'chai';
 const expect = chai.expect;
 

@@ -5,7 +5,7 @@ import {
   arrayFromArrayBuffer,
   bytesToString,
   bytesToInt
-} from "../core/utils";
+} from "./utils";
 
 // 获取到的最大指令长度
 const REC_BUF_MAX_LENGTH = 40;

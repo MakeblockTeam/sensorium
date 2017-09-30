@@ -2,7 +2,7 @@ import {
   fiterWithBinaryStr
 } from '../core/utils';
 import BaseEncoderMotor from './BaseEncoderMotor';
-import Control from '../communicate/control';
+import Control from '../core/control';
 import {
   SUPPORTLIST
 } from '../settings';

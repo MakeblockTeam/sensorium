@@ -4,7 +4,7 @@
  */
 import eModuleList from "../../src/electronic/index";
 import * as Util from "../../src/core/utils";
-import Read from '../../src/communicate/read';
+import Read from '../../src/core/read';
 import chai from 'chai';
 const expect = chai.expect;
 

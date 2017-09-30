@@ -5,7 +5,7 @@ import {
   composer
 } from '../core/utils';
 import protocolAssembler from '../protocol/cmd';
-import Control from '../communicate/control';
+import Control from '../core/control';
 
 class PIDForSpeed {
   constructor(slot) {

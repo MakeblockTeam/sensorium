@@ -4,7 +4,7 @@ const dataman = require('./dataman');
 import * as Utils from "../../src/core/utils";
 import protocolAssembler from '../../src/protocol/cmd';
 import Auriga from '../../src/mainboard/auriga';
-import Control from '../../src/communicate/control';
+import Control from '../../src/core/control';
 import chai from 'chai';
 const expect = chai.expect;
 
@@ -382,7 +382,7 @@ describe('【auriga_最新固件 协议测试】', function() {
 
       it(`在端口 7 x：1 y：1 的表情面板上显示字符串‘hello world’`, function() {
           let ledMatrixCharHelloWorld = auriga.LedMatrix(7).charMode().x(1).y(1).char('hello world');
-          let targetCmd = 'ff 55 0c 00 02 29 07 01 01 08 04 68 65 6c 6c';
+          let targetCmd = 'ff 55 13 00 02 29 07 01 01 08 0b 68 65 6c 6c 6f 20 77 6f 72 6c 64';
           console.log('hello world', ledMatrixCharHelloWorld.protocol.join(','));
           let currentCmd = formatProtocol(ledMatrixCharHelloWorld.protocol);
           expect(currentCmd).to.equal(targetCmd);

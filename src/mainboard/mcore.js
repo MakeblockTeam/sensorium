@@ -1,4 +1,4 @@
-import Board from '../core/Board';
+import Board from '../core/board';
 import electronics from '../electronic/index';
 
 /**

@@ -2,7 +2,7 @@ import {composer} from '../core/utils';
 import BaseMotor from './BaseMotor';
 import { validateNumber } from '../core/validate';
 import protocolAssembler from '../protocol/cmd';
-import Control from '../communicate/control';
+import Control from '../core/control';
 
 /**
  * @description It is a base Class of EncoderMotor

@@ -12,7 +12,7 @@ import PIDForPwm from './encoder_motor_on_board_pid_for_pwm';
 import PIDForDoubleMotor from './encoder_motor_on_board_pid_for_doubleMotor';
 
 import protocolAssembler from '../protocol/cmd';
-import Control from '../communicate/control';
+import Control from '../core/control';
 import {
   SUPPORTLIST
 } from '../settings';

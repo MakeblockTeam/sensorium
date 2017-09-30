@@ -679,7 +679,7 @@ function protocolAssembler() {
     let distanceArr = longToBytes(distance);
     let subCmd = 0x05;
     // let slot = 0x01;
-    speed = limitValue(speed);
+    speed = limitValue(speed, [0]);
     return bufAssembler({
         mode: 0x02,
         id: 0x3e
@@ -752,7 +752,7 @@ function protocolAssembler() {
   this.setEncoderMotorPIDDoubleMotor = function(direction, distance, speed) {
     let distanceArr = longToBytes(distance);
     let subCmd = 0x05;
-    speed = limitValue(speed);
+    speed = limitValue(speed, [0]);
     return bufAssembler({
         mode: 0x02,
         id: 0x3e

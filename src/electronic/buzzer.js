@@ -7,7 +7,7 @@ import {composer,
 fiterWithBinaryStr} from '../core/utils';
 import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
-import Control from '../communicate/control';
+import Control from '../core/control';
 import { TONE_TO_HZ, SUPPORTLIST } from '../settings';
 const MCORE_ = SUPPORTLIST[0].toLowerCase();
 

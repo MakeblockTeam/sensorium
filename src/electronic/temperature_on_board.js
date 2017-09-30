@@ -4,7 +4,7 @@ import {
 } from '../core/utils';
 import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
-import Control from '../communicate/control';
+import Control from '../core/control';
 import {
   SUPPORTLIST
 } from '../settings';

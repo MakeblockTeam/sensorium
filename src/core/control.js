@@ -4,8 +4,8 @@
  */
 import Read from './read';
 import Write from './write';
-import Parse from '../core/parse';
-import Transport from './transport';
+import Parse from './parse';
+import Transport from '../communicate/transport';
 
 /**
  * @private
@@ -32,8 +32,8 @@ class Control {
    * @param  {Array}   buf   protocol buffer
    * @return {Promise}       return a promise
    */
-  async read(buf) {
-    return await new Promise((resolve, reject) =>{
+  read(buf) {
+    return new Promise((resolve, reject) =>{
       Read.addRequest(Transport.send.bind(Transport), buf, function(val){
         resolve(val);
       });

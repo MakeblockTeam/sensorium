@@ -1,7 +1,7 @@
-import Board from '../core/Board';
+import Board from '../core/board';
 import electronics from '../electronic/index';
 import Mode from '../electronic/mode';
-import Control from '../communicate/control';
+import Control from '../core/control';
 import Version from '../electronic/version';
 
 const FIRMWAREMODE = Symbol('firmware');

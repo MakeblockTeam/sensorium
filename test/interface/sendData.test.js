@@ -2,9 +2,7 @@
  * @fileOverview  do sendData-test for sensorium
  *[为sensorium库做发送数据的接口测试，测试用例由testlink上导出，运行命令：node transform.js后即可得到]
  */
-// import Utils from '../../src/core/utils';
-// import protocolAssembler from '../../src/protocol/cmd';
-import CommandManager from '../../src/communicate/control';
+import CommandManager from '../../src/core/control';
 import Auriga from '../../src/mainboard/auriga';
 import mCore from '../../src/mainboard/mcore';
 import Orion from '../../src/mainboard/orion';

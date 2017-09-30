@@ -1,4 +1,4 @@
-import Control from '../../src/communicate/control';
+import Control from '../../src/core/control';
 import Server from './parent';
 
 function SerialPort(){
