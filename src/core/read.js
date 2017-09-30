@@ -96,7 +96,7 @@ const Read = {
    * @param  {Index} index the request index
    */
   watchdog: function(index) {
-   this.timer = setTimeout(()=>{
+   this.readRecord[index].timer = setTimeout(()=>{
       this.emitCallback(index, null);
     }, AUTO_OVERTIME);
   },
@@ -136,7 +136,7 @@ const Read = {
    * @param  {Number} value request result
    */
   emitCallback: function(index, value){
-    clearTimeout(this.timer);
+    clearTimeout(this.readRecord[index].timer);
     if(this.readRecord[index]){
       this.readRecord[index].callback(value);
       this.removeRecord(index);

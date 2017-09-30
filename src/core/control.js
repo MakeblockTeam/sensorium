@@ -37,10 +37,7 @@ class Control {
       Read.addRequest(Transport.send.bind(Transport), buf, function(val){
         resolve(val);
       });
-    })
-    // .catch((e) => {
-    //   throw new Error(e);
-    // })
+    });
   }
 
   /**

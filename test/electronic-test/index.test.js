@@ -106,7 +106,7 @@ describe('test all the electronic modules', function() {
             }
           }
         }
-        // //纯继承模式
+        //纯继承模式
         else{
             //读取所有 API 包括原型链上的 API
             let apis = Util.getAllMethods(instance_);

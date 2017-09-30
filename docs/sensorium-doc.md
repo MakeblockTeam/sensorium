@@ -10,6 +10,8 @@
 let sensorium = new Sensorium();
 sensorium.createMcore()
 
+#为什么有这个开源库？
+（它解决了什么问题）
 
 #Characteristic interpretation 特性解读
 ##API 级别

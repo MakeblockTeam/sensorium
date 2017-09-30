@@ -61,7 +61,7 @@ export default {
   Shutter,
   SmartServo,
   EncoderMotorOnBoardPID,
-  
+
   Reset, //实现待验证
   Ultrasonic,
   Temperature,
