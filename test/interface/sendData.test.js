@@ -7,6 +7,7 @@ import Auriga from '../../src/mainboard/auriga';
 import mCore from '../../src/mainboard/mcore';
 import Orion from '../../src/mainboard/orion';
 import MegaPi from '../../src/mainboard/megaPi';
+import Arduino from '../../src/mainboard/arduino';
 import chai from 'chai';
 // const expect = chai.expect;
 
@@ -14,6 +15,7 @@ let auriga = new Auriga();
 let mcore = new mCore();
 let orion = new Orion();
 let megapi = new MegaPi();
+let arduino = new Arduino();
 var assert = require('chai').assert;
 var fs = require('fs');
 
@@ -90,9 +92,9 @@ describe('sendDataTest:', function () {
 
         //第三次采用的协议截取方法
         let currentArrayCmd = formatProtocol(sendOrder.protocol);
-        console.log('实际发送指令 : ', currentArrayCmd)
+        //console.log('实际发送指令 : ', currentArrayCmd)
         let presetOrder = d.caseSummary[2]; //对应的预设值
-        console.log('预期发送指令 : ', presetOrder)
+        //console.log('预期发送指令 : ', presetOrder)
         assert.equal(currentArrayCmd, presetOrder);
         done();
       } else if (d.caseSummary[0] == "loop-setCmd:") {
@@ -102,9 +104,9 @@ describe('sendDataTest:', function () {
           let arg = parseInt(args_arr[i]);
           var sendOrder = eval(d.caseSummary[2]); //相应的接口发送的实际指令
           let currentArrayCmd = formatProtocol(sendOrder.protocol);
-          console.log('实际发送指令 : ', currentArrayCmd)
+          //console.log('实际发送指令 : ', currentArrayCmd)
           var presetOrder = presetOrders[i]; //对应的预设值
-          console.log('预期发送指令 : ', presetOrder)
+          //console.log('预期发送指令 : ', presetOrder)
           assert.equal(currentArrayCmd, presetOrder);
         }
         done();
@@ -112,9 +114,9 @@ describe('sendDataTest:', function () {
         let sendOrder = eval(d.caseSummary[1]); //相应的接口发送的实际指令
         let getSensorValue = d.caseSummary[2]; //相应的获取传感器值接口
         let currentArrayCmd = formatProtocol(sendOrder.protocol);//captureReadBuf(sendOrder[getSensorValue].bind(sendOrder));
-        console.log('实际发送指令 : ', currentArrayCmd)
+        //console.log('实际发送指令 : ', currentArrayCmd)
         let presetOrder = d.caseSummary[3]; //对应的预设值
-        console.log('预期发送指令 : ', presetOrder)
+        //console.log('预期发送指令 : ', presetOrder)
         assert.equal(currentArrayCmd, presetOrder);//断言发送指令是否正确
         done();
       } else if (d.caseSummary[0] == "loop-readCmd:") {
@@ -123,8 +125,8 @@ describe('sendDataTest:', function () {
         let presetOrder = d.caseSummary[3]; //对应的预设值
         for (let i = 0; i < 255; i++) {
           let currentArrayCmd = formatProtocol(sendOrder.protocol);//captureReadBuf(sendOrder[getSensorValue].bind(sendOrder));
-          console.log('实际发送指令 : ', currentArrayCmd)
-          console.log('预期发送指令 : ', presetOrder)
+          //console.log('实际发送指令 : ', currentArrayCmd)
+          //console.log('预期发送指令 : ', presetOrder)
           assert.equal(currentArrayCmd, presetOrder);//断言发送指令是否正确
         }
         done();

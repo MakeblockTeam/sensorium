@@ -32,7 +32,7 @@
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
 ]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[3]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -84,7 +84,7 @@
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
 ]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[3]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -136,7 +136,7 @@
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
 ]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[3]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -188,7 +188,7 @@
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
 ]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[3]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -240,7 +240,7 @@
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
 ]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[3]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -292,7 +292,7 @@
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
 ]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[3]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -344,7 +344,7 @@
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
 ]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[3]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -3344,7 +3344,7 @@
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
 ]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[3]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -3396,7 +3396,7 @@
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
 ]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[3]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -3448,7 +3448,7 @@
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
 ]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[3]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -3500,7 +3500,7 @@
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
 ]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[3]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -3701,6 +3701,93 @@
 	<execution_type><![CDATA[1]]></execution_type>
 </step>
 </steps>
+</testcase>
+</testsuite><testsuite id="61366" name="Settings reset_016_重启指令" >
+<node_order><![CDATA[25]]></node_order>
+<details><![CDATA[<p>
+	<span style="color: rgb(51, 51, 51); font-family: Arial, sans-serif; font-size: 14px; background-color: rgb(255, 255, 255);">该命令用于重置主板上的电机或者板载LED灯等参数。可以使电机停止转动，板载的LED灯也会处于熄灭状态。</span></p>
+]]></details> 
+
+<testcase internalid="61367" name="重启mbot">
+	<node_order><![CDATA[1000]]></node_order>
+	<externalid><![CDATA[1479]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	single-setCmd:`mcore.Reset()`ff 55 02 00 04</p>
+]]></summary>
+	<preconditions><![CDATA[<p>
+	设备正确连接可通信</p>
+]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+</testsuite><testsuite id="61925" name="Settings Send_017_发送红外消息" >
+<node_order><![CDATA[26]]></node_order>
+<details><![CDATA[]]></details> 
+
+<testcase internalid="61350" name="发送mBot消息（hello）">
+	<node_order><![CDATA[1002]]></node_order>
+	<externalid><![CDATA[1471]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="61352" name="发送mBot消息（你好）">
+	<node_order><![CDATA[1003]]></node_order>
+	<externalid><![CDATA[1472]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="61354" name="发送mBot消息（A）">
+	<node_order><![CDATA[1004]]></node_order>
+	<externalid><![CDATA[1473]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="61926" name="发送mBot消息（12）">
+	<node_order><![CDATA[1005]]></node_order>
+	<externalid><![CDATA[1483]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
 </testcase>
 </testsuite></testsuite><testsuite id="48356" name="Read judgment_读取判断语句块" >
 <node_order><![CDATA[2]]></node_order>
@@ -6318,12 +6405,10 @@
 	<externalid><![CDATA[119]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	数码管读取火焰传感器【接口3、4】的值</p>
-<p>
-	&nbsp;</p>
+	single-readCmd:`mcore.Flame(3)`getData`ff 55 04 00 01 18 03`0~1</p>
 ]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[2]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -6370,12 +6455,10 @@
 	<externalid><![CDATA[120]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	数码管读取火焰传感器【接口3、4】的值</p>
-<p>
-	&nbsp;</p>
+	single-readCmd:`mcore.Flame(4)`getData`ff 55 04 00 01 18 04`0~1</p>
 ]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[2]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -6747,12 +6830,10 @@
 	<externalid><![CDATA[127]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	数码管显示判断语句块：触摸传感器【接口1、2、3、4】是否有触碰</p>
-<p>
-	触摸显示1，放开显示0</p>
+	single-readCmd:`mcore.Touch(1)`getData`ff 55 04 00 01 33 01`0~1</p>
 ]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[2]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -6799,12 +6880,10 @@
 	<externalid><![CDATA[128]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	数码管显示判断语句块：触摸传感器【接口1、2、3、4】是否有触碰</p>
-<p>
-	触摸显示1，放开显示0</p>
+	single-readCmd:`mcore.Touch(2)`getData`ff 55 04 00 01 33 02`0~1</p>
 ]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[2]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -6851,12 +6930,10 @@
 	<externalid><![CDATA[129]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	数码管显示判断语句块：触摸传感器【接口1、2、3、4】是否有触碰</p>
-<p>
-	触摸显示1，放开显示0</p>
+	single-readCmd:`mcore.Touch(3)`getData`ff 55 04 00 01 33 03`0~1</p>
 ]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[2]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -6903,12 +6980,10 @@
 	<externalid><![CDATA[130]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	数码管显示判断语句块：触摸传感器【接口1、2、3、4】是否有触碰</p>
-<p>
-	触摸显示1，放开显示0</p>
+	single-readCmd:`mcore.Touch(4)`getData`ff 55 04 00 01 33 04`0~1</p>
 ]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[2]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -6955,12 +7030,10 @@
 	<externalid><![CDATA[131]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	数码管显示判断语句块：触摸传感器【接口1、2、3、4】是否有触碰</p>
-<p>
-	触摸显示1，放开显示0</p>
+	single-readCmd:`mcore.Touch(4)`getData`ff 55 04 00 01 33 04`0~1</p>
 ]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[2]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -7012,12 +7085,10 @@
 	<externalid><![CDATA[132]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	数码管显示判断语句块：按键【接口1、2、3、4】【Key1、2、3、4】是否按下</p>
-<p>
-	按下显示1，放开显示0</p>
+	single-readCmd:`mcore.FourKeys(1).key(1)`getData`ff 55 05 00 01 16 01 01`0~1</p>
 ]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[2]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -7064,12 +7135,10 @@
 	<externalid><![CDATA[133]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	数码管显示判断语句块：按键【接口1、2、3、4】【Key1、2、3、4】是否按下</p>
-<p>
-	按下显示1，放开显示0</p>
+	single-readCmd:`mcore.FourKeys(2).key(2)`getData`ff 55 05 00 01 16 02 02`0~1</p>
 ]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[2]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -7116,12 +7185,10 @@
 	<externalid><![CDATA[134]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	数码管显示判断语句块：按键【接口1、2、3、4】【Key1、2、3、4】是否按下</p>
-<p>
-	按下显示1，放开显示0</p>
+	single-readCmd:`mcore.FourKeys(3).key(3)`getData`ff 55 05 00 01 16 03 03`0~1</p>
 ]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[2]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -7220,12 +7287,10 @@
 	<externalid><![CDATA[136]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	数码管显示判断语句块：按键【<span style="font-family: 微软雅黑, Tahoma; line-height: normal; background-color: rgb(255, 255, 255);">接口1、2、3、4</span>】【Key1、2、3、4】是否按下</p>
-<p>
-	按下显示1，放开显示0</p>
+	single-readCmd:`mcore.FourKeys(4).key(4)`getData`ff 55 05 00 01 16 04 04`0~1</p>
 ]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[2]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -7274,14 +7339,12 @@
 	mbot板载自带有红外接收器</p>
 ]]></details> 
 
-<testcase internalid="48712" name="Judgment Statement_001_按下A键">
+<testcase internalid="48712" name="Judgment Statement_001_按下A键?">
 	<node_order><![CDATA[1003]]></node_order>
 	<externalid><![CDATA[137]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	数码管显示判断语句块：红外遥控器按下【A~F，R0~R9，设置，上下左右】键</p>
-<p>
-	按下显示1，放开显示0</p>
+	single-readCmd:`mcore.InfraredOnBoard()`getData`ff 55 05 00 01 0e 00 45`</p>
 ]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
@@ -7305,7 +7368,9 @@
 <step>
 	<step_number><![CDATA[2]]></step_number>
 	<actions><![CDATA[<p>
-	设置数码管【接口1】读取红外遥控器按下【A】键</p>
+	设置数码管【接口1】读取红外遥控器按下【A】键 &nbsp;</p>
+<p>
+	（可以选择的范围：【A~F，R0~R9，设置，上下左右】）</p>
 ]]></actions>
 	<expectedresults><![CDATA[<p>
 	成功设置</p>
@@ -7326,15 +7391,11 @@
 </steps>
 </testcase>
 
-<testcase internalid="48717" name="Judgment Statement_002_按下设置键">
+<testcase internalid="48717" name="Judgment Statement_002_按下设置键 ?">
 	<node_order><![CDATA[1004]]></node_order>
 	<externalid><![CDATA[138]]></externalid>
 	<version><![CDATA[1]]></version>
-	<summary><![CDATA[<p>
-	数码管显示判断语句块：红外遥控器按下【A~F，R0~R9，设置，上下左右】键</p>
-<p>
-	按下显示1，放开显示0</p>
-]]></summary>
+	<summary><![CDATA[]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
 	<importance><![CDATA[2]]></importance>
@@ -7378,7 +7439,7 @@
 </steps>
 </testcase>
 
-<testcase internalid="48722" name="Judgment Statement_003_按下0键">
+<testcase internalid="48722" name="Judgment Statement_003_按下0键 ?">
 	<node_order><![CDATA[1005]]></node_order>
 	<externalid><![CDATA[139]]></externalid>
 	<version><![CDATA[1]]></version>
@@ -7501,6 +7562,81 @@
 	<execution_type><![CDATA[1]]></execution_type>
 </step>
 </steps>
+</testcase>
+
+<testcase internalid="61356" name="板载红外接收器接收到的消息">
+	<node_order><![CDATA[1004]]></node_order>
+	<externalid><![CDATA[1474]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="61358" name="外接红外接收器（接口1）接收到的消息">
+	<node_order><![CDATA[1005]]></node_order>
+	<externalid><![CDATA[1475]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="61360" name="外接红外接收器（接口2）接收到的消息">
+	<node_order><![CDATA[1006]]></node_order>
+	<externalid><![CDATA[1476]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="61362" name="外接红外接收器（接口3）接收到的消息">
+	<node_order><![CDATA[1007]]></node_order>
+	<externalid><![CDATA[1477]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="61364" name="外接红外接收器（接口4）接收到的消息">
+	<node_order><![CDATA[1008]]></node_order>
+	<externalid><![CDATA[1478]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
 </testcase>
 </testsuite></testsuite></testsuite><testsuite id="48733" name="Off-line_离线执行" >
 <node_order><![CDATA[1]]></node_order>
@@ -11167,7 +11303,7 @@
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
 ]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[3]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -11219,7 +11355,7 @@
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
 ]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[3]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -11271,7 +11407,7 @@
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
 ]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[3]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -11323,7 +11459,7 @@
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
 ]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[3]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -11626,6 +11762,30 @@
 	<execution_type><![CDATA[1]]></execution_type>
 </step>
 </steps>
+</testcase>
+</testsuite><testsuite id="61369" name="Settings reset_012_重启指令" >
+<node_order><![CDATA[26]]></node_order>
+<details><![CDATA[<p>
+	<span style="color: rgb(51, 51, 51); font-family: Arial, sans-serif; font-size: 14px; background-color: rgb(255, 255, 255);">该命令用于重置主板上的电机或者板载LED灯等参数。可以使电机停止转动，板载的LED灯也会处于熄灭状态。</span></p>
+]]></details> 
+
+<testcase internalid="61370" name="重启Orion">
+	<node_order><![CDATA[1000]]></node_order>
+	<externalid><![CDATA[1480]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	single-setCmd:`orion.Reset()`ff 55 02 00 04</p>
+]]></summary>
+	<preconditions><![CDATA[<p>
+	设备正确连接可通信</p>
+]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
 </testcase>
 </testsuite></testsuite><testsuite id="49135" name="Read judgment_读取判断语句块" >
 <node_order><![CDATA[2]]></node_order>
@@ -14329,12 +14489,10 @@
 	<externalid><![CDATA[285]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	数码管读取火焰传感器【接口6、7、8】的值</p>
-<p>
-	&nbsp;</p>
+	single-readCmd:`orion.Flame(6)`getData`ff 55 04 00 01 18 06`0~1</p>
 ]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[2]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -14381,12 +14539,10 @@
 	<externalid><![CDATA[286]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	数码管读取火焰传感器【接口6、7、8】的值</p>
-<p>
-	&nbsp;</p>
+	single-readCmd:`orion.Flame(7)`getData`ff 55 04 00 01 18 07`0~1</p>
 ]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[2]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -14433,12 +14589,10 @@
 	<externalid><![CDATA[287]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	数码管读取火焰传感器【接口6、7、8】的值</p>
-<p>
-	&nbsp;</p>
+	single-readCmd:`orion.Flame(8)`getData`ff 55 04 00 01 18 08`0~1</p>
 ]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[2]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -14651,12 +14805,10 @@
 	<externalid><![CDATA[291]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	数码管显示判断语句块：触摸传感器【接口3、4、6】是否有触碰</p>
-<p>
-	触摸显示1，放开显示0</p>
+	single-readCmd:`orion.Touch(3)`getData`ff 55 04 00 01 33 03`0~1</p>
 ]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[2]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -14703,12 +14855,10 @@
 	<externalid><![CDATA[292]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	数码管显示判断语句块：触摸传感器【接口3、4、6】是否有触碰</p>
-<p>
-	触摸显示1，放开显示0</p>
+	single-readCmd:`orion.Touch(4)`getData`ff 55 04 00 01 33 04`0~1</p>
 ]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[2]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -14755,12 +14905,10 @@
 	<externalid><![CDATA[293]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	数码管显示判断语句块：触摸传感器【接口3、4、6】是否有触碰</p>
-<p>
-	触摸显示1，放开显示0</p>
+	single-readCmd:`orion.Touch(6)`getData`ff 55 04 00 01 33 06`0~1</p>
 ]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[2]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -14812,12 +14960,10 @@
 	<externalid><![CDATA[294]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	数码管显示判断语句块：按键【接口6、7、8】【Key1、2、3、4】是否按下</p>
-<p>
-	按下显示1，放开显示0</p>
+	single-readCmd:`orion.FourKeys(6).key(1)`getData`ff 55 05 00 01 16 06 01`0~1</p>
 ]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[2]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -14864,12 +15010,10 @@
 	<externalid><![CDATA[295]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	数码管显示判断语句块：按键【接口6、7、8】【Key1、2、3、4】是否按下</p>
-<p>
-	按下显示1，放开显示0</p>
+	single-readCmd:`orion.FourKeys(7).key(2)`getData`ff 55 05 00 01 16 07 02`0~1</p>
 ]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[2]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -14916,12 +15060,10 @@
 	<externalid><![CDATA[296]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	数码管显示判断语句块：按键【接口6、7、8】【Key1、2、3、4】是否按下</p>
-<p>
-	按下显示1，放开显示0</p>
+	single-readCmd:`orion.FourKeys(8).key(3)`getData`ff 55 05 00 01 16 08 03`0~1</p>
 ]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[2]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -14968,12 +15110,10 @@
 	<externalid><![CDATA[297]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	数码管显示判断语句块：按键【接口6、7、8】【Key1、2、3、4】是否按下</p>
-<p>
-	按下显示1，放开显示0</p>
+	single-readCmd:`orion.FourKeys(9).key(4)`getData`ff 55 05 00 01 16 09 04`0~1</p>
 ]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[2]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -15101,7 +15241,126 @@
 <testsuite id="49483" name="control_控制语句块" >
 <node_order><![CDATA[1]]></node_order>
 <details><![CDATA[]]></details> 
-<testsuite id="49484" name="Settings motor_001_板载编码电机方向转速" >
+<testsuite id="61279" name="Settings motor_0023_用于移动端控制平衡车（调用虚拟摇杆2的接口）" >
+<node_order><![CDATA[0]]></node_order>
+<details><![CDATA[<p>
+	语句块/某个控件：【前进、后退、左转、右转】转速为【255~-255】</p>
+]]></details> 
+
+<testcase internalid="61280" name="Settings motor_001_速度（255）~转动角度（255）">
+	<node_order><![CDATA[0]]></node_order>
+	<externalid><![CDATA[1454]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	single-setCmd:`auriga.VirtualJoystickForBalance().speed(255).turnRange(255)`ff 55 08 00 02 34 00 ff 00 ff 00</p>
+]]></summary>
+	<preconditions><![CDATA[<p>
+	机器人已连接makeblock</p>
+]]></preconditions>
+	<execution_type><![CDATA[2]]></execution_type>
+	<importance><![CDATA[3]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="61285" name="Settings motor_002_速度（-100）~转动角度（-100）">
+	<node_order><![CDATA[1]]></node_order>
+	<externalid><![CDATA[1455]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	single-setCmd:`auriga.VirtualJoystickForBalance().speed(-100).turnRange(-100)`ff 55 08 00 02 34 00 ff 9c ff 9c</p>
+]]></summary>
+	<preconditions><![CDATA[<p>
+	机器人已连接mkeblock</p>
+]]></preconditions>
+	<execution_type><![CDATA[2]]></execution_type>
+	<importance><![CDATA[3]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="61315" name="Settings motor_001_速度（-450）~转动角度（-400）">
+	<node_order><![CDATA[7]]></node_order>
+	<externalid><![CDATA[1461]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	single-setCmd:`auriga.VirtualJoystickForBalance().speed(-450).turnRange(-400)`ff 55 08 00 02 34 00 01 ff 01 ff</p>
+]]></summary>
+	<preconditions><![CDATA[<p>
+	机器人已连接makeblock</p>
+]]></preconditions>
+	<execution_type><![CDATA[2]]></execution_type>
+	<importance><![CDATA[3]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="61317" name="Settings motor_001_速度（0）~转动角度（300）">
+	<node_order><![CDATA[8]]></node_order>
+	<externalid><![CDATA[1462]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	single-setCmd:`auriga.VirtualJoystickForBalance().speed(0).turnRange(300)`ff 55 08 00 02 34 00 ff 00 00 00</p>
+]]></summary>
+	<preconditions><![CDATA[<p>
+	机器人已连接makeblock</p>
+]]></preconditions>
+	<execution_type><![CDATA[2]]></execution_type>
+	<importance><![CDATA[3]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="61319" name="Settings motor_001_速度（255）~转动角度（255）~反转方向">
+	<node_order><![CDATA[9]]></node_order>
+	<externalid><![CDATA[1463]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	single-setCmd:`auriga.VirtualJoystickForBalance().speed(255).turnRange(255).reverse()`ff 55 08 00 02 34 00 ff 00 01 ff</p>
+]]></summary>
+	<preconditions><![CDATA[<p>
+	机器人已连接makeblock</p>
+]]></preconditions>
+	<execution_type><![CDATA[2]]></execution_type>
+	<importance><![CDATA[3]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="61321" name="Settings motor_001_停止">
+	<node_order><![CDATA[10]]></node_order>
+	<externalid><![CDATA[1464]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	single-setCmd:`auriga.VirtualJoystickForBalance().stop()`ff 55 08 00 02 34 00 00 00 00 00</p>
+]]></summary>
+	<preconditions><![CDATA[<p>
+	机器人已连接makeblock</p>
+]]></preconditions>
+	<execution_type><![CDATA[2]]></execution_type>
+	<importance><![CDATA[3]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+</testsuite><testsuite id="49484" name="Settings motor_001_板载编码电机方向转速（调用虚拟摇杆1的接口）" >
 <node_order><![CDATA[1]]></node_order>
 <details><![CDATA[<p>
 	语句块：【前进、后退、左转、右转】转速为【255~-255】</p>
@@ -20519,7 +20778,7 @@
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
 ]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[3]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -20571,7 +20830,7 @@
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
 ]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[3]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -20623,7 +20882,7 @@
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
 ]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[3]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -20675,7 +20934,7 @@
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
 ]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[3]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -20727,7 +20986,7 @@
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
 ]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[3]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -21086,6 +21345,30 @@
 	<execution_type><![CDATA[1]]></execution_type>
 </step>
 </steps>
+</testcase>
+</testsuite><testsuite id="61372" name="Settings reset_023_重启指令" >
+<node_order><![CDATA[27]]></node_order>
+<details><![CDATA[<p>
+	<span style="color: rgb(51, 51, 51); font-family: Arial, sans-serif; font-size: 14px; background-color: rgb(255, 255, 255);">该命令用于重置主板上的电机或者板载LED灯等参数。可以使电机停止转动，板载的LED灯也会处于熄灭状态。</span></p>
+]]></details> 
+
+<testcase internalid="61373" name="重启auriga">
+	<node_order><![CDATA[1000]]></node_order>
+	<externalid><![CDATA[1481]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	single-setCmd:`auriga.Reset()`ff 55 02 00 04</p>
+]]></summary>
+	<preconditions><![CDATA[<p>
+	设备正确连接可通信</p>
+]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
 </testcase>
 </testsuite></testsuite><testsuite id="50068" name="Read judgment_读取判断语句块" >
 <node_order><![CDATA[2]]></node_order>
@@ -24050,10 +24333,10 @@
 	<externalid><![CDATA[468]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	数码管读取温度传感器【接口6、7、8、9、10】【插头1、2】温度的值</p>
+	single-readCmd:`auriga.TemperatureOnBoard()`getData`ff 55 04 00 01 1b 0d`-1024~1024</p>
 ]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[2]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -26422,7 +26705,7 @@
 	<preconditions><![CDATA[<p>
 	执行过旋转角度，且没有重新设置0位的舵机</p>
 ]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[2]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -26474,7 +26757,7 @@
 	<preconditions><![CDATA[<p>
 	执行过旋转角度，且没有重新设置0位的舵机</p>
 ]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[2]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -26526,7 +26809,7 @@
 	<preconditions><![CDATA[<p>
 	正常转动的舵机</p>
 ]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[2]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -26578,7 +26861,7 @@
 	<preconditions><![CDATA[<p>
 	智能舵机有转动过</p>
 ]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[2]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -26637,7 +26920,7 @@
 	<preconditions><![CDATA[<p>
 	机器人插上智能舵机</p>
 ]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[2]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -26689,7 +26972,7 @@
 	<preconditions><![CDATA[<p>
 	机器人插上智能舵机</p>
 ]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[2]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -26741,7 +27024,7 @@
 	<preconditions><![CDATA[<p>
 	机器人插上智能舵机</p>
 ]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[2]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -26793,7 +27076,7 @@
 	<preconditions><![CDATA[<p>
 	机器人插上智能舵机</p>
 ]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[2]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -26845,7 +27128,7 @@
 	<preconditions><![CDATA[<p>
 	机器人插上智能舵机</p>
 ]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[2]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -26897,7 +27180,7 @@
 	<preconditions><![CDATA[<p>
 	机器人插上智能舵机</p>
 ]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[2]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -26949,7 +27232,7 @@
 	<preconditions><![CDATA[<p>
 	机器人插上智能舵机</p>
 ]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[2]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -27008,7 +27291,7 @@
 	<preconditions><![CDATA[<p>
 	机器人插上智能舵机</p>
 ]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[2]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -27060,7 +27343,7 @@
 	<preconditions><![CDATA[<p>
 	机器人插上智能舵机</p>
 ]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[2]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -27112,7 +27395,7 @@
 	<preconditions><![CDATA[<p>
 	机器人插上智能舵机</p>
 ]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[2]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -27164,7 +27447,7 @@
 	<preconditions><![CDATA[<p>
 	机器人插上智能舵机</p>
 ]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[2]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -27216,7 +27499,7 @@
 	<preconditions><![CDATA[<p>
 	机器人插上智能舵机</p>
 ]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[2]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -27268,7 +27551,7 @@
 	<preconditions><![CDATA[<p>
 	机器人插上智能舵机</p>
 ]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[2]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -27320,7 +27603,7 @@
 	<preconditions><![CDATA[<p>
 	机器人插上智能舵机</p>
 ]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[2]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -27383,7 +27666,7 @@
 	<preconditions><![CDATA[<p>
 	机器人正确连接智能舵机，可通信</p>
 ]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[3]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -27435,7 +27718,7 @@
 	<preconditions><![CDATA[<p>
 	机器人正确连接智能舵机，可通信</p>
 ]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[3]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -27487,7 +27770,7 @@
 	<preconditions><![CDATA[<p>
 	机器人正确连接智能舵机，可通信</p>
 ]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[3]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -27539,7 +27822,7 @@
 	<preconditions><![CDATA[<p>
 	机器人正确连接智能舵机，可通信</p>
 ]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[3]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -27591,7 +27874,7 @@
 	<preconditions><![CDATA[<p>
 	机器人正确连接智能舵机，可通信</p>
 ]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[3]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -27652,7 +27935,7 @@
 	<preconditions><![CDATA[<p>
 	auriga主板已经正确连接智能舵机，可通信</p>
 ]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[3]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -27704,7 +27987,7 @@
 	<preconditions><![CDATA[<p>
 	auriga主板已经正确连接智能舵机，可通信</p>
 ]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[3]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -27756,7 +28039,7 @@
 	<preconditions><![CDATA[<p>
 	auriga主板已经正确连接智能舵机，可通信</p>
 ]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[3]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -27808,7 +28091,7 @@
 	<preconditions><![CDATA[<p>
 	auriga主板已经正确连接智能舵机，可通信</p>
 ]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[3]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -27860,7 +28143,7 @@
 	<preconditions><![CDATA[<p>
 	auriga主板已经正确连接智能舵机，可通信</p>
 ]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[3]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -27896,6 +28179,342 @@
 ]]></actions>
 	<expectedresults><![CDATA[<p>
 	连接的第2个智能舵机亮浅白色</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+</steps>
+</testcase>
+</testsuite><testsuite id="61223" name="初始化智能舵机" >
+<node_order><![CDATA[7]]></node_order>
+<details><![CDATA[]]></details> 
+
+<testcase internalid="61228" name="初始化智能舵机">
+	<node_order><![CDATA[1000]]></node_order>
+	<externalid><![CDATA[1448]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[]]></summary>
+	<preconditions><![CDATA[<p>
+	auriga主板已经正确连接智能舵机，可通信</p>
+]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[3]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+<steps>
+<step>
+	<step_number><![CDATA[1]]></step_number>
+	<actions><![CDATA[<p>
+	拖动对应语句块到编辑区</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	成功移动</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+
+<step>
+	<step_number><![CDATA[2]]></step_number>
+	<actions><![CDATA[<p>
+	初始化智能舵机</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	语句块正常设置</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+
+<step>
+	<step_number><![CDATA[3]]></step_number>
+	<actions><![CDATA[<p>
+	执行语句块</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	所有智能舵机被初始化</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+</steps>
+</testcase>
+</testsuite><testsuite id="61224" name="读取智能舵机数据" >
+<node_order><![CDATA[8]]></node_order>
+<details><![CDATA[]]></details> 
+
+<testcase internalid="61237" name="读取智能舵机（1）【电流】">
+	<node_order><![CDATA[1000]]></node_order>
+	<externalid><![CDATA[1449]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	single-setCmd:`auriga.SmartServo(1).readCurrent()`ff 55 06 00 01 40 0b 05 01</p>
+]]></summary>
+	<preconditions><![CDATA[<p>
+	auriga主板已经正确连接智能舵机，可通信</p>
+]]></preconditions>
+	<execution_type><![CDATA[2]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+<steps>
+<step>
+	<step_number><![CDATA[1]]></step_number>
+	<actions><![CDATA[<p>
+	拖动对应语句块到编辑区</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	拖动成功</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+
+<step>
+	<step_number><![CDATA[2]]></step_number>
+	<actions><![CDATA[<p>
+	重复执行【</p>
+<p>
+	&nbsp; &nbsp; &nbsp;表情面板（接口6）显示数字（读取智能舵机（1）【电流】）</p>
+<p>
+	】</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	设置成功</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+
+<step>
+	<step_number><![CDATA[3]]></step_number>
+	<actions><![CDATA[<p>
+	执行语句</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	接口6上的表情面板显示第一个智能舵机的电流值</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+</steps>
+</testcase>
+
+<testcase internalid="61239" name="读取智能舵机（2）【电压】">
+	<node_order><![CDATA[1001]]></node_order>
+	<externalid><![CDATA[1450]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	single-setCmd:`auriga.SmartServo(2).readVoltage()`ff 55 06 00 01 40 0c 05 02</p>
+]]></summary>
+	<preconditions><![CDATA[<p>
+	auriga主板已经正确连接智能舵机，可通信</p>
+]]></preconditions>
+	<execution_type><![CDATA[2]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+<steps>
+<step>
+	<step_number><![CDATA[1]]></step_number>
+	<actions><![CDATA[<p>
+	拖动对应语句块到编辑区</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	拖动成功</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+
+<step>
+	<step_number><![CDATA[2]]></step_number>
+	<actions><![CDATA[<p>
+	重复执行【</p>
+<p>
+	&nbsp; &nbsp; &nbsp;表情面板（接口6）显示数字（读取智能舵机（2）【电压】）</p>
+<p>
+	】</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	设置成功</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+
+<step>
+	<step_number><![CDATA[3]]></step_number>
+	<actions><![CDATA[<p>
+	执行语句</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	接口6上的表情面板显示第二个智能舵机的电压值</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+</steps>
+</testcase>
+
+<testcase internalid="61241" name="读取智能舵机（3）【速度】">
+	<node_order><![CDATA[1002]]></node_order>
+	<externalid><![CDATA[1451]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	single-setCmd:`auriga.SmartServo(3).readSpeed()`ff 55 06 00 01 40 09 05 03</p>
+]]></summary>
+	<preconditions><![CDATA[<p>
+	auriga主板已经正确连接智能舵机，可通信</p>
+]]></preconditions>
+	<execution_type><![CDATA[2]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+<steps>
+<step>
+	<step_number><![CDATA[1]]></step_number>
+	<actions><![CDATA[<p>
+	拖动对应语句块到编辑区</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	拖动成功</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+
+<step>
+	<step_number><![CDATA[2]]></step_number>
+	<actions><![CDATA[<p>
+	重复执行【</p>
+<p>
+	&nbsp; &nbsp; &nbsp;表情面板（接口6）显示数字（读取智能舵机（3）【速度】）</p>
+<p>
+	】</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	设置成功</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+
+<step>
+	<step_number><![CDATA[3]]></step_number>
+	<actions><![CDATA[<p>
+	执行语句</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	接口6上的表情面板显示第三个智能舵机的速度值</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+</steps>
+</testcase>
+
+<testcase internalid="61243" name="读取智能舵机（4）【角度】">
+	<node_order><![CDATA[1003]]></node_order>
+	<externalid><![CDATA[1452]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	single-setCmd:`auriga.SmartServo(4).readAngle()`ff 55 06 00 01 40 0d 05 04</p>
+]]></summary>
+	<preconditions><![CDATA[<p>
+	auriga主板已经正确连接智能舵机，可通信</p>
+]]></preconditions>
+	<execution_type><![CDATA[2]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+<steps>
+<step>
+	<step_number><![CDATA[1]]></step_number>
+	<actions><![CDATA[<p>
+	拖动对应语句块到编辑区</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	拖动成功</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+
+<step>
+	<step_number><![CDATA[2]]></step_number>
+	<actions><![CDATA[<p>
+	重复执行【</p>
+<p>
+	&nbsp; &nbsp; &nbsp;表情面板（接口6）显示数字（读取智能舵机（4）【角度】）</p>
+<p>
+	】</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	设置成功</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+
+<step>
+	<step_number><![CDATA[3]]></step_number>
+	<actions><![CDATA[<p>
+	执行语句</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	接口6上的表情面板显示第四个智能舵机的角度值</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+</steps>
+</testcase>
+
+<testcase internalid="61245" name="读取智能舵机（5）【温度】">
+	<node_order><![CDATA[1004]]></node_order>
+	<externalid><![CDATA[1453]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	single-setCmd:`auriga.SmartServo(5).readTemperature()`ff 55 06 00 01 40 0a 05 05</p>
+]]></summary>
+	<preconditions><![CDATA[<p>
+	auriga主板已经正确连接智能舵机，可通信</p>
+]]></preconditions>
+	<execution_type><![CDATA[2]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+<steps>
+<step>
+	<step_number><![CDATA[1]]></step_number>
+	<actions><![CDATA[<p>
+	拖动对应语句块到编辑区</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	拖动成功</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+
+<step>
+	<step_number><![CDATA[2]]></step_number>
+	<actions><![CDATA[<p>
+	重复执行【</p>
+<p>
+	&nbsp; &nbsp; &nbsp;表情面板（接口6）显示数字（读取智能舵机（5）【温度】）</p>
+<p>
+	】</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	设置成功</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+
+<step>
+	<step_number><![CDATA[3]]></step_number>
+	<actions><![CDATA[<p>
+	执行语句</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	接口6上的表情面板显示第五个智能舵机的电流</p>
 ]]></expectedresults>
 	<execution_type><![CDATA[1]]></execution_type>
 </step>
@@ -29158,8 +29777,127 @@
 <testsuite id="50820" name="control_控制语句块" >
 <node_order><![CDATA[1]]></node_order>
 <details><![CDATA[]]></details> 
-<testsuite id="50821" name="Settings motor_001_板载编码电机方向转速" >
+<testsuite id="61323" name="Settings motor_0020_用于移动端控制平衡车（调用虚拟摇杆2的接口）" >
 <node_order><![CDATA[0]]></node_order>
+<details><![CDATA[<p>
+	语句块/某个控件：速度【-255~255】角度为【255~-255】是否反转方向</p>
+]]></details> 
+
+<testcase internalid="61324" name="Settings motor_001_速度（255）~转动角度（255）">
+	<node_order><![CDATA[0]]></node_order>
+	<externalid><![CDATA[1465]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	single-setCmd:`megapi.VirtualJoystickForBalance().speed(255).turnRange(255)`ff 55 08 00 02 34 00 ff 00 ff 00</p>
+]]></summary>
+	<preconditions><![CDATA[<p>
+	机器人已连接makeblock</p>
+]]></preconditions>
+	<execution_type><![CDATA[2]]></execution_type>
+	<importance><![CDATA[3]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="61326" name="Settings motor_002_速度（-100）~转动角度（-100）">
+	<node_order><![CDATA[1]]></node_order>
+	<externalid><![CDATA[1466]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	single-setCmd:`megapi.VirtualJoystickForBalance().speed(-100).turnRange(-100)`ff 55 08 00 02 34 00 ff 9c ff 9c</p>
+]]></summary>
+	<preconditions><![CDATA[<p>
+	机器人已连接mkeblock</p>
+]]></preconditions>
+	<execution_type><![CDATA[2]]></execution_type>
+	<importance><![CDATA[3]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="61328" name="Settings motor_001_速度（-450）~转动角度（-400）">
+	<node_order><![CDATA[7]]></node_order>
+	<externalid><![CDATA[1467]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	single-setCmd:`megapi.VirtualJoystickForBalance().speed(-450).turnRange(-400)`ff 55 08 00 02 34 00 01 ff 01 ff</p>
+]]></summary>
+	<preconditions><![CDATA[<p>
+	机器人已连接makeblock</p>
+]]></preconditions>
+	<execution_type><![CDATA[2]]></execution_type>
+	<importance><![CDATA[3]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="61330" name="Settings motor_001_速度（0）~转动角度（300）">
+	<node_order><![CDATA[8]]></node_order>
+	<externalid><![CDATA[1468]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	single-setCmd:`megapi.VirtualJoystickForBalance().speed(0).turnRange(300)`ff 55 08 00 02 34 00 ff 00 00 00</p>
+]]></summary>
+	<preconditions><![CDATA[<p>
+	机器人已连接makeblock</p>
+]]></preconditions>
+	<execution_type><![CDATA[2]]></execution_type>
+	<importance><![CDATA[3]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="61332" name="Settings motor_001_速度（255）~转动角度（255）~反转方向">
+	<node_order><![CDATA[9]]></node_order>
+	<externalid><![CDATA[1469]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	single-setCmd:`megapi.VirtualJoystickForBalance().speed(255).turnRange(255).reverse()`ff 55 08 00 02 34 00 ff 00 01 ff</p>
+]]></summary>
+	<preconditions><![CDATA[<p>
+	机器人已连接makeblock</p>
+]]></preconditions>
+	<execution_type><![CDATA[2]]></execution_type>
+	<importance><![CDATA[3]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+
+<testcase internalid="61334" name="Settings motor_001_停止">
+	<node_order><![CDATA[10]]></node_order>
+	<externalid><![CDATA[1470]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	single-setCmd:`megapi.VirtualJoystickForBalance().stop()`ff 55 08 00 02 34 00 00 00 00 00</p>
+]]></summary>
+	<preconditions><![CDATA[<p>
+	机器人已连接makeblock</p>
+]]></preconditions>
+	<execution_type><![CDATA[2]]></execution_type>
+	<importance><![CDATA[3]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+</testsuite><testsuite id="50821" name="Settings motor_001_板载编码电机方向转速" >
+<node_order><![CDATA[1]]></node_order>
 <details><![CDATA[<p>
 	语句块：【前进、后退、左转、右转】转速为【255~-255】</p>
 ]]></details> 
@@ -29528,7 +30266,7 @@
 </steps>
 </testcase>
 </testsuite><testsuite id="50857" name="Settings motor_002_板载编码电机方向速度度数" >
-<node_order><![CDATA[3]]></node_order>
+<node_order><![CDATA[2]]></node_order>
 <details><![CDATA[<p>
 	语句块：【前进、后退、左转、右转】【1000】度，速度【300、200、100、0】圈每分钟</p>
 <p>
@@ -29899,7 +30637,7 @@
 </steps>
 </testcase>
 </testsuite><testsuite id="50893" name="Settings motor_003_直流电机" >
-<node_order><![CDATA[7]]></node_order>
+<node_order><![CDATA[3]]></node_order>
 <details><![CDATA[<p>
 	语句块：设置直流电机【接口1A~4B】转速为【255~-255】</p>
 ]]></details> 
@@ -30164,7 +30902,7 @@
 </steps>
 </testcase>
 </testsuite><testsuite id="50919" name="Settings servo_004_设置舵机" >
-<node_order><![CDATA[8]]></node_order>
+<node_order><![CDATA[4]]></node_order>
 <details><![CDATA[<p>
 	语句块：设置舵机【接口6、7、8】【插头1、2】角度【0~180】</p>
 ]]></details> 
@@ -30429,7 +31167,7 @@
 </steps>
 </testcase>
 </testsuite><testsuite id="50945" name="Settings servo_005_舵机引脚" >
-<node_order><![CDATA[9]]></node_order>
+<node_order><![CDATA[5]]></node_order>
 <details><![CDATA[<p>
 	语句块：设置舵机引脚【A6~A15】输出角度为【90】PS：没有此模块</p>
 ]]></details> 
@@ -30694,7 +31432,7 @@
 </steps>
 </testcase>
 </testsuite><testsuite id="50971" name="Settings motor_006_步进电机" >
-<node_order><![CDATA[10]]></node_order>
+<node_order><![CDATA[6]]></node_order>
 <details><![CDATA[<p>
 	语句块：设置步进电机【接口1、2、3、4】速度【100、500、1000、1500、3000】距离【1000】</p>
 ]]></details> 
@@ -31011,7 +31749,7 @@
 </steps>
 </testcase>
 </testsuite><testsuite id="51002" name="Settings motor_007_单个编码电机动力" >
-<node_order><![CDATA[11]]></node_order>
+<node_order><![CDATA[7]]></node_order>
 <details><![CDATA[<p>
 	语句块：设置编码电机【接口1、2、3、4】动力为【255~-255】</p>
 ]]></details> 
@@ -31328,7 +32066,7 @@
 </steps>
 </testcase>
 </testsuite><testsuite id="51033" name="Settings motor_008_单个编码电机转圈速度" >
-<node_order><![CDATA[12]]></node_order>
+<node_order><![CDATA[8]]></node_order>
 <details><![CDATA[<p>
 	语句块：设置板载编码电机【接口1、2、3、4】速度为【100】圈每分钟（注意摆放编码电机的正反方向，速度为负数时，会反方向旋转）</p>
 ]]></details> 
@@ -31593,7 +32331,7 @@
 </steps>
 </testcase>
 </testsuite><testsuite id="51059" name="Settings motor_009_单个编码电机转动速度和度数" >
-<node_order><![CDATA[13]]></node_order>
+<node_order><![CDATA[9]]></node_order>
 <details><![CDATA[<p>
 	语句块：设置板载编码电机【接口1、2、3、4】旋转【1000】度，速度为【180】圈每分钟</p>
 <p>
@@ -31860,7 +32598,7 @@
 </steps>
 </testcase>
 </testsuite><testsuite id="51085" name="Settings Digital_010_设置数码管" >
-<node_order><![CDATA[14]]></node_order>
+<node_order><![CDATA[10]]></node_order>
 <details><![CDATA[<p>
 	语句块：设置数码管【接口6、7、8】数字【100（可输入-999~9999的数值）】</p>
 ]]></details> 
@@ -32127,7 +32865,7 @@
 </steps>
 </testcase>
 </testsuite><testsuite id="51111" name="Settings LED_011_控制LED" >
-<node_order><![CDATA[15]]></node_order>
+<node_order><![CDATA[11]]></node_order>
 <details><![CDATA[<p>
 	语句块：设置LED【接口6、7、8】【全部、1~4】红色【0~255】绿色【0~255】蓝色【0~255】</p>
 ]]></details> 
@@ -32444,7 +33182,7 @@
 </steps>
 </testcase>
 </testsuite><testsuite id="51142" name="Settings led strip_012_控制灯带" >
-<node_order><![CDATA[16]]></node_order>
+<node_order><![CDATA[12]]></node_order>
 <details><![CDATA[<p>
 	语句块：设置灯带【接口6、7、8】【插头1、2】【全部、1~&infin;】红色【0~255】绿色【0~255】蓝色【0~255】</p>
 <p>
@@ -32823,7 +33561,7 @@
 </steps>
 </testcase>
 </testsuite><testsuite id="51178" name="Settings panel_013_表情面板_数字" >
-<node_order><![CDATA[17]]></node_order>
+<node_order><![CDATA[13]]></node_order>
 <details><![CDATA[<p>
 	语句块：设置面板【接口6、7、8】显示数字：【-999~9999（小数点占一个数字）】</p>
 ]]></details> 
@@ -33088,7 +33826,7 @@
 </steps>
 </testcase>
 </testsuite><testsuite id="51204" name="Settings panel_014_表情面板_文字" >
-<node_order><![CDATA[18]]></node_order>
+<node_order><![CDATA[14]]></node_order>
 <details><![CDATA[<p>
 	语句块：设置面板【接口6、7、8】x：【0】y：【0】显示文字：【Hi（不包括中文）】</p>
 ]]></details> 
@@ -33301,7 +34039,7 @@
 </steps>
 </testcase>
 </testsuite><testsuite id="51225" name="Settings panel_015_表情面板_时间" >
-<node_order><![CDATA[19]]></node_order>
+<node_order><![CDATA[15]]></node_order>
 <details><![CDATA[<p>
 	语句块：设置面板【接口6、7、8】显示时间：【10】时【:】【20】</p>
 ]]></details> 
@@ -33410,7 +34148,7 @@
 </steps>
 </testcase>
 </testsuite><testsuite id="51236" name="Settings panel_016_表情面板_绘画" >
-<node_order><![CDATA[20]]></node_order>
+<node_order><![CDATA[16]]></node_order>
 <details><![CDATA[<p>
 	语句块：设置面板【接口6、7、8】x：【0】y：【0】绘画：【 &nbsp;】</p>
 <p>
@@ -33630,7 +34368,7 @@
 </steps>
 </testcase>
 </testsuite><testsuite id="51258" name="Settings light_017_光线传感器" >
-<node_order><![CDATA[21]]></node_order>
+<node_order><![CDATA[17]]></node_order>
 <details><![CDATA[<p>
 	语句块：设置光线传感器【接口6、7、8】LED状态为【开、关】（因LED灯会影响光线传感器模块，所以此传感器暂停生产）</p>
 ]]></details> 
@@ -33795,7 +34533,7 @@
 </steps>
 </testcase>
 </testsuite><testsuite id="51274" name="Settings camera_018_相机快门" >
-<node_order><![CDATA[22]]></node_order>
+<node_order><![CDATA[18]]></node_order>
 <details><![CDATA[<p>
 	语句块：设置相机快门【接口6、7、8】状态为【按下快门、松开开门、开始对焦、停止对焦】（没有此传感器）</p>
 ]]></details> 
@@ -33810,7 +34548,7 @@
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
 ]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[3]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -33862,7 +34600,7 @@
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
 ]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[3]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -33914,7 +34652,7 @@
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
 ]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[3]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -33966,7 +34704,7 @@
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
 ]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[3]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -34008,7 +34746,7 @@
 </steps>
 </testcase>
 </testsuite><testsuite id="51295" name="Settings Fan_019_小风扇" >
-<node_order><![CDATA[23]]></node_order>
+<node_order><![CDATA[19]]></node_order>
 <details><![CDATA[<p>
 	语句块：设置小风扇【接口6、7、8】吹【顺时针、逆时针、停止】</p>
 ]]></details> 
@@ -34223,6 +34961,30 @@
 	<execution_type><![CDATA[1]]></execution_type>
 </step>
 </steps>
+</testcase>
+</testsuite><testsuite id="61375" name="Settings reset_020_重启指令" >
+<node_order><![CDATA[28]]></node_order>
+<details><![CDATA[<p>
+	<span style="color: rgb(51, 51, 51); font-family: Arial, sans-serif; font-size: 14px; background-color: rgb(255, 255, 255);">该命令用于重置主板上的电机或者板载LED灯等参数。可以使电机停止转动，板载的LED灯也会处于熄灭状态。</span></p>
+]]></details> 
+
+<testcase internalid="61376" name="重启megapi">
+	<node_order><![CDATA[1000]]></node_order>
+	<externalid><![CDATA[1482]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	single-setCmd:`megapi.Reset()`ff 55 02 00 04</p>
+]]></summary>
+	<preconditions><![CDATA[<p>
+	设备正确连接可通信</p>
+]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
 </testcase>
 </testsuite></testsuite><testsuite id="51316" name="Read judgment_读取判断语句块" >
 <node_order><![CDATA[3]]></node_order>
@@ -36630,12 +37392,10 @@
 	<externalid><![CDATA[711]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	数码管读取火焰传感器【接口6、7、8】的值</p>
-<p>
-	&nbsp;</p>
+	single-readCmd:`megapi.Flame(6)`getData`ff 55 04 00 01 18 06`0~1</p>
 ]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[2]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -36682,12 +37442,10 @@
 	<externalid><![CDATA[712]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	数码管读取火焰传感器【接口6、7、8】的值</p>
-<p>
-	&nbsp;</p>
+	single-readCmd:`megapi.Flame(7)`getData`ff 55 04 00 01 18 07`0~1</p>
 ]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[2]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -36734,12 +37492,10 @@
 	<externalid><![CDATA[713]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	数码管读取火焰传感器【接口6、7、8】的值</p>
-<p>
-	&nbsp;</p>
+	single-readCmd:`megapi.Flame(8)`getData`ff 55 04 00 01 18 08`0~1</p>
 ]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[2]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -37115,12 +37871,10 @@
 	<externalid><![CDATA[720]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	数码管显示判断语句块：触摸传感器【接口6、7、8】是否有触碰</p>
-<p>
-	触摸显示1，放开显示0</p>
+	single-readCmd:`megapi.Touch(6)`getData`ff 55 04 00 01 33 06`0~1</p>
 ]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[2]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -37167,12 +37921,10 @@
 	<externalid><![CDATA[721]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	数码管显示判断语句块：触摸传感器【接口6、7、8】是否有触碰</p>
-<p>
-	触摸显示1，放开显示0</p>
+	single-readCmd:`megapi.Touch(7)`getData`ff 55 04 00 01 33 07`0~1</p>
 ]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[2]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -37219,12 +37971,10 @@
 	<externalid><![CDATA[722]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	数码管显示判断语句块：触摸传感器【接口6、7、8】是否有触碰</p>
-<p>
-	触摸显示1，放开显示0</p>
+	single-readCmd:`megapi.Touch(8)`getData`ff 55 04 00 01 33 08`0~1</p>
 ]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[2]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -37276,12 +38026,10 @@
 	<externalid><![CDATA[723]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	数码管显示判断语句块：按键【接口6、7、8】【Key1、2、3、4】是否按下</p>
-<p>
-	按下显示1，放开显示0</p>
+	single-readCmd:`megapi.FourKeys(6).key(1)`getData`ff 55 05 00 01 16 06 01`0~1</p>
 ]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[2]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -37328,12 +38076,10 @@
 	<externalid><![CDATA[724]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	数码管显示判断语句块：【接口6、7、8】【Key1、2、3、4】是否按下</p>
-<p>
-	按下显示1，放开显示0</p>
+	single-readCmd:`megapi.FourKeys(7).key(2)`getData`ff 55 05 00 01 16 07 02`0~1</p>
 ]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[2]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -37380,12 +38126,10 @@
 	<externalid><![CDATA[725]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	数码管显示判断语句块：按键【接口6、7、8】【Key1、2、3、4】是否按下</p>
-<p>
-	按下显示1，放开显示0</p>
+	single-readCmd:`megapi.FourKeys(8).key(3)`getData`ff 55 05 00 01 16 08 03`0~1</p>
 ]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
+	<execution_type><![CDATA[2]]></execution_type>
 	<importance><![CDATA[2]]></importance>
 	<estimated_exec_duration></estimated_exec_duration>
 	<status>1</status>
@@ -37432,9 +38176,7 @@
 	<externalid><![CDATA[726]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	数码管显示判断语句块：按键【接口6、7、8】【Key1、2、3、4】是否按下</p>
-<p>
-	按下显示1，放开显示0</p>
+	single-readCmd:`megapi.FourKeys(8).key(4)`getData`ff 55 05 00 01 16 08 04`0~1</p>
 ]]></summary>
 	<preconditions><![CDATA[]]></preconditions>
 	<execution_type><![CDATA[1]]></execution_type>
@@ -57256,271 +57998,6 @@
 </step>
 </steps>
 </testcase>
-</testsuite><testsuite id="53563" name="Arduino_全语句上传验证" >
-<node_order><![CDATA[8]]></node_order>
-<details><![CDATA[<p>
-	验证全部语句块上传过程中是否编译成功</p>
-]]></details> 
-
-<testcase internalid="53564" name="Upload_001_mBot全部语句块上传arduino">
-	<node_order><![CDATA[1000]]></node_order>
-	<externalid><![CDATA[1097]]></externalid>
-	<version><![CDATA[1]]></version>
-	<summary><![CDATA[<p>
-	添加机器人模块处全部语句块，验证各模块上传arduino功能</p>
-]]></summary>
-	<preconditions><![CDATA[<p>
-	已连接mblock，进入arduino模式</p>
-]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
-	<importance><![CDATA[2]]></importance>
-	<estimated_exec_duration></estimated_exec_duration>
-	<status>1</status>
-	<is_open>1</is_open>
-	<active>1</active>
-<steps>
-<step>
-	<step_number><![CDATA[1]]></step_number>
-	<actions><![CDATA[<p>
-	菜单栏-&gt;【控制板】-&gt;选择【mBot(mCore)】</p>
-]]></actions>
-	<expectedresults><![CDATA[<p>
-	机器人模块处主程序为mBot，语句块为mBot主板相关</p>
-]]></expectedresults>
-	<execution_type><![CDATA[1]]></execution_type>
-</step>
-
-<step>
-	<step_number><![CDATA[2]]></step_number>
-	<actions><![CDATA[<p>
-	机器人模块处的全部语句块逐一拖动到编辑区，判断、读值语句块借助设置数码管数字【】语句块</p>
-]]></actions>
-	<expectedresults><![CDATA[<p>
-	拖动成功</p>
-]]></expectedresults>
-	<execution_type><![CDATA[1]]></execution_type>
-</step>
-
-<step>
-	<step_number><![CDATA[3]]></step_number>
-	<actions><![CDATA[<p>
-	点击【上传到Arduino】按钮</p>
-]]></actions>
-	<expectedresults><![CDATA[<p>
-	编译成功，正常上传，并提示&ldquo;上传完成&rdquo;</p>
-]]></expectedresults>
-	<execution_type><![CDATA[1]]></execution_type>
-</step>
-</steps>
-</testcase>
-
-<testcase internalid="53569" name="Upload_002_Orion全部语句块上传arduino">
-	<node_order><![CDATA[1001]]></node_order>
-	<externalid><![CDATA[1098]]></externalid>
-	<version><![CDATA[1]]></version>
-	<summary><![CDATA[<p>
-	添加机器人模块处全部语句块，验证各模块上传arduino功能</p>
-]]></summary>
-	<preconditions><![CDATA[<p>
-	已连接mblock，进入arduino模式</p>
-]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
-	<importance><![CDATA[2]]></importance>
-	<estimated_exec_duration></estimated_exec_duration>
-	<status>1</status>
-	<is_open>1</is_open>
-	<active>1</active>
-<steps>
-<step>
-	<step_number><![CDATA[1]]></step_number>
-	<actions><![CDATA[<p>
-	菜单栏-&gt;【控制板】-&gt;选择【Starter/Ultimate(Orion)】</p>
-]]></actions>
-	<expectedresults><![CDATA[<p>
-	机器人模块处主程序为Orion，语句块为Orion主板相关</p>
-]]></expectedresults>
-	<execution_type><![CDATA[1]]></execution_type>
-</step>
-
-<step>
-	<step_number><![CDATA[2]]></step_number>
-	<actions><![CDATA[<p>
-	机器人模块处的全部语句块逐一拖动到编辑区，判断、读值语句块借助设置数码管数字【】语句块</p>
-]]></actions>
-	<expectedresults><![CDATA[<p>
-	拖动成功</p>
-]]></expectedresults>
-	<execution_type><![CDATA[1]]></execution_type>
-</step>
-
-<step>
-	<step_number><![CDATA[3]]></step_number>
-	<actions><![CDATA[<p>
-	点击【上传到Arduino】按钮</p>
-]]></actions>
-	<expectedresults><![CDATA[<p>
-	编译成功，正常上传，并提示&ldquo;上传完成&rdquo;</p>
-]]></expectedresults>
-	<execution_type><![CDATA[1]]></execution_type>
-</step>
-</steps>
-</testcase>
-
-<testcase internalid="53574" name="Upload_003_Auriga全部语句块上传arduino">
-	<node_order><![CDATA[1002]]></node_order>
-	<externalid><![CDATA[1099]]></externalid>
-	<version><![CDATA[1]]></version>
-	<summary><![CDATA[<p>
-	添加机器人模块处全部语句块，验证各模块上传arduino功能</p>
-]]></summary>
-	<preconditions><![CDATA[<p>
-	已连接mblock，进入arduino模式</p>
-]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
-	<importance><![CDATA[2]]></importance>
-	<estimated_exec_duration></estimated_exec_duration>
-	<status>1</status>
-	<is_open>1</is_open>
-	<active>1</active>
-<steps>
-<step>
-	<step_number><![CDATA[1]]></step_number>
-	<actions><![CDATA[<p>
-	菜单栏-&gt;【控制板】-&gt;选择【mBot Ranger(Auriga)】</p>
-]]></actions>
-	<expectedresults><![CDATA[<p>
-	机器人模块处主程序为Auriga，语句块为Auriga主板相关</p>
-]]></expectedresults>
-	<execution_type><![CDATA[1]]></execution_type>
-</step>
-
-<step>
-	<step_number><![CDATA[2]]></step_number>
-	<actions><![CDATA[<p>
-	机器人模块处的全部语句块逐一拖动到编辑区，判断、读值语句块借助设置数码管数字【】语句块</p>
-]]></actions>
-	<expectedresults><![CDATA[<p>
-	拖动成功</p>
-]]></expectedresults>
-	<execution_type><![CDATA[1]]></execution_type>
-</step>
-
-<step>
-	<step_number><![CDATA[3]]></step_number>
-	<actions><![CDATA[<p>
-	点击【上传到Arduino】按钮</p>
-]]></actions>
-	<expectedresults><![CDATA[<p>
-	编译成功，正常上传，并提示&ldquo;上传完成&rdquo;</p>
-]]></expectedresults>
-	<execution_type><![CDATA[1]]></execution_type>
-</step>
-</steps>
-</testcase>
-
-<testcase internalid="53579" name="Upload_004_MegaPi全部语句块上传arduino">
-	<node_order><![CDATA[1003]]></node_order>
-	<externalid><![CDATA[1100]]></externalid>
-	<version><![CDATA[1]]></version>
-	<summary><![CDATA[<p>
-	添加机器人模块处全部语句块，验证各模块上传arduino功能</p>
-]]></summary>
-	<preconditions><![CDATA[<p>
-	已连接mblock，进入arduino模式</p>
-]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
-	<importance><![CDATA[2]]></importance>
-	<estimated_exec_duration></estimated_exec_duration>
-	<status>1</status>
-	<is_open>1</is_open>
-	<active>1</active>
-<steps>
-<step>
-	<step_number><![CDATA[1]]></step_number>
-	<actions><![CDATA[<p>
-	菜单栏-&gt;【控制板】-&gt;选择【Ultimate 2.0(MegaPi)】</p>
-]]></actions>
-	<expectedresults><![CDATA[<p>
-	机器人模块处主程序为MegaPi，语句块为MegaPi主板相关</p>
-]]></expectedresults>
-	<execution_type><![CDATA[1]]></execution_type>
-</step>
-
-<step>
-	<step_number><![CDATA[2]]></step_number>
-	<actions><![CDATA[<p>
-	机器人模块处的全部语句块逐一拖动到编辑区，判断、读值语句块借助设置数码管数字【】语句块</p>
-]]></actions>
-	<expectedresults><![CDATA[<p>
-	拖动成功</p>
-]]></expectedresults>
-	<execution_type><![CDATA[1]]></execution_type>
-</step>
-
-<step>
-	<step_number><![CDATA[3]]></step_number>
-	<actions><![CDATA[<p>
-	点击【上传到Arduino】按钮</p>
-]]></actions>
-	<expectedresults><![CDATA[<p>
-	编译成功，正常上传，并提示&ldquo;上传完成&rdquo;</p>
-]]></expectedresults>
-	<execution_type><![CDATA[1]]></execution_type>
-</step>
-</steps>
-</testcase>
-
-<testcase internalid="53584" name="Upload_005_MegaPi pro全部语句块上传arduino">
-	<node_order><![CDATA[1004]]></node_order>
-	<externalid><![CDATA[1101]]></externalid>
-	<version><![CDATA[1]]></version>
-	<summary><![CDATA[<p>
-	添加机器人模块处全部语句块，验证各模块上传arduino功能</p>
-]]></summary>
-	<preconditions><![CDATA[<p>
-	已连接mblock，进入arduino模式</p>
-]]></preconditions>
-	<execution_type><![CDATA[1]]></execution_type>
-	<importance><![CDATA[2]]></importance>
-	<estimated_exec_duration></estimated_exec_duration>
-	<status>1</status>
-	<is_open>1</is_open>
-	<active>1</active>
-<steps>
-<step>
-	<step_number><![CDATA[1]]></step_number>
-	<actions><![CDATA[<p>
-	菜单栏-&gt;【控制板】-&gt;选择【MegaPi pro】</p>
-]]></actions>
-	<expectedresults><![CDATA[<p>
-	机器人模块处主程序为MegaPi pro，语句块为MegaPi主板相关</p>
-]]></expectedresults>
-	<execution_type><![CDATA[1]]></execution_type>
-</step>
-
-<step>
-	<step_number><![CDATA[2]]></step_number>
-	<actions><![CDATA[<p>
-	机器人模块处的全部语句块逐一拖动到编辑区，判断、读值语句块借助设置数码管数字【】语句块</p>
-]]></actions>
-	<expectedresults><![CDATA[<p>
-	拖动成功</p>
-]]></expectedresults>
-	<execution_type><![CDATA[1]]></execution_type>
-</step>
-
-<step>
-	<step_number><![CDATA[3]]></step_number>
-	<actions><![CDATA[<p>
-	点击【上传到Arduino】按钮</p>
-]]></actions>
-	<expectedresults><![CDATA[<p>
-	编译成功，正常上传，并提示&ldquo;上传完成&rdquo;</p>
-]]></expectedresults>
-	<execution_type><![CDATA[1]]></execution_type>
-</step>
-</steps>
-</testcase>
 </testsuite><testsuite id="53852" name="mEos" >
 <node_order><![CDATA[9]]></node_order>
 <details><![CDATA[<p>
@@ -74286,7 +74763,378 @@
 </testsuite></testsuite><testsuite id="53862" name="Operators_运算" >
 <node_order><![CDATA[9]]></node_order>
 <details><![CDATA[]]></details> 
-</testsuite></testsuite></testsuite></testsuite><testsuite id="54111" name="Translate_翻译" >
+</testsuite></testsuite></testsuite><testsuite id="61978" name="Arduino" >
+<node_order><![CDATA[10]]></node_order>
+<details><![CDATA[]]></details> 
+<testsuite id="53563" name="Arduino_全语句上传验证" >
+<node_order><![CDATA[9]]></node_order>
+<details><![CDATA[<p>
+	验证全部语句块上传过程中是否编译成功</p>
+]]></details> 
+
+<testcase internalid="53564" name="Upload_001_mBot全部语句块上传arduino">
+	<node_order><![CDATA[1000]]></node_order>
+	<externalid><![CDATA[1097]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	添加机器人模块处全部语句块，验证各模块上传arduino功能</p>
+]]></summary>
+	<preconditions><![CDATA[<p>
+	已连接mblock，进入arduino模式</p>
+]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+<steps>
+<step>
+	<step_number><![CDATA[1]]></step_number>
+	<actions><![CDATA[<p>
+	菜单栏-&gt;【控制板】-&gt;选择【mBot(mCore)】</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	机器人模块处主程序为mBot，语句块为mBot主板相关</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+
+<step>
+	<step_number><![CDATA[2]]></step_number>
+	<actions><![CDATA[<p>
+	机器人模块处的全部语句块逐一拖动到编辑区，判断、读值语句块借助设置数码管数字【】语句块</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	拖动成功</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+
+<step>
+	<step_number><![CDATA[3]]></step_number>
+	<actions><![CDATA[<p>
+	点击【上传到Arduino】按钮</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	编译成功，正常上传，并提示&ldquo;上传完成&rdquo;</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+</steps>
+</testcase>
+
+<testcase internalid="53569" name="Upload_002_Orion全部语句块上传arduino">
+	<node_order><![CDATA[1001]]></node_order>
+	<externalid><![CDATA[1098]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	添加机器人模块处全部语句块，验证各模块上传arduino功能</p>
+]]></summary>
+	<preconditions><![CDATA[<p>
+	已连接mblock，进入arduino模式</p>
+]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+<steps>
+<step>
+	<step_number><![CDATA[1]]></step_number>
+	<actions><![CDATA[<p>
+	菜单栏-&gt;【控制板】-&gt;选择【Starter/Ultimate(Orion)】</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	机器人模块处主程序为Orion，语句块为Orion主板相关</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+
+<step>
+	<step_number><![CDATA[2]]></step_number>
+	<actions><![CDATA[<p>
+	机器人模块处的全部语句块逐一拖动到编辑区，判断、读值语句块借助设置数码管数字【】语句块</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	拖动成功</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+
+<step>
+	<step_number><![CDATA[3]]></step_number>
+	<actions><![CDATA[<p>
+	点击【上传到Arduino】按钮</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	编译成功，正常上传，并提示&ldquo;上传完成&rdquo;</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+</steps>
+</testcase>
+
+<testcase internalid="53574" name="Upload_003_Auriga全部语句块上传arduino">
+	<node_order><![CDATA[1002]]></node_order>
+	<externalid><![CDATA[1099]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	添加机器人模块处全部语句块，验证各模块上传arduino功能</p>
+]]></summary>
+	<preconditions><![CDATA[<p>
+	已连接mblock，进入arduino模式</p>
+]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+<steps>
+<step>
+	<step_number><![CDATA[1]]></step_number>
+	<actions><![CDATA[<p>
+	菜单栏-&gt;【控制板】-&gt;选择【mBot Ranger(Auriga)】</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	机器人模块处主程序为Auriga，语句块为Auriga主板相关</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+
+<step>
+	<step_number><![CDATA[2]]></step_number>
+	<actions><![CDATA[<p>
+	机器人模块处的全部语句块逐一拖动到编辑区，判断、读值语句块借助设置数码管数字【】语句块</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	拖动成功</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+
+<step>
+	<step_number><![CDATA[3]]></step_number>
+	<actions><![CDATA[<p>
+	点击【上传到Arduino】按钮</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	编译成功，正常上传，并提示&ldquo;上传完成&rdquo;</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+</steps>
+</testcase>
+
+<testcase internalid="53579" name="Upload_004_MegaPi全部语句块上传arduino">
+	<node_order><![CDATA[1003]]></node_order>
+	<externalid><![CDATA[1100]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	添加机器人模块处全部语句块，验证各模块上传arduino功能</p>
+]]></summary>
+	<preconditions><![CDATA[<p>
+	已连接mblock，进入arduino模式</p>
+]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+<steps>
+<step>
+	<step_number><![CDATA[1]]></step_number>
+	<actions><![CDATA[<p>
+	菜单栏-&gt;【控制板】-&gt;选择【Ultimate 2.0(MegaPi)】</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	机器人模块处主程序为MegaPi，语句块为MegaPi主板相关</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+
+<step>
+	<step_number><![CDATA[2]]></step_number>
+	<actions><![CDATA[<p>
+	机器人模块处的全部语句块逐一拖动到编辑区，判断、读值语句块借助设置数码管数字【】语句块</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	拖动成功</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+
+<step>
+	<step_number><![CDATA[3]]></step_number>
+	<actions><![CDATA[<p>
+	点击【上传到Arduino】按钮</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	编译成功，正常上传，并提示&ldquo;上传完成&rdquo;</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+</steps>
+</testcase>
+
+<testcase internalid="53584" name="Upload_005_MegaPi pro全部语句块上传arduino">
+	<node_order><![CDATA[1004]]></node_order>
+	<externalid><![CDATA[1101]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	添加机器人模块处全部语句块，验证各模块上传arduino功能</p>
+]]></summary>
+	<preconditions><![CDATA[<p>
+	已连接mblock，进入arduino模式</p>
+]]></preconditions>
+	<execution_type><![CDATA[1]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+<steps>
+<step>
+	<step_number><![CDATA[1]]></step_number>
+	<actions><![CDATA[<p>
+	菜单栏-&gt;【控制板】-&gt;选择【MegaPi pro】</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	机器人模块处主程序为MegaPi pro，语句块为MegaPi主板相关</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+
+<step>
+	<step_number><![CDATA[2]]></step_number>
+	<actions><![CDATA[<p>
+	机器人模块处的全部语句块逐一拖动到编辑区，判断、读值语句块借助设置数码管数字【】语句块</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	拖动成功</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+
+<step>
+	<step_number><![CDATA[3]]></step_number>
+	<actions><![CDATA[<p>
+	点击【上传到Arduino】按钮</p>
+]]></actions>
+	<expectedresults><![CDATA[<p>
+	编译成功，正常上传，并提示&ldquo;上传完成&rdquo;</p>
+]]></expectedresults>
+	<execution_type><![CDATA[1]]></execution_type>
+</step>
+</steps>
+</testcase>
+</testsuite><testsuite id="61981" name="Arduino_GPIO" >
+<node_order><![CDATA[10]]></node_order>
+<details><![CDATA[]]></details> 
+<testsuite id="61982" name="数字管脚" >
+<node_order><![CDATA[1]]></node_order>
+<details><![CDATA[]]></details> 
+
+<testcase internalid="61987" name="读取数字管脚的值">
+	<node_order><![CDATA[1000]]></node_order>
+	<externalid><![CDATA[1484]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	single-readCmd:`arduino.DigGPIO(9)`getData`ff 55 04 00 01 1e 09`</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[2]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+</testsuite><testsuite id="61983" name="模拟管脚" >
+<node_order><![CDATA[2]]></node_order>
+<details><![CDATA[]]></details> 
+
+<testcase internalid="63077" name="读取模拟管脚的值">
+	<node_order><![CDATA[1001]]></node_order>
+	<externalid><![CDATA[1485]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	single-readCmd:`arduino.AnalogGPIO(2)`getData`ff 55 04 00 01 1f 02`</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[2]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+</testsuite><testsuite id="61984" name="管脚的脉冲持续时间" >
+<node_order><![CDATA[3]]></node_order>
+<details><![CDATA[]]></details> 
+
+<testcase internalid="63079" name="读取管脚的脉冲持续时间值">
+	<node_order><![CDATA[1002]]></node_order>
+	<externalid><![CDATA[1486]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	single-readCmd:`arduino.GPIOContinue(13, 20000)`getData`ff 55 06 00 01 25 0d 20 4e`</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[2]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+</testsuite><testsuite id="61985" name="双管脚超声波传感器" >
+<node_order><![CDATA[4]]></node_order>
+<details><![CDATA[]]></details> 
+
+<testcase internalid="63085" name="读取双管脚超声波传感器的值">
+	<node_order><![CDATA[1000]]></node_order>
+	<externalid><![CDATA[1487]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	single-readCmd:`arduino.DoubleGPIO(69, 64)`getData`ff 55 05 00 01 24 45 40`</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[2]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+</testsuite></testsuite><testsuite id="61986" name="Arduino_固件运行时间" >
+<node_order><![CDATA[11]]></node_order>
+<details><![CDATA[]]></details> 
+
+<testcase internalid="63088" name="读取固件运行时间">
+	<node_order><![CDATA[1000]]></node_order>
+	<externalid><![CDATA[1488]]></externalid>
+	<version><![CDATA[1]]></version>
+	<summary><![CDATA[<p>
+	single-readCmd:`arduino.Runtime()`getData`ff 55 03 00 01 32`</p>
+]]></summary>
+	<preconditions><![CDATA[]]></preconditions>
+	<execution_type><![CDATA[2]]></execution_type>
+	<importance><![CDATA[2]]></importance>
+	<estimated_exec_duration></estimated_exec_duration>
+	<status>1</status>
+	<is_open>1</is_open>
+	<active>1</active>
+
+</testcase>
+</testsuite></testsuite></testsuite><testsuite id="54111" name="Translate_翻译" >
 <node_order><![CDATA[2]]></node_order>
 <details><![CDATA[<p>
 	IDE相关的翻译，目前支持的语言包括：</p>
