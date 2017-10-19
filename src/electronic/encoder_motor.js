@@ -1,16 +1,22 @@
-import { defineNumber } from '../core/type';
-import Utils from '../core/utils';
-import EncoderMotorBase from './base/EncoderMotorBase';
-import protocolAssembler from '../protocol/cmd';
-import command from '../communicate/command';
+import BaseEncoderMotor from './BaseEncoderMotor';
+import {
+  fiterWithBinaryStr
+} from '../core/utils';
+import {
+  SUPPORTLIST
+} from '../settings';
 
-class EncoderMotor extends EncoderMotorBase {
+/**
+ * EncoderMotor sensor module
+ * @extends BaseEncoderMotor
+ */
+class EncoderMotor extends BaseEncoderMotor {
   constructor(port, slot) {
     super(port, slot);
   }
 
-  static supportStamp(){
-    return '0101';
+  static get SUPPORT() {
+    return fiterWithBinaryStr(SUPPORTLIST, '0101');
   }
 }
 

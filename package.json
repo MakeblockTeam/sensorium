@@ -1,15 +1,18 @@
 {
   "name": "sensorium",
-  "version": "0.1.3",
+  "version": "0.3.2",
   "description": "mainboards protocol api",
-  "main": "src/protocol/index.js",
+  "main": "browser/sensorium.js",
   "directories": {
     "doc": "docs",
     "test": "test"
   },
   "scripts": {
     "test": "mocha --compilers js:babel-core/register",
-    "doc": "./node_modules/.bin/jsdoc src/protocol/mcore.js -d docs/api/ -r"
+    "coverage-i": " istanbul cover node_modules/mocha/bin/_mocha ./test/interface/interface_test.js",
+    "coverage-p": " istanbul cover node_modules/mocha/bin/_mocha ./test/protocol-test",
+    "jsdoc": "node_modules/.bin/jsdoc -c jsdoc_conf.json",
+    "tsc": "tsc"
   },
   "repository": {
     "type": "git",
@@ -21,16 +24,58 @@
     "babel-core": "^6.25.0",
     "babel-loader": "^7.1.0",
     "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-polyfill": "^6.23.0",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
+    "babel-preset-stage-1": "^6.24.1",
+    "babel-runtime": "^6.25.0",
     "blessed": "^0.1.81",
     "chai": "^3.5.0",
+    "docdash": "^0.4.0",
+    "eslint": "^4.4.1",
     "events": "^1.1.1",
+    "istanbul": "^1.1.0-alpha.1",
+    "jsdoc": "^3.5.4",
     "log": "^1.4.0",
-    "mocha": "^2.5.3",
+    "mocha": "^3.5.0",
+    "mocha-junit-reporter": "^1.13.0",
     "serialport": "^4.0.7",
+    "ts-loader": "^2.3.4",
     "webpack": "^3.0.0",
     "xml2js": "^0.4.17"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "eslintConfig": {
+    "env": {
+      "browser": true,
+      "node": true
+    },
+    "parserOptions": {
+      "ecmaVersion": 8,
+      "sourceType": "module"
+    },
+    "extends": "eslint:recommended",
+    "rules": {
+      "no-console": [
+        "error",
+        {
+          "allow": [
+            "warn",
+            "error"
+          ]
+        }
+      ]
+    },
+    "globals": {
+      "Promise": false,
+      "ArrayBuffer": false,
+      "Uint8Array": false,
+      "Int8Array": false
+    }
+  },
+  "eslintIgnore": [
+    "./node_modules/*",
+    "./test/*",
+    "./jsdoc/*"
+  ]
 }

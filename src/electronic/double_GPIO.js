@@ -1,26 +1,47 @@
-import { defineNumber } from '../core/type';
-import Utils from '../core/utils';
+import {
+  validateNumber
+} from '../core/validate';
+import {
+  composer,
+  fiterWithBinaryStr
+} from '../core/utils';
 import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
-import command from '../communicate/command';
+import Control from '../core/control';
+import {
+  SUPPORTLIST
+} from '../settings';
 
+/**
+ * DoubleGPIO sensor module
+ * @extends Electronic
+ */
 class DoubleGPIO extends Electronic {
   constructor(port1, port2) {
     super();
     this.args = {
-      port1: defineNumber(port1),
-      port2: defineNumber(port2)
+      port1: validateNumber(port1),
+      port2: validateNumber(port2)
     };
   }
 
-  getData(callback) {
-    let buf = Utils.composer(protocolAssembler.readDoubleGPIO, [this.args.port1, this.args.port2]);
-    command.execRead(buf, callback);
-    return this;
+  /**
+   * getter of protocol
+   */
+  get protocol() {
+    return composer(protocolAssembler.readDoubleGPIO, [this.args.port1, this.args.port2]);
   }
 
-  static supportStamp(){
-    return '00001';
+  /**
+   * Get data of DoubleGPIO sensor
+   * @return {Promise}
+   */
+  async getData() {
+    return await Control.read(this.protocol);
+  }
+
+  static get SUPPORT() {
+    return fiterWithBinaryStr(SUPPORTLIST, '00001');
   }
 }
 

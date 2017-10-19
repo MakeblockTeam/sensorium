@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sensorium test</title>
+    <style type="text/css">
+      .sensorium-contain{padding: 1rem;}
+      .title{margin: 2rem auto 1rem;text-align: center;}
+      .typein{margin-top: 2rem;}
+      .code{margin-top: 1rem; border: 1px solid #ddd;}
+    </style>
+</head>
+  <body>
+  <div class="sensorium-contain">
+    <h2 class="title"><a href="https://www.npmjs.com/package/sensorium" target="_blank">sensorium.js</a> 库在浏览器中调试教程</h2>
+
+    <h3>1、全局安装一个库 sensorium-server</h3>
+    <pre>
+      //打开命令行工具
+
+      >>> npm install sensorium-server -g
+    </pre>
+
+    <h3>2、在任意文件夹目录中开启上述服务</h3>
+    <pre>
+      //在任何目录下，输入以下命令
+
+      >>> ss
+
+      //或者
+
+      >>> sensorium-server
+    </pre>
+
+
+    <h3>3、打开浏览器控制台进行调试</h3>
+    <div class="typein">输入以下代码，直接调试 mcore:</div>
+    <pre class="code">
+      //读取超声波测距
+      mcore.Ultrasonic(3).getData().then(val=>alert(val));
+
+      //左右电机 200 速度前进
+      mcore.VirtualJoystick().speed(200, 200).run();
+    </pre>
+
+    <div class="typein">输入以下代码，调试 auriga:</div>
+    <pre class="code">
+      var auriga = sensorium.createAuriga();
+
+      //板载 LED 亮起红色
+      auriga.RgbLedOnBoard().red();
+
+      //读取超声波测距
+      auriga.Ultrasonic(6).getData().then(val=>alert(val));
+
+      //左右电机 200 速度前进
+      auriga.VirtualJoystick().speed(200, 200).run();
+    </pre>
+  </div>
+  <script src="sensorium.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
+  <script>
+    var Tool = {
+      arrayBufferFromArray: function (data) {
+        var buffer = new ArrayBuffer(data.length);
+        var result = new Int8Array(buffer);
+        for (var i = 0; i < data.length; i++) {
+          result[i] = data[i];
+        }
+        return buffer;
+      },
+      sendInfo: function (buf){
+        console.log('send buf', buf);
+      },
+      receiveInfo: function (buff){
+        console.log('onReceived buff', buff);
+      }
+    }
+  </script>
+  <script>
+
+    var sensorium = new Sensorium();
+    var mcore = sensorium.create('Mcore');
+
+    // cordva 蓝牙环境存在
+    //此方法应该在 cordva deviceready 事件中绑定，因为在此事件之前
+    // window.ble 是不存在的
+    if(window.ble){
+      if (typeof window.ble != "undefined") {
+        window.ble.startListenReceivedData(function(buff) {
+            Tool.receiveInfo(buff);
+            sensorium.doRecevied(buff);
+        });
+      }
+
+      sensorium.setSender(function(buf) {
+        if (typeof window.ble != "undefined") {
+          // ble 发送必须转成 arrayBufferß
+          let cmd = arrayBufferFromArray(buf);
+          Tool.sendInfo(cmd);
+          window.ble.sendData(function(msg) {
+              console.log(msg);
+          }, function(msg) {
+              console.log(msg);
+          }, cmd);
+        }
+      });
+    }
+    //串口
+    else{
+      var socket = io.connect('http://localhost:8800');
+      socket.on('sensor2web', function (data) {
+          sensorium.doRecevied(JSON.parse(data));
+      });
+      sensorium.setSender(function(buf) {
+          socket.emit('web2sensor', { buf: JSON.stringify(buf), sensor: 'None' });
+      });
+    }
+
+  </script>
+</body>
+</html>

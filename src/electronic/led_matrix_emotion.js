@@ -1,42 +1,61 @@
-import Utils from '../core/utils';
-import LedMatrixBase from './base/LedMatrixBase';
-import protocolAssembler from '../protocol/cmd';
-import command from '../communicate/command';
-
-class LedMatrixEmotion extends LedMatrixBase {
+import { validateString, validateNumber } from '../core/validate';
+import BaseLedMatrix from './BaseLedMatrix';
+/**
+ * LedMatrix sensor module run as 'Emotion Mode'
+ * @extends BaseLedMatrix
+ */
+class LedMatrixEmotion extends BaseLedMatrix {
   constructor(port) {
     super(port);
-
     Object.assign(this.args, {
-      x: null,
-      y: null,
-      emotion: null
+      x: 0,
+      y: 0,
+      emotion: 0,
+      type: BaseLedMatrix.EMOTION_TYPE
     });
   }
 
-  x(xAxis){
-    this.args.x = xAxis;
+  /**
+   * set the X axis coordinate of the emotion
+   * @param  {Number} x
+   */
+  x(x){
+    this.args.x = validateNumber(Math.floor(x), this.args.x);
     return this;
   }
 
-  y(yAxis){
-    this.args.y = yAxis;
+  /**
+   * set the Y axis coordinate of the emotion
+   * @param  {Number} y
+   */
+  y(y){
+    this.args.y = validateNumber(Math.floor(y), this.args.y);
     return this;
   }
 
+  /**
+   * use lattice to describe the emotion
+   * @param  {String} emotion lattice '000000100000100001110001001'
+   */
   emotion(emotion) {
-    this.args.emotion = emotion;
+    // TODO: validate the param
+    this.args.emotion = validateString(emotion);
     return this;
   }
 
-  run(){
-    let buf = Utils.composer(protocolAssembler.setLedMatrixEmotion, [this.args.port, this.args.x, this.args.y, this.args.emotion]);
-    command.execWrite(buf);
-    return this;
-  }
-
-  static supportStamp(){
-    return '1110';
+  /**
+   * set content for Matrix panel
+   * @param  {String} emotionStr
+   * @param  {Number} coordinate contains [x, y]
+   */
+  content(emotionStr, coordinate) {
+    if(!Array.isArray(coordinate)){
+      coordinate = [0, 0];
+    }
+    //设定坐标
+    this.x(coordinate[0]);
+    this.y(coordinate[1]);
+    return this.emotion(emotionStr);
   }
 }
 

@@ -1,26 +1,56 @@
-import { defineNumber, defineString } from '../core/type';
-import Utils from '../core/utils';
+import {
+  validateNumber
+} from '../core/validate';
+import {
+  composer,
+  fiterWithBinaryStr
+} from '../core/utils';
 import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
-import command from '../communicate/command';
+import Control from '../core/control';
+import {
+  SUPPORTLIST
+} from '../settings';
 
+/**
+ * FourKeys sensor module
+ * @extends Electronic
+ */
 class FourKeys extends Electronic {
-  constructor(port, key) {
+  constructor(port) {
     super();
     this.args = {
-      port: defineNumber(port),
-      key: defineString(key)
+      port: validateNumber(port),
+      key: 1
     };
   }
 
-  getData(callback) {
-    let buf = Utils.composer(protocolAssembler.readFourKeys, [this.args.port, this.args.key]);
-    command.execRead(buf, callback);
+  /**
+   * 键位
+   * @param  {Number} index 键位：1、2、3、4
+   */
+  key(index) {
+    this.args.key = validateNumber(index, this.args.key);
     return this;
   }
 
-  static supportStamp(){
-    return '1111';
+  /**
+   * getter of protocol
+   */
+  get protocol() {
+    return composer(protocolAssembler.readFourKeys, [this.args.port, this.args.key]);
+  }
+
+  /**
+   * Get data of FourKeys sensor
+   * @return {Promise}
+   */
+  async getData() {
+    return await Control.read(this.protocol);
+  }
+
+  static get SUPPORT() {
+    return fiterWithBinaryStr(SUPPORTLIST, '1111');
   }
 }
 

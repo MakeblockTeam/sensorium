@@ -1,54 +1,61 @@
 /**
- * @fileOverview board 用做通信基类，连接收和发送接口.
- * @author Hyman
+ * @fileOverview Board 主控板的基类.
+ * @author Jeremy
  */
-//es6 module
-import Transport from '../communicate/transport';
-import Command from '../communicate/command';
-import Settings from '../protocol/settings';
 
-
-const createModuleId = function (eModule, args){
-  args = [...args]; //转数组
+/**
+ * Create id for electronic module joined into the mainboard
+ * @param  {Function} eModule  electronic module
+ * @param  {Array} argsList [description]
+ * @return {[type]}          [description]
+ * @private
+ */
+const createModuleId = function (eModule, argsList){
   let name = eModule.name;
   let expectLength = eModule.length;
-  let argsLength = args.length;
+  let argsLength = argsList.length;
   if(argsLength < expectLength){
-    //参数不足
-    console.warn(`there's lack of ${expectLength-argsLength} argument(s), and ${eModule.name} may not work as a result`);
+    //参数不足的提示
+    let dl = expectLength - argsLength;
+    let more = argsLength > 0 ? ' more':''; //更多
+    console.warn(`you need to pass in ${dl} argument${dl>1?'s':''}${more}, otherwise the ${eModule.name} sensor may not work as a result`);
   }else if(argsLength > expectLength){
     //参数多余
-    args.splice(expectLength);
+    argsList.splice(expectLength);
   }
-  return [name].concat(...args).join('_').toLowerCase();
+  return [name].concat(argsList).join('_').toLowerCase();
 }
 
-// 超类： 具备发送、接收方法
 class Board {
+  /**
+   * Create a board
+   * @param  {Object} conf configure
+   */
   constructor(conf){
-    this._config = null;
-    //连接
+    //私有的配置对象
+    this.config_ = conf || {};
+    //已连接电子模块
     this.connecting = {};
-    this.init(conf);
-  }
-
-  init(conf) {
-    this._config = Object.assign(Settings.DEFAULT_CONF, conf || {});
-    this.setTransport(this._config.transport || {});
+    //固件版本
+    // this.version = null;
   }
 
   /**
    * 电子模块实例工厂
+   * @private
    * @param  {Function} eModule 电子模块类
    * @param  {Array-Like} args    [port, slot, id...]
+   * @param  {String} host    电子模块的宿主，即主控板名——大部分电子模块是无需识别宿主的，少数电子模块因为宿主不同而表现不同特征
    * @return {Object}         电子模块实例
    */
-  eModuleFactory(eModule, args){
-    let id = createModuleId(eModule, args);
+  eModuleFactory(eModule, args, host){
+    let argsList = [...args]; //转数组
+    let id = createModuleId(eModule, argsList);
     if(this.connecting[id]){
       return this.connecting[id];
     }else{
-      let emodule = new eModule(...args);
+      let params = argsList.length?args:[undefined];  //这里 es6 有坑
+      let emodule = new eModule(...params, host);
       // 保存模块
       this.connecting[id] = emodule;
       return emodule;
@@ -56,31 +63,20 @@ class Board {
   }
 
   /**
-   * 存储通信的通道
-   * @param {Object} transport json object.
+   * get version of this mainboard
    * @example
-   * {
-   *    send: function(buf) {
-   *      console.log(buf);
-   *    },
-   *
-   *    onReceive: function(parse) {
-   *      serialPort.on('data', function(buff) {
-   *        parse.doParse(buff);
-   *      });
-   *    }
-   *  }
+   * let sensorium = new Sensorium();
+   * let mcore = sensorium.createMcore();
+   * mcore.readVersion()
+   *         .getData()
+   *         .then((val) => {
+   *           console.log(val);
+   *         })
    */
-  //防止重复 setTransport 导致事件监听绑定多次
-  setTransport(transport) {
-    if(transport && typeof transport.send == 'function' && typeof transport.onReceived == 'function' ){
-      Transport.send = transport.send;
-      transport.onReceived(Command.pipe.bind(Command));
-    }else{
-      // console.warn('')
-    }
+  readVersion () {
+    this.currentMode = 'version';
+    return this;
   }
 }
 
-// module.exports = Board;
 export default Board;

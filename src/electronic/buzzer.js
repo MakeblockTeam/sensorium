@@ -1,36 +1,91 @@
-import { defineNumber, defineString } from '../core/type';
-import Utils from '../core/utils';
+import {
+  validateNumber,
+  validateString,
+  warnNotSupport
+} from '../core/validate';
+import {composer,
+fiterWithBinaryStr} from '../core/utils';
 import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
-import command from '../communicate/command';
+import Control from '../core/control';
+import { TONE_TO_HZ, SUPPORTLIST } from '../settings';
+const MCORE_ = SUPPORTLIST[0].toLowerCase();
 
+/**
+ * Buzzer sensor module
+ * @extends Electronic
+ *
+ * @example
+ * mcore.Buzzer()
+ *      .hz(1000)
+ *      .beat(1000)
+ *      .run()
+ */
 class Buzzer extends Electronic {
   constructor() {
     super();
     this.args = {
-      tone: null,
-      beat: null
+      hz: 880,
+      beat: 250
     }
+    let host = warnNotSupport(arguments[arguments.length-1]) || '';
+    //宿主
+    this.hostname = host.toLowerCase();
   }
 
-  tone(tone) {
-    this.args.tone = defineString(tone.toUpperCase());
+  /**
+   * Set tone
+   * @param  {String} tone tone string, such as "C5"
+   */
+  tone(tone="C5") {
+    tone = validateString(tone.toUpperCase());
+    let hz = TONE_TO_HZ[tone] || 880;
+    return this.hz(hz);
+  }
+
+  /**
+   * Set hz
+   * @param  {Number} hz such as 200
+   */
+  hz(hz) {
+    this.args.hz = validateNumber(hz);
     return this;
   }
 
+  /**
+   * Set beat
+   * @param  {Number} beat such as 250, 1000
+   */
   beat(beat) {
-    this.args.beat = defineNumber(beat);
+    this.args.beat = validateNumber(beat);
     return this;
   }
 
+  /**
+   * getter of protocol
+   */
+  get protocol () {
+    let buf = [];
+    switch (this.hostname) {
+      case MCORE_:
+        buf = composer(protocolAssembler.setBuzzerForMcore, [this.args.hz, this.args.beat]);
+        break;
+      default:
+        buf = composer(protocolAssembler.setBuzzer, [this.args.hz, this.args.beat]);
+    }
+    return buf;
+  }
+
+  /**
+   * run Buzzer sensor
+   */
   run() {
-    let buf = Utils.composer(protocolAssembler.setTone, [this.args.port, this.args.action]);
-    command.execWrite(buf);
+    Control.write(this.protocol);
     return this;
   }
 
-  static supportStamp(){
-    return '1111';
+  static get SUPPORT() {
+    return fiterWithBinaryStr(SUPPORTLIST, '11111');
   }
 }
 

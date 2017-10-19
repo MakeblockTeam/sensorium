@@ -1,22 +1,38 @@
-import { defineNumber } from '../core/type';
-import Utils from '../core/utils';
+import {
+  composer,
+  fiterWithBinaryStr
+} from '../core/utils';
 import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
-import command from '../communicate/command';
+import Control from '../core/control';
+import { SUPPORTLIST } from '../settings';
 
+/**
+ * Runtime module which is a virtual module
+ * @extends Electronic
+ */
 class Runtime extends Electronic {
   constructor() {
     super();
   }
 
-  getData(callback) {
-    let buf = Utils.composer(protocolAssembler.readRuntime);
-    command.execRead(buf, callback);
-    return this;
+  /**
+   * getter of protocol
+   */
+  get protocol() {
+    return composer(protocolAssembler.readRuntime);
   }
 
-  static supportStamp(){
-    return '00001';
+  /**
+   * Get data of Runtime sensor
+   * @return {Promise}
+   */
+  async getData() {
+    return await Control.read(this.protocol);
+  }
+
+  static get SUPPORT(){
+    return fiterWithBinaryStr(SUPPORTLIST, '000010');
   }
 }
 

@@ -1,45 +1,82 @@
-import { defineNumber } from '../core/type';
-import Utils from '../core/utils';
-import MotorBase from './base/MotorBase';
+import {
+  validateNumber
+} from '../core/validate';
+import {
+  composer,
+  fiterWithBinaryStr
+} from '../core/utils';
+import BaseMotor from './BaseMotor';
 import protocolAssembler from '../protocol/cmd';
-import command from '../communicate/command';
+import Control from '../core/control';
+import {
+  SUPPORTLIST
+} from '../settings';
 
-class StepperMotor extends MotorBase {
+/**
+ * StepperMotor sensor module
+ * @extends BaseMotor
+ */
+class StepperMotor extends BaseMotor {
 
   constructor(port) {
     super(port);
     Object.assign(this.args, {
-      distance: 0
+      distance: 0,
+      direction: 1
     })
   }
 
   /**
    * set distance
    * @param  {Number} speed
-   * @return {Object} the instance
+   * @return {Instance} @this
    */
-  distance(distance){
-    this.args.distance = defineNumber(distance, 0);
+  distance(distance) {
+    this.args.distance = validateNumber(distance, 0);
+    return this;
+  }
+
+  /**
+   * set direction of stepper motor rotate
+   * @param  {Number} type  type is 1 or -1. 1 means rotate clockwise, and -1 means anticlockwise
+   * @return {Instance} @this
+   */
+  direction(type) {
+    if (type !== -1) {
+      type = 1;
+    }
+    this.args.direction = type;
     return this;
   }
 
   /**
    * run reversely
-   * @return {Object} the instance
+   * @return {Instance} @this
    */
   reverse() {
     this.speed(-1 * this.args.distance);
     return this;
   }
 
+  /**
+   * getter of protocol
+   */
+  get protocol() {
+    let buf = composer(protocolAssembler.setStepperMotor, [this.args.port, this.args.speed,
+      this.args.distance * this.args.direction]);
+    return buf;
+  }
+
+  /**
+   * run
+   */
   run() {
-    let buf = Utils.composer(protocolAssembler.setDcMotor, [this.args.port, this.args.speed, this.args.distance]);
-    command.execWrite(buf);
+    Control.write(this.protocol);
     return this;
   }
 
-  static supportStamp(){
-    return '0111';
+  static get SUPPORT() {
+    return fiterWithBinaryStr(SUPPORTLIST, '0111');
   }
 }
 

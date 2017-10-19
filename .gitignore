@@ -10,3 +10,10 @@
 npm-debug.log
 node_modules
 **/*.map
+jsdoc
+
+test/lib
+test/coverage
+coverage
+
+ts

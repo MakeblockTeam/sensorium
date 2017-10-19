@@ -1,32 +1,53 @@
-import { defineNumber, defineString } from '../core/type';
-import Utils from '../core/utils';
+import { validateNumber } from '../core/validate';
+import {
+  composer,
+  fiterWithBinaryStr
+} from '../core/utils';
 import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
-import command from '../communicate/command';
+import Control from '../core/control';
+import { SUPPORTLIST } from '../settings';
 
+/**
+ * SevenSegment sensor module
+ * @extends Electronic
+ */
 class SevenSegment extends Electronic {
-
   constructor(port) {
     super();
     this.args = {
-      port: defineNumber(port),
-      number: null
+      port: validateNumber(port),
+      number: 1
     };
   }
-
+  /**
+   * set the number you want show on the segment tube
+   * @param  {Number} num
+   * @return {Instance}     @this
+   */
   number(num) {
-    this.args.number = defineNumber(num);
+    this.args.number = validateNumber(num, this.args.number);
     return this;
   }
 
+  /**
+   * getter of protocol
+   */
+  get protocol() {
+    return composer(protocolAssembler.setSevenSegment, [this.args.port, this.args.number]);
+  }
+
+  /**
+   * run and show the number
+   * @return {Instance}     @this
+   */
   run() {
-    let buf = Utils.composer(protocolAssembler.setSevenSegment, [this.args.port, this.args.number]);
-    command.execWrite(buf);
+    Control.write(this.protocol);
     return this;
   }
 
-  static supportStamp(){
-    return '1111';
+  static get SUPPORT(){
+    return fiterWithBinaryStr(SUPPORTLIST, '1111');
   }
 }
 

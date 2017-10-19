@@ -1,22 +1,40 @@
-import { defineNumber } from '../core/type';
-import Utils from '../core/utils';
+import {
+  composer,
+  fiterWithBinaryStr
+} from '../core/utils';
 import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
-import command from '../communicate/command';
+import Control from '../core/control';
+import {
+  SUPPORTLIST
+} from '../settings';
 
+/**
+ * TemperatureOnBoard sensor module
+ * @extends Electronic
+ */
 class TemperatureOnBoard extends Electronic {
   constructor() {
-    super();
+    super(0x0d);
   }
 
-  getData(callback) {
-    let buf = Utils.composer(protocolAssembler.readTemperatureOnBoard);
-    command.execRead(buf, callback);
-    return this;
+  /**
+   * getter of protocol
+   */
+  get protocol() {
+    return composer(protocolAssembler.readTemperatureOnBoard);
   }
 
-  static supportStamp(){
-    return '0100';
+  /**
+   * Get data of TemperatureOnBoard sensor
+   * @return {Promise}
+   */
+  async getData() {
+    return await Control.read(this.protocol);
+  }
+
+  static get SUPPORT() {
+    return fiterWithBinaryStr(SUPPORTLIST, '0100');
   }
 }
 

@@ -1,67 +1,71 @@
 /**
- * @fileOverview 解析器负责数据解析
- * 对外输出解析方法
+ * @fileOverview 解析器负责数据解析，对外输出解析方法.
  */
-// import PromiseList from "../core/promise";
-import Utils from "../core/utils";
+import {
+  arrayFromArrayBuffer,
+  bytesToString,
+  bytesToInt
+} from "./utils";
 
 // 获取到的最大指令长度
 const REC_BUF_MAX_LENGTH = 40;
 const BUF_START_FLAG = [0xff, 0x55];
 const BUF_END_FLAG = [0x0d, 0x0a];
 
-function checkStart(flag1, flag2){
+function checkStart(flag1, flag2) {
   return flag1 === BUF_START_FLAG[0] && flag2 === BUF_START_FLAG[1]
 }
-function checkEnd(flag1, flag2){
+
+function checkEnd(flag1, flag2) {
   return flag1 === BUF_END_FLAG[0] && flag2 === BUF_END_FLAG[1];
 }
 
-// 目前所有的执行命令，如果是正常接收，都是统一回复  ff 55 0d 0a
-function Parse() {
-  this.cacheBuffer = [];
-
-  // 解析从硬件传递过来的数据
-  // data : 当前处理的数据
-  // this.cacheBuffer: 历史缓存数据
-  // 记录数据和历史数据分开记录
+export default {
+  cacheBuffer: [],
 
   /**
-   * parse buffer
+   * 解析从硬件传递过来的数据
    * @param  {Array} buffData buffer that from the response
    * @return {Array}          the parsed result
+   * data : 当前处理的数据
+   * this.cacheBuffer: 历史缓存数据, 记录数据和历史数据分开记录
    */
-  this.doParse = function(buffData) {
+  doParse: function(buffData) {
     let recvLength = 0;
-    //是否允许接受
+    //是否允许接收
     let isAllowRecv = false;
     let tempBuf = [];
 
-    let data = Utils.arrayFromArrayBuffer(buffData);
-    data = this.cacheBuffer.concat(data);
-    // parse buffer data
-    for (let i = 0; i < data.length; i++) {
-      let data1 = parseInt(data[i-1]),
-          data2 = parseInt(data[i]);
+    let data = arrayFromArrayBuffer(buffData);
+    let newdata = this.cacheBuffer.concat(data);
+    this.cacheBuffer = newdata;
+    // parse buffer newdata
+    for (let i = 0; i < newdata.length; i++) {
+      let data1 = parseInt(newdata[i - 1]),
+        data2 = parseInt(newdata[i]);
       // start data
       if (checkStart(data1, data2)) {
         recvLength = 0;
         isAllowRecv = true;
         tempBuf = [];
-      } 
+      }
       // end data
       else if (checkEnd(data1, data2)) {
-        isAllowRecv = false;
-        // console.log('doParse 3: ', tempBuf);
+        //没有头部但有尾部 - 说明是无效数据
+        if (!isAllowRecv) {
+          this.cacheBuffer = [];
+          return undefined;
+        } else {
+          isAllowRecv = false;
+        }
         let resultBuf = tempBuf.slice(0, recvLength - 1);
         // 解析正确的数据后，清空 buffer
         this.cacheBuffer = [];
-        // 此轮解析结束
         return resultBuf;
-      } 
+      }
       // the data we really want
       else {
-        if(isAllowRecv) {
+        if (isAllowRecv) {
           if (recvLength >= REC_BUF_MAX_LENGTH) {
             console.warn("receive buffer overflow!");
           }
@@ -69,7 +73,7 @@ function Parse() {
         }
       }
     }
-  };
+  },
 
   /**
    * Get result from buffer data.
@@ -85,7 +89,7 @@ function Parse() {
    *  @example
    *  ff 55 02 02 7c 1a 81 41 0d 0a
    */
-  this.getResult = function(buf, type) {
+  getResult: function(buf) {
     // 获取返回的数据类型
     let dataType = buf[1];
     let result = null;
@@ -104,7 +108,7 @@ function Parse() {
       case 4:
         // 字符串
         var bytes = buf.splice(3, buf[2]);
-        result = Utils.bytesToString(bytes);
+        result = bytesToString(bytes);
         break;
       case "2":
       case "5":
@@ -118,23 +122,16 @@ function Parse() {
       default:
         break;
     }
-
-    // TOFIX: should not be placed here.
-    //  if (type == this.PromiseType.ENCODER_MOTER.index) {
-    //   result = Math.abs(result);
-    // }
-
     return result;
-  };
+  },
 
   /**
    * calculate value from data received: bytes -> int -> float
    * @param  {Array} intArray decimal array
    * @return {Number}  result.
    */
-  this.calculateResponseValue = function(intArray) {
+  calculateResponseValue: function(intArray) {
     var result = null;
-
     // FIXME: int字节转浮点型
     var intBitsToFloat = function(num) {
       /* s 为符号（sign）；e 为指数（exponent）；m 为有效位数（mantissa）*/
@@ -145,7 +142,7 @@ function Parse() {
         (num & 0x7fffff) | 0x800000;
       return s * m * Math.pow(2, e - 150);
     };
-    var intValue = Utils.bytesToInt(intArray);
+    var intValue = bytesToInt(intArray);
     // TOFIX
     if (intValue < 100000 && intValue > 0) {
       result = intValue;
@@ -153,7 +150,5 @@ function Parse() {
       result = parseFloat(intBitsToFloat(intValue).toFixed(2));
     }
     return result;
-  };
+  }
 }
-
-export default new Parse();

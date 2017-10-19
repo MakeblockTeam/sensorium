@@ -1,26 +1,41 @@
-import { defineNumber } from '../core/type';
-import Utils from '../core/utils';
+import { validateNumber } from '../core/validate';
+import {composer,
+fiterWithBinaryStr} from '../core/utils';
 import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
-import command from '../communicate/command';
+import Control from '../core/control';
+import { SUPPORTLIST } from '../settings';
 
+/**
+ * GPIOContinue sensor module
+ * @extends Electronic
+ */
 class GPIOContinue extends Electronic {
   constructor(port, key) {
     super();
     this.args = {
-      port: defineNumber(port),
-      key: defineNumber(key)
+      port: validateNumber(port, 1),
+      key: validateNumber(key, 1)
     };
   }
 
-  getData(callback) {
-    let buf = Utils.composer(protocolAssembler.readGPIOContinue, [this.args.port, this.args.key]);
-    command.execRead(buf, callback);
-    return this;
+  /**
+   * getter of protocol
+   */
+  get protocol() {
+    return composer(protocolAssembler.readGPIOContinue, [this.args.port, this.args.key]);
   }
 
-  static supportStamp(){
-    return '00001';
+  /**
+   * Get data of GPIOContinue sensor
+   * @return {Promise}
+   */
+  async getData() {
+    return await Control.read(this.protocol);
+  }
+
+  static get SUPPORT(){
+    return fiterWithBinaryStr(SUPPORTLIST, '00001');
   }
 }
 

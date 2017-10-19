@@ -1,41 +1,50 @@
-import { defineNumber } from '../core/type';
-import Utils from '../core/utils';
-import EncoderMotorBase from './base/EncoderMotorBase';
-import protocolAssembler from '../protocol/cmd';
-import command from '../communicate/command';
+import {
+  fiterWithBinaryStr
+} from '../core/utils';
+import BaseEncoderMotor from './BaseEncoderMotor';
+import Control from '../core/control';
+import {
+  SUPPORTLIST
+} from '../settings';
 
-const bufComposer = function(args){
-  return Utils.composer(protocolAssembler.readEncoderMotorOnBoard, [args.slot, args.type]);
-}
-
-class EncoderMotorOnBoard extends EncoderMotorBase {
+/**
+ * EncoderMotorOnBoard sensor module
+ * @extends BaseEncoderMotor
+ */
+class EncoderMotorOnBoard extends BaseEncoderMotor {
   constructor(slot) {
-    super(slot);
+    super(0, slot);
     Object.assign(this.args, {
-      type: null
+      type: 0x02
     });
   }
 
-  readSpeed(callback){
+  /**
+   * Get Speed of the encoder motor runs
+   * @return  {Promise} return promise
+   */
+  readSpeed() {
+    this.isReadType = true;
     this.args.type = 0x02;
-    let buf = bufComposer(this.args);
-    command.execRead(buf, callback);
     return this;
   }
 
   /**
    * get angle offset to the start position
-   * @param  {Function} callback
+   * @return  {Promise} return promise
    */
-  readAngle(callback){
+  readAngle() {
+    this.isReadType = true;
     this.args.type = 0x01;
-    let buf = bufComposer(this.args);
-    command.execRead(buf, callback);
     return this;
   }
 
-  static supportStamp(){
-    return '0110';
+  async getData() {
+    return await Control.read(this.protocol);
+  }
+
+  static get SUPPORT() {
+    return fiterWithBinaryStr(SUPPORTLIST, '0110');
   }
 }
 

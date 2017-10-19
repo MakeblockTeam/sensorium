@@ -1,32 +1,42 @@
-const {
-  defineNumber,
-  defineString
-} = require('../core/type');
-const Electronic = require('./electronic');
-const { setSevenSegment } = require('../protocol/cmd');
+//暂未完成，待确认需求
+
+import {
+  validateNumber
+} from '../core/validate';
+import {
+  composer,
+  fiterWithBinaryStr
+} from '../core/utils';
+import Electronic from './electronic';
+import protocolAssembler from '../protocol/cmd';
+import Control from '../core/control';
+import {
+  SUPPORTLIST
+} from '../settings';
 
 class ButtonOnBoard extends Electronic {
-  constructor() {
+
+  constructor(port, slot) {
     super();
     this.args = {
-      status: null
+      port: validateNumber(port),
+      slot: validateNumber(slot),
+      angle: 0
     };
   }
 
-  checkStatus(status) {
-    this.args.status = defineString(status);
-    this._run();
+  get protocol() {
+    return composer(protocolAssembler.ButtonOnBoard, [this.args.port, this.args.slot, this.args.angle]);
+  }
+
+  run() {
+    Control.write(this.protocol);
     return this;
   }
 
-  _run() {
-    let buf = composer(setSevenSegment, [this.args.port, this.args.action]);
-    board.send(buf);
-  }
-
-  static supportStamp(){
-    return '1000';
+  static get SUPPORT() {
+    return fiterWithBinaryStr(SUPPORTLIST, '1111');
   }
 }
 
-module.exports = ButtonOnBoard;
+export default ButtonOnBoard;

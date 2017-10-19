@@ -1,33 +1,37 @@
 import DcMotor from './dc_motor';
+import VirtualJoystick from './virtual_joystick';
+import VirtualJoystickForBalance from './virtual_joystick_for_balance';
 import StepperMotor from './stepper_motor';
 import EncoderMotor from './encoder_motor';
 import EncoderMotorOnBoard from './encoder_motor_on_board';  //包含读值和写的接口
 import ServoMotor from './servo_motor';
-import FourLed from './four_led';
+import FourLeds from './four_leds';
 import RgbLed from './rgb_led';
-import LedPanelOnBoard from './led_panel_on_board';
 import RgbLedOnBoard from './rgb_led_on_board';
-import LedMatrixChar from './led_matrix_char';
-import LedMatrixTime from './led_matrix_time';
-import LedMatrixEmotion from './led_matrix_emotion';
-import LedMatrixNumber from './led_matrix_number';
+import LedMatrix from './led_matrix';
 import Buzzer from './buzzer';
 import SevenSegment from './seven_segment';
 import Shutter from './shutter';
+import SmartServo from './smart_servo';
+import EncoderMotorOnBoardPID from './encoder_motor_on_board_pid'; //略不同的实现方式
 
 import Reset from './reset';
-import Version from './version';
 import Ultrasonic from './ultrasonic';
 import Temperature from './temperature';
-import Light from './light';
-import Potentionmeter from './potentionmeter';
-import Joystick from './joystick';
-import Gyro from './gyro';
-import Sound from './sound';
 import TemperatureOnBoard from './temperature_on_board';
+import Light from './light';
+import LightOnBoard from './light_on_board';
+import Potentionmeter from './potentionmeter';
+import Joystick from './joystick'; //读值
+import Gyro from './gyro';
+import GyroOnBoard from './Gyro_on_board';
+import Sound from './sound';
+import SoundOnBoard from './sound_on_board';
 import Pirmotion from './pirmotion';
-import LineFollower from './line_follower';
+import Infrared from './infrared';
+import InfraredOnBoard from './infrared_on_board';
 import LimitSwitch from './limit_switch';
+import LineFollower from './line_follower';
 import Compass from './compass';
 import Humiture from './humiture';
 import Flame from './flame';
@@ -42,33 +46,37 @@ import Runtime from './runtime';
 
 export default {
   DcMotor,
+  VirtualJoystick,
+  VirtualJoystickForBalance,
   StepperMotor,
   EncoderMotor,
   EncoderMotorOnBoard,
   ServoMotor,
-  FourLed,
+  FourLeds,
   RgbLed,
-  LedPanelOnBoard,
   RgbLedOnBoard,
-  LedMatrixChar,
-  LedMatrixTime,
-  LedMatrixEmotion,
-  LedMatrixNumber,
+  LedMatrix,
   Buzzer,
   SevenSegment,
   Shutter,
+  SmartServo,
+  EncoderMotorOnBoardPID,
 
   Reset, //实现待验证
-  Version, //实现待验证
   Ultrasonic,
   Temperature,
+  TemperatureOnBoard,
   Light,
+  LightOnBoard,
   Potentionmeter,
   Joystick,
   Gyro,
+  GyroOnBoard,
   Sound,
-  TemperatureOnBoard,
+  SoundOnBoard,
   Pirmotion,
+  Infrared,
+  InfraredOnBoard,
   LineFollower,
   LimitSwitch,
   Compass,

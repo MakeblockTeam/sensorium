@@ -1,24 +1,22 @@
-import { defineNumber } from '../core/type';
-import Utils from '../core/utils';
-import Electronic from './electronic';
+import {
+  composer
+} from '../core/utils';
 import protocolAssembler from '../protocol/cmd';
-import command from '../communicate/command';
+import Control from '../core/control';
+/**
+ * @private
+ */
+class Version {
+  constructor() {
 
-class Version extends Electronic {
-  constructor(callback) {
-    super();
-    this.version(callback);
   }
 
-  version(callback) {
-    let buf = Utils.composer(protocolAssembler.readVersion);
-    command.execRead(buf, callback);
-    return this;
-  }
-
-  static supportStamp(){
-    return '1111';
+  /**
+   * getter of protocol
+   */
+  get protocol () {
+    return composer(protocolAssembler.readVersion);
   }
 }
 
-export default Version;
+export default new Version();

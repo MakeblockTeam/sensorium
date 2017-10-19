@@ -1,28 +1,48 @@
-import { defineNumber } from '../core/type';
-import Utils from '../core/utils';
+import {
+  validateNumber
+} from '../core/validate';
+import {
+  composer,
+  fiterWithBinaryStr
+} from '../core/utils';
 import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
-import command from '../communicate/command';
+import Control from '../core/control';
+import {
+  SUPPORTLIST
+} from '../settings';
 
+/**
+ * Temperature sensor module
+ * @extends Electronic
+ */
 class Temperature extends Electronic {
   constructor(port, slot) {
     super();
     this.args = {
-      port: defineNumber(port),
-      slot: defineNumber(slot)
+      port: validateNumber(port),
+      slot: validateNumber(slot)
     };
   }
 
-  getData(callback) {
-    let buf = Utils.composer(protocolAssembler.readTemperature, [this.args.port, this.args.slot]);
-    command.execRead(buf, callback);
-    return this;
+  /**
+   * getter of protocol
+   */
+  get protocol() {
+    return composer(protocolAssembler.readTemperature, [this.args.port, this.args.slot]);
   }
 
-  static supportStamp(){
-    return '1111';
+  /**
+   * Get data of Temperature sensor
+   * @return {Promise}
+   */
+  async getData() {
+    return await Control.read(this.protocol);
   }
 
+  static get SUPPORT() {
+    return fiterWithBinaryStr(SUPPORTLIST, '1111');
+  }
 }
 
 export default Temperature;

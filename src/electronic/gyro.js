@@ -1,26 +1,30 @@
-import { defineNumber, defineString } from '../core/type';
-import Utils from '../core/utils';
-import Electronic from './electronic';
-import protocolAssembler from '../protocol/cmd';
-import command from '../communicate/command';
+import BaseGyro from './BaseGyro';
+import {
+  fiterWithBinaryStr
+} from '../core/utils';
+import {
+  SUPPORTLIST
+} from '../settings';
 
-class Gyro extends Electronic {
-  constructor(port, axis) {
-    super();
-    this.args = {
-      port: defineNumber(port),
-      axis: defineString(axis)
-    };
+/**
+ * Gyro sensor module
+ * @extends BaseGyro
+ * @example
+ * mcore.Gyro()
+ *      .axis(1)
+ *      .getData()
+ *        .then((val) => {
+ *          console.log(val)
+ *        });
+ */
+class Gyro extends BaseGyro {
+  constructor() {
+    //外接陀螺仪 port 始终传参为 0
+    super(0);
   }
 
-  getData(callback) {
-    let buf = Utils.composer(protocolAssembler.readGyro, [this.args.port, this.args.axis]);
-    command.execRead(buf, callback);
-    return this;
-  }
-
-  static supportStamp(){
-    return '1110';
+  static get SUPPORT() {
+    return fiterWithBinaryStr(SUPPORTLIST, '1111');
   }
 }
 

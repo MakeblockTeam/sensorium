@@ -1,30 +1,33 @@
-import { defineNumber } from '../core/type';
-import Utils from '../core/utils';
-import LedMatrixBase from './base/LedMatrixBase';
-import protocolAssembler from '../protocol/cmd';
-import command from '../communicate/command';
-
-class LedMatrixNumber extends LedMatrixBase {
+import { validateNumber } from '../core/validate';
+import BaseLedMatrix from './BaseLedMatrix';
+/**
+ * LedMatrix sensor module run as 'Number Mode'
+ * @extends BaseLedMatrix
+ */
+class LedMatrixNumber extends BaseLedMatrix {
   constructor(port) {
     super(port);
     Object.assign(this.args, {
-      number: null
+      number: 0,
+      type: BaseLedMatrix.NUMBER_TYPE
     });
   }
 
-  number(num) {
-    this.args.number = defineNumber(num);
+  /**
+   * set number
+   * @param  {Number} number the number you want show on the led matrix
+   */
+  number(number) {
+    this.args.number = validateNumber(number);
     return this;
   }
 
-  run(){
-    let buf = Utils.composer(protocolAssembler.setLedMatrixNumber, [this.args.port, this.args.number]);
-    command.execWrite(buf);
-    return this;
-  }
-
-  static supportStamp(){
-    return '1110';
+  /**
+   * set content for Matrix panel
+   * @param  {Number} number
+   */
+  content(number) {
+    return this.number(number);
   }
 }
 

@@ -1,28 +1,47 @@
-import { defineNumber } from '../core/type';
-import Utils from '../core/utils';
-import MotorBase from './base/MotorBase';
+import {
+  composer,
+  fiterWithBinaryStr
+} from '../core/utils';
+import BaseMotor from './BaseMotor';
 import protocolAssembler from '../protocol/cmd';
-import command from '../communicate/command';
-
-class DcMotor extends MotorBase {
+import Control from '../core/control';
+import {
+  SUPPORTLIST
+} from '../settings';
+/**
+ * DcMotor sensor module
+ * @extends BaseMotor
+ */
+class DcMotor extends BaseMotor {
 
   constructor(port) {
-    super(port);
-  }
-
+      super(port);
+    }
+    /**
+     * run reversely
+     */
   reverse() {
     this.speed(-1 * this.args.speed);
-    return this;
+    return this.run();
   }
 
+  /**
+   * getter of protocol
+   */
+  get protocol() {
+    return composer(protocolAssembler.setDcMotor, [this.args.port, this.args.speed]);
+  }
+
+  /**
+   * run
+   */
   run() {
-    let buf = Utils.composer(protocolAssembler.setDcMotor, [this.args.port, this.args.speed]);
-    command.execWrite(buf);
+    Control.write(this.protocol);
     return this;
   }
 
-  static supportStamp(){
-    return '1111';
+  static get SUPPORT() {
+    return fiterWithBinaryStr(SUPPORTLIST, '1111');
   }
 }
 

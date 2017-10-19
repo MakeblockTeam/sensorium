@@ -1,16 +1,27 @@
-import { defineNumber } from '../core/type';
-import Utils from '../core/utils';
+import {
+  validateNumber
+} from '../core/validate';
+import {
+  composer,
+  fiterWithBinaryStr
+} from '../core/utils';
 import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
-import command from '../communicate/command';
+import Control from '../core/control';
+import {
+  SUPPORTLIST
+} from '../settings';
 
+/**
+ * ServoMotor sensor module
+ * @extends Electronic
+ */
 class ServoMotor extends Electronic {
-
   constructor(port, slot) {
     super();
     this.args = {
-      port: defineNumber(port),
-      slot: defineNumber(slot),
+      port: validateNumber(port),
+      slot: validateNumber(slot),
       angle: 0
     };
   }
@@ -20,8 +31,8 @@ class ServoMotor extends Electronic {
    * @param  {Number} degree
    * @return {Object} the instance
    */
-  angle(degree){
-    this.args.angle = defineNumber(degree, 0);
+  angle(degree) {
+    this.args.angle = validateNumber(degree, 0);
     return this;
   }
 
@@ -29,8 +40,8 @@ class ServoMotor extends Electronic {
    * go to the start
    * @return {[type]} [description]
    */
-  toStart(){
-    this.angle(180);
+  toStart() {
+    this.angle(0);
     return this.run();
   }
 
@@ -38,19 +49,28 @@ class ServoMotor extends Electronic {
    * go to the end
    * @return {[type]} [description]
    */
-  toEnd(){
-    this.angle(0);
+  toEnd() {
+    this.angle(180);
     return this.run();
   }
 
-  run(){
-    let buf = Utils.composer(protocolAssembler.setServoMotor, [this.args.port, this.args.slot, this.args.angle]);
-    command.execWrite(buf);
+  /**
+   * getter of protocol
+   */
+  get protocol() {
+    return composer(protocolAssembler.setServoMotor, [this.args.port, this.args.slot, this.args.angle]);
+  }
+
+  /**
+   * run
+   */
+  run() {
+    Control.write(this.protocol);
     return this;
   }
 
-  static supportStamp(){
-    return '1111';
+  static get SUPPORT() {
+    return fiterWithBinaryStr(SUPPORTLIST, '1111');
   }
 }
 

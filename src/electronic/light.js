@@ -1,25 +1,20 @@
-import { defineNumber } from '../core/type';
-import Utils from '../core/utils';
-import Electronic from './electronic';
-import protocolAssembler from '../protocol/cmd';
-import command from '../communicate/command';
+import BaseLight from './BaseLight';
+import {
+  fiterWithBinaryStr
+} from '../core/utils';
+import { SUPPORTLIST } from '../settings';
 
-class Light extends Electronic {
+/**
+ * Light sensor module
+ * @extends BaseLight
+ */
+class Light extends BaseLight {
   constructor(port) {
-    super();
-    this.args = {
-      port: defineNumber(port)
-    };
+    super(port);
   }
 
-  getData(callback) {
-    let buf = Utils.composer(protocolAssembler.readLight, [this.args.port]);
-    command.execRead(buf, callback);
-    return this;
-  }
-
-  static supportStamp(){
-    return '1111';
+  static get SUPPORT(){
+    return fiterWithBinaryStr(SUPPORTLIST, '111111');
   }
 }
 

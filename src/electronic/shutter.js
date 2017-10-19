@@ -1,15 +1,23 @@
-import { defineNumber, defineString } from '../core/type';
-import Utils from '../core/utils';
+import { validateNumber } from '../core/validate';
+import {
+  composer,
+  fiterWithBinaryStr
+} from '../core/utils';
 import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
-import command from '../communicate/command';
+import Control from '../core/control';
+import { SUPPORTLIST } from '../settings';
 
+
+/**
+ * Shutter sensor module
+ * @extends Electronic
+ */
 class Shutter extends Electronic {
-
   constructor(port) {
     super();
     this.args = {
-      port: defineNumber(port),
+      port: validateNumber(port),
       action: null
     };
   }
@@ -18,19 +26,30 @@ class Shutter extends Electronic {
    * set shutter mode
    * @param {string} actionId - 动作id  0: 按下快门; 1: 松开快门; 2: 聚焦; 3: 停止聚焦
    */
+  //TODO: 本API易用性还得改进
   action(actionId) {
-    this.args.action = defineString(actionId);
+    this.args.action = validateNumber(actionId);
     return this;
   }
 
+  /**
+   * getter of protocol
+   */
+  get protocol() {
+    return composer(protocolAssembler.setShutter, [this.args.port, this.args.action]);
+  }
+
+  /**
+   * run shutter with mode set before
+   * @return {this}  模块实例
+   */
   run() {
-    let buf = Utils.composer(protocolAssembler.setShutter, [this.args.port, this.args.action]);
-    command.execWrite(buf);
+    Control.write(this.protocol);
     return this;
   }
 
-  static supportStamp(){
-    return '1111';
+  static get SUPPORT(){
+    return fiterWithBinaryStr(SUPPORTLIST, '1111');
   }
 }
 
