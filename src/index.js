@@ -4,7 +4,7 @@
  * @author Jeremy
  */
 import Transport from './communicate/transport';
-import Control from './communicate/control';
+import Control from './core/control';
 import Version from './electronic/version';
 import { SUPPORTLIST, FIRMWARE_ID } from './settings';
 import Mcore from './mainboard/mcore';
