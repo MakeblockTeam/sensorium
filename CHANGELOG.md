@@ -1,4 +1,7 @@
 # Changelog
+## [0.3.3] - 2017-10-26
+### Fixed
+-  fix bug of `sensorium.write` and `Control.pipe`
 
 ## [0.3.2] - 2017-09-29
 ### Changed
