@@ -17,8 +17,6 @@ class Auriga extends Board{
     let this_ = this;
     //@member {String} {maiboard name}
     this.name = 'Auriga';
-    //@member {Number} {current mode}
-    this.currentMode = null;
     // @member {Object} modules is connecting to the mainboard
     // @override
     this.connecting = {};

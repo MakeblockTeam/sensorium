@@ -1,4 +1,4 @@
-import {VERSION} from '../settings';
+import Version from '../electronic/version'
 /**
  * @fileOverview Board 主控板的基类.
  * @author Jeremy
@@ -37,6 +37,8 @@ class Board {
     this.config_ = conf || {};
     //已连接电子模块
     this.connecting = {};
+    // 版本
+    this.version = Version;
   }
 
   /**
@@ -59,22 +61,6 @@ class Board {
       this.connecting[id] = emodule;
       return emodule;
     }
-  }
-
-  /**
-   * get version of this mainboard
-   * @example
-   * let sensorium = new Sensorium();
-   * let mcore = sensorium.createMcore();
-   * mcore.readVersion()
-   *         .getData()
-   *         .then((val) => {
-   *           console.log(val);
-   *         })
-   */
-  readVersion () {
-    this.currentMode = VERSION;
-    return this;
   }
 }
 

@@ -28,7 +28,7 @@ class Voltage extends Electronic {
   }
 
   /**
-   * Get data of Gas sensor
+   * Get data of Voltage
    * @return {Promise}
    */
   async getData() {

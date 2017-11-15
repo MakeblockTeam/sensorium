@@ -18,6 +18,14 @@ class Version {
   get protocol () {
     return composer(protocolAssembler.readVersion);
   }
+
+  /**
+   * Get data of Gas sensor
+   * @return {Promise}
+   */
+  async getData() {
+    return await Control.read(this.protocol);
+  }
 }
 
 export default new Version();

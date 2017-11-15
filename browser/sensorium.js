@@ -2177,7 +2177,9 @@ var _createClass2 = __webpack_require__(1);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _settings = __webpack_require__(6);
+var _version = __webpack_require__(42);
+
+var _version2 = _interopRequireDefault(_version);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -2221,6 +2223,8 @@ var Board = function () {
     this.config_ = conf || {};
     //已连接电子模块
     this.connecting = {};
+    // 版本
+    this.version = _version2.default;
   }
 
   /**
@@ -2247,25 +2251,6 @@ var Board = function () {
         this.connecting[id] = emodule;
         return emodule;
       }
-    }
-
-    /**
-     * get version of this mainboard
-     * @example
-     * let sensorium = new Sensorium();
-     * let mcore = sensorium.createMcore();
-     * mcore.readVersion()
-     *         .getData()
-     *         .then((val) => {
-     *           console.log(val);
-     *         })
-     */
-
-  }, {
-    key: 'readVersion',
-    value: function readVersion() {
-      this.currentMode = _settings.VERSION;
-      return this;
     }
   }]);
   return Board;
@@ -2679,6 +2664,14 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _regenerator = __webpack_require__(11);
+
+var _regenerator2 = _interopRequireDefault(_regenerator);
+
+var _asyncToGenerator2 = __webpack_require__(12);
+
+var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+
 var _classCallCheck2 = __webpack_require__(0);
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
@@ -2713,6 +2706,40 @@ var Version = function () {
 
 
   (0, _createClass3.default)(Version, [{
+    key: 'getData',
+
+
+    /**
+     * Get data of Gas sensor
+     * @return {Promise}
+     */
+    value: function () {
+      var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
+        return _regenerator2.default.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return _control2.default.read(this.protocol);
+
+              case 2:
+                return _context.abrupt('return', _context.sent);
+
+              case 3:
+              case 'end':
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function getData() {
+        return _ref.apply(this, arguments);
+      }
+
+      return getData;
+    }()
+  }, {
     key: 'protocol',
     get: function get() {
       return (0, _utils.composer)(_cmd2.default.readVersion);
@@ -13960,7 +13987,7 @@ var Voltage = function (_Electronic) {
 
 
     /**
-     * Get data of Gas sensor
+     * Get data of Voltage
      * @return {Promise}
      */
     value: function () {
@@ -14352,8 +14379,6 @@ var Auriga = function (_Board) {
     var this_ = _this;
     //@member {String} {maiboard name}
     _this.name = 'Auriga';
-    //@member {Number} {current mode}
-    _this.currentMode = null;
     // @member {Object} modules is connecting to the mainboard
     // @override
     _this.connecting = {};
@@ -14441,8 +14466,6 @@ var MegaPi = function (_Board) {
     var this_ = _this;
     //@member {String} {maiboard name}
     _this.name = 'MegaPi';
-    //固件当前模式
-    _this.currentMode = null;
     // 置空已连接块
     _this.connecting = {};
     // 挂载电子模块
@@ -14523,8 +14546,6 @@ var MegaPiPro = function (_Board) {
     var this_ = _this;
     //@member {String} {maiboard name}
     _this.name = 'MegaPiPro';
-    //固件当前模式
-    _this.currentMode = null;
     // 置空已连接块
     _this.connecting = {};
     // 挂载电子模块

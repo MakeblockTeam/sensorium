@@ -15,8 +15,6 @@ class MegaPiPro extends Board{
     let this_ = this;
     //@member {String} {maiboard name}
     this.name = 'MegaPiPro';
-    //固件当前模式
-    this.currentMode = null;
     // 置空已连接块
     this.connecting = {};
     // 挂载电子模块
