@@ -1,3 +1,4 @@
+import {VERSION} from '../settings';
 /**
  * @fileOverview Board 主控板的基类.
  * @author Jeremy
@@ -36,8 +37,6 @@ class Board {
     this.config_ = conf || {};
     //已连接电子模块
     this.connecting = {};
-    //固件版本
-    // this.version = null;
   }
 
   /**
@@ -74,7 +73,7 @@ class Board {
    *         })
    */
   readVersion () {
-    this.currentMode = 'version';
+    this.currentMode = VERSION;
     return this;
   }
 }

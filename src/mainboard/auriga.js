@@ -1,7 +1,5 @@
 import Board from '../core/board';
 import electronics from '../electronic/index';
-import Mode from '../electronic/mode';
-import Control from '../core/control';
 import Version from '../electronic/version';
 
 const FIRMWAREMODE = Symbol('firmware');
@@ -33,69 +31,6 @@ class Auriga extends Board{
         };
       }
     }
-  }
-
-  /**
-   * set firmware mode
-   * @param {Number} mode
-   * 0: ble
-   * 1: 自动避障
-   * 2: 平衡车
-   * 3: 红外
-   * 4: 巡线
-   */
-  setFirmwareMode(mode){
-    this.currentMode = FIRMWAREMODE;
-    let subCmd = 0x11;
-    Mode.setMode(subCmd, mode);
-    return this;
-  }
-  /**
-   * get firmware mode
-   */
-  readFirmwareMode(){
-    this.currentMode = FIRMWAREMODE;
-    let subCmd = 0x71;
-    Mode.setMode(subCmd);
-    return this;
-  }
-
-  /**
-   * get voltage
-   */
-  readVoltage(){
-    this.currentMode = FIRMWAREMODE;
-    let subCmd = 0x70;
-    Mode.setMode(subCmd);
-    return this;
-  }
-
-  /**
-   * protocol that sent directly by mainboard firmware
-   * @return {Array}
-   */
-  get protocol (){
-    if(this.currentMode == FIRMWAREMODE) {
-      return Mode.protocol;
-    }else if( this.currentMode == 'version') {
-      return Version.protocol;
-    }
-  }
-
-  /**
-   * run
-   */
-  run() {
-    Control.write(this.protocol);
-    return this;
-  }
-
-  /**
-   * Get data of Voltage or FirmwareMode
-   * @return {Promise}
-   */
-  async getData() {
-    return await Control.read(this.protocol);
   }
 }
 

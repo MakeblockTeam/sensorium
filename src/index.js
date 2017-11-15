@@ -88,13 +88,13 @@ class Sensorium {
    *             .then((val) => {console.log(val)});
    */
   async readFirmwareInfo(){
-    return await Version.getVersion().then((val) =>{
+    return await Version.getData().then((val) =>{
       let id, name;
       if(val){
         id = val.split('.')[0];
         name = FIRMWARE_ID[parseInt(id)];
       }
-      return Promise.resolve({name, val});
+      return {name, val};
     });
   }
 

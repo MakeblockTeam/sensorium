@@ -67,6 +67,7 @@ let
     "C8": 4186,
     "D8": 4699
   },
+  VERSION = Symbol(),
   MOVE_DIRECTION = ['FORWARD', 'BACKWARD', 'TURNLEFT', 'TURNRIGHT'];
 
 export {
@@ -76,5 +77,6 @@ export {
   SUPPORTLIST,
   FIRMWARE_ID,
   TONE_TO_HZ,
-  MOVE_DIRECTION
+  MOVE_DIRECTION,
+  VERSION
 };
