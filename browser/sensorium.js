@@ -6685,8 +6685,8 @@ var Read = {
    * @param  {Number} value request result
    */
   emitCallback: function emitCallback(index, value) {
-    clearTimeout(this.readRecord[index].timer);
     if (this.readRecord[index]) {
+      clearTimeout(this.readRecord[index].timer);
       this.readRecord[index].callback(value);
       this.removeRecord(index);
     }
@@ -14144,7 +14144,6 @@ var Firmware = function (_Electronic) {
       } else {
         this.args.subCmd = 0x72;
       }
-      _control2.default.write(this.protocol);
       return this;
     }
 

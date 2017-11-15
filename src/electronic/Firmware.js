@@ -68,7 +68,6 @@ class Firmware extends Electronic {
     }else {
       this.args.subCmd = 0x72;
     }
-    Control.write(this.protocol);
     return this;
   }
 
