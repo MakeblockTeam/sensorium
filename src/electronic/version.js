@@ -3,6 +3,7 @@ import {
 } from '../core/utils';
 import protocolAssembler from '../protocol/cmd';
 import Control from '../core/control';
+
 /**
  * @private
  */

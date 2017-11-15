@@ -4,7 +4,7 @@ import protocolAssembler from '../protocol/cmd';
 import Control from '../core/control';
 
 class PIDForPwm {
-  constructor() {
+  constructor(slot) {
     this.args = {
       speed: 0,
       slot: validateNumber(slot, 1)

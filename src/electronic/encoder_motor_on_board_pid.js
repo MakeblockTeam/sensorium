@@ -17,8 +17,8 @@ import {
   SUPPORTLIST
 } from '../settings';
 
-let auriga = SUPPORTLIST[1].toLowerCase();
-let megapipro = SUPPORTLIST[5].toLowerCase();
+const auriga = SUPPORTLIST[1].toLowerCase();
+const megapipro = SUPPORTLIST[5].toLowerCase();
 
 /**
  * EncoderMotorOnBoardPID 的速度模式经常被直接作为板载编码电机的设置速度来使用
