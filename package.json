@@ -1,12 +1,17 @@
 {
   "name": "sensorium",
-  "version": "0.3.3",
-  "description": "mainboards protocol api",
+  "version": "0.3.4",
+  "description": "makeblock mainboards protocol api",
   "main": "browser/sensorium.js",
   "directories": {
     "doc": "docs",
     "test": "test"
   },
+  "keywords": [
+    "makeblock",
+    "robot",
+    "IOT"
+  ],
   "scripts": {
     "test": "mocha --compilers js:babel-core/register",
     "coverage-i": " istanbul cover node_modules/mocha/bin/_mocha ./test/interface/interface_test.js",
@@ -18,7 +23,7 @@
     "type": "git",
     "url": ""
   },
-  "author": "",
+  "author": "Makeblock",
   "license": "ISC",
   "devDependencies": {
     "babel-core": "^6.25.0",
