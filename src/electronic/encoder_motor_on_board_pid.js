@@ -44,7 +44,7 @@ class EncoderMotorOnBoardPID extends Electronic {
       this.pwmMode = function() {
           return new PIDForPwm(slot);
         }
-        //双电机模式
+        //双电机模式, 即平衡车模式
       this.doubleMotorMode = function() {
         return new PIDForDoubleMotor(slot);
       }
