@@ -7,22 +7,7 @@ import Transport from './communicate/transport';
 import Control from './core/control';
 import Version from './electronic/version';
 import { SUPPORTLIST, FIRMWARE_ID } from './settings';
-import Mcore from './mainboard/mcore';
-import Orion from './mainboard/orion';
-import Auriga from './mainboard/auriga';
-import MegaPi from './mainboard/megaPi';
-import MegaPiPro from './mainboard/megaPiPro';
-import Arduino from './mainboard/arduino';
-
-//@private
-const boards = {
-    "auriga": Auriga,
-    "mcore":  Mcore,
-    "megapi": MegaPi,
-    "orion":  Orion,
-    "megapipro":  MegaPiPro,
-    "arduino":  Arduino,
-}
+import BoardsObj from './mainboard/index';
 
 /**
  * Sensorium
@@ -52,7 +37,7 @@ class Sensorium {
    * mcore1 === mcore2
    */
   create(mainboardName, opts){
-    let board = boards[mainboardName.toLowerCase()];
+    let board = BoardsObj[mainboardName.toLowerCase()];
     if(typeof board == 'undefined'){
       throw new Error(`sorry, the board ${mainboardName} could not be supported!
         You need pass in one of ${this.getSupported().join(',')} as the first argument}`);
@@ -128,7 +113,7 @@ class Sensorium {
    * @return {Array}  a support list
    */
   get SUPPORT() {
-    return Object.keys(boards);
+    return Object.keys(BoardsObj);
   }
 }
 
