@@ -61,7 +61,7 @@ class Sensorium {
    * 数据分发，目前只支持分发到 pipe
    * @param  {Buffer} buff
    */
-  doRecevied (buff) {
+  doReceived (buff) {
     Control.pipe(buff);
   }
 

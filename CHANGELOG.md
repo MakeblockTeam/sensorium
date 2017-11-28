@@ -1,4 +1,8 @@
 # Changelog
+## [0.3.4] - 2017-11-28
+### Fixed
+-  fix a serious bug of `doReceived` spelling.
+
 ## [0.3.3] - 2017-10-26
 ### Fixed
 -  fix bug of `sensorium.write` and `Control.pipe`
