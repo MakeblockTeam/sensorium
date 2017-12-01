@@ -1,7 +1,7 @@
 # Changelog
-## [0.3.4] - 2017-11-28
+## [0.3.5] - 2017-11-30
 ### Fixed
--  fix a serious bug of `doReceived` spelling.
+-  Sorry for forgetting to compile: fix a serious bug of `doReceived` spelling.
 
 ## [0.3.3] - 2017-10-26
 ### Fixed
@@ -36,7 +36,7 @@
 ## [0.2.6] - 2017-08-29
 ### Changed
 -  sensorium 实例调用 setSender 设置传输方法
--  sensorium 实例调用 doRecevied 将响应数据分发
+-  sensorium 实例调用 doReceived 将响应数据分发
 
 ## [0.2.5] - 2017-08-11
 ### Fixed

@@ -4901,8 +4901,8 @@ var Sensorium = function () {
      */
 
   }, {
-    key: 'doRecevied',
-    value: function doRecevied(buff) {
+    key: 'doReceived',
+    value: function doReceived(buff) {
       _control2.default.pipe(buff);
     }
 
