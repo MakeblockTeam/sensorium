@@ -5,6 +5,7 @@ import Version from '../electronic/version';
 const FIRMWAREMODE = Symbol('firmware');
 /**
  * Auriga Class for 'Auriga' mainboard.
+ * @private
  * @extends Board
  */
 class Auriga extends Board{

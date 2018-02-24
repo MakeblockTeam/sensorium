@@ -824,7 +824,7 @@ function protocolAssembler() {
   };
 
   /**
-   * * @private
+   * @private
    */
   this.setSmartServoForDcMotor = function(index, subCmd, speed) {
     let port = 0x05; //defualt port

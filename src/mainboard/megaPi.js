@@ -4,6 +4,7 @@ import electronics from '../electronic/index';
 const FIRMWAREMODE = Symbol('firmware');
 /**
  * MegaPi Class for 'MegaPi' mainboard.
+ * @private
  * @extends Board
  */
 class MegaPi extends Board{

@@ -1,3 +1,9 @@
+/**
+ * @private
+ * @param  {[type]} value [description]
+ * @param  {[type]} range [description]
+ * @return {[type]}       [description]
+ */
 function limitValue(value, range) {
   var newValue = value;
   range = range || [-255, 255];
@@ -13,6 +19,7 @@ function limitValue(value, range) {
 
 /**
  * Convert array of int to ArrayBuffer.
+ * @private
  * @param  {[int]} data array of int
  * @return {ArrayBuffer}      result array buffer
  * @private
@@ -28,9 +35,9 @@ function arrayBufferFromArray(data) {
 
 /**
  * Convert ArrayBuffer from array of int
+ * @private
  * @param  {ArrayBuffer} buffer the source arraybuffer
  * @return {[int]}        int array as the result;
- * @private
  */
 function arrayFromArrayBuffer(buffer) {
   var dataView = new Uint8Array(buffer);
@@ -43,6 +50,7 @@ function arrayFromArrayBuffer(buffer) {
 
 /**
  * [buffer2string converts array buffer to string format]
+ * @private
  * @param  {ArrayBuffer} buf [the input array buffer]
  * @return {String}     [the output string]
  */
@@ -53,6 +61,7 @@ function buffer2string(buf) {
 
 /**
  * [string2buffer converts string to array buffer format]
+ * @private
  * @param  {String} str [the input string]
  * @return {Uint8Array}     [the output uint8 array buffer]
  */
@@ -63,6 +72,7 @@ function string2buffer(str) {
 
 /**
  * 将十进制字符串数组转为16进制
+ * @private
  * @param  {Array}  data        to be transformed data, such as: ["01", "55", "12"]
  * @param  {Boolean} isUpperCase whether need output upperCase string.
  * @return {String} 16 进制字符串
@@ -84,7 +94,12 @@ function intStrToHexStr(data, isUpperCase) {
   return temp.join(" ");
 }
 
-// 十六进制字符串转成十进制
+/**
+ * 十六进制字符串转成十进制
+ * @private
+ * @param  {[type]} str [description]
+ * @return {[type]}     [description]
+ */
 function hexStr2IntArray(str) {
   var a = str.split(" ");
   var arr = [];
@@ -97,8 +112,8 @@ function hexStr2IntArray(str) {
 }
 
 /**
- * Float to bytes.
- * 现将float转成整形，再将整形转成字节表示
+ * Float to int then to bytes.
+ * @private
  * @param  {float} float number
  * @return {bytes}
  */
@@ -147,6 +162,7 @@ function float32ToBytes(value) {
 
 /**
  * 整形转换成字节数组
+ * @private
  * @param  {number} value 整形
  * @return {array}  array数组
  */
@@ -165,6 +181,7 @@ function bigIntToBytes(value) {
 
 /**
  * 32位整数转成字节，js最多只支持32位有符号整数，不支持64位，因此最多只能转成4byte
+ * @private
  * @param  {Number} float number
  * @return {Array} bytes array
  */
@@ -180,6 +197,7 @@ function longToBytes(value) {
 
 /**
  * 将单词的第一个字母转成大写
+ * @private
  * @param  {string} str string.
  * @return {string}     target string.
  */
@@ -193,6 +211,7 @@ function upperCaseFirstLetter(str) {
 
 /**
  * n个byte转成int值
+ * @private
  * @param  {Array} bytes 传入的bytes数组
  * @return {Number}          返回的int数值
  */
@@ -206,6 +225,7 @@ function bytesToInt(bytes) {
 
 /**
  * transform int to ascii
+ * @private
  * @param  {Array} bytes int array
  * @return {String} str string
  */
@@ -228,7 +248,8 @@ function hexToRgb(hex) {
   return [r, g, b];
 }
 /**
- * 函数式编程
+ * commpose to call func(args)
+ * @private
  * @param  {!Function} func 方法
  * @param  {Array} args 方法的参数数组
  * @return {*}      返回结果由方法决定
@@ -246,6 +267,7 @@ function composer(func, args) {
  * 标准笑脸输入: "000000000000000000010000001000000100000000100000000100100000001
  *           00000001000010010001000000100000000100000000100000000000000000000"
  * 最终发送协议: [255, 85, 23, 0, 2, 41, 1, 2, 0, 0, 0, 0, 16, 32, 64, 32, 18, 2, 2, 18, 32, 64, 32, 16, 0, 0]
+ * @private
  * @param  {String} byteStrs
  * @return {Array}
  */
@@ -290,6 +312,7 @@ function getAllMethods(obj) {
 
 /**
  * filter array with a binaried string
+ * @private
  * @param  {Array}  arr  an array like [1, 2, 3]
  * @param  {String} bstr a binaried string like '10101011'
  * @return {Array}      filtered array
@@ -305,6 +328,7 @@ function fiterWithBinaryStr(arr, bstr) {
 
 /**
  * calculate value from data received: bytes -> int -> float
+ * @private
  * @param  {Array} intArray decimal array
  * @return {Number}  result.
  */

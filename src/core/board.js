@@ -1,8 +1,8 @@
-import Version from '../electronic/version'
 /**
  * @fileOverview Board 主控板的基类.
  * @author Jeremy
  */
+import Version from '../electronic/version'
 
 /**
  * Create id for electronic module joined into the mainboard
@@ -30,6 +30,7 @@ const createModuleId = function (eModule, argsList){
 class Board {
   /**
    * Create a board
+   * @private
    * @param  {Object} conf configure
    */
   constructor(conf){

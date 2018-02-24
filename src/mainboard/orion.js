@@ -3,6 +3,7 @@ import electronics from '../electronic/index';
 
 /**
  * Orion Class for 'Orion' mainboard.
+ * @private
  * @extends Board
  */
 class Orion extends Board{

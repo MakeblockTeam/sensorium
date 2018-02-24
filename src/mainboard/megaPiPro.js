@@ -3,6 +3,7 @@ import electronics from '../electronic/index';
 
 /**
  * MegaPiPro Class for 'MegaPiPro' mainboard.
+ * @private
  * @extends Board
  */
 class MegaPiPro extends Board{

@@ -3,6 +3,7 @@ import electronics from '../electronic/index';
 
 /**
  * Mcore Class for 'Mcore' mainboard.
+ * @private
  * @extends Board
  */
 class Mcore extends Board{
