@@ -71,7 +71,7 @@ class VirtualJoystickForBalance extends Electronic {
    * @return {Instance} @this
    */
   stop() {
-    return this.speed(0).run();
+    return this.turnRange(0).speed(0).run();
   }
 
   static get SUPPORT() {

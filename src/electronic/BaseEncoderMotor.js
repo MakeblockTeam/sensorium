@@ -7,7 +7,6 @@ import Control from '../core/control';
 /**
  * @description It is a base Class of EncoderMotor
  * @extends BaseMotor
- * @private
  */
 class BaseEncoderMotor extends BaseMotor {
   /**

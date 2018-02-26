@@ -1,4 +1,4 @@
-#sensorium
+# sensorium
 sensorium is an api library for makeblock mainboards. It includes `mcore`, `orion`, `auriga` and  `megapi`.
 You can use it in browser, node enviroment.
 
@@ -28,7 +28,7 @@ Then create a HTML page in the root directory, index.html for example, and type 
   //secondly set transport through `socket.io` like this:
   var socket = io.connect('http://localhost:8800');
   socket.on('sensor2web', function (data) {
-      sensorium.doRecevied(JSON.parse(data));
+      sensorium.doReceived(JSON.parse(data));
   });
   sensorium.setSender(function(buf) {
       socket.emit('web2sensor', { buf: JSON.stringify(buf), sensor: 'None' });
@@ -66,7 +66,7 @@ serialPort.on('open', function() {
   });
   serialPort.on('data', function(buff) {
     console.log('-----> Received data', '[' + buff.join(',') + ']');
-    sensorium.doRecevied(buff);
+    sensorium.doReceived(buff);
   });
 });
 

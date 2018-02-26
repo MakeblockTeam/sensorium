@@ -17,8 +17,8 @@ import {
   SUPPORTLIST
 } from '../settings';
 
-let auriga = SUPPORTLIST[1].toLowerCase();
-let megapipro = SUPPORTLIST[5].toLowerCase();
+const auriga = SUPPORTLIST[1].toLowerCase();
+const megapipro = SUPPORTLIST[5].toLowerCase();
 
 /**
  * EncoderMotorOnBoardPID 的速度模式经常被直接作为板载编码电机的设置速度来使用
@@ -44,7 +44,7 @@ class EncoderMotorOnBoardPID extends Electronic {
       this.pwmMode = function() {
           return new PIDForPwm(slot);
         }
-        //双电机模式
+        //双电机模式, 即平衡车模式
       this.doubleMotorMode = function() {
         return new PIDForDoubleMotor(slot);
       }

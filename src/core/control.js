@@ -46,7 +46,8 @@ class Control {
    * @return {Number}
    */
   pipe(buff) {
-    let buffer = Parse.doParse(buff);
+    let buffData = buff.data;
+    let buffer = Parse.doParse(buffData);
     if(!buffer) { //解析后无正确结果
       //可能因为接收了异常数据
       //do nothing

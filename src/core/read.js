@@ -136,8 +136,8 @@ const Read = {
    * @param  {Number} value request result
    */
   emitCallback: function(index, value){
-    clearTimeout(this.readRecord[index].timer);
-    if(this.readRecord[index]){
+    if(this.readRecord[index]) {
+      clearTimeout(this.readRecord[index].timer);
       this.readRecord[index].callback(value);
       this.removeRecord(index);
     }

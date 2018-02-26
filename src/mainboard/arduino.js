@@ -3,6 +3,7 @@ import electronics from '../electronic/index';
 
 /**
  * Arduino Class for 'Arduino' mainboard.
+ * @private
  * @extends Board
  */
 class Arduino extends Board{

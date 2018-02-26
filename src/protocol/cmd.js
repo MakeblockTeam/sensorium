@@ -4,8 +4,7 @@
 import {
   limitValue,
   float32ToBytes,
-  longToBytes,
-  bigIntToBytes
+  longToBytes
 } from "../core/utils";
 /**
  * buf 协议组装器
@@ -825,7 +824,7 @@ function protocolAssembler() {
   };
 
   /**
-   * * @private
+   * @private
    */
   this.setSmartServoForDcMotor = function(index, subCmd, speed) {
     let port = 0x05; //defualt port

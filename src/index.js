@@ -4,25 +4,10 @@
  * @author Jeremy
  */
 import Transport from './communicate/transport';
-import Control from './communicate/control';
+import Control from './core/control';
 import Version from './electronic/version';
 import { SUPPORTLIST, FIRMWARE_ID } from './settings';
-import Mcore from './mainboard/mcore';
-import Orion from './mainboard/orion';
-import Auriga from './mainboard/auriga';
-import MegaPi from './mainboard/megaPi';
-import MegaPiPro from './mainboard/megaPiPro';
-import Arduino from './mainboard/arduino';
-
-//@private
-const boards = {
-    "auriga": Auriga,
-    "mcore":  Mcore,
-    "megapi": MegaPi,
-    "orion":  Orion,
-    "megapipro":  MegaPiPro,
-    "arduino":  Arduino,
-}
+import BoardsObj from './mainboard/index';
 
 /**
  * Sensorium
@@ -46,13 +31,13 @@ class Sensorium {
    * @param {String} mainboardName  both upperCase and lowerCase are allow
    * @param {Object} opts     (optional)
    * @example
-   * // create a mcore with mainboardName, both upperCase and lowerCase are allow
+   * // create a mcore with a given mainboardName, both upperCase and lowerCase are allowed
    * let mcore1 = sensorium.create('mcore');
    * let mcore2 = sensorium.create('mCore');
-   * mcore1 === mcore2
+   * console.log(mcore1 === mcore2) // true
    */
   create(mainboardName, opts){
-    let board = boards[mainboardName.toLowerCase()];
+    let board = BoardsObj[mainboardName.toLowerCase()];
     if(typeof board == 'undefined'){
       throw new Error(`sorry, the board ${mainboardName} could not be supported!
         You need pass in one of ${this.getSupported().join(',')} as the first argument}`);
@@ -61,11 +46,11 @@ class Sensorium {
   }
 
   /**
-   * set transport such as bluetooth、serialport、wifi
-   * @param {Function} sender send method
+   * Set the sender from bluetooth、serialport、wifi
+   * @param {Function} sender the send method
    * @param {Function} transport.onReceived onReceived method
    * @example
-   * let sender = () => {...}
+   * let sender = (buf) => {}
    * sensorium.setSender(sender);
    */
   setSender(sender){
@@ -73,33 +58,33 @@ class Sensorium {
   }
 
   /**
-   * 数据分发，目前只支持分发到 pipe
-   * @param  {Buffer} buff
+   * Receive data from bluetooth、serialport、wifi
+   * @param  {Buffer|Array} buff
    */
-  doRecevied (buff) {
+  doReceived (buff) {
     Control.pipe(buff);
   }
 
   /**
-   * read firmware verion and parse the device info
+   * Read firmware info，which contains the version and the name
    * @return {Promise} a promise instance
    * @example
    * sensorium.readFirmwareInfo()
-   *             .then((val) => {console.log(val)});
+   *             .then(val => console.log(val));
    */
   async readFirmwareInfo(){
-    return await Version.getVersion().then((val) =>{
+    return await Version.getData().then((val) =>{
       let id, name;
       if(val){
         id = val.split('.')[0];
         name = FIRMWARE_ID[parseInt(id)];
       }
-      return Promise.resolve({name, val});
+      return {name, val};
     });
   }
 
   /**
-   * write protocol buffer
+   * Write protocol buffer
    * now this interface is just for debug the protocol
    * @param  {Array} buf
    * @example
@@ -110,7 +95,7 @@ class Sensorium {
   }
 
   /**
-   * read protocol buffer
+   * Read protocol buffer
    * now this interface is just for debug the protocol
    * @param  {Array} buf
    * @example
@@ -123,12 +108,12 @@ class Sensorium {
   /**
    * Get supported mainboard
    * @example
-   * sensorium.SUPPORT
-   * // => ['auriga', 'mcore', 'megapi', 'orion', 'megapipro', 'arduino']
+   * let sopport = sensorium.SUPPORT;
+   * conosole.log(sopport); // ['auriga', 'mcore', 'megapi', 'orion', 'megapipro', 'arduino']
    * @return {Array}  a support list
    */
   get SUPPORT() {
-    return Object.keys(boards);
+    return Object.keys(BoardsObj);
   }
 }
 

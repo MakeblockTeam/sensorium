@@ -1,9 +1,11 @@
 {
     "opts": {
-        "template": "./node_modules/docdash",
+        "template": "./node_modules/tui-jsdoc-template",
         "encoding": "utf8",
-        "destination": "../sensorium-doc/html/api",
-        "recurse": true
+        "destination": "./docs/api",
+        "recurse": true,
+        "package": "package.json",
+        "tutorials": "./docs_editor/tutorial"
     },
     "tags": {
         "allowUnknownTags": true,
@@ -15,13 +17,25 @@
         "includePattern": ".+\\.js(doc)?$",
         "excludePattern": "(^|\\/|\\\\)_"
     },
-    "plugins": [],
+    "plugins": ["plugins/markdown"],
+    "markdown": {
+        "parser": "gfm",
+        "hardwrap": true
+    },
     "templates": {
         "cleverLinks": false,
         "monospaceLinks": false,
         "default": {
             "includeDate": true,
-            "layoutFile": "./layout.tmpl"
+            "layoutFile": "./docs_editor/layout.tmpl"
+        },
+        "name": "Sensorium API",
+        "footerText": "Makeblock Team",
+        "logo": {
+            "url": "../statics/makeblocklogo.png",
+            "width": "154px",
+            "height": "24px",
+            "link": "http://makeblock.com/"
         }
     }
 }

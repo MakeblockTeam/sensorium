@@ -82,6 +82,7 @@
 
     var sensorium = new Sensorium();
     var mcore = sensorium.create('Mcore');
+    var auriga = sensorium.createAuriga();
 
     // cordva 蓝牙环境存在
     //此方法应该在 cordva deviceready 事件中绑定，因为在此事件之前
@@ -90,7 +91,7 @@
       if (typeof window.ble != "undefined") {
         window.ble.startListenReceivedData(function(buff) {
             Tool.receiveInfo(buff);
-            sensorium.doRecevied(buff);
+            sensorium.doReceived(buff);
         });
       }
 
@@ -111,7 +112,7 @@
     else{
       var socket = io.connect('http://localhost:8800');
       socket.on('sensor2web', function (data) {
-          sensorium.doRecevied(JSON.parse(data));
+          sensorium.doReceived(JSON.parse(data));
       });
       sensorium.setSender(function(buf) {
           socket.emit('web2sensor', { buf: JSON.stringify(buf), sensor: 'None' });

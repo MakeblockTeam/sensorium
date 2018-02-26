@@ -43,6 +43,8 @@ import AnalogGPIO from './analog_GPIO';
 import GPIOContinue from './GPIO_continue';
 import DoubleGPIO from './double_GPIO';
 import Runtime from './runtime';
+import Voltage from './voltage';
+import Firmware from './firmware';
 
 export default {
   DcMotor,
@@ -89,5 +91,7 @@ export default {
   AnalogGPIO,
   GPIOContinue,
   DoubleGPIO,
-  Runtime
+  Runtime,
+  Voltage,
+  Firmware
 };

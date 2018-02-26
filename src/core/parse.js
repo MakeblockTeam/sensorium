@@ -4,7 +4,7 @@
 import {
   arrayFromArrayBuffer,
   bytesToString,
-  bytesToInt
+  calculateResponseValue
 } from "./utils";
 
 // 获取到的最大指令长度
@@ -102,7 +102,7 @@ export default {
       case "3":
       case 3:
         // 2byte
-        result = this.calculateResponseValue([parseInt(buf[3]), parseInt(buf[2])]);
+        result = calculateResponseValue([parseInt(buf[3]), parseInt(buf[2])]);
         break;
       case "4":
       case 4:
@@ -117,37 +117,10 @@ export default {
       case 5:
       case 6:
         // long型或者float型的4byte处理
-        result = this.calculateResponseValue([parseInt(buf[5]), parseInt(buf[4]), parseInt(buf[3]), parseInt(buf[2])]);
+        result = calculateResponseValue([parseInt(buf[5]), parseInt(buf[4]), parseInt(buf[3]), parseInt(buf[2])]);
         break;
       default:
         break;
-    }
-    return result;
-  },
-
-  /**
-   * calculate value from data received: bytes -> int -> float
-   * @param  {Array} intArray decimal array
-   * @return {Number}  result.
-   */
-  calculateResponseValue: function(intArray) {
-    var result = null;
-    // FIXME: int字节转浮点型
-    var intBitsToFloat = function(num) {
-      /* s 为符号（sign）；e 为指数（exponent）；m 为有效位数（mantissa）*/
-      var s = (num >> 31) == 0 ? 1 : -1,
-        e = (num >> 23) & 0xff,
-        m = (e == 0) ?
-        (num & 0x7fffff) << 1 :
-        (num & 0x7fffff) | 0x800000;
-      return s * m * Math.pow(2, e - 150);
-    };
-    var intValue = bytesToInt(intArray);
-    // TOFIX
-    if (intValue < 100000 && intValue > 0) {
-      result = intValue;
-    } else {
-      result = parseFloat(intBitsToFloat(intValue).toFixed(2));
     }
     return result;
   }

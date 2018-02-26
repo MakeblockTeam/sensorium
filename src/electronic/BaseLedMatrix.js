@@ -13,7 +13,6 @@ import Control from '../core/control';
 /**
  * @description It is a base Class of LedMatrix
  * @extends Electronic
- * @private
  */
 class BaseLedMatrix extends Electronic {
   /**
@@ -44,19 +43,20 @@ class BaseLedMatrix extends Electronic {
   get protocol() {
     // bufArray [port, type, x, y, ...byteArray]
     let bufArray = [];
+    let byteResult, charCodeArray;
     if (this.isClearType) {
       // if clear
-      let byteResult = emotionByteString2binaryByte('0'.repeat(128));
+      byteResult = emotionByteString2binaryByte('0'.repeat(128));
       bufArray = [this.args.port, BaseLedMatrix.EMOTION_TYPE, 0, 0, ...byteResult];
       this.isClearType = false;
     } else {
       switch(this.args.type) {
         case BaseLedMatrix.CHAR_TYPE:
-          let charCodeArray = this.args.char.split('').map(char => (char.charCodeAt()));
+          charCodeArray = this.args.char.split('').map(char => (char.charCodeAt()));
           bufArray = [this.args.port, this.args.type, this.args.x, this.args.y, this.args.char.length, ...charCodeArray];
           break;
         case BaseLedMatrix.EMOTION_TYPE:
-          let byteResult = emotionByteString2binaryByte(this.args.emotion);
+          byteResult = emotionByteString2binaryByte(this.args.emotion);
           bufArray = [this.args.port, this.args.type, this.args.x, this.args.y, ...byteResult];
           break;
         case BaseLedMatrix.NUMBER_TYPE:

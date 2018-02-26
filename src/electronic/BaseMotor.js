@@ -3,7 +3,6 @@ import Electronic from './electronic';
 /**
  * @description It is a base Class of Motor
  * @extends Electronic
- * @private
  */
 class BaseMotor extends Electronic {
   /**

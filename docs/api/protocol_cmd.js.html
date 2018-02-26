@@ -1,0 +1,1052 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Source: protocol/cmd.js | Sensorium API</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/bootstrap.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-jsdoc.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/tui-doc.css">
+    <link type="text/css" rel="stylesheet" href="../statics/topbar.css">
+    <style type="text/css">
+        body{font-size: 14px;}
+        .lnb h3{color: #91cada;}
+    </style>
+    
+</head>
+<body>
+<header class="topbar">
+    <ul class="topnav pull-right clearfix">
+        <li><a href="../">Introduction</a></li>
+        <!-- <li><a href="../tutorial/">Tutorial</a></li> -->
+        <li><a href="./">Api</a></li>
+    </ul>
+</header>
+<nav class="lnb" id="lnb">
+    <!-- <div class="logo" style="width: 154px; height: 24px">
+        
+            <a href="http://makeblock.com/" rel="noopener noreferrer" target="_blank">
+                <img src="../statics/makeblocklogo.png" width="100%" height="100%">
+            </a>
+        
+    </div> 取消logo -->
+    <div class="title">
+        <h2><a href="index.html" class="link">Sensorium API</a></h2>
+        
+            <span class="version">v0.3.5</span>
+        
+    </div>
+    <div class="search-container" id="search-container">
+        <input type="text" placeholder="Search">
+        <ul></ul>
+    </div>
+    
+        <ol class="lnb-tab">
+            <li id="api-tab">
+                <a href="#"><h4>API</h4></a>
+            </li>
+            <li id="examples-tab">
+                <a href="#"><h4>Examples</h4></a>
+            </li>
+        </ol>
+    
+    <div class="lnb-examples hidden"><h3>Examples</h3><ul><li><a href="tutorial-Changelog.html">Changelog</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="Changelog_sub"></div></li><li><a href="tutorial-Getstart.html">Getstart</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="Getstart_sub"></div></li></ul></div><div class="lnb-api hidden"><h3>Classes</h3><ul><li><a href="AnalogGPIO.html">AnalogGPIO</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="AnalogGPIO_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="AnalogGPIO.html#protocol">protocol</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="AnalogGPIO.html#getData">getData</a></li></ul></div></li><li><a href="BaseEncoderMotor.html">BaseEncoderMotor</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="BaseEncoderMotor_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="BaseEncoderMotor.html#protocol">protocol</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="BaseEncoderMotor.html#offsetAngle">offsetAngle</a></li><li><a href="BaseEncoderMotor.html#reverse">reverse</a></li><li><a href="BaseEncoderMotor.html#run">run</a></li><li><a href="BaseEncoderMotor.html#speed">speed</a></li><li><a href="BaseEncoderMotor.html#stop">stop</a></li></ul></div></li><li><a href="BaseGyro.html">BaseGyro</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="BaseGyro_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="BaseGyro.html#protocol">protocol</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="BaseGyro.html#axis">axis</a></li><li><a href="BaseGyro.html#getData">getData</a></li></ul></div></li><li><a href="BaseLedMatrix.html">BaseLedMatrix</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="BaseLedMatrix_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="BaseLedMatrix.html#protocol">protocol</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="BaseLedMatrix.html#clear">clear</a></li><li><a href="BaseLedMatrix.html#run">run</a></li></ul></div></li><li><a href="BaseLight.html">BaseLight</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="BaseLight_sub"><div class="member-type">Methods</div><ul class="inner"><li><a href="BaseLight.html#getData">getData</a></li></ul></div></li><li><a href="BaseMotor.html">BaseMotor</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="BaseMotor_sub"><div class="member-type">Methods</div><ul class="inner"><li><a href="BaseMotor.html#run">run</a></li><li><a href="BaseMotor.html#speed">speed</a></li><li><a href="BaseMotor.html#stop">stop</a></li></ul></div></li><li><a href="BaseRgbLed.html">BaseRgbLed</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="BaseRgbLed_sub"><div class="member-type">Methods</div><ul class="inner"><li><a href="BaseRgbLed.html#b">b</a></li><li><a href="BaseRgbLed.html#blue">blue</a></li><li><a href="BaseRgbLed.html#g">g</a></li><li><a href="BaseRgbLed.html#green">green</a></li><li><a href="BaseRgbLed.html#position">position</a></li><li><a href="BaseRgbLed.html#r">r</a></li><li><a href="BaseRgbLed.html#red">red</a></li><li><a href="BaseRgbLed.html#rgb">rgb</a></li><li><a href="BaseRgbLed.html#run">run</a></li><li><a href="BaseRgbLed.html#turnOff">turnOff</a></li><li><a href="BaseRgbLed.html#turnOffAll">turnOffAll</a></li><li><a href="BaseRgbLed.html#turnOn">turnOn</a></li><li><a href="BaseRgbLed.html#turnOnAll">turnOnAll</a></li><li><a href="BaseRgbLed.html#white">white</a></li></ul></div></li><li><a href="BaseSound.html">BaseSound</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="BaseSound_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="BaseSound.html#protocol">protocol</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="BaseSound.html#getData">getData</a></li></ul></div></li><li><a href="Buzzer.html">Buzzer</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="Buzzer_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="Buzzer.html#protocol">protocol</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="Buzzer.html#beat">beat</a></li><li><a href="Buzzer.html#hz">hz</a></li><li><a href="Buzzer.html#run">run</a></li><li><a href="Buzzer.html#tone">tone</a></li></ul></div></li><li><a href="Compass.html">Compass</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="Compass_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="Compass.html#protocol">protocol</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="Compass.html#getData">getData</a></li></ul></div></li><li><a href="DcMotor.html">DcMotor</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="DcMotor_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="DcMotor.html#protocol">protocol</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="DcMotor.html#reverse">reverse</a></li><li><a href="DcMotor.html#run">run</a></li><li><a href="DcMotor.html#speed">speed</a></li><li><a href="DcMotor.html#stop">stop</a></li></ul></div></li><li><a href="DigGPIO.html">DigGPIO</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="DigGPIO_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="DigGPIO.html#protocol">protocol</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="DigGPIO.html#getData">getData</a></li></ul></div></li><li><a href="DoubleGPIO.html">DoubleGPIO</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="DoubleGPIO_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="DoubleGPIO.html#protocol">protocol</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="DoubleGPIO.html#getData">getData</a></li></ul></div></li><li><a href="EncoderMotor.html">EncoderMotor</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="EncoderMotor_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="EncoderMotor.html#protocol">protocol</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="EncoderMotor.html#offsetAngle">offsetAngle</a></li><li><a href="EncoderMotor.html#reverse">reverse</a></li><li><a href="EncoderMotor.html#run">run</a></li><li><a href="EncoderMotor.html#speed">speed</a></li><li><a href="EncoderMotor.html#stop">stop</a></li></ul></div></li><li><a href="EncoderMotorOnBoard.html">EncoderMotorOnBoard</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="EncoderMotorOnBoard_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="EncoderMotorOnBoard.html#protocol">protocol</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="EncoderMotorOnBoard.html#offsetAngle">offsetAngle</a></li><li><a href="EncoderMotorOnBoard.html#readAngle">readAngle</a></li><li><a href="EncoderMotorOnBoard.html#readSpeed">readSpeed</a></li><li><a href="EncoderMotorOnBoard.html#reverse">reverse</a></li><li><a href="EncoderMotorOnBoard.html#run">run</a></li><li><a href="EncoderMotorOnBoard.html#speed">speed</a></li><li><a href="EncoderMotorOnBoard.html#stop">stop</a></li></ul></div></li><li><a href="EncoderMotorOnBoardPID.html">EncoderMotorOnBoardPID</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="EncoderMotorOnBoardPID_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="EncoderMotorOnBoardPID.html#protocol">protocol</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="EncoderMotorOnBoardPID.html#setZeroPoint">setZeroPoint</a></li></ul></div></li><li><a href="Flame.html">Flame</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="Flame_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="Flame.html#protocol">protocol</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="Flame.html#getData">getData</a></li></ul></div></li><li><a href="FourKeys.html">FourKeys</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="FourKeys_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="FourKeys.html#protocol">protocol</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="FourKeys.html#getData">getData</a></li><li><a href="FourKeys.html#key">key</a></li></ul></div></li><li><a href="FourLeds.html">FourLeds</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="FourLeds_sub"><div class="member-type">Methods</div><ul class="inner"><li><a href="FourLeds.html#b">b</a></li><li><a href="FourLeds.html#blue">blue</a></li><li><a href="FourLeds.html#g">g</a></li><li><a href="FourLeds.html#green">green</a></li><li><a href="FourLeds.html#position">position</a></li><li><a href="FourLeds.html#r">r</a></li><li><a href="FourLeds.html#red">red</a></li><li><a href="FourLeds.html#rgb">rgb</a></li><li><a href="FourLeds.html#run">run</a></li><li><a href="FourLeds.html#turnOff">turnOff</a></li><li><a href="FourLeds.html#turnOffAll">turnOffAll</a></li><li><a href="FourLeds.html#turnOn">turnOn</a></li><li><a href="FourLeds.html#turnOnAll">turnOnAll</a></li><li><a href="FourLeds.html#white">white</a></li></ul></div></li><li><a href="Gas.html">Gas</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="Gas_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="Gas.html#protocol">protocol</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="Gas.html#getData">getData</a></li></ul></div></li><li><a href="GPIOContinue.html">GPIOContinue</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="GPIOContinue_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="GPIOContinue.html#protocol">protocol</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="GPIOContinue.html#getData">getData</a></li></ul></div></li><li><a href="Gyro.html">Gyro</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="Gyro_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="Gyro.html#protocol">protocol</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="Gyro.html#axis">axis</a></li><li><a href="Gyro.html#getData">getData</a></li></ul></div></li><li><a href="GyroOnBoard.html">GyroOnBoard</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="GyroOnBoard_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="GyroOnBoard.html#protocol">protocol</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="GyroOnBoard.html#axis">axis</a></li><li><a href="GyroOnBoard.html#getData">getData</a></li></ul></div></li><li><a href="Humiture.html">Humiture</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="Humiture_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="Humiture.html#protocol">protocol</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="Humiture.html#getData">getData</a></li><li><a href="Humiture.html#readHumidity">readHumidity</a></li><li><a href="Humiture.html#readTemperature">readTemperature</a></li></ul></div></li><li><a href="Infrared.html">Infrared</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="Infrared_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="Infrared.html#protocol">protocol</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="Infrared.html#getData">getData</a></li></ul></div></li><li><a href="InfraredOnBoard.html">InfraredOnBoard</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="InfraredOnBoard_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="InfraredOnBoard.html#protocol">protocol</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="InfraredOnBoard.html#getData">getData</a></li></ul></div></li><li><a href="Joystick.html">Joystick</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="Joystick_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="Joystick.html#protocol">protocol</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="Joystick.html#getData">getData</a></li></ul></div></li><li><a href="LedMatrix.html">LedMatrix</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="LedMatrix_sub"></div></li><li><a href="LedMatrixChar.html">LedMatrixChar</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="LedMatrixChar_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="LedMatrixChar.html#protocol">protocol</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="LedMatrixChar.html#char">char</a></li><li><a href="LedMatrixChar.html#clear">clear</a></li><li><a href="LedMatrixChar.html#content">content</a></li><li><a href="LedMatrixChar.html#run">run</a></li><li><a href="LedMatrixChar.html#x">x</a></li><li><a href="LedMatrixChar.html#y">y</a></li></ul></div></li><li><a href="LedMatrixEmotion.html">LedMatrixEmotion</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="LedMatrixEmotion_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="LedMatrixEmotion.html#protocol">protocol</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="LedMatrixEmotion.html#clear">clear</a></li><li><a href="LedMatrixEmotion.html#content">content</a></li><li><a href="LedMatrixEmotion.html#emotion">emotion</a></li><li><a href="LedMatrixEmotion.html#run">run</a></li><li><a href="LedMatrixEmotion.html#x">x</a></li><li><a href="LedMatrixEmotion.html#y">y</a></li></ul></div></li><li><a href="LedMatrixNumber.html">LedMatrixNumber</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="LedMatrixNumber_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="LedMatrixNumber.html#protocol">protocol</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="LedMatrixNumber.html#clear">clear</a></li><li><a href="LedMatrixNumber.html#content">content</a></li><li><a href="LedMatrixNumber.html#number">number</a></li><li><a href="LedMatrixNumber.html#run">run</a></li></ul></div></li><li><a href="LedMatrixTime.html">LedMatrixTime</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="LedMatrixTime_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="LedMatrixTime.html#protocol">protocol</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="LedMatrixTime.html#clear">clear</a></li><li><a href="LedMatrixTime.html#content">content</a></li><li><a href="LedMatrixTime.html#hour">hour</a></li><li><a href="LedMatrixTime.html#minute">minute</a></li><li><a href="LedMatrixTime.html#run">run</a></li><li><a href="LedMatrixTime.html#separator">separator</a></li></ul></div></li><li><a href="Light.html">Light</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="Light_sub"><div class="member-type">Methods</div><ul class="inner"><li><a href="Light.html#getData">getData</a></li></ul></div></li><li><a href="LightOnBoard.html">LightOnBoard</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="LightOnBoard_sub"><div class="member-type">Methods</div><ul class="inner"><li><a href="LightOnBoard.html#getData">getData</a></li></ul></div></li><li><a href="LimitSwitch.html">LimitSwitch</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="LimitSwitch_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="LimitSwitch.html#protocol">protocol</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="LimitSwitch.html#getData">getData</a></li></ul></div></li><li><a href="LineFollower.html">LineFollower</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="LineFollower_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="LineFollower.html#protocol">protocol</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="LineFollower.html#getData">getData</a></li></ul></div></li><li><a href="Pirmotion.html">Pirmotion</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="Pirmotion_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="Pirmotion.html#protocol">protocol</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="Pirmotion.html#getData">getData</a></li></ul></div></li><li><a href="Potentionmeter.html">Potentionmeter</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="Potentionmeter_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="Potentionmeter.html#protocol">protocol</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="Potentionmeter.html#getData">getData</a></li></ul></div></li><li><a href="Reset.html">Reset</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="Reset_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="Reset.html#protocol">protocol</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="Reset.html#reset">reset</a></li></ul></div></li><li><a href="RgbLed.html">RgbLed</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="RgbLed_sub"><div class="member-type">Methods</div><ul class="inner"><li><a href="RgbLed.html#b">b</a></li><li><a href="RgbLed.html#blue">blue</a></li><li><a href="RgbLed.html#g">g</a></li><li><a href="RgbLed.html#green">green</a></li><li><a href="RgbLed.html#position">position</a></li><li><a href="RgbLed.html#r">r</a></li><li><a href="RgbLed.html#red">red</a></li><li><a href="RgbLed.html#rgb">rgb</a></li><li><a href="RgbLed.html#run">run</a></li><li><a href="RgbLed.html#turnOff">turnOff</a></li><li><a href="RgbLed.html#turnOffAll">turnOffAll</a></li><li><a href="RgbLed.html#turnOn">turnOn</a></li><li><a href="RgbLed.html#turnOnAll">turnOnAll</a></li><li><a href="RgbLed.html#white">white</a></li></ul></div></li><li><a href="RgbLedOnBoard.html">RgbLedOnBoard</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="RgbLedOnBoard_sub"><div class="member-type">Methods</div><ul class="inner"><li><a href="RgbLedOnBoard.html#b">b</a></li><li><a href="RgbLedOnBoard.html#blue">blue</a></li><li><a href="RgbLedOnBoard.html#g">g</a></li><li><a href="RgbLedOnBoard.html#green">green</a></li><li><a href="RgbLedOnBoard.html#position">position</a></li><li><a href="RgbLedOnBoard.html#r">r</a></li><li><a href="RgbLedOnBoard.html#red">red</a></li><li><a href="RgbLedOnBoard.html#rgb">rgb</a></li><li><a href="RgbLedOnBoard.html#run">run</a></li><li><a href="RgbLedOnBoard.html#turnOff">turnOff</a></li><li><a href="RgbLedOnBoard.html#turnOffAll">turnOffAll</a></li><li><a href="RgbLedOnBoard.html#turnOn">turnOn</a></li><li><a href="RgbLedOnBoard.html#turnOnAll">turnOnAll</a></li><li><a href="RgbLedOnBoard.html#white">white</a></li></ul></div></li><li><a href="Runtime.html">Runtime</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="Runtime_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="Runtime.html#protocol">protocol</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="Runtime.html#getData">getData</a></li></ul></div></li><li><a href="ServoMotor.html">ServoMotor</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="ServoMotor_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="ServoMotor.html#protocol">protocol</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="ServoMotor.html#angle">angle</a></li><li><a href="ServoMotor.html#run">run</a></li><li><a href="ServoMotor.html#toEnd">toEnd</a></li><li><a href="ServoMotor.html#toStart">toStart</a></li></ul></div></li><li><a href="SevenSegment.html">SevenSegment</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="SevenSegment_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="SevenSegment.html#protocol">protocol</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="SevenSegment.html#number">number</a></li><li><a href="SevenSegment.html#run">run</a></li></ul></div></li><li><a href="Shutter.html">Shutter</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="Shutter_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="Shutter.html#protocol">protocol</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="Shutter.html#action">action</a></li><li><a href="Shutter.html#run">run</a></li></ul></div></li><li><a href="SmartServo.html">SmartServo</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="SmartServo_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="SmartServo.html#protocol">protocol</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="SmartServo.html#absoluteAngle">absoluteAngle</a></li><li><a href="SmartServo.html#backToStart">backToStart</a></li><li><a href="SmartServo.html#getData">getData</a></li><li><a href="SmartServo.html#handshake">handshake</a></li><li><a href="SmartServo.html#ledColor">ledColor</a></li><li><a href="SmartServo.html#lock">lock</a></li><li><a href="SmartServo.html#readAngle">readAngle</a></li><li><a href="SmartServo.html#readCurrent">readCurrent</a></li><li><a href="SmartServo.html#readSpeed">readSpeed</a></li><li><a href="SmartServo.html#readTemperature">readTemperature</a></li><li><a href="SmartServo.html#readVoltage">readVoltage</a></li><li><a href="SmartServo.html#relativeAngle">relativeAngle</a></li><li><a href="SmartServo.html#run">run</a></li><li><a href="SmartServo.html#runAsDcMotor">runAsDcMotor</a></li><li><a href="SmartServo.html#setZeroPoint">setZeroPoint</a></li><li><a href="SmartServo.html#speed">speed</a></li><li><a href="SmartServo.html#unclock">unclock</a></li></ul></div></li><li><a href="Sound.html">Sound</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="Sound_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="Sound.html#protocol">protocol</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="Sound.html#getData">getData</a></li></ul></div></li><li><a href="SoundOnBoard.html">SoundOnBoard</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="SoundOnBoard_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="SoundOnBoard.html#protocol">protocol</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="SoundOnBoard.html#getData">getData</a></li></ul></div></li><li><a href="StepperMotor.html">StepperMotor</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="StepperMotor_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="StepperMotor.html#protocol">protocol</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="StepperMotor.html#direction">direction</a></li><li><a href="StepperMotor.html#distance">distance</a></li><li><a href="StepperMotor.html#reverse">reverse</a></li><li><a href="StepperMotor.html#run">run</a></li><li><a href="StepperMotor.html#speed">speed</a></li><li><a href="StepperMotor.html#stop">stop</a></li></ul></div></li><li><a href="Temperature.html">Temperature</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="Temperature_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="Temperature.html#protocol">protocol</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="Temperature.html#getData">getData</a></li></ul></div></li><li><a href="TemperatureOnBoard.html">TemperatureOnBoard</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="TemperatureOnBoard_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="TemperatureOnBoard.html#protocol">protocol</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="TemperatureOnBoard.html#getData">getData</a></li></ul></div></li><li><a href="Touch.html">Touch</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="Touch_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="Touch.html#protocol">protocol</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="Touch.html#getData">getData</a></li></ul></div></li><li><a href="Transport.html">Transport</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="Transport_sub"></div></li><li><a href="Ultrasonic.html">Ultrasonic</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="Ultrasonic_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="Ultrasonic.html#protocol">protocol</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="Ultrasonic.html#getData">getData</a></li></ul></div></li><li><a href="VirtualJoystick.html">VirtualJoystick</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="VirtualJoystick_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="VirtualJoystick.html#protocol">protocol</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="VirtualJoystick.html#leftSpeed">leftSpeed</a></li><li><a href="VirtualJoystick.html#rightSpeed">rightSpeed</a></li><li><a href="VirtualJoystick.html#run">run</a></li><li><a href="VirtualJoystick.html#speed">speed</a></li><li><a href="VirtualJoystick.html#stop">stop</a></li></ul></div></li><li><a href="VirtualJoystickForBalance.html">VirtualJoystickForBalance</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="VirtualJoystickForBalance_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="VirtualJoystickForBalance.html#protocol">protocol</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="VirtualJoystickForBalance.html#reverse">reverse</a></li><li><a href="VirtualJoystickForBalance.html#run">run</a></li><li><a href="VirtualJoystickForBalance.html#speed">speed</a></li><li><a href="VirtualJoystickForBalance.html#stop">stop</a></li><li><a href="VirtualJoystickForBalance.html#turnRange">turnRange</a></li></ul></div></li></ul></div><div class="lnb-api hidden"><h3>Namespaces</h3><ul><li><a href="Sensorium.html">Sensorium</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="Sensorium_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="Sensorium.html#SUPPORT">SUPPORT</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="Sensorium.html#create">create</a></li><li><a href="Sensorium.html#doReceived">doReceived</a></li><li><a href="Sensorium.html#read">read</a></li><li><a href="Sensorium.html#readFirmwareInfo">readFirmwareInfo</a></li><li><a href="Sensorium.html#send">send</a></li><li><a href="Sensorium.html#setSender">setSender</a></li></ul></div></li></ul></div>
+</nav>
+<div id="resizer"></div>
+
+<div class="main" id="main">
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @fileOverview  protocol API list
+ */
+import {
+  limitValue,
+  float32ToBytes,
+  longToBytes
+} from "../core/utils";
+/**
+ * buf 协议组装器
+ * @private
+ * @param  {Object} obj  对象
+ * @param  {Number} obj.index  由上位机赋值
+ * @param  {Number} obj.mode  查询、执行
+ * @param  {Number} obj.id  指令ID
+ * @param  {Arguments} args 其他参数
+ * @return {Array}      返回数组
+ */
+function bufAssembler(obj, ...args) {
+  const modes = [0x01, 0x02, 0x04];
+  const bufHead = [0xff, 0x55];
+  let bufLength = 0;
+  let bufAttr;
+  //todo：完善抛错提示
+  if (obj.mode == 0x04) {
+    bufAttr = Array.of(obj.index || 0, obj.mode);
+  } else {
+    if (!modes.includes(obj.mode)) {
+      throw new Error(`mode should be one of ${modes}`);
+    } else if (typeof obj.id === 'undefined') {
+      throw new Error(`id should not be empty`);
+    }
+    bufAttr = Array.of(obj.index || 0, obj.mode, obj.id);
+  }
+  bufLength = bufAttr.length + args.length;
+  return bufHead.concat([bufLength], bufAttr, args);
+}
+
+/**
+ * @private
+ */
+function protocolAssembler() {
+  /**
+   * Set dc motor speed.
+   * @private
+   * @param {number} port  port number, vailable is: 1,2,3,4
+   * @param {number} speed speed, the range is -255 ~ 255
+   * @example
+   *     ff 55 06 00 02 0a 01 ff 00
+   */
+  this.setDcMotor = function(port, speed) {
+    speed = limitValue(speed);
+    return bufAssembler({
+      mode: 0x02,
+      id: 0x0a
+    }, port, speed &amp; 0xff, (speed >> 8) &amp; 0xff);
+  };
+
+  /**
+   * Set encoder motor speed.
+   * @private
+   * @param {number} slot  slot number, vailable is: 1,2
+   * @param {number} speed speed, the range is -255 ~ 255
+   * @example
+   *     ff 55 07 00 02 3d 00 01 64 00
+   */
+  this.setEncoderMotorOnBoard = function(slot, speed) {
+    speed = limitValue(speed);
+    let port = 0x00; //板载
+    return bufAssembler({
+      mode: 0x02,
+      id: 0x3d
+    }, port, slot, speed &amp; 0xff, (speed >> 8) &amp; 0xff);
+  };
+
+  /**
+   * set encoder motor.
+   * @private
+   * @param  {Number} index [description]
+   * @param  {Number} slot  vailable: 1，2
+   * @param  {Number} speed  0 ~ 300, 单位：rpm（每分钟转多少圈）
+   * @param  {Float} angle  相对位移, -2147483648 ~ 2147483647
+   * @example
+   * ff 55 0b 00 02 0c 08 01 96 00 00 00 34 44
+   */
+  this.setEncoderMotor = function(slot, speed, angle) {
+    // 编码电机的协议中不使用 port
+    let i2c = 0x08; //I2C地址，目前无意义(软件稳定后可能会重新设计)，用来占位
+    speed = limitValue(speed, [0, 300]);
+    let byte4Array = float32ToBytes(angle);
+    return bufAssembler({
+        mode: 0x02,
+        id: 0x0c
+      },
+      i2c,
+      slot,
+      speed &amp; 0xff,
+      (speed >> 8) &amp; 0xff,
+      ...byte4Array);
+  }
+
+  /**
+   * Set both left speed and right speed with one command.
+   * @private
+   * @param {number} leftSpeed  left speed, the range is -255 ~ 255
+   * @param {number} rightSpeed right speed, the range is -255 ~ 255
+   * @example
+   *     ff 55 07 00 02 05 64 00 64 00
+   */
+  this.setJoystick = function(leftSpeed, rightSpeed) {
+    leftSpeed = limitValue(leftSpeed);
+    rightSpeed = limitValue(rightSpeed);
+    return bufAssembler({
+        mode: 0x02,
+        id: 0x05
+      },
+      leftSpeed &amp; 0xff,
+      (leftSpeed >> 8) &amp; 0xff,
+      rightSpeed &amp; 0xff,
+      (rightSpeed >> 8) &amp; 0xff);
+  };
+
+  /**
+   * Set speed for balance mode, the port is on transport, value is 0.
+   * @private
+   * @param {number} turnRange turn extend, -255 ~ 255
+   * @param {number} speed      speed, -255 ~ 255
+   * @example
+   *     ff 55 08 00 02 34 00 64 00 64 00
+   */
+  this.setVirtualJoystickForBalance = function(turnRange, speed) {
+    let turnExtent = limitValue(turnRange);
+    let port = 0x00; //板载虚拟摇杆 port = 00
+    speed = limitValue(speed);
+    return bufAssembler({
+        mode: 0x02,
+        id: 0x34
+      },
+      port,
+      turnExtent &amp; 0xff,
+      (turnExtent >> 8) &amp; 0xff,
+      speed &amp; 0xff,
+      (speed >> 8) &amp; 0xff);
+  };
+
+  /**
+   * Set stepper motor speed.
+   * @private
+   * @param {Number} port     port number, vailable is: 1,2,3,4
+   * @param {Number} speed    speed, the range is 0 ~ 3000
+   * @param {Long} distance distance, the range is -2147483648 ~ 2147483647
+   * @example
+   *     ff 55 0a 00 02 28 01 b8 0b e8 03 00 00
+   */
+  this.setStepperMotor = function(port, speed, distance) {
+    speed = limitValue(speed, [0, 3000]);
+    var distanceBytes = longToBytes(distance);
+    return bufAssembler({
+        mode: 0x02,
+        id: 0x28
+      }, port,
+      speed &amp; 0xff,
+      (speed >> 8) &amp; 0xff,
+      distanceBytes[3],
+      distanceBytes[2],
+      distanceBytes[1],
+      distanceBytes[0]);
+  };
+
+  /**
+   * Set RgbFourLed electronic module color.
+   * @private
+   * @param {number} port     port number, vailable is: 0(on transport), 6,7,8,9,10
+   * @param {number} slot     slot number, vailable is: 1,2
+   * @param {number} position led position, 0 signify all leds.
+   * @param {number} r        red, the range is 0 ~ 255
+   * @param {number} g        green, the range is 0 ~ 255
+   * @param {number} b        blue, the range is 0 ~ 255
+   * @example
+   *     ff 55 09 00 02 08 06 02 00 ff 00 00
+   */
+  this.setLed = function(port, slot, position, r, g, b) {
+    r = limitValue(r, [0, 255]);
+    g = limitValue(g, [0, 255]);
+    b = limitValue(b, [0, 255]);
+    position = limitValue(position, [0]);
+    return bufAssembler({
+      mode: 0x02,
+      id: 0x08
+    }, port, slot, position, r, g, b);
+  };
+
+  /**
+   * Set Firmware mode.
+   * @private
+   * @param {number} subCmd
+   * @param {number} mode
+   * @example
+   *     ff 55 05 00 02 3c 11 00
+   */
+  this.setFirmwareMode = function(subCmd, mode) {
+    var sub = subCmd || 0x11; //Auriga是 0x11, megapi是 0x12
+    return bufAssembler({
+      mode: 0x02,
+      id: 0x3c
+    }, sub, mode);
+  };
+
+  /**
+   * Set Servo speed.
+   * @private
+   * @param {[type]} port   port number, vailable is 6,7,8,9,10
+   * @param {[type]} slot   slot number, vailable is 1,2
+   * @param {[type]} degree servo degree, the range is 0 ~ 180
+   */
+  this.setServoMotor = function(port, slot, degree) {
+    degree = limitValue(degree, [0, 180]);
+    return bufAssembler({
+      mode: 0x02,
+      id: 0x0b
+    }, port, slot, degree);
+  };
+
+  /**
+   * Set Seven-segment digital tube number.
+   * @private
+   * @param {number} port   port number, vailable is 6,7,8,9,10
+   * @param {float} number  the number to be displayed, -999 ~ 9999
+   * @exmpa
+   *     ff 55 08 00 02 09 06 00 00 c8 42
+   */
+  this.setSevenSegment = function(port, number) {
+    number = limitValue(number, [-999, 9999]);
+    var byte4Array = float32ToBytes(number);
+    return bufAssembler({
+      mode: 0x02,
+      id: 0x09
+    }, port, ...byte4Array);
+  };
+
+  /**
+   * Set led matrix char.
+   * @param {number} port   port number, vailable is 6,7,8,9,10
+   * @param {number} xAxis  x position
+   * @param {number} yAxis  y position
+   * @param {string} char  char, 例如 Hi 转换成ASCII的值 48 69
+   * @exmaple
+   * ff 55 0a 00 02 29 06 01 00 01 02 48 69
+   */
+
+  /**
+   * Set led matrix emotion.
+   * @param {number} port   port number, vailable is 6,7,8,9,10
+   * @param {number} xAxis      x position
+   * @param {number} yAxis      y position
+   * @param {Array} emotionData emotion data to be displayed, such as
+   *  [00, 00, 40, 48, 44, 42, 02, 02, 02, 02, 42, 44, 48, 40, 00, 00]
+   * @example
+   * ff 55 17 00 02 29 06 02 00 00 00 00 40 48 44 42 02 02 02 02 42 44 48 40 00 00
+   */
+
+  /**
+   * Set led matrix time.
+   * @param {number} port   port number, vailable is 6,7,8,9,10
+   * @param {number} separator time separator, 01 signify `:`, 02 signify ` `
+   * @param {number} hour      hour number, 0 ~ 23
+   * @param {number} minute    minute number, 0 ~ 59
+   * @example
+   *     ff 55 08 00 02 29 06 03 01 0a 14
+   */
+
+  /**
+   * Set led matrix number.
+   * @private
+   * @param {number} port   port number, vailable is 6,7,8,9,10
+   * @param {float} number the number to be displayed
+   * @exmaple
+      ff 55 09 00 02 29 06 04 00 00 00 00
+   */
+  this.setLedMatrix = function(...args) {
+    args[2] = args[2] &amp; 0xff;
+    args[3] = args[3] &amp; 0xff;
+    return bufAssembler({
+      mode: 0x02,
+      id: 0x29
+    }, ...args);
+  };
+
+  /**
+   * Set shutter.
+   * @private
+   * @param {number} port   port number, vailable is 6,7,8,9,10
+   * @param {number} action 0: 按下快门; 1: 松开快门; 2: 聚焦; 3: 停止聚焦
+   * @exmaple
+      ff 55 05 00 02 14 06 02
+   */
+  this.setShutter = function(port, action) {
+    return bufAssembler({
+      mode: 0x02,
+      id: 0x14
+    }, port, action);
+  };
+
+  /**
+   * reset all sensors and motors on transport.
+   * @private
+   * @exmaple
+      ff 55 02 00 04
+   */
+  this.reset = function() {
+    return bufAssembler({
+      mode: 0x04
+    });
+  };
+
+  /**
+   * set buzzer only for mcore.
+   * @private
+   * @param {string} hz , "A2" ~ "D8" 对应的 hz
+   * @param {number} beat , 125: eight; 250: quater; 500: half; 1000: one; 2000: double
+   * @example
+   * C2，quater beat: ff 55 08 00 02 22 09 41 00 f4 01
+   */
+  this.setBuzzerForMcore = function(hz, beat) {
+    return bufAssembler({
+        mode: 0x02,
+        id: 0x22
+      },
+      (hz &amp; 0xff),
+      (hz >> 8) &amp; 0xff,
+      (beat &amp; 0xff),
+      (beat >> 8) &amp; 0xff);
+  };
+
+  /**
+   * set buzzer for mainboard except mcore
+   * @private
+   * @example
+   * 播放引脚为 0x2d，音调为B2，节拍为四分之一：ff 55 08 00 02 22 2d 7b 00 fa 00
+   */
+  this.setBuzzer = function(hz, beat) {
+    beat = beat ? beat : 250;
+    return bufAssembler({
+        mode: 0x02,
+        id: 0x22
+      },
+      0x2d,
+      (hz &amp; 0xff),
+      (hz >> 8) &amp; 0xff,
+      (beat &amp; 0xff),
+      (beat >> 8) &amp; 0xff);
+  };
+
+  /**
+   * read verion of transport
+   * @private
+   */
+  this.readVersion = function() {
+    return bufAssembler({
+      mode: 0x01,
+      id: 0x00
+    });
+  };
+
+  /**
+   * mainly used for distance measurement, the measurement range is 0 to 500 cm,
+   * the execution of the command will have more than 100 milliseconds latency.
+   * So the frequency of the host to send this instruction shoulds not be too high.
+   * @private
+   * @param  {Number} port  vailable: 6，7，8，9，10
+   * @return {Number}       [description]
+   * @example
+   * ff 55 04 00 01 01 03
+   */
+  this.readUltrasonic = function(port) {
+    return bufAssembler({
+      mode: 0x01,
+      id: 0x01
+    }, port);
+  };
+
+  /**
+   * read temperature, Each port can connect two road temperature sensor.
+   * @private
+   * @param  {Number} port  vailable: 6，7，8，9，10
+   * @param  {Number} slot  vailable: slot1(1), slot2(2)
+   * @example
+   * ff 55 05 00 01 02 01 02
+   */
+  this.readTemperature = function(port, slot) {
+    return bufAssembler({
+      mode: 0x01,
+      id: 0x02
+    }, port, slot);
+  };
+
+  /**
+   * The light sensor module or ontransport (lamp) light sensors numerical reading.
+   * @private
+   * @param  {Number} port  vailable: 6,7,8,9,10, onbord(0c),onbord(0b)
+   * @return {Number}       [description]
+   * @example
+   * ff 55 04 00 01 03 07
+   */
+  this.readLight = function(port) {
+    return bufAssembler({
+      mode: 0x01,
+      id: 0x03
+    }, port);
+  };
+
+  /**
+   * read Potentionmeter
+   * @private
+   * @param  {Number} port  vailable: 6，7，8，9，10
+   * @return {Number}       [description]
+   * @example
+   * ff 55 04 00 01 04 06
+   */
+  this.readPotentionmeter = function(port) {
+    return bufAssembler({
+      mode: 0x01,
+      id: 0x04
+    }, port);
+  };
+
+  /**
+   * read josystic value
+   * @private
+   * @param  {Number} port  vailable: 6，7，8，9，10
+   * @param  {Number} axis  1: x-axis; 2: y-axis;
+   * @example
+   * ff 55 05 00 01 05 06 01
+   */
+  this.readJoystick = function(port, axis) {
+    return bufAssembler({
+      mode: 0x01,
+      id: 0x05
+    }, port, axis);
+  };
+
+  /**
+   * read gyro value in different axis.
+   * @private
+   * @param  {Number} port  vailable: 6，7，8，9，10
+   * @param  {Number} axis  vailable: X-axis(01)  Y-axis(02)  Z-axis(03)
+   * @return {Number}       [description]
+   * @example
+   * ff 55 05 00 01 06 00 01
+   */
+  this.readGyro = function(port, axis) {
+    return bufAssembler({
+      mode: 0x01,
+      id: 0x06
+    }, port, axis);
+  };
+
+  /**
+   * read volume testing MIC module parameters
+   * @private
+   * @param  {Number} port  vailable: 6，7，8，9，10，ontransport(0x0e)
+   * @return {Number}       [description]
+   * @example
+   * ff 55 04 00 01 07 06
+   */
+  this.readSound = function(port) {
+    return bufAssembler({
+      mode: 0x01,
+      id: 0x07
+    }, port);
+  };
+
+  /**
+   * read temperature on transport
+   * @private
+   * @example
+   * ff 55 04 00 01 1b 0d
+   */
+  this.readTemperatureOnBoard = function() {
+    var port = 0x0d;
+    return bufAssembler({
+      mode: 0x01,
+      id: 0x1b
+    }, port);
+  };
+
+  /**
+   * read external or board infrared sensor, and the board one is only for mcore
+   * @private
+   * @param  {Number} id    sensor device id，such as: 0x0e, 0x0d, 0x10
+   * @param  {Number} port  mcore port: 3, 4, auriga port: 6,7,8,9,10
+   * @return {Number}       [description]
+   * @example
+   * ff 55 05 00 01 0e 00
+   */
+  this.readInfrared = function(id, port, akey) {
+    if (akey) {
+      return bufAssembler({
+        mode: 0x01,
+        id: id
+      }, port, akey);
+    } else {
+      return bufAssembler({
+        mode: 0x01,
+        id: id
+      }, port);
+    }
+  };
+
+  /**
+   * read pyroelectric infrared sensor
+   * @private
+   * @param  {Number} port  vailable: 6,7,8,9,10
+   * @return {Number}       [description]
+   * @example
+   * ff 55 04 00 01 0f 06
+   */
+  this.readPirmotion = function(port) {
+    return bufAssembler({
+      mode: 0x01,
+      id: 0x0f
+    }, port);
+  };
+
+  /**
+   * read LineFollower sensor
+   * @private
+   * @param  {Number} port  vailable: 6，7，8，9，10
+   * @return {Number} number,
+   *  00   0
+      01   1
+      10   2
+      11   3
+      when 0 said has a black line
+    * @example
+    * ff 55 04 00 01 11 02
+   */
+  this.readLineFollower = function(port) {
+    return bufAssembler({
+      mode: 0x01,
+      id: 0x11
+    }, port);
+  };
+
+  /**
+   * read limitSwitch
+   * @private
+   * @param  {Number} port  vailable: 6,7,8,9,10
+   * @param  {Number} slot  vailable: SLOT1(01)   SLOT2(02)
+   * @return {Number}       [description]
+   * @example
+   * ff 55 05 00 01 15 06 02
+   */
+  this.readLimitSwitch = function(port, slot) {
+    return bufAssembler({
+      mode: 0x01,
+      id: 0x15
+    }, port, slot);
+  };
+
+  /**
+   * read compass.
+   * @private
+   * @param  {Number} port  vailable: 6,7,8,9,10
+   * @return {Number}       [description]
+   * @example
+   * ff 55 04 00 01 1a 06
+   */
+  this.readCompass = function(port) {
+    return bufAssembler({
+      mode: 0x01,
+      id: 0x1a
+    }, port);
+  };
+
+  /**
+   * read humiture
+   * @private
+   * @param  {Number} port  vailable: 6，7，8，9，10
+   * @param  {Number} temperature(01) humidity (00)
+   * @return {Number}       [description]
+   * @example
+   * ff 55 05 00 01 17 06 00
+   */
+  this.readHumiture = function(port, type) {
+    return bufAssembler({
+      mode: 0x01,
+      id: 0x17
+    }, port, type);
+  };
+
+  /**
+   * read flame
+   * @private
+   * @param  {Number} port  vailable: 6,7,8,9,10
+   * @return {Number}       [description]
+   * @example
+   * ff 55 04 00 01 18 03
+   */
+  this.readFlame = function(port) {
+    return bufAssembler({
+      mode: 0x01,
+      id: 0x18
+    }, port);
+  };
+
+  /**
+   * Used to get the harmful gas density
+   * @private
+   * @param  {Number} port  vailable: 6,7,8,9,10
+   * @return {Number}       [description]
+   * @example
+   * ff 55 04 00 01 19 06
+   */
+  this.readGas = function(port) {
+    return bufAssembler({
+      mode: 0x01,
+      id: 0x19
+    }, port);
+  };
+
+  /**
+   * read touch sensor
+   * @private
+   * @param  {Number} port  vailable: 6,7,8,9,10
+   * @return {Number}       [description]
+   * @example
+   * ff 55 04 00 01 33 06
+   */
+  this.readTouch = function(port) {
+    return bufAssembler({
+      mode: 0x01,
+      id: 0x33
+    }, port);
+  };
+
+  /**
+   * To determine whether the corresponding button is pressed.
+   * @private
+   * @param  {Number} port  vailable: 6,7,8,9,10
+   * @param  {Number} key   vailable:1,2,3,4
+   * @return {Number}       [description]
+   * @example
+   * ff 55 05 00 01 16 03 01
+   */
+  this.readFourKeys = function(port, key) {
+    return bufAssembler({
+      mode: 0x01,
+      id: 0x16
+    }, port, key);
+  };
+
+  /**
+   * read encoder motor position or speed on transport.
+   * @private
+   * @param  {Number} slot vailable:1,2
+   * @param  {Number} type  1: position; 2: speed
+   * @example
+   * ff 55 06 00 01 3d 00 01 02
+   */
+  this.readEncoderMotorOnBoard = function(slot, type) {
+    let port = 0x00; //板载 port
+    return bufAssembler({
+      mode: 0x01,
+      id: 0x3d
+    }, port, slot, type);
+  };
+
+  /**
+   * 板载编码电机 PID 运动 01模式位置模式
+   * @private
+   * @param {Number} distance  位移
+   * @param {Number} speed    速度
+   * @example
+   * buf: ff 55 0b 00 02 3e 01 01 00 00 00 00 00 00
+   */
+  this.setEncoderMotorPIDDistance = function(slot, distance, speed) {
+    let distanceArr = longToBytes(distance);
+    let subCmd = 0x05;
+    // let slot = 0x01;
+    speed = limitValue(speed, [0]);
+    return bufAssembler({
+        mode: 0x02,
+        id: 0x3e
+      },
+      subCmd,
+      slot,
+      distanceArr[3],
+      distanceArr[2],
+      distanceArr[1],
+      distanceArr[0],
+      speed &amp; 0xff, 0);
+  };
+
+  /**
+   * 板载编码电机 PID 运动 02模式速度模式
+   * @private
+   * @param {Number} speed    速度
+   * @example
+   * buf: ff 55 07 00 02 3e 02 01 00 00
+   */
+  this.setEncoderMotorPIDSpeed = function(slot, speed) {
+      let subCmd = 0x02;
+      // let slot = 0x01;
+      speed = limitValue(speed);
+      return bufAssembler({
+        mode: 0x02,
+        id: 0x3e
+      }, subCmd, slot, speed &amp; 0xff, (speed >> 8) &amp; 0xff);
+    },
+    /**
+     * 板载编码电机 PID 运动 03模式 pwm 模式
+     * buf: ff 55 07 00 02 3e 03 01 00 00
+     * @param {Number} speed    速度
+     * @private
+     */
+    this.setEncoderMotorPIDPwm = function(slot, speed) {
+      let subCmd = 0x03;
+      // let slot = 0x01;
+      speed = limitValue(speed);
+      return bufAssembler({
+        mode: 0x02,
+        id: 0x3e
+      }, subCmd, slot, speed &amp; 0xff, (speed >> 8) &amp; 0xff);
+    },
+
+    /**
+     * 板载编码电机PID运动，设置当前位置为零点:
+     * buf: ff 55 05 00 02 3e 04 01
+     * (megaPiPro buf: ff 55 05 00 02 3e 03 01)
+     * @param {Number} subCmd    二级命令
+     * @private
+     */
+    this.setEncoderMotorPIDZeroPoint = function(slot, subCmd) {
+      // let slot = 0x01;
+      return bufAssembler({
+        mode: 0x01,
+        id: 0x3e
+      }, subCmd, slot);
+    }
+
+  /**
+   * 板载编码电机 PID 运动 05模式双电机模式:
+   * buf: ff 55 0b 00 02 3e 05 01 e8 03 00 00 64 00
+   * @private
+   * @param {Number} subCmd      0x05
+   * @param {Number} direction      前进1，后退2，左转3，右转4
+   * @param {Number} distance  位移
+   * @param {Number} speed     速度
+   */
+  this.setEncoderMotorPIDDoubleMotor = function(direction, distance, speed) {
+    let distanceArr = longToBytes(distance);
+    let subCmd = 0x05;
+    speed = limitValue(speed, [0]);
+    return bufAssembler({
+        mode: 0x02,
+        id: 0x3e
+      },
+      subCmd,
+      direction,
+      distanceArr[3],
+      distanceArr[2],
+      distanceArr[1],
+      distanceArr[0],
+      speed &amp; 0xff,
+      0);
+  };
+
+  /**
+   * set smart servo
+   * @private
+   * @param  {Number} index  the index code of current servo
+   * @param  {Number} subCmd  the sub command that the servo run on
+   * @param  {Array} extraCmd  the extra command
+   * @example
+   * lock:    ff 55 07 00 02 40 01 05 01 00
+   * unlock:  ff 55 07 00 02 40 01 05 01 01
+   * LED:     ff 55 09 00 02 40 02 05 01 ff 00 00
+   * handshake:           ff 55 06 00 02 40 03 05 01
+   * runToAbsoluteAngle:  ff 55 0e 00 02 40 04 05 01 68 01 00 00 00 00 48 42
+   * runToRelativeAngle:  ff 55 0e 00 02 40 05 05 01 68 01 00 00 00 00 48 42
+   * runAsDcMotor:        ff 55 08 00 02 40 06 05 01 96 00
+   * setAsZeroPoint:      ff 55 06 00 02 40 07 05 01
+   * backToStart:         ff 55 06 00 02 40 08 05 01
+   */
+  this.setSmartServo = function(index, subCmd, extraCmd) {
+    let port = 0x05; //defualt port
+    return bufAssembler({
+      mode: 0x02,
+      id: 0x40
+    }, subCmd, port, index, ...extraCmd);
+  };
+
+  /**
+   * @private
+   */
+  this.setSmartServoForAbsoluteAngle = function(index, subCmd, angle, speed) {
+    let port = 0x05; //defualt port
+    let angleBytes = longToBytes(angle);
+    let speedBytes = float32ToBytes(speed);
+    return bufAssembler({
+        mode: 0x02,
+        id: 0x40
+      }, subCmd, port, index,
+      ...angleBytes.reverse(),
+      ...speedBytes
+    );
+  };
+
+  /**
+   * @private
+   */
+  this.setSmartServoForRelativeAngle = function(index, subCmd, angle, speed) {
+    let port = 0x05; //defualt port
+    let angleBytes = longToBytes(angle);
+    let speedBytes = float32ToBytes(speed);
+    return bufAssembler({
+        mode: 0x02,
+        id: 0x40
+      }, subCmd, port, index,
+      ...angleBytes.reverse(),
+      ...speedBytes
+    );
+  };
+
+  /**
+   * @private
+   */
+  this.setSmartServoForDcMotor = function(index, subCmd, speed) {
+    let port = 0x05; //defualt port
+    return bufAssembler({
+        mode: 0x02,
+        id: 0x40
+      }, subCmd, port, index,
+      speed &amp; 0xff, (speed >> 8) &amp; 0xff
+    );
+  };
+
+  /**
+   * read smart servo operating parameters
+   * @private
+   * @param  {Number} index  the index code of current servo
+   * @param  {Number} subCmd  the sub command that the servo run on
+   * @example
+   * readSpeed:         ff 55 06 00 01 40 09 05 01
+   * readTemperature:   ff 55 06 00 01 40 0a 05 01
+   * readCurrent:       ff 55 06 00 01 40 0b 05 01
+   * readVoltage:       ff 55 06 00 01 40 0c 05 01
+   * readAngle:         ff 55 06 00 01 40 0d 05 01
+   */
+  this.readSmartServoParam = function(index, subCmd) {
+    let port = 0x05; //defualt port
+    return bufAssembler({
+      mode: 0x01,
+      id: 0x3d
+    }, subCmd, port, index);
+  };
+
+  /**
+   * read firmware mode or voltage.
+   * @private
+   * @param  {Number} type  0x70: 电压; 0x71: 模式
+   * @example
+   * ff 55 04 00 01 3c 70
+   */
+  this.readFirmwareMode = function(subCmd) {
+    //auriga 电压(0x70) 模式(0x71), megapi模式(0x72) 比赛模式(0x75)
+    return bufAssembler({
+      mode: 0x01,
+      id: 0x3c
+    }, subCmd);
+  };
+
+  /**
+   * @private
+   * @param  {Number} port  vailable: digit GPOI port
+   * @return {Number}       [description]
+   * @example
+   * ff 55 04 00 01 1e 09
+   */
+  this.readDigGPIO = function(port) {
+    return bufAssembler({
+      mode: 0x01,
+      id: 0x1e
+    }, port);
+  };
+
+  /**
+   * @private
+   * @param  {Number} port  vailable: analog GPIO port
+   * @return {Number}       [description]
+   * @example
+   * ff 55 04 00 01 1f 02
+   */
+  this.readAnalogGPIO = function(port) {
+    return bufAssembler({
+      mode: 0x01,
+      id: 0x1f
+    }, port);
+  };
+
+  /**
+   * @private
+   * @param  {Number} port  vailable: GPIO port
+   * @param  {Number} key   vailable: 0,1
+   * @return {Number}       [description]
+   * @example
+   * ff 55 05 00 01 25 0d 20 4e
+   */
+  this.readGPIOContinue = function(port, key) {
+    return bufAssembler({
+      mode: 0x01,
+      id: 0x25
+    }, port, key);
+  };
+
+  /**
+   * @private
+   * @param  {Number} port  vailable: GPIO port
+   * @param  {Number} key   vailable: 0,1
+   * @return {Number}       [description]
+   * @example
+   * ff 55 05 00 01 24 45 40
+   */
+  this.readDoubleGPIO = function(port1, port2) {
+    return bufAssembler({
+      mode: 0x01,
+      id: 0x24
+    }, port1, port2);
+  };
+
+  /**
+   * @private
+   * @param  {Number} port  vailable: analog GPIO port
+   * @param  {Number} key   vailable: 0,1
+   * @return {Number}       [description]
+   * @example
+   * ff 55 03 00 01 32
+   */
+  this.readRuntime = function() {
+    return bufAssembler({
+      mode: 0x01,
+      id: 0x32
+    });
+  };
+}
+
+/**
+ * @private
+ */
+export default new protocolAssembler();</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<footer>
+    <!-- <img class="logo" src="../statics/makeblocklogo.png" style="width: 154px; height: 24px">  取消logo-->
+    <div class="footer-text">Makeblock Team</div>
+</footer>
+<script>prettyPrint();</script>
+<script src="scripts/jquery.min.js"></script>
+<script src="scripts/tui-doc.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+    <script>
+        var id = '_sub'.replace(/"/g, '_');
+        var selectedApi = document.getElementById(id); // do not use jquery selector
+        var $selectedApi = $(selectedApi);
+
+        $selectedApi.removeClass('hidden');
+        $selectedApi.parent().find('.glyphicon').removeClass('glyphicon-plus').addClass('glyphicon-minus');
+        showLnbApi();
+    </script>
+
+</body>
+</html>

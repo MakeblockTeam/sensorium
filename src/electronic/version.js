@@ -3,6 +3,7 @@ import {
 } from '../core/utils';
 import protocolAssembler from '../protocol/cmd';
 import Control from '../core/control';
+
 /**
  * @private
  */
@@ -16,6 +17,14 @@ class Version {
    */
   get protocol () {
     return composer(protocolAssembler.readVersion);
+  }
+
+  /**
+   * Get data of Gas sensor
+   * @return {Promise}
+   */
+  async getData() {
+    return await Control.read(this.protocol);
   }
 }
 
