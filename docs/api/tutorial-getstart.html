@@ -24,7 +24,7 @@
 <header class="topbar">
     <ul class="topnav pull-right clearfix">
         <li><a href="../">Introduction</a></li>
-        <!-- <li><a href="../tutorial/">Tutorial</a></li> -->
+        <li><a href="../code/">Code</a></li>
         <li><a href="./">Api</a></li>
     </ul>
 </header>
@@ -72,15 +72,16 @@
 
     
         <article class="readme">
-            <h1>sensorium</h1><p>sensorium is an api library for makeblock mainboards. It includes <code>mcore</code>, <code>orion</code>, <code>auriga</code> and  <code>megapi</code>.<br>You can use it in browser, node enviroment.</p>
-<h1>Install</h1><pre class="prettyprint source"><code>npm install sensorium --save</code></pre><h1>Usage</h1><h2>Browser</h2><p>Includ the source <code>/browser/sensorium.js</code> of <code>sensorium.js</code> in the root directory of project.<br>Actually you also need install <a href="https://www.npmjs.com/package/sensorium-server">sensorium-server</a></p>
-<pre class="prettyprint source"><code>npm install sensorium-server -g</code></pre><p>Then create a HTML page in the root directory, index.html for example, and type in the following code:</p>
+            <h1>Sensorium</h1><p>Sensorium is a library for Makeblock's rj25 mainboards. It includes <code>mCore</code>, <code>Orion</code>, <code>Auriga</code> and  <code>Megapi</code>, <code>MegaPiPro</code>, and <code>Arduino</code> is also supported!<br>You can use it in browser and node enviroment.</p>
+<h1>Install</h1><pre class="prettyprint source"><code>npm install sensorium --save</code></pre><h1>Usage</h1><h2>Browser</h2><p>Include the source <code>/browser/sensorium.js</code> in the root directory of project.<br>Actually you also need install <a href="https://www.npmjs.com/package/sensorium-server">sensorium-server</a> as a proxy server.</p>
+<pre class="prettyprint source"><code>npm install sensorium-server -g</code></pre><p>Make sure your mainboards connecting to the your computer, and run <code>sensorium-server</code> with following command in your teminal:</p>
+<pre class="prettyprint source"><code>ss</code></pre><p>Then create a HTML page in the root directory, <code>index.html</code> for example, and type in the following script:</p>
 <pre class="prettyprint source"><code>&lt;script src=&quot;./browser/sensorium.js&quot;>&lt;/script>
 &lt;script type=&quot;text/javascript&quot; src=&quot;https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js&quot;>&lt;/script>
 &lt;script>
   //firstly initialize
   var sensorium = new Sensorium();
-  var mcore = sensorium.create('Mcore');
+  var mcore = sensorium.createMcore();
 
   //secondly set transport through `socket.io` like this:
   var socket = io.connect('http://localhost:8800');
@@ -90,41 +91,41 @@
   sensorium.setSender(function(buf) {
       socket.emit('web2sensor', { buf: JSON.stringify(buf), sensor: 'None' });
   });
-
+&lt;/script>
+&lt;script>
   // set speed and run the motor.
   mcore.DcMotor(1).speed(200).run();
 
   // read ultrasonic sensor's value
   mcore.Ultrasonic(3).getData((val) => console.log(val));
-&lt;/script></code></pre><h2>Nodejs</h2><p>Firstly, install the dependencies or devDependencies like this:</p>
+&lt;/script></code></pre><h2>Nodejs</h2><p>Firstly, install the dependencies:</p>
 <pre class="prettyprint source"><code>npm install sensorium --save-dev
-npm install serialport --save-dev</code></pre><p>Touch a js file just like test.js, type in codes as follows:</p>
+npm install serialport --save-dev</code></pre><p>Touch a js file just like <code>test.js</code>, type in codes as follows:</p>
 <pre class="prettyprint source"><code>var Sensorium = require(&quot;sensorium&quot;);
 var SerialPort = require('serialport');
-
 var sensorium = new Sensorium();
+
 // Visit [serialport](https://www.npmjs.com/package/serialport) for detail usage
 var serialPort = new SerialPort('/dev/ttyUSB0', { baudRate:115200 });
 
 serialPort.on('open', function() {
   sensorium.setSender(function(buf) {
-    console.log('send ----->', buf);
     serialPort.write(buf);
   });
   serialPort.on('data', function(buff) {
-    console.log('-----> Received data', '[' + buff.join(',') + ']');
     sensorium.doReceived(buff);
   });
 });
 
-// optional mainboards are 'Mcore', 'Auriga', 'MegaPi', 'Orion', 'Arduino'
-var auriga = sensorium.create('Auriga');
+// optional mainboards are 'Mcore', 'Auriga', 'MegaPi', 'Orion', 'MegaPiPro', 'Arduino'
+var auriga = sensorium.createAuriga();
 
 // run DcMotor
 auriga.DcMotor(1).speed(200).run();
 
 // read ultrasonic sensor's value
-auriga.Ultrasonic(3).getData().then(val => console.log(val));</code></pre>
+auriga.Ultrasonic(3).getData().then(val => console.log(val));</code></pre><p>Make sure your mainboards connecting to the your computer, and run srcipt with node:</p>
+<pre class="prettyprint source"><code>node test.js</code></pre>
         </article>
     
 </section>
