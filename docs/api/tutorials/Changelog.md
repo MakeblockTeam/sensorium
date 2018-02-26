@@ -1,7 +1,7 @@
 # Changelog
 ## [0.3.5] - 2017-11-30
 ### Fixed
--  Sorry for forgetting to compile: fix a serious bug of `doReceived` spelling.
+-  fix a serious bug of `doReceived` spelling.
 
 ## [0.3.3] - 2017-10-26
 ### Fixed

@@ -1,7 +1,7 @@
 # Changelog
 ## [0.3.5] - 2017-11-30
 ### Fixed
--  Sorry for forgetting to compile: fix a serious bug of `doReceived` spelling.
+-  fix a serious bug of `doReceived` spelling.
 
 ## [0.3.3] - 2017-10-26
 ### Fixed
@@ -10,9 +10,9 @@
 ## [0.3.2] - 2017-09-29
 ### Changed
 -  unify the mainboard apis call as follows:
-   - auriga.getVersion().getData().then((val) =>console.log(val))
-   - auriga.setFirmwareMode().run()
-   - auriga.readVoltage().getData().then((val) =>console.log(val))
+- auriga.getVersion().getData().then((val) =>console.log(val))
+- auriga.setFirmwareMode().run()
+- auriga.readVoltage().getData().then((val) =>console.log(val))
 
 ## [0.3.1] - 2017-09-21
 ### Fixed

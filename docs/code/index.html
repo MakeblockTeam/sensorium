@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+    <link type="text/css" rel="stylesheet" href="../api/styles/bootstrap.min.css">
+    <link type="text/css" rel="stylesheet" href="../statics/topbar.css">
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <script src="../statics/vs/loader.js"></script>
+    <script src="../statics/sensorium.js"></script>
+    <script src="../statics/socket.io.js"></script>
+    <title>Sensorium code online</title>
+</head>
+<body>
+<header class="topbar">
+    <ul class="topnav pull-right clearfix">
+        <li><a href="../">Introduction</a></li>
+        <li><a href="./">Code</a></li>
+        <li><a href="../api/">Api</a></li>
+    </ul>
+</header>
+<div class="container mt80">
+    <div id="container" style="width:800px;height:600px;border:1px solid grey">
+
+    </div>
+</div>
+
+<script>
+    require.config({ paths: { 'vs': '../statics/vs' }});
+    require(['vs/editor/editor.main'], function() {
+        var editor = monaco.editor.create(document.getElementById('container'), {
+            value: [
+                'var sensorium = new Sensorium();',
+                'var mcore = sensorium.createMcore();',
+                '// 板载 led 亮红灯',
+                'mcore.RgbLedOnBoard()',
+                '\t.position(1)',
+                '\t.red()'
+            ].join('\n'),
+            language: 'javascript'
+        });
+    });
+</script>
+</body>
+</html>
+
+
+
+
+
