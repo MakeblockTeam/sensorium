@@ -11,7 +11,6 @@ import Control from '../core/control';
 /**
  * @description It is a base Class of Sound
  * @extends Electronic
- * @private
  */
 class BaseSound extends Electronic {
   /**

@@ -12,7 +12,6 @@ import Control from '../core/control';
 /**
  * @description It is a base Class of RgbLed
  * @extends Electronic
- * @private
  */
 class BaseRgbLed extends Electronic {
   /**

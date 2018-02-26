@@ -6,7 +6,6 @@ import Control from '../core/control';
 /**
  * @description It is a base Class of Light
  * @extends Electronic
- * @private
  */
 class BaseLight extends Electronic {
   /**

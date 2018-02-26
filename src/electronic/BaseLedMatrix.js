@@ -13,7 +13,6 @@ import Control from '../core/control';
 /**
  * @description It is a base Class of LedMatrix
  * @extends Electronic
- * @private
  */
 class BaseLedMatrix extends Electronic {
   /**

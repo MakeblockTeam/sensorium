@@ -7,7 +7,6 @@ import Control from '../core/control';
 /**
  * @description It is a base Class of Gyro
  * @extends Electronic
- * @private
  */
 class BaseGyro extends Electronic {
   /**
