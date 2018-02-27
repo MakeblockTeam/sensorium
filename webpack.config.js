@@ -7,10 +7,10 @@ module.exports = {
     path: path.resolve(__dirname, 'browser'),
     filename: 'sensorium.js',
     library: "Sensorium",
-    libraryTarget: "umd"
+    libraryTarget: "this"
   },
   module: {
-    loaders: [{
+    rules: [{
       test: /\.(js|jsx)$/,
       loader: 'babel-loader',
       query: {
@@ -20,21 +20,7 @@ module.exports = {
       exclude: /node_modules/
     }]
   },
-  // plugins: [
-  //   new webpack.optimize.UglifyJsPlugin({
-  //     compress: {
-  //       warnings: false
-  //     }
-  //   })
-  // ],
-  target: "node",
-  node: {
-    "fs": "empty",
-    "cluster": "empty",
-    "dgram": "empty",
-    "net": "empty",
-    "child_process": "empty"
-  },
-  watch: true,
+  mode: "production",
+  plugins: [],
   devtool: "cheap-module-source-map"
 };
