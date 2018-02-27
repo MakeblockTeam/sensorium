@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <link type="text/css" rel="stylesheet" href="api/styles/bootstrap.min.css">
+    <link type="text/css" rel="stylesheet" href="statics/topbar.css">
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <title>Sensorium - Changelog</title>
+</head>
+<body>
+    <header class="topbar">
+        <ul class="topnav pull-right clearfix">
+            <li><a href="./">Get Started</a></li>
+            <li><a href="./code/">Code</a></li>
+            <li><a href="./api/">API</a></li>
+            <li><a href="./changelog.html">ChangeLog</a></li>
+        </ul>
+    </header>
+    <div class="container mt80">
+        <h2 id="changelog">Changelog</h2>
+<h3 id="-0-3-5-2017-11-30">[0.3.5] - 2017-11-30</h3>
+<h4 id="fixed">Fixed</h4>
+<ul>
+<li>fix the wrong spelling: <code>sensorium.doRecevied</code> =&gt; <code>sensorium.doReceived</code>.</li>
+</ul>
+<h3 id="-0-3-3-2017-10-26">[0.3.3] - 2017-10-26</h3>
+<h4 id="fixed">Fixed</h4>
+<ul>
+<li>fix bug of <code>sensorium.write</code> and <code>Control.pipe</code></li>
+</ul>
+<h3 id="-0-3-2-2017-09-29">[0.3.2] - 2017-09-29</h3>
+<h4 id="changed">Changed</h4>
+<ul>
+<li>unify the mainboard apis call as follows:<ul>
+<li>auriga.getVersion().getData().then((val) =&gt;console.log(val))</li>
+<li>auriga.setFirmwareMode().run()</li>
+<li>auriga.readVoltage().getData().then((val) =&gt;console.log(val))</li>
+</ul>
+</li>
+</ul>
+<h3 id="-0-3-1-2017-09-21">[0.3.1] - 2017-09-21</h3>
+<h4 id="fixed">Fixed</h4>
+<ul>
+<li>fix bug: sensorium.SUPPORT instead of sensorium.getSupport()</li>
+</ul>
+<h3 id="-0-3-0-2017-09-19">[0.3.0] - 2017-09-19</h3>
+<h4 id="changed">Changed</h4>
+<ul>
+<li>优化文件结构</li>
+<li>Humiture 类将旧版本 API getHumidity, getTemperature 改为 readHumidity, readTemperature</li>
+<li>EncoderMotorOnBoard 类将旧版本 API getSpeed, getAngle 改为 readSpeed, readAngle</li>
+<li>FourLeds 类将旧版本类名 FourLed 改为 FourLeds</li>
+<li>FourKeys 类将旧版本类名 FourKey 改为 FourKeys</li>
+<li>所有的电子模块增加一个 protocol 方法，该方法为一个 getter 函数，以便提供获取协议的能力</li>
+<li>规范所有模块提供 <code>run</code> 接口， 用于执行，并提供 <code>getData</code> 接口，用于读值。此外还提供了一些它们的封装接口</li>
+</ul>
+<h3 id="-0-2-7-2017-09-12">[0.2.7] - 2017-09-12</h3>
+<h4 id="changed">Changed</h4>
+<ul>
+<li>优化文件结构</li>
+<li>完善接口文档</li>
+</ul>
+<h2 id="-0-2-6-2017-08-29">[0.2.6] - 2017-08-29</h2>
+<h3 id="changed">Changed</h3>
+<ul>
+<li>sensorium 实例调用 setSender 设置传输方法</li>
+<li>sensorium 实例调用 doReceived 将响应数据分发</li>
+</ul>
+<h3 id="-0-2-5-2017-08-11">[0.2.5] - 2017-08-11</h3>
+<h4 id="fixed">Fixed</h4>
+<ul>
+<li>Auriga Buzzer 模块无效的 bug</li>
+<li>Auriga SmartServo 运动到相对位置、绝对位置等的 bug</li>
+</ul>
+<h3 id="-0-2-4-2017-08-08">[0.2.4] - 2017-08-08</h3>
+<h4 id="added">Added</h4>
+<ul>
+<li>mcore 板载红外线传感器（读）接口 InfraredOnBoard</li>
+<li>其他主控板外接红外线传感器（读）接口 Infrared</li>
+<li>LedMatrix 模块 4 种模式均增加 clear() 方法，以便能快捷的清除面板上显示的内容</li>
+</ul>
+<h4 id="changed">Changed</h4>
+<ul>
+<li>LedMatrix 模块 4 种模式显示内容的接口由原来的 ledMatrixData() 调整为 content()</li>
+</ul>
+<h4 id="fixed">Fixed</h4>
+<ul>
+<li>LedMatrix 表情面板显示字符不能工作的 bug</li>
+</ul>
+<h3 id="-0-2-3-2017-08-08">[0.2.3] - 2017-08-08</h3>
+<h4 id="added">Added</h4>
+<ul>
+<li>Sensorium 实例新增 <code>send</code> 方法，该方法支持直接 write 协议</li>
+<li>Sensorium 库新增 API 文档，详情见 <code>./jsdoc</code> 目录</li>
+</ul>
+<h4 id="fixed">Fixed</h4>
+<ul>
+<li>Sorry for <code>async/await</code> throwing error. 已使用 babel-plugin-transform-runtime 转译修复此问题</li>
+</ul>
+<h3 id="-0-2-2-2017-08-03">[0.2.2] - 2017-08-03</h3>
+<h4 id="added">Added</h4>
+<ul>
+<li>Sensorium 实例新增 <code>createMcore</code>,<code>createAuriga</code>,<code>createMegaPi</code>等方法创建对应的主控板实例</li>
+</ul>
+<h4 id="changed">Changed</h4>
+<ul>
+<li>所有的读值接口，采用 Promise 回调的方式，先前版本通过传回调函数的方式被弃用</li>
+<li>getVerion 接口移至 Board 类实现，被各主控板继承</li>
+<li>LedMatrix 类重构，通过调用 <code>charMode</code>,<code>emotionMode</code>等方法进入不同的 ledMatrix 模式</li>
+</ul>
+<h3 id="-0-2-1-2017-07-27">[0.2.1] - 2017-07-27</h3>
+<h4 id="added">Added</h4>
+<ul>
+<li>提供了光线、温度、音量、led灯的板载 API</li>
+</ul>
+<h4 id="changed">Changed</h4>
+<ul>
+<li>完善传各种参数给 API 时，参数少传、类型错传的容错机制，同时提供更加平滑的 warn 警告而程序不会被错误中断</li>
+</ul>
+<h3 id="-0-2-1-2017-07-26">[0.2.1] - 2017-07-26</h3>
+<h4 id="added">Added</h4>
+<ul>
+<li>RgbLed 类中加了一个 rgb() 的接口，方便直接传入 hex color 值</li>
+</ul>
+<h4 id="changed">Changed</h4>
+<ul>
+<li>优化了 Transport 类对通讯通道的初始化方式</li>
+</ul>
+<h4 id="fixed">Fixed</h4>
+<ul>
+<li>解决蓝牙返回值没有被监测到的 bug</li>
+</ul>
+
+    </div>
+</body>
+</html>

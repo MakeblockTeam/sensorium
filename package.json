@@ -16,7 +16,8 @@
     "test": "mocha --compilers js:babel-core/register",
     "coverage-i": " istanbul cover node_modules/mocha/bin/_mocha ./test/interface/interface_test.js",
     "coverage-p": " istanbul cover node_modules/mocha/bin/_mocha ./test/protocol-test",
-    "jsdoc": "node_modules/.bin/jsdoc -c jsdoc_conf.json",
+    "jsdoc": "npm run cpdoc && node_modules/.bin/jsdoc -c jsdoc_conf.json",
+    "cpdoc": "node ./docs_editor/script.js && cp ./browser/sensorium.js ./docs/statics/",
     "tsc": "tsc"
   },
   "repository": {
@@ -36,7 +37,11 @@
     "babel-runtime": "^6.25.0",
     "blessed": "^0.1.81",
     "chai": "^3.5.0",
+    "color-convert": "^1.9.1",
+    "core-js": "^2.5.3",
+    "detect-indent": "^5.0.0",
     "domhandler": "^2.4.1",
+    "ejs": "^2.5.7",
     "eslint": "^4.4.1",
     "events": "^1.1.1",
     "jsdoc": "^3.5.4",
@@ -47,7 +52,9 @@
     "serialport": "^4.0.7",
     "ts-loader": "^2.3.4",
     "tui-jsdoc-template": "^1.2.2",
-    "webpack": "^3.0.0",
+    "uglify-js": "^3.3.12",
+    "webpack": "^4.0.1",
+    "webpack-cli": "^2.0.9",
     "xml2js": "^0.4.17"
   },
   "dependencies": {},

@@ -4,8 +4,7 @@
         "encoding": "utf8",
         "destination": "./docs/api",
         "recurse": true,
-        "package": "package.json",
-        "tutorials": "./docs_editor/tutorial"
+        "package": "package.json"
     },
     "tags": {
         "allowUnknownTags": true,
@@ -27,7 +26,7 @@
         "monospaceLinks": false,
         "default": {
             "includeDate": true,
-            "layoutFile": "./docs_editor/layout.tmpl"
+            "layoutFile": "./docs_editor/template/layout.tmpl"
         },
         "name": "Sensorium API",
         "footerText": "Makeblock Team",
