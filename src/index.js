@@ -1,6 +1,5 @@
 /**
  * @fileOverview Sensorium Class
- * @version 0.2.2
  * @author Jeremy
  */
 import Transport from './communicate/transport';
@@ -19,6 +18,10 @@ class Sensorium {
    * Create a sensorium.
    * @example
    * let sensorium = new Sensorium();
+   * // creat the mcore mainboard instance
+   * let mcore = sensorium.createMcore();
+   * // create the auriga mainboard instance
+   * let auriga = sensorium.createAuriga();
    */
   constructor(){
     for(let name of SUPPORTLIST){
@@ -28,10 +31,10 @@ class Sensorium {
 
   /**
    * Create a mainboard instance
-   * @param {String} mainboardName  both upperCase and lowerCase are allow
+   * @param {String} mainboardName  both upperCase and lowerCase are allowed: 'mcore', 'mCore'
    * @param {Object} opts     (optional)
    * @example
-   * // create a mcore with a given mainboardName, both upperCase and lowerCase are allowed
+   * // create a mcore with a given mainboardName
    * let mcore1 = sensorium.create('mcore');
    * let mcore2 = sensorium.create('mCore');
    * console.log(mcore1 === mcore2) // true
@@ -48,9 +51,11 @@ class Sensorium {
   /**
    * Set the sender from bluetooth、serialport、wifi
    * @param {Function} sender the send method
-   * @param {Function} transport.onReceived onReceived method
    * @example
-   * let sender = (buf) => {}
+   * // supposed the `socket.io.js` have been used as the communication method
+   * let sender = (buf) => {
+   *   socket.emit('send', { buf });
+   * }
    * sensorium.setSender(sender);
    */
   setSender(sender){
@@ -60,14 +65,22 @@ class Sensorium {
   /**
    * Receive data from bluetooth、serialport、wifi
    * @param  {Buffer|Array} buff
+   * @example
+   * // supposed the `socket.io.js` have been used as the communication method
+   * socket.on('received', function (data) {
+   *   // the format of the data should be adjusted to fit the interface
+   *   sensorium.doReceived(JSON.parse(data));
+   * });
    */
   doReceived (buff) {
     Control.pipe(buff);
   }
 
   /**
-   * Read firmware info，which contains the version and the name
-   * @return {Promise} a promise instance
+   * Read firmware info，which contains the version and the name.
+   * Usually we use this interface to get the hardware information,
+   * and decide to switch current device or update current hardware to the latest one.
+   * @return {Promise} a promise
    * @example
    * sensorium.readFirmwareInfo()
    *             .then(val => console.log(val));
@@ -84,8 +97,8 @@ class Sensorium {
   }
 
   /**
-   * Write protocol buffer
-   * now this interface is just for debug the protocol
+   * Write protocol buffer.
+   * This interface is just for debug the protocol
    * @param  {Array} buf
    * @example
    * sensorium.send([0xff, 0x55, 0x01...]);
@@ -96,7 +109,7 @@ class Sensorium {
 
   /**
    * Read protocol buffer
-   * now this interface is just for debug the protocol
+   * This interface is just for debug the protocol
    * @param  {Array} buf
    * @example
    * sensorium.send([0xff, 0x55, 0x01...]);
@@ -107,10 +120,10 @@ class Sensorium {
 
   /**
    * Get supported mainboard
+   * @return {Array}  the support list
    * @example
    * let sopport = sensorium.SUPPORT;
    * conosole.log(sopport); // ['auriga', 'mcore', 'megapi', 'orion', 'megapipro', 'arduino']
-   * @return {Array}  a support list
    */
   get SUPPORT() {
     return Object.keys(BoardsObj);

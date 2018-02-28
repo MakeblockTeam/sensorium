@@ -14,7 +14,12 @@ import {
 
 /**
  * @Class AnalogGPIO
- * @extends Electronic
+ * @extends Electronic Arduino
+ *
+ * @example
+ * arduino.Compass()
+ *      .getData()
+ *      .then(val => console.log(val));
  */
 class AnalogGPIO extends Electronic {
   /**
@@ -42,6 +47,9 @@ class AnalogGPIO extends Electronic {
     return await Control.read(this.protocol);
   }
 
+  /**
+   * a getter interface, which returns the mainboards the AnalogGPIO module supported
+   */
   static get SUPPORT() {
     return fiterWithBinaryStr(SUPPORTLIST, '00001');
   }

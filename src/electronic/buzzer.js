@@ -19,7 +19,7 @@ const MCORE_ = SUPPORTLIST[0].toLowerCase();
  * mcore.Buzzer()
  *      .hz(1000)
  *      .beat(1000)
- *      .run()
+ *      .run();
  */
 class Buzzer extends Electronic {
   constructor() {
@@ -35,7 +35,7 @@ class Buzzer extends Electronic {
 
   /**
    * Set tone
-   * @param  {String} tone tone string, such as "C5"
+   * @param  {String} tone tone value such as "C5", "D5"
    */
   tone(tone="C5") {
     tone = validateString(tone.toUpperCase());
@@ -45,7 +45,7 @@ class Buzzer extends Electronic {
 
   /**
    * Set hz
-   * @param  {Number} hz such as 200
+   * @param  {Number} hz hz value such as 200
    */
   hz(hz) {
     this.args.hz = validateNumber(hz);
@@ -54,7 +54,7 @@ class Buzzer extends Electronic {
 
   /**
    * Set beat
-   * @param  {Number} beat such as 250, 1000
+   * @param  {Number} beat beat value such as 250, 1000
    */
   beat(beat) {
     this.args.beat = validateNumber(beat);
@@ -62,7 +62,7 @@ class Buzzer extends Electronic {
   }
 
   /**
-   * getter of protocol
+   * a getter interface, which returns the protocol
    */
   get protocol () {
     let buf = [];
@@ -84,6 +84,9 @@ class Buzzer extends Electronic {
     return this;
   }
 
+  /**
+   * a getter interface, which returns the mainboards the Buzzer module supported
+   */
   static get SUPPORT() {
     return fiterWithBinaryStr(SUPPORTLIST, '11111');
   }

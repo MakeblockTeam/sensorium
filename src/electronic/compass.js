@@ -9,6 +9,11 @@ import { SUPPORTLIST } from '../settings';
 /**
  * Compass sensor module
  * @extends Electronic
+ *
+ * @example
+ * mcore.Compass()
+ *      .getData()
+ *      .then(val => console.log(val));
  */
 class Compass extends Electronic {
   constructor(port) {
@@ -33,6 +38,9 @@ class Compass extends Electronic {
     return await Control.read(this.protocol);
   }
 
+  /**
+   * a getter interface, which returns the mainboards the Compass module supported
+   */
   static get SUPPORT(){
     return fiterWithBinaryStr(SUPPORTLIST, '1110');
   }
