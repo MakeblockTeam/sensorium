@@ -6,20 +6,24 @@ import Version from '../electronic/version'
 
 /**
  * Create id for electronic module joined into the mainboard
- * @param  {Function} eModule  electronic module
+ * @param  {Object} eModuleObj  包含电子模块类和电子模块的名称
  * @param  {Array} argsList [description]
- * @return {[type]}          [description]
+ * @param  {String} eModuleName 模块的名称，为生成 id 为准备
+ * @return {String}          当前实例 id
  * @private
  */
-const createModuleId = function (eModule, argsList){
-  let name = eModule.name;
+const createModuleId = function (eModuleObj, argsList){
+  // 注意，不能使用 eModule.name，在编译压缩的时候，变量会被替换，不同的 eModule，
+  // 都会被替换成同一个变量名称，会导致 id 生成重复。
+  let name = eModuleObj.name;
+  let eModule = eModuleObj.eModule;
   let expectLength = eModule.length;
   let argsLength = argsList.length;
   if(argsLength < expectLength){
     //参数不足的提示
     let dl = expectLength - argsLength;
     let more = argsLength > 0 ? ' more':''; //更多
-    console.warn(`you need to pass in ${dl} argument${dl>1?'s':''}${more}, otherwise the ${eModule.name} sensor may not work as a result`);
+    console.warn(`you need to pass in ${dl} argument${dl>1?'s':''}${more}, otherwise the ${name} sensor may not work as a result`);
   }else if(argsLength > expectLength){
     //参数多余
     argsList.splice(expectLength);
@@ -45,14 +49,15 @@ class Board {
   /**
    * 电子模块实例工厂
    * @private
-   * @param  {Function} eModule 电子模块类
+   * @param  {Object} eModuleObj 包含电子模块类和电子模块的名称
    * @param  {Array-Like} args    [port, slot, id...]
    * @param  {String} host    电子模块的宿主，即主控板名——大部分电子模块是无需识别宿主的，少数电子模块因为宿主不同而表现不同特征
    * @return {Object}         电子模块实例
    */
-  eModuleFactory(eModule, args, host){
+  eModuleFactory(eModuleObj, args, host){
     let argsList = [...args]; //转数组
-    let id = createModuleId(eModule, argsList);
+    let eModule = eModuleObj.eModule;
+    let id = createModuleId(eModuleObj, argsList);
     if(this.connecting[id]){
       return this.connecting[id];
     }else{
