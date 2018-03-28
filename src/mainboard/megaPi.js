@@ -22,9 +22,9 @@ class MegaPi extends Board{
     // 挂载电子模块
     for (let name in electronics) {
       let eModule = electronics[name];
-      if(eModule.SUPPORT.includes(this.name)){
-        this[name] = function(){
-          return this_.eModuleFactory(eModule, arguments);
+      if (eModule.SUPPORT.includes(this.name)) {
+        this[name] = function () {
+          return this_.eModuleFactory({ eModule, name }, arguments, this.name);
         };
       }
     }

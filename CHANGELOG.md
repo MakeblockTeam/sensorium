@@ -1,4 +1,8 @@
 ## Changelog
+### [0.3.6] - 2018-03-28
+#### Fixed
+-  fix bug: can't get right electronic module id when code was uglified.
+
 ### [0.3.5] - 2017-11-30
 #### Fixed
 -  fix the wrong spelling: `sensorium.doRecevied` => `sensorium.doReceived`.
