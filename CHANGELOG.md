@@ -1,4 +1,10 @@
 ## Changelog
+### [0.3.7] - 2018-04-03
+#### Fixed
+-  fix bug: missing some package when unpacking the received protocol.
+### Changed
+-  rename some modules mothod, such as `stop` to `setStop`, `reverse` to `setReverse`
+
 ### [0.3.6] - 2018-03-28
 #### Fixed
 -  fix bug: can't get right electronic module id when code was uglified.

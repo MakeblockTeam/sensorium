@@ -39,8 +39,8 @@ class BaseMotor extends Electronic {
    * Stop motor
    * @return {Instance} the motor instance
    */
-  stop() {
-    return this.speed(0).run();
+  setStop() {
+    return this.speed(0);
   }
 }
 

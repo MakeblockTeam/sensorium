@@ -9,8 +9,8 @@ function counter(number) {
   let result = [];
   return function(buf, callback) {
     let buff = Parse.doParse(buf);
-    if (buff) {
-      result.push(buff);
+    if (buff) { // [[]]
+      result = result.concat(buff);
     }
     if (++i == NUM) {
       callback(result);
@@ -28,6 +28,7 @@ describe('test doParse', function() {
     let doParse = counter(mock_receive_data.length);
     for (let data of mock_receive_data) {
       doParse(data, function(result) {
+        console.log('check result ===>', result)
         expect(result.length).to.equal(1);
         expect(result[0].length).to.equal(6);
       })
@@ -42,13 +43,14 @@ describe('test doParse', function() {
     var doParse = counter(mock_receive_data.length);
     for (let data of mock_receive_data) {
       doParse(data, function(result) {
+        console.log('check result ===>', result)
         expect(result.length).to.equal(1);
         expect(result[0].length).to.equal(6);
       })
     }
   });
 
-  // 接收到完整数据2
+  // // 接收到完整数据2
   it('should parse the complete data2 to []', function() {
     var mock_receive_data = [
       [0xff, 0x55, 0x0d, 0x0a]
@@ -56,13 +58,14 @@ describe('test doParse', function() {
     var doParse = counter(mock_receive_data.length);
     for (let data of mock_receive_data) {
       doParse(data, function(result) {
+        console.log('check result ===>', result)
         expect(result.length).to.equal(1);
         expect(result[0].length).to.equal(0);
       })
     }
   });
 
-  // 接收到完整数据3
+  // // 接收到完整数据3
   it('should parse the complete data3 to []', function() {
     var mock_receive_data = [
       [0xff, 0x55, 0x0d, 0x0a],
@@ -71,8 +74,29 @@ describe('test doParse', function() {
     var doParse = counter(mock_receive_data.length);
     for (let data of mock_receive_data) {
       doParse(data, function(result) {
+        console.log('check result ===>', result)
         expect(result.length).to.equal(2);
         expect(result[0].length).to.equal(0);
+        expect(result[1].length).to.equal(0);
+      })
+    }
+  });
+
+  // 接收到完整数据4
+  it('should parse the complete data4 to []', function() {
+    var mock_receive_data = [
+      [0xff, 0x55, 0x0d, 0x0a],
+      [0xff, 0x55, 0x00, 0x02, 0xe6, 0x9e, 0x16, 0x41, 0x0d, 0x0a],
+      [0xff, 0x55, 0x0d, 0x0a]
+    ];
+    var doParse = counter(mock_receive_data.length);
+    for (let data of mock_receive_data) {
+      doParse(data, function(result) {
+        console.log('check result ===>', result)
+        expect(result.length).to.equal(3);
+        expect(result[0].length).to.equal(0);
+        expect(result[1].length).to.equal(6);
+        expect(result[2].length).to.equal(0);
       })
     }
   });
@@ -86,14 +110,31 @@ describe('test doParse', function() {
     var doParse = counter(mock_receive_data.length);
     for (let data of mock_receive_data) {
       doParse(data, function(result) {
+        console.log('check result ===>', result)
         expect(result.length).to.equal(1);
-        expect(result[0].length).to.equal(6);
+        expect(result[0].length).to.equal(11);
+      })
+    }
+  });
+
+  // 接收到多余数据1
+  it('should parse the data1 of 2 frame', function() {
+    var mock_receive_data = [
+      [255,85,13,10,  255,85,0,2,0,0,64,64,13,10]
+    ];
+    var doParse = counter(mock_receive_data.length);
+    for (let data of mock_receive_data) {
+      doParse(data, function(result) {
+        console.log('check result ===>', result)
+        expect(result.length).to.equal(2);
+        expect(result[0].length).to.equal(0);
+        expect(result[1].length).to.equal(6);
       })
     }
   });
 
   // 接收到多余数据
-  it('should parse the excess data', function() {
+  it('should parse the excess data2', function() {
     var mock_receive_data = [
       [0xff, 0x55, 0x00, 0x02, 0xe6, 0x9e, 0x16, 0x41, 0x0d, 0x0a, 0xff, 0x55],
       [0x00, 0x02, 0xe6, 0x9e, 0x16, 0x41, 0x0d, 0x0a],
@@ -101,8 +142,10 @@ describe('test doParse', function() {
     var doParse = counter(mock_receive_data.length);
     for (let data of mock_receive_data) {
       doParse(data, function(result) {
-        expect(result.length).to.equal(1);
+        console.log('check result ===>', result)
+        expect(result.length).to.equal(2);
         expect(result[0].length).to.equal(6);
+        expect(result[1].length).to.equal(6);
       })
     }
   });
@@ -116,8 +159,10 @@ describe('test doParse', function() {
     var doParse = counter(mock_receive_data.length);
     for (let data of mock_receive_data) {
       doParse(data, function(result) {
-        expect(result.length).to.equal(1);
+        console.log('check result ===>', result)
+        expect(result.length).to.equal(2);
         expect(result[0].length).to.equal(6);
+        expect(result[1].length).to.equal(6);
       })
     }
   });
@@ -130,6 +175,7 @@ describe('test doParse', function() {
     var doParse = counter(mock_receive_data.length);
     for (let data of mock_receive_data) {
       doParse(data, function(result) {
+        console.log('check result ===>', result)
         expect(result.length).to.equal(0);
       })
     }
@@ -143,6 +189,7 @@ describe('test doParse', function() {
     var doParse = counter(mock_receive_data.length);
     for (let data of mock_receive_data) {
       doParse(data, function(result) {
+        console.log('check result ===>', result)
         expect(result.length).to.equal(0);
       })
     }
@@ -156,6 +203,7 @@ describe('test doParse', function() {
     var doParse = counter(mock_receive_data.length);
     for (let data of mock_receive_data) {
       doParse(data, function(result) {
+        console.log('check result ===>', result)
         expect(result.length).to.equal(0);
       })
     }

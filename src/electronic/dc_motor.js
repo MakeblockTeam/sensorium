@@ -26,9 +26,9 @@ class DcMotor extends BaseMotor {
   /**
    * run reversely
    */
-  reverse() {
+  setReverse() {
     this.speed(-1 * this.args.speed);
-    return this.run();
+    return this;
   }
 
   /**

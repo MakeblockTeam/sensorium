@@ -10,24 +10,6 @@ import protocolAssembler from '../protocol/cmd';
 import Control from '../core/control';
 import { SUPPORTLIST } from '../settings';
 
-//@private
-// function write(baseArgs, extra){
-//   let baseCmd = [baseArgs.index, baseArgs.subCmd];
-//   if(!Array.isArray(extra)){
-//     baseCmd.push(typeof extra !== 'undefined'?[extra]:[]);
-//   }else{
-//     baseCmd.push(extra);
-//   }
-//   let buf = composer(protocolAssembler.setSmartServo, baseCmd);
-//   Control.write(buf);
-// }
-
-// //@private
-// async function read(baseArgs){
-//   let buf = composer(protocolAssembler.readSmartServoParam, [baseArgs.index, baseArgs.subCmd]);
-//   return await Control.read(buf);
-// }
-
 /**
  * SmartServo sensor module
  * @extends Electronic
@@ -121,7 +103,7 @@ class SmartServo extends Electronic {
    */
   absoluteAngle(angle){
     this.args.subCmd = 0x04;
-    this.args.angle = validateNumber(angle, 0);
+    this.args.angle = validateNumber(-angle, 0);
     return this;
   }
   /**
@@ -130,17 +112,17 @@ class SmartServo extends Electronic {
    */
   relativeAngle(angle){
     this.args.subCmd = 0x05;
-    this.args.angle = validateNumber(angle, 0);
+    this.args.angle = validateNumber(-angle, 0);
     return this;
   }
   /**
-   * move smart servo as a DC motor
+   * set speed of smart servo as a DC motor
    * @param  {Number} speed (optional) speed of the smart servo
    */
-  runAsDcMotor(speed){
+  setAsDCMotorSpeed(speed){
     speed = validateNumber(speed, this.args.speed);
     //限制速度 -255~255
-    this.args.speed = limitValue(speed);
+    this.args.speed = limitValue(-speed);
     this.args.subCmd = 0x06;
     return this;
   }

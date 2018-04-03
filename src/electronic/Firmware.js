@@ -46,7 +46,6 @@ class Firmware extends Electronic {
     }else { // megapi, megapipro
       this.args.subCmd = 0x12;
     }
-    Control.write(this.protocol);
     return this;
   }
 

@@ -24,7 +24,7 @@ class Reset extends Electronic {
   }
 
   /**
-   * reset
+   * reset后返回消息，表明重置成功
    * @return {Promise}
    */
   async reset() {

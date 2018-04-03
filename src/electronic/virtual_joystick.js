@@ -78,8 +78,8 @@ class VirtualJoystick extends Electronic {
    * stop, that is run with 0 speed
    * @return {Instance} @this
    */
-  stop() {
-    return this.speed(0, 0).run();
+  setStop() {
+    return this.speed(0, 0);
   }
 
   static get SUPPORT() {
