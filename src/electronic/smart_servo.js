@@ -122,7 +122,7 @@ class SmartServo extends Electronic {
   setAsDCMotorSpeed(speed){
     speed = validateNumber(speed, this.args.speed);
     //限制速度 -255~255
-    this.args.speed = limitValue(speed);
+    this.args.speed = limitValue(-speed);
     this.args.subCmd = 0x06;
     return this;
   }
