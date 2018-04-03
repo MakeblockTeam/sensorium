@@ -50,7 +50,7 @@ class PIDForDoubleMotor {
    */
   forward() {
     this.args.direction = 1;
-    return this.run();
+    return this;
   }
 
   /**
@@ -59,7 +59,7 @@ class PIDForDoubleMotor {
    */
   backward() {
     this.args.direction = 2;
-    return this.run();
+    return this;
   }
 
   /**
@@ -68,7 +68,7 @@ class PIDForDoubleMotor {
    */
   turnleft() {
     this.args.direction = 3;
-    return this.run();
+    return this;
   }
 
   /**
@@ -77,7 +77,7 @@ class PIDForDoubleMotor {
    */
   turnright() {
     this.args.direction = 4;
-    return this.run();
+    return this;
   }
 
   /**

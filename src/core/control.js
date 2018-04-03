@@ -46,19 +46,21 @@ class Control {
    * @return {Number}
    */
   pipe(buff) {
-    let buffData = buff.data;
-    let buffer = Parse.doParse(buffData);
-    if(!buffer) { //解析后无正确结果
+    let buffData = buff.data || buff;
+    let buffers = Parse.doParse(buffData); //undefined or [[], [], [xxx]]
+    if(!buffers) {
+      return;
       //可能因为接收了异常数据
       //do nothing
-    }else if(buffer.length == 0){ //write 结果
-      //do nothing
-    }else{ //read 结果
-      // console.log('after parse ------>', buffer[0], buff);
-      let index = buffer[0];
-      let value = Parse.getResult(buffer);
-       Read.emitCallback(index, value);
-       return value;
+    }
+    for(let buf of buffers) {
+      if(buf.length == 0) {
+        // do nothing with write command
+      }else{
+        let value = Parse.getResult(buf);
+        // console.log('after parse ------>', buf[0], buf, value);
+        Read.emitCallback(buf[0], value);
+      }
     }
   }
 }

@@ -61,17 +61,17 @@ class VirtualJoystickForBalance extends Electronic {
    * Run reversely
    * @return {Instance} @this
    */
-  reverse() {
+  setReverse() {
     this.speed(-1 * this.args.speed);
-    return this.run();
+    return this;
   }
 
   /**
    * Stop run
    * @return {Instance} @this
    */
-  stop() {
-    return this.turnRange(0).speed(0).run();
+  setStop() {
+    return this.turnRange(0).speed(0);
   }
 
   static get SUPPORT() {

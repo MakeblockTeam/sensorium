@@ -8,7 +8,7 @@ import {
 } from "./utils";
 
 // 获取到的最大指令长度
-const REC_BUF_MAX_LENGTH = 40;
+const REC_BUF_MAX_LENGTH = 36;
 const BUF_START_FLAG = [0xff, 0x55];
 const BUF_END_FLAG = [0x0d, 0x0a];
 
@@ -20,59 +20,66 @@ function checkEnd(flag1, flag2) {
   return flag1 === BUF_END_FLAG[0] && flag2 === BUF_END_FLAG[1];
 }
 
+function findIndexOfStart(checkStart, data) {
+  for (let i = 0; i < data.length; i++) {
+    let data1 = data[i], data2 = data[i+1];
+    if (checkStart(data1, data2)) {
+      return i;
+    }
+  }
+  return -1;
+}
+
 export default {
   cacheBuffer: [],
 
   /**
    * 解析从硬件传递过来的数据
    * @param  {Array} buffData buffer that from the response
-   * @return {Array}          the parsed result
+   * @return {Array|undefined}          the parsed result
    * data : 当前处理的数据
    * this.cacheBuffer: 历史缓存数据, 记录数据和历史数据分开记录
    */
   doParse: function(buffData) {
-    let recvLength = 0;
-    //是否允许接收
-    let isAllowRecv = false;
-    let tempBuf = [];
-
+    let result =[];
     let data = arrayFromArrayBuffer(buffData);
-    let newdata = this.cacheBuffer.concat(data);
-    this.cacheBuffer = newdata;
-    // parse buffer newdata
-    for (let i = 0; i < newdata.length; i++) {
-      let data1 = parseInt(newdata[i - 1]),
-        data2 = parseInt(newdata[i]);
-      // start data
-      if (checkStart(data1, data2)) {
-        recvLength = 0;
-        isAllowRecv = true;
-        tempBuf = [];
-      }
-      // end data
-      else if (checkEnd(data1, data2)) {
-        //没有头部但有尾部 - 说明是无效数据
-        if (!isAllowRecv) {
-          this.cacheBuffer = [];
-          return undefined;
+    let totalData = this.cacheBuffer.concat(data);
+
+    // 检测协议头 [ff, 55]
+    let index = findIndexOfStart(checkStart, totalData);
+    if(index > -1 ) {
+      totalData = totalData.slice(index);
+      // 更新缓存
+      this.cacheBuffer = totalData;
+    } else {
+      return undefined;
+    }
+
+    let tempBuffer = [];
+    for (let i = 2; i < totalData.length; i++) {
+      let data1 = totalData[i], data2 = totalData[i+1];
+      if (checkEnd(data1, data2)) {
+        result.push(tempBuffer);
+        // 下一帧数据
+        let nextFrame = totalData.slice(tempBuffer.length+4);
+        let nextFrameIndex = findIndexOfStart(checkStart, nextFrame);
+        // 清空容器
+        tempBuffer = [];
+        // 更新缓存
+        this.cacheBuffer = nextFrame;
+        if(nextFrameIndex === -1) {
+          break;
         } else {
-          isAllowRecv = false;
+          i += nextFrameIndex+3;
         }
-        let resultBuf = tempBuf.slice(0, recvLength - 1);
-        // 解析正确的数据后，清空 buffer
-        this.cacheBuffer = [];
-        return resultBuf;
-      }
-      // the data we really want
-      else {
-        if (isAllowRecv) {
-          if (recvLength >= REC_BUF_MAX_LENGTH) {
-            console.warn("receive buffer overflow!");
-          }
-          tempBuf[recvLength++] = data2;
+      } else { // the data we really want
+        if (tempBuffer.length >= REC_BUF_MAX_LENGTH) {
+          console.warn("receive buffer overflow!");
         }
+        tempBuffer.push(data1);
       }
     }
+    return result.length && result;
   },
 
   /**

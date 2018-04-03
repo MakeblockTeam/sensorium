@@ -76,9 +76,9 @@ class BaseEncoderMotor extends BaseMotor {
    * EncoderMotor run reversely
    * @return {Object} the instance
    */
-  reverse() {
+  setReverse() {
     this.offsetAngle(-1 * this.args.angle);
-    return this.run();
+    return this;
   }
 }
 
