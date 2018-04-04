@@ -14,28 +14,61 @@ import {
   SUPPORTLIST
 } from '../settings';
 
+/**
+ * ButtonOnBoard sensor module
+ * @extends Electronic
+ *
+ * @example
+ * mcore.ButtonOnBoard()
+ *      .checkPressed()
+ *      .getData()
+ *      .then(val => console.log(val));
+ */
 class ButtonOnBoard extends Electronic {
 
-  constructor(port, slot) {
+  constructor() {
     super();
     this.args = {
-      port: validateNumber(port),
-      slot: validateNumber(slot),
-      angle: 0
+      port: 0x07,
+      action: 0x00  // default pressed
     };
   }
 
+  /**
+   * getter of protocol
+   */
   get protocol() {
-    return composer(protocolAssembler.ButtonOnBoard, [this.args.port, this.args.slot, this.args.angle]);
+    return composer(protocolAssembler.ButtonOnBoard, [this.args.port, this.args.action]);
   }
 
-  run() {
-    Control.write(this.protocol);
+  /**
+   * check whether the button pressed
+   * @return {Instance} this
+   */
+  checkPressed() {
+    this.args.action = 0x00;
     return this;
   }
 
+  /**
+   * check whether the button released
+   * @return {Instance} this
+   */
+  checkReleased() {
+    this.args.action = 0x01;
+    return this;
+  }
+
+  /**
+   * Get data of whether button on board was pressed
+   * @return {Promise}
+   */
+  async getData() {
+    return await Control.read(this.protocol);
+  }
+
   static get SUPPORT() {
-    return fiterWithBinaryStr(SUPPORTLIST, '1111');
+    return fiterWithBinaryStr(SUPPORTLIST, '1000');
   }
 }
 

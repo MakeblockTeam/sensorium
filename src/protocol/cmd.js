@@ -314,6 +314,21 @@ function protocolAssembler() {
   };
 
   /**
+   * button on board of mcore.
+   * @private
+   * @param {string} port
+   * @param {string} action 0:表示查询按下的状态，1:表示查询松开的状态
+   * @exmaple
+      ff 55 05 00 01 23 07 00
+   */
+  this.ButtonOnBoard = function(port, action) {
+    return bufAssembler({
+      mode: 0x01,
+      id: 0x23
+    }, port, action);
+  };
+
+  /**
    * set buzzer only for mcore.
    * @private
    * @param {string} hz , "A2" ~ "D8" 对应的 hz
@@ -505,6 +520,22 @@ function protocolAssembler() {
         id: id
       }, port);
     }
+  };
+
+  /**
+   * read external or board infrared sensor, and the board one is only for mcore
+   * @private
+   * @param  {Number} id    sensor device id，such as: 0x0e, 0x0d, 0x10
+   * @param  {Number} port  mcore port: 3, 4, auriga port: 6,7,8,9,10
+   * @return {Number}       [description]
+   * @example
+   * ff 55 05 00 01 0e 00
+   */
+  this.readInfraredOnboard = function(port, akey) {
+    return bufAssembler({
+        mode: 0x01,
+        id: 0x0e
+      }, port, akey);
   };
 
   /**

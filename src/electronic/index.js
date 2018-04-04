@@ -16,6 +16,7 @@ import SmartServo from './smart_servo';
 import EncoderMotorOnBoardPID from './encoder_motor_on_board_pid'; //略不同的实现方式
 
 import Reset from './reset';
+import ButtonOnBoard from './button_on_board';
 import Ultrasonic from './ultrasonic';
 import Temperature from './temperature';
 import TemperatureOnBoard from './temperature_on_board';
@@ -64,7 +65,8 @@ export default {
   SmartServo,
   EncoderMotorOnBoardPID,
 
-  Reset, //实现待验证
+  Reset, //TODO: 实现待验证
+  ButtonOnBoard,
   Ultrasonic,
   Temperature,
   TemperatureOnBoard,

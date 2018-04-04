@@ -6,7 +6,8 @@ import Electronic from './electronic';
 import protocolAssembler from '../protocol/cmd';
 import Control from '../core/control';
 import {
-  SUPPORTLIST
+  SUPPORTLIST,
+  INFRARED_BUTTON
 } from '../settings';
 
 /**
@@ -27,16 +28,25 @@ import {
 class InfraredOnBoard extends Electronic {
   constructor() {
     super();
-    this.deviceId = 0x0e;
+    this.args = {
+      port: 0x00,
+      key: 0x45 // A
+    }
   }
 
   /**
    * getter of protocol
    */
   get protocol() {
-    let port = 0x00;
-    let aKey = 0x45;
-    return composer(protocolAssembler.readInfrared, [this.deviceId, port, aKey]);
+    return composer(protocolAssembler.readInfraredOnboard, [this.args.port, this.args.key]);
+  }
+
+  checkKeyPressed(key) {
+    let keyCode = INFRARED_BUTTON[key];
+    if(typeof keyCode !== 'undefined') {
+      this.args.key = keyCode;
+    }
+    return this;
   }
 
   /**

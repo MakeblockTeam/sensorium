@@ -20,7 +20,8 @@ module.exports = {
       exclude: /node_modules/
     }]
   },
-  mode: "production",
+  // mode: "production",
+  mode: "development",
   plugins: [],
   devtool: "cheap-module-source-map"
 };

@@ -68,7 +68,31 @@ let
     "D8": 4699
   },
   VERSION = Symbol(),
-  MOVE_DIRECTION = ['FORWARD', 'BACKWARD', 'TURNLEFT', 'TURNRIGHT'];
+  MOVE_DIRECTION = ['FORWARD', 'BACKWARD', 'TURNLEFT', 'TURNRIGHT'],
+  INFRARED_BUTTON = {
+    'A':    69,
+    'B':    70,
+    'C':    71,
+    'D':    68,
+    'E':    67,
+    'F':    13,
+
+    '0':    22,
+    '1':    12,
+    '2':    24,
+    '3':    94,
+    '4':    8,
+    '5':    28,
+    '6':    90,
+    '7':    66,
+    '8':    82,
+    '9':    74,
+    'up':   64,
+    'down': 25,
+    'left': 7,
+    'right':9,
+    'set':  21
+  };
 
 export {
   OVERTIME,
@@ -78,5 +102,6 @@ export {
   FIRMWARE_ID,
   TONE_TO_HZ,
   MOVE_DIRECTION,
-  VERSION
+  VERSION,
+  INFRARED_BUTTON
 };
