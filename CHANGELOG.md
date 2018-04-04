@@ -1,4 +1,8 @@
 ## Changelog
+### [0.3.8] - 2018-04-04
+#### Add
+-  add two modules for mcore: `InfraredOnBoard`, `Infrared`
+
 ### [0.3.7] - 2018-04-03
 #### Fixed
 -  fix bug: missing some package when unpacking the received protocol.
