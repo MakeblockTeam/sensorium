@@ -42,8 +42,9 @@ class InfraredOnBoard extends Electronic {
   }
 
   checkKeyPressed(key) {
-    let keyCode = INFRARED_BUTTON[key];
+    let keyCode = INFRARED_BUTTON[key] || Number(key); // to validate
     if(typeof keyCode !== 'undefined') {
+      console.warn('key code is not match');
       this.args.key = keyCode;
     }
     return this;

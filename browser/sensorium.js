@@ -10198,8 +10198,9 @@ var InfraredOnBoard = function (_Electronic) {
   (0, _createClass3.default)(InfraredOnBoard, [{
     key: 'checkKeyPressed',
     value: function checkKeyPressed(key) {
-      var keyCode = _settings.INFRARED_BUTTON[key];
+      var keyCode = _settings.INFRARED_BUTTON[key] || Number(key); // to validate
       if (typeof keyCode !== 'undefined') {
+        console.warn('key code is not match');
         this.args.key = keyCode;
       }
       return this;
@@ -16242,7 +16243,6 @@ TONE_TO_HZ = {
   'D': 68,
   'E': 67,
   'F': 13,
-
   '0': 22,
   '1': 12,
   '2': 24,
