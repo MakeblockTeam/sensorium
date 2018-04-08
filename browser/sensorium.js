@@ -9840,6 +9840,10 @@ var _pirmotion = __webpack_require__(/*! ./pirmotion */ "./src/electronic/pirmot
 
 var _pirmotion2 = _interopRequireDefault(_pirmotion);
 
+var _infrared = __webpack_require__(/*! ./infrared */ "./src/electronic/infrared.js");
+
+var _infrared2 = _interopRequireDefault(_infrared);
+
 var _infrared_on_board = __webpack_require__(/*! ./infrared_on_board */ "./src/electronic/infrared_on_board.js");
 
 var _infrared_on_board2 = _interopRequireDefault(_infrared_on_board);
@@ -9906,10 +9910,7 @@ var _firmware2 = _interopRequireDefault(_firmware);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// import Infrared from './infrared'; // 暂不实现
-//略不同的实现方式
-
-//包含读值和写的接口
+//读值
 exports.default = {
   DcMotor: _dc_motor2.default,
   VirtualJoystick: _virtual_joystick2.default,
@@ -9942,7 +9943,7 @@ exports.default = {
   Sound: _sound2.default,
   SoundOnBoard: _sound_on_board2.default,
   Pirmotion: _pirmotion2.default,
-  // Infrared,
+  Infrared: _infrared2.default,
   InfraredOnBoard: _infrared_on_board2.default,
   LineFollower: _line_follower2.default,
   LimitSwitch: _limit_switch2.default,
@@ -9959,7 +9960,166 @@ exports.default = {
   Runtime: _runtime2.default,
   Voltage: _voltage2.default,
   Firmware: _firmware2.default
-}; //读值
+}; //略不同的实现方式
+
+//包含读值和写的接口
+
+/***/ }),
+
+/***/ "./src/electronic/infrared.js":
+/*!************************************!*\
+  !*** ./src/electronic/infrared.js ***!
+  \************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _regenerator = __webpack_require__(/*! babel-runtime/regenerator */ "./node_modules/.6.26.0@babel-runtime/regenerator/index.js");
+
+var _regenerator2 = _interopRequireDefault(_regenerator);
+
+var _asyncToGenerator2 = __webpack_require__(/*! babel-runtime/helpers/asyncToGenerator */ "./node_modules/.6.26.0@babel-runtime/helpers/asyncToGenerator.js");
+
+var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+
+var _getPrototypeOf = __webpack_require__(/*! babel-runtime/core-js/object/get-prototype-of */ "./node_modules/.6.26.0@babel-runtime/core-js/object/get-prototype-of.js");
+
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+var _classCallCheck2 = __webpack_require__(/*! babel-runtime/helpers/classCallCheck */ "./node_modules/.6.26.0@babel-runtime/helpers/classCallCheck.js");
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = __webpack_require__(/*! babel-runtime/helpers/createClass */ "./node_modules/.6.26.0@babel-runtime/helpers/createClass.js");
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _possibleConstructorReturn2 = __webpack_require__(/*! babel-runtime/helpers/possibleConstructorReturn */ "./node_modules/.6.26.0@babel-runtime/helpers/possibleConstructorReturn.js");
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = __webpack_require__(/*! babel-runtime/helpers/inherits */ "./node_modules/.6.26.0@babel-runtime/helpers/inherits.js");
+
+var _inherits3 = _interopRequireDefault(_inherits2);
+
+var _validate = __webpack_require__(/*! ../core/validate */ "./src/core/validate.js");
+
+var _utils = __webpack_require__(/*! ../core/utils */ "./src/core/utils.js");
+
+var _electronic = __webpack_require__(/*! ./electronic */ "./src/electronic/electronic.js");
+
+var _electronic2 = _interopRequireDefault(_electronic);
+
+var _cmd = __webpack_require__(/*! ../protocol/cmd */ "./src/protocol/cmd.js");
+
+var _cmd2 = _interopRequireDefault(_cmd);
+
+var _control = __webpack_require__(/*! ../core/control */ "./src/core/control.js");
+
+var _control2 = _interopRequireDefault(_control);
+
+var _settings = __webpack_require__(/*! ../settings */ "./src/settings.js");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var MCORE_NAME = _settings.SUPPORTLIST[0].toLowerCase();
+/**
+ * Infrared sensor module
+ * @describe external infrared sensor and can't connect 2 this infrared sensor to a mainboard at the same time
+ * @extends Electronic
+ */
+
+var Infrared = function (_Electronic) {
+  (0, _inherits3.default)(Infrared, _Electronic);
+
+  function Infrared(port) {
+    (0, _classCallCheck3.default)(this, Infrared);
+
+    var _this = (0, _possibleConstructorReturn3.default)(this, (Infrared.__proto__ || (0, _getPrototypeOf2.default)(Infrared)).call(this));
+
+    _this.args = {
+      port: (0, _validate.validateNumber)(port)
+    };
+    var host = (0, _validate.warnNotSupport)(arguments[arguments.length - 1]) || '';
+    //宿主
+    _this.hostname = host.toLowerCase();
+    return _this;
+  }
+
+  /**
+   * getter of protocol
+   */
+
+
+  (0, _createClass3.default)(Infrared, [{
+    key: 'getData',
+
+
+    /**
+     * Get data of Infrared sensor
+     * @return {Promise}
+     */
+    value: function () {
+      var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
+        return _regenerator2.default.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return _control2.default.read(this.protocol);
+
+              case 2:
+                return _context.abrupt('return', _context.sent);
+
+              case 3:
+              case 'end':
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function getData() {
+        return _ref.apply(this, arguments);
+      }
+
+      return getData;
+    }()
+  }, {
+    key: 'protocol',
+    get: function get() {
+      var deviceId = void 0,
+          aKey = void 0;
+      //如果是 mcore，外接的红外传感器 id = 0x0e
+      //如果非 mcore，外接的红外传感器 id = 0x10
+      switch (this.hostname) {
+        case MCORE_NAME:
+          deviceId = 0x0e;
+          aKey = 0x45;
+          break;
+        default:
+          deviceId = 0x10;
+      }
+      var argsArr = [deviceId, this.args.port];
+      aKey ? argsArr.push(aKey) : null;
+      return (0, _utils.composer)(_cmd2.default.readInfrared, argsArr);
+    }
+  }], [{
+    key: 'SUPPORT',
+    get: function get() {
+      return (0, _utils.fiterWithBinaryStr)(_settings.SUPPORTLIST, '1111');
+    }
+  }]);
+  return Infrared;
+}(_electronic2.default);
+
+exports.default = Infrared;
 
 /***/ }),
 

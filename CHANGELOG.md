@@ -1,4 +1,8 @@
 ## Changelog
+### [0.3.9] - 2018-04-08
+#### Add
+-  Add method `setEmitMessage`,`getEmitMessage` for InfraredOnBoard module.
+
 ### [0.3.8] - 2018-04-04
 #### Add
 -  add two modules for mcore: `InfraredOnBoard`, `Infrared`
