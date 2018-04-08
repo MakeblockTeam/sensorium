@@ -4957,7 +4957,7 @@ exports.default = Read;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.calculateResponseValue = exports.fiterWithBinaryStr = exports.getAllMethods = exports.emotionByteString2binaryByte = exports.composer = exports.hexToRgb = exports.bytesToString = exports.bytesToInt = exports.upperCaseFirstLetter = exports.longToBytes = exports.bigIntToBytes = exports.float32ToBytes = exports.hexStr2IntArray = exports.intStrToHexStr = exports.string2buffer = exports.buffer2string = exports.arrayFromArrayBuffer = exports.arrayBufferFromArray = exports.limitValue = undefined;
+exports.stringToAsciiCode = exports.calculateResponseValue = exports.fiterWithBinaryStr = exports.getAllMethods = exports.emotionByteString2binaryByte = exports.composer = exports.hexToRgb = exports.bytesToString = exports.bytesToInt = exports.upperCaseFirstLetter = exports.longToBytes = exports.bigIntToBytes = exports.float32ToBytes = exports.hexStr2IntArray = exports.intStrToHexStr = exports.string2buffer = exports.buffer2string = exports.arrayFromArrayBuffer = exports.arrayBufferFromArray = exports.limitValue = undefined;
 
 var _getOwnPropertyDescriptor = __webpack_require__(/*! babel-runtime/core-js/object/get-own-property-descriptor */ "./node_modules/.6.26.0@babel-runtime/core-js/object/get-own-property-descriptor.js");
 
@@ -5333,6 +5333,15 @@ function calculateResponseValue(intArray) {
   }
   return result;
 }
+
+function stringToAsciiCode(string) {
+  var result = [];
+  var list = string.split('');
+  for (var i in list) {
+    result.push(list[i].charCodeAt());
+  }
+  return result;
+}
 /**
  * @fileOverview 工具类函数
  */
@@ -5355,6 +5364,7 @@ exports.emotionByteString2binaryByte = emotionByteString2binaryByte;
 exports.getAllMethods = getAllMethods;
 exports.fiterWithBinaryStr = fiterWithBinaryStr;
 exports.calculateResponseValue = calculateResponseValue;
+exports.stringToAsciiCode = stringToAsciiCode;
 
 /***/ }),
 
@@ -8337,12 +8347,25 @@ var PIDForDistance = function () {
   }
 
   /**
-   * set distance
-   * @param  {Number} distance 位移
+   * setDirection clockwise or anticlockwise
+   * slot defines the direction
+   * @param {Number} dir 1: clockwise,  -1: anticlockwise
    */
 
 
   (0, _createClass3.default)(PIDForDistance, [{
+    key: 'setDirection',
+    value: function setDirection(dir) {
+      this.args.slot = dir === -1 ? 2 : 1; //slot 1 defines clockwise
+      return this;
+    }
+
+    /**
+     * set distance
+     * @param  {Number} distance 位移
+     */
+
+  }, {
     key: 'distance',
     value: function distance(_distance) {
       this.args.distance = (0, _validate.validateNumber)(_distance, this.args.distance);
@@ -9817,10 +9840,6 @@ var _pirmotion = __webpack_require__(/*! ./pirmotion */ "./src/electronic/pirmot
 
 var _pirmotion2 = _interopRequireDefault(_pirmotion);
 
-var _infrared = __webpack_require__(/*! ./infrared */ "./src/electronic/infrared.js");
-
-var _infrared2 = _interopRequireDefault(_infrared);
-
 var _infrared_on_board = __webpack_require__(/*! ./infrared_on_board */ "./src/electronic/infrared_on_board.js");
 
 var _infrared_on_board2 = _interopRequireDefault(_infrared_on_board);
@@ -9887,7 +9906,10 @@ var _firmware2 = _interopRequireDefault(_firmware);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-//读值
+// import Infrared from './infrared'; // 暂不实现
+//略不同的实现方式
+
+//包含读值和写的接口
 exports.default = {
   DcMotor: _dc_motor2.default,
   VirtualJoystick: _virtual_joystick2.default,
@@ -9920,7 +9942,7 @@ exports.default = {
   Sound: _sound2.default,
   SoundOnBoard: _sound_on_board2.default,
   Pirmotion: _pirmotion2.default,
-  Infrared: _infrared2.default,
+  // Infrared,
   InfraredOnBoard: _infrared_on_board2.default,
   LineFollower: _line_follower2.default,
   LimitSwitch: _limit_switch2.default,
@@ -9937,166 +9959,7 @@ exports.default = {
   Runtime: _runtime2.default,
   Voltage: _voltage2.default,
   Firmware: _firmware2.default
-}; //略不同的实现方式
-
-//包含读值和写的接口
-
-/***/ }),
-
-/***/ "./src/electronic/infrared.js":
-/*!************************************!*\
-  !*** ./src/electronic/infrared.js ***!
-  \************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _regenerator = __webpack_require__(/*! babel-runtime/regenerator */ "./node_modules/.6.26.0@babel-runtime/regenerator/index.js");
-
-var _regenerator2 = _interopRequireDefault(_regenerator);
-
-var _asyncToGenerator2 = __webpack_require__(/*! babel-runtime/helpers/asyncToGenerator */ "./node_modules/.6.26.0@babel-runtime/helpers/asyncToGenerator.js");
-
-var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
-
-var _getPrototypeOf = __webpack_require__(/*! babel-runtime/core-js/object/get-prototype-of */ "./node_modules/.6.26.0@babel-runtime/core-js/object/get-prototype-of.js");
-
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
-
-var _classCallCheck2 = __webpack_require__(/*! babel-runtime/helpers/classCallCheck */ "./node_modules/.6.26.0@babel-runtime/helpers/classCallCheck.js");
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = __webpack_require__(/*! babel-runtime/helpers/createClass */ "./node_modules/.6.26.0@babel-runtime/helpers/createClass.js");
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-var _possibleConstructorReturn2 = __webpack_require__(/*! babel-runtime/helpers/possibleConstructorReturn */ "./node_modules/.6.26.0@babel-runtime/helpers/possibleConstructorReturn.js");
-
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-var _inherits2 = __webpack_require__(/*! babel-runtime/helpers/inherits */ "./node_modules/.6.26.0@babel-runtime/helpers/inherits.js");
-
-var _inherits3 = _interopRequireDefault(_inherits2);
-
-var _validate = __webpack_require__(/*! ../core/validate */ "./src/core/validate.js");
-
-var _utils = __webpack_require__(/*! ../core/utils */ "./src/core/utils.js");
-
-var _electronic = __webpack_require__(/*! ./electronic */ "./src/electronic/electronic.js");
-
-var _electronic2 = _interopRequireDefault(_electronic);
-
-var _cmd = __webpack_require__(/*! ../protocol/cmd */ "./src/protocol/cmd.js");
-
-var _cmd2 = _interopRequireDefault(_cmd);
-
-var _control = __webpack_require__(/*! ../core/control */ "./src/core/control.js");
-
-var _control2 = _interopRequireDefault(_control);
-
-var _settings = __webpack_require__(/*! ../settings */ "./src/settings.js");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var MCORE_NAME = _settings.SUPPORTLIST[0].toLowerCase();
-/**
- * Infrared sensor module
- * @describe external infrared sensor and can't connect 2 this infrared sensor to a mainboard at the same time
- * @extends Electronic
- */
-
-var Infrared = function (_Electronic) {
-  (0, _inherits3.default)(Infrared, _Electronic);
-
-  function Infrared(port) {
-    (0, _classCallCheck3.default)(this, Infrared);
-
-    var _this = (0, _possibleConstructorReturn3.default)(this, (Infrared.__proto__ || (0, _getPrototypeOf2.default)(Infrared)).call(this));
-
-    _this.args = {
-      port: (0, _validate.validateNumber)(port)
-    };
-    var host = (0, _validate.warnNotSupport)(arguments[arguments.length - 1]) || '';
-    //宿主
-    _this.hostname = host.toLowerCase();
-    return _this;
-  }
-
-  /**
-   * getter of protocol
-   */
-
-
-  (0, _createClass3.default)(Infrared, [{
-    key: 'getData',
-
-
-    /**
-     * Get data of Infrared sensor
-     * @return {Promise}
-     */
-    value: function () {
-      var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
-        return _regenerator2.default.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                _context.next = 2;
-                return _control2.default.read(this.protocol);
-
-              case 2:
-                return _context.abrupt('return', _context.sent);
-
-              case 3:
-              case 'end':
-                return _context.stop();
-            }
-          }
-        }, _callee, this);
-      }));
-
-      function getData() {
-        return _ref.apply(this, arguments);
-      }
-
-      return getData;
-    }()
-  }, {
-    key: 'protocol',
-    get: function get() {
-      var deviceId = void 0,
-          aKey = void 0;
-      //如果是 mcore，外接的红外传感器 id = 0x0e
-      //如果非 mcore，外接的红外传感器 id = 0x10
-      switch (this.hostname) {
-        case MCORE_NAME:
-          deviceId = 0x0e;
-          aKey = 0x45;
-          break;
-        default:
-          deviceId = 0x10;
-      }
-      var argsArr = [deviceId, this.args.port];
-      aKey ? argsArr.push(aKey) : null;
-      return (0, _utils.composer)(_cmd2.default.readInfrared, argsArr);
-    }
-  }], [{
-    key: 'SUPPORT',
-    get: function get() {
-      return (0, _utils.fiterWithBinaryStr)(_settings.SUPPORTLIST, '1111');
-    }
-  }]);
-  return Infrared;
-}(_electronic2.default);
-
-exports.default = Infrared;
+}; //读值
 
 /***/ }),
 
@@ -10160,6 +10023,7 @@ var _settings = __webpack_require__(/*! ../settings */ "./src/settings.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var MODE = ['read', 'write'];
 /**
  * 所有主控板（包括MegaPiPro）都有 2 种类型：外接的红外传感器，外接的被动式红外探测器
  * mcore 一共有 4 种红外相关的传感器，即除了上述 2 种，还有板载的红外传感器，且板载的分别是“发射端”、“接收端” 2 种
@@ -10175,6 +10039,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @describe this interface is only for mcore and mcore has two kind of InfraredOnBoard sensor
  * @extends Electronic
  */
+
 var InfraredOnBoard = function (_Electronic) {
   (0, _inherits3.default)(InfraredOnBoard, _Electronic);
 
@@ -10185,8 +10050,10 @@ var InfraredOnBoard = function (_Electronic) {
 
     _this.args = {
       port: 0x00,
-      key: 0x45 // A
+      key: 0x45, // A
+      emitMsg: []
     };
+    _this.mode_ = MODE[0];
     return _this;
   }
 
@@ -10197,17 +10064,53 @@ var InfraredOnBoard = function (_Electronic) {
 
   (0, _createClass3.default)(InfraredOnBoard, [{
     key: 'checkKeyPressed',
+
+
+    /**
+     * [checkKeyPressed description]
+     * @param  {[type]} key [description]
+     * @return {[type]}     [description]
+     */
     value: function checkKeyPressed(key) {
-      var keyCode = _settings.INFRARED_BUTTON[key] || Number(key); // to validate
-      if (typeof keyCode !== 'undefined') {
+      this.mode_ = MODE[0];
+      var keyCode = _settings.INFRARED_BUTTON[key]; // to validate
+      if (typeof keyCode === 'undefined') {
         console.warn('key code is not match');
-        this.args.key = keyCode;
       }
+      this.args.key = keyCode;
       return this;
     }
 
     /**
-     * Get data of Infrared sensor
+     * set the message of the Infrared emitting to another mcore
+     * @param {String} msg the message
+     */
+
+  }, {
+    key: 'setEmitMessage',
+    value: function setEmitMessage(msg) {
+      var assicMsg = [];
+      if (typeof msg !== 'undefined' || msg !== null) {
+        assicMsg = (0, _utils.stringToAsciiCode)(String(msg));
+      }
+      this.mode_ = MODE[1];
+      this.args.emitMsg = assicMsg;
+      return this;
+    }
+    /**
+     * run to emit message
+     * @return {[type]} [description]
+     */
+
+  }, {
+    key: 'run',
+    value: function run() {
+      _control2.default.write(this.protocol);
+      return this;
+    }
+
+    /**
+     * Get data of Infrared sensor received from telecontroller
      * @return {Promise}
      */
 
@@ -10239,10 +10142,19 @@ var InfraredOnBoard = function (_Electronic) {
 
       return getData;
     }()
+
+    /**
+     * a getter interface, which returns the mainboards the InfraredOnBoard module supported
+     */
+
   }, {
     key: 'protocol',
     get: function get() {
-      return (0, _utils.composer)(_cmd2.default.readInfraredOnboard, [this.args.port, this.args.key]);
+      if (this.mode_ === MODE[0]) {
+        return (0, _utils.composer)(_cmd2.default.readInfraredOnboard, [this.args.port, this.args.key]);
+      } else {
+        return (0, _utils.composer)(_cmd2.default.emitInfraredOnboard, [this.args.emitMsg]);
+      }
     }
   }], [{
     key: 'SUPPORT',
@@ -15705,10 +15617,9 @@ function protocolAssembler() {
   };
 
   /**
-   * read external or board infrared sensor, and the board one is only for mcore
+   * read external or board infrared sensor, and is only for mcore
    * @private
-   * @param  {Number} id    sensor device id，such as: 0x0e, 0x0d, 0x10
-   * @param  {Number} port  mcore port: 3, 4, auriga port: 6,7,8,9,10
+   * @param  {Number} port  mcore port: 3, 4
    * @return {Number}       [description]
    * @example
    * ff 55 05 00 01 0e 00
@@ -15718,6 +15629,22 @@ function protocolAssembler() {
       mode: 0x01,
       id: 0x0e
     }, port, akey);
+  };
+
+  /**
+   * emit message from external or board infrared sensor, and is only for mcore
+   * @private
+   * @param  {Number} port  mcore port: 3, 4
+   * @param  {Array.Number} msg  infrared msg list, the number is assic code
+   * @return {Number}       [description]
+   * @example
+   * ff 55 05 00 01 0e 00
+   */
+  this.emitInfraredOnboard = function (msg) {
+    return bufAssembler.apply(undefined, [{
+      mode: 0x02,
+      id: 0x0d
+    }].concat((0, _toConsumableArray3.default)(msg)));
   };
 
   /**

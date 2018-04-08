@@ -17,6 +17,16 @@ class PIDForDistance {
   }
 
   /**
+   * setDirection clockwise or anticlockwise
+   * slot defines the direction
+   * @param {Number} dir 1: clockwise,  -1: anticlockwise
+   */
+  setDirection(dir) {
+    this.args.slot = dir === -1? 2 : 1; //slot 1 defines clockwise
+    return this;
+  }
+
+  /**
    * set distance
    * @param  {Number} distance 位移
    */

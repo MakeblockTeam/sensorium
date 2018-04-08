@@ -29,7 +29,7 @@ import GyroOnBoard from './Gyro_on_board';
 import Sound from './sound';
 import SoundOnBoard from './sound_on_board';
 import Pirmotion from './pirmotion';
-import Infrared from './infrared';
+// import Infrared from './infrared'; // 暂不实现
 import InfraredOnBoard from './infrared_on_board';
 import LimitSwitch from './limit_switch';
 import LineFollower from './line_follower';
@@ -79,7 +79,7 @@ export default {
   Sound,
   SoundOnBoard,
   Pirmotion,
-  Infrared,
+  // Infrared,
   InfraredOnBoard,
   LineFollower,
   LimitSwitch,

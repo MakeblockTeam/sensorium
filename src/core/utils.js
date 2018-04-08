@@ -333,26 +333,35 @@ function fiterWithBinaryStr(arr, bstr) {
  * @return {Number}  result.
  */
 function calculateResponseValue(intArray) {
-    var result = null;
-    // FIXME: int字节转浮点型
-    var intBitsToFloat = function(num) {
-      /* s 为符号（sign）；e 为指数（exponent）；m 为有效位数（mantissa）*/
-      var s = (num >> 31) == 0 ? 1 : -1,
-        e = (num >> 23) & 0xff,
-        m = (e == 0) ?
-        (num & 0x7fffff) << 1 :
-        (num & 0x7fffff) | 0x800000;
-      return s * m * Math.pow(2, e - 150);
-    };
-    var intValue = bytesToInt(intArray);
-    // TOFIX
-    if (intValue < 100000 && intValue > 0) {
-      result = intValue;
-    } else {
-      result = parseFloat(intBitsToFloat(intValue).toFixed(2));
+  var result = null;
+  // FIXME: int字节转浮点型
+  var intBitsToFloat = function(num) {
+    /* s 为符号（sign）；e 为指数（exponent）；m 为有效位数（mantissa）*/
+    var s = (num >> 31) == 0 ? 1 : -1,
+      e = (num >> 23) & 0xff,
+      m = (e == 0) ?
+      (num & 0x7fffff) << 1 :
+      (num & 0x7fffff) | 0x800000;
+    return s * m * Math.pow(2, e - 150);
+  };
+  var intValue = bytesToInt(intArray);
+  // TOFIX
+  if (intValue < 100000 && intValue > 0) {
+    result = intValue;
+  } else {
+    result = parseFloat(intBitsToFloat(intValue).toFixed(2));
+  }
+  return result;
+}
+
+function stringToAsciiCode(string) {
+    var result = [];
+    var list = string.split('');
+    for (var i in list) {
+        result.push(list[i].charCodeAt());
     }
     return result;
-  }
+}
 /**
  * @fileOverview 工具类函数
  */
@@ -375,5 +384,6 @@ export {
   emotionByteString2binaryByte,
   getAllMethods,
   fiterWithBinaryStr,
-  calculateResponseValue
+  calculateResponseValue,
+  stringToAsciiCode
 }

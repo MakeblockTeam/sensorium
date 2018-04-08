@@ -523,10 +523,9 @@ function protocolAssembler() {
   };
 
   /**
-   * read external or board infrared sensor, and the board one is only for mcore
+   * read external or board infrared sensor, and is only for mcore
    * @private
-   * @param  {Number} id    sensor device id，such as: 0x0e, 0x0d, 0x10
-   * @param  {Number} port  mcore port: 3, 4, auriga port: 6,7,8,9,10
+   * @param  {Number} port  mcore port: 3, 4
    * @return {Number}       [description]
    * @example
    * ff 55 05 00 01 0e 00
@@ -536,6 +535,22 @@ function protocolAssembler() {
         mode: 0x01,
         id: 0x0e
       }, port, akey);
+  };
+
+  /**
+   * emit message from external or board infrared sensor, and is only for mcore
+   * @private
+   * @param  {Number} port  mcore port: 3, 4
+   * @param  {Array.Number} msg  infrared msg list, the number is assic code
+   * @return {Number}       [description]
+   * @example
+   * ff 55 05 00 01 0e 00
+   */
+  this.emitInfraredOnboard = function(msg) {
+    return bufAssembler({
+        mode: 0x02,
+        id: 0x0d
+      }, ...msg);
   };
 
   /**
