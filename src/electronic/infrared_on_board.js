@@ -11,7 +11,7 @@ import {
   INFRARED_BUTTON
 } from '../settings';
 
-const MODE = ['read', 'write'];
+const MODE = ['read', 'write', 'read2'];
 /**
  * 所有主控板（包括MegaPiPro）都有 2 种类型：外接的红外传感器，外接的被动式红外探测器
  * mcore 一共有 4 种红外相关的传感器，即除了上述 2 种，还有板载的红外传感器，且板载的分别是“发射端”、“接收端” 2 种
@@ -44,8 +44,10 @@ class InfraredOnBoard extends Electronic {
   get protocol() {
     if(this.mode_ === MODE[0]) {
       return composer(protocolAssembler.readInfraredOnboard, [this.args.port, this.args.key]);
-    }else {
+    }else if(this.mode_ === MODE[1]) {
       return composer(protocolAssembler.emitInfraredOnboard, [this.args.emitMsg]);
+    }else {
+      return composer(protocolAssembler.receiveEmitInfraredOnboard, []);
     }
   }
 
@@ -77,6 +79,16 @@ class InfraredOnBoard extends Electronic {
     this.args.emitMsg = assicMsg;
     return this;
   }
+
+  /**
+   * set the message of the Infrared emitting to another mcore
+   * @param {String} msg the message receiveEmitInfraredOnboard
+   */
+  getEmitMessage() {
+    this.mode_ = MODE[2];
+    return this;
+  }
+
   /**
    * run to emit message
    * @return {[type]} [description]

@@ -10023,7 +10023,7 @@ var _settings = __webpack_require__(/*! ../settings */ "./src/settings.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var MODE = ['read', 'write'];
+var MODE = ['read', 'write', 'read2'];
 /**
  * 所有主控板（包括MegaPiPro）都有 2 种类型：外接的红外传感器，外接的被动式红外探测器
  * mcore 一共有 4 种红外相关的传感器，即除了上述 2 种，还有板载的红外传感器，且板载的分别是“发射端”、“接收端” 2 种
@@ -10097,6 +10097,19 @@ var InfraredOnBoard = function (_Electronic) {
       this.args.emitMsg = assicMsg;
       return this;
     }
+
+    /**
+     * set the message of the Infrared emitting to another mcore
+     * @param {String} msg the message receiveEmitInfraredOnboard
+     */
+
+  }, {
+    key: 'getEmitMessage',
+    value: function getEmitMessage() {
+      this.mode_ = MODE[2];
+      return this;
+    }
+
     /**
      * run to emit message
      * @return {[type]} [description]
@@ -10152,8 +10165,10 @@ var InfraredOnBoard = function (_Electronic) {
     get: function get() {
       if (this.mode_ === MODE[0]) {
         return (0, _utils.composer)(_cmd2.default.readInfraredOnboard, [this.args.port, this.args.key]);
-      } else {
+      } else if (this.mode_ === MODE[1]) {
         return (0, _utils.composer)(_cmd2.default.emitInfraredOnboard, [this.args.emitMsg]);
+      } else {
+        return (0, _utils.composer)(_cmd2.default.receiveEmitInfraredOnboard, []);
       }
     }
   }], [{
@@ -15645,6 +15660,22 @@ function protocolAssembler() {
       mode: 0x02,
       id: 0x0d
     }].concat((0, _toConsumableArray3.default)(msg)));
+  };
+
+  /**
+   * emit message from external or board infrared sensor, and is only for mcore
+   * @private
+   * @param  {Number} port  mcore port: 3, 4
+   * @param  {Array.Number} msg  infrared msg list, the number is assic code
+   * @return {Number}       [description]
+   * @example
+   * ff 55 05 00 01 0e 00
+   */
+  this.receiveEmitInfraredOnboard = function () {
+    return bufAssembler({
+      mode: 0x01,
+      id: 0x0d
+    });
   };
 
   /**
