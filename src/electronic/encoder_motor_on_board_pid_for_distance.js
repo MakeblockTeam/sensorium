@@ -22,7 +22,7 @@ class PIDForDistance {
    * @param {Number} dir 1: clockwise,  -1: anticlockwise
    */
   setDirection(dir) {
-    this.args.slot = dir === -1? 2 : 1; //slot 1 defines clockwise
+    this.args.distance = dir * this.args.distance;
     return this;
   }
 

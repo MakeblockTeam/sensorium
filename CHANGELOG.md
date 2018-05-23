@@ -1,4 +1,8 @@
 ## Changelog
+### [0.4.0] - 2018-05-23
+#### Fix
+-  fix bug of encoderMotor
+
 ### [0.3.9] - 2018-04-08
 #### Add
 -  Add method `setEmitMessage`,`getEmitMessage` for InfraredOnBoard module.
