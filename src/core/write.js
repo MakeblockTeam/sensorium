@@ -25,7 +25,7 @@ const Write = {
       send(buf);
     }
   },
-  addCallbackRequest: function (send, buf, callback) {
+  addAwaitRequest: function (send, buf, callback) {
     let time = (new Date()).getTime();
     let bufStr = buf.join('_');
     if (this.writeRecord.buf != bufStr || time - this.writeRecord.time > TIME_INTERVAL) {

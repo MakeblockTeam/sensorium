@@ -31,12 +31,12 @@ class Control {
   /**
    * it must use 'await' to wait the Promise after write command from outside call
    * @param {{Array}} buf   protocol buffer
-   * @param {Arguments Array} args null or [delay[,args1[,args2...]]], for example, write and delay 2 senconds: writeAndAwait(buf,2*1000)
+   * @param {Arguments Array} args null or [delay[,args1[,args2...]]], for example, write and delay 2 senconds: writeAwait(buf,2*1000)
    * @return {Promise}       return a promise
    */
-  writeAndAwait(buf,args) {
+  writeAwait(buf,args) {
     return new Promise((resolve,reject)=>{
-      Write.addCallbackRequest(Transport.send.bind(Transport), buf, function(val){
+      Write.addAwaitRequest(Transport.send.bind(Transport), buf, function(val){
         let delay = args && args[0] || -1;
         if(delay>0){
           let t = setTimeout(()=>{

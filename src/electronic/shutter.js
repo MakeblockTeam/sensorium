@@ -47,8 +47,8 @@ class Shutter extends Electronic {
     Control.write(this.protocol);
     return this;
   }
-  runAndAwait() {
-    return Control.writeAndAwait(this.protocol,arguments);
+  runAwait() {
+    return Control.writeAwait(this.protocol,arguments);
   }
 
   static get SUPPORT(){
