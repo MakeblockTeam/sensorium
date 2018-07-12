@@ -86,6 +86,9 @@ class BaseRgbLed extends Electronic {
     Control.write(this.protocol);
     return this;
   }
+  runAndAwait() {
+    return Control.writeAndAwait(this.protocol,arguments);
+  }
 
   /**
    * Turn on led

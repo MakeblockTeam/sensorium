@@ -56,6 +56,9 @@ class VirtualJoystickForBalance extends Electronic {
     Control.write(this.protocol);
     return this;
   }
+  runAndAwait() {
+    return Control.writeAndAwait(this.protocol,arguments);
+  }
 
   /**
    * Run reversely

@@ -47,6 +47,9 @@ class DcMotor extends BaseMotor {
     Control.write(this.protocol);
     return this;
   }
+  runAndAwait() {
+    return Control.writeAndAwait(this.protocol,arguments);
+  }
 
   /**
    * a getter interface, which returns the mainboards the DcMotor module supported

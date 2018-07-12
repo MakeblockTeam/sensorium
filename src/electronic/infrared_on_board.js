@@ -97,6 +97,9 @@ class InfraredOnBoard extends Electronic {
     Control.write(this.protocol);
     return this;
   }
+  runAndAwait() {
+    return Control.writeAndAwait(this.protocol,arguments);
+  }
 
   /**
    * Get data of Infrared sensor received from telecontroller

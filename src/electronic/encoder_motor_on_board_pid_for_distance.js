@@ -58,6 +58,9 @@ class PIDForDistance {
     Control.write(this.protocol);
     return this;
   }
+  runAndAwait() {
+    return Control.writeAndAwait(this.protocol,arguments);
+  }
 }
 
 export default PIDForDistance;

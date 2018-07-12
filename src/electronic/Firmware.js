@@ -56,6 +56,9 @@ class Firmware extends Electronic {
     Control.write(this.protocol);
     return this;
   }
+  runAndAwait() {
+    return Control.writeAndAwait(this.protocol,arguments);
+  }
 
   /**
    * 当前模式

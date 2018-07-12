@@ -80,6 +80,9 @@ class BaseLedMatrix extends Electronic {
     Control.write(this.protocol);
     return this;
   }
+  runAndAwait() {
+    return Control.writeAndAwait(this.protocol,arguments);
+  }
 
   static get CHAR_TYPE() {
     return 0x01;

@@ -83,6 +83,9 @@ class Buzzer extends Electronic {
     Control.write(this.protocol);
     return this;
   }
+  runAndAwait() {
+    return Control.writeAndAwait(this.protocol,arguments);
+  }
 
   /**
    * a getter interface, which returns the mainboards the Buzzer module supported

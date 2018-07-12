@@ -25,6 +25,29 @@ class Control {
    */
   write(buf) {
     Write.addRequest(Transport.send.bind(Transport), buf);
+    
+  }
+
+  /**
+   * it must use 'await' to wait the Promise after write command from outside call
+   * @param {{Array}} buf   protocol buffer
+   * @param {Arguments Array} args null or [delay[,args1[,args2...]]], for example, write and delay 2 senconds: writeAndAwait(buf,2*1000)
+   * @return {Promise}       return a promise
+   */
+  writeAndAwait(buf,args) {
+    return new Promise((resolve,reject)=>{
+      Write.addCallbackRequest(Transport.send.bind(Transport), buf, function(val){
+        let delay = args && args[0] || -1;
+        if(delay>0){
+          let t = setTimeout(()=>{
+            clearTimeout(t);
+            resolve(val);
+          },delay)
+        } else {
+          resolve(val);
+        }
+      });
+    });
   }
 
   /**
@@ -48,6 +71,7 @@ class Control {
   pipe(buff) {
     let buffData = buff.data || buff;
     let buffers = Parse.doParse(buffData); //undefined or [[], [], [xxx]]
+    console.log('received data!',buff);
     if(!buffers) {
       return;
       //可能因为接收了异常数据
@@ -55,7 +79,8 @@ class Control {
     }
     for(let buf of buffers) {
       if(buf.length == 0) {
-        // do nothing with write command
+        // do something with write command also
+        Read.emitCallback(0, null);
       }else{
         let value = Parse.getResult(buf);
         // console.log('after parse ------>', buf[0], buf, value);

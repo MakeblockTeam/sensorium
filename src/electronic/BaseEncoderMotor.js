@@ -71,7 +71,9 @@ class BaseEncoderMotor extends BaseMotor {
     Control.write(this.protocol);
     return this;
   }
-
+  runAndAwait() {
+    return Control.writeAndAwait(this.protocol,arguments);
+  }
   /**
    * EncoderMotor run reversely
    * @return {Object} the instance

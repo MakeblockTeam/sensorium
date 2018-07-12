@@ -22,7 +22,8 @@ const Read = {
   createSafeIndex: function() {
     // “找坑法”
     if (this.index >= MAX_RECORD) {
-      for(let i =0; i < MAX_RECORD; i++){
+      // 0默认预留给write使用
+      for(let i =1; i < MAX_RECORD; i++){
         if(!this.readRecord[i]){
           return i;
         }
