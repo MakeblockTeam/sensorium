@@ -1,6 +1,6 @@
 {
   "name": "sensorium",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "description": "makeblock mainboards protocol api",
   "main": "browser/sensorium.js",
   "directories": {
