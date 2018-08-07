@@ -195,7 +195,9 @@ class SmartServo extends Electronic {
     Control.write(this.protocol);
     return this;
   }
-
+  runAwait() {
+    return Control.writeAwait(this.protocol,arguments);
+  }
   /**
    * Get data of read API such as readSpeed, readVoltage, readAngle and so on
    * @example
