@@ -26,30 +26,23 @@ const Write = {
     }
   },
   addAwaitRequest: function (send, buf, callback) {
-    let time = (new Date()).getTime();
-    let bufStr = buf.join('_');
-    if (this.writeRecord.buf != bufStr || time - this.writeRecord.time > TIME_INTERVAL) {
-      this.writeRecord.buf = bufStr;
-      this.writeRecord.time = time;
-      let index = 0;
-      //记录
-      Read.addRecord(index, callback);
-      //因为蜂鸣器有很长的延时的特性，所以蜂鸣器看门狗延时长一点
-      if (buf[5] === 34) {
-        console.log("蜂鸣器，看门狗延时10000", buf)
-        this.watchdog(index, 10000, buf);
-      } else {
-        //看门狗处理超时请求
-        console.log("普通狗，", buf)
-        this.watchdog(index, null, buf);
-      }
+    let index = 0;
+    //记录
+    Read.addRecord(index, callback);
+    //因为蜂鸣器有很长的延时的特性，所以蜂鸣器看门狗延时长一点
+    if (buf[5] === 34) {
+      //console.log("蜂鸣器，看门狗延时10000", buf)
+      this.watchdog(index, 10000, buf);
+    } else {
+      //看门狗处理超时请求
+      console.log("watch dog:", buf)
+      this.watchdog(index, null, buf);
     }
-
     send(buf);
   },
   watchdog: function (index, delay, buf) {
     Read.readRecord[index].timer = setTimeout(() => {
-      console.log("看门狗超时：", index, delay, buf)
+      console.log("watch dog time out:", index, delay, buf)
       Read.emitCallback(index, null);
     }, delay || AUTO_OVERTIME);
   }
