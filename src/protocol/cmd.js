@@ -751,7 +751,7 @@ function protocolAssembler() {
       distanceArr[2],
       distanceArr[1],
       distanceArr[0],
-      speed & 0xff, 0);
+      speed & 0xff, (speed >> 8) & 0xff);
   };
 
   /**
@@ -825,7 +825,7 @@ function protocolAssembler() {
       distanceArr[1],
       distanceArr[0],
       speed & 0xff,
-      0);
+      (speed >> 8) & 0xff);
   };
 
   /**
