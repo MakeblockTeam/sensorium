@@ -132,3 +132,4 @@ class Sensorium {
 
 //webpack umd
 module.exports = Sensorium;
+// export default Sensorium;

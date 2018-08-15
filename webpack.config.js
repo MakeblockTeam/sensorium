@@ -7,7 +7,7 @@ module.exports = {
     path: path.resolve(__dirname, 'browser'),
     filename: 'sensorium.js',
     library: "Sensorium",
-    libraryTarget: "this"
+    libraryTarget: "umd"
   },
   module: {
     rules: [{
