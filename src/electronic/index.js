@@ -46,7 +46,9 @@ import DoubleGPIO from './double_GPIO';
 import Runtime from './runtime';
 import Voltage from './voltage';
 import Firmware from './firmware';
-
+import ArduinoBuzzer from './arduino_buzzer';
+import ArduinoServo from './arduino_servo';
+import PwmGPIO from './pwmGPIO';
 export default {
   DcMotor,
   VirtualJoystick,
@@ -95,5 +97,9 @@ export default {
   DoubleGPIO,
   Runtime,
   Voltage,
-  Firmware
+  Firmware,
+  //arduino
+  ArduinoBuzzer,
+  ArduinoServo,
+  PwmGPIO
 };

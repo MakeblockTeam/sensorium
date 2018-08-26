@@ -949,6 +949,73 @@ function protocolAssembler() {
 
   /**
    * @private
+   * @param  {Number} port  vailable: digit GPOI port
+   * @param  {Number} level  vailable: digit GPOI level
+   * @return {Number}       [description]
+   * @example
+   * ff 55 05 00 02 1e 09 01
+   */
+  this.setDigGPIO = function(port, level) {
+    return bufAssembler({
+      mode: 0x02,
+      id: 0x1e
+    }, port, level);
+  };
+
+  /**
+   * @private
+   * @param  {Number} port  vailable: arduino buzzer port
+   * @param  {Number} note  vailable: arduino buzzer note
+   * @param  {Number} beat  vailable: arduino buzzer beat
+   * @return {Number}       [description]
+   * @example
+   * ff 55 08 00 02 22 02 06 01 f4 01
+   */
+  this.arduinoBuzzer = function(port, note, beat) {
+    return bufAssembler({
+      mode: 0x02,
+      id: 0x22
+    }, port, 
+      (note & 0xff),
+      (note >> 8) & 0xff,
+      (beat & 0xff),
+      (beat >> 8) & 0xff);
+  };
+
+  /**
+   * @private
+   * @param  {Number} port  vailable: arduino buzzer port
+   * @param  {Number} angle  vailable: arduino buzzer note
+   * @return {Number}       [description]
+   * @example
+   * ff 55 05 00 02 21 09 5a
+   */
+  this.arduinoServo = function(port, angle) {
+    return bufAssembler({
+      mode: 0x02,
+      id: 0x21
+    }, port, 
+      angle)
+  };
+
+  /**
+   * @private
+   * @param  {Number} port  vailable: pwm  port
+   * @param  {Number} key  vailable: pwm  key
+   * @return {Number}       [description]
+   * @example
+   * ff 55 05 00 02 20 05 00
+   */
+  this.pwmGPIO = function(port, key) {
+    return bufAssembler({
+      mode: 0x02,
+      id: 0x20
+    }, port, key);
+  };
+
+
+  /**
+   * @private
    * @param  {Number} port  vailable: analog GPIO port
    * @return {Number}       [description]
    * @example

@@ -10,7 +10,9 @@ let
     0x09: 'Auriga',
     0x0a: 'Orion',
     0x0e: 'MegaPi',
-    0x0f: 'MegaPiPro'
+    0x0f: 'MegaPiPro',
+    0x0d: "Arduino Mega 2560",
+    
   },
   //音符到赫兹
   TONE_TO_HZ = {

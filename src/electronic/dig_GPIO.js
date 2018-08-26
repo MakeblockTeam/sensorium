@@ -24,7 +24,18 @@ class DigGPIO extends Electronic {
   get protocol() {
     return composer(protocolAssembler.readDigGPIO, [this.args.port]);
   }
-
+  get runProtocol() {
+    return composer(protocolAssembler.setDigGPIO, [this.args.port, this.args.level]);
+  }
+  runAwait() {
+    return Control.writeAwait(this.runProtocol,arguments);
+  }
+  /**
+   * set electrial level
+   */
+  setLevel(level) {
+    this.args.level = level;
+  }
   /**
    * Get data of DigGPIO sensor
    * @return {Promise}
