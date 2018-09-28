@@ -1,4 +1,8 @@
 ## Changelog
+### [0.4.5] - 2018-08-20
+#### Fix
+-  fix bug
+
 ### [0.4.0] - 2018-05-23
 #### Fix
 -  fix bug of encoderMotor
