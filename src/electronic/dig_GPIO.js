@@ -35,6 +35,7 @@ class DigGPIO extends Electronic {
    */
   setLevel(level) {
     this.args.level = level;
+    return this;
   }
   /**
    * Get data of DigGPIO sensor

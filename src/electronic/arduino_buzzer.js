@@ -16,7 +16,7 @@ class ArduinoBuzzer extends Electronic {
     this.args = {
       port: validateNumber(port, 1),
       note: validateNumber(note, 262),
-      beat: validateNumber(beat, 262),
+      beat: validateNumber(beat, 500),
     };
   }
 

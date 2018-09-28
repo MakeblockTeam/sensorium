@@ -31,7 +31,7 @@ const Write = {
     Read.addRecord(index, callback);
     //因为蜂鸣器有很长的延时的特性，所以蜂鸣器看门狗延时长一点
     if (buf[5] === 34) {
-      //console.log("蜂鸣器，看门狗延时10000", buf)
+      console.log("蜂鸣器，看门狗延时10000", buf)
       this.watchdog(index, 10000, buf);
     } else {
       //看门狗处理超时请求
