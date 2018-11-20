@@ -11,7 +11,8 @@ var temporaryData = JSON.parse(fs.readFileSync(availableData));//读取json文�
 var drivenData = temporaryData.drivenData;//得到测试数据
 
 
-const Sensorium = require('../../browser/sensorium');
+// const Sensorium = require('../../browser/sensorium');
+const Sensorium = require('../../src/index.js');
 const serialConnect = require('../cli/serialConnect');
 const sensorium = new Sensorium();
 serialConnect(sensorium);

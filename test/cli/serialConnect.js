@@ -24,7 +24,7 @@ function serialConnect(sensorium) {
       });
       serialPort.on('data', function(buff) {
         console.log('-----> Received data', '[' + buff.join(',') + ']');
-        sensorium.doRecevied(buff);
+        sensorium.doReceived(buff);
       });
     });
     // open errors will be emitted as an error event
