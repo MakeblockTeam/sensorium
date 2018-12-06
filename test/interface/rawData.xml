@@ -2530,7 +2530,7 @@
 	<externalid><![CDATA[48]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	single-setCmd:`mcore.LedMatrix(2).charMode().x(1).y(1).char(&#39;hello word&#39;)`ff 55 0c 00 02 29 02 01 01 08 04 68 65 6c 6c</p>
+	single-setCmd:`mcore.LedMatrix(2).charMode().x(1).y(1).char(&#39;hello word&#39;)`ff 55 12 00 02 29 02 01 01 08 0a 68 65 6c 6c 6f 20 77 6f 72 64</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
@@ -15271,7 +15271,7 @@
 	<externalid><![CDATA[1455]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	single-setCmd:`auriga.VirtualJoystickForBalance().speed(-100).turnRange(-100)`ff 55 08 00 02 34 00 ff 9c ff 9c</p>
+	single-setCmd:`auriga.VirtualJoystickForBalance().speed(-100).turnRange(-100)`ff 55 08 00 02 34 00 9c ff 9c ff</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mkeblock</p>
@@ -15328,7 +15328,7 @@
 	<externalid><![CDATA[1463]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	single-setCmd:`auriga.VirtualJoystickForBalance().speed(255).turnRange(255).reverse()`ff 55 08 00 02 34 00 ff 00 01 ff</p>
+	single-setCmd:`auriga.VirtualJoystickForBalance().speed(255).turnRange(255).setReverse()`ff 55 08 00 02 34 00 ff 00 01 ff</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接makeblock</p>
@@ -15347,7 +15347,7 @@
 	<externalid><![CDATA[1464]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	single-setCmd:`auriga.VirtualJoystickForBalance().stop()`ff 55 08 00 02 34 00 00 00 00 00</p>
+	single-setCmd:`auriga.VirtualJoystickForBalance().setStop()`ff 55 08 00 02 34 00 00 00 00 00</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接makeblock</p>
@@ -20014,7 +20014,7 @@
 	<externalid><![CDATA[386]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	single-setCmd:`auriga.LedMatrix(7).charMode().x(1).y(1).char(&#39;hello word&#39;)`ff 55 0c 00 02 29 07 01 01 08 04 68 65 6c 6c</p>
+	single-setCmd:`auriga.LedMatrix(7).charMode().x(1).y(1).char(&#39;hello word&#39;)`ff 55 12 00 02 29 07 01 01 08 0a 68 65 6c 6c 6f 20 77 6f 72 64</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
@@ -29807,7 +29807,7 @@
 	<externalid><![CDATA[1466]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	single-setCmd:`megapi.VirtualJoystickForBalance().speed(-100).turnRange(-100)`ff 55 08 00 02 34 00 ff 9c ff 9c</p>
+	single-setCmd:`megapi.VirtualJoystickForBalance().speed(-100).turnRange(-100)`ff 55 08 00 02 34 00 9c ff 9c ff</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mkeblock</p>
@@ -29864,7 +29864,7 @@
 	<externalid><![CDATA[1469]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	single-setCmd:`megapi.VirtualJoystickForBalance().speed(255).turnRange(255).reverse()`ff 55 08 00 02 34 00 ff 00 01 ff</p>
+	single-setCmd:`megapi.VirtualJoystickForBalance().speed(255).turnRange(255).setReverse()`ff 55 08 00 02 34 00 ff 00 01 ff</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接makeblock</p>
@@ -29883,7 +29883,7 @@
 	<externalid><![CDATA[1470]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	single-setCmd:`megapi.VirtualJoystickForBalance().stop()`ff 55 08 00 02 34 00 00 00 00 00</p>
+	single-setCmd:`megapi.VirtualJoystickForBalance().setStop()`ff 55 08 00 02 34 00 00 00 00 00</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接makeblock</p>
@@ -33888,7 +33888,7 @@
 	<externalid><![CDATA[646]]></externalid>
 	<version><![CDATA[1]]></version>
 	<summary><![CDATA[<p>
-	single-setCmd:`megapi.LedMatrix(7).charMode().x(1).y(1).char(&#39;hello word&#39;)`ff 55 0c 00 02 29 07 01 01 08 04 68 65 6c 6c</p>
+	single-setCmd:`megapi.LedMatrix(7).charMode().x(1).y(1).char(&#39;hello word&#39;)`ff 55 12 00 02 29 07 01 01 08 0a 68 65 6c 6c 6f 20 77 6f 72 64</p>
 ]]></summary>
 	<preconditions><![CDATA[<p>
 	机器人已连接mblock</p>
