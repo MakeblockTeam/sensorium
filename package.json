@@ -14,6 +14,7 @@
   ],
   "scripts": {
     "build": "webpack",
+    "dev": "webpack --config webpack.dev.js",
     "test": "mocha --compilers js:babel-core/register",
     "test-parse": "mocha --compilers js:babel-core/register ./test/core-test/parse.test.js",
     "coverage-i": " istanbul cover node_modules/mocha/bin/_mocha ./test/interface/interface_test.js",
