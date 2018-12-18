@@ -19,20 +19,32 @@ function counter(number) {
 }
 
 describe('test doParse', function() {
+  // 接收到2条完整数据
+  it('should parse the 2 completed data', function() {
+    var mock_receive_data = [
+      0xff, 0x55, 0x00, 0x02, 0xe6, 0x9e, 0x16, 0x41, 0x0d, 0x0a,
+      0xff, 0x55, 0x00, 0x02, 0xe6, 0x9e, 0x16, 0x41, 0x0d, 0x0a
+    ];
+    const result = Parse.doParse(mock_receive_data);
+    console.log('check result ===>', result)
+    expect(result.length).to.equal(2);
+    expect(result[0].length).to.equal(6);
+    expect(result[1].length).to.equal(6);
+  });
+
   // 接收到残缺数据
   it('should parse the incomplete data', function() {
     let mock_receive_data = [
       [0xff, 0x55, 0x00, 0x02, 0xe6, 0x9e, 0x16, 0x41, 0x0d],
       [0x0a]
     ];
-    let doParse = counter(mock_receive_data.length);
-    for (let data of mock_receive_data) {
-      doParse(data, function(result) {
-        console.log('check result ===>', result)
-        expect(result.length).to.equal(1);
-        expect(result[0].length).to.equal(6);
-      })
-    }
+    let result = [];
+    mock_receive_data.forEach(data => {
+      result = Parse.doParse(data);
+    });
+    console.log('check result ===>', result)
+    expect(result.length).to.equal(1);
+    expect(result[0].length).to.equal(6);
   });
 
   // 接收到完整数据1

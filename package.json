@@ -13,7 +13,9 @@
     "IOT"
   ],
   "scripts": {
+    "build": "webpack",
     "test": "mocha --compilers js:babel-core/register",
+    "test-parse": "mocha --compilers js:babel-core/register ./test/core-test/parse.test.js",
     "coverage-i": " istanbul cover node_modules/mocha/bin/_mocha ./test/interface/interface_test.js",
     "coverage-p": " istanbul cover node_modules/mocha/bin/_mocha ./test/protocol-test",
     "jsdoc": "npm run cpdoc && node_modules/.bin/jsdoc -c jsdoc_conf.json",

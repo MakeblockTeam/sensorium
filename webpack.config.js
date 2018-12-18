@@ -21,24 +21,25 @@ module.exports = {
       exclude: /node_modules/
     }]
   },
-  plugin: [
-    new UglifyJsPlugin({
-            uglifyOptions: {
-                mangle: { toplevel: true },
-                comments: false,
-                beautify: false,
-                warnings: true,
-                drop_debugger: true,
-                drop_console: true,
-                output: {
-                    ast: true,
-                    code: true  // optional - faster if false
-                }
-            }
-        })
-  ],
   mode: "production",
   // mode: "development",
-  plugins: [],
-  devtool: "cheap-module-source-map"
+  optimization: {
+    minimizer: [
+      new UglifyJsPlugin({
+          cache: true,
+          parallel: true,
+          uglifyOptions: {
+              warnings: false,
+              output: {
+                  comments: false
+              },
+              compress: {
+                  drop_console: true
+              }
+          },
+          sourceMap: false,
+      })
+    ]
+  },
+  // devtool: "cheap-module-source-map"
 };

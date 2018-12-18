@@ -20,14 +20,25 @@ function checkEnd(flag1, flag2) {
   return flag1 === BUF_END_FLAG[0] && flag2 === BUF_END_FLAG[1];
 }
 
-function findIndexOfStart(checkStart, data) {
-  for (let i = 0; i < data.length; i++) {
-    let data1 = data[i], data2 = data[i+1];
-    if (checkStart(data1, data2)) {
-      return i;
-    }
+function findIndexOfStart (data) {
+  if (Array.isArray(data)) {
+    return data.findIndex((num, index) => checkStart(num, data[index + 1]));
   }
   return -1;
+}
+
+function findIndexOfEnd (data) {
+  if (Array.isArray(data)) {
+    return data.findIndex((num, index) => checkEnd(num, data[index + 1]));
+  }
+  return -1;
+}
+
+function getTypeFromBuffer (buffer) {
+  if (Array.isArray(buffer)) {
+    return Number(buffer[1]);
+  }
+  return null;
 }
 
 export default {
@@ -41,45 +52,34 @@ export default {
    * this.cacheBuffer: 历史缓存数据, 记录数据和历史数据分开记录
    */
   doParse: function(buffData) {
-    let result =[];
     let data = arrayFromArrayBuffer(buffData);
     let totalData = this.cacheBuffer.concat(data);
 
     // 检测协议头 [ff, 55]
-    let index = findIndexOfStart(checkStart, totalData);
-    if(index > -1 ) {
-      totalData = totalData.slice(index);
+    let index = findIndexOfStart(totalData);
+    if(index !== -1) {
       // 更新缓存
-      this.cacheBuffer = totalData;
+      this.cacheBuffer = totalData.slice(index);
     } else {
       return undefined;
     }
+    return this.getContentFromCacheBuffer();
+  },
 
-    let tempBuffer = [];
-    for (let i = 2; i < totalData.length; i++) {
-      let data1 = totalData[i], data2 = totalData[i+1];
-      if (checkEnd(data1, data2)) {
-        result.push(tempBuffer);
-        // 下一帧数据
-        let nextFrame = totalData.slice(tempBuffer.length+4);
-        let nextFrameIndex = findIndexOfStart(checkStart, nextFrame);
-        // 清空容器
-        tempBuffer = [];
-        // 更新缓存
-        this.cacheBuffer = nextFrame;
-        if(nextFrameIndex === -1) {
-          break;
-        } else {
-          i += nextFrameIndex+3;
-        }
-      } else { // the data we really want
-        if (tempBuffer.length >= REC_BUF_MAX_LENGTH) {
-          console.warn("receive buffer overflow!");
-        }
-        tempBuffer.push(data1);
+  getContentFromCacheBuffer: function () {
+    const contents = [];
+    while (this.cacheBuffer.length >= 4) {
+      const headerIndex = findIndexOfStart(this.cacheBuffer);
+      const footerIndex = findIndexOfEnd(this.cacheBuffer);
+      if (headerIndex === -1 || footerIndex === -1 || footerIndex < headerIndex) break;
+      const content = this.cacheBuffer.slice(headerIndex + 2, footerIndex);
+      if (content.length >= REC_BUF_MAX_LENGTH) {
+        console.warn("receive buffer overflow!");
       }
+      contents.push(content);
+      this.cacheBuffer = this.cacheBuffer.slice(footerIndex + 2);
     }
-    return result.length && result;
+    return contents.length > 0 ? contents : null;
   },
 
   /**
@@ -94,32 +94,26 @@ export default {
    *     5： double(4 byte)
    *     6: long(4 byte)
    *  @example
-   *  ff 55 02 02 7c 1a 81 41 0d 0a
+   *  02 02 7c 1a 81 41
    */
   getResult: function(buf) {
     // 获取返回的数据类型
-    let dataType = buf[1];
+    let dataType = getTypeFromBuffer(buf);
     let result = null;
     switch (dataType) {
-      case "1":
       case 1:
         // 1byte
         result = buf[2];
         break;
-      case "3":
       case 3:
         // 2byte
         result = calculateResponseValue([parseInt(buf[3]), parseInt(buf[2])]);
         break;
-      case "4":
       case 4:
         // 字符串
         var bytes = buf.splice(3, buf[2]);
         result = bytesToString(bytes);
         break;
-      case "2":
-      case "5":
-      case "6":
       case 2:
       case 5:
       case 6:

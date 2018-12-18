@@ -59,7 +59,10 @@ const Read = {
    * @param  {Number} index record index
    */
   removeRecord: function(index){
-    delete this.readRecord[index];
+    if (this.readRecord[index]) {
+      clearTimeout(this.readRecord[index].timer);
+      delete this.readRecord[index];
+    }
   },
 
   /**
@@ -137,9 +140,9 @@ const Read = {
    * @param  {Number} value request result
    */
   emitCallback: function(index, value){
-    if(this.readRecord[index]) {
-      clearTimeout(this.readRecord[index].timer);
-      this.readRecord[index].callback(value);
+    const record= this.readRecord[index];
+    if(record && typeof record.callback === 'function') {
+      record.callback(value);
       this.removeRecord(index);
     }
   }
